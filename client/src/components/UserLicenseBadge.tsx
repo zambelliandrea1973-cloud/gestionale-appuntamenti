@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 // Sistema semplificato - UserLicenseBadge
 export default function UserLicenseBadge() {
+  const { t } = useTranslation();
   const { data: user, isLoading } = useQuery({
     queryKey: ["/api/user-with-license"],
     queryFn: async () => {
       const response = await fetch("/api/user-with-license");
-      if (!response.ok) throw new Error("Errore nel caricamento utente");
+      if (!response.ok) throw new Error("Error loading user");
       return response.json();
     }
   });
@@ -60,13 +62,13 @@ export default function UserLicenseBadge() {
   const formatUserType = (type: string) => {
     switch (type) {
       case 'customer':
-        return 'Cliente';
+        return t('i18nFinale.userLicenseBadge.customer');
       case 'staff':
         return 'Staff';
       case 'admin':
         return 'Admin';
       default:
-        return 'Utente';
+        return t('i18nFinale.userLicenseBadge.user');
     }
   };
 
@@ -88,7 +90,7 @@ export default function UserLicenseBadge() {
       </div>
       {(user.assignmentCode || user.professionistCode) && (
         <div className="text-xs text-amber-200 font-mono bg-black/20 px-2 py-1 rounded">
-          Codice: {user.assignmentCode || user.professionistCode}
+          {t('staffManagement.referralCodeBadge', { code: user.assignmentCode || user.professionistCode })}
         </div>
       )}
     </div>

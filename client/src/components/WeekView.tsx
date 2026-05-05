@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ const generateTimeSlots = () => {
 };
 
 export default function WeekView({ selectedDate, services = [], collaborators = [], treatmentRooms = [], onRefresh, onDateSelect }: WeekViewProps) {
+  const { t } = useTranslation();
   const [viewDate, setViewDate] = useState(selectedDate);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
@@ -252,7 +254,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
             setSelectedTimeForAppointment("09:00");
             setIsAppointmentFormOpen(true);
           }}
-          text="Seleziona nuovo appuntamento"
+          text={t('calendar.selectNewAppointment', 'New appointment')}
           storageKey="fab-week-position"
         />
       )}

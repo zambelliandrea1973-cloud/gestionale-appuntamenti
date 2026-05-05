@@ -2,13 +2,17 @@
   "app": {
     "title": "Gestion des Rendez-vous",
     "welcome": "Bienvenue dans la Gestion des Rendez-vous",
-    "description": "Gérez facilement les rendez-vous, les clients et les factures"
+    "description": "Gérez facilement les rendez-vous, les clients et les factures",
+    "version": "Gestionnaire de rendez-vous v3.5.0",
+    "copyright": "© 2023-2025 Tous droits réservés",
+    "clientAreaTitle": "Espace Client",
+    "defaultTitle": "Gestionnaire de rendez-vous"
   },
   "welcomePage": {
     "login": "Se Connecter",
     "badge": "Utilisé par des centaines de professionnels",
     "heroTitle": "Votre activité, toujours en poche",
-    "heroSubtitle": "Gérez rendez-vous, clients, rappels et factures dans une seule app pensée pour les coiffeurs, esthéticiennes et professionnels du bien-être.",
+    "heroSubtitle": "Gérez rendez-vous, clients, rappels et factures dans une seule app conçue pour les coiffeurs, esthéticiennes et professionnels du bien-être.",
     "ctaPrimary": "Commencer gratuitement · Créer un compte",
     "ctaHint": "Sans carte bancaire · Annulez quand vous voulez",
     "alreadyAccount": "Vous avez déjà un compte ?",
@@ -18,12 +22,13 @@
     "feature2Desc": "Historique complet à portée de main",
     "feature3Title": "Rappels WhatsApp",
     "feature3Desc": "Réduisez les absences jusqu'à 70%",
-    "feature4Title": "Factures & encaissements",
+    "feature4Title": "Factures & paiements",
     "feature4Desc": "Gestion fiscale intégrée",
     "benefit1": "Aucune carte bancaire requise",
     "benefit2": "Aucune publicité dans l'app",
     "benefit3": "Synchronisation Google Calendar",
-    "benefit4": "Fonctionne sur mobile, tablette et PC"
+    "benefit4": "Fonctionne sur mobile, tablette et PC",
+    "headerTitle": "Bienvenue sur"
   },
   "staffLoginPage": {
     "title": "Accès Personnel",
@@ -347,7 +352,8 @@
     "decrementBy15Min": "Diminuer de 15 min",
     "noServicesAvailable": "Aucun service disponible",
     "goToSettingsToCreateService": "Allez dans Paramètres pour créer un service",
-    "noServicesFound": "Aucun service trouvé"
+    "noServicesFound": "Aucun service trouvé",
+    "selectNewAppointment": "Nouveau rendez-vous"
   },
   "clients": {
     "title": "Clients",
@@ -402,9 +408,21 @@
       "lastName": "Nom"
     },
     "accesses": {
-      "loading": "Caricamento...",
-      "count": "Accessi all'app: {{count}}",
-      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+      "loading": "Chargement...",
+      "count": "Accès à l'app : {{count}}",
+      "tooltip": "Nombre de fois que le client a ouvert l'app : {{count}}",
+      "unknownDevice": "Appareil inconnu",
+      "browserAccess": "Accès via navigateur",
+      "loadingDetails": "Chargement des détails des accès...",
+      "errorLoadingDetails": "Erreur lors du chargement des détails des accès",
+      "title": "Accès du client",
+      "description": "Liste des {{count}} derniers accès effectués par le client",
+      "noData": "Aucun accès enregistré pour ce client",
+      "date": "Date",
+      "time": "Heure",
+      "device": "Appareil",
+      "dialogDescription": "Voir les détails des accès effectués par le client à l'application",
+      "detailsTitle": "Accès pour {{name}}"
     },
     "subtitle": "Gérez tous vos clients",
     "total": "clients",
@@ -418,7 +436,8 @@
       "linkCopiedDesc": "Le lien d'accès a été copié dans le presse-papiers",
       "emailSubject": "Votre accès à l'espace réservé",
       "messageText": "Bonjour {{name}}, voici votre lien pour accéder à l'espace réservé :"
-    }
+    },
+    "adminPersonalClientsHint": "Vos clients personnels apparaîtront ici. Utilisez l'onglet 'Personnel' pour voir les clients d'autres professionnels."
   },
   "invoices": {
     "title": "Gestion des Factures",
@@ -628,6 +647,34 @@
       "title": "Configuration depuis le tour IA",
       "description": "Une fois vos paramètres enregistrés, vous serez automatiquement renvoyé à l'assistant pour terminer la configuration.",
       "button": "Retour au tour"
+    },
+    "description": "Personnaliser l'application et configurer les préférences",
+    "integrationsDesc": "Configurer l'envoi d'e-mails pour les notifications clients",
+    "generalTitle": "Paramètres généraux",
+    "generalDesc": "Configurer les paramètres généraux de l'application",
+    "reminderTemplates": {
+      "title": "Modèles de rappel",
+      "addNew": "Nouveau modèle",
+      "editTitle": "Modifier le modèle de rappel",
+      "createTitle": "Nouveau modèle de rappel",
+      "type": "Type de rappel",
+      "variables": "Variables disponibles",
+      "namePlaceholder": "Ex. Rappel standard",
+      "description": "Personnalisez les messages de rappel envoyés aux clients pour les rendez-vous.",
+      "formDescription": "Personnalisez le message de rappel envoyé aux clients pour les rendez-vous.",
+      "selectMultiple": "Sélectionnez un ou plusieurs canaux de notification pour ce modèle de rappel",
+      "pleaseSelectType": "Sélectionnez au moins un type de rappel",
+      "noTypeSelected": "Avertissement",
+      "messageTemplate": "Texte du message",
+      "templatePlaceholder": "Ex. Cher(e) {{nome}}, ceci est un rappel pour votre rendez-vous {{servizio}} le {{data}} à {{ora}} avec {{collaboratore}} dans {{stanza}}.",
+      "templateHelp": "Utilisez des variables pour inclure des informations spécifiques au rendez-vous.",
+      "setAsDefault": "Définir comme modèle par défaut"
+    },
+    "contactInfo": {
+      "phone1": "Téléphone principal",
+      "phone1Desc": "Numéro de téléphone principal pour les contacts",
+      "phone2Desc": "Numéro de téléphone secondaire (optionnel)",
+      "websiteDesc": "Entrez uniquement le domaine (exemple.fr) ou l'URL complète (https://exemple.fr)"
     }
   },
   "common": {
@@ -657,13 +704,18 @@
     "share": "Partager",
     "processing": "Traitement...",
     "activate": "Activer",
-    "copied": "Copié",
+    "copied": "Copié dans le presse-papiers",
     "notSpecified": "Non spécifié",
     "tryAgain": "Réessayer",
-    "demoLabel": "Demo"
+    "demoLabel": "Demo",
+    "deleting": "Suppression...",
+    "view": "Voir",
+    "hidePassword": "Masquer le mot de passe",
+    "showPassword": "Afficher le mot de passe"
   },
   "notifications": {
-    "clientDeleted": "Client supprimé"
+    "clientDeleted": "Client supprimé",
+    "loadError": "Impossible de charger les notifications"
   },
   "whatsappNotifications": {
     "title": "Notifications clients",
@@ -710,8 +762,8 @@
     "history": {
       "title": "Cronologia notifiche inviate",
       "description": "Ultimi promemoria inviati tramite WhatsApp",
-      "noNotifications": "Nessuna notifica inviata recentemente",
-      "noSmsNotifications": "Nessun SMS inviato finora",
+      "noNotifications": "Aucune notification envoyée récemment",
+      "noSmsNotifications": "Aucun SMS envoyé jusqu'à présent",
       "table": {
         "date": "Data",
         "message": "Messaggio",
@@ -1169,7 +1221,12 @@
   },
   "auth": {
     "login": "Connexion",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "accessDenied": "Accès refusé",
+    "insufficientRole": "Cette section nécessite le rôle '{{role}}'",
+    "currentRole": "Votre rôle actuel : {{role}}",
+    "required": "Connexion requise",
+    "loginRequired": "Vous devez être connecté pour accéder à cette section"
   },
   "clientArea": {
     "installApp": "Installer l'application",
@@ -1779,7 +1836,7 @@
   },
   "proFeature": {
     "title": "Fonctionnalité PRO",
-    "subtitle": "n'est disponible qu'avec l'abonnement PRO",
+    "subtitle": "\"{{featureName}}\" est uniquement disponible avec l'abonnement PRO",
     "reportsDescription": "Les rapports d'activité détaillés sont disponibles à partir du plan Pro.",
     "benefits": {
       "title": "Avec PRO vous obtenez",
@@ -2933,7 +2990,8 @@
     "defaults": {
       "subject": "Rappel de rendez-vous du {{data}}",
       "template": "Cher/Chère {{nome}} {{cognome}},\n\nCeci est un rappel de votre rendez-vous de {{servizio}} prévu le {{data}} à {{ora}}.\n\nPour toute modification ou annulation, veuillez nous contacter.\n\nCordialement,\nLe Studio"
-    }
+    },
+    "redirecting": "Redirection vers les paramètres e-mail..."
   },
   "userSettings": {
     "title": "Paramètres utilisateur",
@@ -3643,7 +3701,18 @@
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Annuler",
-    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
+    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456",
+    "staffDescription": "Voir et gérer vos membres du personnel et leurs commissions",
+    "details": "Détails",
+    "commissions": "Commissions",
+    "referralCodeLabel": "Code de parrainage",
+    "commissionHistory": "Historique des commissions",
+    "noCommissions": "Aucune commission enregistrée pour l'instant.",
+    "commissionsWillAppear": "Les commissions apparaîtront ici lorsqu'elles seront générées.",
+    "administrator": "Administrateur",
+    "referralCodeBadge": "Code : {{code}}",
+    "detailsTitle": "Détails du personnel : {{username}}",
+    "detailsDescription": "Informations complètes et historique des commissions"
   },
   "passwordChange": {
     "title": "Changer le mot de passe",
@@ -5317,7 +5386,76 @@
         "step5": "Ajoutez soigneusement l'URL de rappel exacte : <1>{{url}}</1>",
         "step6": "Revenez ici et réessayez l'autorisation"
       }
-    }
+    },
+    "step": "Étape",
+    "createProject": "Accéder à la console Google Cloud",
+    "enableAPIs": "Activer les API Google requises",
+    "configOAuth": "Configurer les identifiants OAuth",
+    "configOAuthDesc": "Créer et configurer les identifiants OAuth 2.0",
+    "goToAPI": "Aller à \"API et services\" > \"Bibliothèque\"",
+    "goToCredentials": "Aller à \"API et services\" > \"Identifiants\"",
+    "userType": "Type d'utilisateur: Externe",
+    "createOAuthClient": "Créer un ID client OAuth 2.0:",
+    "configApp": "Configurer l'application",
+    "configAppDesc": "Saisir les identifiants OAuth dans Replit",
+    "accessSecrets": "Accéder aux secrets Replit via \"Secrets\" dans le panneau de contrôle",
+    "addClientID": "Ajouter un nouveau secret avec la clé \"GOOGLE_CLIENT_ID\" et la valeur du Client ID",
+    "addClientSecret": "Ajouter un nouveau secret avec la clé \"GOOGLE_CLIENT_SECRET\" et la valeur du Client Secret",
+    "tryAuth": "Essayer l'autorisation:",
+    "tryAuthDesc": "Après avoir correctement configuré les identifiants, vous pouvez essayer de démarrer le processus d'autorisation:",
+    "credentialsDesc": "Assurez-vous que le Client ID et le Client Secret sont corrects et correspondent à ceux du projet Google Cloud.",
+    "configConsent": "Si demandé, configurer l'écran de consentement OAuth:",
+    "appType": "Type d'application: Application Web",
+    "redirectURI": "URI de redirection autorisés: Ajouter l'URL exacte suivante",
+    "saveCredentials": "Après avoir créé le client OAuth, sauvegarder les données suivantes:",
+    "testConfiguration": "Test de configuration",
+    "testConfigDesc": "Vérifier que la configuration OAuth Google est correcte",
+    "testConfig": "Tester la configuration",
+    "error400Desc": "L'URL de redirection configurée dans la console Google Cloud ne correspond pas exactement à celle utilisée par l'application. Assurez-vous d'utiliser exactement l'URL indiquée ci-dessus.",
+    "error403Desc": "L'application Google Cloud n'a pas les autorisations requises ou n'a pas été vérifiée. Assurez-vous d'avoir activé les API nécessaires et configuré correctement l'écran de consentement OAuth.",
+    "debugInfo": "Informations de débogage",
+    "debugInfoDesc": "Informations utiles pour déboguer la configuration",
+    "instructions": "Instructions de configuration",
+    "accessConsole": "Accéder à la console Google Cloud pour gérer les API et les identifiants",
+    "signIn": "Se connecter avec votre compte Google",
+    "appName": "Nom de l'application: [Nom de votre application]",
+    "supportEmail": "E-mail de support: [Votre e-mail]",
+    "developerEmail": "E-mail développeur: [Votre e-mail]",
+    "calendarDesc": "Synchroniser automatiquement vos rendez-vous avec Google Calendar",
+    "syncDesc": "Les rendez-vous seront automatiquement ajoutés à votre Google Calendar",
+    "connectCalendar": "Connecter votre Google Calendar",
+    "connectCalendarDesc": "Liez votre compte Google pour synchroniser automatiquement les rendez-vous entre votre agenda et Google Calendar.",
+    "connectWithGoogle": "Se connecter avec Google",
+    "privacyExplanation": "La connexion utilise Google OAuth, un standard sécurisé qui ne nous permet pas d'accéder à votre mot de passe. Vous pouvez révoquer l'accès à tout moment.",
+    "privacyNote": "Note de confidentialité",
+    "showAdvancedHelp": "Besoin d'aide pour la configuration?",
+    "advancedHelpDesc": "Si vous avez besoin d'aide pour la configuration avancée:",
+    "setupGuide": "Guide de configuration avancée",
+    "notConnected": "Statut: Non connecté",
+    "lastSyncStatus": "Statut: Connecté à Google Calendar",
+    "connectionActive": "L'intégration Google Calendar est active",
+    "accountConnected": "Compte Google connecté",
+    "requiredAPIs": "APIs requises:",
+    "scopes": "Portées requises:",
+    "calendarScope": "(Accès complet au calendrier)",
+    "gmailScope": "(Envoi d'e-mails)",
+    "restartApp": "Redémarrez l'application pour appliquer les modifications",
+    "disconnect": "Déconnecter",
+    "hideAdvancedHelp": "Masquer les options avancées",
+    "contactSupport": "Contactez le support si vous rencontrez des problèmes persistants",
+    "testing": "Test & dépannage",
+    "verifying": "Vérification en cours...",
+    "visitConsole": "Visitez le",
+    "startAuthProcess": "Démarrer le processus d'autorisation",
+    "commonIssues": "Problèmes courants et solutions:",
+    "credentials": "Identifiants invalides",
+    "callbackUrl": "URL de callback:",
+    "testAgain": "Tester à nouveau",
+    "calendarIntegration": "Intégration Google Agenda",
+    "syncSummary": "{{imported}} événements importés, {{exported}} rendez-vous exportés",
+    "syncDetails": "📥 Importés: {{imported}} | 📤 Exportés: {{exported}} | 🗑️ Supprimés: {{deleted}}",
+    "calendarEvent": "Événement Google Agenda",
+    "cannotDeleteImported": "Cet événement a été importé depuis Google Agenda et ne peut pas être supprimé depuis l'application. Pour le supprimer, accédez directement à Google Agenda."
   },
   "landingBicom": {
     "header": {
@@ -5486,7 +5624,10 @@
       "notSupported": "Les notifications push ne sont pas prises en charge sur ce navigateur. Essayez d'ouvrir l'application en tant que PWA installée.",
       "permissionDeniedTitle": "Autorisation refusée",
       "notificationsActivatedTitle": "Notifications activées",
-      "notificationsDeactivatedTitle": "Notifications désactivées"
+      "notificationsDeactivatedTitle": "Notifications désactivées",
+      "loading": "Chargement...",
+      "active": "Notifications actives",
+      "enable": "Activer les notifications"
     },
     "subscriptionPlansAdmin": {
       "addFeature": "Ajouter une fonctionnalité",
@@ -5523,7 +5664,9 @@
       "deletionUnlocked": "Suppression déverrouillée",
       "cannotUnlock": "Impossible de déverrouiller la suppression",
       "cannotMarkDeleted": "Impossible de simuler la suppression",
-      "clientRemoved": "Client supprimé du système"
+      "clientRemoved": "Client supprimé du système",
+      "canNowBeDeleted": "{{name}} peut maintenant être supprimé",
+      "deleted": "{{name}} supprimé"
     },
     "directLinkGenerator": {
       "linkCopied": "Le lien d'accès direct a été copié dans le presse-papiers.",
@@ -5585,7 +5728,8 @@
     "betaStatus": {
       "title": "Mode bêta",
       "welcomeMessage": "Bienvenue dans le programme bêta ! Vous pouvez envoyer des commentaires à tout moment depuis la page bêta.",
-      "invalidCode": "Code bêta invalide"
+      "invalidCode": "Code bêta invalide",
+      "codeExpired": "Le code bêta n'est plus valide."
     },
     "installAppPrompt": {
       "alreadyInstalledNote": "Vous pouvez accéder rapidement à votre espace personnel depuis l'écran d'accueil de votre appareil.",
@@ -5743,7 +5887,10 @@
       "appointmentsHeading": "Rendez-vous",
       "dateColumn": "Date",
       "timeColumn": "Heure",
-      "collaboratorColumn": "Collaborateur"
+      "collaboratorColumn": "Collaborateur",
+      "goToCalendar": "Aller au calendrier",
+      "timeNotAvailable": "Heure non disponible",
+      "noServiceSpecified": "Aucun service spécifié"
     },
     "appointmentCard": {
       "hide": "Masquer",
@@ -5758,7 +5905,9 @@
       "deletionNotificationTitle": "Notification de suppression",
       "deletionUnlockedBadge": "Suppression debloquee",
       "otherAccountClient": "Client d'un autre compte (lecture seule)",
-      "viewOnlyBadge": "Lecture seule"
+      "viewOnlyBadge": "Lecture seule",
+      "deletedFromSourceBadge": "Client supprimé du compte d'origine",
+      "deletedFromSourceToast": "{{firstName}} {{lastName}} supprimé du compte d'origine"
     },
     "clientFooterContactIcons": {
       "emailLabel": "E-mail :",
@@ -5868,6 +6017,10 @@
       "czechRepublic": "Republique Tcheque",
       "hungary": "Hongrie",
       "romania": "Roumanie"
+    },
+    "userLicenseBadge": {
+      "customer": "Client",
+      "user": "Utilisateur"
     }
   },
   "onboarding": {
@@ -5887,5 +6040,66 @@
   },
   "fab": {
     "dragging": "Déplacer..."
+  },
+  "license": {
+    "upgradeRequired": "Mise à niveau requise",
+    "featureRequiresLicense": "\"{{feature}}\" nécessite une licence {{license}}",
+    "licenseRequired": "Cette section nécessite une licence {{license}}",
+    "upgrade": "Passer à {{license}}"
+  },
+  "businessFeature": {
+    "title": "Fonctionnalité BUSINESS",
+    "subtitle": "\"{{featureName}}\" est uniquement disponible avec l'abonnement BUSINESS",
+    "benefits": {
+      "title": "Avec BUSINESS vous obtenez",
+      "multiUser": "Support multi-utilisateurs",
+      "analytics": "Analyses avancées",
+      "customization": "Personnalisation complète",
+      "support": "Support prioritaire 24h/24 7j/7",
+      "branding": "Suppression de marque et white-label"
+    },
+    "learnMore": "En savoir plus",
+    "upgradeButton": "Passer à BUSINESS",
+    "description": "Passez au plan BUSINESS pour débloquer toutes les fonctionnalités avancées pour votre entreprise."
+  },
+  "payment": {
+    "processing": "Traitement du paiement en cours...",
+    "pending": {
+      "title": "Traitement du paiement",
+      "info": "Votre paiement a été reçu et votre abonnement sera activé sous peu.",
+      "wait": "Veuillez patienter un moment pendant que nous traitons la transaction.",
+      "refresh": "Si la page ne se met pas à jour automatiquement, rechargez-la dans quelques minutes."
+    },
+    "checking": "Vérification de votre statut d'abonnement...",
+    "success": {
+      "description": "Merci de vous être abonné. Votre compte a été mis à jour.",
+      "activated": "Votre abonnement a été activé avec succès.",
+      "access": "Vous pouvez maintenant accéder à toutes les fonctionnalités premium."
+    },
+    "plan": "Forfait",
+    "activePlan": "Forfait actif",
+    "active": "Actif",
+    "startDate": "Date de début",
+    "status": "Statut",
+    "details": "Détails de l'abonnement",
+    "features": "Fonctionnalités incluses",
+    "supportInfo": "Pour toute question sur votre abonnement, contactez le support. Conservez le reçu de paiement que vous recevrez par e-mail.",
+    "return": "Retour au tableau de bord"
+  },
+  "stripe": {
+    "payWithCard": "Payer par carte de crédit",
+    "sessionError": "Impossible de créer la session de paiement",
+    "urlError": "URL de session de paiement introuvable"
+  },
+  "colorEditor": {
+    "saveError": "Impossible d'enregistrer les paramètres de couleur ({{status}})"
+  },
+  "appointments": {
+    "noDataAvailable": "Aucune donnée de rendez-vous disponible",
+    "incompleteData": "Données de rendez-vous incomplètes"
+  },
+  "whatsapp": {
+    "reminderTemplate": "Cher/Chère {{name}},\nNous vous rappelons votre rendez-vous pour {{service}} le {{date}} à {{time}}.",
+    "testMessage": "Message de test du système de gestion des rendez-vous"
   }
 }

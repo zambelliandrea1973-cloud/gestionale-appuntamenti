@@ -32,7 +32,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
       const formValues = window.lastFormValues;
       
       if (!formValues) {
-        throw new Error("Nessun dato di appuntamento disponibile");
+        throw new Error(t('appointments.noDataAvailable', 'No appointment data available'));
       }
       
       console.log("[DIRECT-BUTTON] Dati del form:", formValues);
@@ -40,7 +40,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
       const { clientId, serviceId, date, startTime, notes } = formValues;
       
       if (!clientId || !serviceId || !date || !startTime) {
-        throw new Error("Dati dell'appuntamento incompleti");
+        throw new Error(t('appointments.incompleteData', 'Incomplete appointment data'));
       }
       
       // Calcoliamo la durata del servizio (default a 60 min se non disponibile)
@@ -123,7 +123,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
       console.error("[DIRECT-BUTTON] ERRORE durante il salvataggio:", error);
       toast({
         title: t('common.error'),
-        description: `Si è verificato un errore: ${error.message}`,
+        description: error instanceof Error ? error.message : t('common.error'),
         variant: "destructive"
       });
     } finally {

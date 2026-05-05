@@ -13,12 +13,13 @@ interface StripeCheckoutButtonProps {
 
 export default function StripeCheckoutButton({
   planId,
-  buttonText = 'Paga con carta di credito',
+  buttonText,
   className = ''
 }: StripeCheckoutButtonProps) {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const effectiveButtonText = buttonText ?? t('stripe.payWithCard', 'Pay with credit card');
 
   const handlePayment = async () => {
     try {
@@ -38,13 +39,13 @@ export default function StripeCheckoutButton({
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Errore durante la creazione della sessione di pagamento');
+        throw new Error(errorData.message || t('stripe.sessionError', 'Failed to create payment session'));
       }
       
       const data = await response.json();
       
       if (!data.success || !data.url) {
-        throw new Error(data.message || 'URL della sessione di pagamento non trovato');
+        throw new Error(data.message || t('stripe.urlError', 'Payment session URL not found'));
       }
       
       // Reindirizza alla pagina di checkout di Stripe
@@ -75,7 +76,7 @@ export default function StripeCheckoutButton({
         </>
       ) : (
         <>
-          {buttonText}
+          {effectiveButtonText}
         </>
       )}
     </Button>

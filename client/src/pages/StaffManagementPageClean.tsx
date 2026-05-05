@@ -9,6 +9,7 @@ import { Loader2, Users, CreditCard, Search, Eye, UserPlus } from "lucide-react"
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
+import { useTranslation } from "react-i18next";
 
 interface StaffUser {
   id: number;
@@ -24,12 +25,12 @@ export default function StaffManagementPageClean() {
   const [selectedUser, setSelectedUser] = useState<StaffUser | null>(null);
   const [isPaymentHistoryDialogOpen, setIsPaymentHistoryDialogOpen] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const { data: staffUsers = [], isLoading, error } = useQuery<any>({
     queryKey: ['/api/staff/users'],
   });
 
-  // Filtra gli utenti in base alla ricerca
   const filteredUsers = staffUsers.filter((user: StaffUser) => 
     user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -44,7 +45,7 @@ export default function StaffManagementPageClean() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="ml-2">Caricamento staff...</span>
+        <span className="ml-2">{t('staffManagement.loading')}</span>
       </div>
     );
   }
@@ -53,7 +54,7 @@ export default function StaffManagementPageClean() {
     return (
       <div className="container mx-auto py-6">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          Errore nel caricamento: {error.message}
+          {t('staffManagement.loadError')}: {error instanceof Error ? error.message : t('common.error')}
         </div>
       </div>
     );
@@ -64,23 +65,23 @@ export default function StaffManagementPageClean() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Gestione Staff</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t('staff.title')}</h1>
           <p className="text-muted-foreground mt-1">
-            Visualizza e gestisci i tuoi membri dello staff e le loro commissioni
+            {t('staffManagement.staffDescription')}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-blue-600" />
-          <span className="text-sm font-medium">{staffUsers.length} membri staff</span>
+          <span className="text-sm font-medium">{t('staffManagement.membersCount', { count: staffUsers.length })}</span>
         </div>
       </div>
 
-      {/* Barra di ricerca */}
+      {/* Search bar */}
       <div className="flex items-center space-x-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            placeholder="Cerca per nome utente o email..."
+            placeholder={t('staffManagement.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -88,11 +89,11 @@ export default function StaffManagementPageClean() {
         </div>
         <Button variant="outline" size="sm">
           <UserPlus className="h-4 w-4 mr-2" />
-          Aggiungi Staff
+          {t('staffManagement.addStaff')}
         </Button>
       </div>
 
-      {/* Lista Staff */}
+      {/* Staff list */}
       <div className="grid gap-4">
         {filteredUsers.map((user: StaffUser) => (
           <Card key={user.id} className="hover:shadow-md transition-shadow">
@@ -110,11 +111,11 @@ export default function StaffManagementPageClean() {
                         variant={user.role === 'admin' ? 'default' : 'secondary'}
                         className="text-xs"
                       >
-                        {user.role === 'admin' ? 'Amministratore' : 'Staff'}
+                        {user.role === 'admin' ? t('staffManagement.administrator') : 'Staff'}
                       </Badge>
                       {user.referralCode && (
                         <Badge variant="outline" className="text-xs">
-                          Codice: {user.referralCode}
+                          {t('staffManagement.referralCodeBadge', { code: user.referralCode })}
                         </Badge>
                       )}
                     </div>
@@ -129,7 +130,7 @@ export default function StaffManagementPageClean() {
                     className="flex items-center gap-2"
                   >
                     <Eye className="h-4 w-4" />
-                    Dettagli
+                    {t('staffManagement.details')}
                   </Button>
                   
                   <Button
@@ -138,7 +139,7 @@ export default function StaffManagementPageClean() {
                     className="flex items-center gap-2"
                   >
                     <CreditCard className="h-4 w-4" />
-                    Commissioni
+                    {t('staffManagement.commissions')}
                   </Button>
                 </div>
               </div>
@@ -149,20 +150,20 @@ export default function StaffManagementPageClean() {
 
       {filteredUsers.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-muted-foreground">Nessun utente staff trovato.</p>
+          <p className="text-muted-foreground">{t('staffManagement.noResults')}</p>
         </div>
       )}
 
-      {/* Dialog Dettagli Utente */}
+      {/* User Details Dialog */}
       <Dialog open={isPaymentHistoryDialogOpen} onOpenChange={setIsPaymentHistoryDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Users className="h-5 w-5 text-blue-600" />
-              Dettagli Staff: {selectedUser?.username}
+              {t('staffManagement.detailsTitle', { username: selectedUser?.username })}
             </DialogTitle>
             <DialogDescription>
-              Informazioni complete e storico commissioni
+              {t('staffManagement.detailsDescription')}
             </DialogDescription>
           </DialogHeader>
           
@@ -170,30 +171,30 @@ export default function StaffManagementPageClean() {
             <div className="space-y-6 py-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm font-medium text-muted-foreground">Nome Utente</Label>
+                  <Label className="text-sm font-medium text-muted-foreground">{t('staffManagement.usernameLabel')}</Label>
                   <p className="text-sm">{selectedUser.username}</p>
                 </div>
                 <div>
-                  <Label className="text-sm font-medium text-muted-foreground">Email</Label>
+                  <Label className="text-sm font-medium text-muted-foreground">{t('staffManagement.fields.emailLabel')}</Label>
                   <p className="text-sm">{selectedUser.email}</p>
                 </div>
                 <div>
-                  <Label className="text-sm font-medium text-muted-foreground">Ruolo</Label>
+                  <Label className="text-sm font-medium text-muted-foreground">{t('staffManagement.fields.role')}</Label>
                   <Badge variant={selectedUser.role === 'admin' ? 'default' : 'secondary'}>
-                    {selectedUser.role === 'admin' ? 'Amministratore' : 'Staff'}
+                    {selectedUser.role === 'admin' ? t('staffManagement.administrator') : 'Staff'}
                   </Badge>
                 </div>
                 <div>
-                  <Label className="text-sm font-medium text-muted-foreground">Codice Referral</Label>
+                  <Label className="text-sm font-medium text-muted-foreground">{t('staffManagement.referralCodeLabel')}</Label>
                   <p className="text-sm font-mono">{selectedUser.referralCode}</p>
                 </div>
               </div>
               
               <div className="border-t pt-4">
-                <h4 className="font-medium mb-3">Storico Commissioni</h4>
+                <h4 className="font-medium mb-3">{t('staffManagement.commissionHistory')}</h4>
                 <div className="text-center py-8 text-muted-foreground">
-                  <p>Nessuna commissione registrata ancora.</p>
-                  <p className="text-xs mt-1">Le commissioni verranno visualizzate qui quando generate.</p>
+                  <p>{t('staffManagement.noCommissions')}</p>
+                  <p className="text-xs mt-1">{t('staffManagement.commissionsWillAppear')}</p>
                 </div>
               </div>
             </div>

@@ -17,7 +17,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       <header className="bg-primary text-white py-3 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl font-medium">{t('app.clientAreaTitle', 'Area Clienti')}</h1>
+            <h1 className="text-xl font-medium">{t('app.clientAreaTitle', 'Client Area')}</h1>
           </div>
         </div>
       </header>

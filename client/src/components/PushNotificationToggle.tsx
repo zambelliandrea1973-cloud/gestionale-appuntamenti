@@ -76,7 +76,7 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
       const keyData = await keyResponse.json();
 
       if (!keyData.success || !keyData.publicKey) {
-        throw new Error('VAPID key non disponibile');
+        throw new Error('VAPID key not available');
       }
 
       const subscription = await registration.pushManager.subscribe({
@@ -101,7 +101,7 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
           description: t('i18nFinale.pushNotifications.subscribed')
         });
       } else {
-        throw new Error('Errore salvataggio subscription');
+        throw new Error('Error saving subscription');
       }
     } catch (error) {
       console.error('[PUSH] Errore attivazione:', error);
@@ -172,7 +172,7 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
       ) : (
         <BellOff className="h-4 w-4 mr-2" />
       )}
-      {isLoading ? 'Caricamento...' : isSubscribed ? 'Notifiche attive' : 'Attiva notifiche'}
+      {isLoading ? t('i18nFinale.pushNotifications.loading') : isSubscribed ? t('i18nFinale.pushNotifications.active') : t('i18nFinale.pushNotifications.enable')}
     </Button>
   );
 }

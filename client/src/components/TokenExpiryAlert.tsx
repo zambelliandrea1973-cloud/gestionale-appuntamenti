@@ -74,7 +74,7 @@ export function TokenExpiryAlert({ token, clientId }: TokenExpiryAlertProps) {
         // Reindirizza alla pagina con il nuovo QR code
         window.location.href = data.activationUrl;
       } else {
-        throw new Error('Errore nella rigenerazione del token');
+        throw new Error('Failed to regenerate token');
       }
     } catch (error) {
       console.error('Errore nella rigenerazione del token:', error);

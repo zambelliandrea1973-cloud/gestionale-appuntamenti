@@ -112,7 +112,7 @@ export default function Settings() {
       } else {
         const isDuplicate = response.status === 409;
         toast({
-          title: t('common.error', 'Errore'),
+          title: t('common.error'),
           description: isDuplicate
             ? t('userSettings.toast.assignmentCodeDuplicate')
             : t('userSettings.toast.assignmentCodeErrorDesc'),
@@ -122,7 +122,7 @@ export default function Settings() {
     } catch (error) {
       console.error('Failed to save assignment code:', error);
       toast({
-        title: t('common.error', 'Errore'),
+        title: t('common.error'),
         description: t('userSettings.toast.assignmentCodeErrorDesc'),
         variant: 'destructive',
       });
@@ -135,7 +135,7 @@ export default function Settings() {
     const code = assignmentCode.trim();
     if (!code || !/^[a-zA-Z0-9]{4,10}$/.test(code)) {
       toast({
-        title: t('common.error', 'Errore'),
+        title: t('common.error'),
         description: t('userSettings.toast.assignmentCodeInvalid'),
         variant: 'destructive',
       });
@@ -177,10 +177,10 @@ export default function Settings() {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-3xl font-bold tracking-tight">{t('settings.title', 'Impostazioni')}</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{t('settings.title', 'Settings')}</h1>
         </div>
         <p className="text-muted-foreground">
-          {t('settings.description', 'Personalizza l\'applicazione e configura le preferenze')}
+          {t('settings.description', 'Customize the application and configure preferences')}
         </p>
       </header>
 
@@ -215,11 +215,11 @@ export default function Settings() {
         <TabsList className="mb-6 h-auto flex-wrap justify-start">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
-            <span>{t('settings.general', 'Generali')}</span>
+            <span>{t('settings.general', 'General')}</span>
           </TabsTrigger>
           <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
-            <span>{t('settings.contacts', 'Contatti & Orari')}</span>
+            <span>{t('settings.contacts', 'Contacts & Hours')}</span>
           </TabsTrigger>
           <TabsTrigger value="staff" className="flex items-center whitespace-nowrap">
             <Users className="mr-2 h-4 w-4" />
@@ -248,9 +248,9 @@ export default function Settings() {
         <TabsContent value="app">
           <Card>
             <CardHeader>
-              <CardTitle>{t('settings.generalTitle', 'Impostazioni Generali')}</CardTitle>
+              <CardTitle>{t('settings.generalTitle', 'General Settings')}</CardTitle>
               <CardDescription>
-                {t('settings.generalDesc', 'Configura le impostazioni generali dell\'applicazione')}
+                {t('settings.generalDesc', 'Configure the general settings of the application')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
@@ -349,10 +349,10 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Contact className="mr-2 h-5 w-5" />
-                  {t('settings.contactsTitle', 'Informazioni di Contatto')}
+                  {t('settings.contactsTitle', 'Contact Information')}
                 </CardTitle>
                 <CardDescription>
-                  {t('settings.contactsDesc', 'Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell\'app cliente')}
+                  {t('settings.contactsDesc', 'Manage the contact information shown in the footer of the client app')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -423,10 +423,10 @@ export default function Settings() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Mail className="mr-2 h-5 w-5" />
-                <span>{t('settings.integrations', 'Configurazione Email')}</span>
+                <span>{t('settings.integrations', 'Email Configuration')}</span>
               </CardTitle>
               <CardDescription>
-                {t('settings.integrationsDesc', 'Configura l\'invio delle email per le notifiche ai clienti')}
+                {t('settings.integrationsDesc', 'Configure email sending for client notifications')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -481,10 +481,10 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Brush className="mr-2 h-5 w-5" />
-                  {t('settings.appearanceTitle', 'Identità Aziendale')}
+                  {t('settings.appearanceTitle', 'Business Identity')}
                 </CardTitle>
                 <CardDescription>
-                  {t('settings.appearanceDesc', 'Personalizza l\'icona dell\'applicazione per riflettere l\'identità della tua azienda. Questa impostazione si applicherà sia all\'app principale che all\'app cliente.')}
+                  {t('settings.appearanceDesc', 'Customize the application icon to reflect your company identity. This setting will apply to both the main app and the client app.')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">

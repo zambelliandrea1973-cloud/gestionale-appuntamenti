@@ -71,7 +71,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
     // Verifica solo i campi che hanno un valore
     Object.entries(contactInfo).forEach(([key, value]) => {
       if (value && !isValidContactInfo(key as keyof ContactInfo, value)) {
-        errors[key] = t(`settings.contactInfo.invalidFormat`, 'Formato non valido');
+        errors[key] = t(`settings.contactInfo.invalidFormat`, 'Invalid format');
         isValid = false;
       }
     });
@@ -85,8 +85,8 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
     
     if (!validateFields()) {
       toast({
-        title: t('settings.contactInfo.validationError', 'Errore di validazione'),
-        description: t('settings.contactInfo.checkFields', 'Controlla i campi evidenziati'),
+        title: t('settings.contactInfo.validationError', 'Validation error'),
+        description: t('settings.contactInfo.checkFields', 'Please check the highlighted fields'),
         variant: "destructive",
       });
       return;
@@ -103,7 +103,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
       const response = await apiRequest('POST', '/api/contact-info', contactInfo);
 
       if (!response.ok) {
-        throw new Error('Errore durante il salvataggio delle informazioni di contatto');
+        throw new Error('Failed to save contact information');
       }
       
       const result = await response.json();
@@ -111,8 +111,8 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
       
       setSaveSuccess(true);
       toast({
-        title: t('settings.contactInfo.saveSuccess', 'Salvataggio completato'),
-        description: t('settings.contactInfo.saveSuccessDesc', 'Le informazioni di contatto sono state aggiornate con successo'),
+        title: t('settings.contactInfo.saveSuccess', 'Save complete'),
+        description: t('settings.contactInfo.saveSuccessDesc', 'Contact information has been updated successfully'),
         variant: "default",
       });
       
@@ -121,10 +121,10 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
       }
     } catch (error: any) {
       console.error('Errore durante il salvataggio delle informazioni di contatto:', error);
-      setSaveError(error.message || t('settings.contactInfo.saveError', 'Si è verificato un errore durante il salvataggio'));
+      setSaveError(error.message || t('settings.contactInfo.saveError', 'An error occurred while saving'));
       toast({
-        title: t('settings.contactInfo.saveErrorTitle', 'Errore di salvataggio'),
-        description: error.message || t('settings.contactInfo.saveError', 'Si è verificato un errore durante il salvataggio'),
+        title: t('settings.contactInfo.saveErrorTitle', 'Save error'),
+        description: error.message || t('settings.contactInfo.saveError', 'An error occurred while saving'),
         variant: "destructive",
       });
     } finally {
@@ -134,17 +134,17 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">{t('settings.contactInfo.title', 'Informazioni di contatto')}</h3>
+      <h3 className="text-lg font-medium">{t('settings.contactInfo.title', 'Contact information')}</h3>
       <p className="text-sm text-muted-foreground mb-4">
-        {t('settings.contactInfo.description', 'Inserisci le informazioni di contatto che verranno visualizzate nell\'app cliente')}
+        {t('settings.contactInfo.description', 'Enter the contact information that will be displayed in the client app')}
       </p>
 
       {saveSuccess && (
         <Alert className="mb-4">
           <Check className="h-4 w-4" />
-          <AlertTitle>{t('settings.contactInfo.saveSuccess', 'Salvataggio completato')}</AlertTitle>
+          <AlertTitle>{t('settings.contactInfo.saveSuccess', 'Save complete')}</AlertTitle>
           <AlertDescription>
-            {t('settings.contactInfo.saveSuccessDesc', 'Le informazioni di contatto sono state aggiornate con successo')}
+            {t('settings.contactInfo.saveSuccessDesc', 'Contact information has been updated successfully')}
           </AlertDescription>
         </Alert>
       )}
@@ -152,7 +152,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
       {saveError && (
         <Alert variant="destructive" className="mb-4">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>{t('settings.contactInfo.errorTitle', 'Errore')}</AlertTitle>
+          <AlertTitle>{t('settings.contactInfo.errorTitle', 'Error')}</AlertTitle>
           <AlertDescription>{saveError}</AlertDescription>
         </Alert>
       )}
@@ -187,7 +187,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
               <div className="space-y-2">
                 <Label htmlFor="phone1" className="flex items-center">
                   <Phone className="h-4 w-4 mr-2" />
-                  {t('settings.contactInfo.phone1', 'Telefono principale')}
+                  {t('settings.contactInfo.phone1', 'Primary phone')}
                 </Label>
                 <Input
                   id="phone1"
@@ -197,7 +197,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                   placeholder="+39 123 456 7890"
                 />
                 <p className="text-xs text-muted-foreground">
-                  {t('settings.contactInfo.phone1Desc', 'Numero di telefono principale per i contatti')}
+                  {t('settings.contactInfo.phone1Desc', 'Primary phone number for contacts')}
                 </p>
               </div>
 
@@ -215,7 +215,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                   placeholder="+39 098 765 4321"
                 />
                 <p className="text-xs text-muted-foreground">
-                  {t('settings.contactInfo.phone2Desc', 'Numero di telefono secondario (opzionale)')}
+                  {t('settings.contactInfo.phone2Desc', 'Secondary phone number (optional)')}
                 </p>
               </div>
 
@@ -236,7 +236,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                   <p className="text-xs text-red-500">{validationErrors.website}</p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  {t('settings.contactInfo.websiteDesc', 'Inserisci solo il dominio (esempio.it) o l\'URL completo (https://esempio.it)')}
+                  {t('settings.contactInfo.websiteDesc', 'Enter only the domain (example.com) or the full URL (https://example.com)')}
                 </p>
               </div>
 
@@ -292,12 +292,12 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                 {isSaving ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    {t('settings.contactInfo.saving', 'Salvataggio in corso...')}
+                    {t('settings.contactInfo.saving', 'Saving...')}
                   </>
                 ) : (
                   <>
                     <Save className="h-4 w-4 mr-2" />
-                    {t('settings.contactInfo.save', 'Salva informazioni di contatto')}
+                    {t('settings.contactInfo.save', 'Save contact information')}
                   </>
                 )}
               </Button>

@@ -298,7 +298,7 @@ export default function SimpleServiceManager() {
           ) : services.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground space-y-3">
               <p>{t('services.noServices')}</p>
-              <p className="text-sm">{t('services.noServicesHint', 'Configura i servizi che offri ai tuoi clienti per iniziare a ricevere prenotazioni.')}</p>
+              <p className="text-sm">{t('services.noServicesHint', 'Set up the services you offer your clients to start receiving bookings.')}</p>
             </div>
           ) : (
             <>
@@ -313,8 +313,8 @@ export default function SimpleServiceManager() {
                         <CircleOff className="h-4 w-4 text-red-500" />
                       )}
                       <div>
-                        <p className="text-sm font-medium">{t('services.onlineBookingTitle', 'Prenotazione Online')}</p>
-                        <p className="text-xs text-muted-foreground font-normal">{t('services.onlineBookingDesc', 'Attiva o disattiva la possibilità per i clienti di prenotare online ogni singolo servizio. I servizi disattivati non compariranno nell\'app del cliente.')}</p>
+                        <p className="text-sm font-medium">{t('services.onlineBookingTitle', 'Online Booking')}</p>
+                        <p className="text-xs text-muted-foreground font-normal">{t('services.onlineBookingDesc', 'Enable or disable online booking for each service. Disabled services will not appear in the client app.')}</p>
                       </div>
                     </div>
                   </TableHead>
@@ -326,7 +326,7 @@ export default function SimpleServiceManager() {
                         disabled={toggleAllOnlineBookingMutation.isPending || services.length === 0}
                       />
                       <span className="text-xs text-muted-foreground font-normal whitespace-nowrap">
-                        {allOnlineEnabled ? t('services.disableAllOnline', 'Disattiva tutti') : t('services.enableAllOnline', 'Attiva tutti')}
+                        {allOnlineEnabled ? t('services.disableAllOnline', 'Disable all') : t('services.enableAllOnline', 'Enable all')}
                       </span>
                     </div>
                   </TableHead>

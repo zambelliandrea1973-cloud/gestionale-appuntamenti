@@ -50,16 +50,16 @@ export default function AuthorizedRoute({
             </div>
           </div>
           <CardTitle className="text-2xl">
-            {t('auth.required', 'Accesso richiesto')}
+            {t('auth.required', 'Login required')}
           </CardTitle>
           <CardDescription>
-            {t('auth.loginRequired', 'Devi essere autenticato per accedere a questa sezione')}
+            {t('auth.loginRequired', 'You must be logged in to access this section')}
           </CardDescription>
         </CardHeader>
         <CardContent className="text-center">
           <Link to="/auth">
             <Button className="w-full">
-              {t('auth.login', 'Accedi')}
+              {t('auth.login')}
             </Button>
           </Link>
         </CardContent>
@@ -81,19 +81,19 @@ export default function AuthorizedRoute({
               </div>
             </div>
             <CardTitle className="text-2xl">
-              {t('auth.accessDenied', 'Accesso negato')}
+              {t('auth.accessDenied', 'Access denied')}
             </CardTitle>
             <CardDescription>
-              {t('auth.insufficientRole', `Questa sezione richiede il ruolo "${getRoleDisplayName(requiredRole)}"`)}
+              {t('auth.insufficientRole', { role: getRoleDisplayName(requiredRole), defaultValue: `This section requires the '${getRoleDisplayName(requiredRole)}' role` })}
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-sm text-muted-foreground mb-4">
-              {t('auth.currentRole', `Il tuo ruolo attuale: ${getRoleDisplayName(user.type)}`)}
+              {t('auth.currentRole', { role: getRoleDisplayName(user.type), defaultValue: `Your current role: ${getRoleDisplayName(user.type)}` })}
             </p>
             <Link to="/">
               <Button variant="outline" className="w-full">
-                {t('common.backToHome', 'Torna alla Home')}
+                {t('common.backToHome', 'Back to Home')}
               </Button>
             </Link>
           </CardContent>
@@ -116,12 +116,12 @@ export default function AuthorizedRoute({
               </div>
             </div>
             <CardTitle className="text-2xl">
-              {t('license.upgradeRequired', 'Upgrade richiesto')}
+              {t('license.upgradeRequired', 'Upgrade required')}
             </CardTitle>
             <CardDescription>
               {featureName 
-                ? t('license.featureRequiresLicense', `"${featureName}" richiede una licenza ${requiredLicense.toUpperCase()}`)
-                : t('license.licenseRequired', `Questa sezione richiede una licenza ${requiredLicense.toUpperCase()}`)
+                ? t('license.featureRequiresLicense', { feature: featureName, license: requiredLicense.toUpperCase(), defaultValue: `"${featureName}" requires a ${requiredLicense.toUpperCase()} license` })
+                : t('license.licenseRequired', { license: requiredLicense.toUpperCase(), defaultValue: `This section requires a ${requiredLicense.toUpperCase()} license` })
               }
             </CardDescription>
           </CardHeader>
@@ -134,12 +134,12 @@ export default function AuthorizedRoute({
               <Link to="/subscribe">
                 <Button className="w-full">
                   <Crown className="mr-2 h-4 w-4" />
-                  {t('license.upgrade', `Passa a ${requiredLicense.toUpperCase()}`)}
+                  {t('license.upgrade', { license: requiredLicense.toUpperCase(), defaultValue: `Upgrade to ${requiredLicense.toUpperCase()}` })}
                 </Button>
               </Link>
               <Link to="/">
                 <Button variant="outline" className="w-full">
-                  {t('common.backToHome', 'Torna alla Home')}
+                  {t('common.backToHome', 'Back to Home')}
                 </Button>
               </Link>
             </div>
@@ -200,10 +200,10 @@ function checkLicenseAccess(requiredLicense: string, hasProAccess: boolean, hasB
  */
 function getRoleDisplayName(role: string): string {
   const roleNames = {
-    admin: 'Amministratore',
+    admin: 'Administrator',
     business: 'Business',
     staff: 'Staff',
-    customer: 'Cliente'
+    customer: 'Customer'
   };
   return roleNames[role as keyof typeof roleNames] || role;
 }

@@ -84,7 +84,7 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
   };
 
   const formatUserAgent = (userAgent: string) => {
-    if (!userAgent) return t('clients.accesses.unknownDevice', 'Dispositivo sconosciuto');
+    if (!userAgent) return t('clients.accesses.unknownDevice', 'Unknown device');
     
     // Formatta l'user agent per renderlo più leggibile
     if (userAgent.includes("Mobile")) return "Smartphone";
@@ -93,14 +93,14 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
     if (userAgent.includes("Macintosh")) return "Mac";
     if (userAgent.includes("Linux")) return "PC Linux";
     
-    return t('clients.accesses.browserAccess', 'Accesso da browser');
+    return t('clients.accesses.browserAccess', 'Browser access');
   };
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center p-6">
         <Loader2 className="h-6 w-6 animate-spin text-primary mr-2" />
-        <span>{t('clients.accesses.loadingDetails', 'Caricamento dettagli accessi...')}</span>
+        <span>{t('clients.accesses.loadingDetails', 'Loading access details...')}</span>
       </div>
     );
   }
@@ -108,7 +108,7 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
   if (isError) {
     return (
       <div className="text-center p-6 text-destructive">
-        {t('clients.accesses.errorLoadingDetails', 'Errore nel caricamento dei dettagli degli accessi')}
+        {t('clients.accesses.errorLoadingDetails', 'Error loading access details')}
       </div>
     );
   }
@@ -119,10 +119,10 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
         <CardHeader>
           <CardTitle className="flex items-center text-xl">
             <Eye className="h-5 w-5 mr-2 text-blue-500" />
-            {t('clients.accesses.title', 'Accessi del cliente')}
+            {t('clients.accesses.title', 'Client accesses')}
           </CardTitle>
           <CardDescription>
-            {t('clients.accesses.description', 'Elenco degli ultimi {{count}} accessi effettuati dal cliente', { count: accessesData.length })}
+            {t('clients.accesses.description', 'List of the last {{count}} accesses made by the client', { count: accessesData.length })}
           </CardDescription>
         </CardHeader>
       )}
@@ -130,7 +130,7 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
       <CardContent>
         {accessesData.length === 0 ? (
           <div className="text-center py-4 text-muted-foreground">
-            {t('clients.accesses.noData', 'Nessun accesso registrato per questo cliente')}
+            {t('clients.accesses.noData', 'No accesses recorded for this client')}
           </div>
         ) : (
           <Table>
@@ -153,7 +153,7 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
                 <TableHead className="cursor-pointer" onClick={() => toggleSort("userAgent")}>
                   <div className="flex items-center">
                     <Monitor className="h-4 w-4 mr-1" />
-                    {t('clients.accesses.device', 'Dispositivo')}
+                    {t('clients.accesses.device', 'Device')}
                     {renderSortIcon("userAgent")}
                   </div>
                 </TableHead>

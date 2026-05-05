@@ -283,7 +283,7 @@ export default function PaymentAdmin() {
       const response = await apiRequest("DELETE", `/api/admin-license/delete-user/${userId}`);
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore nell'eliminazione dell'account");
+        throw new Error(errorData.message || "Failed to delete account");
       }
       return await response.json();
     },
@@ -329,7 +329,7 @@ export default function PaymentAdmin() {
       autoPayEnabled: formData.get('autoPayEnabled') === 'on',
       paymentDelay: parseInt(formData.get('paymentDelay') as string) || 30,
       minimumAmount: parseFloat(formData.get('minimumAmount') as string) || 1.0,
-      description: formData.get('description') as string || 'Commissione referral',
+      description: formData.get('description') as string || 'Referral commission',
     };
     
     console.log('💳 [PAYMENT ADMIN] Settings aggiornati:', settings);
@@ -956,7 +956,7 @@ export default function PaymentAdmin() {
                   autoPayEnabled: false,
                   paymentDelay: 30,
                   minimumAmount: 1.0,
-                  description: 'Commissione referral sistema gestione appuntamenti',
+                  description: 'Referral commission - appointment management system',
                   isConfigured: false,
                 };
 

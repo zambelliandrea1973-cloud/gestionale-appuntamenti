@@ -2,28 +2,33 @@
   "app": {
     "title": "Управление Записями",
     "welcome": "Добро пожаловать в Управление Записями",
-    "description": "Легко управляйте записями, клиентами и счетами"
+    "description": "Легко управляйте записями, клиентами и счетами",
+    "version": "Менеджер записей v3.5.0",
+    "copyright": "© 2023-2025 Все права защищены",
+    "clientAreaTitle": "Клиентская зона",
+    "defaultTitle": "Менеджер записей"
   },
   "welcomePage": {
     "login": "Войти",
     "badge": "Используют сотни специалистов",
     "heroTitle": "Ваш бизнес всегда в кармане",
-    "heroSubtitle": "Управляйте записями, клиентами, напоминаниями и счетами в одном приложении для парикмахеров, косметологов и специалистов по wellness.",
+    "heroSubtitle": "Управляйте записями, клиентами, напоминаниями и счетами в одном приложении для парикмахеров, косметологов и специалистов по красоте.",
     "ctaPrimary": "Начать бесплатно · Создать аккаунт",
     "ctaHint": "Без банковской карты · Отмена в любое время",
     "alreadyAccount": "Уже есть аккаунт?",
     "feature1Title": "Умный календарь",
     "feature1Desc": "Записи всегда под контролем",
-    "feature2Title": "Клиенты и карточки",
+    "feature2Title": "Клиенты & записи",
     "feature2Desc": "Полная история под рукой",
     "feature3Title": "Напоминания WhatsApp",
-    "feature3Desc": "Снижение неявок до 70%",
-    "feature4Title": "Счета и доходы",
-    "feature4Desc": "Встроенный налоговый учёт",
+    "feature3Desc": "Сократите неявки до 70%",
+    "feature4Title": "Счета и платежи",
+    "feature4Desc": "Интегрированное налоговое управление",
     "benefit1": "Без банковской карты",
     "benefit2": "Без рекламы в приложении",
     "benefit3": "Синхронизация с Google Календарём",
-    "benefit4": "Работает на телефоне, планшете и ПК"
+    "benefit4": "Работает на телефоне, планшете и ПК",
+    "headerTitle": "Добро пожаловать в"
   },
   "staffLoginPage": {
     "title": "Вход для Персонала",
@@ -163,7 +168,7 @@
     "updateError": "Ошибка при обновлении",
     "defaultServiceAlert": "Вы используете стандартную услугу \"Консультация\". Создайте свой список услуг!",
     "goToServiceSettings": "Перейти к Списку Услуг",
-    "onlineBookingTitle": "Онлайн-бронирование",
+    "onlineBookingTitle": "Онлайн-запись",
     "onlineBookingDesc": "Включите или отключите онлайн-бронирование для каждой услуги. Отключённые услуги не будут отображаться в приложении клиента.",
     "disableAllOnline": "Отключить все",
     "enableAllOnline": "Включить все",
@@ -347,7 +352,8 @@
     "decrementBy15Min": "Уменьшить на 15 мин",
     "noServicesAvailable": "Нет доступных услуг",
     "goToSettingsToCreateService": "Перейдите в Настройки, чтобы создать услугу",
-    "noServicesFound": "Услуги не найдены"
+    "noServicesFound": "Услуги не найдены",
+    "selectNewAppointment": "Новая запись"
   },
   "clients": {
     "title": "Клиенты",
@@ -402,9 +408,21 @@
       "lastName": "Фамилия"
     },
     "accesses": {
-      "loading": "Caricamento...",
-      "count": "Accessi all'app: {{count}}",
-      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+      "loading": "Загрузка...",
+      "count": "Доступов к приложению: {{count}}",
+      "tooltip": "Количество раз, когда клиент открыл приложение: {{count}}",
+      "unknownDevice": "Неизвестное устройство",
+      "browserAccess": "Доступ через браузер",
+      "loadingDetails": "Загрузка деталей доступа...",
+      "errorLoadingDetails": "Ошибка загрузки деталей доступа",
+      "title": "Доступы клиента",
+      "description": "Список последних {{count}} доступов клиента",
+      "noData": "Доступы для этого клиента не зарегистрированы",
+      "date": "Дата",
+      "time": "Время",
+      "device": "Устройство",
+      "dialogDescription": "Просмотр сведений о доступах клиента к приложению",
+      "detailsTitle": "Доступы для {{name}}"
     },
     "subtitle": "Управляйте всеми вашими клиентами",
     "total": "клиентов",
@@ -418,7 +436,8 @@
       "linkCopiedDesc": "Ссылка для доступа скопирована в буфер обмена",
       "emailSubject": "Ваш доступ к личному кабинету",
       "messageText": "Здравствуйте {{name}}, вот ваша ссылка для доступа к личному кабинету:"
-    }
+    },
+    "adminPersonalClientsHint": "Ваши персональные клиенты появятся здесь. Используйте вкладку 'Персонал' для просмотра клиентов других специалистов."
   },
   "invoices": {
     "title": "Управление счетами",
@@ -439,7 +458,7 @@
     "paid": "Оплачено",
     "unpaid": "Не оплачено",
     "sentToClient": "Отправлено клиенту",
-    "preview": "Предпросмотр",
+    "preview": "Предварительный просмотр",
     "print": "Печать",
     "deleteInvoice": "Удалить счёт",
     "irreversibleAction": "Это действие необратимо!",
@@ -628,10 +647,38 @@
       "title": "Настройка из ИИ-тура",
       "description": "После сохранения настроек вы автоматически вернётесь к мастеру, чтобы завершить настройку.",
       "button": "Вернуться к туру"
+    },
+    "description": "Настройка приложения и конфигурация предпочтений",
+    "integrationsDesc": "Настройка отправки электронной почты для уведомлений клиентов",
+    "generalTitle": "Общие настройки",
+    "generalDesc": "Настройка общих параметров приложения",
+    "reminderTemplates": {
+      "title": "Шаблоны напоминаний",
+      "addNew": "Новый шаблон",
+      "editTitle": "Редактировать шаблон напоминания",
+      "createTitle": "Новый шаблон напоминания",
+      "type": "Тип напоминания",
+      "variables": "Доступные переменные",
+      "namePlaceholder": "Напр. Стандартное напоминание",
+      "description": "Настройте сообщения напоминаний, отправляемых клиентам для записей.",
+      "formDescription": "Настройте сообщение напоминания, отправляемое клиентам для записей.",
+      "selectMultiple": "Выберите один или несколько каналов уведомлений для этого шаблона напоминания",
+      "pleaseSelectType": "Выберите хотя бы один тип напоминания",
+      "noTypeSelected": "Предупреждение",
+      "messageTemplate": "Текст сообщения",
+      "templatePlaceholder": "Напр. Уважаемый(ая) {{nome}}, это напоминание о вашей записи {{servizio}} {{data}} в {{ora}} с {{collaboratore}} в {{stanza}}.",
+      "templateHelp": "Используйте переменные для включения конкретной информации о записи.",
+      "setAsDefault": "Установить как шаблон по умолчанию"
+    },
+    "contactInfo": {
+      "phone1": "Основной телефон",
+      "phone1Desc": "Основной номер телефона для контактов",
+      "phone2Desc": "Дополнительный номер телефона (необязательно)",
+      "websiteDesc": "Введите только домен (пример.ру) или полный URL (https://пример.ру)"
     }
   },
   "common": {
-    "backToHome": "Вернуться на Главную",
+    "backToHome": "На главную",
     "loading": "Загрузка...",
     "scrollDown": "Прокрутить вниз",
     "cancel": "Отмена",
@@ -657,13 +704,18 @@
     "share": "Поделиться",
     "processing": "Обработка...",
     "activate": "Активировать",
-    "copied": "Скопировано",
+    "copied": "Скопировано в буфер обмена",
     "notSpecified": "Не указано",
     "tryAgain": "Повторить",
-    "demoLabel": "Demo"
+    "demoLabel": "Demo",
+    "deleting": "Удаление...",
+    "view": "Просмотр",
+    "hidePassword": "Скрыть пароль",
+    "showPassword": "Показать пароль"
   },
   "notifications": {
-    "clientDeleted": "Клиент удален"
+    "clientDeleted": "Клиент удален",
+    "loadError": "Не удалось загрузить уведомления"
   },
   "whatsappNotifications": {
     "title": "Уведомления клиентов",
@@ -1169,7 +1221,12 @@
   },
   "auth": {
     "login": "Вход",
-    "logout": "Выход"
+    "logout": "Выход",
+    "accessDenied": "Доступ запрещён",
+    "insufficientRole": "Этот раздел требует роли '{{role}}'",
+    "currentRole": "Ваша текущая роль: {{role}}",
+    "required": "Требуется вход",
+    "loginRequired": "Для доступа к этому разделу необходимо войти в систему"
   },
   "clientArea": {
     "installApp": "Установить приложение",
@@ -1779,7 +1836,7 @@
   },
   "proFeature": {
     "title": "PRO-функция",
-    "subtitle": "доступна только с подпиской PRO",
+    "subtitle": "\"{{featureName}}\" доступно только с подпиской PRO",
     "reportsDescription": "Подробные отчёты о деятельности доступны начиная с плана Pro.",
     "benefits": {
       "title": "С PRO вы получаете",
@@ -2933,7 +2990,8 @@
     "defaults": {
       "subject": "Напоминание о записи на {{data}}",
       "template": "Уважаемый(ая) {{nome}} {{cognome}}!\n\nНапоминаем о вашей записи на {{servizio}} на {{data}} в {{ora}}.\n\nПо вопросам изменения или отмены свяжитесь с нами.\n\nС уважением,\nСтудия"
-    }
+    },
+    "redirecting": "Перенаправление к настройкам email..."
   },
   "userSettings": {
     "title": "Настройки пользователя",
@@ -3643,7 +3701,18 @@
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Отмена",
-    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
+    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456",
+    "staffDescription": "Просматривайте и управляйте сотрудниками и их комиссиями",
+    "details": "Подробности",
+    "commissions": "Комиссии",
+    "referralCodeLabel": "Реферальный код",
+    "commissionHistory": "История комиссий",
+    "noCommissions": "Комиссии ещё не зарегистрированы.",
+    "commissionsWillAppear": "Комиссии появятся здесь, когда будут сгенерированы.",
+    "administrator": "Администратор",
+    "referralCodeBadge": "Код: {{code}}",
+    "detailsTitle": "Данные сотрудника: {{username}}",
+    "detailsDescription": "Полная информация и история комиссий"
   },
   "passwordChange": {
     "title": "Изменить пароль",
@@ -5317,7 +5386,76 @@
         "step5": "Внимательно добавьте точный URL обратного вызова: <1>{{url}}</1>",
         "step6": "Вернитесь сюда и попробуйте авторизацию снова"
       }
-    }
+    },
+    "step": "Шаг",
+    "createProject": "Доступ к Google Cloud Console",
+    "enableAPIs": "Включить необходимые API Google",
+    "configOAuth": "Настройка учётных данных OAuth",
+    "configOAuthDesc": "Создание и настройка учётных данных OAuth 2.0",
+    "goToAPI": "Перейдите в \"API и сервисы\" > \"Библиотека\"",
+    "goToCredentials": "Перейдите в \"API и сервисы\" > \"Учётные данные\"",
+    "userType": "Тип пользователя: Внешний",
+    "createOAuthClient": "Создание идентификатора клиента OAuth 2.0:",
+    "configApp": "Настройте приложение",
+    "configAppDesc": "Введите учётные данные OAuth в Replit",
+    "accessSecrets": "Доступ к секретам Replit через \"Secrets\" на панели управления",
+    "addClientID": "Добавьте новый секрет с ключом \"GOOGLE_CLIENT_ID\" и значением идентификатора клиента",
+    "addClientSecret": "Добавьте новый секрет с ключом \"GOOGLE_CLIENT_SECRET\" и значением секрета клиента",
+    "tryAuth": "Попробуйте авторизацию:",
+    "tryAuthDesc": "После правильной настройки учётных данных можно попробовать запустить процесс авторизации:",
+    "credentialsDesc": "Убедитесь, что идентификатор клиента и секрет клиента верны и соответствуют данным проекта Google Cloud.",
+    "configConsent": "При необходимости настройте экран согласия OAuth:",
+    "appType": "Тип приложения: Веб-приложение",
+    "redirectURI": "Авторизованные URI перенаправления: Добавьте следующий точный URL",
+    "saveCredentials": "После создания клиента OAuth сохраните следующие данные:",
+    "testConfiguration": "Тест конфигурации",
+    "testConfigDesc": "Проверьте правильность конфигурации Google OAuth",
+    "testConfig": "Протестировать конфигурацию",
+    "error400Desc": "URL-адрес перенаправления, настроенный в консоли Google Cloud, не совпадает точно с тем, который используется приложением. Убедитесь, что используете именно URL, показанный выше.",
+    "error403Desc": "Приложение Google Cloud не имеет необходимых разрешений или не было верифицировано. Убедитесь, что вы включили необходимые API и правильно настроили экран согласия OAuth.",
+    "debugInfo": "Информация для отладки",
+    "debugInfoDesc": "Полезная информация для отладки конфигурации",
+    "instructions": "Инструкции по настройке",
+    "accessConsole": "Доступ к консоли Google Cloud для управления API и учётными данными",
+    "signIn": "Войти с аккаунтом Google",
+    "appName": "Название приложения: [Название вашего приложения]",
+    "supportEmail": "Email поддержки: [Ваш email]",
+    "developerEmail": "Email разработчика: [Ваш email]",
+    "calendarDesc": "Автоматически синхронизировать записи с Google Calendar",
+    "syncDesc": "Записи будут автоматически добавлены в ваш Google Calendar",
+    "connectCalendar": "Подключить Google Calendar",
+    "connectCalendarDesc": "Привяжите аккаунт Google для автоматической синхронизации записей между вашим календарём и Google Calendar.",
+    "connectWithGoogle": "Подключить с Google",
+    "privacyExplanation": "Соединение использует Google OAuth — безопасный стандарт, который не позволяет нам получить доступ к вашему паролю. Вы можете отозвать доступ в любое время.",
+    "privacyNote": "Примечание о конфиденциальности",
+    "showAdvancedHelp": "Нужна помощь с настройкой?",
+    "advancedHelpDesc": "Если вам нужна помощь с расширенной настройкой:",
+    "setupGuide": "Руководство по расширенной настройке",
+    "notConnected": "Статус: Не подключён",
+    "lastSyncStatus": "Статус: Подключён к Google Calendar",
+    "connectionActive": "Интеграция с Google Calendar активна",
+    "accountConnected": "Аккаунт Google подключён",
+    "requiredAPIs": "Необходимые API:",
+    "scopes": "Необходимые разрешения:",
+    "calendarScope": "(Полный доступ к календарю)",
+    "gmailScope": "(Отправка email)",
+    "restartApp": "Перезапустите приложение для применения изменений",
+    "disconnect": "Отключить",
+    "hideAdvancedHelp": "Скрыть дополнительные параметры",
+    "contactSupport": "Обратитесь в службу поддержки при постоянных проблемах",
+    "testing": "Тест и устранение неполадок",
+    "verifying": "Проверка...",
+    "visitConsole": "Посетите",
+    "startAuthProcess": "Запустить процесс авторизации",
+    "commonIssues": "Распространённые проблемы и решения:",
+    "credentials": "Неверные учётные данные",
+    "callbackUrl": "URL обратного вызова:",
+    "testAgain": "Проверить снова",
+    "calendarIntegration": "Интеграция с Google Calendar",
+    "syncSummary": "Импортировано {{imported}} событий, экспортировано {{exported}} записей",
+    "syncDetails": "📥 Импортировано: {{imported}} | 📤 Экспортировано: {{exported}} | 🗑️ Удалено: {{deleted}}",
+    "calendarEvent": "Событие Google Calendar",
+    "cannotDeleteImported": "Это событие импортировано из Google Calendar и не может быть удалено из приложения. Для удаления перейдите непосредственно в Google Calendar."
   },
   "landingBicom": {
     "header": {
@@ -5486,7 +5624,10 @@
       "notSupported": "Push-уведомления не поддерживаются в этом браузере. Попробуйте открыть приложение как установленное PWA.",
       "permissionDeniedTitle": "Разрешение отклонено",
       "notificationsActivatedTitle": "Уведомления включены",
-      "notificationsDeactivatedTitle": "Уведомления отключены"
+      "notificationsDeactivatedTitle": "Уведомления отключены",
+      "loading": "Загрузка...",
+      "active": "Уведомления активны",
+      "enable": "Включить уведомления"
     },
     "subscriptionPlansAdmin": {
       "addFeature": "Добавить функцию",
@@ -5523,7 +5664,9 @@
       "deletionUnlocked": "Удаление разблокировано",
       "cannotUnlock": "Не удалось разблокировать удаление",
       "cannotMarkDeleted": "Не удалось имитировать удаление",
-      "clientRemoved": "Клиент удалён из системы"
+      "clientRemoved": "Клиент удалён из системы",
+      "canNowBeDeleted": "{{name}} теперь можно удалить",
+      "deleted": "{{name}} удалён"
     },
     "directLinkGenerator": {
       "linkCopied": "Прямая ссылка скопирована в буфер обмена.",
@@ -5585,7 +5728,8 @@
     "betaStatus": {
       "title": "Бета-режим",
       "welcomeMessage": "Добро пожаловать в бета-программу! Вы можете оставить отзыв в любое время на странице беты.",
-      "invalidCode": "Неверный код беты"
+      "invalidCode": "Неверный код беты",
+      "codeExpired": "Бета-код больше недействителен."
     },
     "installAppPrompt": {
       "alreadyInstalledNote": "Вы можете быстро открыть личный кабинет с главного экрана устройства.",
@@ -5743,7 +5887,10 @@
       "appointmentsHeading": "Записи",
       "dateColumn": "Дата",
       "timeColumn": "Время",
-      "collaboratorColumn": "Сотрудник"
+      "collaboratorColumn": "Сотрудник",
+      "goToCalendar": "Перейти к календарю",
+      "timeNotAvailable": "Время недоступно",
+      "noServiceSpecified": "Услуга не указана"
     },
     "appointmentCard": {
       "hide": "Скрыть",
@@ -5758,7 +5905,9 @@
       "deletionNotificationTitle": "Уведомление об удалении",
       "deletionUnlockedBadge": "Удаление разблокировано",
       "otherAccountClient": "Клиент другого аккаунта (только просмотр)",
-      "viewOnlyBadge": "Только просмотр"
+      "viewOnlyBadge": "Только просмотр",
+      "deletedFromSourceBadge": "Клиент удалён из оригинального аккаунта",
+      "deletedFromSourceToast": "{{firstName}} {{lastName}} удалён из оригинального аккаунта"
     },
     "clientFooterContactIcons": {
       "emailLabel": "Email:",
@@ -5868,6 +6017,10 @@
       "czechRepublic": "Чехия",
       "hungary": "Венгрия",
       "romania": "Румыния"
+    },
+    "userLicenseBadge": {
+      "customer": "Клиент",
+      "user": "Пользователь"
     }
   },
   "onboarding": {
@@ -5887,5 +6040,66 @@
   },
   "fab": {
     "dragging": "Перемещение..."
+  },
+  "license": {
+    "upgradeRequired": "Требуется обновление",
+    "featureRequiresLicense": "\"{{feature}}\" требует лицензию {{license}}",
+    "licenseRequired": "Этот раздел требует лицензию {{license}}",
+    "upgrade": "Обновить до {{license}}"
+  },
+  "businessFeature": {
+    "title": "Функция BUSINESS",
+    "subtitle": "\"{{featureName}}\" доступно только с подпиской BUSINESS",
+    "benefits": {
+      "title": "С BUSINESS вы получаете",
+      "multiUser": "Поддержка нескольких пользователей",
+      "analytics": "Расширенная аналитика",
+      "customization": "Полная настройка",
+      "support": "Приоритетная поддержка 24/7",
+      "branding": "Удаление брендинга и white-label"
+    },
+    "learnMore": "Узнать больше",
+    "upgradeButton": "Перейти на BUSINESS",
+    "description": "Перейдите на план BUSINESS, чтобы открыть все расширенные функции для вашего бизнеса."
+  },
+  "payment": {
+    "processing": "Обработка платежа...",
+    "pending": {
+      "title": "Обработка платежа",
+      "info": "Ваш платёж получен, и подписка будет активирована в ближайшее время.",
+      "wait": "Подождите момент, пока мы обрабатываем транзакцию.",
+      "refresh": "Если страница не обновится автоматически, перезагрузите её через несколько минут."
+    },
+    "checking": "Проверка статуса подписки...",
+    "success": {
+      "description": "Спасибо за подписку. Ваш аккаунт обновлён.",
+      "activated": "Ваша подписка успешно активирована.",
+      "access": "Теперь вы можете получить доступ ко всем премиум-функциям."
+    },
+    "plan": "Тариф",
+    "activePlan": "Активный тариф",
+    "active": "Активный",
+    "startDate": "Дата начала",
+    "status": "Статус",
+    "details": "Детали подписки",
+    "features": "Включённые функции",
+    "supportInfo": "По любым вопросам о подписке обратитесь в службу поддержки. Сохраните квитанцию об оплате, которую получите по электронной почте.",
+    "return": "Вернуться на панель"
+  },
+  "stripe": {
+    "payWithCard": "Оплатить картой",
+    "sessionError": "Не удалось создать сеанс оплаты",
+    "urlError": "URL сеанса оплаты не найден"
+  },
+  "colorEditor": {
+    "saveError": "Не удалось сохранить настройки цвета ({{status}})"
+  },
+  "appointments": {
+    "noDataAvailable": "Данные записи недоступны",
+    "incompleteData": "Неполные данные записи"
+  },
+  "whatsapp": {
+    "reminderTemplate": "Уважаемый(-ая) {{name}},\nНапоминаем вам о вашей записи на {{service}} {{date}} в {{time}}.",
+    "testMessage": "Тестовое сообщение от системы управления записями"
   }
 }

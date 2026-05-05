@@ -2,28 +2,33 @@
   "app": {
     "title": "Terminverwaltung",
     "welcome": "Willkommen bei der Terminverwaltung",
-    "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen"
+    "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen",
+    "version": "Terminmanager v3.5.0",
+    "copyright": "© 2023-2025 Alle Rechte vorbehalten",
+    "clientAreaTitle": "Kundenbereich",
+    "defaultTitle": "Terminmanager"
   },
   "welcomePage": {
     "login": "Anmelden",
     "badge": "Von Hunderten von Profis genutzt",
     "heroTitle": "Dein Studio, immer in der Tasche",
-    "heroSubtitle": "Verwalte Termine, Kunden, Erinnerungen und Rechnungen in einer App, die für Friseure, Kosmetikerinnen und Wellness-Profis entwickelt wurde.",
+    "heroSubtitle": "Verwalten Sie Termine, Kunden, Erinnerungen und Rechnungen in einer App für Friseure, Kosmetikerinnen und Wellnessprofis.",
     "ctaPrimary": "Kostenlos starten · Neues Konto erstellen",
     "ctaHint": "Keine Kreditkarte erforderlich · Jederzeit kündbar",
     "alreadyAccount": "Hast du schon ein Konto?",
-    "feature1Title": "Smart-Kalender",
+    "feature1Title": "Smarter Kalender",
     "feature1Desc": "Termine immer im Griff",
-    "feature2Title": "Kunden & Karteien",
-    "feature2Desc": "Komplette Historie sofort verfügbar",
+    "feature2Title": "Kunden & Akten",
+    "feature2Desc": "Vollständiger Verlauf griffbereit",
     "feature3Title": "WhatsApp-Erinnerungen",
     "feature3Desc": "Reduziere No-Shows um bis zu 70%",
-    "feature4Title": "Rechnungen & Einnahmen",
-    "feature4Desc": "Integrierte Steuerverwaltung",
+    "feature4Title": "Rechnungen & Zahlungen",
+    "feature4Desc": "Integriertes SteuerManagement",
     "benefit1": "Keine Kreditkarte erforderlich",
     "benefit2": "Keine Werbung in der App",
     "benefit3": "Synchronisiert mit Google Kalender",
-    "benefit4": "Funktioniert auf Handy, Tablet und PC"
+    "benefit4": "Funktioniert auf Handy, Tablet und PC",
+    "headerTitle": "Willkommen bei"
   },
   "staffLoginPage": {
     "title": "Personal Zugang",
@@ -347,7 +352,8 @@
     "decrementBy15Min": "Um 15 Min verringern",
     "noServicesAvailable": "Keine Dienste verfügbar",
     "goToSettingsToCreateService": "Gehen Sie zu den Einstellungen, um einen Dienst zu erstellen",
-    "noServicesFound": "Keine Dienste gefunden"
+    "noServicesFound": "Keine Dienste gefunden",
+    "selectNewAppointment": "Neuer Termin"
   },
   "clients": {
     "title": "Kunden",
@@ -402,9 +408,21 @@
       "lastName": "Nachname"
     },
     "accesses": {
-      "loading": "Caricamento...",
-      "count": "Accessi all'app: {{count}}",
-      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+      "loading": "Wird geladen...",
+      "count": "App-Zugriffe: {{count}}",
+      "tooltip": "Anzahl der Male, die der Kunde die App geöffnet hat: {{count}}",
+      "unknownDevice": "Unbekanntes Gerät",
+      "browserAccess": "Browser-Zugang",
+      "loadingDetails": "Zugriffsdetails werden geladen...",
+      "errorLoadingDetails": "Fehler beim Laden der Zugriffsdetails",
+      "title": "Client-Zugriffe",
+      "description": "Liste der letzten {{count}} Zugriffe des Clients",
+      "noData": "Keine Zugriffe für diesen Client aufgezeichnet",
+      "date": "Datum",
+      "time": "Uhrzeit",
+      "device": "Gerät",
+      "dialogDescription": "Details der Zugriffe des Kunden auf die Anwendung anzeigen",
+      "detailsTitle": "Zugriffe für {{name}}"
     },
     "subtitle": "Verwalten Sie alle Ihre Kunden",
     "total": "Kunden",
@@ -418,7 +436,8 @@
       "linkCopiedDesc": "Der Zugangslink wurde in die Zwischenablage kopiert",
       "emailSubject": "Ihr Zugang zum geschützten Bereich",
       "messageText": "Hallo {{name}}, hier ist Ihr Link zum geschützten Bereich:"
-    }
+    },
+    "adminPersonalClientsHint": "Ihre persönlichen Kunden werden hier angezeigt. Verwenden Sie den Tab 'Personal', um Kunden anderer Fachleute zu sehen."
   },
   "invoices": {
     "title": "Rechnungsverwaltung",
@@ -628,6 +647,34 @@
       "title": "Einrichtung über die KI-Tour",
       "description": "Nach dem Speichern deiner Einstellungen kehrst du automatisch zum Assistenten zurück, um die Einrichtung abzuschließen.",
       "button": "Zurück zur Tour"
+    },
+    "description": "Anwendung anpassen und Einstellungen konfigurieren",
+    "integrationsDesc": "E-Mail-Versand für Kundenbenachrichtigungen konfigurieren",
+    "generalTitle": "Allgemeine Einstellungen",
+    "generalDesc": "Allgemeine Einstellungen der Anwendung konfigurieren",
+    "reminderTemplates": {
+      "title": "Erinnerungsvorlagen",
+      "addNew": "Neue Vorlage",
+      "editTitle": "Erinnerungsvorlage bearbeiten",
+      "createTitle": "Neue Erinnerungsvorlage",
+      "type": "Erinnerungstyp",
+      "variables": "Verfügbare Variablen",
+      "namePlaceholder": "Z.B. Standard-Erinnerung",
+      "description": "Passen Sie die Erinnerungsnachrichten an, die Kunden für Termine erhalten.",
+      "formDescription": "Passen Sie die Erinnerungsnachricht an, die Kunden für Termine erhalten.",
+      "selectMultiple": "Wählen Sie einen oder mehrere Benachrichtigungskanäle für diese Erinnerungsvorlage",
+      "pleaseSelectType": "Mindestens einen Erinnerungstyp auswählen",
+      "noTypeSelected": "Warnung",
+      "messageTemplate": "Nachrichtentext",
+      "templatePlaceholder": "Z.B. Liebe(r) {{nome}}, dies ist eine Erinnerung für Ihren {{servizio}}-Termin am {{data}} um {{ora}} Uhr mit {{collaboratore}} in {{stanza}}.",
+      "templateHelp": "Verwenden Sie Variablen, um spezifische Termindetails einzufügen.",
+      "setAsDefault": "Als Standardvorlage festlegen"
+    },
+    "contactInfo": {
+      "phone1": "Haupttelefon",
+      "phone1Desc": "Haupttelefonnummer für Kontakte",
+      "phone2Desc": "Zweite Telefonnummer (optional)",
+      "websiteDesc": "Nur die Domain (beispiel.de) oder die vollständige URL (https://beispiel.de) eingeben"
     }
   },
   "common": {
@@ -657,13 +704,18 @@
     "share": "Teilen",
     "processing": "Verarbeitung...",
     "activate": "Aktivieren",
-    "copied": "Kopiert",
+    "copied": "In die Zwischenablage kopiert",
     "notSpecified": "Nicht angegeben",
     "tryAgain": "Erneut versuchen",
-    "demoLabel": "Demo"
+    "demoLabel": "Demo",
+    "deleting": "Wird gelöscht...",
+    "view": "Anzeigen",
+    "hidePassword": "Passwort ausblenden",
+    "showPassword": "Passwort anzeigen"
   },
   "notifications": {
-    "clientDeleted": "Kunde gelöscht"
+    "clientDeleted": "Kunde gelöscht",
+    "loadError": "Benachrichtigungen konnten nicht geladen werden"
   },
   "whatsappNotifications": {
     "title": "Kundenbenachrichtigungen",
@@ -710,8 +762,8 @@
     "history": {
       "title": "Cronologia notifiche inviate",
       "description": "Ultimi promemoria inviati tramite WhatsApp",
-      "noNotifications": "Nessuna notifica inviata recentemente",
-      "noSmsNotifications": "Nessun SMS inviato finora",
+      "noNotifications": "Kürzlich keine Benachrichtigungen gesendet",
+      "noSmsNotifications": "Bisher keine SMS gesendet",
       "table": {
         "date": "Data",
         "message": "Messaggio",
@@ -1169,7 +1221,12 @@
   },
   "auth": {
     "login": "Anmelden",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "accessDenied": "Zugriff verweigert",
+    "insufficientRole": "Dieser Bereich erfordert die Rolle '{{role}}'",
+    "currentRole": "Ihre aktuelle Rolle: {{role}}",
+    "required": "Anmeldung erforderlich",
+    "loginRequired": "Sie müssen angemeldet sein, um auf diesen Bereich zuzugreifen"
   },
   "clientArea": {
     "installApp": "App installieren",
@@ -1779,7 +1836,7 @@
   },
   "proFeature": {
     "title": "PRO-Funktion",
-    "subtitle": "ist nur mit dem PRO-Abonnement verfügbar",
+    "subtitle": "\"{{featureName}}\" ist nur mit dem PRO-Abonnement verfügbar",
     "reportsDescription": "Detaillierte Aktivitätsberichte sind ab dem Pro-Plan verfügbar.",
     "benefits": {
       "title": "Mit PRO erhalten Sie",
@@ -2933,7 +2990,8 @@
     "defaults": {
       "subject": "Terminerinnerung vom {{data}}",
       "template": "Sehr geehrte/r {{nome}} {{cognome}},\n\nDies ist eine Erinnerung an Ihren Termin für {{servizio}} am {{data}} um {{ora}}.\n\nBei Änderungen oder Stornierungen kontaktieren Sie uns bitte.\n\nMit freundlichen Grüßen,\nIhr Studio"
-    }
+    },
+    "redirecting": "Weiterleitung zu den E-Mail-Einstellungen..."
   },
   "userSettings": {
     "title": "Benutzereinstellungen",
@@ -3643,7 +3701,18 @@
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Abbrechen",
-    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
+    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456",
+    "staffDescription": "Ihre Mitarbeiter und deren Provisionen anzeigen und verwalten",
+    "details": "Details",
+    "commissions": "Provisionen",
+    "referralCodeLabel": "Empfehlungscode",
+    "commissionHistory": "Provisionshistorie",
+    "noCommissions": "Noch keine Provisionen erfasst.",
+    "commissionsWillAppear": "Provisionen werden hier angezeigt, wenn sie generiert werden.",
+    "administrator": "Administrator",
+    "referralCodeBadge": "Code: {{code}}",
+    "detailsTitle": "Mitarbeiterdetails: {{username}}",
+    "detailsDescription": "Vollständige Informationen und Provisionshistorie"
   },
   "passwordChange": {
     "title": "Passwort ändern",
@@ -5317,7 +5386,76 @@
         "step5": "Füge sorgfältig die exakte Callback-URL hinzu: <1>{{url}}</1>",
         "step6": "Komme hierher zurück und versuche die Autorisierung erneut"
       }
-    }
+    },
+    "step": "Schritt",
+    "createProject": "Auf Google Cloud Console zugreifen",
+    "enableAPIs": "Erforderliche Google APIs aktivieren",
+    "configOAuth": "OAuth-Anmeldedaten konfigurieren",
+    "configOAuthDesc": "OAuth 2.0-Anmeldedaten erstellen und konfigurieren",
+    "goToAPI": "Gehen Sie zu \"APIs und Dienste\" > \"Bibliothek\"",
+    "goToCredentials": "Gehen Sie zu \"APIs und Dienste\" > \"Anmeldedaten\"",
+    "userType": "Benutzertyp: Extern",
+    "createOAuthClient": "OAuth 2.0-Client-ID erstellen:",
+    "configApp": "Anwendung konfigurieren",
+    "configAppDesc": "OAuth-Anmeldedaten in Replit eingeben",
+    "accessSecrets": "Replit-Geheimnisse über \"Secrets\" im Bedienfeld aufrufen",
+    "addClientID": "Neues Secret mit dem Schlüssel \"GOOGLE_CLIENT_ID\" und dem Client-ID-Wert hinzufügen",
+    "addClientSecret": "Neues Secret mit dem Schlüssel \"GOOGLE_CLIENT_SECRET\" und dem Client-Secret-Wert hinzufügen",
+    "tryAuth": "Autorisierung testen:",
+    "tryAuthDesc": "Nach korrekter Konfiguration der Anmeldedaten können Sie den Autorisierungsprozess starten:",
+    "credentialsDesc": "Stellen Sie sicher, dass Client-ID und Client-Secret korrekt sind und mit denen des Google Cloud-Projekts übereinstimmen.",
+    "configConsent": "Falls aufgefordert, OAuth-Zustimmungsbildschirm konfigurieren:",
+    "appType": "Anwendungstyp: Webanwendung",
+    "redirectURI": "Autorisierte Weiterleitungs-URIs: Folgende genaue URL hinzufügen",
+    "saveCredentials": "Nach dem Erstellen des OAuth-Clients folgende Daten speichern:",
+    "testConfiguration": "Konfigurationstest",
+    "testConfigDesc": "Überprüfen Sie, ob die Google OAuth-Konfiguration korrekt ist",
+    "testConfig": "Konfiguration testen",
+    "error400Desc": "Die in der Google Cloud Console konfigurierte Redirect-URL stimmt nicht genau mit der von der Anwendung verwendeten überein. Verwenden Sie genau die oben angezeigte URL.",
+    "error403Desc": "Die Google Cloud App hat nicht die erforderlichen Berechtigungen oder wurde nicht verifiziert. Stellen Sie sicher, dass Sie die notwendigen APIs aktiviert und den OAuth-Zustimmungsbildschirm korrekt konfiguriert haben.",
+    "debugInfo": "Debug-Informationen",
+    "debugInfoDesc": "Nützliche Informationen zum Debuggen der Konfiguration",
+    "instructions": "Konfigurationsanleitung",
+    "accessConsole": "Auf die Google Cloud Console zugreifen, um APIs und Anmeldedaten zu verwalten",
+    "signIn": "Mit Google-Konto anmelden",
+    "appName": "App-Name: [Ihr App-Name]",
+    "supportEmail": "Support-E-Mail: [Ihre E-Mail]",
+    "developerEmail": "Entwickler-E-Mail: [Ihre E-Mail]",
+    "calendarDesc": "Termine automatisch mit Google Calendar synchronisieren",
+    "syncDesc": "Termine werden automatisch zu Ihrem Google Calendar hinzugefügt",
+    "connectCalendar": "Google Calendar verbinden",
+    "connectCalendarDesc": "Verbinden Sie Ihr Google-Konto, um Termine automatisch zwischen Ihrem Kalender und Google Calendar zu synchronisieren.",
+    "connectWithGoogle": "Mit Google verbinden",
+    "privacyExplanation": "Die Verbindung erfolgt über Google OAuth, einen sicheren Standard, der uns keinen Zugriff auf Ihr Passwort ermöglicht. Sie können den Zugriff jederzeit widerrufen.",
+    "privacyNote": "Datenschutzhinweis",
+    "showAdvancedHelp": "Benötigen Sie Hilfe bei der Konfiguration?",
+    "advancedHelpDesc": "Wenn Sie Hilfe bei der erweiterten Konfiguration benötigen:",
+    "setupGuide": "Erweiterte Konfigurationsanleitung",
+    "notConnected": "Status: Nicht verbunden",
+    "lastSyncStatus": "Status: Mit Google Calendar verbunden",
+    "connectionActive": "Google Calendar-Integration ist aktiv",
+    "accountConnected": "Google-Konto verbunden",
+    "requiredAPIs": "Erforderliche APIs:",
+    "scopes": "Erforderliche Bereiche:",
+    "calendarScope": "(Vollständiger Kalenderzugriff)",
+    "gmailScope": "(E-Mail-Versand)",
+    "restartApp": "Starten Sie die Anwendung neu, um die Änderungen anzuwenden",
+    "disconnect": "Trennen",
+    "hideAdvancedHelp": "Erweiterte Optionen ausblenden",
+    "contactSupport": "Kontaktieren Sie den Support bei anhaltenden Problemen",
+    "testing": "Test & Fehlerbehebung",
+    "verifying": "Wird geprüft...",
+    "visitConsole": "Besuchen Sie die",
+    "startAuthProcess": "Autorisierungsprozess starten",
+    "commonIssues": "Häufige Probleme und Lösungen:",
+    "credentials": "Ungültige Anmeldedaten",
+    "callbackUrl": "Callback-URL:",
+    "testAgain": "Erneut testen",
+    "calendarIntegration": "Google Kalender-Integration",
+    "syncSummary": "{{imported}} Ereignisse importiert, {{exported}} Termine exportiert",
+    "syncDetails": "📥 Importiert: {{imported}} | 📤 Exportiert: {{exported}} | 🗑️ Gelöscht: {{deleted}}",
+    "calendarEvent": "Google Kalender-Ereignis",
+    "cannotDeleteImported": "Dieses Ereignis wurde aus Google Kalender importiert und kann nicht aus der App gelöscht werden. Um es zu löschen, gehen Sie direkt zu Google Kalender."
   },
   "landingBicom": {
     "header": {
@@ -5486,7 +5624,10 @@
       "notSupported": "Push-Benachrichtigungen werden in diesem Browser nicht unterstützt. Öffne die App als installierte PWA.",
       "permissionDeniedTitle": "Berechtigung verweigert",
       "notificationsActivatedTitle": "Benachrichtigungen aktiviert",
-      "notificationsDeactivatedTitle": "Benachrichtigungen deaktiviert"
+      "notificationsDeactivatedTitle": "Benachrichtigungen deaktiviert",
+      "loading": "Wird geladen...",
+      "active": "Benachrichtigungen aktiv",
+      "enable": "Benachrichtigungen aktivieren"
     },
     "subscriptionPlansAdmin": {
       "addFeature": "Funktion hinzufügen",
@@ -5523,7 +5664,9 @@
       "deletionUnlocked": "Löschen freigeschaltet",
       "cannotUnlock": "Löschen kann nicht freigeschaltet werden",
       "cannotMarkDeleted": "Löschvorgang kann nicht simuliert werden",
-      "clientRemoved": "Kunde aus dem System entfernt"
+      "clientRemoved": "Kunde aus dem System entfernt",
+      "canNowBeDeleted": "{{name}} kann jetzt gelöscht werden",
+      "deleted": "{{name}} gelöscht"
     },
     "directLinkGenerator": {
       "linkCopied": "Der Direktzugangs-Link wurde in die Zwischenablage kopiert.",
@@ -5585,7 +5728,8 @@
     "betaStatus": {
       "title": "Beta-Modus",
       "welcomeMessage": "Willkommen im Beta-Programm! Du kannst jederzeit über die Beta-Seite Feedback senden.",
-      "invalidCode": "Ungültiger Beta-Code"
+      "invalidCode": "Ungültiger Beta-Code",
+      "codeExpired": "Der Beta-Code ist nicht mehr gültig."
     },
     "installAppPrompt": {
       "alreadyInstalledNote": "Du kannst deinen persönlichen Bereich schnell vom Startbildschirm deines Geräts aufrufen.",
@@ -5743,7 +5887,10 @@
       "appointmentsHeading": "Termine",
       "dateColumn": "Datum",
       "timeColumn": "Uhrzeit",
-      "collaboratorColumn": "Mitarbeiter"
+      "collaboratorColumn": "Mitarbeiter",
+      "goToCalendar": "Zum Kalender",
+      "timeNotAvailable": "Uhrzeit nicht verfügbar",
+      "noServiceSpecified": "Kein Service angegeben"
     },
     "appointmentCard": {
       "hide": "Ausblenden",
@@ -5758,7 +5905,9 @@
       "deletionNotificationTitle": "Löschbenachrichtigung",
       "deletionUnlockedBadge": "Loschung freigeschaltet",
       "otherAccountClient": "Kunde eines anderen Kontos (nur Ansicht)",
-      "viewOnlyBadge": "Nur Ansicht"
+      "viewOnlyBadge": "Nur Ansicht",
+      "deletedFromSourceBadge": "Kunde vom Originalkonto gelöscht",
+      "deletedFromSourceToast": "{{firstName}} {{lastName}} vom Originalkonto gelöscht"
     },
     "clientFooterContactIcons": {
       "emailLabel": "E-Mail:",
@@ -5868,6 +6017,10 @@
       "czechRepublic": "Tschechien",
       "hungary": "Ungarn",
       "romania": "Rumanien"
+    },
+    "userLicenseBadge": {
+      "customer": "Kunde",
+      "user": "Benutzer"
     }
   },
   "onboarding": {
@@ -5887,5 +6040,66 @@
   },
   "fab": {
     "dragging": "Bewegen..."
+  },
+  "license": {
+    "upgradeRequired": "Upgrade erforderlich",
+    "featureRequiresLicense": "\"{{feature}}\" erfordert eine {{license}}-Lizenz",
+    "licenseRequired": "Dieser Bereich erfordert eine {{license}}-Lizenz",
+    "upgrade": "Upgrade auf {{license}}"
+  },
+  "businessFeature": {
+    "title": "BUSINESS-Funktion",
+    "subtitle": "\"{{featureName}}\" ist nur mit dem BUSINESS-Abonnement verfügbar",
+    "benefits": {
+      "title": "Mit BUSINESS erhalten Sie",
+      "multiUser": "Multi-Benutzer-Unterstützung",
+      "analytics": "Erweiterte Analysen",
+      "customization": "Vollständige Anpassung",
+      "support": "24/7 Prioritätssupport",
+      "branding": "Branding-Entfernung und White-Label"
+    },
+    "learnMore": "Mehr erfahren",
+    "upgradeButton": "Auf BUSINESS upgraden",
+    "description": "Upgraden Sie auf den BUSINESS-Plan, um alle erweiterten Funktionen für Ihr Unternehmen freizuschalten."
+  },
+  "payment": {
+    "processing": "Zahlung wird verarbeitet...",
+    "pending": {
+      "title": "Zahlung wird verarbeitet",
+      "info": "Ihre Zahlung wurde empfangen und Ihr Abonnement wird in Kürze aktiviert.",
+      "wait": "Bitte warten Sie einen Moment, während wir die Transaktion verarbeiten.",
+      "refresh": "Wenn die Seite nicht automatisch aktualisiert wird, laden Sie sie in einigen Minuten neu."
+    },
+    "checking": "Abonnementstatus wird überprüft...",
+    "success": {
+      "description": "Danke für Ihr Abonnement. Ihr Konto wurde aktualisiert.",
+      "activated": "Ihr Abonnement wurde erfolgreich aktiviert.",
+      "access": "Sie können jetzt auf alle Premium-Funktionen zugreifen."
+    },
+    "plan": "Plan",
+    "activePlan": "Aktiver Plan",
+    "active": "Aktiv",
+    "startDate": "Startdatum",
+    "status": "Status",
+    "details": "Abonnementdetails",
+    "features": "Enthaltene Funktionen",
+    "supportInfo": "Bei Fragen zu Ihrem Abonnement wenden Sie sich an den Support. Bewahren Sie die Zahlungsquittung auf, die Sie per E-Mail erhalten.",
+    "return": "Zurück zum Dashboard"
+  },
+  "stripe": {
+    "payWithCard": "Mit Kreditkarte bezahlen",
+    "sessionError": "Zahlungssitzung konnte nicht erstellt werden",
+    "urlError": "Zahlungssitzungs-URL nicht gefunden"
+  },
+  "colorEditor": {
+    "saveError": "Farbeinstellungen konnten nicht gespeichert werden ({{status}})"
+  },
+  "appointments": {
+    "noDataAvailable": "Keine Termindaten verfügbar",
+    "incompleteData": "Unvollständige Termindaten"
+  },
+  "whatsapp": {
+    "reminderTemplate": "Sehr geehrte/r {{name}},\nwir erinnern Sie an Ihren Termin für {{service}} am {{date}} um {{time}} Uhr.",
+    "testMessage": "Testnachricht vom Terminverwaltungssystem"
   }
 }

@@ -305,8 +305,8 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
                 <Label>{t('clientArea.selectService')}</Label>
                 {services.length === 0 ? (
                   <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center" data-testid="empty-services">
-                    <p className="text-gray-600 font-medium">{t('clientArea.onlineBookingDisabled', 'La prenotazione online è temporaneamente disattivata dal professionista.')}</p>
-                    <p className="text-sm text-gray-500 mt-2">{t('clientArea.contactByPhone', 'Per prenotare un appuntamento, contatta telefonicamente lo studio.')}</p>
+                    <p className="text-gray-600 font-medium">{t('clientArea.onlineBookingDisabled', 'Online booking is temporarily disabled by the professional.')}</p>
+                    <p className="text-sm text-gray-500 mt-2">{t('clientArea.contactByPhone', 'To book an appointment, contact the studio by phone.')}</p>
                   </div>
                 ) : (
                   <Select value={selectedService?.toString() || ""} onValueChange={(v) => setSelectedService(parseInt(v))}>

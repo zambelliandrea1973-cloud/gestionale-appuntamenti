@@ -195,7 +195,7 @@ export default function Clients() {
       const response = await fetch(`/api/admin/clients-by-owner/${ownerId}`, {
         credentials: 'include'
       });
-      if (!response.ok) throw new Error('Errore caricamento');
+      if (!response.ok) throw new Error('Failed to load');
       const data = await response.json();
       
       setLoadedOwnerClients(prev => ({ ...prev, [ownerId]: data }));
@@ -457,7 +457,7 @@ export default function Clients() {
                             </span>
                             <div className="flex items-center gap-2">
                               <Badge variant={summary.isCurrentUser ? "default" : "secondary"} className="text-sm">
-                                {summary.clientCount} {summary.clientCount === 1 ? 'cliente' : 'clienti'}
+                                {summary.clientCount} {t('clients.clientCount', { count: summary.clientCount, defaultValue: summary.clientCount === 1 ? 'client' : 'clients' })}
                               </Badge>
                               <Button 
                                 variant="ghost" 
@@ -520,7 +520,7 @@ export default function Clients() {
                     {searchQuery.length >= 2 
                       ? t("clients.noSearchResultsDescription")
                       : currentUser?.type === 'admin' 
-                        ? "I tuoi clienti personali appariranno qui. Usa il tab 'Staff' per vedere i clienti di altri professionisti."
+                        ? t('clients.adminPersonalClientsHint', "Your personal clients will appear here. Use the 'Staff' tab to see other professionals' clients.")
                         : t("clients.noClientsDescription")
                     }
                   </p>
@@ -559,7 +559,7 @@ export default function Clients() {
                       className="px-8"
                     >
                       <Download className="h-4 w-4 mr-2" />
-                      {Math.min(visibleCount, filteredClients.length)} / {filteredClients.length} — {t("clients.loadMore", "Carica altri")}
+                      {Math.min(visibleCount, filteredClients.length)} / {filteredClients.length} — {t("clients.loadMore", "Load more")}
                     </Button>
                   </div>
                 )}

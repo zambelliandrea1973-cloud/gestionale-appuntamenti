@@ -185,8 +185,8 @@ export default function ReminderTemplateManager() {
     
     if (type.length === 0) {
       toast({
-        title: t('settings.reminderTemplates.noTypeSelected', 'Attenzione'),
-        description: t('settings.reminderTemplates.pleaseSelectType', 'Seleziona almeno un tipo di promemoria'),
+        title: t('settings.reminderTemplates.noTypeSelected', 'Warning'),
+        description: t('settings.reminderTemplates.pleaseSelectType', 'Select at least one reminder type'),
         variant: 'destructive',
       });
       return;
@@ -229,15 +229,15 @@ export default function ReminderTemplateManager() {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium">{t('settings.reminderTemplates.title', 'Modelli di Promemoria')}</h3>
+        <h3 className="text-lg font-medium">{t('settings.reminderTemplates.title', 'Reminder Templates')}</h3>
         <Button onClick={openCreateForm} className="flex items-center gap-1">
           <Plus className="h-4 w-4" />
-          {t('settings.reminderTemplates.addNew', 'Nuovo Modello')}
+          {t('settings.reminderTemplates.addNew', 'New Template')}
         </Button>
       </div>
 
       <p className="text-sm text-muted-foreground mb-4">
-        {t('settings.reminderTemplates.description', 'Personalizza i messaggi di promemoria inviati ai clienti per gli appuntamenti.')}
+        {t('settings.reminderTemplates.description', 'Customize the reminder messages sent to clients for appointments.')}
       </p>
 
       <div className="space-y-4">
@@ -293,7 +293,7 @@ export default function ReminderTemplateManager() {
         ) : (
           <div className="text-center py-8 border rounded-lg bg-muted/20">
             <p className="text-muted-foreground">
-              {t('settings.reminderTemplates.noTemplates', 'Nessun modello di promemoria definito')}
+              {t('settings.reminderTemplates.noTemplates', 'No reminder templates defined')}
             </p>
             <Button 
               variant="outline" 
@@ -301,7 +301,7 @@ export default function ReminderTemplateManager() {
               className="mt-2"
               onClick={openCreateForm}
             >
-              {t('settings.reminderTemplates.createFirst', 'Crea il primo modello')}
+              {t('settings.reminderTemplates.createFirst', 'Create the first template')}
             </Button>
           </div>
         )}
@@ -312,12 +312,12 @@ export default function ReminderTemplateManager() {
           <DialogHeader>
             <DialogTitle>
               {editingTemplate 
-                ? t('settings.reminderTemplates.editTitle', 'Modifica Modello di Promemoria') 
-                : t('settings.reminderTemplates.createTitle', 'Nuovo Modello di Promemoria')
+                ? t('settings.reminderTemplates.editTitle', 'Edit Reminder Template')
+                : t('settings.reminderTemplates.createTitle', 'New Reminder Template')
               }
             </DialogTitle>
             <DialogDescription>
-              {t('settings.reminderTemplates.formDescription', 'Personalizza il messaggio di promemoria inviato ai clienti per gli appuntamenti.')}
+              {t('settings.reminderTemplates.formDescription', 'Customize the reminder message sent to clients for appointments.')}
             </DialogDescription>
           </DialogHeader>
 
@@ -328,15 +328,15 @@ export default function ReminderTemplateManager() {
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                placeholder={t('settings.reminderTemplates.namePlaceholder', 'Es. Promemoria standard')}
+                placeholder={t('settings.reminderTemplates.namePlaceholder', 'E.g. Standard reminder')}
                 required
               />
             </div>
 
             <div className="space-y-3">
-              <Label>{t('settings.reminderTemplates.type', 'Tipo di Promemoria')}</Label>
+              <Label>{t('settings.reminderTemplates.type', 'Reminder Type')}</Label>
               <p className="text-xs text-muted-foreground mt-1">
-                {t('settings.reminderTemplates.selectMultiple', 'Seleziona uno o più canali di notifica per questo modello di promemoria')}
+                {t('settings.reminderTemplates.selectMultiple', 'Select one or more notification channels for this reminder template')}
               </p>
               
               <div className="flex flex-col gap-2">
@@ -406,9 +406,9 @@ export default function ReminderTemplateManager() {
 
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <Label htmlFor="template">{t('settings.reminderTemplates.messageTemplate', 'Testo del Messaggio')}</Label>
+                <Label htmlFor="template">{t('settings.reminderTemplates.messageTemplate', 'Message Text')}</Label>
                 <div className="text-xs text-muted-foreground">
-                  {t('settings.reminderTemplates.variables', 'Variabili disponibili')}:
+                  {t('settings.reminderTemplates.variables', 'Available variables')}:
                   {variableSuggestions.map((variable, index) => (
                     <span 
                       key={index} 
@@ -438,12 +438,12 @@ export default function ReminderTemplateManager() {
                 id="template"
                 value={formData.template}
                 onChange={(e) => setFormData(prev => ({ ...prev, template: e.target.value }))}
-                placeholder={t('settings.reminderTemplates.templatePlaceholder', 'Es. Gentile {{nome}}, questo è un promemoria per il tuo appuntamento {{servizio}} del {{data}} alle {{ora}} con {{collaboratore}} nella {{stanza}}.')}
+                placeholder={t('settings.reminderTemplates.templatePlaceholder', 'E.g. Dear {{nome}}, this is a reminder for your {{servizio}} appointment on {{data}} at {{ora}} with {{collaboratore}} in {{stanza}}.')}
                 required
                 rows={6}
               />
               <p className="text-xs text-muted-foreground">
-                {t('settings.reminderTemplates.templateHelp', 'Usa le variabili per includere informazioni specifiche dell\'appuntamento.')}
+                {t('settings.reminderTemplates.templateHelp', 'Use variables to include specific appointment information.')}
               </p>
             </div>
 
@@ -454,7 +454,7 @@ export default function ReminderTemplateManager() {
                 onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isDefault: checked }))}
               />
               <Label htmlFor="isDefault">
-                {t('settings.reminderTemplates.setAsDefault', 'Imposta come modello predefinito')}
+                {t('settings.reminderTemplates.setAsDefault', 'Set as default template')}
               </Label>
             </div>
 

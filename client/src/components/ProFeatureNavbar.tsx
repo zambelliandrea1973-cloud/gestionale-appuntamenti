@@ -30,7 +30,7 @@ export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
       <div className="flex items-center mb-6">
         <Crown className="h-6 w-6 mr-2 text-amber-500" />
         <h1 className="text-3xl font-bold tracking-tight">
-          {t('pro.title', 'Funzionalità PRO')}
+          {t('pro.title', 'PRO Features')}
         </h1>
       </div>
       
@@ -57,7 +57,7 @@ export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
             }`}
           >
             <Receipt className="h-4 w-4 mr-2" />
-            {t('pro.invoices', 'Fatture')}
+            {t('pro.invoices', 'Invoices')}
           </div>
         </Link>
         

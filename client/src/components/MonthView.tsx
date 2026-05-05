@@ -219,7 +219,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
             setSelectedDayForAppointment(selectedDate);
             setIsAppointmentFormOpen(true);
           }}
-          text="Seleziona nuovo appuntamento"
+          text={t('calendar.selectNewAppointment', 'New appointment')}
           storageKey="fab-month-position"
         />
       )}

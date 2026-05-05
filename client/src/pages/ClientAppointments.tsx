@@ -98,7 +98,7 @@ export default function ClientAppointments() {
     // Fallback al vecchio metodo se non ci sono startTime/endTime
     const date = new Date(appointment.date);
     if (date.toString() === "Invalid Date") {
-      return "Orario non disponibile";
+      return t('i18nFinale.clientAppointmentsPage.timeNotAvailable');
     }
     return format(date, "HH:mm");
   };
@@ -223,7 +223,7 @@ export default function ClientAppointments() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        {appointment.service?.name || appointment.serviceName || 'Nessun servizio specificato'}
+                        {appointment.service?.name || appointment.serviceName || t('i18nFinale.clientAppointmentsPage.noServiceSpecified')}
                       </TableCell>
                       <TableCell>
                         {(() => {
@@ -274,7 +274,7 @@ export default function ClientAppointments() {
                           size="sm"
                           onClick={() => setLocation(`/calendar?date=${format(new Date(appointment.date), 'yyyy-MM-dd')}`)}
                         >
-                          Visualizza
+                          {t('common.view')}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -291,11 +291,11 @@ export default function ClientAppointments() {
             onClick={() => setLocation(`/client-medical-details?id=${clientId}`)}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Indietro
+            {t('common.back')}
           </Button>
           
           <Button onClick={() => setLocation(`/calendar`)}>
-            Vai al Calendario
+            {t('i18nFinale.clientAppointmentsPage.goToCalendar')}
           </Button>
         </CardFooter>
       </Card>

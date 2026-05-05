@@ -108,7 +108,7 @@ export default function StaffLogin() {
       const response = await apiRequest("POST", "/api/staff/login", credentials);
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'accesso");
+        throw new Error(errorData.message || "Login failed");
       }
       return response.json();
     },

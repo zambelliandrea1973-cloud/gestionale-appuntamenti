@@ -378,15 +378,15 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <BookOpen className="mr-2 h-5 w-5 text-blue-500" />
-                {t('home.manual.title', 'Manuale')}
+                {t('home.manual.title', 'Manual')}
               </CardTitle>
               <CardDescription>
-                {t('home.manual.description', 'Guida completa all\'uso')}
+                {t('home.manual.description', 'Complete usage guide')}
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
               <p className="flex-1">
-                {t('home.manual.content', 'Consulta il manuale d\'uso con screenshot e video tutorial per ogni funzionalità del gestionale')}
+                {t('home.manual.content', 'Browse the user manual with screenshots and video tutorials for every feature of the platform')}
               </p>
               <div className="mt-4">
                 <Button 
@@ -395,7 +395,7 @@ export default function Home() {
                   onClick={() => navigate("/manuale")}
                   data-testid="button-go-to-manual"
                 >
-                  {t('home.manual.button', 'Vai al Manuale')}
+                  {t('home.manual.button', 'Go to Manual')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>

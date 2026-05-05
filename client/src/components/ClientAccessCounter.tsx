@@ -50,7 +50,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
     return (
       <div className="flex items-center">
         <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
-        <span className="text-xs text-muted-foreground">{t('clients.accesses.loading', 'Caricamento...')}</span>
+        <span className="text-xs text-muted-foreground">{t('clients.accesses.loading', 'Loading...')}</span>
       </div>
     );
   }
@@ -63,7 +63,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
     return (
       <div className="flex items-center">
         <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
-        <span className="text-xs text-muted-foreground">{t('clients.accesses.loading', 'Caricamento...')}</span>
+        <span className="text-xs text-muted-foreground">{t('clients.accesses.loading', 'Loading...')}</span>
       </div>
     );
   }
@@ -89,7 +89,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
           </Badge>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{t('clients.accesses.tooltip', 'Numero di volte che il cliente ha aperto l\'app: {{count}}', { count: accessCount })}</p>
+          <p>{t('clients.accesses.tooltip', 'Number of times the client opened the app: {{count}}', { count: accessCount })}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

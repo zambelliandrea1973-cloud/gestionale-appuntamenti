@@ -57,7 +57,7 @@ export default function FooterContent() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={() => setShowSupportDialog(false)}>{t('common.close', 'Chiudi')}</Button>
+            <Button onClick={() => setShowSupportDialog(false)}>{t('common.close', 'Close')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

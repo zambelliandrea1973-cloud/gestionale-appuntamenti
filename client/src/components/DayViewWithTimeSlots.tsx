@@ -768,11 +768,10 @@ export default function DayViewWithTimeSlots({
                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                       <Calendar className="h-5 w-5 text-blue-600" />
                     </div>
-                    <h3 className="text-lg font-bold">Evento Google Calendar</h3>
+                    <h3 className="text-lg font-bold">{t('google.calendarEvent', 'Google Calendar Event')}</h3>
                   </div>
                   <p className="mb-4 text-gray-600">
-                    Questo evento è stato importato da Google Calendar e non può essere eliminato dall'app. 
-                    Per eliminarlo, accedi direttamente a Google Calendar.
+                    {t('google.cannotDeleteImported', 'This event was imported from Google Calendar and cannot be deleted from the app. To delete it, go directly to Google Calendar.')}
                   </p>
                   <div className="flex justify-end">
                     <Button 
@@ -892,7 +891,7 @@ export default function DayViewWithTimeSlots({
               </div>
             ) : (
               <div className="text-center py-6 text-gray-500 space-y-3">
-                <p>{t('services.noServices', 'Nessun servizio disponibile. Crea il primo servizio!')}</p>
+                <p>{t('services.noServices', 'No services available. Create your first service!')}</p>
                 <Button
                   variant="default"
                   size="sm"
@@ -902,7 +901,7 @@ export default function DayViewWithTimeSlots({
                   }}
                 >
                   <Settings className="w-4 h-4 mr-2" />
-                  {t('services.goToSettings', 'Vai alle Impostazioni')}
+                  {t('services.goToSettings', 'Go to Settings')}
                 </Button>
               </div>
             )}

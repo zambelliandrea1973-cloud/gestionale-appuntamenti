@@ -62,7 +62,7 @@ export default function GoogleCalendarSimpleSetup() {
           const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
           
           if (!authWindow) {
-            throw new Error(t('google.popupBlocked', 'Il popup è stato bloccato. Disabilita il blocco popup per questo sito.'));
+            throw new Error(t('google.popupBlocked', 'The popup was blocked. Please disable the popup blocker for this site.'));
           }
           
           // Verifica periodicamente se l'autorizzazione è completata
@@ -84,8 +84,8 @@ export default function GoogleCalendarSimpleSetup() {
                   }
                   
                   toast({
-                    title: t('google.authSuccess', 'Autorizzazione completata'),
-                    description: t('google.calendarConnected', 'Il tuo Google Calendar è stato collegato con successo'),
+                    title: t('google.authSuccess', 'Authorization complete'),
+                    description: t('google.calendarConnected', 'Your Google Calendar has been connected successfully'),
                   });
                 }
               }
@@ -107,14 +107,14 @@ export default function GoogleCalendarSimpleSetup() {
           }, 120000);
         }
       } else {
-        throw new Error(t('google.startAuthError', 'Non è stato possibile avviare l\'autorizzazione Google'));
+        throw new Error(t('google.startAuthError', 'Unable to start Google authorization'));
       }
     } catch (error) {
       console.error('Errore nell\'autorizzazione Google:', error);
       toast({
-        title: t('common.error', 'Errore'),
+        title: t('common.error'),
         description: error instanceof Error ? error.message : 
-          t('google.unknownError', 'Si è verificato un errore durante l\'autorizzazione Google'),
+          t('google.unknownError', 'An error occurred during Google authorization'),
         variant: "destructive",
       });
       
@@ -135,12 +135,12 @@ export default function GoogleCalendarSimpleSetup() {
     setIsSyncEnabled(enabled);
     if (enabled) {
       toast({
-        title: t('google.syncEnabled', 'Sincronizzazione attiva'),
-        description: t('google.syncExplanation', 'I nuovi appuntamenti saranno automaticamente aggiunti a Google Calendar'),
+        title: t('google.syncEnabled', 'Sync enabled'),
+        description: t('google.syncExplanation', 'New appointments will be automatically added to Google Calendar'),
       });
     } else {
       toast({
-        title: t('google.syncDisabled', 'Sincronizzazione disabilitata'),
+        title: t('google.syncDisabled', 'Sync disabled'),
       });
     }
   };
@@ -162,18 +162,18 @@ export default function GoogleCalendarSimpleSetup() {
         setIsGoogleAuthorized(false);
         setIsSyncEnabled(false);
         toast({
-          title: t('google.authRevoked', 'Autorizzazione revocata'),
-          description: t('google.calendarDisconnected', 'Google Calendar è stato disconnesso'),
+          title: t('google.authRevoked', 'Authorization revoked'),
+          description: t('google.calendarDisconnected', 'Google Calendar has been disconnected'),
         });
       } else {
-        throw new Error(t('google.revokeError', 'Si è verificato un errore durante la revoca dell\'autorizzazione'));
+        throw new Error(t('google.revokeError', 'An error occurred while revoking authorization'));
       }
     } catch (error) {
       console.error('Errore nella revoca dell\'autorizzazione:', error);
       toast({
-        title: t('common.error', 'Errore'),
+        title: t('common.error'),
         description: error instanceof Error ? error.message : 
-          t('google.unknownError', 'Si è verificato un errore durante la disconnessione'),
+          t('google.unknownError', 'An error occurred during disconnection'),
         variant: "destructive",
       });
     } finally {
@@ -207,17 +207,17 @@ export default function GoogleCalendarSimpleSetup() {
       if (response.ok) {
         const result = await response.json();
         toast({
-          title: t('google.syncComplete', 'Sincronizzazione completata'),
-          description: result.message || `Importati ${result.details?.imported || 0} eventi, esportati ${result.details?.exported || 0} appuntamenti`,
+          title: t('google.syncComplete', 'Sync complete'),
+          description: result.message || t('google.syncSummary', 'Imported {{imported}} events, exported {{exported}} appointments', { imported: result.details?.imported || 0, exported: result.details?.exported || 0 }),
         });
       } else {
-        throw new Error(t('google.syncError', 'Errore durante la sincronizzazione'));
+        throw new Error(t('google.syncError', 'Sync error'));
       }
     } catch (error) {
       console.error('Errore sincronizzazione:', error);
       toast({
-        title: t('common.error', 'Errore'),
-        description: error instanceof Error ? error.message : t('google.syncFailedError', 'Errore durante la sincronizzazione'),
+        title: t('common.error'),
+        description: error instanceof Error ? error.message : t('google.syncFailedError', 'Sync failed'),
         variant: "destructive",
       });
     } finally {
@@ -233,10 +233,10 @@ export default function GoogleCalendarSimpleSetup() {
             <div>
               <CardTitle className="flex items-center text-xl">
                 <Calendar className="h-5 w-5 mr-2 text-primary" />
-                {t('google.calendarIntegration', 'Integrazione Google Calendar')}
+                {t('google.calendarIntegration', 'Google Calendar Integration')}
               </CardTitle>
               <CardDescription className="mt-1.5">
-                {t('google.calendarDesc', 'Sincronizza automaticamente i tuoi appuntamenti con Google Calendar')}
+                {t('google.calendarDesc', 'Automatically sync your appointments with Google Calendar')}
               </CardDescription>
             </div>
             <div className="px-2 py-1 bg-primary-foreground rounded-full text-xs font-medium text-primary">
@@ -304,10 +304,10 @@ export default function GoogleCalendarSimpleSetup() {
                   <Check className="h-5 w-5 mr-2 text-green-500" />
                   <div>
                     <h4 className="font-medium text-base">
-                      {t('google.accountConnected', 'Account Google connesso')}
+                      {t('google.accountConnected', 'Google account connected')}
                     </h4>
                     <p className="text-sm text-muted-foreground">
-                      {t('google.connectionActive', 'L\'integrazione con Google Calendar è attiva')}
+                      {t('google.connectionActive', 'Google Calendar integration is active')}
                     </p>
                   </div>
                 </div>
@@ -319,17 +319,17 @@ export default function GoogleCalendarSimpleSetup() {
                   className="border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600"
                 >
                   {isSaving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <XCircle className="h-4 w-4 mr-2" />}
-                  {t('google.disconnect', 'Disconnetti')}
+                  {t('google.disconnect', 'Disconnect')}
                 </Button>
               </div>
               
               <div className="flex items-center justify-between p-4 rounded-lg border">
                 <div>
                   <h4 className="font-medium text-base">
-                    {t('google.enableSync', 'Abilita sincronizzazione')}
+                    {t('google.enableSync', 'Enable sync')}
                   </h4>
                   <p className="text-sm text-muted-foreground">
-                    {t('google.syncDesc', 'Gli appuntamenti verranno aggiunti automaticamente al tuo Google Calendar')}
+                    {t('google.syncDesc', 'Appointments will be automatically added to your Google Calendar')}
                   </p>
                 </div>
                 <Switch
@@ -343,10 +343,10 @@ export default function GoogleCalendarSimpleSetup() {
                 <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                   <h4 className="font-medium text-base flex items-center text-green-700">
                     <Check className="h-5 w-5 mr-2 text-green-600" />
-                    {t('google.syncActive', 'Sincronizzazione attiva')}
+                    {t('google.syncActive', 'Sync active')}
                   </h4>
                   <p className="text-sm text-green-700 mt-1 pl-7">
-                    {t('google.syncExplanation', 'Quando crei o modifichi un appuntamento, questo verrà automaticamente aggiornato anche nel tuo Google Calendar.')}
+                    {t('google.syncExplanation', 'When you create or edit an appointment, it will be automatically updated in your Google Calendar.')}
                   </p>
                 </div>
               )}
@@ -356,10 +356,10 @@ export default function GoogleCalendarSimpleSetup() {
               <div className="p-5 rounded-lg border bg-muted/30 text-center">
                 <Calendar className="h-12 w-12 mx-auto text-primary mb-3" />
                 <h3 className="text-lg font-medium mb-2">
-                  {t('google.connectCalendar', 'Connetti il tuo Google Calendar')}
+                  {t('google.connectCalendar', 'Connect your Google Calendar')}
                 </h3>
                 <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
-                  {t('google.connectCalendarDesc', 'Collega il tuo account Google per sincronizzare automaticamente gli appuntamenti tra la tua agenda e Google Calendar.')}
+                  {t('google.connectCalendarDesc', 'Link your Google account to automatically sync appointments between your calendar and Google Calendar.')}
                 </p>
                 <Button 
                   onClick={startGoogleAuth} 
@@ -372,8 +372,8 @@ export default function GoogleCalendarSimpleSetup() {
                     <Calendar className="h-4 w-4 mr-2" />
                   )}
                   {isAuthenticating 
-                    ? t('google.connecting', 'Connessione in corso...') 
-                    : t('google.connectWithGoogle', 'Connetti con Google')}
+                    ? t('google.connecting', 'Connecting...') 
+                    : t('google.connectWithGoogle', 'Connect with Google')}
                   {!isAuthenticating && <ArrowRight className="h-4 w-4 ml-2" />}
                 </Button>
               </div>
@@ -381,9 +381,9 @@ export default function GoogleCalendarSimpleSetup() {
               <div className="flex items-start space-x-3 p-4 rounded-lg border bg-blue-50">
                 <Shield className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-blue-700">
-                  <p className="mb-1 font-medium">{t('google.privacyNote', 'Nota sulla privacy')}</p>
+                  <p className="mb-1 font-medium">{t('google.privacyNote', 'Privacy note')}</p>
                   <p>
-                    {t('google.privacyExplanation', 'La connessione avviene tramite Google OAuth, uno standard sicuro che non ci permette di accedere alla tua password. Potrai revocare l\'accesso in qualsiasi momento.')}
+                    {t('google.privacyExplanation', 'The connection uses Google OAuth, a secure standard that does not allow us to access your password. You can revoke access at any time.')}
                   </p>
                 </div>
               </div>
@@ -398,8 +398,8 @@ export default function GoogleCalendarSimpleSetup() {
             >
               <HelpCircle className="h-4 w-4 mr-1.5" />
               {showAdvancedHelp 
-                ? t('google.hideAdvancedHelp', 'Nascondi opzioni avanzate') 
-                : t('google.showAdvancedHelp', 'Hai bisogno di aiuto con la configurazione?')}
+                ? t('google.hideAdvancedHelp', 'Hide advanced options') 
+                : t('google.showAdvancedHelp', 'Need help with configuration?')}
             </button>
             
             {showAdvancedHelp && (
@@ -438,16 +438,16 @@ export default function GoogleCalendarSimpleSetup() {
                 </div>
                 
                 <div className="pl-6 text-muted-foreground">
-                  <p>{t('google.advancedHelpDesc', 'Se hai bisogno di assistenza con la configurazione avanzata:')}</p>
+                  <p>{t('google.advancedHelpDesc', 'If you need help with advanced configuration:')}</p>
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>
                       <Link to="/google-troubleshooting" className="text-primary hover:underline flex items-center">
-                        {t('google.setupGuide', 'Guida alla configurazione avanzata')}
+                        {t('google.setupGuide', 'Advanced configuration guide')}
                         <ArrowRight className="h-3 w-3 ml-1" />
                       </Link>
                     </li>
                     <li>
-                      {t('google.contactSupport', 'Contatta l\'assistenza se riscontri problemi persistenti')}
+                      {t('google.contactSupport', 'Contact support if you experience persistent issues')}
                     </li>
                   </ul>
                 </div>
@@ -460,18 +460,18 @@ export default function GoogleCalendarSimpleSetup() {
           <div className="text-xs text-muted-foreground flex items-center">
             <Calendar className="h-3.5 w-3.5 mr-1.5" />
             {isGoogleAuthorized 
-              ? t('google.lastSyncStatus', 'Stato: Connesso a Google Calendar') 
-              : t('google.notConnected', 'Stato: Non connesso')}
+              ? t('google.lastSyncStatus', 'Status: Connected to Google Calendar') 
+              : t('google.notConnected', 'Status: Not connected')}
           </div>
           <div className="flex items-center gap-4">
             {isGoogleAuthorized && (
               <Link to="/settings" className="text-xs text-primary hover:underline flex items-center">
-                {t('google.advancedSettings', 'Impostazioni avanzate')}
+                {t('google.advancedSettings', 'Advanced settings')}
                 <ArrowRight className="h-3 w-3 ml-1" />
               </Link>
             )}
             <Link to="/" className="text-xs text-primary hover:underline flex items-center">
-              {t('common.backToHome', 'Torna alla Home')}
+              {t('common.backToHome', 'Back to Home')}
               <ArrowRight className="h-3 w-3 ml-1" />
             </Link>
           </div>

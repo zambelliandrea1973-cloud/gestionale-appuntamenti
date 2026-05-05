@@ -2,28 +2,33 @@
   "app": {
     "title": "Afsprakenbeheer",
     "welcome": "Welkom bij Afsprakenbeheer",
-    "description": "Beheer eenvoudig afspraken, klanten en facturen"
+    "description": "Beheer eenvoudig afspraken, klanten en facturen",
+    "version": "Afsprakenbeheer v3.5.0",
+    "copyright": "© 2023-2025 Alle rechten voorbehouden",
+    "clientAreaTitle": "Klantgedeelte",
+    "defaultTitle": "Afsprakenbeheer"
   },
   "welcomePage": {
     "login": "Inloggen",
     "badge": "Gebruikt door honderden professionals",
     "heroTitle": "Jouw zaak, altijd op zak",
-    "heroSubtitle": "Beheer afspraken, klanten, herinneringen en facturen in één app voor kappers, schoonheidsspecialisten en wellness-professionals.",
+    "heroSubtitle": "Beheer afspraken, klanten, herinneringen en facturen in één app voor kappers, schoonheidsspecialisten en wellnessprofessionals.",
     "ctaPrimary": "Gratis starten · Nieuw account aanmaken",
     "ctaHint": "Geen creditcard nodig · Stop wanneer je wilt",
     "alreadyAccount": "Heb je al een account?",
-    "feature1Title": "Slimme agenda",
+    "feature1Title": "Slimme kalender",
     "feature1Desc": "Afspraken altijd onder controle",
-    "feature2Title": "Klanten & kaarten",
-    "feature2Desc": "Volledige geschiedenis bij de hand",
+    "feature2Title": "Klanten & dossiers",
+    "feature2Desc": "Volledige geschiedenis binnen handbereik",
     "feature3Title": "WhatsApp-herinneringen",
     "feature3Desc": "Verminder no-shows tot 70%",
-    "feature4Title": "Facturen & inkomsten",
+    "feature4Title": "Facturen & betalingen",
     "feature4Desc": "Geïntegreerd belastingbeheer",
     "benefit1": "Geen creditcard nodig",
     "benefit2": "Geen advertenties in de app",
     "benefit3": "Synchroniseert met Google Agenda",
-    "benefit4": "Werkt op telefoon, tablet en PC"
+    "benefit4": "Werkt op telefoon, tablet en PC",
+    "headerTitle": "Welkom bij"
   },
   "staffLoginPage": {
     "title": "Personeel Toegang",
@@ -163,7 +168,7 @@
     "updateError": "Fout bij bijwerken",
     "defaultServiceAlert": "U gebruikt de generieke service \"Consultatie\". Maak uw eigen servicelijst!",
     "goToServiceSettings": "Ga naar Servicelijst",
-    "onlineBookingTitle": "Online Boeken",
+    "onlineBookingTitle": "Online boeking",
     "onlineBookingDesc": "Schakel online boeken in of uit per service. Uitgeschakelde services verschijnen niet in de klanten-app.",
     "disableAllOnline": "Alles uitschakelen",
     "enableAllOnline": "Alles inschakelen",
@@ -338,7 +343,8 @@
     "decrementBy15Min": "Verlaag met 15 min",
     "noServicesAvailable": "Geen diensten beschikbaar",
     "goToSettingsToCreateService": "Ga naar Instellingen om een dienst aan te maken",
-    "noServicesFound": "Geen diensten gevonden"
+    "noServicesFound": "Geen diensten gevonden",
+    "selectNewAppointment": "Nieuwe afspraak"
   },
   "clients": {
     "title": "Klanten",
@@ -393,9 +399,21 @@
       "lastName": "Achternaam"
     },
     "accesses": {
-      "loading": "Caricamento...",
-      "count": "Accessi all'app: {{count}}",
-      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+      "loading": "Laden...",
+      "count": "App-toegangen: {{count}}",
+      "tooltip": "Aantal keren dat de klant de app heeft geopend: {{count}}",
+      "unknownDevice": "Onbekend apparaat",
+      "browserAccess": "Browsertoegang",
+      "loadingDetails": "Toegangsdetails laden...",
+      "errorLoadingDetails": "Fout bij het laden van toegangsdetails",
+      "title": "Clienttoegang",
+      "description": "Lijst van de laatste {{count}} toegangen van de client",
+      "noData": "Geen toegangen geregistreerd voor deze client",
+      "date": "Datum",
+      "time": "Tijd",
+      "device": "Apparaat",
+      "dialogDescription": "Details bekijken van de toegangen van de klant tot de applicatie",
+      "detailsTitle": "Toegang voor {{name}}"
     },
     "subtitle": "Beheer al uw klanten",
     "total": "klanten",
@@ -409,7 +427,8 @@
       "linkCopiedDesc": "De toegangslink is gekopieerd naar het klembord",
       "emailSubject": "Uw toegang tot het beveiligde gebied",
       "messageText": "Hallo {{name}}, hier is uw link om toegang te krijgen tot het beveiligde gebied:"
-    }
+    },
+    "adminPersonalClientsHint": "Uw persoonlijke klanten verschijnen hier. Gebruik het tabblad 'Personeel' om klanten van andere professionals te zien."
   },
   "invoices": {
     "title": "Factuurbeheer",
@@ -619,6 +638,34 @@
       "title": "Configureren vanuit de AI-rondleiding",
       "description": "Nadat je je instellingen hebt opgeslagen ga je automatisch terug naar de wizard om de configuratie te voltooien.",
       "button": "Terug naar rondleiding"
+    },
+    "description": "De applicatie aanpassen en voorkeuren configureren",
+    "integrationsDesc": "E-mailverzending voor klantmeldingen configureren",
+    "generalTitle": "Algemene instellingen",
+    "generalDesc": "Algemene instellingen van de applicatie configureren",
+    "reminderTemplates": {
+      "title": "Herinneringssjablonen",
+      "addNew": "Nieuw sjabloon",
+      "editTitle": "Herinneringssjabloon bewerken",
+      "createTitle": "Nieuw herinneringssjabloon",
+      "type": "Herinneringstype",
+      "variables": "Beschikbare variabelen",
+      "namePlaceholder": "Bijv. Standaard herinnering",
+      "description": "Pas de herinneringsberichten aan die aan klanten worden gestuurd voor afspraken.",
+      "formDescription": "Pas het herinneringsbericht aan dat aan klanten wordt gestuurd voor afspraken.",
+      "selectMultiple": "Selecteer één of meer meldingskanalen voor dit herinneringssjabloon",
+      "pleaseSelectType": "Selecteer minimaal één herinneringstype",
+      "noTypeSelected": "Waarschuwing",
+      "messageTemplate": "Berichttekst",
+      "templatePlaceholder": "Bijv. Beste {{nome}}, dit is een herinnering voor uw {{servizio}} afspraak op {{data}} om {{ora}} met {{collaboratore}} in {{stanza}}.",
+      "templateHelp": "Gebruik variabelen om specifieke afspraakgegevens op te nemen.",
+      "setAsDefault": "Als standaardsjabloon instellen"
+    },
+    "contactInfo": {
+      "phone1": "Primaire telefoon",
+      "phone1Desc": "Primair telefoonnummer voor contacten",
+      "phone2Desc": "Secundair telefoonnummer (optioneel)",
+      "websiteDesc": "Voer alleen het domein (voorbeeld.nl) of de volledige URL (https://voorbeeld.nl) in"
     }
   },
   "common": {
@@ -648,13 +695,18 @@
     "share": "Delen",
     "processing": "Verwerken...",
     "activate": "Activeren",
-    "copied": "Gekopieerd",
+    "copied": "Gekopieerd naar klembord",
     "notSpecified": "Niet opgegeven",
     "tryAgain": "Probeer opnieuw",
-    "demoLabel": "Demo"
+    "demoLabel": "Demo",
+    "deleting": "Verwijderen...",
+    "view": "Bekijken",
+    "hidePassword": "Wachtwoord verbergen",
+    "showPassword": "Wachtwoord weergeven"
   },
   "notifications": {
-    "clientDeleted": "Klant verwijderd"
+    "clientDeleted": "Klant verwijderd",
+    "loadError": "Kan meldingen niet laden"
   },
   "whatsappNotifications": {
     "title": "Klantmeldingen",
@@ -1160,7 +1212,12 @@
   },
   "auth": {
     "login": "Inloggen",
-    "logout": "Uitloggen"
+    "logout": "Uitloggen",
+    "accessDenied": "Toegang geweigerd",
+    "insufficientRole": "Dit gedeelte vereist de rol '{{role}}'",
+    "currentRole": "Uw huidige rol: {{role}}",
+    "required": "Inloggen vereist",
+    "loginRequired": "U moet ingelogd zijn om toegang te krijgen tot dit gedeelte"
   },
   "clientArea": {
     "installApp": "App installeren",
@@ -1779,7 +1836,7 @@
   },
   "proFeature": {
     "title": "PRO-functie",
-    "subtitle": "is alleen beschikbaar met het PRO-abonnement",
+    "subtitle": "\"{{featureName}}\" is alleen beschikbaar met het PRO-abonnement",
     "reportsDescription": "Gedetailleerde activiteitsrapporten zijn beschikbaar vanaf het Pro-abonnement.",
     "benefits": {
       "title": "Met PRO krijgt u",
@@ -2933,7 +2990,8 @@
     "defaults": {
       "subject": "Afspraakherinnering van {{data}}",
       "template": "Beste {{nome}} {{cognome}},\n\nDit is een herinnering voor je {{servizio}}-afspraak op {{data}} om {{ora}}.\n\nNeem contact met ons op voor wijzigingen of annuleringen.\n\nMet vriendelijke groet,\nDe Studio"
-    }
+    },
+    "redirecting": "Doorsturen naar e-mailinstellingen..."
   },
   "userSettings": {
     "title": "Gebruikersinstellingen",
@@ -3643,7 +3701,18 @@
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Annuleren",
-    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
+    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456",
+    "staffDescription": "Uw personeelsleden en hun commissies bekijken en beheren",
+    "details": "Details",
+    "commissions": "Commissies",
+    "referralCodeLabel": "Verwijzingscode",
+    "commissionHistory": "Commissiegeschiedenis",
+    "noCommissions": "Nog geen commissies geregistreerd.",
+    "commissionsWillAppear": "Commissies verschijnen hier wanneer ze worden gegenereerd.",
+    "administrator": "Beheerder",
+    "referralCodeBadge": "Code: {{code}}",
+    "detailsTitle": "Personeelsdetails: {{username}}",
+    "detailsDescription": "Volledige informatie en commissiegeschiedenis"
   },
   "passwordChange": {
     "title": "Wachtwoord wijzigen",
@@ -5317,7 +5386,76 @@
         "step5": "Voeg zorgvuldig de exacte callback-URL toe: <1>{{url}}</1>",
         "step6": "Kom hier terug en probeer de autorisatie opnieuw"
       }
-    }
+    },
+    "step": "Stap",
+    "createProject": "Toegang tot Google Cloud Console",
+    "enableAPIs": "Vereiste Google API's inschakelen",
+    "configOAuth": "OAuth-referenties configureren",
+    "configOAuthDesc": "OAuth 2.0-referenties maken en configureren",
+    "goToAPI": "Ga naar \"API's en services\" > \"Bibliotheek\"",
+    "goToCredentials": "Ga naar \"API's en services\" > \"Referenties\"",
+    "userType": "Gebruikerstype: Extern",
+    "createOAuthClient": "Een OAuth 2.0-client-ID maken:",
+    "configApp": "Applicatie configureren",
+    "configAppDesc": "OAuth-referenties invoeren in Replit",
+    "accessSecrets": "Replit-geheimen openen via \"Secrets\" in het configuratiescherm",
+    "addClientID": "Nieuw geheim toevoegen met sleutel \"GOOGLE_CLIENT_ID\" en de Client ID-waarde",
+    "addClientSecret": "Nieuw geheim toevoegen met sleutel \"GOOGLE_CLIENT_SECRET\" en de Client Secret-waarde",
+    "tryAuth": "Autorisatie proberen:",
+    "tryAuthDesc": "Na het correct configureren van de referenties kunt u proberen het autorisatieproces te starten:",
+    "credentialsDesc": "Zorg ervoor dat de Client ID en Client Secret correct zijn en overeenkomen met die van het Google Cloud-project.",
+    "configConsent": "Indien gevraagd, het OAuth-toestemmingsscherm configureren:",
+    "appType": "Applicatietype: Webapplicatie",
+    "redirectURI": "Geautoriseerde omleidings-URI's: Voeg de volgende exacte URL toe",
+    "saveCredentials": "Na het maken van de OAuth-client de volgende gegevens opslaan:",
+    "testConfiguration": "Configuratietest",
+    "testConfigDesc": "Controleer of de Google OAuth-configuratie correct is",
+    "testConfig": "Configuratie testen",
+    "error400Desc": "De omleidings-URL die is geconfigureerd in de Google Cloud Console komt niet exact overeen met de URL die door de applicatie wordt gebruikt. Gebruik precies de hierboven weergegeven URL.",
+    "error403Desc": "De Google Cloud-app heeft niet de vereiste machtigingen of is niet geverifieerd. Zorg ervoor dat u de benodigde API's hebt ingeschakeld en het OAuth-toestemmingsscherm correct hebt geconfigureerd.",
+    "debugInfo": "Foutopsporingsinformatie",
+    "debugInfoDesc": "Nuttige informatie voor het debuggen van de configuratie",
+    "instructions": "Configuratie-instructies",
+    "accessConsole": "Toegang tot de Google Cloud Console om API's en referenties te beheren",
+    "signIn": "Aanmelden met uw Google-account",
+    "appName": "Applicatienaam: [Naam van uw applicatie]",
+    "supportEmail": "Ondersteunings-e-mail: [Uw e-mail]",
+    "developerEmail": "Ontwikkelaar-e-mail: [Uw e-mail]",
+    "calendarDesc": "Uw afspraken automatisch synchroniseren met Google Calendar",
+    "syncDesc": "Afspraken worden automatisch aan uw Google Calendar toegevoegd",
+    "connectCalendar": "Uw Google Calendar verbinden",
+    "connectCalendarDesc": "Koppel uw Google-account om afspraken automatisch te synchroniseren tussen uw agenda en Google Calendar.",
+    "connectWithGoogle": "Verbinden met Google",
+    "privacyExplanation": "De verbinding maakt gebruik van Google OAuth, een veilige standaard waarmee wij geen toegang hebben tot uw wachtwoord. U kunt de toegang op elk moment intrekken.",
+    "privacyNote": "Privacyopmerking",
+    "showAdvancedHelp": "Hulp nodig bij de configuratie?",
+    "advancedHelpDesc": "Als u hulp nodig heeft bij de geavanceerde configuratie:",
+    "setupGuide": "Geavanceerde configuratiegids",
+    "notConnected": "Status: Niet verbonden",
+    "lastSyncStatus": "Status: Verbonden met Google Calendar",
+    "connectionActive": "Google Calendar-integratie is actief",
+    "accountConnected": "Google-account verbonden",
+    "requiredAPIs": "Vereiste API's:",
+    "scopes": "Vereiste scopes:",
+    "calendarScope": "(Volledige kalendertoegang)",
+    "gmailScope": "(E-mails verzenden)",
+    "restartApp": "Start de applicatie opnieuw op om de wijzigingen toe te passen",
+    "disconnect": "Loskoppelen",
+    "hideAdvancedHelp": "Geavanceerde opties verbergen",
+    "contactSupport": "Neem contact op met de support bij aanhoudende problemen",
+    "testing": "Test & probleemoplossing",
+    "verifying": "Controleren...",
+    "visitConsole": "Bezoek de",
+    "startAuthProcess": "Autorisatieproces starten",
+    "commonIssues": "Veelvoorkomende problemen en oplossingen:",
+    "credentials": "Ongeldige inloggegevens",
+    "callbackUrl": "Callback-URL:",
+    "testAgain": "Opnieuw testen",
+    "calendarIntegration": "Google Agenda-integratie",
+    "syncSummary": "{{imported}} evenementen geïmporteerd, {{exported}} afspraken geëxporteerd",
+    "syncDetails": "📥 Geïmporteerd: {{imported}} | 📤 Geëxporteerd: {{exported}} | 🗑️ Verwijderd: {{deleted}}",
+    "calendarEvent": "Google Agenda-evenement",
+    "cannotDeleteImported": "Dit evenement is geïmporteerd vanuit Google Agenda en kan niet worden verwijderd via de app. Ga rechtstreeks naar Google Agenda om het te verwijderen."
   },
   "landingBicom": {
     "header": {
@@ -5486,7 +5624,10 @@
       "notSupported": "Pushmeldingen worden niet ondersteund in deze browser. Probeer de app als geïnstalleerde PWA te openen.",
       "permissionDeniedTitle": "Toestemming geweigerd",
       "notificationsActivatedTitle": "Meldingen ingeschakeld",
-      "notificationsDeactivatedTitle": "Meldingen uitgeschakeld"
+      "notificationsDeactivatedTitle": "Meldingen uitgeschakeld",
+      "loading": "Laden...",
+      "active": "Meldingen actief",
+      "enable": "Meldingen inschakelen"
     },
     "subscriptionPlansAdmin": {
       "addFeature": "Functie toevoegen",
@@ -5523,7 +5664,9 @@
       "deletionUnlocked": "Verwijdering ontgrendeld",
       "cannotUnlock": "Kan verwijdering niet ontgrendelen",
       "cannotMarkDeleted": "Kan verwijdering niet simuleren",
-      "clientRemoved": "Klant uit het systeem verwijderd"
+      "clientRemoved": "Klant uit het systeem verwijderd",
+      "canNowBeDeleted": "{{name}} kan nu worden verwijderd",
+      "deleted": "{{name}} verwijderd"
     },
     "directLinkGenerator": {
       "linkCopied": "De directe toegangslink is naar het klembord gekopieerd.",
@@ -5585,7 +5728,8 @@
     "betaStatus": {
       "title": "Bètamodus",
       "welcomeMessage": "Welkom bij het bètaprogramma! Je kunt op elk moment feedback geven via de bètapagina.",
-      "invalidCode": "Ongeldige bètacode"
+      "invalidCode": "Ongeldige bètacode",
+      "codeExpired": "De betacode is niet meer geldig."
     },
     "installAppPrompt": {
       "alreadyInstalledNote": "Je hebt snel toegang tot je persoonlijke gedeelte vanaf het startscherm van je apparaat.",
@@ -5743,7 +5887,10 @@
       "appointmentsHeading": "Afspraken",
       "dateColumn": "Datum",
       "timeColumn": "Tijd",
-      "collaboratorColumn": "Medewerker"
+      "collaboratorColumn": "Medewerker",
+      "goToCalendar": "Naar kalender",
+      "timeNotAvailable": "Tijd niet beschikbaar",
+      "noServiceSpecified": "Geen service opgegeven"
     },
     "appointmentCard": {
       "hide": "Verbergen",
@@ -5758,7 +5905,9 @@
       "deletionNotificationTitle": "Verwijderingsmelding",
       "deletionUnlockedBadge": "Verwijdering ontgrendeld",
       "otherAccountClient": "Klant van ander account (alleen-lezen)",
-      "viewOnlyBadge": "Alleen-lezen"
+      "viewOnlyBadge": "Alleen-lezen",
+      "deletedFromSourceBadge": "Klant verwijderd van origineel account",
+      "deletedFromSourceToast": "{{firstName}} {{lastName}} verwijderd van origineel account"
     },
     "clientFooterContactIcons": {
       "emailLabel": "E-mail:",
@@ -5868,6 +6017,10 @@
       "czechRepublic": "Tsjechie",
       "hungary": "Hongarije",
       "romania": "Roemenie"
+    },
+    "userLicenseBadge": {
+      "customer": "Klant",
+      "user": "Gebruiker"
     }
   },
   "onboarding": {
@@ -5887,5 +6040,66 @@
   },
   "fab": {
     "dragging": "Verplaatsen..."
+  },
+  "license": {
+    "upgradeRequired": "Upgrade vereist",
+    "featureRequiresLicense": "\"{{feature}}\" vereist een {{license}}-licentie",
+    "licenseRequired": "Dit gedeelte vereist een {{license}}-licentie",
+    "upgrade": "Upgraden naar {{license}}"
+  },
+  "businessFeature": {
+    "title": "BUSINESS-functie",
+    "subtitle": "\"{{featureName}}\" is alleen beschikbaar met het BUSINESS-abonnement",
+    "benefits": {
+      "title": "Met BUSINESS krijgt u",
+      "multiUser": "Ondersteuning voor meerdere gebruikers",
+      "analytics": "Geavanceerde analyses",
+      "customization": "Volledige aanpassing",
+      "support": "24/7 prioriteitsondersteuning",
+      "branding": "Verwijdering van branding en white-label"
+    },
+    "learnMore": "Meer informatie",
+    "upgradeButton": "Upgraden naar BUSINESS",
+    "description": "Upgrade naar het BUSINESS-plan om alle geavanceerde functies voor uw bedrijf te ontgrendelen."
+  },
+  "payment": {
+    "processing": "Betaling verwerken...",
+    "pending": {
+      "title": "Betaling verwerken",
+      "info": "Uw betaling is ontvangen en uw abonnement wordt binnenkort geactiveerd.",
+      "wait": "Een moment geduld terwijl we de transactie verwerken.",
+      "refresh": "Als de pagina niet automatisch wordt vernieuwd, laad deze dan over een paar minuten opnieuw."
+    },
+    "checking": "Abonnementsstatus controleren...",
+    "success": {
+      "description": "Bedankt voor uw abonnement. Uw account is bijgewerkt.",
+      "activated": "Uw abonnement is succesvol geactiveerd.",
+      "access": "U heeft nu toegang tot alle premium functies."
+    },
+    "plan": "Plan",
+    "activePlan": "Actief plan",
+    "active": "Actief",
+    "startDate": "Startdatum",
+    "status": "Status",
+    "details": "Abonnementsdetails",
+    "features": "Inbegrepen functies",
+    "supportInfo": "Voor vragen over uw abonnement kunt u contact opnemen met de ondersteuning. Bewaar het betalingsbewijs dat u per e-mail ontvangt.",
+    "return": "Terug naar dashboard"
+  },
+  "stripe": {
+    "payWithCard": "Betalen met creditcard",
+    "sessionError": "Kan betalingssessie niet aanmaken",
+    "urlError": "Betalingssessie-URL niet gevonden"
+  },
+  "colorEditor": {
+    "saveError": "Kan kleurinstellingen niet opslaan ({{status}})"
+  },
+  "appointments": {
+    "noDataAvailable": "Geen afspraakgegevens beschikbaar",
+    "incompleteData": "Onvolledige afspraakgegevens"
+  },
+  "whatsapp": {
+    "reminderTemplate": "Beste {{name}},\nWij herinneren u aan uw afspraak voor {{service}} op {{date}} om {{time}}.",
+    "testMessage": "Testbericht van het afsprakenbeheerssysteem"
   }
 }

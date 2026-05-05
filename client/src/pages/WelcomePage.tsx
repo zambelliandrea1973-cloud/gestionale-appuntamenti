@@ -75,39 +75,39 @@ export default function WelcomePage() {
   const features = [
     {
       icon: Calendar,
-      title: t("welcomePage.feature1Title", "Calendario smart"),
-      desc: t("welcomePage.feature1Desc", "Appuntamenti sempre sotto controllo"),
+      title: t("welcomePage.feature1Title", "Smart calendar"),
+      desc: t("welcomePage.feature1Desc", "Appointments always under control"),
       color: "bg-emerald-50 text-emerald-700",
       preview: calendarPreview,
     },
     {
       icon: Users,
-      title: t("welcomePage.feature2Title", "Clienti & schede"),
-      desc: t("welcomePage.feature2Desc", "Storico completo a portata di mano"),
+      title: t("welcomePage.feature2Title", "Clients & records"),
+      desc: t("welcomePage.feature2Desc", "Complete history at your fingertips"),
       color: "bg-blue-50 text-blue-700",
       preview: clientiPreview,
     },
     {
       icon: MessageCircle,
-      title: t("welcomePage.feature3Title", "Promemoria WhatsApp"),
-      desc: t("welcomePage.feature3Desc", "Riduci i no-show fino al 70%"),
+      title: t("welcomePage.feature3Title", "WhatsApp reminders"),
+      desc: t("welcomePage.feature3Desc", "Reduce no-shows by up to 70%"),
       color: "bg-green-50 text-green-700",
       preview: whatsappPreview,
     },
     {
       icon: FileText,
-      title: t("welcomePage.feature4Title", "Fatture & incassi"),
-      desc: t("welcomePage.feature4Desc", "Gestione fiscale integrata"),
+      title: t("welcomePage.feature4Title", "Invoices & payments"),
+      desc: t("welcomePage.feature4Desc", "Integrated tax management"),
       color: "bg-amber-50 text-amber-700",
       preview: fatturePreview,
     },
   ];
 
   const benefits = [
-    t("welcomePage.benefit1", "Nessuna carta di credito richiesta"),
-    t("welcomePage.benefit2", "Nessuna pubblicità nell'app"),
-    t("welcomePage.benefit3", "Sincronizza con Google Calendar"),
-    t("welcomePage.benefit4", "Funziona da telefono, tablet e PC"),
+    t("welcomePage.benefit1", "No credit card required"),
+    t("welcomePage.benefit2", "No ads in the app"),
+    t("welcomePage.benefit3", "Sync with Google Calendar"),
+    t("welcomePage.benefit4", "Works on phone, tablet and PC"),
   ];
 
   return (
@@ -117,7 +117,7 @@ export default function WelcomePage() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-start gap-2">
             <h1 className="text-lg sm:text-2xl font-bold leading-tight">
-              {t("welcomePage.headerTitle", "Benvenuto nel")}
+              {t("welcomePage.headerTitle", "Welcome to")}
               <br />
               {t("app.title")}
             </h1>
@@ -157,20 +157,20 @@ export default function WelcomePage() {
           <section className="text-center mb-10">
             <img
               src="/fleur-de-vie.jpg"
-              alt="Gestionale Appuntamenti"
+              alt={t('app.defaultTitle', 'Appointment Manager')}
               className="w-24 h-24 md:w-28 md:h-28 mx-auto mb-4 rounded-2xl shadow-lg object-cover"
             />
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium mb-4">
               <Star className="h-3.5 w-3.5 fill-current" />
-              {t("welcomePage.badge", "Usato da centinaia di professionisti")}
+              {t("welcomePage.badge", "Used by hundreds of professionals")}
             </div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3 leading-tight">
-              {t("welcomePage.heroTitle", "Il tuo studio, sempre in tasca")}
+              {t("welcomePage.heroTitle", "Your studio, always in your pocket")}
             </h2>
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
               {t(
                 "welcomePage.heroSubtitle",
-                "Gestisci appuntamenti, clienti, promemoria e fatture in un'unica app pensata per parrucchieri, estetiste e professionisti del benessere."
+                "Manage appointments, clients, reminders and invoices in one app designed for hairdressers, beauticians and wellness professionals."
               )}
             </p>
           </section>
@@ -185,18 +185,18 @@ export default function WelcomePage() {
                 data-testid="button-create-account"
               >
                 <UserPlus className="mr-2 h-5 w-5" />
-                {t("welcomePage.ctaPrimary", "Inizia gratis · Crea nuovo account")}
+                {t("welcomePage.ctaPrimary", "Start for free · Create new account")}
               </Button>
               <p className="text-center text-xs text-muted-foreground">
                 {t(
                   "welcomePage.ctaHint",
-                  "Nessuna carta di credito richiesta · Cancelli quando vuoi"
+                  "No credit card required · Cancel any time"
                 )}
               </p>
 
               <div className="pt-4 space-y-2">
                 <p className="text-center text-sm text-muted-foreground">
-                  {t("welcomePage.alreadyAccount", "Hai già un account?")}
+                  {t("welcomePage.alreadyAccount", "Already have an account?")}
                 </p>
                 <Button
                   variant="outline"
@@ -205,7 +205,7 @@ export default function WelcomePage() {
                   data-testid="button-login"
                 >
                   <LogIn className="mr-2 h-5 w-5" />
-                  {t("welcomePage.login", "Accedi")}
+                  {t("welcomePage.login", "Log in")}
                 </Button>
               </div>
             </div>
@@ -236,7 +236,7 @@ export default function WelcomePage() {
                     className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline mt-auto"
                   >
                     <Eye className="h-3 w-3" />
-                    {t("invoices.preview", "Anteprima")}
+                    {t("invoices.preview", "Preview")}
                   </button>
                 </div>
               );
@@ -291,8 +291,8 @@ export default function WelcomePage() {
       <footer className="bg-gray-50 border-t py-4 mt-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center gap-1 text-xs text-gray-500">
-            <p className="font-medium text-gray-600">{t("app.version", "Gestionale Appuntamenti v3.5.0")}</p>
-            <p>{t("app.copyright", "© 2023-2025 Tutti i diritti riservati")}</p>
+            <p className="font-medium text-gray-600">{t("app.version", "Appointment Manager v3.5.0")}</p>
+            <p>{t("app.copyright", "© 2023-2025 All rights reserved")}</p>
             <p>{t('i18nFinale.welcomePageExtra.developerCredit', { author: 'Zambelli Andrea' })}</p>
             <div className="flex gap-4 mt-1">
               <a href="/privacy" className="text-primary hover:underline">

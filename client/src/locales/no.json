@@ -2,28 +2,33 @@
   "app": {
     "title": "Timeavtalehåndtering",
     "welcome": "Velkommen til Timeavtalehåndtering",
-    "description": "Administrer timeavtaler, kunder og fakturaer enkelt"
+    "description": "Administrer timeavtaler, kunder og fakturaer enkelt",
+    "version": "Avtalebehandler v3.5.0",
+    "copyright": "© 2023-2025 Alle rettigheter forbeholdt",
+    "clientAreaTitle": "Kundeområde",
+    "defaultTitle": "Avtalebehandler"
   },
   "welcomePage": {
     "login": "Logg Inn",
     "badge": "Brukt av hundrevis av profesjonelle",
     "heroTitle": "Bedriften din, alltid i lommen",
-    "heroSubtitle": "Administrer timeavtaler, kunder, påminnelser og fakturaer i én app laget for frisører, hudpleiere og velværeprofesjonelle.",
+    "heroSubtitle": "Administrer avtaler, kunder, påminnelser og fakturaer i én app designet for frisører, skjønnhetsterapeuter og velværeprofesjonelle.",
     "ctaPrimary": "Start gratis · Opprett ny konto",
     "ctaHint": "Ingen kredittkort nødvendig · Avbryt når du vil",
     "alreadyAccount": "Har du allerede en konto?",
     "feature1Title": "Smart kalender",
     "feature1Desc": "Avtaler alltid under kontroll",
-    "feature2Title": "Kunder & kort",
-    "feature2Desc": "Komplett historikk for hånden",
+    "feature2Title": "Kunder & registre",
+    "feature2Desc": "Komplett historikk lett tilgjengelig",
     "feature3Title": "WhatsApp-påminnelser",
-    "feature3Desc": "Reduser uteblivelser med opptil 70%",
-    "feature4Title": "Fakturaer & inntekter",
-    "feature4Desc": "Integrert skatteforvaltning",
+    "feature3Desc": "Reduser no-shows med opptil 70%",
+    "feature4Title": "Fakturaer & betalinger",
+    "feature4Desc": "Integrert skatteadministrasjon",
     "benefit1": "Ingen kredittkort nødvendig",
     "benefit2": "Ingen reklame i appen",
     "benefit3": "Synkroniseres med Google Kalender",
-    "benefit4": "Fungerer på telefon, nettbrett og PC"
+    "benefit4": "Fungerer på telefon, nettbrett og PC",
+    "headerTitle": "Velkommen til"
   },
   "staffLoginPage": {
     "title": "Personell Tilgang",
@@ -163,7 +168,7 @@
     "updateError": "Feil ved oppdatering",
     "defaultServiceAlert": "Du bruker den generiske tjenesten \"Konsultasjon\". Opprett din egen tjenesteliste!",
     "goToServiceSettings": "Gå til Tjenestelisten",
-    "onlineBookingTitle": "Online Bestilling",
+    "onlineBookingTitle": "Online bestilling",
     "onlineBookingDesc": "Aktiver eller deaktiver online bestilling for hver tjeneste. Deaktiverte tjenester vises ikke i klient-appen.",
     "disableAllOnline": "Deaktiver alle",
     "enableAllOnline": "Aktiver alle",
@@ -338,7 +343,8 @@
     "decrementBy15Min": "Reduser med 15 min",
     "noServicesAvailable": "Ingen tjenester tilgjengelige",
     "goToSettingsToCreateService": "Gå til Innstillinger for å opprette en tjeneste",
-    "noServicesFound": "Ingen tjenester funnet"
+    "noServicesFound": "Ingen tjenester funnet",
+    "selectNewAppointment": "Ny avtale"
   },
   "clients": {
     "title": "Kunder",
@@ -393,9 +399,21 @@
       "lastName": "Etternavn"
     },
     "accesses": {
-      "loading": "Caricamento...",
-      "count": "Accessi all'app: {{count}}",
-      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+      "loading": "Laster...",
+      "count": "App-tilganger: {{count}}",
+      "tooltip": "Antall ganger klienten har åpnet appen: {{count}}",
+      "unknownDevice": "Ukjent enhet",
+      "browserAccess": "Nettlesertilgang",
+      "loadingDetails": "Laster tilgangsdetaljer...",
+      "errorLoadingDetails": "Feil ved lasting av tilgangsdetaljer",
+      "title": "Klienttilganger",
+      "description": "Liste over de siste {{count}} tilgangene fra klienten",
+      "noData": "Ingen tilganger registrert for denne klienten",
+      "date": "Dato",
+      "time": "Tid",
+      "device": "Enhet",
+      "dialogDescription": "Se detaljer om klientens tilganger til applikasjonen",
+      "detailsTitle": "Tilganger for {{name}}"
     },
     "subtitle": "Administrer alle dine klienter",
     "total": "klienter",
@@ -409,7 +427,8 @@
       "linkCopiedDesc": "Tilgangslenken er kopiert til utklippstavlen",
       "emailSubject": "Din tilgang til det reserverte området",
       "messageText": "Hei {{name}}, her er lenken din for å få tilgang til det reserverte området:"
-    }
+    },
+    "adminPersonalClientsHint": "Dine personlige kunder vises her. Bruk 'Personale'-fanen for å se kundene til andre fagfolk."
   },
   "invoices": {
     "title": "Fakturaadministrasjon",
@@ -619,10 +638,38 @@
       "title": "Konfigurerer fra AI-turen",
       "description": "Etter at du har lagret innstillingene blir du automatisk sendt tilbake til veiviseren for å fullføre oppsettet.",
       "button": "Tilbake til turen"
+    },
+    "description": "Tilpass applikasjonen og konfigurer innstillinger",
+    "integrationsDesc": "Konfigurer e-postsending for klientvarsler",
+    "generalTitle": "Generelle innstillinger",
+    "generalDesc": "Konfigurer de generelle innstillingene for applikasjonen",
+    "reminderTemplates": {
+      "title": "Påminnelsesmaler",
+      "addNew": "Ny mal",
+      "editTitle": "Rediger påminnelsesmal",
+      "createTitle": "Ny påminnelsesmal",
+      "type": "Påminnelsestype",
+      "variables": "Tilgjengelige variabler",
+      "namePlaceholder": "F.eks. Standard påminnelse",
+      "description": "Tilpass påminnelsesmeldingene som sendes til klienter for avtaler.",
+      "formDescription": "Tilpass påminnelsesmeldingen som sendes til klienter for avtaler.",
+      "selectMultiple": "Velg én eller flere varslingskanaler for denne påminnelsesmalen",
+      "pleaseSelectType": "Velg minst én påminnelsestype",
+      "noTypeSelected": "Advarsel",
+      "messageTemplate": "Meldingstekst",
+      "templatePlaceholder": "F.eks. Kjære {{nome}}, dette er en påminnelse for din {{servizio}}-avtale den {{data}} kl. {{ora}} med {{collaboratore}} i {{stanza}}.",
+      "templateHelp": "Bruk variabler for å inkludere spesifikk avtaleinformasjon.",
+      "setAsDefault": "Angi som standardmal"
+    },
+    "contactInfo": {
+      "phone1": "Primærtelefon",
+      "phone1Desc": "Primært telefonnummer for kontakter",
+      "phone2Desc": "Sekundært telefonnummer (valgfritt)",
+      "websiteDesc": "Skriv inn bare domenet (eksempel.no) eller den fullstendige URL-en (https://eksempel.no)"
     }
   },
   "common": {
-    "backToHome": "Tilbake til Hjem",
+    "backToHome": "Tilbake til hjem",
     "loading": "Laster...",
     "scrollDown": "Bla nedover",
     "cancel": "Avbryt",
@@ -648,13 +695,18 @@
     "share": "Del",
     "processing": "Behandler...",
     "activate": "Aktiver",
-    "copied": "Kopiert",
+    "copied": "Kopiert til utklippstavle",
     "notSpecified": "Ikke angitt",
     "tryAgain": "Prøv igjen",
-    "demoLabel": "Demo"
+    "demoLabel": "Demo",
+    "deleting": "Sletter...",
+    "view": "Vis",
+    "hidePassword": "Skjul passord",
+    "showPassword": "Vis passord"
   },
   "notifications": {
-    "clientDeleted": "Kunde slettet"
+    "clientDeleted": "Kunde slettet",
+    "loadError": "Klarte ikke laste inn varsler"
   },
   "whatsappNotifications": {
     "title": "Kundevarsler",
@@ -1160,7 +1212,12 @@
   },
   "auth": {
     "login": "Logg inn",
-    "logout": "Logg ut"
+    "logout": "Logg ut",
+    "accessDenied": "Tilgang nektet",
+    "insufficientRole": "Denne seksjonen krever rollen '{{role}}'",
+    "currentRole": "Din nåværende rolle: {{role}}",
+    "required": "Innlogging kreves",
+    "loginRequired": "Du må være logget inn for å få tilgang til denne seksjonen"
   },
   "clientArea": {
     "installApp": "Installer app",
@@ -1779,7 +1836,7 @@
   },
   "proFeature": {
     "title": "PRO-funksjon",
-    "subtitle": "er kun tilgjengelig med PRO-abonnement",
+    "subtitle": "\"{{featureName}}\" er bare tilgjengelig med PRO-abonnementet",
     "reportsDescription": "Detaljerte aktivitetsrapporter er tilgjengelige fra Pro-planen.",
     "benefits": {
       "title": "Med PRO får du",
@@ -2933,7 +2990,8 @@
     "defaults": {
       "subject": "Påminnelse om avtale {{data}}",
       "template": "Kjære {{nome}} {{cognome}},\n\nDette er en påminnelse om din {{servizio}}-avtale {{data}} kl. {{ora}}.\n\nKontakt oss ved endringer eller avbestilling.\n\nMed vennlig hilsen,\nStudioet"
-    }
+    },
+    "redirecting": "Omdirigerer til e-postinnstillinger..."
   },
   "userSettings": {
     "title": "Brukerinnstillinger",
@@ -3643,7 +3701,18 @@
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Avbryt",
-    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
+    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456",
+    "staffDescription": "Se og administrer dine ansatte og deres provisjoner",
+    "details": "Detaljer",
+    "commissions": "Provisjoner",
+    "referralCodeLabel": "Henvisningskode",
+    "commissionHistory": "Provisjonshistorikk",
+    "noCommissions": "Ingen provisjoner registrert ennå.",
+    "commissionsWillAppear": "Provisjoner vil vises her når de genereres.",
+    "administrator": "Administrator",
+    "referralCodeBadge": "Kode: {{code}}",
+    "detailsTitle": "Ansattdetaljer: {{username}}",
+    "detailsDescription": "Fullstendig informasjon og provisjonshistorikk"
   },
   "passwordChange": {
     "title": "Endre passord",
@@ -5317,7 +5386,76 @@
         "step5": "Legg nøye til den nøyaktige callback-URL-en: <1>{{url}}</1>",
         "step6": "Kom tilbake hit og prøv autorisasjonen igjen"
       }
-    }
+    },
+    "step": "Trinn",
+    "createProject": "Få tilgang til Google Cloud Console",
+    "enableAPIs": "Aktiver nødvendige Google API-er",
+    "configOAuth": "Konfigurer OAuth-legitimasjon",
+    "configOAuthDesc": "Opprett og konfigurer OAuth 2.0-legitimasjon",
+    "goToAPI": "Gå til \"API-er og tjenester\" > \"Bibliotek\"",
+    "goToCredentials": "Gå til \"API-er og tjenester\" > \"Legitimasjon\"",
+    "userType": "Brukertype: Ekstern",
+    "createOAuthClient": "Opprett en OAuth 2.0-klient-ID:",
+    "configApp": "Konfigurer applikasjonen",
+    "configAppDesc": "Skriv inn OAuth-legitimasjon i Replit",
+    "accessSecrets": "Få tilgang til Replit-hemmeligheter via \"Secrets\" i kontrollpanelet",
+    "addClientID": "Legg til en ny hemmelighet med nøkkel \"GOOGLE_CLIENT_ID\" og Client ID-verdien",
+    "addClientSecret": "Legg til en ny hemmelighet med nøkkel \"GOOGLE_CLIENT_SECRET\" og Client Secret-verdien",
+    "tryAuth": "Prøv autorisasjon:",
+    "tryAuthDesc": "Etter å ha konfigurert legitimasjonen riktig kan du prøve å starte autorisasjonsprosessen:",
+    "credentialsDesc": "Sørg for at Client ID og Client Secret er korrekte og samsvarer med de fra Google Cloud-prosjektet.",
+    "configConsent": "Hvis du blir bedt om det, konfigurer OAuth-samtykkeskjermen:",
+    "appType": "Applikasjonstype: Webapplikasjon",
+    "redirectURI": "Autoriserte omadresseringsURIer: Legg til følgende nøyaktige URL",
+    "saveCredentials": "Etter å ha opprettet OAuth-klienten, lagre følgende data:",
+    "testConfiguration": "Konfigurasjonstest",
+    "testConfigDesc": "Kontroller at Google OAuth-konfigurasjonen er korrekt",
+    "testConfig": "Test konfigurasjon",
+    "error400Desc": "Omdirigerings-URL-en konfigurert i Google Cloud Console samsvarer ikke nøyaktig med den som brukes av applikasjonen. Sørg for å bruke nøyaktig URL-en vist ovenfor.",
+    "error403Desc": "Google Cloud-appen har ikke de nødvendige tillatelsene eller er ikke bekreftet. Sørg for at du har aktivert de nødvendige API-ene og konfigurert OAuth-samtykkeskjermen riktig.",
+    "debugInfo": "Feilsøkingsinformasjon",
+    "debugInfoDesc": "Nyttig informasjon for feilsøking av konfigurasjonen",
+    "instructions": "Konfigurasjonsinstruksjoner",
+    "accessConsole": "Få tilgang til Google Cloud Console for å administrere API-er og legitimasjon",
+    "signIn": "Logg inn med Google-kontoen din",
+    "appName": "Appnavn: [Appnavnet ditt]",
+    "supportEmail": "Støtte-e-post: [E-posten din]",
+    "developerEmail": "Utvikler-e-post: [E-posten din]",
+    "calendarDesc": "Synkroniser avtalene dine automatisk med Google Calendar",
+    "syncDesc": "Avtaler legges automatisk til i Google Calendar",
+    "connectCalendar": "Koble til Google Calendar",
+    "connectCalendarDesc": "Koble til Google-kontoen din for å automatisk synkronisere avtaler mellom agendaen din og Google Calendar.",
+    "connectWithGoogle": "Koble til med Google",
+    "privacyExplanation": "Tilkoblingen bruker Google OAuth, en sikker standard som ikke gir oss tilgang til passordet ditt. Du kan tilbakekalle tilgangen når som helst.",
+    "privacyNote": "Personvernmerknad",
+    "showAdvancedHelp": "Trenger du hjelp med konfigurasjonen?",
+    "advancedHelpDesc": "Hvis du trenger hjelp med avansert konfigurasjon:",
+    "setupGuide": "Avansert konfigurasjonsveiledning",
+    "notConnected": "Status: Ikke tilkoblet",
+    "lastSyncStatus": "Status: Koblet til Google Calendar",
+    "connectionActive": "Google Calendar-integrasjon er aktiv",
+    "accountConnected": "Google-konto tilkoblet",
+    "requiredAPIs": "Påkrevde API-er:",
+    "scopes": "Påkrevde tilganger:",
+    "calendarScope": "(Full kalendertilgang)",
+    "gmailScope": "(E-postsending)",
+    "restartApp": "Start programmet på nytt for å bruke endringene",
+    "disconnect": "Koble fra",
+    "hideAdvancedHelp": "Skjul avanserte alternativer",
+    "contactSupport": "Kontakt support hvis du opplever vedvarende problemer",
+    "testing": "Test & feilsøking",
+    "verifying": "Sjekker...",
+    "visitConsole": "Besøk",
+    "startAuthProcess": "Start autorisasjonsprosess",
+    "commonIssues": "Vanlige problemer og løsninger:",
+    "credentials": "Ugyldige legitimasjon",
+    "callbackUrl": "Tilbakeringing-URL:",
+    "testAgain": "Test på nytt",
+    "calendarIntegration": "Google Kalender-integrasjon",
+    "syncSummary": "{{imported}} hendelser importert, {{exported}} avtaler eksportert",
+    "syncDetails": "📥 Importert: {{imported}} | 📤 Eksportert: {{exported}} | 🗑️ Slettet: {{deleted}}",
+    "calendarEvent": "Google Kalender-hendelse",
+    "cannotDeleteImported": "Denne hendelsen ble importert fra Google Kalender og kan ikke slettes fra appen. For å slette den, gå direkte til Google Kalender."
   },
   "landingBicom": {
     "header": {
@@ -5486,7 +5624,10 @@
       "notSupported": "Push-varsler støttes ikke i denne nettleseren. Prøv å åpne appen som installert PWA.",
       "permissionDeniedTitle": "Tillatelse avslått",
       "notificationsActivatedTitle": "Varsler aktivert",
-      "notificationsDeactivatedTitle": "Varsler deaktivert"
+      "notificationsDeactivatedTitle": "Varsler deaktivert",
+      "loading": "Laster...",
+      "active": "Varsler aktive",
+      "enable": "Aktiver varsler"
     },
     "subscriptionPlansAdmin": {
       "addFeature": "Legg til funksjon",
@@ -5523,7 +5664,9 @@
       "deletionUnlocked": "Sletting låst opp",
       "cannotUnlock": "Kan ikke låse opp slettingen",
       "cannotMarkDeleted": "Kan ikke simulere sletting",
-      "clientRemoved": "Kunden er fjernet fra systemet"
+      "clientRemoved": "Kunden er fjernet fra systemet",
+      "canNowBeDeleted": "{{name}} kan nå slettes",
+      "deleted": "{{name}} slettet"
     },
     "directLinkGenerator": {
       "linkCopied": "Direktelinken er kopiert til utklippstavlen.",
@@ -5585,7 +5728,8 @@
     "betaStatus": {
       "title": "Beta-modus",
       "welcomeMessage": "Velkommen til betaprogrammet! Du kan sende tilbakemelding når som helst fra betasiden.",
-      "invalidCode": "Ugyldig betakode"
+      "invalidCode": "Ugyldig betakode",
+      "codeExpired": "Beta-koden er ikke lenger gyldig."
     },
     "installAppPrompt": {
       "alreadyInstalledNote": "Du kan raskt få tilgang til ditt personlige område fra startskjermen.",
@@ -5743,7 +5887,10 @@
       "appointmentsHeading": "Avtaler",
       "dateColumn": "Dato",
       "timeColumn": "Tid",
-      "collaboratorColumn": "Medarbeider"
+      "collaboratorColumn": "Medarbeider",
+      "goToCalendar": "Gå til kalender",
+      "timeNotAvailable": "Tid ikke tilgjengelig",
+      "noServiceSpecified": "Ingen tjeneste spesifisert"
     },
     "appointmentCard": {
       "hide": "Skjul",
@@ -5758,7 +5905,9 @@
       "deletionNotificationTitle": "Slettevarsel",
       "deletionUnlockedBadge": "Sletting opplast",
       "otherAccountClient": "Kunde fra annen konto (kun visning)",
-      "viewOnlyBadge": "Kun visning"
+      "viewOnlyBadge": "Kun visning",
+      "deletedFromSourceBadge": "Klient slettet fra original konto",
+      "deletedFromSourceToast": "{{firstName}} {{lastName}} slettet fra original konto"
     },
     "clientFooterContactIcons": {
       "emailLabel": "E-post:",
@@ -5868,6 +6017,10 @@
       "czechRepublic": "Tsjekkia",
       "hungary": "Ungarn",
       "romania": "Romania"
+    },
+    "userLicenseBadge": {
+      "customer": "Kunde",
+      "user": "Bruker"
     }
   },
   "onboarding": {
@@ -5887,5 +6040,66 @@
   },
   "fab": {
     "dragging": "Flytter..."
+  },
+  "license": {
+    "upgradeRequired": "Oppgradering kreves",
+    "featureRequiresLicense": "\"{{feature}}\" krever en {{license}}-lisens",
+    "licenseRequired": "Denne seksjonen krever en {{license}}-lisens",
+    "upgrade": "Oppgrader til {{license}}"
+  },
+  "businessFeature": {
+    "title": "BUSINESS-funksjon",
+    "subtitle": "\"{{featureName}}\" er bare tilgjengelig med BUSINESS-abonnementet",
+    "benefits": {
+      "title": "Med BUSINESS får du",
+      "multiUser": "Støtte for flere brukere",
+      "analytics": "Avansert analyse",
+      "customization": "Fullstendig tilpasning",
+      "support": "Prioritert støtte 24/7",
+      "branding": "Fjerning av branding og white-label"
+    },
+    "learnMore": "Lær mer",
+    "upgradeButton": "Oppgrader til BUSINESS",
+    "description": "Oppgrader til BUSINESS-planen for å låse opp alle avanserte funksjoner for din bedrift."
+  },
+  "payment": {
+    "processing": "Behandler betaling...",
+    "pending": {
+      "title": "Behandler betaling",
+      "info": "Betalingen din er mottatt og abonnementet ditt vil bli aktivert snart.",
+      "wait": "Vent et øyeblikk mens vi behandler transaksjonen.",
+      "refresh": "Hvis siden ikke oppdateres automatisk, last den inn på nytt om noen minutter."
+    },
+    "checking": "Kontrollerer abonnementsstatus...",
+    "success": {
+      "description": "Takk for at du abonnerer. Kontoen din er oppdatert.",
+      "activated": "Abonnementet ditt er aktivert.",
+      "access": "Du har nå tilgang til alle premium-funksjoner."
+    },
+    "plan": "Plan",
+    "activePlan": "Aktiv plan",
+    "active": "Aktiv",
+    "startDate": "Startdato",
+    "status": "Status",
+    "details": "Abonnementsdetaljer",
+    "features": "Inkluderte funksjoner",
+    "supportInfo": "For spørsmål om abonnementet ditt, kontakt support. Ta vare på betalingskvitteringen du mottar via e-post.",
+    "return": "Tilbake til dashbord"
+  },
+  "stripe": {
+    "payWithCard": "Betal med kredittkort",
+    "sessionError": "Klarte ikke opprette betalingsøkt",
+    "urlError": "Betalingsøkt-URL ikke funnet"
+  },
+  "colorEditor": {
+    "saveError": "Klarte ikke lagre fargeinnstillinger ({{status}})"
+  },
+  "appointments": {
+    "noDataAvailable": "Ingen avtaledata tilgjengelig",
+    "incompleteData": "Ufullstendige avtaledata"
+  },
+  "whatsapp": {
+    "reminderTemplate": "Kjære {{name}},\nVi minner deg om din avtale for {{service}} den {{date}} kl. {{time}}.",
+    "testMessage": "Testmelding fra avtalehåndteringssystemet"
   }
 }

@@ -106,7 +106,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       toast({
         title: t('i18nFinale.clientCard.deletionUnlocked'),
-        description: `${client.firstName} ${client.lastName} può ora essere eliminato`,
+        description: t('i18nFinale.clientCard.canNowBeDeleted', '{{name}} can now be deleted', { name: `${client.firstName} ${client.lastName}` }),
       });
       if (onUpdate) onUpdate();
     },
@@ -128,7 +128,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       toast({
         title: t('i18nFinale.clientCardExtra.deletionNotificationTitle'),
-        description: `${client.firstName} ${client.lastName} eliminato dall'account originale`,
+        description: t('i18nFinale.clientCardExtra.deletedFromSourceToast', { firstName: client.firstName, lastName: client.lastName }),
         variant: "destructive",
       });
       if (onUpdate) onUpdate();
@@ -170,7 +170,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       
       toast({
         title: t('notifications.clientDeleted'),
-        description: `${client.firstName} ${client.lastName} eliminato`,
+        description: t('i18nFinale.clientCard.deleted', '{{name}} deleted', { name: `${client.firstName} ${client.lastName}` }),
       });
       
       if (onUpdate) {
@@ -246,7 +246,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
         <div className="bg-red-100 px-3 py-2 text-xs text-red-800 font-medium border-b border-red-200 flex items-center justify-between">
           <div className="flex items-center">
             <AlertTriangle className="h-4 w-4 mr-2" />
-            <span>⚠️ Cliente eliminato dall'account originale</span>
+            <span>⚠️ {t('i18nFinale.clientCardExtra.deletedFromSourceBadge')}</span>
           </div>
           {!isDeletionUnlocked && (
             <Button

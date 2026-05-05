@@ -14,16 +14,16 @@ export default function PaymentCancel() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">
             <AlertTriangle className="h-10 w-10 mx-auto mb-4 text-amber-500" />
-            {t('payment.cancel.title', 'Pagamento non completato')}
+            {t('payment.cancel.title', 'Payment not completed')}
           </CardTitle>
           <CardDescription>
-            {t('payment.cancel.description', 'Il processo di pagamento è stato interrotto o annullato.')}
+            {t('payment.cancel.description', 'The payment process was interrupted or cancelled.')}
           </CardDescription>
         </CardHeader>
         <CardContent className="text-center">
           <div className="bg-amber-50 text-amber-700 rounded-lg p-4 my-4">
-            <p>{t('payment.cancel.info', 'Il tuo pagamento non è stato elaborato e non ti è stato addebitato alcun importo.')}</p>
-            <p className="mt-2">{t('payment.cancel.retry', 'Puoi riprovare il pagamento in qualsiasi momento dalla pagina di abbonamento.')}</p>
+            <p>{t('payment.cancel.info', 'Your payment was not processed and you have not been charged.')}</p>
+            <p className="mt-2">{t('payment.cancel.retry', 'You can retry the payment at any time from the subscription page.')}</p>
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-2">
@@ -33,7 +33,7 @@ export default function PaymentCancel() {
             variant="default"
           >
             <CreditCard className="h-4 w-4 mr-2" />
-            {t('payment.cancel.tryAgain', 'Riprova il pagamento')}
+            {t('payment.cancel.tryAgain', 'Retry payment')}
           </Button>
           <Button 
             onClick={() => navigate('/')}
@@ -41,7 +41,7 @@ export default function PaymentCancel() {
             variant="outline"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            {t('payment.return', 'Torna alla dashboard')}
+            {t('payment.return', 'Return to dashboard')}
           </Button>
         </CardFooter>
       </Card>

@@ -26,7 +26,7 @@ export default function AdminNotifications() {
     queryKey: ['/api/admin/notifications'],
     queryFn: async () => {
       const response = await apiRequest("GET", "/api/admin/notifications");
-      if (!response.ok) throw new Error("Errore nel caricamento notifiche");
+      if (!response.ok) throw new Error(t('notifications.loadError', 'Failed to load notifications'));
       return response.json();
     },
     refetchInterval: 30000, // Ricarica ogni 30 secondi

@@ -284,7 +284,7 @@ const WhatsAppCenterPage: React.FC = () => {
         console.log('🗂️ CENTRO WHATSAPP: Appuntamenti raggruppati:', Object.keys(grouped).map(date => `${date}: ${grouped[date].length} app`));
         setGroupedAppointments(grouped);
       } else {
-        throw new Error(data.error || 'Errore sconosciuto');
+        throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
       console.error('❌ CENTRO WHATSAPP: Errore nel caricamento appuntamenti:', error);
@@ -311,7 +311,7 @@ const WhatsAppCenterPage: React.FC = () => {
         setMarketingMessages(data.messages || []);
         console.log(`📱 MARKETING: ${data.messages?.length || 0} messaggi pendenti caricati`);
       } else {
-        throw new Error(data.error || 'Errore sconosciuto');
+        throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
       console.error('❌ MARKETING: Errore nel caricamento:', error);
@@ -420,7 +420,7 @@ const WhatsAppCenterPage: React.FC = () => {
         }
         
       } else {
-        throw new Error(data.error || 'Errore sconosciuto durante invio automatico');
+        throw new Error(data.error || 'Unknown error during automatic send');
       }
       
     } catch (error: any) {
@@ -472,7 +472,12 @@ const WhatsAppCenterPage: React.FC = () => {
         const phone = appointment.client?.phone?.replace(/[+\s]/g, '');
         if (!phone) continue;
         
-        let messageText = `Gentile ${appointment.client?.firstName},\nLe ricordiamo il Suo appuntamento di ${appointment.service?.name} per ${format(new Date(appointment.date), 'dd/MM/yyyy')} alle ore ${appointment.startTime.substring(0, 5)}.`;
+        let messageText = t('whatsapp.reminderTemplate', 'Dear {{name}},\nWe remind you of your appointment for {{service}} on {{date}} at {{time}}.', {
+          name: appointment.client?.firstName,
+          service: appointment.service?.name,
+          date: format(new Date(appointment.date), 'dd/MM/yyyy'),
+          time: appointment.startTime.substring(0, 5),
+        });
         
         // Aggiungiamo il messaggio personalizzato se presente
         if (customMessage && customMessage.trim() !== '') {
@@ -640,7 +645,7 @@ const WhatsAppCenterPage: React.FC = () => {
           setActiveTab("send-notifications");
         }
       } else {
-        throw new Error(data.error || 'Errore sconosciuto durante la generazione dei link');
+        throw new Error(data.error || 'Unknown error generating links');
       }
     } catch (error) {
       console.error('Errore nella generazione dei link', error);
@@ -989,7 +994,7 @@ const WhatsAppCenterPage: React.FC = () => {
                         variant="outline"
                         onClick={() => {
                           // Test WhatsApp link generation
-                          const message = "Test messaggio dal sistema di gestione appuntamenti";
+                          const message = t('whatsapp.testMessage', 'Test message from the appointment management system');
                           const phone = phoneNumber || contactSettingsData?.settings?.phone || '';
                           const link = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
                           window.open(link, '_blank');
@@ -1201,7 +1206,12 @@ const WhatsAppCenterPage: React.FC = () => {
                                 // Creiamo un link WhatsApp diretto
                                 const generateWhatsAppLink = () => {
                                   const phone = appointment.client?.phone?.replace(/[+\s]/g, '');
-                                  let messageText = `Gentile ${appointment.client?.firstName},\nLe ricordiamo il Suo appuntamento di ${appointment.service?.name} per ${format(new Date(appointment.date), 'dd/MM/yyyy')} alle ore ${appointment.startTime.substring(0, 5)}.`;
+                                  let messageText = t('whatsapp.reminderTemplate', 'Dear {{name}},\nWe remind you of your appointment for {{service}} on {{date}} at {{time}}.', {
+                                    name: appointment.client?.firstName,
+                                    service: appointment.service?.name,
+                                    date: format(new Date(appointment.date), 'dd/MM/yyyy'),
+                                    time: appointment.startTime.substring(0, 5),
+                                  });
                                   
                                   // Aggiungiamo il messaggio personalizzato se presente
                                   if (customMessage && customMessage.trim() !== '') {

@@ -39,7 +39,7 @@ function ProNavigationBar() {
       <div className="flex items-center mb-6">
         <Crown className="h-6 w-6 mr-2 text-amber-500" />
         <h1 className="text-3xl font-bold tracking-tight">
-          {t('pro.title', 'Funzionalità PRO')}
+          {t('pro.title', 'PRO Features')}
         </h1>
       </div>
       
@@ -66,7 +66,7 @@ function ProNavigationBar() {
             }`}
           >
             <Receipt className="h-4 w-4 mr-2" />
-            {t('pro.invoices', 'Fatture')}
+            {t('pro.invoices', 'Invoices')}
           </div>
         </Link>
         
@@ -122,29 +122,29 @@ export default function ProFeatureGuard({ children, featureName, description, re
               </div>
             </div>
             <CardTitle className="text-2xl">
-              {upgradeMessage?.title || t('proFeature.title', 'Funzionalità PRO')}
+              {upgradeMessage?.title || t('proFeature.title', 'PRO Feature')}
             </CardTitle>
             <CardDescription>
-              {upgradeMessage?.description || t('proFeature.subtitle', `"${featureName}" è disponibile solo con l'abbonamento PRO`)}
+              {upgradeMessage?.description || t('proFeature.subtitle', '"{{featureName}}" is only available with the PRO subscription', { featureName })}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-center mb-4 text-muted-foreground">
-              {description || `Passa al piano ${upgradeMessage?.requiredPlan || 'PRO'} per accedere a questa funzionalità.`}
+              {description || `Upgrade to ${upgradeMessage?.requiredPlan || 'PRO'} to access this feature.`}
             </p>
             
             <div className="border rounded-lg p-4 mb-4 bg-slate-50">
               <div className="flex items-center mb-2">
                 <Crown className="h-5 w-5 text-amber-500 mr-2" />
                 <h3 className="font-medium">
-                  {t('proFeature.benefits.title', 'Con PRO ottieni')}:
+                  {t('proFeature.benefits.title', 'With PRO you get')}:
                 </h3>
               </div>
               <ul className="space-y-2 pl-7 list-disc text-sm">
-                <li>{t('proFeature.benefits.invoices', 'Gestione fatture completa')}</li>
-                <li>{t('proFeature.benefits.reports', 'Report dettagliati sull\'attività')}</li>
-                <li>{t('proFeature.benefits.googleCalendar', 'Integrazione con Google Calendar')}</li>
-                <li>{t('proFeature.benefits.support', 'Supporto prioritario')}</li>
+                <li>{t('proFeature.benefits.invoices', 'Full invoice management')}</li>
+                <li>{t('proFeature.benefits.reports', 'Detailed activity reports')}</li>
+                <li>{t('proFeature.benefits.googleCalendar', 'Google Calendar integration')}</li>
+                <li>{t('proFeature.benefits.support', 'Priority support')}</li>
               </ul>
             </div>
           </CardContent>
@@ -153,7 +153,7 @@ export default function ProFeatureGuard({ children, featureName, description, re
               className="w-full" 
               onClick={() => navigate('/subscribe')}
             >
-              {t('proFeature.upgradeButton', 'Passa a PRO')}
+              {t('proFeature.upgradeButton', 'Upgrade to PRO')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button
@@ -161,7 +161,7 @@ export default function ProFeatureGuard({ children, featureName, description, re
               className="w-full"
               onClick={() => navigate('/')}
             >
-              {t('common.backToHome', 'Torna alla Home')}
+              {t('common.backToHome', 'Back to Home')}
             </Button>
           </CardFooter>
         </Card>

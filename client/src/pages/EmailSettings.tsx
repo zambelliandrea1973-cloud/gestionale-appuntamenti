@@ -20,7 +20,7 @@ export default function EmailSettings() {
     <div className="container mx-auto flex items-center justify-center min-h-screen">
       <div className="text-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
-        <p className="text-lg">{t('Reindirizzamento alle impostazioni email...')}</p>
+        <p className="text-lg">{t('emailSettings.redirecting', 'Redirecting to email settings...')}</p>
       </div>
     </div>
   );

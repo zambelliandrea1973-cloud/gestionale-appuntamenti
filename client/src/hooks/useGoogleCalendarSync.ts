@@ -43,8 +43,8 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
       
       if (showToast) {
         toast({
-          title: t("common.success") || "✅ Sincronizzazione completata",
-          description: `📥 Importati: ${imported} | 📤 Esportati: ${exported} | 🗑️ Eliminati: ${deleted}`,
+          title: t("common.success", "✅ Sync completed"),
+          description: t('google.syncDetails', '📥 Imported: {{imported}} | 📤 Exported: {{exported}} | 🗑️ Deleted: {{deleted}}', { imported, exported, deleted }),
           variant: "default",
         });
       }

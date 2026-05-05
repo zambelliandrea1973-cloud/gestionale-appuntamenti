@@ -60,11 +60,11 @@ export function useManualSection(section: string, locale: string) {
         }
         
         // Nessun fallback disponibile - errore esplicito
-        throw new Error(`Nessun contenuto disponibile per ${section}`);
+        throw new Error(`No content available for ${section}`);
       }
       
       if (!response.ok) {
-        throw new Error(`Errore caricamento sezione ${section}`);
+        throw new Error(`Error loading section ${section}`);
       }
       
       const data = await response.json();

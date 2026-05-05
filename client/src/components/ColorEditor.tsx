@@ -72,13 +72,13 @@ export default function ColorEditor() {
       } else {
         const errorText = await response.text();
         console.error('Errore risposta server:', errorText);
-        throw new Error(`Errore nel salvataggio: ${response.status}`);
+        throw new Error(t('colorEditor.saveError', 'Failed to save color settings ({{status}})', { status: response.status }));
       }
     } catch (error: any) {
-      setSaveError(error.message || 'Si è verificato un errore durante il salvataggio');
+      setSaveError(error.message || t('common.error'));
       toast({
         title: t('common.error'),
-        description: error.message || 'Si è verificato un errore durante il salvataggio',
+        description: error.message || t('common.error'),
         variant: "destructive",
       });
     }

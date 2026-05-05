@@ -43,8 +43,8 @@ export default function LogoutButton({
       if (response.ok) {
         // Mostra un toast di successo
         toast({
-          title: t("auth.logoutSuccess", "Logout effettuato con successo"),
-          description: t("auth.redirecting", "Reindirizzamento in corso..."),
+          title: t("auth.logoutSuccess", "Logout successful"),
+          description: t("auth.redirecting", "Redirecting..."),
         });
         
         // Reindirizza alla pagina iniziale dopo un breve ritardo
@@ -55,8 +55,8 @@ export default function LogoutButton({
       } else {
         // Mostra un messaggio di errore
         toast({
-          title: t("auth.logoutError", "Errore durante il logout"),
-          description: t("auth.tryAgain", "Si prega di riprovare"),
+          title: t("auth.logoutError", "Logout error"),
+          description: t("auth.tryAgain", "Please try again"),
           variant: "destructive",
         });
       }
@@ -64,8 +64,8 @@ export default function LogoutButton({
       console.error("Errore durante il logout:", error);
       
       toast({
-        title: t("auth.logoutError", "Errore durante il logout"),
-        description: t("auth.tryAgain", "Si prega di riprovare"),
+        title: t("auth.logoutError", "Logout error"),
+        description: t("auth.tryAgain", "Please try again"),
         variant: "destructive",
       });
     } finally {

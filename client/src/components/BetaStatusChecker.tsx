@@ -53,7 +53,7 @@ export function BetaStatusChecker() {
               
               toast({
                 title: t('i18nFinale.betaStatus.invalidCode'),
-                description: data.message || 'Il codice beta non è più valido.',
+                description: data.message || t('i18nFinale.betaStatus.codeExpired', 'The beta code is no longer valid.'),
                 variant: 'destructive',
               });
             }

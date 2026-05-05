@@ -37,7 +37,7 @@ export function RestartAppButton({ variant = 'default', size = 'default', classN
       const tokenData = await tokenResponse.json();
       
       if (!tokenData.success || !tokenData.token) {
-        throw new Error('Impossibile ottenere il token di riavvio');
+        throw new Error('Unable to obtain restart token');
       }
       
       // Step 2: Riavvia l'applicazione
@@ -46,7 +46,7 @@ export function RestartAppButton({ variant = 'default', size = 'default', classN
       const restartData = await restartResponse.json();
       
       if (!restartData.success) {
-        throw new Error(restartData.message || 'Errore durante il riavvio');
+        throw new Error(restartData.message || 'Restart failed');
       }
       
       // Step 3: Inizia il conto alla rovescia
@@ -80,7 +80,7 @@ export function RestartAppButton({ variant = 'default', size = 'default', classN
       
       toast({
         title: t('i18nFinale.restartApp.errorTitle'),
-        description: error.message || 'Si è verificato un errore durante il riavvio dell\'applicazione',
+        description: error instanceof Error ? error.message : t('common.error'),
         variant: 'destructive',
       });
       

@@ -195,7 +195,7 @@ export default function AppointmentCardSmall({
                 onClick={handleDelete}
                 disabled={deleteMutation.isPending}
               >
-                {deleteMutation.isPending ? "Eliminando..." : "Elimina"}
+                {deleteMutation.isPending ? t('common.deleting') : t('common.delete')}
               </Button>
             </div>
           </div>

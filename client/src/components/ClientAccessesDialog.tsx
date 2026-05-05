@@ -24,10 +24,10 @@ export default function ClientAccessesDialog({
       <DialogContent className="min-[1200px]:max-w-[800px] max-h-[90vh] overflow-auto">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle className="text-xl">
-            {t('clients.accesses.detailsTitle', 'Accessi di {{name}}', { name: clientName })}
+            {t('clients.accesses.detailsTitle', 'Accesses for {{name}}', { name: clientName })}
           </DialogTitle>
           <DialogDescription className="sr-only">
-            {t('clients.accesses.dialogDescription', 'Visualizza i dettagli degli accessi effettuati dal cliente all\'applicazione')}
+            {t('clients.accesses.dialogDescription', 'View details of the accesses made by the client to the application')}
           </DialogDescription>
           <Button
             variant="ghost"

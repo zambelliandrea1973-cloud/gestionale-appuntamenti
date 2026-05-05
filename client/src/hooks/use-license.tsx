@@ -26,7 +26,7 @@ export interface LicenseInfo {
 export function useLicense() {
   const { t } = useTranslation();
   const { toast } = useToast();
-  const [appTitle, setAppTitle] = useState<string>('Gestionale Appuntamenti');
+  const [appTitle, setAppTitle] = useState<string>(t('app.defaultTitle', 'Appointment Manager'));
   
   // Query per ottenere le informazioni sulla licenza
   const licenseQuery = useQuery({

@@ -142,7 +142,7 @@ const NotificationsPage: React.FC = () => {
       const response = await fetch('/api/notifications/upcoming-appointments');
       
       if (!response.ok) {
-        throw new Error(`Errore durante il recupero degli appuntamenti: ${response.status}`);
+        throw new Error(`Failed to fetch appointments: ${response.status}`);
       }
       
       const data = await response.json();
@@ -151,7 +151,7 @@ const NotificationsPage: React.FC = () => {
         setAppointments(data.appointments || []);
         setGroupedAppointments(data.groupedAppointments || {});
       } else {
-        throw new Error(data.error || 'Errore sconosciuto');
+        throw new Error(data.error || 'Unknown error');
       }
     } catch (err: any) {
       setError(err.message);
@@ -173,7 +173,7 @@ const NotificationsPage: React.FC = () => {
       const response = await fetch('/api/notifications/history');
       
       if (!response.ok) {
-        throw new Error(`Errore durante il recupero dello storico: ${response.status}`);
+        throw new Error(`Failed to fetch history: ${response.status}`);
       }
       
       const data = await response.json();
@@ -181,7 +181,7 @@ const NotificationsPage: React.FC = () => {
       if (data.success) {
         setSentHistory(data.notifications || []);
       } else {
-        throw new Error(data.error || 'Errore sconosciuto');
+        throw new Error(data.error || 'Unknown error');
       }
     } catch (err: any) {
       toast({
@@ -209,7 +209,7 @@ const NotificationsPage: React.FC = () => {
       const response = await fetch('/api/notifications/sms-history');
       
       if (!response.ok) {
-        throw new Error(`Errore durante il recupero dello storico SMS: ${response.status}`);
+        throw new Error(`Failed to fetch SMS history: ${response.status}`);
       }
       
       const data = await response.json();
@@ -217,7 +217,7 @@ const NotificationsPage: React.FC = () => {
       if (data.success) {
         setSmsHistory(data.notifications || []);
       } else {
-        throw new Error(data.error || 'Errore sconosciuto');
+        throw new Error(data.error || 'Unknown error');
       }
     } catch (err: any) {
       toast({
@@ -316,7 +316,7 @@ const NotificationsPage: React.FC = () => {
       });
       
       if (!response.ok) {
-        throw new Error(`Errore durante l'invio delle notifiche: ${response.status}`);
+        throw new Error(`Failed to send notifications: ${response.status}`);
       }
       
       const data = await response.json();
@@ -342,7 +342,7 @@ const NotificationsPage: React.FC = () => {
         setSelectedAppointments({});
         setCustomMessage('');
       } else {
-        throw new Error(data.error || 'Errore sconosciuto');
+        throw new Error(data.error || 'Unknown error');
       }
     } catch (err: any) {
       toast({
@@ -385,7 +385,7 @@ const NotificationsPage: React.FC = () => {
       });
       
       if (!response.ok) {
-        throw new Error(`Errore durante l'invio degli SMS: ${response.status}`);
+        throw new Error(`Failed to send SMS: ${response.status}`);
       }
       
       const data = await response.json();
@@ -446,7 +446,7 @@ const NotificationsPage: React.FC = () => {
         setSelectedAppointments({});
         setCustomMessage('');
       } else {
-        throw new Error(data.error || 'Errore sconosciuto');
+        throw new Error(data.error || 'Unknown error');
       }
     } catch (err: any) {
       toast({
