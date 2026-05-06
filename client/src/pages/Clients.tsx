@@ -39,7 +39,6 @@ interface ClientsSummary {
 }
 
 const QR_TIP_DISMISSED_KEY = "qr-feature-tip-dismissed";
-const QR_TIP_TRIGGER_KEY = "qr-tip-after-first-client";
 
 export default function Clients() {
   const { t } = useTranslation();
@@ -48,18 +47,16 @@ export default function Clients() {
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
 
-  // Show only after first client creation, and only if not yet dismissed
+  // Show to anyone who has at least 1 client and hasn't dismissed it yet
   const [showQrTip, setShowQrTip] = useState(() => {
     try {
-      return localStorage.getItem(QR_TIP_TRIGGER_KEY) === "1" &&
-             localStorage.getItem(QR_TIP_DISMISSED_KEY) !== "1";
+      return localStorage.getItem(QR_TIP_DISMISSED_KEY) !== "1";
     } catch { return false; }
   });
 
   const dismissQrTip = () => {
     try {
       localStorage.setItem(QR_TIP_DISMISSED_KEY, "1");
-      localStorage.removeItem(QR_TIP_TRIGGER_KEY);
     } catch {}
     setShowQrTip(false);
   };
@@ -162,10 +159,9 @@ export default function Clients() {
       
       setIsClientDialogOpen(false);
 
-      // Show QR tip banner after first client creation (if not yet dismissed)
+      // Re-show QR tip banner after client creation (if not yet dismissed)
       try {
         if (localStorage.getItem(QR_TIP_DISMISSED_KEY) !== "1") {
-          localStorage.setItem(QR_TIP_TRIGGER_KEY, "1");
           setShowQrTip(true);
         }
       } catch {}
@@ -313,8 +309,8 @@ export default function Clients() {
   return (
     <div className="container mx-auto px-4 py-8">
 
-      {/* QR feature tip — shown once, dismissed permanently via localStorage */}
-      {showQrTip && (
+      {/* QR feature tip — shown to anyone with clients, dismissed permanently via localStorage */}
+      {showQrTip && clients.length > 0 && (
         <div className="mb-6 rounded-xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white shadow-sm overflow-hidden">
           {/* Header strip */}
           <div className="bg-indigo-600 px-4 py-3 flex items-center gap-2">
