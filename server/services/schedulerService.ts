@@ -112,8 +112,8 @@ export const schedulerService = {
   },
   
   /**
-   * Start the service di notifiche trial expiring
-   * Check each day at 09:00 trial users expiring in 10 days
+   * Start the trial expiry notification service
+   * Check each day at 09:00 for trial users expiring in 10 days
    */
   startTrialNotificationScheduler(): void {
     // Cron job executed each day at 09:00
@@ -136,8 +136,8 @@ export const schedulerService = {
   },
   
   /**
-   * Start the service di sincronizzazione automatica da Google Calendar
-   * Check every 10 minutes if there are new events on Google Calendar and import them
+   * Start the automatic Google Calendar synchronisation service
+   * Check every 5 minutes for new events on Google Calendar and import them
    */
   startGoogleCalendarImportScheduler(): void {
     const isVerbose = process.env.LOG_SCHEDULER !== 'false';

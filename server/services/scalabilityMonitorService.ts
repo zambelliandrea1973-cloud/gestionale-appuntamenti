@@ -97,62 +97,62 @@ export const scalabilityMonitorService = {
       console.log(`📊 [MONITOR] Stats: ${stats.totalUsers} users, ${stats.totalClients} clients, ${stats.totalAppointments} appointments, max ${stats.maxClientsPerUser} clients/user`);
 
       if (stats.totalUsers >= THRESHOLDS.TOTAL_USERS_CRITICAL && this.canSendWarning('users_critical')) {
-        warnings.push(`🚨 CRITICO: ${stats.totalUsers} utenti registrati (soglia: ${THRESHOLDS.TOTAL_USERS_CRITICAL})`);
+        warnings.push(`🚨 CRITICAL: ${stats.totalUsers} registered users (threshold: ${THRESHOLDS.TOTAL_USERS_CRITICAL})`);
         this.markWarningSent('users_critical');
       } else if (stats.totalUsers >= THRESHOLDS.TOTAL_USERS_WARNING && this.canSendWarning('users_warning')) {
-        warnings.push(`⚠️ WARNING: ${stats.totalUsers} utenti registrati (soglia warning: ${THRESHOLDS.TOTAL_USERS_WARNING})`);
+        warnings.push(`⚠️ WARNING: ${stats.totalUsers} registered users (warning threshold: ${THRESHOLDS.TOTAL_USERS_WARNING})`);
         this.markWarningSent('users_warning');
       }
 
       if (stats.totalClients >= THRESHOLDS.TOTAL_CLIENTS_CRITICAL && this.canSendWarning('clients_critical')) {
-        warnings.push(`🚨 CRITICO: ${stats.totalClients} clienti totali (soglia: ${THRESHOLDS.TOTAL_CLIENTS_CRITICAL})`);
+        warnings.push(`🚨 CRITICAL: ${stats.totalClients} total clients (threshold: ${THRESHOLDS.TOTAL_CLIENTS_CRITICAL})`);
         this.markWarningSent('clients_critical');
       } else if (stats.totalClients >= THRESHOLDS.TOTAL_CLIENTS_WARNING && this.canSendWarning('clients_warning')) {
-        warnings.push(`⚠️ WARNING: ${stats.totalClients} clienti totali (soglia warning: ${THRESHOLDS.TOTAL_CLIENTS_WARNING})`);
+        warnings.push(`⚠️ WARNING: ${stats.totalClients} total clients (warning threshold: ${THRESHOLDS.TOTAL_CLIENTS_WARNING})`);
         this.markWarningSent('clients_warning');
       }
 
       if (stats.maxClientsPerUser >= THRESHOLDS.MAX_CLIENTS_PER_USER_CRITICAL && this.canSendWarning('clients_per_user_critical')) {
-        warnings.push(`🚨 CRITICO: Utente ${stats.userWithMaxClients} ha ${stats.maxClientsPerUser} clienti (soglia: ${THRESHOLDS.MAX_CLIENTS_PER_USER_CRITICAL})`);
+        warnings.push(`🚨 CRITICAL: User ${stats.userWithMaxClients} has ${stats.maxClientsPerUser} clients (threshold: ${THRESHOLDS.MAX_CLIENTS_PER_USER_CRITICAL})`);
         this.markWarningSent('clients_per_user_critical');
       } else if (stats.maxClientsPerUser >= THRESHOLDS.MAX_CLIENTS_PER_USER_WARNING && this.canSendWarning('clients_per_user_warning')) {
-        warnings.push(`⚠️ WARNING: Utente ${stats.userWithMaxClients} ha ${stats.maxClientsPerUser} clienti (soglia warning: ${THRESHOLDS.MAX_CLIENTS_PER_USER_WARNING})`);
+        warnings.push(`⚠️ WARNING: User ${stats.userWithMaxClients} has ${stats.maxClientsPerUser} clients (warning threshold: ${THRESHOLDS.MAX_CLIENTS_PER_USER_WARNING})`);
         this.markWarningSent('clients_per_user_warning');
       }
 
       if (stats.totalAppointments >= THRESHOLDS.TOTAL_APPOINTMENTS_CRITICAL && this.canSendWarning('appointments_critical')) {
-        warnings.push(`🚨 CRITICO: ${stats.totalAppointments} appuntamenti totali (soglia: ${THRESHOLDS.TOTAL_APPOINTMENTS_CRITICAL})`);
+        warnings.push(`🚨 CRITICAL: ${stats.totalAppointments} total appointments (threshold: ${THRESHOLDS.TOTAL_APPOINTMENTS_CRITICAL})`);
         this.markWarningSent('appointments_critical');
       } else if (stats.totalAppointments >= THRESHOLDS.TOTAL_APPOINTMENTS_WARNING && this.canSendWarning('appointments_warning')) {
-        warnings.push(`⚠️ WARNING: ${stats.totalAppointments} appuntamenti totali (soglia warning: ${THRESHOLDS.TOTAL_APPOINTMENTS_WARNING})`);
+        warnings.push(`⚠️ WARNING: ${stats.totalAppointments} total appointments (warning threshold: ${THRESHOLDS.TOTAL_APPOINTMENTS_WARNING})`);
         this.markWarningSent('appointments_warning');
       }
 
       if (warnings.length > 0) {
         const htmlContent = `
-          <h2>Avviso Scalabilità - Gestionale Appuntamenti</h2>
-          <p>Il sistema ha raggiunto una o più soglie critiche che richiedono attenzione:</p>
+          <h2>Scalability Warning - Appointment Manager</h2>
+          <p>The system has reached one or more critical thresholds that require attention:</p>
           <ul>
             ${warnings.map(w => `<li>${w}</li>`).join('')}
           </ul>
-          <h3>Statistiche attuali:</h3>
+          <h3>Current stats:</h3>
           <ul>
-            <li><strong>Utenti totali:</strong> ${stats.totalUsers}</li>
-            <li><strong>Clienti totali:</strong> ${stats.totalClients}</li>
-            <li><strong>Appuntamenti totali:</strong> ${stats.totalAppointments}</li>
-            <li><strong>Max clienti per utente:</strong> ${stats.maxClientsPerUser} (${stats.userWithMaxClients})</li>
+            <li><strong>Total users:</strong> ${stats.totalUsers}</li>
+            <li><strong>Total clients:</strong> ${stats.totalClients}</li>
+            <li><strong>Total appointments:</strong> ${stats.totalAppointments}</li>
+            <li><strong>Max clients per user:</strong> ${stats.maxClientsPerUser} (${stats.userWithMaxClients})</li>
           </ul>
-          <h3>Azioni consigliate:</h3>
+          <h3>Recommended actions:</h3>
           <ol>
-            <li>Implementare paginazione lato frontend per la lista clienti</li>
-            <li>Aggiungere ricerca server-side invece di filtrare in JavaScript</li>
-            <li>Considerare l'aggiunta di cache Redis per query frequenti</li>
-            <li>Valutare upgrade del piano database se necessario</li>
+            <li>Implement frontend pagination for the client list</li>
+            <li>Add server-side search instead of filtering in JavaScript</li>
+            <li>Consider adding Redis cache for frequent queries</li>
+            <li>Evaluate a database plan upgrade if necessary</li>
           </ol>
-          <p><em>Questo avviso non verrà reinviato per le prossime 24 ore.</em></p>
+          <p><em>This warning will not be resent for the next 24 hours.</em></p>
         `;
 
-        await this.sendWarningEmail('Soglie scalabilità raggiunte', htmlContent);
+        await this.sendWarningEmail('Scalability thresholds reached', htmlContent);
       } else {
         console.log('✅ [MONITOR] No critical threshold reached');
       }

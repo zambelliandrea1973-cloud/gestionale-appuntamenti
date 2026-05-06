@@ -12,13 +12,13 @@ process.on('SIGHUP', () => {
   console.log('🛡️ SIGHUP received - ignored for server stability');
 });
 
-// In sviluppo, intercetta process.exit(1) causato da errors esbuild/Vite
+// In development, intercept process.exit(1) caused by esbuild/Vite errors
 // when the process receives system signals
 if (process.env.NODE_ENV !== 'production') {
   const _originalExit = process.exit;
   process.exit = ((code?: number | string) => {
     if (code === 1) {
-      console.log('🛡️ process.exit(1) intercettato in sviluppo - server continua a girare');
+      console.log('🛡️ process.exit(1) intercepted in development - server keeps running');
       return undefined as never;
     }
     return _originalExit(code as number);
@@ -42,7 +42,7 @@ app.use(helmet({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 
-// Serve file uploads statici
+// Serve static file uploads
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use((req, res, next) => {
@@ -63,7 +63,7 @@ app.use((req, res, next) => {
   // Ensures the user_sessions table exists in the DB before any required operation
   await ensureSessionTable();
 
-  // Initialize the service di setup iniziale
+  // Initialize the initial setup service
   try {
     await initialSetupService.initialize();
   } catch (error) {
@@ -81,7 +81,7 @@ app.use((req, res, next) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
     
-    // Log dettagliato of the error per debug
+    // Detailed error log for debugging
     console.error('🔴 [GLOBAL ERROR HANDLER] ==================');
     console.error(`🔴 [GLOBAL ERROR] ${req.method} ${req.path}`);
     console.error('🔴 [GLOBAL ERROR] Message:', message);
@@ -92,7 +92,7 @@ app.use((req, res, next) => {
     console.error('🔴 [GLOBAL ERROR] Stack:', err.stack);
     console.error('🔴 [GLOBAL ERROR] ==================');
 
-    // Sempre restituisci JSON, mai HTML
+    // Always return JSON, never HTML
     if (!res.headersSent) {
       res.status(status).json({ 
         message,
