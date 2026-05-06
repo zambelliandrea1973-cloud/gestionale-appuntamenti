@@ -1,0 +1,78 @@
+06/05/2026, 22:00:02:
+runtime
+🚀 Immediate execution of reminder job on server startup
+06/05/2026, 22:00:07:
+runtime
+🔍 [MONITOR] Checking scalability thresholds...
+06/05/2026, 22:00:07:
+runtime
+📊 [MONITOR] Stats: 69 users, 4585 clients, 733 appointments, max 0 clients/user
+06/05/2026, 22:00:07:
+runtime
+✅ [MONITOR] No critical threshold reached
+06/05/2026, 22:15:00:
+runtime
+⏰ Executing appointment reminder job: 2026-05-06T20:15:00.021Z
+06/05/2026, 22:30:00:
+runtime
+⏰ Executing appointment reminder job: 2026-05-06T20:30:00.962Z
+06/05/2026, 22:39:24:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+06/05/2026, 22:39:24:
+runtime
+🔴 [GLOBAL ERROR] GET /
+06/05/2026, 22:39:24:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+06/05/2026, 22:39:24:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+06/05/2026, 22:39:24:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+06/05/2026, 22:39:24:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+06/05/2026, 22:39:24:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+06/05/2026, 22:39:24:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+06/05/2026, 22:39:24:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+06/05/2026, 22:39:24:
+runtime
+🔴 [GLOBAL ERROR] ==================
+06/05/2026, 22:39:30:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+06/05/2026, 22:39:30:
+runtime
+🔴 [GLOBAL ERROR] GET /
+06/05/2026, 22:39:30:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+06/05/2026, 22:39:30:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+06/05/2026, 22:39:30:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+06/05/2026, 22:39:30:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+06/05/2026, 22:39:30:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+06/05/2026, 22:39:30:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+06/05/2026, 22:39:30:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+06/05/2026, 22:39:30:
+runtime
+🔴 [GLOBAL ERROR] ==================
