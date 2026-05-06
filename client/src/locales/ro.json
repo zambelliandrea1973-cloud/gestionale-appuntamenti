@@ -359,7 +359,7 @@
     "description": "Gestionați informațiile clienților",
     "subDescription": "Adăugați, editați și vizualizați datele clienților, inclusiv informații personale și medicale",
     "goTo": "Gestionați Clienții",
-    "addClient": "Client Nou",
+    "addClient": "Creează client nou",
     "addFirstClient": "Adăugați primul client",
     "filter": {
       "noConsent": "Fără Consimțământ"
@@ -5733,7 +5733,7 @@
       "unlimited": "Nelimitat"
     },
     "clientsPage": {
-      "newShort": "Nou",
+      "newShort": "Client nou",
       "noClientsInSystem": "Nu există încă clienți în sistem.",
       "noClientsForProfessional": "Niciun client găsit pentru acest profesionist",
       "updateError": "Eroare la actualizarea datelor",

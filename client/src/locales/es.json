@@ -368,7 +368,7 @@
     "description": "Gestionar información de clientes",
     "subDescription": "Añada, edite y visualice datos de clientes, incluyendo información personal y médica",
     "goTo": "Gestionar Clientes",
-    "addClient": "Nuevo Cliente",
+    "addClient": "Crear nuevo cliente",
     "addFirstClient": "Añadir primer cliente",
     "filter": {
       "noConsent": "Sin Consentimiento"
@@ -5733,7 +5733,7 @@
       "unlimited": "Ilimitado"
     },
     "clientsPage": {
-      "newShort": "Nuevo",
+      "newShort": "Nuevo cliente",
       "noClientsInSystem": "Aún no hay clientes en el sistema.",
       "noClientsForProfessional": "No se han encontrado clientes para este profesional",
       "updateError": "Error al actualizar los datos",

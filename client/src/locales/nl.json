@@ -359,7 +359,7 @@
     "description": "Beheer klantinformatie",
     "subDescription": "Voeg toe, bewerk en bekijk klantgegevens, inclusief persoonlijke en medische informatie",
     "goTo": "Beheer Klanten",
-    "addClient": "Nieuwe Klant",
+    "addClient": "Nieuwe klant aanmaken",
     "addFirstClient": "Voeg eerste klant toe",
     "filter": {
       "noConsent": "Zonder Toestemming"
@@ -5733,7 +5733,7 @@
       "unlimited": "Onbeperkt"
     },
     "clientsPage": {
-      "newShort": "Nieuw",
+      "newShort": "Nieuwe klant",
       "noClientsInSystem": "Er zijn nog geen klanten in het systeem.",
       "noClientsForProfessional": "Geen klanten gevonden voor deze professional",
       "updateError": "Fout bij het bijwerken van de gegevens",

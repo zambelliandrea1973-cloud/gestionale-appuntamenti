@@ -387,7 +387,7 @@
     "description": "Manage client information",
     "subDescription": "Add, edit and view client data, including personal and medical information",
     "goTo": "Manage Clients",
-    "addClient": "New Client",
+    "addClient": "Create new client",
     "addFirstClient": "Add first client",
     "filter": {
       "noConsent": "No Consent"
@@ -5733,7 +5733,7 @@
       "unlimited": "Unlimited"
     },
     "clientsPage": {
-      "newShort": "New",
+      "newShort": "New client",
       "noClientsInSystem": "There are no clients in the system yet.",
       "noClientsForProfessional": "No clients found for this professional",
       "updateError": "Error while updating data",

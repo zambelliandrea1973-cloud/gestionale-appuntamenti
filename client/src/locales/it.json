@@ -392,7 +392,7 @@
     "description": "Gestisci l'anagrafica dei clienti",
     "subDescription": "Aggiungi, modifica e visualizza i dati dei clienti, compresi i dati anagrafici e medici",
     "goTo": "Gestisci Clienti",
-    "addClient": "Nuovo Cliente",
+    "addClient": "Crea nuovo cliente",
     "addFirstClient": "Aggiungi il primo cliente",
     "filter": {
       "noConsent": "Senza Consenso"
@@ -5733,7 +5733,7 @@
       "unlimited": "Illimitato"
     },
     "clientsPage": {
-      "newShort": "Nuovo",
+      "newShort": "Crea cliente",
       "noClientsInSystem": "Non ci sono ancora clienti nel sistema.",
       "noClientsForProfessional": "Nessun cliente trovato per questo professionista",
       "updateError": "Errore durante l'aggiornamento dei dati",

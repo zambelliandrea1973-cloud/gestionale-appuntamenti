@@ -368,7 +368,7 @@
     "description": "Kundeninformationen verwalten",
     "subDescription": "Kundendaten hinzufügen, bearbeiten und anzeigen, einschließlich persönlicher und medizinischer Informationen",
     "goTo": "Kunden verwalten",
-    "addClient": "Neuer Kunde",
+    "addClient": "Neuen Kunden erstellen",
     "addFirstClient": "Ersten Kunden hinzufügen",
     "filter": {
       "noConsent": "Ohne Einwilligung"
@@ -5733,7 +5733,7 @@
       "unlimited": "Unbegrenzt"
     },
     "clientsPage": {
-      "newShort": "Neu",
+      "newShort": "Neuer Kunde",
       "noClientsInSystem": "Es sind noch keine Kunden im System vorhanden.",
       "noClientsForProfessional": "Keine Kunden für diese Fachkraft gefunden",
       "updateError": "Fehler beim Aktualisieren der Daten",

@@ -359,7 +359,7 @@
     "description": "Administrer kundeinformasjon",
     "subDescription": "Legg til, rediger og vis kundedata, inkludert personlig og medisinsk informasjon",
     "goTo": "Administrer Kunder",
-    "addClient": "Ny Kunde",
+    "addClient": "Opprett ny kunde",
     "addFirstClient": "Legg til første kunde",
     "filter": {
       "noConsent": "Uten Samtykke"
@@ -5733,7 +5733,7 @@
       "unlimited": "Ubegrenset"
     },
     "clientsPage": {
-      "newShort": "Ny",
+      "newShort": "Ny kunde",
       "noClientsInSystem": "Det finnes ingen kunder i systemet ennå.",
       "noClientsForProfessional": "Ingen kunder funnet for denne fagpersonen",
       "updateError": "Feil ved oppdatering av data",
