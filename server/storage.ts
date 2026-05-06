@@ -458,6 +458,7 @@ export class DatabaseStorage implements IStorage {
         pool: pgPool,
         tableName: 'user_sessions',
         ttl: 30 * 24 * 60 * 60, // 30 days in seconds
+        createTableIfMissing: true,
       });
     } else {
       console.log('📝 Using MemoryStore for sessions (fallback without DATABASE_URL)');
