@@ -445,7 +445,8 @@
       "emailSubject": "Ваш доступ к личному кабинету",
       "messageText": "Здравствуйте {{name}}, вот ваша ссылка для доступа к личному кабинету:"
     },
-    "adminPersonalClientsHint": "Ваши персональные клиенты появятся здесь. Используйте вкладку 'Персонал' для просмотра клиентов других специалистов."
+    "adminPersonalClientsHint": "Ваши персональные клиенты появятся здесь. Используйте вкладку 'Персонал' для просмотра клиентов других специалистов.",
+    "loadMore": "Load more"
   },
   "invoices": {
     "title": "Управление счетами",
@@ -676,13 +677,36 @@
       "messageTemplate": "Текст сообщения",
       "templatePlaceholder": "Напр. Уважаемый(ая) {{nome}}, это напоминание о вашей записи {{servizio}} {{data}} в {{ora}} с {{collaboratore}} в {{stanza}}.",
       "templateHelp": "Используйте переменные для включения конкретной информации о записи.",
-      "setAsDefault": "Установить как шаблон по умолчанию"
+      "setAsDefault": "Установить как шаблон по умолчанию",
+      "default": "Default",
+      "noTemplates": "No reminder templates defined",
+      "createFirst": "Create the first template"
     },
     "contactInfo": {
       "phone1": "Основной телефон",
       "phone1Desc": "Основной номер телефона для контактов",
       "phone2Desc": "Дополнительный номер телефона (необязательно)",
-      "websiteDesc": "Введите только домен (пример.ру) или полный URL (https://пример.ру)"
+      "websiteDesc": "Введите только домен (пример.ру) или полный URL (https://пример.ру)",
+      "validationError": "Validation error",
+      "checkFields": "Please check the highlighted fields",
+      "saveSuccess": "Save complete",
+      "saveSuccessDesc": "Contact information has been updated successfully",
+      "saveError": "An error occurred while saving",
+      "saveErrorTitle": "Save error",
+      "title": "Contact information",
+      "description": "Enter the contact information that will be displayed in the client app",
+      "errorTitle": "Error",
+      "email": "Email",
+      "emailDesc": "Public contact email address",
+      "phone2": "Secondary phone",
+      "website": "Website",
+      "facebook": "Facebook",
+      "facebookDesc": "Page name or full Facebook URL",
+      "instagram": "Instagram",
+      "instagramDesc": "Username or full Instagram URL",
+      "saving": "Saving...",
+      "save": "Save contact information",
+      "invalidFormat": "Invalid format"
     }
   },
   "common": {
@@ -719,7 +743,11 @@
     "deleting": "Удаление...",
     "view": "Просмотр",
     "hidePassword": "Скрыть пароль",
-    "showPassword": "Показать пароль"
+    "showPassword": "Показать пароль",
+    "support": "Support",
+    "terms": "Terms of Service",
+    "copyFailed": "Unable to copy to clipboard",
+    "reset": "Reset"
   },
   "notifications": {
     "clientDeleted": "Клиент удален",
@@ -1234,7 +1262,12 @@
     "insufficientRole": "Этот раздел требует роли '{{role}}'",
     "currentRole": "Ваша текущая роль: {{role}}",
     "required": "Требуется вход",
-    "loginRequired": "Для доступа к этому разделу необходимо войти в систему"
+    "loginRequired": "Для доступа к этому разделу необходимо войти в систему",
+    "logoutSuccess": "Logout successful",
+    "redirecting": "Redirecting...",
+    "logoutError": "Logout error",
+    "tryAgain": "Please try again",
+    "loggingOut": "Logging out..."
   },
   "clientArea": {
     "installApp": "Установить приложение",
@@ -5463,7 +5496,44 @@
     "syncSummary": "Импортировано {{imported}} событий, экспортировано {{exported}} записей",
     "syncDetails": "📥 Импортировано: {{imported}} | 📤 Экспортировано: {{exported}} | 🗑️ Удалено: {{deleted}}",
     "calendarEvent": "Событие Google Calendar",
-    "cannotDeleteImported": "Это событие импортировано из Google Calendar и не может быть удалено из приложения. Для удаления перейдите непосредственно в Google Calendar."
+    "cannotDeleteImported": "Это событие импортировано из Google Calendar и не может быть удалено из приложения. Для удаления перейдите непосредственно в Google Calendar.",
+    "popupBlocked": "The popup was blocked. Please disable the popup blocker for this site.",
+    "authSuccess": "Authorization complete",
+    "calendarConnected": "Your Google Calendar has been connected successfully",
+    "startAuthError": "Unable to start Google authorization",
+    "unknownError": "An error occurred during disconnection",
+    "syncEnabled": "Sync enabled",
+    "syncExplanation": "When you create or edit an appointment, it will be automatically updated in your Google Calendar.",
+    "syncDisabled": "Sync disabled",
+    "authRevoked": "Authorization revoked",
+    "calendarDisconnected": "Google Calendar has been disconnected",
+    "revokeError": "An error occurred while revoking authorization",
+    "syncComplete": "Sync complete",
+    "syncError": "Sync error",
+    "syncFailedError": "Sync failed",
+    "enableSync": "Enable sync",
+    "syncActive": "Sync active",
+    "connecting": "Connecting...",
+    "advancedSettings": "Advanced settings",
+    "authStarted": "Authorization started",
+    "authOpenedWindow": "A new window has been opened for Google authorization",
+    "authError": "Authorization error",
+    "genericError": "An error occurred while starting authorization",
+    "testSuccess": "Test completed successfully",
+    "configCorrect": "The Google configuration appears correct",
+    "testFailed": "Test failed",
+    "configError": "An error occurred with the Google configuration",
+    "networkError": "Network error during test",
+    "setupTitle": "Google Calendar Setup",
+    "setupDescription": "Follow these steps to correctly set up the Google Calendar integration.",
+    "enableAPIDesc": "Enable Google Calendar and Gmail APIs for the integration",
+    "searchCalendar": "Search \"Google Calendar API\", select it and click \"Enable\"",
+    "searchGmail": "Search \"Gmail API\", select it and click \"Enable\"",
+    "clickCreate": "Click \"Create credentials\" > \"OAuth client ID\"",
+    "clientID": "Client ID",
+    "clientSecret": "Client Secret",
+    "error400": "Error 400: redirect_uri_mismatch",
+    "error403": "Error 403: access_denied"
   },
   "landingBicom": {
     "header": {
@@ -6053,7 +6123,15 @@
     "upgradeRequired": "Требуется обновление",
     "featureRequiresLicense": "\"{{feature}}\" требует лицензию {{license}}",
     "licenseRequired": "Этот раздел требует лицензию {{license}}",
-    "upgrade": "Обновить до {{license}}"
+    "upgrade": "Обновить до {{license}}",
+    "type": {
+      "trial": "Trial",
+      "base": "Base",
+      "pro": "Pro",
+      "business": "Business",
+      "staff": "Staff",
+      "passepartout": "Master"
+    }
   },
   "businessFeature": {
     "title": "Функция BUSINESS",
@@ -6076,13 +6154,15 @@
       "title": "Обработка платежа",
       "info": "Ваш платёж получен, и подписка будет активирована в ближайшее время.",
       "wait": "Подождите момент, пока мы обрабатываем транзакцию.",
-      "refresh": "Если страница не обновится автоматически, перезагрузите её через несколько минут."
+      "refresh": "Если страница не обновится автоматически, перезагрузите её через несколько минут.",
+      "description": "Your payment is being processed. This may take a few minutes. Check your subscription status in your personal area."
     },
     "checking": "Проверка статуса подписки...",
     "success": {
       "description": "Спасибо за подписку. Ваш аккаунт обновлён.",
       "activated": "Ваша подписка успешно активирована.",
-      "access": "Теперь вы можете получить доступ ко всем премиум-функциям."
+      "access": "Теперь вы можете получить доступ ко всем премиум-функциям.",
+      "title": "Payment completed successfully!"
     },
     "plan": "Тариф",
     "activePlan": "Активный тариф",
@@ -6092,7 +6172,15 @@
     "details": "Детали подписки",
     "features": "Включённые функции",
     "supportInfo": "По любым вопросам о подписке обратитесь в службу поддержки. Сохраните квитанцию об оплате, которую получите по электронной почте.",
-    "return": "Вернуться на панель"
+    "return": "Вернуться на панель",
+    "cancel": {
+      "title": "Payment not completed",
+      "description": "The payment process was interrupted or cancelled.",
+      "info": "Your payment was not processed and you have not been charged.",
+      "retry": "You can retry the payment at any time from the subscription page.",
+      "tryAgain": "Retry payment"
+    },
+    "nextBilling": "Next billing"
   },
   "stripe": {
     "payWithCard": "Оплатить картой",
@@ -6109,5 +6197,14 @@
   "whatsapp": {
     "reminderTemplate": "Уважаемый(-ая) {{name}},\nНапоминаем вам о вашей записи на {{service}} {{date}} в {{time}}.",
     "testMessage": "Тестовое сообщение от системы управления записями"
+  },
+  "user": {
+    "type": {
+      "admin": "Admin",
+      "staff": "Staff",
+      "user": "User",
+      "customer": "Customer",
+      "client": "Client"
+    }
   }
 }

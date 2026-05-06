@@ -436,7 +436,8 @@
       "emailSubject": "Accesul dvs. la zona rezervată",
       "messageText": "Bună {{name}}, iată linkul tău pentru a accesa zona rezervată:"
     },
-    "adminPersonalClientsHint": "Clienții dvs. personali vor apărea aici. Folosiți fila 'Personal' pentru a vedea clienții altor profesioniști."
+    "adminPersonalClientsHint": "Clienții dvs. personali vor apărea aici. Folosiți fila 'Personal' pentru a vedea clienții altor profesioniști.",
+    "loadMore": "Load more"
   },
   "invoices": {
     "title": "Gestionare Facturi",
@@ -667,13 +668,36 @@
       "messageTemplate": "Textul mesajului",
       "templatePlaceholder": "Ex. Stimate {{nome}}, acesta este un memento pentru programarea ta {{servizio}} pe {{data}} la ora {{ora}} cu {{collaboratore}} în {{stanza}}.",
       "templateHelp": "Folosește variabile pentru a include informații specifice programării.",
-      "setAsDefault": "Setează ca șablon implicit"
+      "setAsDefault": "Setează ca șablon implicit",
+      "default": "Default",
+      "noTemplates": "No reminder templates defined",
+      "createFirst": "Create the first template"
     },
     "contactInfo": {
       "phone1": "Telefon principal",
       "phone1Desc": "Număr de telefon principal pentru contacte",
       "phone2Desc": "Număr de telefon secundar (opțional)",
-      "websiteDesc": "Introduceți doar domeniul (exemplu.ro) sau URL-ul complet (https://exemplu.ro)"
+      "websiteDesc": "Introduceți doar domeniul (exemplu.ro) sau URL-ul complet (https://exemplu.ro)",
+      "validationError": "Validation error",
+      "checkFields": "Please check the highlighted fields",
+      "saveSuccess": "Save complete",
+      "saveSuccessDesc": "Contact information has been updated successfully",
+      "saveError": "An error occurred while saving",
+      "saveErrorTitle": "Save error",
+      "title": "Contact information",
+      "description": "Enter the contact information that will be displayed in the client app",
+      "errorTitle": "Error",
+      "email": "Email",
+      "emailDesc": "Public contact email address",
+      "phone2": "Secondary phone",
+      "website": "Website",
+      "facebook": "Facebook",
+      "facebookDesc": "Page name or full Facebook URL",
+      "instagram": "Instagram",
+      "instagramDesc": "Username or full Instagram URL",
+      "saving": "Saving...",
+      "save": "Save contact information",
+      "invalidFormat": "Invalid format"
     }
   },
   "common": {
@@ -710,7 +734,11 @@
     "deleting": "Se șterge...",
     "view": "Vezi",
     "hidePassword": "Ascundeți parola",
-    "showPassword": "Afișați parola"
+    "showPassword": "Afișați parola",
+    "support": "Support",
+    "terms": "Terms of Service",
+    "copyFailed": "Unable to copy to clipboard",
+    "reset": "Reset"
   },
   "notifications": {
     "clientDeleted": "Client șters",
@@ -1225,7 +1253,12 @@
     "insufficientRole": "Această secțiune necesită rolul '{{role}}'",
     "currentRole": "Rolul tău actual: {{role}}",
     "required": "Autentificare necesară",
-    "loginRequired": "Trebuie să fiți autentificat pentru a accesa această secțiune"
+    "loginRequired": "Trebuie să fiți autentificat pentru a accesa această secțiune",
+    "logoutSuccess": "Logout successful",
+    "redirecting": "Redirecting...",
+    "logoutError": "Logout error",
+    "tryAgain": "Please try again",
+    "loggingOut": "Logging out..."
   },
   "clientArea": {
     "installApp": "Instalează aplicația",
@@ -5463,7 +5496,44 @@
     "syncSummary": "{{imported}} evenimente importate, {{exported}} programări exportate",
     "syncDetails": "📥 Importate: {{imported}} | 📤 Exportate: {{exported}} | 🗑️ Șterse: {{deleted}}",
     "calendarEvent": "Eveniment Google Calendar",
-    "cannotDeleteImported": "Acest eveniment a fost importat din Google Calendar și nu poate fi șters din aplicație. Pentru a-l șterge, accesați direct Google Calendar."
+    "cannotDeleteImported": "Acest eveniment a fost importat din Google Calendar și nu poate fi șters din aplicație. Pentru a-l șterge, accesați direct Google Calendar.",
+    "popupBlocked": "The popup was blocked. Please disable the popup blocker for this site.",
+    "authSuccess": "Authorization complete",
+    "calendarConnected": "Your Google Calendar has been connected successfully",
+    "startAuthError": "Unable to start Google authorization",
+    "unknownError": "An error occurred during disconnection",
+    "syncEnabled": "Sync enabled",
+    "syncExplanation": "When you create or edit an appointment, it will be automatically updated in your Google Calendar.",
+    "syncDisabled": "Sync disabled",
+    "authRevoked": "Authorization revoked",
+    "calendarDisconnected": "Google Calendar has been disconnected",
+    "revokeError": "An error occurred while revoking authorization",
+    "syncComplete": "Sync complete",
+    "syncError": "Sync error",
+    "syncFailedError": "Sync failed",
+    "enableSync": "Enable sync",
+    "syncActive": "Sync active",
+    "connecting": "Connecting...",
+    "advancedSettings": "Advanced settings",
+    "authStarted": "Authorization started",
+    "authOpenedWindow": "A new window has been opened for Google authorization",
+    "authError": "Authorization error",
+    "genericError": "An error occurred while starting authorization",
+    "testSuccess": "Test completed successfully",
+    "configCorrect": "The Google configuration appears correct",
+    "testFailed": "Test failed",
+    "configError": "An error occurred with the Google configuration",
+    "networkError": "Network error during test",
+    "setupTitle": "Google Calendar Setup",
+    "setupDescription": "Follow these steps to correctly set up the Google Calendar integration.",
+    "enableAPIDesc": "Enable Google Calendar and Gmail APIs for the integration",
+    "searchCalendar": "Search \"Google Calendar API\", select it and click \"Enable\"",
+    "searchGmail": "Search \"Gmail API\", select it and click \"Enable\"",
+    "clickCreate": "Click \"Create credentials\" > \"OAuth client ID\"",
+    "clientID": "Client ID",
+    "clientSecret": "Client Secret",
+    "error400": "Error 400: redirect_uri_mismatch",
+    "error403": "Error 403: access_denied"
   },
   "landingBicom": {
     "header": {
@@ -6053,7 +6123,15 @@
     "upgradeRequired": "Actualizare necesară",
     "featureRequiresLicense": "\"{{feature}}\" necesită o licență {{license}}",
     "licenseRequired": "Această secțiune necesită o licență {{license}}",
-    "upgrade": "Actualizați la {{license}}"
+    "upgrade": "Actualizați la {{license}}",
+    "type": {
+      "trial": "Trial",
+      "base": "Base",
+      "pro": "Pro",
+      "business": "Business",
+      "staff": "Staff",
+      "passepartout": "Master"
+    }
   },
   "businessFeature": {
     "title": "Funcționalitate BUSINESS",
@@ -6076,13 +6154,15 @@
       "title": "Procesare plată",
       "info": "Plata ta a fost primită și abonamentul tău va fi activat în curând.",
       "wait": "Te rugăm să aștepți un moment cât procesăm tranzacția.",
-      "refresh": "Dacă pagina nu se actualizează automat, reîncarcă-o în câteva minute."
+      "refresh": "Dacă pagina nu se actualizează automat, reîncarcă-o în câteva minute.",
+      "description": "Your payment is being processed. This may take a few minutes. Check your subscription status in your personal area."
     },
     "checking": "Se verifică starea abonamentului...",
     "success": {
       "description": "Mulțumim pentru abonament. Contul tău a fost actualizat.",
       "activated": "Abonamentul tău a fost activat cu succes.",
-      "access": "Acum poți accesa toate funcționalitățile premium."
+      "access": "Acum poți accesa toate funcționalitățile premium.",
+      "title": "Payment completed successfully!"
     },
     "plan": "Plan",
     "activePlan": "Plan Activ",
@@ -6092,7 +6172,15 @@
     "details": "Detalii abonament",
     "features": "Funcționalități incluse",
     "supportInfo": "Pentru orice întrebare despre abonament, contactați suportul. Păstrați chitanța de plată pe care o veți primi pe email.",
-    "return": "Înapoi la panou"
+    "return": "Înapoi la panou",
+    "cancel": {
+      "title": "Payment not completed",
+      "description": "The payment process was interrupted or cancelled.",
+      "info": "Your payment was not processed and you have not been charged.",
+      "retry": "You can retry the payment at any time from the subscription page.",
+      "tryAgain": "Retry payment"
+    },
+    "nextBilling": "Next billing"
   },
   "stripe": {
     "payWithCard": "Plătește cu cardul",
@@ -6109,5 +6197,14 @@
   "whatsapp": {
     "reminderTemplate": "Stimate/ă {{name}},\nVă reamintim programarea dvs. pentru {{service}} pe {{date}} la ora {{time}}.",
     "testMessage": "Mesaj de test din sistemul de gestionare a programărilor"
+  },
+  "user": {
+    "type": {
+      "admin": "Admin",
+      "staff": "Staff",
+      "user": "User",
+      "customer": "Customer",
+      "client": "Client"
+    }
   }
 }

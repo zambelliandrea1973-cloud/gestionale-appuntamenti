@@ -445,7 +445,8 @@
       "emailSubject": "Votre accès à l'espace réservé",
       "messageText": "Bonjour {{name}}, voici votre lien pour accéder à l'espace réservé :"
     },
-    "adminPersonalClientsHint": "Vos clients personnels apparaîtront ici. Utilisez l'onglet 'Personnel' pour voir les clients d'autres professionnels."
+    "adminPersonalClientsHint": "Vos clients personnels apparaîtront ici. Utilisez l'onglet 'Personnel' pour voir les clients d'autres professionnels.",
+    "loadMore": "Load more"
   },
   "invoices": {
     "title": "Gestion des Factures",
@@ -676,13 +677,36 @@
       "messageTemplate": "Texte du message",
       "templatePlaceholder": "Ex. Cher(e) {{nome}}, ceci est un rappel pour votre rendez-vous {{servizio}} le {{data}} à {{ora}} avec {{collaboratore}} dans {{stanza}}.",
       "templateHelp": "Utilisez des variables pour inclure des informations spécifiques au rendez-vous.",
-      "setAsDefault": "Définir comme modèle par défaut"
+      "setAsDefault": "Définir comme modèle par défaut",
+      "default": "Default",
+      "noTemplates": "No reminder templates defined",
+      "createFirst": "Create the first template"
     },
     "contactInfo": {
       "phone1": "Téléphone principal",
       "phone1Desc": "Numéro de téléphone principal pour les contacts",
       "phone2Desc": "Numéro de téléphone secondaire (optionnel)",
-      "websiteDesc": "Entrez uniquement le domaine (exemple.fr) ou l'URL complète (https://exemple.fr)"
+      "websiteDesc": "Entrez uniquement le domaine (exemple.fr) ou l'URL complète (https://exemple.fr)",
+      "validationError": "Validation error",
+      "checkFields": "Please check the highlighted fields",
+      "saveSuccess": "Save complete",
+      "saveSuccessDesc": "Contact information has been updated successfully",
+      "saveError": "An error occurred while saving",
+      "saveErrorTitle": "Save error",
+      "title": "Contact information",
+      "description": "Enter the contact information that will be displayed in the client app",
+      "errorTitle": "Error",
+      "email": "Email",
+      "emailDesc": "Public contact email address",
+      "phone2": "Secondary phone",
+      "website": "Website",
+      "facebook": "Facebook",
+      "facebookDesc": "Page name or full Facebook URL",
+      "instagram": "Instagram",
+      "instagramDesc": "Username or full Instagram URL",
+      "saving": "Saving...",
+      "save": "Save contact information",
+      "invalidFormat": "Invalid format"
     }
   },
   "common": {
@@ -719,7 +743,11 @@
     "deleting": "Suppression...",
     "view": "Voir",
     "hidePassword": "Masquer le mot de passe",
-    "showPassword": "Afficher le mot de passe"
+    "showPassword": "Afficher le mot de passe",
+    "support": "Support",
+    "terms": "Terms of Service",
+    "copyFailed": "Unable to copy to clipboard",
+    "reset": "Reset"
   },
   "notifications": {
     "clientDeleted": "Client supprimé",
@@ -1234,7 +1262,12 @@
     "insufficientRole": "Cette section nécessite le rôle '{{role}}'",
     "currentRole": "Votre rôle actuel : {{role}}",
     "required": "Connexion requise",
-    "loginRequired": "Vous devez être connecté pour accéder à cette section"
+    "loginRequired": "Vous devez être connecté pour accéder à cette section",
+    "logoutSuccess": "Logout successful",
+    "redirecting": "Redirecting...",
+    "logoutError": "Logout error",
+    "tryAgain": "Please try again",
+    "loggingOut": "Logging out..."
   },
   "clientArea": {
     "installApp": "Installer l'application",
@@ -5463,7 +5496,44 @@
     "syncSummary": "{{imported}} événements importés, {{exported}} rendez-vous exportés",
     "syncDetails": "📥 Importés: {{imported}} | 📤 Exportés: {{exported}} | 🗑️ Supprimés: {{deleted}}",
     "calendarEvent": "Événement Google Agenda",
-    "cannotDeleteImported": "Cet événement a été importé depuis Google Agenda et ne peut pas être supprimé depuis l'application. Pour le supprimer, accédez directement à Google Agenda."
+    "cannotDeleteImported": "Cet événement a été importé depuis Google Agenda et ne peut pas être supprimé depuis l'application. Pour le supprimer, accédez directement à Google Agenda.",
+    "popupBlocked": "The popup was blocked. Please disable the popup blocker for this site.",
+    "authSuccess": "Authorization complete",
+    "calendarConnected": "Your Google Calendar has been connected successfully",
+    "startAuthError": "Unable to start Google authorization",
+    "unknownError": "An error occurred during disconnection",
+    "syncEnabled": "Sync enabled",
+    "syncExplanation": "When you create or edit an appointment, it will be automatically updated in your Google Calendar.",
+    "syncDisabled": "Sync disabled",
+    "authRevoked": "Authorization revoked",
+    "calendarDisconnected": "Google Calendar has been disconnected",
+    "revokeError": "An error occurred while revoking authorization",
+    "syncComplete": "Sync complete",
+    "syncError": "Sync error",
+    "syncFailedError": "Sync failed",
+    "enableSync": "Enable sync",
+    "syncActive": "Sync active",
+    "connecting": "Connecting...",
+    "advancedSettings": "Advanced settings",
+    "authStarted": "Authorization started",
+    "authOpenedWindow": "A new window has been opened for Google authorization",
+    "authError": "Authorization error",
+    "genericError": "An error occurred while starting authorization",
+    "testSuccess": "Test completed successfully",
+    "configCorrect": "The Google configuration appears correct",
+    "testFailed": "Test failed",
+    "configError": "An error occurred with the Google configuration",
+    "networkError": "Network error during test",
+    "setupTitle": "Google Calendar Setup",
+    "setupDescription": "Follow these steps to correctly set up the Google Calendar integration.",
+    "enableAPIDesc": "Enable Google Calendar and Gmail APIs for the integration",
+    "searchCalendar": "Search \"Google Calendar API\", select it and click \"Enable\"",
+    "searchGmail": "Search \"Gmail API\", select it and click \"Enable\"",
+    "clickCreate": "Click \"Create credentials\" > \"OAuth client ID\"",
+    "clientID": "Client ID",
+    "clientSecret": "Client Secret",
+    "error400": "Error 400: redirect_uri_mismatch",
+    "error403": "Error 403: access_denied"
   },
   "landingBicom": {
     "header": {
@@ -6053,7 +6123,15 @@
     "upgradeRequired": "Mise à niveau requise",
     "featureRequiresLicense": "\"{{feature}}\" nécessite une licence {{license}}",
     "licenseRequired": "Cette section nécessite une licence {{license}}",
-    "upgrade": "Passer à {{license}}"
+    "upgrade": "Passer à {{license}}",
+    "type": {
+      "trial": "Trial",
+      "base": "Base",
+      "pro": "Pro",
+      "business": "Business",
+      "staff": "Staff",
+      "passepartout": "Master"
+    }
   },
   "businessFeature": {
     "title": "Fonctionnalité BUSINESS",
@@ -6076,13 +6154,15 @@
       "title": "Traitement du paiement",
       "info": "Votre paiement a été reçu et votre abonnement sera activé sous peu.",
       "wait": "Veuillez patienter un moment pendant que nous traitons la transaction.",
-      "refresh": "Si la page ne se met pas à jour automatiquement, rechargez-la dans quelques minutes."
+      "refresh": "Si la page ne se met pas à jour automatiquement, rechargez-la dans quelques minutes.",
+      "description": "Your payment is being processed. This may take a few minutes. Check your subscription status in your personal area."
     },
     "checking": "Vérification de votre statut d'abonnement...",
     "success": {
       "description": "Merci de vous être abonné. Votre compte a été mis à jour.",
       "activated": "Votre abonnement a été activé avec succès.",
-      "access": "Vous pouvez maintenant accéder à toutes les fonctionnalités premium."
+      "access": "Vous pouvez maintenant accéder à toutes les fonctionnalités premium.",
+      "title": "Payment completed successfully!"
     },
     "plan": "Forfait",
     "activePlan": "Forfait actif",
@@ -6092,7 +6172,15 @@
     "details": "Détails de l'abonnement",
     "features": "Fonctionnalités incluses",
     "supportInfo": "Pour toute question sur votre abonnement, contactez le support. Conservez le reçu de paiement que vous recevrez par e-mail.",
-    "return": "Retour au tableau de bord"
+    "return": "Retour au tableau de bord",
+    "cancel": {
+      "title": "Payment not completed",
+      "description": "The payment process was interrupted or cancelled.",
+      "info": "Your payment was not processed and you have not been charged.",
+      "retry": "You can retry the payment at any time from the subscription page.",
+      "tryAgain": "Retry payment"
+    },
+    "nextBilling": "Next billing"
   },
   "stripe": {
     "payWithCard": "Payer par carte de crédit",
@@ -6109,5 +6197,14 @@
   "whatsapp": {
     "reminderTemplate": "Cher/Chère {{name}},\nNous vous rappelons votre rendez-vous pour {{service}} le {{date}} à {{time}}.",
     "testMessage": "Message de test du système de gestion des rendez-vous"
+  },
+  "user": {
+    "type": {
+      "admin": "Admin",
+      "staff": "Staff",
+      "user": "User",
+      "customer": "Customer",
+      "client": "Client"
+    }
   }
 }
