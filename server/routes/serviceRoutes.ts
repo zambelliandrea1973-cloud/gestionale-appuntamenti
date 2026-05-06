@@ -52,13 +52,14 @@ router.post("/api/services", async (req, res) => {
   
   try {
     const { name, duration, price, color } = req.body;
-    const serviceData = {
+    const serviceData: any = {
       userId: user.id,
       name,
       duration: typeof duration === 'string' ? parseInt(duration) : duration,
       price: typeof price === 'string' ? Math.round(parseFloat(price)) : (typeof price === 'number' ? Math.round(price) : 0),
       color: color || '#3f51b5',
-      isDemo: false, // 🔒 Only the onboardingDemoService can create demo records
+      // isDemo deliberately omitted: DB DEFAULT false handles it,
+      // and this avoids errors on DBs where is_demo column doesn't exist yet
     };
     
     const newService = await storage.createService(serviceData);

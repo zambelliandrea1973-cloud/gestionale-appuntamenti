@@ -773,7 +773,8 @@
     "support": "Supporto",
     "terms": "Termini di servizio",
     "copyFailed": "Impossibile copiare negli appunti",
-    "reset": "Reimposta"
+    "reset": "Reimposta",
+    "birthday": "Data di nascita"
   },
   "notifications": {
     "clientDeleted": "Cliente eliminato",

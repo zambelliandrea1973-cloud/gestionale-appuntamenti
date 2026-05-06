@@ -755,7 +755,8 @@
     "support": "Soporte",
     "terms": "Términos de servicio",
     "copyFailed": "No se puede copiar al portapapeles",
-    "reset": "Restablecer"
+    "reset": "Restablecer",
+    "birthday": "Fecha de nacimiento"
   },
   "notifications": {
     "clientDeleted": "Cliente eliminado",

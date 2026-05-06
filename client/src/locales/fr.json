@@ -755,7 +755,8 @@
     "support": "Assistance",
     "terms": "Conditions d'utilisation",
     "copyFailed": "Impossible de copier dans le presse-papiers",
-    "reset": "Réinitialiser"
+    "reset": "Réinitialiser",
+    "birthday": "Date de naissance"
   },
   "notifications": {
     "clientDeleted": "Client supprimé",

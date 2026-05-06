@@ -268,12 +268,13 @@ router.post("/api/clients", async (req, res) => {
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       
       const { isDemo: _ignoreIsDemo, ...sanitizedBody } = req.body || {};
-      const clientData = {
+      const clientData: any = {
         userId: tenantId,  // ✅ Use tenantId instead of user.id for staff compatibility
         ownerId: tenantId,
         professionistCode: await getProfessionistCode(tenantId),
         ...sanitizedBody,
-        isDemo: false, // 🔒 Only the onboardingDemoService can create demo records
+        // isDemo deliberately omitted: DB DEFAULT false handles it,
+        // and this avoids errors on DBs where is_demo column doesn't exist yet
       };
       
       const newClient = await storage.createClient(clientData);

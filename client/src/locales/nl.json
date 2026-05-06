@@ -746,7 +746,8 @@
     "support": "Ondersteuning",
     "terms": "Servicevoorwaarden",
     "copyFailed": "Kan niet naar klembord kopiëren",
-    "reset": "Opnieuw instellen"
+    "reset": "Opnieuw instellen",
+    "birthday": "Geboortedatum"
   },
   "notifications": {
     "clientDeleted": "Klant verwijderd",

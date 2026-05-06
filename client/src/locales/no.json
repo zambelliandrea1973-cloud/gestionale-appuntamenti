@@ -746,7 +746,8 @@
     "support": "Støtte",
     "terms": "Tjenestevilkår",
     "copyFailed": "Kan ikke kopiere til utklippstavlen",
-    "reset": "Tilbakestill"
+    "reset": "Tilbakestill",
+    "birthday": "Fødselsdato"
   },
   "notifications": {
     "clientDeleted": "Kunde slettet",

@@ -746,7 +746,8 @@
     "support": "Asistență",
     "terms": "Termeni de serviciu",
     "copyFailed": "Nu se poate copia în clipboard",
-    "reset": "Resetare"
+    "reset": "Resetare",
+    "birthday": "Data nașterii"
   },
   "notifications": {
     "clientDeleted": "Client șters",

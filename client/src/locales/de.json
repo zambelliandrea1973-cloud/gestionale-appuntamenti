@@ -755,7 +755,8 @@
     "support": "Support",
     "terms": "Nutzungsbedingungen",
     "copyFailed": "In die Zwischenablage kopieren nicht möglich",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "birthday": "Geburtsdatum"
   },
   "notifications": {
     "clientDeleted": "Kunde gelöscht",

@@ -768,7 +768,8 @@
     "support": "Support",
     "terms": "Terms of Service",
     "copyFailed": "Unable to copy to clipboard",
-    "reset": "Reset"
+    "reset": "Reset",
+    "birthday": "Date of birth"
   },
   "notifications": {
     "clientDeleted": "Client deleted",
