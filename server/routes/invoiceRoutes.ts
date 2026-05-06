@@ -86,12 +86,12 @@ const router = Router();
       console.log('⚠️ Error retrieving client data for PDF:', error);
     }
     
-    // Generate HTML completo per PDF
+    // Generate HTML for PDF attachment
     const htmlContent = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Fattura ${invoice.invoiceNumber}</title>
+  <title>Invoice ${invoice.invoiceNumber}</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
     .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px; }
@@ -108,40 +108,40 @@ const router = Router();
 <body>
   <div class="header">
     <h1>${businessHeader}</h1>
-    ${businessData.address ? `<p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>` : ''}
-    ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : '<p>Tel: +39 347 144 5767</p>'}
-    ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : '<p>biomedicinaintegrata.it</p>'}
-    ${businessData.vatNumber ? `<p><strong>Partita IVA:</strong> ${businessData.vatNumber}</p>` : ''}
-    ${businessData.fiscalCode ? `<p><strong>Codice Fiscale:</strong> ${businessData.fiscalCode}</p>` : ''}
+    ${businessData.address ? `<p><strong>Address:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>` : ''}
+    ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : ''}
+    ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : ''}
+    ${businessData.vatNumber ? `<p><strong>VAT Number:</strong> ${businessData.vatNumber}</p>` : ''}
+    ${businessData.fiscalCode ? `<p><strong>Tax Code:</strong> ${businessData.fiscalCode}</p>` : ''}
   </div>
   
   <div class="invoice-info">
     <div class="client-info">
-      <h3>Cliente:</h3>
+      <h3>Client:</h3>
       <p><strong>${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Client'}</strong></p>
-      ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
+      ${clientDetails?.address ? `<p><strong>Address:</strong> ${clientDetails.address}</p>` : ''}
       ${clientDetails?.phone ? `<p><strong>Phone:</strong> ${clientDetails.phone}</p>` : ''}
       ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
-      ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
-      ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
+      ${clientDetails?.taxCode ? `<p><strong>Tax Code:</strong> ${clientDetails.taxCode}</p>` : ''}
+      ${clientDetails?.vatNumber ? `<p><strong>VAT Number:</strong> ${clientDetails.vatNumber}</p>` : ''}
     </div>
     
     <div class="invoice-details">
-      <h3>Dettagli Fattura:</h3>
-      <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
-      <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
-      <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
-      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Draft' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'paid' ? 'Pagata' : 'Overdue'}</p>
+      <h3>Invoice Details:</h3>
+      <p><strong>Number:</strong> ${invoice.invoiceNumber}</p>
+      <p><strong>Date:</strong> ${new Date(invoice.date).toLocaleDateString('en-GB')}</p>
+      <p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString('en-GB')}</p>
+      <p><strong>Status:</strong> ${invoice.status === 'draft' ? 'Draft' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'paid' ? 'Paid' : 'Overdue'}</p>
     </div>
   </div>
   
   <table class="items-table">
     <thead>
       <tr>
-        <th>Descrizione</th>
-        <th>Quantità</th>
-        <th>Prezzo Unit.</th>
-        <th>Totale</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
       </tr>
     </thead>
     <tbody>
@@ -156,15 +156,15 @@ const router = Router();
     </tbody>
     <tfoot>
       <tr class="total-row">
-        <td colspan="3" style="text-align: right;"><strong>Totale:</strong></td>
+        <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
         <td><strong>${currencySymbol}${invoice.total.toFixed(2)}</strong></td>
       </tr>
     </tfoot>
   </table>
   
   <div class="footer">
-    <p>Grazie per aver scelto i nostri servizi.</p>
-    <p>Per qualsiasi domanda, non esitate a contattarci.</p>
+    <p>Thank you for choosing our services.</p>
+    <p>For any questions, please do not hesitate to contact us.</p>
   </div>
 </body>
 </html>`;
@@ -1266,13 +1266,13 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
       const userCurrency = await getCurrencyForUser(storage, user.id);
       const currencySymbol = userCurrency.symbol;
       
-      // Generate HTML per PDF con logo e layout migliorato
+      // Generate HTML for PDF with logo and improved layout
       const htmlContent = `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="UTF-8">
-          <title>Fattura ${invoice.invoiceNumber}</title>
+          <title>Invoice ${invoice.invoiceNumber}</title>
           <style>
             @page { 
               size: A4 portrait;
@@ -1378,31 +1378,31 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
             <img src="${userLogo}" alt="Logo" />
             <h1>${businessHeader}</h1>
             ${businessData.address || businessData.city || businessData.postalCode ? `
-              <p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>
+              <p><strong>Address:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>
             ` : ''}
             ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : ''}
             ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : ''}
-            ${businessData.vatNumber ? `<p><strong>P.IVA:</strong> ${businessData.vatNumber}</p>` : ''}
-            ${businessData.fiscalCode ? `<p><strong>C.F.:</strong> ${businessData.fiscalCode}</p>` : ''}
+            ${businessData.vatNumber ? `<p><strong>VAT No.:</strong> ${businessData.vatNumber}</p>` : ''}
+            ${businessData.fiscalCode ? `<p><strong>Tax Code:</strong> ${businessData.fiscalCode}</p>` : ''}
           </div>
           
           <div class="invoice-info">
             <div class="client-info">
-              <h3>Dati Cliente</h3>
-              <p><strong>Nome:</strong> ${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Client'}</p>
-              ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
+              <h3>Client Details</h3>
+              <p><strong>Name:</strong> ${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Client'}</p>
+              ${clientDetails?.address ? `<p><strong>Address:</strong> ${clientDetails.address}</p>` : ''}
               ${clientDetails?.phone ? `<p><strong>Phone:</strong> ${clientDetails.phone}</p>` : ''}
               ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
-              ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
-              ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
-              ${clientDetails?.birthday ? `<p><strong>Data di nascita:</strong> ${new Date(clientDetails.birthday).toLocaleDateString('it-IT')}</p>` : ''}
+              ${clientDetails?.taxCode ? `<p><strong>Tax Code:</strong> ${clientDetails.taxCode}</p>` : ''}
+              ${clientDetails?.vatNumber ? `<p><strong>VAT Number:</strong> ${clientDetails.vatNumber}</p>` : ''}
+              ${clientDetails?.birthday ? `<p><strong>Date of Birth:</strong> ${new Date(clientDetails.birthday).toLocaleDateString('en-GB')}</p>` : ''}
             </div>
             <div class="invoice-details">
-              <h3>Fattura N. ${invoice.invoiceNumber}</h3>
-              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
-              <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
-              <p><strong>Stato:</strong> ${
-                invoice.status === 'paid' ? 'Pagata' :
+              <h3>Invoice No. ${invoice.invoiceNumber}</h3>
+              <p><strong>Date:</strong> ${new Date(invoice.date).toLocaleDateString('en-GB')}</p>
+              <p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString('en-GB')}</p>
+              <p><strong>Status:</strong> ${
+                invoice.status === 'paid' ? 'Paid' :
                 invoice.status === 'sent' ? 'Sent' :
                 invoice.status === 'overdue' ? 'Overdue' : 'Draft'
               }</p>
@@ -1412,23 +1412,23 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
           <table class="items-table">
             <thead>
               <tr>
-                <th style="width: 50%;">Descrizione</th>
-                <th style="width: 15%; text-align: center;">Quantità</th>
-                <th style="width: 17.5%; text-align: right;">Prezzo Unit.</th>
-                <th style="width: 17.5%; text-align: right;">Totale</th>
+                <th style="width: 50%;">Description</th>
+                <th style="width: 15%; text-align: center;">Quantity</th>
+                <th style="width: 17.5%; text-align: right;">Unit Price</th>
+                <th style="width: 17.5%; text-align: right;">Total</th>
               </tr>
             </thead>
             <tbody>
               ${invoice.items?.map((item: any) => `
                 <tr>
-                  <td>${item.description || invoice.description || 'Servizio medico'}</td>
+                  <td>${item.description || invoice.description || 'Service'}</td>
                   <td style="text-align: center;">1</td>
                   <td style="text-align: right;">${currencySymbol}${invoice.totalAmount.toFixed(2)}</td>
                   <td style="text-align: right;">${currencySymbol}${invoice.totalAmount.toFixed(2)}</td>
                 </tr>
               `).join('') || `
                 <tr>
-                  <td>${invoice.description || 'Servizio medico'}</td>
+                  <td>${invoice.description || 'Service'}</td>
                   <td style="text-align: center;">1</td>
                   <td style="text-align: right;">${currencySymbol}${invoice.totalAmount.toFixed(2)}</td>
                   <td style="text-align: right;">${currencySymbol}${invoice.totalAmount.toFixed(2)}</td>
@@ -1443,14 +1443,14 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
           
           ${invoice.notes ? `
             <div class="notes-section">
-              <h4>Note</h4>
+              <h4>Notes</h4>
               <p>${invoice.notes}</p>
             </div>
           ` : ''}
           
           <div class="footer">
-            <p>Grazie per aver scelto i nostri servizi</p>
-            <p style="margin-top: 10px; font-size: 9pt;">Documento generato il ${new Date().toLocaleDateString('it-IT')}</p>
+            <p>Thank you for choosing our services</p>
+            <p style="margin-top: 10px; font-size: 9pt;">Document generated on ${new Date().toLocaleDateString('en-GB')}</p>
           </div>
         </body>
         </html>
@@ -1632,7 +1632,7 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
         <html>
         <head>
           <meta charset="UTF-8">
-          <title>Fattura ${invoice.invoiceNumber}</title>
+          <title>Invoice ${invoice.invoiceNumber}</title>
           <style>
             body { font-family: Arial, sans-serif; margin: 40px; font-size: 14px; line-height: 1.6; }
             .header { border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
@@ -1655,29 +1655,29 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
               ${businessData.city && businessData.postalCode ? `<p>${businessData.postalCode} ${businessData.city}</p>` : ''}
               ${businessData.phone ? `<p>Tel: ${businessData.phone}</p>` : ''}
               ${businessData.email ? `<p>Email: ${businessData.email}</p>` : ''}
-              ${businessData.vatNumber ? `<p>P.IVA: ${businessData.vatNumber}</p>` : ''}
-              ${businessData.fiscalCode ? `<p>C.F.: ${businessData.fiscalCode}</p>` : ''}
+              ${businessData.vatNumber ? `<p>VAT No.: ${businessData.vatNumber}</p>` : ''}
+              ${businessData.fiscalCode ? `<p>Tax Code: ${businessData.fiscalCode}</p>` : ''}
             </div>
             
             <div class="invoice-info">
-              <h3>FATTURA</h3>
-              <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
-              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
-              <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
-              <p><strong>Stato:</strong> ${invoice.status === 'paid' ? 'Pagata' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'overdue' ? 'Overdue' : 'Draft'}</p>
+              <h3>INVOICE</h3>
+              <p><strong>Number:</strong> ${invoice.invoiceNumber}</p>
+              <p><strong>Date:</strong> ${new Date(invoice.date).toLocaleDateString('en-GB')}</p>
+              <p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString('en-GB')}</p>
+              <p><strong>Status:</strong> ${invoice.status === 'paid' ? 'Paid' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'overdue' ? 'Overdue' : 'Draft'}</p>
             </div>
             <div class="clear"></div>
           </div>
           
           <div class="client-info">
-            <h4>Fatturato a:</h4>
+            <h4>Billed to:</h4>
             ${clientDetails ? `
               <p><strong>${clientDetails.firstName} ${clientDetails.lastName}</strong></p>
               ${clientDetails.address ? `<p>${clientDetails.address}</p>` : ''}
               ${clientDetails.email ? `<p>Email: ${clientDetails.email}</p>` : ''}
               ${clientDetails.phone ? `<p>Tel: ${clientDetails.phone}</p>` : ''}
-              ${clientDetails.taxCode ? `<p>Codice Fiscale: ${clientDetails.taxCode}</p>` : ''}
-              ${clientDetails.vatNumber ? `<p>P.IVA: ${clientDetails.vatNumber}</p>` : ''}
+              ${clientDetails.taxCode ? `<p>Tax Code: ${clientDetails.taxCode}</p>` : ''}
+              ${clientDetails.vatNumber ? `<p>VAT No.: ${clientDetails.vatNumber}</p>` : ''}
             ` : `
               <p><strong>${invoice.clientName || 'Client'}</strong></p>
             `}
@@ -1686,10 +1686,10 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
           <table>
             <thead>
               <tr>
-                <th>Descrizione</th>
-                <th>Quantità</th>
-                <th>Prezzo Unitario</th>
-                <th>Totale</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
               </tr>
             </thead>
             <tbody>
@@ -1704,13 +1704,13 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
           
           ${invoice.notes ? `
             <div>
-              <h4>Note:</h4>
+              <h4>Notes:</h4>
               <p>${invoice.notes}</p>
             </div>
           ` : ''}
           
           <div class="footer">
-            <p>Grazie per aver scelto i nostri servizi</p>
+            <p>Thank you for choosing our services</p>
           </div>
         </body>
         </html>
@@ -1814,7 +1814,7 @@ router.get('/api/invoices/:id/email-suggestions', async (req, res) => {
       const subject = `Invoice ${invoice.invoiceNumber} - ${businessName}`;
       const message = `Dear ${invoice.clientName || 'Client'},
 
-Please find attached invoice no. ${invoice.invoiceNumber} dated ${new Date(invoice.issueDate).toLocaleDateString('it-IT')}.
+Please find attached invoice no. ${invoice.invoiceNumber} dated ${new Date(invoice.issueDate).toLocaleDateString('en-GB')}.
 
 Total amount: ${currencySymbol}${invoice.totalAmount.toFixed(2)}
 
@@ -1928,7 +1928,7 @@ ${businessName}`;
         <html>
         <head>
           <meta charset="UTF-8">
-          <title>Fattura ${invoice.invoiceNumber}</title>
+          <title>Invoice ${invoice.invoiceNumber}</title>
           <style>
             @page { 
               size: A4 portrait;
@@ -2032,33 +2032,33 @@ ${businessName}`;
         <body>
           <div class="header">
             <img src="${userLogo}" alt="Logo" />
-            <h1>${businessInfo.nome || 'Gestionale Appuntamenti'}</h1>
+            <h1>${businessInfo.nome || 'Appointment Manager'}</h1>
             ${businessInfo.indirizzo || businessInfo.citta || businessInfo.cap ? `
-              <p><strong>Indirizzo:</strong> ${businessInfo.indirizzo}${businessInfo.citta ? `, ${businessInfo.citta}` : ''}${businessInfo.cap ? ` ${businessInfo.cap}` : ''}</p>
+              <p><strong>Address:</strong> ${businessInfo.indirizzo}${businessInfo.citta ? `, ${businessInfo.citta}` : ''}${businessInfo.cap ? ` ${businessInfo.cap}` : ''}</p>
             ` : ''}
             ${businessInfo.telefono ? `<p><strong>Tel:</strong> ${businessInfo.telefono}</p>` : ''}
             ${businessInfo.email ? `<p><strong>Email:</strong> ${businessInfo.email}</p>` : ''}
-            ${businessInfo.partitaIva ? `<p><strong>P.IVA:</strong> ${businessInfo.partitaIva}</p>` : ''}
-            ${businessInfo.codiceFiscale ? `<p><strong>C.F.:</strong> ${businessInfo.codiceFiscale}</p>` : ''}
+            ${businessInfo.partitaIva ? `<p><strong>VAT No.:</strong> ${businessInfo.partitaIva}</p>` : ''}
+            ${businessInfo.codiceFiscale ? `<p><strong>Tax Code:</strong> ${businessInfo.codiceFiscale}</p>` : ''}
           </div>
           
           <div class="invoice-info">
             <div class="client-info">
-              <h3>Dati Cliente</h3>
-              <p><strong>Nome:</strong> ${clientData ? `${clientData.firstName} ${clientData.lastName}` : invoice.clientName || 'Client'}</p>
-              ${clientData?.address ? `<p><strong>Indirizzo:</strong> ${clientData.address}</p>` : ''}
+              <h3>Client Details</h3>
+              <p><strong>Name:</strong> ${clientData ? `${clientData.firstName} ${clientData.lastName}` : invoice.clientName || 'Client'}</p>
+              ${clientData?.address ? `<p><strong>Address:</strong> ${clientData.address}</p>` : ''}
               ${clientData?.phone ? `<p><strong>Phone:</strong> ${clientData.phone}</p>` : ''}
               ${clientData?.email ? `<p><strong>Email:</strong> ${clientData.email}</p>` : ''}
-              ${clientData?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientData.taxCode}</p>` : ''}
-              ${clientData?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientData.vatNumber}</p>` : ''}
+              ${clientData?.taxCode ? `<p><strong>Tax Code:</strong> ${clientData.taxCode}</p>` : ''}
+              ${clientData?.vatNumber ? `<p><strong>VAT Number:</strong> ${clientData.vatNumber}</p>` : ''}
             </div>
             
             <div class="invoice-details">
-              <h3>Fattura N. ${invoice.invoiceNumber}</h3>
-              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
-              ${invoice.dueDate ? `<p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>` : ''}
-              <p><strong>Stato:</strong> ${
-                invoice.status === 'paid' ? 'Pagata' :
+              <h3>Invoice No. ${invoice.invoiceNumber}</h3>
+              <p><strong>Date:</strong> ${new Date(invoice.date).toLocaleDateString('en-GB')}</p>
+              ${invoice.dueDate ? `<p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString('en-GB')}</p>` : ''}
+              <p><strong>Status:</strong> ${
+                invoice.status === 'paid' ? 'Paid' :
                 invoice.status === 'sent' ? 'Sent' :
                 invoice.status === 'overdue' ? 'Overdue' : 'Draft'
               }</p>
@@ -2068,10 +2068,10 @@ ${businessName}`;
           <table class="items-table">
             <thead>
               <tr>
-                <th style="width: 50%;">Descrizione</th>
-                <th style="width: 15%; text-align: center;">Quantità</th>
-                <th style="width: 17.5%; text-align: right;">Prezzo Unit.</th>
-                <th style="width: 17.5%; text-align: right;">Totale</th>
+                <th style="width: 50%;">Description</th>
+                <th style="width: 15%; text-align: center;">Quantity</th>
+                <th style="width: 17.5%; text-align: right;">Unit Price</th>
+                <th style="width: 17.5%; text-align: right;">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -2100,14 +2100,14 @@ ${businessName}`;
           
           ${invoice.notes ? `
             <div class="notes-section">
-              <h4>Note</h4>
+              <h4>Notes</h4>
               <p>${invoice.notes}</p>
             </div>
           ` : ''}
           
           <div class="footer">
-            <p>Grazie per aver scelto i nostri servizi</p>
-            <p style="margin-top: 10px; font-size: 9pt;">Documento generato il ${new Date().toLocaleDateString('it-IT')}</p>
+            <p>Thank you for choosing our services</p>
+            <p style="margin-top: 10px; font-size: 9pt;">Document generated on ${new Date().toLocaleDateString('en-GB')}</p>
           </div>
         </body>
         </html>`;
@@ -2228,16 +2228,16 @@ ${businessName}`;
       console.log('⚠️ Error loading client data for PDF email:', error);
     }
     
-    // HTML semplificato per evitare errors di escape
+    // Simplified HTML to avoid escape errors
     const itemsHtml = (!invoice.items || !Array.isArray(invoice.items) || invoice.items.length === 0) 
-      ? `<tr><td>Servizi professionali - ${invoice.invoiceNumber}</td><td style="text-align: center;">1</td><td style="text-align: right;">${currencySymbol} ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td><td style="text-align: right;">${currencySymbol} ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td></tr>`
-      : invoice.items.map((item: any) => `<tr><td>${item.description || 'Servizio professionale'}</td><td style="text-align: center;">${item.quantity || 1}</td><td style="text-align: right;">${currencySymbol} ${(item.price || 0).toFixed(2)}</td><td style="text-align: right;">${currencySymbol} ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}</td></tr>`).join('');
+      ? `<tr><td>Professional services - ${invoice.invoiceNumber}</td><td style="text-align: center;">1</td><td style="text-align: right;">${currencySymbol} ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td><td style="text-align: right;">${currencySymbol} ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td></tr>`
+      : invoice.items.map((item: any) => `<tr><td>${item.description || 'Professional service'}</td><td style="text-align: center;">${item.quantity || 1}</td><td style="text-align: right;">${currencySymbol} ${(item.price || 0).toFixed(2)}</td><td style="text-align: right;">${currencySymbol} ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}</td></tr>`).join('');
     
     const htmlContent = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Fattura ${invoice.invoiceNumber}</title>
+  <title>Invoice ${invoice.invoiceNumber}</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
     .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px; }
@@ -2254,43 +2254,43 @@ ${businessName}`;
 <body>
   <div class="header">
     <h1>${businessHeader}</h1>
-    ${businessData.address || businessData.city ? `<p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>` : ''}
-    ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : '<p>Tel: +39 347 144 5767</p>'}
-    ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : '<p>biomedicinaintegrata.it</p>'}
-    ${businessData.vatNumber ? `<p><strong>Partita IVA:</strong> ${businessData.vatNumber}</p>` : ''}
-    ${businessData.fiscalCode ? `<p><strong>Codice Fiscale:</strong> ${businessData.fiscalCode}</p>` : ''}
+    ${businessData.address || businessData.city ? `<p><strong>Address:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>` : ''}
+    ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : ''}
+    ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : ''}
+    ${businessData.vatNumber ? `<p><strong>VAT Number:</strong> ${businessData.vatNumber}</p>` : ''}
+    ${businessData.fiscalCode ? `<p><strong>Tax Code:</strong> ${businessData.fiscalCode}</p>` : ''}
   </div>
   
   <div class="invoice-info">
     <div class="client-info">
-      <h3>Dati Cliente</h3>
+      <h3>Client Details</h3>
       ${clientDetails ? `
-        <p><strong>Nome:</strong> ${clientDetails.firstName} ${clientDetails.lastName}</p>
+        <p><strong>Name:</strong> ${clientDetails.firstName} ${clientDetails.lastName}</p>
         ${clientDetails.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
         ${clientDetails.phone ? `<p><strong>Phone:</strong> ${clientDetails.phone}</p>` : ''}
-        ${clientDetails.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
-        ${clientDetails.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
-        ${clientDetails.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
+        ${clientDetails.address ? `<p><strong>Address:</strong> ${clientDetails.address}</p>` : ''}
+        ${clientDetails.taxCode ? `<p><strong>Tax Code:</strong> ${clientDetails.taxCode}</p>` : ''}
+        ${clientDetails.vatNumber ? `<p><strong>VAT Number:</strong> ${clientDetails.vatNumber}</p>` : ''}
       ` : `
-        <p><strong>Nome:</strong> ${invoice.clientName || 'Client'}</p>
+        <p><strong>Name:</strong> ${invoice.clientName || 'Client'}</p>
       `}
     </div>
     
     <div class="invoice-details">
-      <h3>Dettagli Fattura</h3>
-      <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
-      <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
-      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Draft' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'paid' ? 'Pagata' : invoice.status}</p>
+      <h3>Invoice Details</h3>
+      <p><strong>Number:</strong> ${invoice.invoiceNumber}</p>
+      <p><strong>Date:</strong> ${new Date(invoice.date).toLocaleDateString('en-GB')}</p>
+      <p><strong>Status:</strong> ${invoice.status === 'draft' ? 'Draft' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'paid' ? 'Paid' : invoice.status}</p>
     </div>
   </div>
   
   <table class="items-table">
     <thead>
       <tr>
-        <th>Descrizione</th>
-        <th style="width: 100px;">Quantità</th>
-        <th style="width: 100px;">Prezzo Unit.</th>
-        <th style="width: 100px;">Totale</th>
+        <th>Description</th>
+        <th style="width: 100px;">Quantity</th>
+        <th style="width: 100px;">Unit Price</th>
+        <th style="width: 100px;">Total</th>
       </tr>
     </thead>
     <tbody>
@@ -2299,11 +2299,11 @@ ${businessName}`;
   </table>
   
   <div class="total-row" style="text-align: right; font-size: 1.3em;">
-    <strong>Totale: ${currencySymbol} ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</strong>
+    <strong>Total: ${currencySymbol} ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</strong>
   </div>
   
   <div class="footer">
-    <p>Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}</p>
+    <p>Document generated on ${new Date().toLocaleDateString('en-GB')} at ${new Date().toLocaleTimeString('en-GB')}</p>
   </div>
 </body>
 </html>`;
@@ -2331,21 +2331,21 @@ ${businessName}`;
             {
               text: [
                 { text: `${businessHeader}\n`, fontSize: 18, bold: true, color: '#2C3E50' },
-                `${businessData.address || 'via largo caduti nassiria 17'}\n`,
-                `${businessData.city || 'olgiate comasco'} ${businessData.postalCode || '22100'}\n`,
-                `Tel: ${businessData.phone || '3471445767'}\n`,
-                `Email: ${businessData.email || 'silvia.busnari@libero.it'}\n`,
-                businessData.vatNumber ? `P.IVA: ${businessData.vatNumber}\n` : '',
-                businessData.fiscalCode ? `C.F.: ${businessData.fiscalCode}` : ''
+                businessData.address ? `${businessData.address}\n` : '',
+                businessData.city ? `${businessData.city}${businessData.postalCode ? ' ' + businessData.postalCode : ''}\n` : '',
+                businessData.phone ? `Tel: ${businessData.phone}\n` : '',
+                businessData.email ? `Email: ${businessData.email}\n` : '',
+                businessData.vatNumber ? `VAT No.: ${businessData.vatNumber}\n` : '',
+                businessData.fiscalCode ? `Tax Code: ${businessData.fiscalCode}` : ''
               ].filter(line => line),
               width: '50%'
             },
             {
               text: [
-                { text: 'FATTURA N. ', bold: true, fontSize: 14 },
+                { text: 'INVOICE NO. ', bold: true, fontSize: 14 },
                 { text: `${invoice.invoiceNumber}\n`, fontSize: 14 },
-                { text: 'Data: ', bold: true },
-                `${new Date(invoice.date).toLocaleDateString('it-IT')}\n`,
+                { text: 'Date: ', bold: true },
+                `${new Date(invoice.date).toLocaleDateString('en-GB')}\n`,
               ],
               alignment: 'right',
               width: '50%'
@@ -2354,7 +2354,7 @@ ${businessName}`;
           margin: [0, 0, 0, 30]
         },
         
-        // Dati Client completi
+        // Full client details
         { 
           text: 'Client Details:', 
           style: 'sectionHeader',
@@ -2362,42 +2362,42 @@ ${businessName}`;
         },
         {
           text: [
-            { text: 'Nome: ', bold: true },
+            { text: 'Name: ', bold: true },
             `${clientDetails ? clientDetails.firstName + ' ' + clientDetails.lastName : invoice.clientName}\n`,
             { text: 'Email: ', bold: true },
             `${clientDetails?.email || 'N/A'}\n`,
             { text: 'Phone: ', bold: true },
             `${clientDetails?.phone || 'N/A'}\n`,
-            { text: 'Indirizzo: ', bold: true },
+            { text: 'Address: ', bold: true },
             `${clientDetails?.address || 'N/A'}\n`,
             clientDetails?.taxCode ? [
-              { text: 'Codice Fiscale: ', bold: true },
+              { text: 'Tax Code: ', bold: true },
               `${clientDetails.taxCode}\n`
             ] : '',
             clientDetails?.vatNumber ? [
-              { text: 'P.IVA: ', bold: true },
+              { text: 'VAT No.: ', bold: true },
               `${clientDetails.vatNumber}`
             ] : ''
           ].flat().filter(Boolean),
           margin: [0, 0, 0, 20]
         },
         
-        // Tabella services identica
+        // Services table
         {
           table: {
             headerRows: 1,
             widths: ['*', 'auto', 'auto', 'auto'],
             body: [
               [
-                { text: 'Descrizione', style: 'tableHeader' },
+                { text: 'Description', style: 'tableHeader' },
                 { text: 'Quantity', style: 'tableHeader' },
-                { text: 'Prezzo Unit.', style: 'tableHeader' },
-                { text: 'Totale', style: 'tableHeader' }
+                { text: 'Unit Price', style: 'tableHeader' },
+                { text: 'Total', style: 'tableHeader' }
               ],
               ...((!invoice.items || !Array.isArray(invoice.items) || invoice.items.length === 0) ? [
-                [`Servizi professionali - ${invoice.invoiceNumber}`, '1', `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`, `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`]
+                [`Professional services - ${invoice.invoiceNumber}`, '1', `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`, `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`]
               ] : invoice.items.map((item: any) => [
-                item.description || 'Servizio professionale',
+                item.description || 'Professional service',
                 (item.quantity || 1).toString(),
                 `€ ${(item.price || 0).toFixed(2)}`,
                 `€ ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}`
@@ -2408,7 +2408,7 @@ ${businessName}`;
           margin: [0, 0, 0, 20]
         },
         
-        // Totale finale
+        // Final total
         {
           text: [
             { text: 'TOTAL: ', bold: true, fontSize: 16 },
@@ -2418,14 +2418,14 @@ ${businessName}`;
           margin: [0, 10, 0, 30]
         },
         
-        // Footer identical to the printed PDF
+        // Footer
         {
           text: [
-            `Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}\n`,
+            `Document generated on ${new Date().toLocaleDateString('en-GB')} at ${new Date().toLocaleTimeString('en-GB')}\n`,
             businessData.vatNumber && businessData.fiscalCode ? 
-              `P.IVA: ${businessData.vatNumber} - C.F: ${businessData.fiscalCode}` :
-              businessData.vatNumber ? `P.IVA: ${businessData.vatNumber}` :
-              businessData.fiscalCode ? `C.F: ${businessData.fiscalCode}` : ''
+              `VAT No.: ${businessData.vatNumber} - Tax Code: ${businessData.fiscalCode}` :
+              businessData.vatNumber ? `VAT No.: ${businessData.vatNumber}` :
+              businessData.fiscalCode ? `Tax Code: ${businessData.fiscalCode}` : ''
           ].filter(Boolean),
           fontSize: 10,
           alignment: 'center',
@@ -2554,7 +2554,7 @@ router.post('/api/invoices/:id/send-email', async (req, res) => {
             const emailSent = await notificationService.sendInvoiceEmail(
               recipientEmail,
               subject,
-              message || `Dear Client,\n\nPlease find attached invoice no. ${invoice.invoiceNumber} dated ${new Date(invoice.date).toLocaleDateString('it-IT')}.\n\nInvoice details:\n- Number: ${invoice.invoiceNumber}\n- Date: ${new Date(invoice.date).toLocaleDateString('it-IT')}\n- Amount: €${invoice.total?.toFixed(2) || '0.00'}\n\nBest regards,\n${businessName}`.replace(/invalid date/gi, ''),
+              message || `Dear Client,\n\nPlease find attached invoice no. ${invoice.invoiceNumber} dated ${new Date(invoice.date).toLocaleDateString('en-GB')}.\n\nInvoice details:\n- Number: ${invoice.invoiceNumber}\n- Date: ${new Date(invoice.date).toLocaleDateString('en-GB')}\n- Amount: €${invoice.total?.toFixed(2) || '0.00'}\n\nBest regards,\n${businessName}`.replace(/invalid date/gi, ''),
               emailConfig,
               pdfBuffer || undefined,
               filename
@@ -2739,8 +2739,8 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                 // Build context for the template
                 const context = {
                   invoiceNumber: invoice.invoiceNumber,
-                  date: new Date(invoice.date).toLocaleDateString('it-IT'),
-                  dueDate: new Date(invoice.dueDate).toLocaleDateString('it-IT'),
+                  date: new Date(invoice.date).toLocaleDateString('en-GB'),
+                  dueDate: new Date(invoice.dueDate).toLocaleDateString('en-GB'),
                   status: invoice.status,
                   totalAmount: invoice.totalAmount,
                   tax: invoice.tax || 0,
@@ -2752,7 +2752,7 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                   clientEmail: client.email || undefined,
                   clientTaxCode: (client as any).tax_code || (client as any).taxCode || undefined,
                   clientVatNumber: (client as any).vat_number || (client as any).vatNumber || undefined,
-                  clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString('it-IT') : undefined,
+                  clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString('en-GB') : undefined,
                   
                   businessHeader,
                   businessAddress: businessData.address || undefined,

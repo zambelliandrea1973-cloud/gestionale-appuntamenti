@@ -6,20 +6,16 @@ import nodemailer from 'nodemailer';
 
 /**
  * Determine the base application URL
- * Usa APP_URL If impostato (produzione), otherwise usa REPLIT_DOMAINS (sviluppo)
  */
 function getAppBaseUrl(): string {
-  // Priority 1: APP_URL environment variable (Sliplane production)
   if (process.env.APP_URL) {
-    return process.env.APP_URL.replace(/\/$/, ''); // Rimuovi trailing slash
+    return process.env.APP_URL.replace(/\/$/, '');
   }
   
-  // Priority 2: REPLIT_DOMAINS (development on Replit)
   if (process.env.REPLIT_DOMAINS) {
     return `https://${process.env.REPLIT_DOMAINS}`;
   }
   
-  // Fallback: dominio produzione hardcoded
   return 'https://gestionale-appuntamenti.sliplane.app';
 }
 
@@ -44,7 +40,6 @@ export const trialNotificationService = {
       const elevenDaysFromNow = new Date(now);
       elevenDaysFromNow.setDate(elevenDaysFromNow.getDate() + 11);
       
-      // Query active trial licenses expiring in 9-11 days that have not received notification
       const trialLicenses = await db
         .select({
           licenseId: licenses.id,
@@ -77,7 +72,7 @@ export const trialNotificationService = {
    * Generate the email HTML template with plan comparison
    */
   generateTrialExpiryEmailHTML(username: string, expiryDate: Date): string {
-    const formattedDate = expiryDate.toLocaleDateString('it-IT', {
+    const formattedDate = expiryDate.toLocaleDateString('en-GB', {
       day: '2-digit',
       month: 'long',
       year: 'numeric'
@@ -112,89 +107,89 @@ export const trialNotificationService = {
 </head>
 <body>
   <div class="header">
-    <h1>⏰ Il tuo trial scade tra 10 giorni</h1>
+    <h1>⏰ Your trial expires in 10 days</h1>
   </div>
   
   <div class="content">
-    <p>Ciao <strong>${username}</strong>,</p>
+    <p>Hello <strong>${username}</strong>,</p>
     
     <div class="warning-box">
-      <strong>Il tuo periodo di prova terminerà il ${formattedDate}.</strong><br>
+      <strong>Your trial period will end on ${formattedDate}.</strong><br>
       After this date, access will be suspended until a subscription plan is chosen.
     </div>
     
-    <p>Per continuare a utilizzare il nostro sistema di gestione, scegli il piano più adatto alle tue esigenze:</p>
+    <p>To continue using our management system, choose the plan that best suits your needs:</p>
 
-    <!-- Piano BASE -->
+    <!-- BASE Plan -->
     <div class="plan-card">
-      <div class="plan-header">📅 Piano BASE</div>
-      <div class="plan-price">€5,99 <span style="font-size:16px; color:#666;">/mese</span></div>
+      <div class="plan-header">📅 BASE Plan</div>
+      <div class="plan-price">€5.99 <span style="font-size:16px; color:#666;">/month</span></div>
       <div class="plan-price-annual">
-        €59,00/anno <span class="savings">Risparmi €11,88</span>
+        €59.00/year <span class="savings">Save €11.88</span>
       </div>
-      <p style="color:#666; margin:10px 0;"><strong>Limite:</strong> 100 clienti</p>
+      <p style="color:#666; margin:10px 0;"><strong>Limit:</strong> 100 clients</p>
       <ul class="features">
-        <li>Calendario appuntamenti</li>
-        <li>Gestione clienti</li>
-        <li>App QR/PWA per clienti</li>
+        <li>Appointment calendar</li>
+        <li>Client management</li>
+        <li>QR/PWA client app</li>
         <li>Client appointment requests</li>
-        <li>Notifiche clienti</li>
-        <li>Emissione fatture</li>
-        <li class="disabled">Sincronizzazione Google Calendar</li>
-        <li class="disabled">Report e statistiche</li>
-        <li class="disabled">Pacchetti promozionali</li>
-        <li class="disabled">Gestione più dipendenti</li>
-        <li class="disabled">Magazzino prodotti</li>
-        <li class="disabled">Campagne Marketing AI</li>
+        <li>Client notifications</li>
+        <li>Invoice generation</li>
+        <li class="disabled">Google Calendar sync</li>
+        <li class="disabled">Reports and statistics</li>
+        <li class="disabled">Promotional packages</li>
+        <li class="disabled">Multi-staff management</li>
+        <li class="disabled">Product inventory</li>
+        <li class="disabled">AI Marketing campaigns</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
         <a href="${appBaseUrl}/subscribe?plan=base" class="cta-button" style="display:inline-block;">
-          Acquista Piano BASE
+          Buy BASE Plan
         </a>
       </div>
     </div>
 
-    <!-- Piano PRO -->
+    <!-- PRO Plan -->
     <div class="plan-card featured">
-      <div class="plan-header">⭐ Piano PRO</div>
-      <div class="plan-price">€9,99 <span style="font-size:16px; color:#666;">/mese</span></div>
+      <div class="plan-header">⭐ PRO Plan</div>
+      <div class="plan-price">€9.99 <span style="font-size:16px; color:#666;">/month</span></div>
       <div class="plan-price-annual">
-        €99,00/anno <span class="savings">Risparmi €19,88</span>
+        €99.00/year <span class="savings">Save €19.88</span>
       </div>
-      <p style="color:#666; margin:10px 0;"><strong>Limite:</strong> 500 clienti</p>
+      <p style="color:#666; margin:10px 0;"><strong>Limit:</strong> 500 clients</p>
       <ul class="features">
-        <li>Tutte le funzionalità BASE</li>
-        <li>Sincronizzazione Google Calendar</li>
-        <li>Report e statistiche</li>
-        <li>Pacchetti promozionali</li>
-        <li class="disabled">Gestione più dipendenti</li>
-        <li class="disabled">Magazzino prodotti</li>
-        <li class="disabled">Campagne Marketing AI</li>
+        <li>All BASE features</li>
+        <li>Google Calendar sync</li>
+        <li>Reports and statistics</li>
+        <li>Promotional packages</li>
+        <li class="disabled">Multi-staff management</li>
+        <li class="disabled">Product inventory</li>
+        <li class="disabled">AI Marketing campaigns</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
         <a href="${appBaseUrl}/subscribe?plan=pro" class="cta-button" style="display:inline-block;">
-          Acquista Piano PRO
+          Buy PRO Plan
         </a>
       </div>
     </div>
 
-    <!-- Piano BUSINESS -->
+    <!-- BUSINESS Plan -->
     <div class="plan-card">
-      <div class="plan-header">🚀 Piano BUSINESS</div>
-      <div class="plan-price">€19,99 <span style="font-size:16px; color:#666;">/mese</span></div>
+      <div class="plan-header">🚀 BUSINESS Plan</div>
+      <div class="plan-price">€19.99 <span style="font-size:16px; color:#666;">/month</span></div>
       <div class="plan-price-annual">
-        €199,00/anno <span class="savings">Risparmi €39,88</span>
+        €199.00/year <span class="savings">Save €39.88</span>
       </div>
-      <p style="color:#666; margin:10px 0;"><strong>Clienti illimitati</strong></p>
+      <p style="color:#666; margin:10px 0;"><strong>Unlimited clients</strong></p>
       <ul class="features">
-        <li>Tutte le funzionalità PRO</li>
-        <li>Gestione più dipendenti</li>
-        <li>Magazzino prodotti</li>
-        <li>Campagne Marketing AI</li>
+        <li>All PRO features</li>
+        <li>Multi-staff management</li>
+        <li>Product inventory</li>
+        <li>AI Marketing campaigns</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
         <a href="${appBaseUrl}/subscribe?plan=business" class="cta-button" style="display:inline-block;">
-          Acquista Piano BUSINESS
+          Buy BUSINESS Plan
         </a>
       </div>
     </div>
@@ -205,7 +200,7 @@ export const trialNotificationService = {
   </div>
 
   <div class="footer">
-    <p>Hai domande? Contattaci rispondendo a questa email.</p>
+    <p>Have questions? Contact us by replying to this email.</p>
     <p style="color:#999; font-size:12px;">This is an automated system notification.</p>
   </div>
 </body>
@@ -214,23 +209,20 @@ export const trialNotificationService = {
   },
 
   /**
-   * Send email di notifica trial expiring
+   * Send trial expiry notification email
    */
   async sendTrialExpiryEmail(userEmail: string, username: string, expiryDate: Date, userId: number): Promise<boolean> {
     try {
-      // Retrieve email configuration for user
       const emailConfig = await getEmailConfig(userId);
       
       if (!emailConfig || !emailConfig.emailEnabled) {
         console.warn(`⚠️ Email configuration not available for user ${userId}, using environment fallback`);
-        // Fallback to global configuration if available
         if (!process.env.EMAIL_ADDRESS || !process.env.EMAIL_PASSWORD) {
           console.error('❌ No email configuration available (neither user nor global)');
           return false;
         }
       }
 
-      // Create trasportatore SMTP
       const transporter = nodemailer.createTransport({
         host: emailConfig?.smtpServer || process.env.SMTP_SERVER || 'smtp.gmail.com',
         port: emailConfig?.smtpPort || parseInt(process.env.SMTP_PORT || '587'),
@@ -246,7 +238,7 @@ export const trialNotificationService = {
       const mailOptions = {
         from: emailConfig?.emailAddress || process.env.EMAIL_ADDRESS,
         to: userEmail,
-        subject: '⏰ Il tuo periodo di prova scade tra 10 giorni',
+        subject: '⏰ Your trial period expires in 10 days',
         html: htmlContent,
       };
 
@@ -262,7 +254,7 @@ export const trialNotificationService = {
   },
 
   /**
-   * Process all notifiche trial expiring
+   * Process all expiring trial notifications
    * Called by the daily scheduler
    */
   async processTrialNotifications(): Promise<{ sent: number; failed: number }> {
@@ -282,7 +274,6 @@ export const trialNotificationService = {
         );
 
         if (success) {
-          // Update flag notifica inviata
           await db
             .update(licenses)
             .set({

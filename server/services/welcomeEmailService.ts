@@ -32,14 +32,14 @@ export const welcomeEmailService = {
 <body>
   <div class="container">
     <div class="header">
-      <h1>Benvenuto in Gestionale Appuntamenti!</h1>
+      <h1>Welcome to Appointment Manager!</h1>
     </div>
     <div class="content">
-      <p>Ciao <strong>${displayName}</strong>,</p>
+      <p>Hello <strong>${displayName}</strong>,</p>
       <p>Your registration has been completed successfully! You can now access the platform to manage your appointments easily and professionally.</p>
       
       <div class="credentials">
-        <h3>Le tue credenziali di accesso</h3>
+        <h3>Your login credentials</h3>
         <div class="credential-item">
           <span class="label">Username:</span> <span class="value">${username}</span>
         </div>
@@ -48,17 +48,17 @@ export const welcomeEmailService = {
         </div>
       </div>
       
-      <p><strong>Importante:</strong> Ti consigliamo di conservare queste credenziali in un luogo sicuro e di cambiare la password al primo accesso.</p>
+      <p><strong>Important:</strong> We recommend keeping these credentials in a safe place and changing your password on first login.</p>
       
-      <p>Hai a disposizione <strong>40 giorni di prova gratuita</strong> per esplorare tutte le funzionalità della piattaforma!</p>
+      <p>You have <strong>40 days of free trial</strong> to explore all platform features!</p>
       
       <center>
-        <a href="${appUrl}" class="button">Accedi alla Piattaforma</a>
+        <a href="${appUrl}" class="button">Access the Platform</a>
       </center>
       
       <div class="footer">
-        <p>Se hai domande o hai bisogno di assistenza, non esitare a contattarci.</p>
-        <p>Grazie per aver scelto Gestionale Appuntamenti!</p>
+        <p>If you have any questions or need assistance, please do not hesitate to contact us.</p>
+        <p>Thank you for choosing Appointment Manager!</p>
       </div>
     </div>
   </div>
@@ -67,28 +67,28 @@ export const welcomeEmailService = {
       `;
 
       const textContent = `
-Benvenuto in Gestionale Appuntamenti!
+Welcome to Appointment Manager!
 
-Ciao ${displayName},
+Hello ${displayName},
 
 Your registration has been completed successfully!
 
-Le tue credenziali di accesso:
+Your login credentials:
 - Username: ${username}
 - Password: ${password}
 
-Importante: Ti consigliamo di conservare queste credenziali in un luogo sicuro e di cambiare la password al primo accesso.
+Important: We recommend keeping these credentials in a safe place and changing your password on first login.
 
-Hai a disposizione 40 giorni di prova gratuita per esplorare tutte le funzionalità della piattaforma!
+You have 40 days of free trial to explore all platform features!
 
-Accedi alla piattaforma: ${appUrl}
+Access the platform: ${appUrl}
 
-Grazie per aver scelto Gestionale Appuntamenti!
+Thank you for choosing Appointment Manager!
       `;
 
       const result = await sendSystemEmail(
         recipientEmail,
-        'Benvenuto in Gestionale Appuntamenti - Le tue credenziali di accesso',
+        'Welcome to Appointment Manager - Your login credentials',
         htmlContent,
         textContent
       );

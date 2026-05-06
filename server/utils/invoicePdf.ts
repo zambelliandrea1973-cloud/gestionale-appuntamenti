@@ -110,7 +110,7 @@ export function buildInvoiceHtml(context: InvoiceRenderContext): string {
     <html>
     <head>
       <meta charset="UTF-8">
-      <title>Fattura ${invoiceNumber}</title>
+      <title>Invoice ${invoiceNumber}</title>
       <style>
         @page { 
           size: A4 portrait;
@@ -216,31 +216,31 @@ export function buildInvoiceHtml(context: InvoiceRenderContext): string {
         <img src="${logoBase64}" alt="Logo" />
         <h1>${businessHeader}</h1>
         ${businessAddress || businessCity || businessPostalCode ? `
-          <p><strong>Indirizzo:</strong> ${businessAddress || ''}${businessCity ? `, ${businessCity}` : ''}${businessPostalCode ? ` ${businessPostalCode}` : ''}</p>
+          <p><strong>Address:</strong> ${businessAddress || ''}${businessCity ? `, ${businessCity}` : ''}${businessPostalCode ? ` ${businessPostalCode}` : ''}</p>
         ` : ''}
         ${businessPhone ? `<p><strong>Tel:</strong> ${businessPhone}</p>` : ''}
         ${businessEmail ? `<p><strong>Email:</strong> ${businessEmail}</p>` : ''}
-        ${businessVatNumber ? `<p><strong>P.IVA:</strong> ${businessVatNumber}</p>` : ''}
-        ${businessFiscalCode ? `<p><strong>C.F.:</strong> ${businessFiscalCode}</p>` : ''}
+        ${businessVatNumber ? `<p><strong>VAT No.:</strong> ${businessVatNumber}</p>` : ''}
+        ${businessFiscalCode ? `<p><strong>Tax Code:</strong> ${businessFiscalCode}</p>` : ''}
       </div>
       
       <div class="invoice-info">
         <div class="client-info">
-          <h3>Dati Cliente</h3>
-          <p><strong>Nome:</strong> ${clientName}</p>
-          ${clientAddress ? `<p><strong>Indirizzo:</strong> ${clientAddress}</p>` : ''}
+          <h3>Client Details</h3>
+          <p><strong>Name:</strong> ${clientName}</p>
+          ${clientAddress ? `<p><strong>Address:</strong> ${clientAddress}</p>` : ''}
           ${clientPhone ? `<p><strong>Phone:</strong> ${clientPhone}</p>` : ''}
           ${clientEmail ? `<p><strong>Email:</strong> ${clientEmail}</p>` : ''}
-          ${clientTaxCode ? `<p><strong>Codice Fiscale:</strong> ${clientTaxCode}</p>` : ''}
-          ${clientVatNumber ? `<p><strong>Partita IVA:</strong> ${clientVatNumber}</p>` : ''}
-          ${clientBirthday ? `<p><strong>Data di nascita:</strong> ${clientBirthday}</p>` : ''}
+          ${clientTaxCode ? `<p><strong>Tax Code:</strong> ${clientTaxCode}</p>` : ''}
+          ${clientVatNumber ? `<p><strong>VAT Number:</strong> ${clientVatNumber}</p>` : ''}
+          ${clientBirthday ? `<p><strong>Date of Birth:</strong> ${clientBirthday}</p>` : ''}
         </div>
         <div class="invoice-details">
-          <h3>Fattura N. ${invoiceNumber}</h3>
-          <p><strong>Data:</strong> ${date}</p>
-          <p><strong>Scadenza:</strong> ${dueDate}</p>
-          <p><strong>Stato:</strong> ${
-            status === 'paid' ? 'Pagata' :
+          <h3>Invoice No. ${invoiceNumber}</h3>
+          <p><strong>Date:</strong> ${date}</p>
+          <p><strong>Due Date:</strong> ${dueDate}</p>
+          <p><strong>Status:</strong> ${
+            status === 'paid' ? 'Paid' :
             status === 'sent' ? 'Sent' :
             status === 'overdue' ? 'Overdue' : 'Draft'
           }</p>
@@ -250,10 +250,10 @@ export function buildInvoiceHtml(context: InvoiceRenderContext): string {
       <table class="items-table">
         <thead>
           <tr>
-            <th style="width: 50%;">Descrizione</th>
-            <th style="width: 15%; text-align: center;">Quantità</th>
-            <th style="width: 17.5%; text-align: right;">Prezzo Unit.</th>
-            <th style="width: 17.5%; text-align: right;">Totale</th>
+            <th style="width: 50%;">Description</th>
+            <th style="width: 15%; text-align: center;">Quantity</th>
+            <th style="width: 17.5%; text-align: right;">Unit Price</th>
+            <th style="width: 17.5%; text-align: right;">Total</th>
           </tr>
         </thead>
         <tbody>
@@ -274,14 +274,14 @@ export function buildInvoiceHtml(context: InvoiceRenderContext): string {
       
       ${notes ? `
         <div class="notes-section">
-          <h4>Note</h4>
+          <h4>Notes</h4>
           <p>${notes}</p>
         </div>
       ` : ''}
       
       <div class="footer">
-        <p>Grazie per aver scelto i nostri servizi</p>
-        <p style="margin-top: 10px; font-size: 9pt;">Documento generato il ${new Date().toLocaleDateString('it-IT')}</p>
+        <p>Thank you for choosing our services</p>
+        <p style="margin-top: 10px; font-size: 9pt;">Document generated on ${new Date().toLocaleDateString('en-GB')}</p>
       </div>
     </body>
     </html>

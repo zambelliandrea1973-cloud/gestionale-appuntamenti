@@ -186,8 +186,8 @@ export function buildInvoiceContext(deps: InvoiceDependencies): InvoiceRenderCon
   
   return {
     invoiceNumber: invoice.invoiceNumber,
-    date: new Date(invoice.date).toLocaleDateString('it-IT'),
-    dueDate: new Date(invoice.dueDate).toLocaleDateString('it-IT'),
+    date: new Date(invoice.date).toLocaleDateString('en-GB'),
+    dueDate: new Date(invoice.dueDate).toLocaleDateString('en-GB'),
     status: invoice.status,
     totalAmount: invoice.totalAmount,
     tax: invoice.tax || 0,
@@ -199,7 +199,7 @@ export function buildInvoiceContext(deps: InvoiceDependencies): InvoiceRenderCon
     clientEmail: client.email || undefined,
     clientTaxCode: client.taxCode || undefined,
     clientVatNumber: client.vatNumber || undefined,
-    clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString('it-IT') : undefined,
+    clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString('en-GB') : undefined,
     
     businessHeader,
     businessAddress: businessData.address || undefined,
