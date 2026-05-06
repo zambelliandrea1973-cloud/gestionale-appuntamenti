@@ -448,14 +448,14 @@
     "adminPersonalClientsHint": "Ihre persönlichen Kunden werden hier angezeigt. Verwenden Sie den Tab 'Personal', um Kunden anderer Fachleute zu sehen.",
     "loadMore": "Mehr laden",
     "qrTip": {
-      "eyebrow": "Enthaltene Funktion",
-      "title": "Jeder Kunde hat seinen eigenen QR-Code",
-      "subtitle": "QR-Code direkt aus der Kundenkarte generieren, drucken oder teilen.",
-      "b1": "Sofortiger Zugang — der Kunde scannt und greift sofort auf seinen persönlichen Bereich zu, kein Passwort nötig",
-      "b2": "Selbst-Check-in — der Kunde meldet sich bei der Ankunft selbständig an, ohne den Fachmann zu unterbrechen",
-      "b3": "Druckbar und teilbar — Visitenkarte, WhatsApp, E-Mail oder festes Etikett im Studio",
-      "hint": "Den QR-Button findest du auf jeder Kundenkarte unten",
-      "dismiss": "Nicht mehr anzeigen"
+      "eyebrow": "Wozu dient der Kunden-QR?",
+      "title": "Weniger Anrufe, weniger Unterbrechungen — der Kunde erledigt es selbst",
+      "subtitle": "Jeder Kunde hat einen persönlichen QR-Code, der bereits bereit ist. Zeigen Sie ihm, wie er ihn mit dem Handy scannt: ab diesem Moment betritt er seinen reservierten Bereich selbständig, ohne dass Sie etwas tun müssen.",
+      "b1": "Bucht ohne Sie anzurufen — sieht Ihre freien Slots und wählt selbst eine Zeit, wann er möchte",
+      "b2": "Check-in bei Ankunft ohne Sie zu unterbrechen — scannt den QR an der Tür, erledigt selbständig",
+      "b3": "Einmal einrichten: per WhatsApp senden oder auf Treuekarte drucken — nutzt es bei jedem Besuch wieder",
+      "hint": "Klicken Sie auf \"QR-Code generieren\" auf einer Kundenkarte unten",
+      "dismiss": "Verstanden, nicht mehr anzeigen"
     }
   },
   "invoices": {

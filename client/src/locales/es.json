@@ -448,14 +448,14 @@
     "adminPersonalClientsHint": "Tus clientes personales aparecerán aquí. Usa la pestaña 'Personal' para ver los clientes de otros profesionales.",
     "loadMore": "Cargar más",
     "qrTip": {
-      "eyebrow": "Función incluida",
-      "title": "Cada cliente tiene su QR personal",
-      "subtitle": "Genera, imprime o comparte el código QR directamente desde la ficha del cliente.",
-      "b1": "Acceso instantáneo — el cliente escanea y accede de inmediato a su área personal, sin contraseña",
-      "b2": "Auto check-in — el cliente se registra a su llegada de forma autónoma, sin interrumpir al profesional",
-      "b3": "Imprimible y compartible — tarjeta de visita, WhatsApp, email o etiqueta fija en el estudio",
-      "hint": "Encuentra el botón QR en cada ficha de cliente a continuación",
-      "dismiss": "No mostrar más"
+      "eyebrow": "¿Para qué sirve el QR del cliente?",
+      "title": "Menos llamadas, menos interrupciones — el cliente lo hace solo",
+      "subtitle": "Cada cliente tiene un QR personal ya listo. Muéstrale cómo escanearlo con el teléfono: desde ese momento entra en su área reservada de forma autónoma, sin que tú tengas que hacer nada.",
+      "b1": "Reserva sin llamarte — ve tus huecos disponibles y elige horario solo, cuando quiera",
+      "b2": "Se registra a la llegada sin interrumpirte — escanea el QR en la entrada y el check-in está hecho",
+      "b3": "Lo configuras una vez: mándalo por WhatsApp o imprímelo en la tarjeta — lo reutiliza en cada visita",
+      "hint": "Pulsa \"Generar código QR\" en una ficha de cliente abajo para empezar",
+      "dismiss": "Entendido, no mostrar más"
     }
   },
   "invoices": {

@@ -461,14 +461,14 @@
     "adminPersonalClientsHint": "Your personal clients will appear here. Use the 'Staff' tab to see other professionals' clients.",
     "loadMore": "Load more",
     "qrTip": {
-      "eyebrow": "Included feature",
-      "title": "Every client has their own personal QR",
-      "subtitle": "Generate, print or share the QR code directly from the client card.",
-      "b1": "Instant access — the client scans and immediately enters their personal area, no password needed",
-      "b2": "Self check-in — the client registers on arrival independently, without interrupting the professional",
-      "b3": "Printable and shareable — business card, WhatsApp, email or fixed label in the studio",
-      "hint": "Find the QR button on every client card below",
-      "dismiss": "Don't show again"
+      "eyebrow": "What is the client QR for?",
+      "title": "Fewer calls, fewer interruptions — the client handles it themselves",
+      "subtitle": "Every client has a personal QR already ready. Show them how to scan it with their phone: from that moment they enter their reserved area on their own, without you having to do anything.",
+      "b1": "Books without calling you — sees your available slots and picks a time on their own, whenever they want",
+      "b2": "Checks in on arrival without interrupting you — scans the QR at the door and check-in is done independently",
+      "b3": "You set it up once: send it on WhatsApp or print it on their loyalty card — they reuse it every visit",
+      "hint": "Press \"Generate QR Code\" on a client card below to get started",
+      "dismiss": "Got it, don't show again"
     }
   },
   "invoices": {
