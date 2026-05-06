@@ -1733,7 +1733,8 @@
     "packages": "Pachete promoționale",
     "multiStaff": "Gestionare angajați multipli",
     "inventory": "Inventar produse",
-    "marketingAI": "Campanii Marketing AI"
+    "marketingAI": "Campanii Marketing AI",
+    "unknownFeature": "Funcție"
   },
   "whatsappCenter": {
     "pageTitle": "Centru de Configurare și Trimitere Notificări",

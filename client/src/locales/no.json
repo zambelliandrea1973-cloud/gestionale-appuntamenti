@@ -1733,7 +1733,8 @@
     "packages": "Kampanjepakker",
     "multiStaff": "Administrasjon av flere ansatte",
     "inventory": "Produktlager",
-    "marketingAI": "AI-markedsføringskampanjer"
+    "marketingAI": "AI-markedsføringskampanjer",
+    "unknownFeature": "Funksjon"
   },
   "whatsappCenter": {
     "pageTitle": "Varsling Konfigurasjon og Sendingsenter",

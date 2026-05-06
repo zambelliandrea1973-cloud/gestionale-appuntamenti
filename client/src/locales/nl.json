@@ -1733,7 +1733,8 @@
     "packages": "Promotiepakketten",
     "multiStaff": "Beheer van meerdere medewerkers",
     "inventory": "Productinventaris",
-    "marketingAI": "AI-marketingcampagnes"
+    "marketingAI": "AI-marketingcampagnes",
+    "unknownFeature": "Functie"
   },
   "whatsappCenter": {
     "pageTitle": "Melding Configuratie en Verzend Centrum",

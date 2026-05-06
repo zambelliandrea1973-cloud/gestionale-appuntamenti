@@ -1733,7 +1733,8 @@
     "packages": "Werbepakete",
     "multiStaff": "Mehrere Mitarbeiter",
     "inventory": "Produktlager",
-    "marketingAI": "KI-Marketing-Kampagnen"
+    "marketingAI": "KI-Marketing-Kampagnen",
+    "unknownFeature": "Funktion"
   },
   "whatsappCenter": {
     "pageTitle": "Benachrichtigungs-Konfigurations- und Versandzentrum",

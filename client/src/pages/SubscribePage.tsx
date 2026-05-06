@@ -37,6 +37,7 @@ import { useCurrency } from '@/hooks/use-currency';
 
 // Definizione delle offerte
 interface PlanFeature {
+  key?: string;
   name: string;
   included: boolean;
 }
@@ -53,40 +54,74 @@ interface Plan {
   buttonVariant?: 'default' | 'outline' | 'secondary';
 }
 
-// Helper to translate feature names from the database.
-// The map supports both legacy Italian DB values and current English DB values.
-const translateFeatureName = (featureName: string, t: any): string => {
-  const featureMap: Record<string, string> = {
-    // English DB values (current)
-    'Appointment calendar': t('planFeatures.calendar'),
-    'Client management': t('planFeatures.clients'),
-    'QR/PWA app for clients': t('planFeatures.qrPwa'),
-    'Client appointment requests': t('planFeatures.appointmentRequests'),
-    'Client notifications': t('planFeatures.notifications'),
-    'Invoice generation': t('planFeatures.invoices'),
-    'Google Calendar sync': t('planFeatures.googleCalendar'),
-    'Reports and statistics': t('planFeatures.reports'),
-    'Promotional packages': t('planFeatures.packages'),
-    'Multi-staff management': t('planFeatures.multiStaff'),
-    'Product inventory': t('planFeatures.inventory'),
-    'AI Marketing campaigns': t('planFeatures.marketingAI'),
-    // Legacy Italian DB values (kept for backward compatibility)
-    'Calendario appuntamenti': t('planFeatures.calendar'),
-    'Gestione clienti': t('planFeatures.clients'),
-    'App QR/PWA per clienti': t('planFeatures.qrPwa'),
-    'Richiesta appuntamenti cliente': t('planFeatures.appointmentRequests'),
-    'Notifiche clienti': t('planFeatures.notifications'),
-    'Emissione fatture': t('planFeatures.invoices'),
-    'Sincronizzazione Google Calendar': t('planFeatures.googleCalendar'),
-    'Report e statistiche': t('planFeatures.reports'),
-    'Pacchetti promozionali': t('planFeatures.packages'),
-    'Gestione piu dipendenti': t('planFeatures.multiStaff'),
-    'Gestione più dipendenti': t('planFeatures.multiStaff'),
-    'Magazzino prodotti': t('planFeatures.inventory'),
-    'Campagne Marketing AI': t('planFeatures.marketingAI'),
-  };
-  
-  return featureMap[featureName] || featureName;
+// Map from legacy display strings (Italian and English) to the corresponding slug.
+// Used only to migrate old DB records that haven't been updated yet.
+const LEGACY_NAME_TO_SLUG: Record<string, string> = {
+  // English display strings
+  'Appointment calendar': 'calendar',
+  'Client management': 'clients',
+  'QR/PWA app for clients': 'qrPwa',
+  'Client appointment requests': 'appointmentRequests',
+  'Client notifications': 'notifications',
+  'Invoice generation': 'invoices',
+  'Google Calendar sync': 'googleCalendar',
+  'Reports and statistics': 'reports',
+  'Promotional packages': 'packages',
+  'Multi-staff management': 'multiStaff',
+  'Product inventory': 'inventory',
+  'AI Marketing campaigns': 'marketingAI',
+  // Italian display strings
+  'Calendario appuntamenti': 'calendar',
+  'Gestione appuntamenti': 'calendar',
+  'Gestione appuntamenti base': 'calendar',
+  'Gestione clienti': 'clients',
+  'App QR/PWA per clienti': 'qrPwa',
+  'PWA area clienti scaricabile': 'qrPwa',
+  'Richiesta appuntamenti cliente': 'appointmentRequests',
+  'Notifiche clienti': 'notifications',
+  'Notifiche ai clienti': 'notifications',
+  'Notifiche email': 'notifications',
+  'Emissione fatture': 'invoices',
+  'Gestione fatture': 'invoices',
+  'Sincronizzazione Google Calendar': 'googleCalendar',
+  'Integrazione Google Calendar': 'googleCalendar',
+  'Integrazione calendario': 'googleCalendar',
+  'Report e statistiche': 'reports',
+  'Report dettagliati': 'reports',
+  'Report avanzati': 'reports',
+  'Pacchetti promozionali': 'packages',
+  'Gestione piu dipendenti': 'multiStaff',
+  'Gestione più dipendenti': 'multiStaff',
+  'Supporto per più operatori': 'multiStaff',
+  'Magazzino prodotti': 'inventory',
+  'Campagne Marketing AI': 'marketingAI',
+};
+
+// Translates a feature to the current UI language.
+// Primary path: `featureKey` is a slug → t('planFeatures.<slug>').
+// Fallback: `featureName` is a legacy display string → resolve to slug first.
+// If the slug has no translation, returns a generic localized label — never raw DB text.
+const translateFeatureName = (featureKey: string | undefined, featureName: string, t: any): string => {
+  const slug = featureKey || LEGACY_NAME_TO_SLUG[featureName];
+  if (slug) {
+    // t() returns the key path string itself when a key is missing; detect that
+    // and fall back to a safe generic label instead of exposing the raw slug.
+    const translated = t(`planFeatures.${slug}`);
+    if (translated && translated !== `planFeatures.${slug}`) {
+      return translated;
+    }
+  }
+  // If the legacy map had a match but translation failed, try to surface the
+  // closest known translation key rather than raw text.
+  const fallbackSlug = LEGACY_NAME_TO_SLUG[featureName];
+  if (fallbackSlug) {
+    const translated = t(`planFeatures.${fallbackSlug}`);
+    if (translated && translated !== `planFeatures.${fallbackSlug}`) {
+      return translated;
+    }
+  }
+  // Final safe fallback: a generic localized label (never raw Italian).
+  return t('planFeatures.unknownFeature', 'Feature');
 };
 
 export default function SubscribePage() {
@@ -336,7 +371,8 @@ export default function SubscribePage() {
     refetchOnWindowFocus: false,
   });
 
-  // Definizione dei piani
+  // Definizione dei piani — features use slug keys so translateFeatureName works
+  // in any language without relying on the legacy display-name lookup map.
   const fallbackPlans: Plan[] = [
     {
       id: 'trial',
@@ -347,16 +383,16 @@ export default function SubscribePage() {
       priceLabel: t('plans.trial.price'),
       buttonVariant: 'outline',
       features: [
-        { name: t('planFeatures.calendar'), included: true },
-        { name: t('planFeatures.clients'), included: true },
-        { name: t('planFeatures.qrPwa'), included: true },
-        { name: t('planFeatures.appointmentRequests'), included: true },
-        { name: t('planFeatures.notifications'), included: true },
-        { name: t('planFeatures.invoices'), included: true },
-        { name: t('planFeatures.reports'), included: false },
-        { name: t('planFeatures.googleCalendar'), included: false },
-        { name: t('planFeatures.packages'), included: false },
-        { name: t('planFeatures.marketingAI'), included: false },
+        { key: 'calendar', name: 'calendar', included: true },
+        { key: 'clients', name: 'clients', included: true },
+        { key: 'qrPwa', name: 'qrPwa', included: true },
+        { key: 'appointmentRequests', name: 'appointmentRequests', included: true },
+        { key: 'notifications', name: 'notifications', included: true },
+        { key: 'invoices', name: 'invoices', included: true },
+        { key: 'reports', name: 'reports', included: false },
+        { key: 'googleCalendar', name: 'googleCalendar', included: false },
+        { key: 'packages', name: 'packages', included: false },
+        { key: 'marketingAI', name: 'marketingAI', included: false },
       ],
     },
     {
@@ -368,16 +404,16 @@ export default function SubscribePage() {
       priceLabel: t('plans.base.priceLabel'),
       buttonVariant: 'outline',
       features: [
-        { name: t('planFeatures.calendar'), included: true },
-        { name: t('planFeatures.clients'), included: true },
-        { name: t('planFeatures.qrPwa'), included: true },
-        { name: t('planFeatures.appointmentRequests'), included: true },
-        { name: t('planFeatures.notifications'), included: true },
-        { name: t('planFeatures.invoices'), included: true },
-        { name: t('planFeatures.reports'), included: false },
-        { name: t('planFeatures.googleCalendar'), included: false },
-        { name: t('planFeatures.packages'), included: false },
-        { name: t('planFeatures.marketingAI'), included: false },
+        { key: 'calendar', name: 'calendar', included: true },
+        { key: 'clients', name: 'clients', included: true },
+        { key: 'qrPwa', name: 'qrPwa', included: true },
+        { key: 'appointmentRequests', name: 'appointmentRequests', included: true },
+        { key: 'notifications', name: 'notifications', included: true },
+        { key: 'invoices', name: 'invoices', included: true },
+        { key: 'reports', name: 'reports', included: false },
+        { key: 'googleCalendar', name: 'googleCalendar', included: false },
+        { key: 'packages', name: 'packages', included: false },
+        { key: 'marketingAI', name: 'marketingAI', included: false },
       ],
     },
     {
@@ -390,18 +426,18 @@ export default function SubscribePage() {
       popular: true,
       buttonVariant: 'default',
       features: [
-        { name: t('planFeatures.calendar'), included: true },
-        { name: t('planFeatures.clients'), included: true },
-        { name: t('planFeatures.qrPwa'), included: true },
-        { name: t('planFeatures.appointmentRequests'), included: true },
-        { name: t('planFeatures.notifications'), included: true },
-        { name: t('planFeatures.invoices'), included: true },
-        { name: t('planFeatures.googleCalendar'), included: true },
-        { name: t('planFeatures.reports'), included: true },
-        { name: t('planFeatures.packages'), included: true },
-        { name: t('planFeatures.multiStaff'), included: false },
-        { name: t('planFeatures.inventory'), included: false },
-        { name: t('planFeatures.marketingAI'), included: false },
+        { key: 'calendar', name: 'calendar', included: true },
+        { key: 'clients', name: 'clients', included: true },
+        { key: 'qrPwa', name: 'qrPwa', included: true },
+        { key: 'appointmentRequests', name: 'appointmentRequests', included: true },
+        { key: 'notifications', name: 'notifications', included: true },
+        { key: 'invoices', name: 'invoices', included: true },
+        { key: 'googleCalendar', name: 'googleCalendar', included: true },
+        { key: 'reports', name: 'reports', included: true },
+        { key: 'packages', name: 'packages', included: true },
+        { key: 'multiStaff', name: 'multiStaff', included: false },
+        { key: 'inventory', name: 'inventory', included: false },
+        { key: 'marketingAI', name: 'marketingAI', included: false },
       ],
     },
     {
@@ -413,18 +449,18 @@ export default function SubscribePage() {
       priceLabel: t('plans.business.priceLabel'),
       buttonVariant: 'outline',
       features: [
-        { name: t('planFeatures.calendar'), included: true },
-        { name: t('planFeatures.clients'), included: true },
-        { name: t('planFeatures.qrPwa'), included: true },
-        { name: t('planFeatures.appointmentRequests'), included: true },
-        { name: t('planFeatures.notifications'), included: true },
-        { name: t('planFeatures.invoices'), included: true },
-        { name: t('planFeatures.googleCalendar'), included: true },
-        { name: t('planFeatures.reports'), included: true },
-        { name: t('planFeatures.packages'), included: true },
-        { name: t('planFeatures.multiStaff'), included: true },
-        { name: t('planFeatures.inventory'), included: true },
-        { name: t('planFeatures.marketingAI'), included: true },
+        { key: 'calendar', name: 'calendar', included: true },
+        { key: 'clients', name: 'clients', included: true },
+        { key: 'qrPwa', name: 'qrPwa', included: true },
+        { key: 'appointmentRequests', name: 'appointmentRequests', included: true },
+        { key: 'notifications', name: 'notifications', included: true },
+        { key: 'invoices', name: 'invoices', included: true },
+        { key: 'googleCalendar', name: 'googleCalendar', included: true },
+        { key: 'reports', name: 'reports', included: true },
+        { key: 'packages', name: 'packages', included: true },
+        { key: 'multiStaff', name: 'multiStaff', included: true },
+        { key: 'inventory', name: 'inventory', included: true },
+        { key: 'marketingAI', name: 'marketingAI', included: true },
       ],
     },
   ];
@@ -462,17 +498,27 @@ export default function SubscribePage() {
             ? LicenseType.BUSINESS
             : LicenseType.BASE;
         
-        // Normalizza le features: possono essere già oggetti {name, included} o stringhe
+        // Normalizza le features: possono essere oggetti {key, included}, {name, included} o stringhe
         const normalizedFeatures: PlanFeature[] = Array.isArray(features) && features.length > 0
           ? features.map((f: any) => {
-              // Se è già un oggetto con name e included, usalo così com'è
-              if (typeof f === 'object' && f.name !== undefined) {
-                return {
-                  name: f.name,
-                  included: f.included !== undefined ? f.included : true
-                };
+              if (typeof f === 'object') {
+                // Slug-based format: {key: "calendar", included: true}
+                if (f.key !== undefined) {
+                  return {
+                    key: String(f.key),
+                    name: String(f.key),
+                    included: f.included !== undefined ? f.included : true
+                  };
+                }
+                // Legacy display-name format: {name: "Calendario appuntamenti", included: true}
+                if (f.name !== undefined) {
+                  return {
+                    name: String(f.name),
+                    included: f.included !== undefined ? f.included : true
+                  };
+                }
               }
-              // Se è una stringa, convertila in oggetto
+              // Plain string
               return {
                 name: String(f),
                 included: true
@@ -701,7 +747,7 @@ export default function SubscribePage() {
                       <ul className="space-y-2 mb-6">
                         {plan.features.flatMap((feature: PlanFeature, featureIndex: number) => {
                           // Traduci la feature prima di splitarla
-                          const translatedFeatureName = translateFeatureName(feature.name, t);
+                          const translatedFeatureName = translateFeatureName(feature.key, feature.name, t);
                           // Separa la feature per virgola, punto o trattino
                           const items = translatedFeatureName
                             .split(/[,;.\-]/)

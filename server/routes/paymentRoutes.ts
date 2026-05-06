@@ -8,7 +8,45 @@ import { storage } from '../storage';
 import Stripe from 'stripe';
 import { db } from '../db';
 import { eq, desc, or, isNull, count, sql, and, gte } from 'drizzle-orm';
-import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clients, userLogins } from '../../shared/schema';
+import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clients, userLogins, PLAN_FEATURE_SLUGS } from '../../shared/schema';
+
+// Normalises a features payload to slug-based PlanFeatureEntry objects.
+// Shared with subscriptionPlanRoutes — kept local to avoid circular imports.
+const _PLAN_FEATURE_SLUGS_SET = new Set<string>(PLAN_FEATURE_SLUGS);
+const _LEGACY_TO_SLUG: Record<string, string> = {
+  'Appointment calendar': 'calendar', 'Client management': 'clients',
+  'QR/PWA app for clients': 'qrPwa', 'Client appointment requests': 'appointmentRequests',
+  'Client notifications': 'notifications', 'Invoice generation': 'invoices',
+  'Google Calendar sync': 'googleCalendar', 'Reports and statistics': 'reports',
+  'Promotional packages': 'packages', 'Multi-staff management': 'multiStaff',
+  'Product inventory': 'inventory', 'AI Marketing campaigns': 'marketingAI',
+  'Calendario appuntamenti': 'calendar', 'Gestione appuntamenti': 'calendar',
+  'Gestione clienti': 'clients', 'App QR/PWA per clienti': 'qrPwa',
+  'Richiesta appuntamenti cliente': 'appointmentRequests',
+  'Notifiche clienti': 'notifications', 'Notifiche ai clienti': 'notifications',
+  'Emissione fatture': 'invoices', 'Gestione fatture': 'invoices',
+  'Sincronizzazione Google Calendar': 'googleCalendar', 'Integrazione Google Calendar': 'googleCalendar',
+  'Report e statistiche': 'reports', 'Report dettagliati': 'reports',
+  'Pacchetti promozionali': 'packages', 'Gestione più dipendenti': 'multiStaff',
+  'Gestione piu dipendenti': 'multiStaff', 'Magazzino prodotti': 'inventory',
+  'Campagne Marketing AI': 'marketingAI',
+};
+function _normalizeFeaturesPayment(raw: unknown) {
+  if (!Array.isArray(raw)) return raw;
+  const result: any[] = [];
+  for (const item of raw) {
+    if (typeof item === 'string') {
+      const slug = _LEGACY_TO_SLUG[item] ?? (_PLAN_FEATURE_SLUGS_SET.has(item) ? item : null);
+      if (slug) result.push({ key: slug, included: true });
+    } else if (item && typeof item === 'object') {
+      const key = (item as any).key ?? _LEGACY_TO_SLUG[(item as any).name ?? ''];
+      if (key && _PLAN_FEATURE_SLUGS_SET.has(key)) {
+        result.push({ key, included: (item as any).included ?? true });
+      }
+    }
+  }
+  return result.length > 0 ? result : undefined;
+}
 
 const router = Router();
 
@@ -80,7 +118,7 @@ router.post('/plans', isAuthenticated, isAdmin, async (req, res) => {
       description,
       price: parseInt(price), // Convert to integer for safety
       interval,
-      features,
+      features: _normalizeFeaturesPayment(features),
       clientLimit: clientLimit ? parseInt(clientLimit) : undefined,
       sortOrder: sortOrder ? parseInt(sortOrder) : undefined
     });

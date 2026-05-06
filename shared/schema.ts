@@ -728,6 +728,32 @@ export const insertBetaFeedbackSchema = createInsertSchema(betaFeedback).omit({
   updatedAt: true,
 });
 
+// Language-neutral slugs used in plan_features JSON.
+// These slugs are stable identifiers mapped to i18n keys: planFeatures.<slug>
+// Never store display strings in the database — always use these slugs.
+export const PLAN_FEATURE_SLUGS = [
+  'calendar',
+  'clients',
+  'qrPwa',
+  'appointmentRequests',
+  'notifications',
+  'invoices',
+  'googleCalendar',
+  'reports',
+  'packages',
+  'multiStaff',
+  'inventory',
+  'marketingAI',
+] as const;
+
+export type PlanFeatureSlug = typeof PLAN_FEATURE_SLUGS[number];
+
+/** Shape of each element in the features JSON column of subscription_plans. */
+export interface PlanFeatureEntry {
+  key: PlanFeatureSlug;
+  included: boolean;
+}
+
 // Payment System Tables
 export const subscriptionPlans = pgTable("subscription_plans", {
   id: serial("id").primaryKey(),
@@ -735,7 +761,7 @@ export const subscriptionPlans = pgTable("subscription_plans", {
   description: text("description"),
   price: integer("price").notNull(), // in cents
   interval: text("interval").notNull().default("month"), // month, year
-  features: json("features"), // JSON array of features included in this plan
+  features: json("features").$type<PlanFeatureEntry[]>(), // Array of {key, included} entries
   clientLimit: integer("client_limit"), // Maximum number of clients
   isActive: boolean("is_active").default(true),
   sortOrder: integer("sort_order").default(0),

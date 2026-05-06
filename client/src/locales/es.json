@@ -1733,7 +1733,8 @@
     "packages": "Paquetes promocionales",
     "multiStaff": "Gestión de múltiples empleados",
     "inventory": "Inventario de productos",
-    "marketingAI": "Campañas de Marketing IA"
+    "marketingAI": "Campañas de Marketing IA",
+    "unknownFeature": "Función"
   },
   "whatsappCenter": {
     "pageTitle": "Centro de Configuración y Envío de Notificaciones",
