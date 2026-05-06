@@ -1,8 +1,9 @@
 // @ts-nocheck
 import { db } from '../db';
-import { users, clients, appointments } from '../../shared/schema';
-import { sql } from 'drizzle-orm';
+import { users, clients, appointments, userSettings } from '../../shared/schema';
+import { sql, eq } from 'drizzle-orm';
 import { sendSystemEmail } from './systemEmailService';
+import { normalizeLang, getScalabilityWarningStrings, SupportedLang } from '../utils/emailTranslations';
 
 const THRESHOLDS = {
   TOTAL_USERS_WARNING: 500,
@@ -25,6 +26,10 @@ interface MonitoringStats {
 
 let lastWarningsSent: { [key: string]: number } = {};
 const WARNING_COOLDOWN_HOURS = 24;
+
+function fillTemplate(template: string, vars: Record<string, string | number>): string {
+  return template.replace(/\{(\w+)\}/g, (_, key) => String(vars[key] ?? `{${key}}`));
+}
 
 export const scalabilityMonitorService = {
   async getStats(): Promise<MonitoringStats> {
@@ -64,19 +69,49 @@ export const scalabilityMonitorService = {
     lastWarningsSent[warningType] = Date.now();
   },
 
-  async sendWarningEmail(subject: string, htmlContent: string): Promise<boolean> {
+  /**
+   * Fetch the admin user's preferred language.
+   * Falls back to 'en' (not 'it') when no preference is set or the stored value
+   * is unsupported, because these are operational alerts that are safest in
+   * English for a broad admin audience.
+   */
+  async getAdminLang(): Promise<SupportedLang> {
+    const SUPPORTED: SupportedLang[] = ['it', 'en', 'de', 'fr', 'es', 'ru', 'nl', 'no', 'ro'];
     try {
-      const [admin] = await db.select().from(users).where(sql`type = 'admin'`).limit(1);
+      const [admin] = await db.select({ id: users.id }).from(users).where(sql`type = 'admin'`).limit(1);
+      if (admin?.id) {
+        const [row] = await db
+          .select({ preferences: userSettings.preferences })
+          .from(userSettings)
+          .where(eq(userSettings.userId, admin.id))
+          .limit(1);
+        if (row?.preferences) {
+          const prefs = row.preferences as Record<string, unknown>;
+          if (typeof prefs.language === 'string' && prefs.language) {
+            const base = prefs.language.toLowerCase().split(/[-_]/)[0] as SupportedLang;
+            if (SUPPORTED.includes(base)) return base;
+          }
+        }
+      }
+    } catch {
+      // fall through to default
+    }
+    return 'en';
+  },
+
+  /**
+   * Send a warning email to the admin.
+   * The caller is responsible for building the full, already-localized subject.
+   */
+  async sendWarningEmail(fullSubject: string, htmlContent: string): Promise<boolean> {
+    try {
+      const [admin] = await db.select({ email: users.email }).from(users).where(sql`type = 'admin'`).limit(1);
       const adminEmail = admin?.email || 'zambelli.andrea.1973@gmail.com';
 
-      const result = await sendSystemEmail(
-        adminEmail,
-        `⚠️ SCALABILITY WARNING: ${subject}`,
-        htmlContent
-      );
+      const result = await sendSystemEmail(adminEmail, fullSubject, htmlContent);
 
       if (result.success) {
-        console.log(`📧 [MONITOR] Warning email sent: ${subject}`);
+        console.log(`📧 [MONITOR] Warning email sent: ${fullSubject}`);
       } else {
         console.error(`❌ [MONITOR] Error sending warning email: ${result.error}`);
       }
@@ -93,66 +128,70 @@ export const scalabilityMonitorService = {
     try {
       const stats = await this.getStats();
       const warnings: string[] = [];
+
+      const lang = await this.getAdminLang();
+      const t = getScalabilityWarningStrings(lang);
       
       console.log(`📊 [MONITOR] Stats: ${stats.totalUsers} users, ${stats.totalClients} clients, ${stats.totalAppointments} appointments, max ${stats.maxClientsPerUser} clients/user`);
 
       if (stats.totalUsers >= THRESHOLDS.TOTAL_USERS_CRITICAL && this.canSendWarning('users_critical')) {
-        warnings.push(`🚨 CRITICAL: ${stats.totalUsers} registered users (threshold: ${THRESHOLDS.TOTAL_USERS_CRITICAL})`);
+        warnings.push(fillTemplate(t.criticalUsers, { count: stats.totalUsers, threshold: THRESHOLDS.TOTAL_USERS_CRITICAL }));
         this.markWarningSent('users_critical');
       } else if (stats.totalUsers >= THRESHOLDS.TOTAL_USERS_WARNING && this.canSendWarning('users_warning')) {
-        warnings.push(`⚠️ WARNING: ${stats.totalUsers} registered users (warning threshold: ${THRESHOLDS.TOTAL_USERS_WARNING})`);
+        warnings.push(fillTemplate(t.warningUsers, { count: stats.totalUsers, threshold: THRESHOLDS.TOTAL_USERS_WARNING }));
         this.markWarningSent('users_warning');
       }
 
       if (stats.totalClients >= THRESHOLDS.TOTAL_CLIENTS_CRITICAL && this.canSendWarning('clients_critical')) {
-        warnings.push(`🚨 CRITICAL: ${stats.totalClients} total clients (threshold: ${THRESHOLDS.TOTAL_CLIENTS_CRITICAL})`);
+        warnings.push(fillTemplate(t.criticalClients, { count: stats.totalClients, threshold: THRESHOLDS.TOTAL_CLIENTS_CRITICAL }));
         this.markWarningSent('clients_critical');
       } else if (stats.totalClients >= THRESHOLDS.TOTAL_CLIENTS_WARNING && this.canSendWarning('clients_warning')) {
-        warnings.push(`⚠️ WARNING: ${stats.totalClients} total clients (warning threshold: ${THRESHOLDS.TOTAL_CLIENTS_WARNING})`);
+        warnings.push(fillTemplate(t.warningClients, { count: stats.totalClients, threshold: THRESHOLDS.TOTAL_CLIENTS_WARNING }));
         this.markWarningSent('clients_warning');
       }
 
       if (stats.maxClientsPerUser >= THRESHOLDS.MAX_CLIENTS_PER_USER_CRITICAL && this.canSendWarning('clients_per_user_critical')) {
-        warnings.push(`🚨 CRITICAL: User ${stats.userWithMaxClients} has ${stats.maxClientsPerUser} clients (threshold: ${THRESHOLDS.MAX_CLIENTS_PER_USER_CRITICAL})`);
+        warnings.push(fillTemplate(t.criticalClientsPerUser, { user: stats.userWithMaxClients ?? '', count: stats.maxClientsPerUser, threshold: THRESHOLDS.MAX_CLIENTS_PER_USER_CRITICAL }));
         this.markWarningSent('clients_per_user_critical');
       } else if (stats.maxClientsPerUser >= THRESHOLDS.MAX_CLIENTS_PER_USER_WARNING && this.canSendWarning('clients_per_user_warning')) {
-        warnings.push(`⚠️ WARNING: User ${stats.userWithMaxClients} has ${stats.maxClientsPerUser} clients (warning threshold: ${THRESHOLDS.MAX_CLIENTS_PER_USER_WARNING})`);
+        warnings.push(fillTemplate(t.warningClientsPerUser, { user: stats.userWithMaxClients ?? '', count: stats.maxClientsPerUser, threshold: THRESHOLDS.MAX_CLIENTS_PER_USER_WARNING }));
         this.markWarningSent('clients_per_user_warning');
       }
 
       if (stats.totalAppointments >= THRESHOLDS.TOTAL_APPOINTMENTS_CRITICAL && this.canSendWarning('appointments_critical')) {
-        warnings.push(`🚨 CRITICAL: ${stats.totalAppointments} total appointments (threshold: ${THRESHOLDS.TOTAL_APPOINTMENTS_CRITICAL})`);
+        warnings.push(fillTemplate(t.criticalAppointments, { count: stats.totalAppointments, threshold: THRESHOLDS.TOTAL_APPOINTMENTS_CRITICAL }));
         this.markWarningSent('appointments_critical');
       } else if (stats.totalAppointments >= THRESHOLDS.TOTAL_APPOINTMENTS_WARNING && this.canSendWarning('appointments_warning')) {
-        warnings.push(`⚠️ WARNING: ${stats.totalAppointments} total appointments (warning threshold: ${THRESHOLDS.TOTAL_APPOINTMENTS_WARNING})`);
+        warnings.push(fillTemplate(t.warningAppointments, { count: stats.totalAppointments, threshold: THRESHOLDS.TOTAL_APPOINTMENTS_WARNING }));
         this.markWarningSent('appointments_warning');
       }
 
       if (warnings.length > 0) {
         const htmlContent = `
-          <h2>Scalability Warning - Appointment Manager</h2>
-          <p>The system has reached one or more critical thresholds that require attention:</p>
+          <h2>${t.emailTitle}</h2>
+          <p>${t.emailIntro}</p>
           <ul>
             ${warnings.map(w => `<li>${w}</li>`).join('')}
           </ul>
-          <h3>Current stats:</h3>
+          <h3>${t.statsTitle}</h3>
           <ul>
-            <li><strong>Total users:</strong> ${stats.totalUsers}</li>
-            <li><strong>Total clients:</strong> ${stats.totalClients}</li>
-            <li><strong>Total appointments:</strong> ${stats.totalAppointments}</li>
-            <li><strong>Max clients per user:</strong> ${stats.maxClientsPerUser} (${stats.userWithMaxClients})</li>
+            <li><strong>${t.totalUsersLabel}:</strong> ${stats.totalUsers}</li>
+            <li><strong>${t.totalClientsLabel}:</strong> ${stats.totalClients}</li>
+            <li><strong>${t.totalAppointmentsLabel}:</strong> ${stats.totalAppointments}</li>
+            <li><strong>${t.maxClientsPerUserLabel}:</strong> ${stats.maxClientsPerUser} (${stats.userWithMaxClients})</li>
           </ul>
-          <h3>Recommended actions:</h3>
+          <h3>${t.actionsTitle}</h3>
           <ol>
-            <li>Implement frontend pagination for the client list</li>
-            <li>Add server-side search instead of filtering in JavaScript</li>
-            <li>Consider adding Redis cache for frequent queries</li>
-            <li>Evaluate a database plan upgrade if necessary</li>
+            <li>${t.action1}</li>
+            <li>${t.action2}</li>
+            <li>${t.action3}</li>
+            <li>${t.action4}</li>
           </ol>
-          <p><em>This warning will not be resent for the next 24 hours.</em></p>
+          <p><em>${t.cooldownNotice}</em></p>
         `;
 
-        await this.sendWarningEmail('Scalability thresholds reached', htmlContent);
+        const emailSubject = `⚠️ ${t.subjectThresholds}`;
+        await this.sendWarningEmail(emailSubject, htmlContent);
       } else {
         console.log('✅ [MONITOR] No critical threshold reached');
       }
