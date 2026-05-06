@@ -464,7 +464,15 @@
       "messageText": "Ciao {{name}}, ecco il tuo link per accedere all'area riservata:"
     },
     "adminPersonalClientsHint": "I tuoi clienti personali appariranno qui. Usa il tab 'Staff' per vedere i clienti di altri professionisti.",
-    "loadMore": "Carica altri"
+    "loadMore": "Carica altri",
+    "qrTip": {
+      "title": "Il QR code del cliente — come funziona e perché usarlo",
+      "desc": "Ogni scheda cliente genera automaticamente un QR code personale. Ecco a cosa serve:",
+      "b1": "Accesso senza password — il cliente scannerizza e accede subito alla sua area personale",
+      "b2": "Self check-in — il cliente si registra all'arrivo in autonomia, senza occupare il professionista",
+      "b3": "Stampabile o condivisibile — sul biglietto da visita, via WhatsApp, email o come cartellino fisso in studio",
+      "dismiss": "Ho capito come funziona — non mostrare più questo messaggio"
+    }
   },
   "invoices": {
     "title": "Gestione Fatture",

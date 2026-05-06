@@ -446,7 +446,15 @@
       "messageText": "Hallo {{name}}, hier ist Ihr Link zum geschützten Bereich:"
     },
     "adminPersonalClientsHint": "Ihre persönlichen Kunden werden hier angezeigt. Verwenden Sie den Tab 'Personal', um Kunden anderer Fachleute zu sehen.",
-    "loadMore": "Mehr laden"
+    "loadMore": "Mehr laden",
+    "qrTip": {
+      "title": "Kunden-QR-Code — wie er funktioniert und warum man ihn nutzt",
+      "desc": "Jede Kundenkarte generiert automatisch einen persönlichen QR-Code. Das kann er:",
+      "b1": "Passwortfreier Zugang — der Kunde scannt und greift sofort auf seinen persönlichen Bereich zu",
+      "b2": "Selbst-Check-in — der Kunde meldet sich bei der Ankunft selbständig an",
+      "b3": "Druckbar oder teilbar — auf Visitenkarte, per WhatsApp, E-Mail oder als festes Etikett im Studio",
+      "dismiss": "Ich verstehe, wie es funktioniert — diese Meldung nicht mehr anzeigen"
+    }
   },
   "invoices": {
     "title": "Rechnungsverwaltung",

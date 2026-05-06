@@ -437,7 +437,15 @@
       "messageText": "Hallo {{name}}, hier is uw link om toegang te krijgen tot het beveiligde gebied:"
     },
     "adminPersonalClientsHint": "Uw persoonlijke klanten verschijnen hier. Gebruik het tabblad 'Personeel' om klanten van andere professionals te zien.",
-    "loadMore": "Meer laden"
+    "loadMore": "Meer laden",
+    "qrTip": {
+      "title": "Klant-QR-code — hoe het werkt en waarom gebruiken",
+      "desc": "Elke klantenkaart genereert automatisch een persoonlijke QR-code. Waarvoor dient hij:",
+      "b1": "Toegang zonder wachtwoord — de klant scant en heeft direct toegang tot zijn persoonlijke omgeving",
+      "b2": "Self check-in — de klant meldt zich bij aankomst zelfstandig aan",
+      "b3": "Afdrukbaar of deelbaar — op visitekaartje, via WhatsApp, e-mail of als vast label",
+      "dismiss": "Ik begrijp hoe het werkt — dit bericht niet meer tonen"
+    }
   },
   "invoices": {
     "title": "Factuurbeheer",

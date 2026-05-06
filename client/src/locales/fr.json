@@ -446,7 +446,15 @@
       "messageText": "Bonjour {{name}}, voici votre lien pour accéder à l'espace réservé :"
     },
     "adminPersonalClientsHint": "Vos clients personnels apparaîtront ici. Utilisez l'onglet 'Personnel' pour voir les clients d'autres professionnels.",
-    "loadMore": "Charger plus"
+    "loadMore": "Charger plus",
+    "qrTip": {
+      "title": "QR code client — comment ça marche et pourquoi l'utiliser",
+      "desc": "Chaque fiche client génère automatiquement un QR code personnel. À quoi ça sert :",
+      "b1": "Accès sans mot de passe — le client scanne et accède immédiatement à son espace personnel",
+      "b2": "Self check-in — le client s'enregistre à son arrivée de façon autonome",
+      "b3": "Imprimable ou partageable — sur carte de visite, via WhatsApp, e-mail ou comme étiquette fixe",
+      "dismiss": "Je comprends comment ça fonctionne — ne plus afficher ce message"
+    }
   },
   "invoices": {
     "title": "Gestion des Factures",

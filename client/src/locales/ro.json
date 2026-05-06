@@ -437,7 +437,15 @@
       "messageText": "Bună {{name}}, iată linkul tău pentru a accesa zona rezervată:"
     },
     "adminPersonalClientsHint": "Clienții dvs. personali vor apărea aici. Folosiți fila 'Personal' pentru a vedea clienții altor profesioniști.",
-    "loadMore": "Încarcă mai mult"
+    "loadMore": "Încarcă mai mult",
+    "qrTip": {
+      "title": "Codul QR al clientului — cum funcționează și de ce să-l folosești",
+      "desc": "Fiecare fișă de client generează automat un cod QR personal. Iată la ce servește:",
+      "b1": "Acces fără parolă — clientul scanează și accesează imediat zona personală",
+      "b2": "Self check-in — clientul se înregistrează la sosire în mod autonom",
+      "b3": "Imprimabil sau partajabil — pe carte de vizită, WhatsApp, email sau ca etichetă fixă",
+      "dismiss": "Am înțeles cum funcționează — nu mai afișa acest mesaj"
+    }
   },
   "invoices": {
     "title": "Gestionare Facturi",

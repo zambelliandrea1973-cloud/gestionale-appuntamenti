@@ -19,7 +19,10 @@ import {
   Download,
   Eye,
   EyeOff,
-  Building2
+  Building2,
+  QrCode,
+  X,
+  Smartphone
 } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ClientForm from "@/components/ClientForm";
@@ -35,12 +38,31 @@ interface ClientsSummary {
   isCurrentUser: boolean;
 }
 
+const QR_TIP_DISMISSED_KEY = "qr-feature-tip-dismissed";
+const QR_TIP_TRIGGER_KEY = "qr-tip-after-first-client";
+
 export default function Clients() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
+
+  // Show only after first client creation, and only if not yet dismissed
+  const [showQrTip, setShowQrTip] = useState(() => {
+    try {
+      return localStorage.getItem(QR_TIP_TRIGGER_KEY) === "1" &&
+             localStorage.getItem(QR_TIP_DISMISSED_KEY) !== "1";
+    } catch { return false; }
+  });
+
+  const dismissQrTip = () => {
+    try {
+      localStorage.setItem(QR_TIP_DISMISSED_KEY, "1");
+      localStorage.removeItem(QR_TIP_TRIGGER_KEY);
+    } catch {}
+    setShowQrTip(false);
+  };
   const CLIENTS_PER_PAGE = 50;
   const [visibleCount, setVisibleCount] = useState(CLIENTS_PER_PAGE);
   
@@ -139,6 +161,14 @@ export default function Clients() {
       await refetchClients();
       
       setIsClientDialogOpen(false);
+
+      // Show QR tip banner after first client creation (if not yet dismissed)
+      try {
+        if (localStorage.getItem(QR_TIP_DISMISSED_KEY) !== "1") {
+          localStorage.setItem(QR_TIP_TRIGGER_KEY, "1");
+          setShowQrTip(true);
+        }
+      } catch {}
       
       toast({
         title: t("clients.clientCreatedTitle"),
@@ -282,6 +312,57 @@ export default function Clients() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+
+      {/* QR feature tip — shown once, dismissed permanently via localStorage */}
+      {showQrTip && (
+        <div className="mb-6 rounded-xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white shadow-sm overflow-hidden">
+          {/* Header strip */}
+          <div className="bg-indigo-600 px-4 py-3 flex items-center gap-2">
+            <QrCode className="h-5 w-5 text-white flex-shrink-0" />
+            <p className="font-semibold text-white text-sm">
+              {t("clients.qrTip.title", "Il QR code del cliente — come funziona e perché usarlo")}
+            </p>
+          </div>
+
+          {/* Body */}
+          <div className="px-4 pt-3 pb-4">
+            <p className="text-indigo-800 text-sm mb-3">
+              {t("clients.qrTip.desc", "Ogni scheda cliente genera automaticamente un QR code personale. Ecco a cosa serve:")}
+            </p>
+
+            <ul className="space-y-2 mb-4">
+              <li className="flex items-start gap-2 text-sm text-gray-700">
+                <span className="mt-0.5 flex-shrink-0 bg-indigo-100 rounded-full p-1">
+                  <Smartphone className="h-3.5 w-3.5 text-indigo-600" />
+                </span>
+                <span>{t("clients.qrTip.b1", "Accesso senza password — il cliente scannerizza e accede subito alla sua area personale")}</span>
+              </li>
+              <li className="flex items-start gap-2 text-sm text-gray-700">
+                <span className="mt-0.5 flex-shrink-0 bg-green-100 rounded-full p-1">
+                  <Users className="h-3.5 w-3.5 text-green-600" />
+                </span>
+                <span>{t("clients.qrTip.b2", "Self check-in — il cliente si registra all'arrivo in autonomia, senza occupare il professionista")}</span>
+              </li>
+              <li className="flex items-start gap-2 text-sm text-gray-700">
+                <span className="mt-0.5 flex-shrink-0 bg-orange-100 rounded-full p-1">
+                  <Download className="h-3.5 w-3.5 text-orange-500" />
+                </span>
+                <span>{t("clients.qrTip.b3", "Stampabile o condivisibile — sul biglietto da visita, via WhatsApp, email o come cartellino fisso in studio")}</span>
+              </li>
+            </ul>
+
+            <Button
+              onClick={dismissQrTip}
+              variant="default"
+              size="sm"
+              className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
+            >
+              {t("clients.qrTip.dismiss", "Ho capito come funziona — non mostrare più questo messaggio")}
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
