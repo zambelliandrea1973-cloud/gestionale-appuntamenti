@@ -119,6 +119,17 @@ export async function apiRequest(
       } catch {
         // Se non è JSON, usa il testo così com'è
       }
+
+      // Se la sessione è scaduta (401), reindirizza al login con messaggio chiaro
+      if (res.status === 401 && !url.includes('/login') && !url.includes('/api/user')) {
+        console.warn('Sessione scaduta (401) — redirect al login');
+        // Svuota la cache React Query per forzare un nuovo fetch dopo il login
+        queryClient.clear();
+        // Piccolo delay per evitare race condition con il throw
+        setTimeout(() => {
+          window.location.href = '/login?session=expired';
+        }, 100);
+      }
       
       throw new Error(errorMessage);
     }

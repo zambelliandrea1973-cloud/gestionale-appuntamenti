@@ -226,9 +226,6 @@ export function setupAuth(app: Express) {
         }
         
         return done(null, { ...user, type: userType });
-      } else if (type === "client" && !serialized.startsWith("customer:")) {
-        // WARNING: Clients and customers are handled differently
-        console.log(`Client of type "client" with ID ${id} - using getClientAccount`);
       } else if (type === "client") {
         const clientAccount = await storage.getClientAccount(id);
         if (!clientAccount || !clientAccount.isActive) return done(null, false);

@@ -43,6 +43,10 @@ export default function UnifiedLogin() {
     if (usernameParam) {
       setUsername(decodeURIComponent(usernameParam));
     }
+    // Mostra avviso se l'utente è stato reindirizzato per sessione scaduta
+    if (params.get('session') === 'expired') {
+      setError(t('login.sessionExpired', 'La tua sessione è scaduta. Effettua di nuovo il login.'));
+    }
   }, []);
 
   useEffect(() => {
