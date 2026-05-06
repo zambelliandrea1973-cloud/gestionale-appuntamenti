@@ -283,21 +283,28 @@ router.post("/api/clients", async (req, res) => {
       try {
         newUniqueCode = await generateNewClientCode(tenantId);
       } catch (error: any) {
-        if (error.message && error.message.includes('Codice professionista not found')) {
-          logger.debug(`⚠️ [POST /api/clients] Professional without assignmentCode, skip newUniqueCode generation`);
-        } else {
-          throw error;
+        // Non-blocking: log and continue without newUniqueCode
+        // (can fail if newUniqueCode column not yet on this DB instance)
+        logger.debug(`⚠️ [POST /api/clients] newUniqueCode generation skipped: ${error.message}`);
+      }
+      
+      let legacyUniqueCode = null;
+      try {
+        legacyUniqueCode = await generateClientCode(tenantId, newClient.id);
+      } catch (error: any) {
+        logger.debug(`⚠️ [POST /api/clients] legacyUniqueCode generation skipped: ${error.message}`);
+      }
+      
+      if (legacyUniqueCode || newUniqueCode) {
+        const updateData: any = {};
+        if (legacyUniqueCode) updateData.uniqueCode = legacyUniqueCode;
+        if (newUniqueCode) updateData.newUniqueCode = newUniqueCode;
+        try {
+          await storage.updateClient(newClient.id, updateData);
+        } catch (updateErr: any) {
+          logger.debug(`⚠️ [POST /api/clients] updateClient codes skipped: ${updateErr.message}`);
         }
       }
-      
-      const legacyUniqueCode = await generateClientCode(tenantId, newClient.id);
-      
-      const updateData: any = { uniqueCode: legacyUniqueCode };
-      if (newUniqueCode) {
-        updateData.newUniqueCode = newUniqueCode;
-      }
-      
-      await storage.updateClient(newClient.id, updateData);
       
       const finalClient = await storage.getClient(newClient.id);
 
