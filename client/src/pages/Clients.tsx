@@ -309,52 +309,64 @@ export default function Clients() {
   return (
     <div className="container mx-auto px-4 py-8">
 
-      {/* QR feature tip — shown to anyone with clients, dismissed permanently via localStorage */}
-      {showQrTip && clients.length > 0 && (
-        <div className="mb-6 rounded-xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white shadow-sm overflow-hidden">
-          {/* Header strip */}
-          <div className="bg-indigo-600 px-4 py-3 flex items-center gap-2">
-            <QrCode className="h-5 w-5 text-white flex-shrink-0" />
-            <p className="font-semibold text-white text-sm">
-              {t("clients.qrTip.title", "Il QR code del cliente — come funziona e perché usarlo")}
-            </p>
-          </div>
+      {/* QR feature tip — shown to users with real (non-demo) clients, dismissed permanently */}
+      {showQrTip && clients.filter((c: any) => !c.isDemo).length > 0 && (
+        <div className="mb-6 rounded-2xl overflow-hidden shadow-lg">
+          {/* Gradient background card */}
+          <div className="bg-gradient-to-br from-violet-700 via-indigo-700 to-indigo-900 p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row gap-5 items-start">
 
-          {/* Body */}
-          <div className="px-4 pt-3 pb-4">
-            <p className="text-indigo-800 text-sm mb-3">
-              {t("clients.qrTip.desc", "Ogni scheda cliente genera automaticamente un QR code personale. Ecco a cosa serve:")}
-            </p>
+              {/* Left — big QR icon */}
+              <div className="flex-shrink-0 flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/25 shadow-inner">
+                <QrCode className="h-9 w-9 sm:h-11 sm:w-11 text-white drop-shadow" />
+              </div>
 
-            <ul className="space-y-2 mb-4">
-              <li className="flex items-start gap-2 text-sm text-gray-700">
-                <span className="mt-0.5 flex-shrink-0 bg-indigo-100 rounded-full p-1">
-                  <Smartphone className="h-3.5 w-3.5 text-indigo-600" />
-                </span>
-                <span>{t("clients.qrTip.b1", "Accesso senza password — il cliente scannerizza e accede subito alla sua area personale")}</span>
-              </li>
-              <li className="flex items-start gap-2 text-sm text-gray-700">
-                <span className="mt-0.5 flex-shrink-0 bg-green-100 rounded-full p-1">
-                  <Users className="h-3.5 w-3.5 text-green-600" />
-                </span>
-                <span>{t("clients.qrTip.b2", "Self check-in — il cliente si registra all'arrivo in autonomia, senza occupare il professionista")}</span>
-              </li>
-              <li className="flex items-start gap-2 text-sm text-gray-700">
-                <span className="mt-0.5 flex-shrink-0 bg-orange-100 rounded-full p-1">
-                  <Download className="h-3.5 w-3.5 text-orange-500" />
-                </span>
-                <span>{t("clients.qrTip.b3", "Stampabile o condivisibile — sul biglietto da visita, via WhatsApp, email o come cartellino fisso in studio")}</span>
-              </li>
-            </ul>
+              {/* Right — content */}
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-widest text-violet-200 mb-1">
+                  {t("clients.qrTip.eyebrow", "Funzionalità inclusa")}
+                </p>
+                <h3 className="text-white font-bold text-lg sm:text-xl leading-snug mb-1">
+                  {t("clients.qrTip.title", "Ogni cliente ha il suo QR personale")}
+                </h3>
+                <p className="text-indigo-200 text-sm mb-4">
+                  {t("clients.qrTip.subtitle", "Genera, stampa o condividi il codice QR direttamente dalla scheda cliente.")}
+                </p>
 
-            <Button
-              onClick={dismissQrTip}
-              variant="default"
-              size="sm"
-              className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
-            >
-              {t("clients.qrTip.dismiss", "Ho capito come funziona — non mostrare più questo messaggio")}
-            </Button>
+                <ul className="space-y-2 mb-5">
+                  <li className="flex items-start gap-2.5 text-sm text-indigo-100">
+                    <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+                      <Smartphone className="h-3 w-3 text-white" />
+                    </span>
+                    <span>{t("clients.qrTip.b1", "Accesso istantaneo — il cliente scansiona e accede subito alla sua area personale, senza password")}</span>
+                  </li>
+                  <li className="flex items-start gap-2.5 text-sm text-indigo-100">
+                    <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+                      <UserCheck className="h-3 w-3 text-white" />
+                    </span>
+                    <span>{t("clients.qrTip.b2", "Self check-in — il cliente si registra autonomamente all'arrivo, senza interrompere il professionista")}</span>
+                  </li>
+                  <li className="flex items-start gap-2.5 text-sm text-indigo-100">
+                    <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+                      <Download className="h-3 w-3 text-white" />
+                    </span>
+                    <span>{t("clients.qrTip.b3", "Stampabile e condivisibile — biglietto da visita, WhatsApp, email o cartellino fisso in studio")}</span>
+                  </li>
+                </ul>
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  <p className="text-xs text-indigo-300">
+                    {t("clients.qrTip.hint", "Trovi il pulsante QR su ogni scheda cliente qui sotto")}
+                  </p>
+                  <button
+                    onClick={dismissQrTip}
+                    className="text-xs text-indigo-300 hover:text-white underline underline-offset-2 transition-colors whitespace-nowrap"
+                  >
+                    {t("clients.qrTip.dismiss", "Non mostrare più")}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

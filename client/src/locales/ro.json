@@ -439,12 +439,14 @@
     "adminPersonalClientsHint": "Clienții dvs. personali vor apărea aici. Folosiți fila 'Personal' pentru a vedea clienții altor profesioniști.",
     "loadMore": "Încarcă mai mult",
     "qrTip": {
-      "title": "Codul QR al clientului — cum funcționează și de ce să-l folosești",
-      "desc": "Fiecare fișă de client generează automat un cod QR personal. Iată la ce servește:",
-      "b1": "Acces fără parolă — clientul scanează și accesează imediat zona personală",
-      "b2": "Self check-in — clientul se înregistrează la sosire în mod autonom",
-      "b3": "Imprimabil sau partajabil — pe carte de vizită, WhatsApp, email sau ca etichetă fixă",
-      "dismiss": "Am înțeles cum funcționează — nu mai afișa acest mesaj"
+      "eyebrow": "Funcționalitate inclusă",
+      "title": "Fiecare client are propriul QR personal",
+      "subtitle": "Generează, tipărește sau distribuie codul QR direct din fișa clientului.",
+      "b1": "Acces instant — clientul scanează și accesează imediat zona personală, fără parolă",
+      "b2": "Self check-in — clientul se înregistrează la sosire autonom, fără a întrerupe profesionistul",
+      "b3": "Imprimabil și partajabil — carte de vizită, WhatsApp, email sau etichetă fixă în studio",
+      "hint": "Găsești butonul QR pe fiecare fișă de client mai jos",
+      "dismiss": "Nu mai afișa"
     }
   },
   "invoices": {

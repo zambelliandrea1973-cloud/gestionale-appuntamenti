@@ -461,12 +461,14 @@
     "adminPersonalClientsHint": "Your personal clients will appear here. Use the 'Staff' tab to see other professionals' clients.",
     "loadMore": "Load more",
     "qrTip": {
-      "title": "Client QR code — how it works and why use it",
-      "desc": "Every client card automatically generates a personal QR code. Here is what it does:",
-      "b1": "Password-free access — the client scans and instantly accesses their personal area",
-      "b2": "Self check-in — the client registers on arrival independently, without occupying the professional",
-      "b3": "Printable or shareable — on a business card, via WhatsApp, email or as a fixed label in the studio",
-      "dismiss": "I understand how it works — don't show this message again"
+      "eyebrow": "Included feature",
+      "title": "Every client has their own personal QR",
+      "subtitle": "Generate, print or share the QR code directly from the client card.",
+      "b1": "Instant access — the client scans and immediately enters their personal area, no password needed",
+      "b2": "Self check-in — the client registers on arrival independently, without interrupting the professional",
+      "b3": "Printable and shareable — business card, WhatsApp, email or fixed label in the studio",
+      "hint": "Find the QR button on every client card below",
+      "dismiss": "Don't show again"
     }
   },
   "invoices": {

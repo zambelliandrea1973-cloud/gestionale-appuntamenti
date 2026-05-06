@@ -448,12 +448,14 @@
     "adminPersonalClientsHint": "Ihre persönlichen Kunden werden hier angezeigt. Verwenden Sie den Tab 'Personal', um Kunden anderer Fachleute zu sehen.",
     "loadMore": "Mehr laden",
     "qrTip": {
-      "title": "Kunden-QR-Code — wie er funktioniert und warum man ihn nutzt",
-      "desc": "Jede Kundenkarte generiert automatisch einen persönlichen QR-Code. Das kann er:",
-      "b1": "Passwortfreier Zugang — der Kunde scannt und greift sofort auf seinen persönlichen Bereich zu",
-      "b2": "Selbst-Check-in — der Kunde meldet sich bei der Ankunft selbständig an",
-      "b3": "Druckbar oder teilbar — auf Visitenkarte, per WhatsApp, E-Mail oder als festes Etikett im Studio",
-      "dismiss": "Ich verstehe, wie es funktioniert — diese Meldung nicht mehr anzeigen"
+      "eyebrow": "Enthaltene Funktion",
+      "title": "Jeder Kunde hat seinen eigenen QR-Code",
+      "subtitle": "QR-Code direkt aus der Kundenkarte generieren, drucken oder teilen.",
+      "b1": "Sofortiger Zugang — der Kunde scannt und greift sofort auf seinen persönlichen Bereich zu, kein Passwort nötig",
+      "b2": "Selbst-Check-in — der Kunde meldet sich bei der Ankunft selbständig an, ohne den Fachmann zu unterbrechen",
+      "b3": "Druckbar und teilbar — Visitenkarte, WhatsApp, E-Mail oder festes Etikett im Studio",
+      "hint": "Den QR-Button findest du auf jeder Kundenkarte unten",
+      "dismiss": "Nicht mehr anzeigen"
     }
   },
   "invoices": {

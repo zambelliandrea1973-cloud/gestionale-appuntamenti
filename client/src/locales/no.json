@@ -439,12 +439,14 @@
     "adminPersonalClientsHint": "Dine personlige kunder vises her. Bruk 'Personale'-fanen for å se kundene til andre fagfolk.",
     "loadMore": "Last inn mer",
     "qrTip": {
-      "title": "Klient-QR-kode — hvordan det fungerer og hvorfor bruke det",
-      "desc": "Hvert kundekort genererer automatisk en personlig QR-kode. Her er hva det gjør:",
-      "b1": "Passordfri tilgang — kunden skanner og får umiddelbar tilgang til sitt personlige område",
-      "b2": "Self check-in — kunden registrerer seg ved ankomst på egenhånd",
-      "b3": "Kan skrives ut eller deles — på visittkort, via WhatsApp, e-post eller som fast etikett",
-      "dismiss": "Jeg forstår hvordan det fungerer — ikke vis denne meldingen igjen"
+      "eyebrow": "Inkludert funksjon",
+      "title": "Hver kunde har sin egen personlige QR",
+      "subtitle": "Generer, skriv ut eller del QR-koden direkte fra kundekortet.",
+      "b1": "Umiddelbar tilgang — kunden skanner og får øyeblikkelig tilgang til sitt personlige område, uten passord",
+      "b2": "Self check-in — kunden registrerer seg ved ankomst på egenhånd, uten å avbryte fagpersonen",
+      "b3": "Kan skrives ut og deles — visittkort, WhatsApp, e-post eller fast etikett i studioet",
+      "hint": "Finn QR-knappen på hvert kundekort nedenfor",
+      "dismiss": "Ikke vis igjen"
     }
   },
   "invoices": {
