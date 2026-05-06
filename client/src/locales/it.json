@@ -466,13 +466,13 @@
     "adminPersonalClientsHint": "I tuoi clienti personali appariranno qui. Usa il tab 'Staff' per vedere i clienti di altri professionisti.",
     "loadMore": "Carica altri",
     "qrTip": {
-      "eyebrow": "A cosa serve il QR del cliente?",
-      "title": "Meno telefonate, meno interruzioni — il cliente fa da solo",
-      "subtitle": "Ogni cliente ha un QR personale già pronto. Mostragli come inquadrarlo con il telefono: da quel momento entra nella sua area riservata in autonomia, senza che tu debba fare nulla.",
-      "b1": "Prenota senza chiamarti — vede i tuoi slot disponibili e sceglie l'orario da solo, quando vuole",
-      "b2": "Si registra all'arrivo senza interromperti — scansiona il QR all'ingresso e il check-in è fatto in autonomia",
-      "b3": "Lo usi una volta sola: mandaglielo su WhatsApp o stampalo sulla tessera — lo riusa ogni volta che viene",
-      "hint": "Premi \"Genera QR Code\" su una scheda cliente qui sotto per iniziare",
+      "eyebrow": "Primo cliente registrato!",
+      "title": "Il programma ha creato un QR personale per il tuo cliente",
+      "subtitle": "Fallo scansionare con il telefono: da quel momento accede alla sua area personale e rimane connesso con te in autonomia.",
+      "b1": "Richiede appuntamenti — sceglie tra i tuoi slot disponibili e prenota senza chiamarti",
+      "b2": "Vede tutto in un posto — appuntamenti prenotati, pagamenti effettuati e i suoi dati personali",
+      "b3": "Resta connesso con te — riceve aggiornamenti e può comunicare direttamente dal suo telefono",
+      "hint": "Premi \"Genera QR Code\" sulla scheda del cliente per visualizzarlo e condividerlo",
       "dismiss": "Ho capito, non mostrare più"
     }
   },

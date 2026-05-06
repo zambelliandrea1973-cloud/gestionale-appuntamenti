@@ -448,13 +448,13 @@
     "adminPersonalClientsHint": "Vos clients personnels apparaîtront ici. Utilisez l'onglet 'Personnel' pour voir les clients d'autres professionnels.",
     "loadMore": "Charger plus",
     "qrTip": {
-      "eyebrow": "À quoi sert le QR client ?",
-      "title": "Moins d'appels, moins d'interruptions — le client se débrouille seul",
-      "subtitle": "Chaque client a un QR personnel déjà prêt. Montrez-lui comment le scanner avec son téléphone : dès lors, il accède à son espace réservé en autonomie, sans que vous ayez à faire quoi que ce soit.",
-      "b1": "Réserve sans vous appeler — voit vos créneaux disponibles et choisit l'horaire seul, quand il veut",
-      "b2": "S'enregistre à l'arrivée sans vous interrompre — scanne le QR à l'entrée, le check-in est fait",
-      "b3": "Vous le configurez une fois : envoyez-le par WhatsApp ou imprimez-le sur la carte — il s'en sert à chaque visite",
-      "hint": "Appuyez sur \"Générer QR Code\" sur une fiche client ci-dessous pour commencer",
+      "eyebrow": "Premier client enregistré !",
+      "title": "L'appli a créé un QR personnel pour votre client",
+      "subtitle": "Faites-lui scanner avec son téléphone : dès lors, il accède à son espace personnel et reste connecté avec vous en autonomie.",
+      "b1": "Demande des rendez-vous — choisit parmi vos créneaux disponibles et réserve sans vous appeler",
+      "b2": "Voit tout en un endroit — rendez-vous réservés, paiements effectués et ses données personnelles",
+      "b3": "Reste connecté avec vous — reçoit des mises à jour et peut communiquer directement depuis son téléphone",
+      "hint": "Appuyez sur \"Générer QR Code\" sur la fiche client pour l'afficher et le partager",
       "dismiss": "Compris, ne plus afficher"
     }
   },

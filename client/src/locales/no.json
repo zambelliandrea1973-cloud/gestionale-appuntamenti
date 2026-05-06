@@ -439,13 +439,13 @@
     "adminPersonalClientsHint": "Dine personlige kunder vises her. Bruk 'Personale'-fanen for å se kundene til andre fagfolk.",
     "loadMore": "Last inn mer",
     "qrTip": {
-      "eyebrow": "Hva er kunde-QR til?",
-      "title": "Færre anrop, færre avbrudd — kunden ordner det selv",
-      "subtitle": "Hver kunde har en personlig QR som allerede er klar. Vis dem hvordan de skanner den med telefonen: fra det øyeblikket går de inn i sitt reserverte område selvstendig, uten at du trenger å gjøre noe.",
-      "b1": "Bestiller uten å ringe deg — ser dine ledige tider og velger tidspunkt selv, når de vil",
-      "b2": "Sjekker inn ved ankomst uten å avbryte deg — skanner QR ved inngangen, innsjekk er gjort",
-      "b3": "Du setter det opp én gang: send det via WhatsApp eller skriv det ut på lojalitetskortet — de bruker det på hvert besøk",
-      "hint": "Trykk \"Generer QR-kode\" på et kundekort nedenfor for å starte",
+      "eyebrow": "Første kunde registrert!",
+      "title": "Appen har opprettet en personlig QR for kunden din",
+      "subtitle": "La dem skanne den med telefonen: fra det øyeblikket får de tilgang til sitt personlige område og forblir selvstendig forbundet med deg.",
+      "b1": "Ber om avtaler — velger blant dine ledige tider og bestiller uten å ringe deg",
+      "b2": "Ser alt på ett sted — bestilte avtaler, utførte betalinger og sine personlige data",
+      "b3": "Forblir forbundet med deg — mottar oppdateringer og kan kommunisere direkte fra telefonen",
+      "hint": "Trykk \"Generer QR-kode\" på kundekortet for å vise og dele det",
       "dismiss": "Forstått, ikke vis igjen"
     }
   },

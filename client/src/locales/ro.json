@@ -439,13 +439,13 @@
     "adminPersonalClientsHint": "Clienții dvs. personali vor apărea aici. Folosiți fila 'Personal' pentru a vedea clienții altor profesioniști.",
     "loadMore": "Încarcă mai mult",
     "qrTip": {
-      "eyebrow": "La ce folosește QR-ul clientului?",
-      "title": "Mai puține apeluri, mai puține întreruperi — clientul se descurcă singur",
-      "subtitle": "Fiecare client are un QR personal deja pregătit. Arată-i cum să îl scaneze cu telefonul: din acel moment intră în zona sa rezervată în mod autonom, fără să fie nevoie să faci nimic.",
-      "b1": "Rezervă fără să te sune — vede sloturile tale disponibile și alege singur ora, când vrea",
-      "b2": "Se înregistrează la sosire fără să te întrerupă — scanează QR-ul la intrare, check-in-ul este gata",
-      "b3": "Îl configurezi o singură dată: trimite-l pe WhatsApp sau tipărește-l pe card — îl refolosește la fiecare vizită",
-      "hint": "Apasă \"Generează cod QR\" pe o fișă de client de mai jos pentru a începe",
+      "eyebrow": "Primul client înregistrat!",
+      "title": "Aplicația a creat un QR personal pentru clientul tău",
+      "subtitle": "Pune-l să îl scaneze cu telefonul: din acel moment accesează zona sa personală și rămâne conectat cu tine în mod autonom.",
+      "b1": "Solicită programări — alege dintre sloturile tale disponibile și rezervă fără să te sune",
+      "b2": "Vede totul într-un loc — programări rezervate, plăți efectuate și datele sale personale",
+      "b3": "Rămâne conectat cu tine — primește actualizări și poate comunica direct de pe telefon",
+      "hint": "Apasă \"Generează cod QR\" pe fișa clientului pentru a-l vizualiza și distribui",
       "dismiss": "Am înțeles, nu mai afișa"
     }
   },

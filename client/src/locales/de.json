@@ -448,13 +448,13 @@
     "adminPersonalClientsHint": "Ihre persönlichen Kunden werden hier angezeigt. Verwenden Sie den Tab 'Personal', um Kunden anderer Fachleute zu sehen.",
     "loadMore": "Mehr laden",
     "qrTip": {
-      "eyebrow": "Wozu dient der Kunden-QR?",
-      "title": "Weniger Anrufe, weniger Unterbrechungen — der Kunde erledigt es selbst",
-      "subtitle": "Jeder Kunde hat einen persönlichen QR-Code, der bereits bereit ist. Zeigen Sie ihm, wie er ihn mit dem Handy scannt: ab diesem Moment betritt er seinen reservierten Bereich selbständig, ohne dass Sie etwas tun müssen.",
-      "b1": "Bucht ohne Sie anzurufen — sieht Ihre freien Slots und wählt selbst eine Zeit, wann er möchte",
-      "b2": "Check-in bei Ankunft ohne Sie zu unterbrechen — scannt den QR an der Tür, erledigt selbständig",
-      "b3": "Einmal einrichten: per WhatsApp senden oder auf Treuekarte drucken — nutzt es bei jedem Besuch wieder",
-      "hint": "Klicken Sie auf \"QR-Code generieren\" auf einer Kundenkarte unten",
+      "eyebrow": "Erster Kunde registriert!",
+      "title": "Die App hat einen persönlichen QR für Ihren Kunden erstellt",
+      "subtitle": "Lassen Sie ihn ihn mit dem Handy scannen: ab diesem Moment greift er auf seinen persönlichen Bereich zu und bleibt selbständig mit Ihnen verbunden.",
+      "b1": "Vereinbart Termine — wählt aus Ihren verfügbaren Slots und bucht ohne Sie anzurufen",
+      "b2": "Sieht alles an einem Ort — gebuchte Termine, Zahlungen und seine persönlichen Daten",
+      "b3": "Bleibt mit Ihnen verbunden — erhält Updates und kann direkt vom Handy kommunizieren",
+      "hint": "Klicken Sie auf \"QR-Code generieren\" auf der Kundenkarte, um ihn anzuzeigen und zu teilen",
       "dismiss": "Verstanden, nicht mehr anzeigen"
     }
   },
