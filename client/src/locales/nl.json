@@ -6214,5 +6214,131 @@
       "customer": "Gebruiker",
       "client": "Klant"
     }
+  },
+  "landingPro": {
+    "nav": {
+      "brand": "Afsprakenbeheer",
+      "login": "Inloggen",
+      "tryFree": "Gratis proberen"
+    },
+    "hero": {
+      "badge": "★ 5.0 op Google Play · 213 professionals al geregistreerd",
+      "title": "Het afsprakenbeheer",
+      "titleHighlight": "gemaakt voor jou",
+      "subtitle": "Als je zelfstandig werkt en persoonlijke diensten aanbiedt, stop dan met het beheren van je agenda op papier of WhatsApp. Je bent in 10 minuten operationeel.",
+      "ctaStart": "Gratis starten · 40 dagen",
+      "ctaLogin": "Ik heb al een account",
+      "noCard": "Geen creditcard vereist · Geen automatische afschrijvingen"
+    },
+    "professions": {
+      "sectionLabel": "Ontworpen voor zelfstandige professionals",
+      "hairdressers": "Kappers",
+      "beauticians": "Schoonheidsspecialisten",
+      "masseurs": "Masseurs",
+      "psychologists": "Psychologen",
+      "dentists": "Tandartsen",
+      "osteopaths": "Osteopaten",
+      "physiotherapists": "Fysiotherapeuten",
+      "naturopaths": "Natuurgeneeskundigen",
+      "nutritionists": "Voedingsdeskundigen",
+      "coaches": "Coaches & Consultants",
+      "personalTrainers": "Personal Trainers",
+      "tattooArtists": "Tatoeëerders"
+    },
+    "benefits": {
+      "sectionTitle": "Alles wat je nodig hebt, niets wat je niet nodig hebt",
+      "schedule": {
+        "title": "Jouw agenda, altijd bij je",
+        "desc": "Beheer afspraken vanaf smartphone, tablet of pc. Dag-, week- en maandweergaven met kleurcodes per dienst."
+      },
+      "reminders": {
+        "title": "Automatische herinneringen",
+        "desc": "Jouw klanten ontvangen een herinnering via WhatsApp of e-mail voor hun afspraak. No-shows en te late aankomsten dalen met wel 80%."
+      },
+      "clients": {
+        "title": "Volledig klantprofiel",
+        "desc": "Medische geschiedenis, allergieën, notities, afspraakgeschiedenis, AVG-toestemmingen. Alles op één plek, in 2 seconden toegankelijk."
+      },
+      "billing": {
+        "title": "Eenvoudige facturering",
+        "desc": "Genereer offertes en facturen in een paar klikken. Volg betalingen zonder complicaties."
+      },
+      "booking": {
+        "title": "Online boeken",
+        "desc": "Klanten boeken zelf via de link die je deelt op Instagram of WhatsApp. Geen onnodige telefoontjes."
+      },
+      "reports": {
+        "title": "Rapporten en statistieken",
+        "desc": "Ontdek welke diensten het beste presteren, wie jouw meest loyale klanten zijn en hoe jouw praktijk maand na maand groeit."
+      }
+    },
+    "stats": {
+      "professionals": "geregistreerde professionals",
+      "rating": "Google Play beoordeling",
+      "trial": "gratis, zonder pas"
+    },
+    "testimonials": {
+      "lucia": {
+        "text": "Eindelijk een app die solowerken begrijpt. Ik gebruik hem dagelijks voor mijn massagestudio.",
+        "author": "Lucia M. · Masseuse"
+      },
+      "marco": {
+        "text": "Ik ben gestopt met reageren op WhatsApp voor elke boeking. De automatische herinneringen hebben me gered.",
+        "author": "Marco T. · Osteopaat"
+      },
+      "sara": {
+        "text": "Eenvoudig, snel, professioneel. Ik raad het aan alle kappers aan.",
+        "author": "Sara V. · Kapster"
+      }
+    },
+    "checklist": {
+      "sectionTitle": "Waarom kiezen boven papier en WhatsApp?",
+      "items": {
+        "realtime": "Agenda altijd actueel in realtime",
+        "whatsapp": "Automatische WhatsApp-herinneringen aan klanten",
+        "profile": "Klantprofiel met medische geschiedenis en AVG-toestemming",
+        "booking": "Online boeken zonder telefoontjes",
+        "stats": "Maandelijkse statistieken en rapporten",
+        "devices": "Werkt op smartphone, tablet en pc",
+        "backup": "Automatische back-up van jouw gegevens",
+        "support": "Toegewijde ondersteuning"
+      }
+    },
+    "cta": {
+      "title": "Klaar om jouw agenda te vereenvoudigen?",
+      "subtitle": "40 dagen gratis. Geen creditcard. Geen automatische afschrijvingen. Annuleer wanneer je wilt.",
+      "button": "Maak jouw gratis account aan",
+      "note": "Minder dan 2 minuten · Geen installatie vereist"
+    },
+    "faq": {
+      "sectionTitle": "Veelgestelde vragen",
+      "techSavvy": {
+        "q": "Moet ik technisch onderlegd zijn?",
+        "a": "Nee. De app is ontworpen voor mensen met weinig tijd die eenvoud willen. In 10 minuten operationeel. Bij vragen reageert onze support binnen 24 uur."
+      },
+      "dataSafe": {
+        "q": "Zijn mijn gegevens en die van mijn klanten veilig?",
+        "a": "Ja. Gegevens worden opgeslagen op Europese servers, versleuteld en AVG-conform. Toestemmingsformulieren voor jouw klanten zijn ook inbegrepen."
+      },
+      "offline": {
+        "q": "Werkt het zonder internetverbinding?",
+        "a": "De PWA laat je de agenda offline bekijken. Een internetverbinding is vereist om wijzigingen aan te brengen en updates te ontvangen."
+      },
+      "freeTrial": {
+        "q": "Kan ik het gratis proberen?",
+        "a": "Ja, 40 dagen gratis zonder creditcard. Geen automatische afschrijvingen aan het einde van de proefperiode."
+      },
+      "staff": {
+        "q": "Kan ik ook mijn personeel beheren?",
+        "a": "Ja. Je kunt medewerkers toevoegen, afspraken toewijzen en hun agenda's in één scherm bekijken."
+      }
+    },
+    "footer": {
+      "brand": "Afsprakenbeheer · Castinox Srl",
+      "privacy": "Privacybeleid",
+      "terms": "Servicevoorwaarden",
+      "login": "Inloggen",
+      "copyright": "© {{year}} Castinox Srl · BTW IT01234567890"
+    }
   }
 }

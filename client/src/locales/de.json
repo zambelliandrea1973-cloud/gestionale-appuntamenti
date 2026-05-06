@@ -6214,5 +6214,131 @@
       "customer": "Klient",
       "client": "Kunde"
     }
+  },
+  "landingPro": {
+    "nav": {
+      "brand": "Terminverwaltung",
+      "login": "Anmelden",
+      "tryFree": "Kostenlos testen"
+    },
+    "hero": {
+      "badge": "★ 5.0 auf Google Play · 213 Profis bereits registriert",
+      "title": "Die Terminverwaltung",
+      "titleHighlight": "gemacht für Sie",
+      "subtitle": "Wenn Sie selbständig arbeiten und persönliche Dienstleistungen anbieten, hören Sie auf, Ihren Terminkalender auf Papier oder WhatsApp zu verwalten. In 10 Minuten einsatzbereit.",
+      "ctaStart": "Kostenlos starten · 40 Tage",
+      "ctaLogin": "Ich habe bereits ein Konto",
+      "noCard": "Keine Kreditkarte erforderlich · Keine automatischen Abbuchungen"
+    },
+    "professions": {
+      "sectionLabel": "Entwickelt für selbständige Fachleute",
+      "hairdressers": "Friseure",
+      "beauticians": "Kosmetikerinnen",
+      "masseurs": "Masseure",
+      "psychologists": "Psychologen",
+      "dentists": "Zahnärzte",
+      "osteopaths": "Osteopathen",
+      "physiotherapists": "Physiotherapeuten",
+      "naturopaths": "Naturheilkundler",
+      "nutritionists": "Ernährungsberater",
+      "coaches": "Coaches & Berater",
+      "personalTrainers": "Personal Trainer",
+      "tattooArtists": "Tätowierer"
+    },
+    "benefits": {
+      "sectionTitle": "Alles, was Sie brauchen, nichts, was Sie nicht brauchen",
+      "schedule": {
+        "title": "Ihr Kalender, immer dabei",
+        "desc": "Verwalten Sie Termine vom Smartphone, Tablet oder PC. Tages-, Wochen- und Monatsansichten mit Farbcodes nach Dienstleistung."
+      },
+      "reminders": {
+        "title": "Automatische Erinnerungen",
+        "desc": "Ihre Kunden erhalten eine Erinnerung per WhatsApp oder E-Mail vor ihrem Termin. Ausfälle und Verspätungen sinken um bis zu 80%."
+      },
+      "clients": {
+        "title": "Vollständiges Kundenprofil",
+        "desc": "Krankengeschichte, Allergien, Notizen, Terminverlauf, DSGVO-Zustimmungen. Alles an einem Ort, in 2 Sekunden abrufbar."
+      },
+      "billing": {
+        "title": "Einfache Abrechnung",
+        "desc": "Erstellen Sie Angebote und Rechnungen mit wenigen Klicks. Verfolgen Sie Zahlungen ohne Komplikationen."
+      },
+      "booking": {
+        "title": "Online-Buchung",
+        "desc": "Kunden buchen selbst über den Link, den Sie auf Instagram oder WhatsApp teilen. Keine unnötigen Anrufe."
+      },
+      "reports": {
+        "title": "Berichte und Statistiken",
+        "desc": "Entdecken Sie, welche Dienstleistungen am besten abschneiden, wer Ihre treuesten Kunden sind und wie Ihre Praxis Monat für Monat wächst."
+      }
+    },
+    "stats": {
+      "professionals": "registrierte Fachleute",
+      "rating": "Google Play Bewertung",
+      "trial": "kostenlos, ohne Karte"
+    },
+    "testimonials": {
+      "lucia": {
+        "text": "Endlich eine App, die die Arbeit alleine versteht. Ich nutze sie täglich für mein Massagestudio.",
+        "author": "Lucia M. · Masseurin"
+      },
+      "marco": {
+        "text": "Ich habe aufgehört, auf WhatsApp für jede Buchung zu antworten. Die automatischen Erinnerungen haben mich gerettet.",
+        "author": "Marco T. · Osteopath"
+      },
+      "sara": {
+        "text": "Einfach, schnell, professionell. Ich empfehle es allen Friseuren.",
+        "author": "Sara V. · Friseurin"
+      }
+    },
+    "checklist": {
+      "sectionTitle": "Warum es Papier und WhatsApp vorziehen?",
+      "items": {
+        "realtime": "Kalender immer aktuell in Echtzeit",
+        "whatsapp": "Automatische WhatsApp-Erinnerungen an Kunden",
+        "profile": "Kundenprofil mit Krankengeschichte und DSGVO-Zustimmung",
+        "booking": "Online-Buchung ohne Telefonanrufe",
+        "stats": "Monatliche Statistiken und Berichte",
+        "devices": "Funktioniert auf Smartphone, Tablet und PC",
+        "backup": "Automatische Datensicherung",
+        "support": "Dedizierter Support"
+      }
+    },
+    "cta": {
+      "title": "Bereit, Ihren Kalender zu vereinfachen?",
+      "subtitle": "40 Tage kostenlos. Keine Kreditkarte. Keine automatischen Abbuchungen. Jederzeit kündbar.",
+      "button": "Kostenloses Konto erstellen",
+      "note": "Weniger als 2 Minuten · Keine Installation erforderlich"
+    },
+    "faq": {
+      "sectionTitle": "Häufig gestellte Fragen",
+      "techSavvy": {
+        "q": "Muss ich technisch versiert sein?",
+        "a": "Nein. Die App ist für Menschen mit wenig Zeit konzipiert, die Einfachheit wünschen. In 10 Minuten einsatzbereit. Bei Fragen antwortet unser Support innerhalb von 24 Stunden."
+      },
+      "dataSafe": {
+        "q": "Sind meine Daten und die meiner Kunden sicher?",
+        "a": "Ja. Die Daten werden auf europäischen Servern gespeichert, verschlüsselt und DSGVO-konform. Einwilligungsformulare für Ihre Kunden sind ebenfalls enthalten."
+      },
+      "offline": {
+        "q": "Funktioniert es ohne Internetverbindung?",
+        "a": "Die PWA ermöglicht die Anzeige des Kalenders offline. Eine Internetverbindung ist erforderlich, um Änderungen vorzunehmen und Updates zu empfangen."
+      },
+      "freeTrial": {
+        "q": "Kann ich es kostenlos ausprobieren?",
+        "a": "Ja, 40 Tage kostenlos ohne Kreditkarte. Keine automatischen Abbuchungen am Ende der Testphase."
+      },
+      "staff": {
+        "q": "Kann ich auch mein Personal verwalten?",
+        "a": "Ja. Sie können Mitarbeiter hinzufügen, Termine zuweisen und deren Kalender in einer einzigen Ansicht einsehen."
+      }
+    },
+    "footer": {
+      "brand": "Terminverwaltung · Castinox Srl",
+      "privacy": "Datenschutzrichtlinie",
+      "terms": "Nutzungsbedingungen",
+      "login": "Anmelden",
+      "copyright": "© {{year}} Castinox Srl · USt-IdNr. IT01234567890"
+    }
   }
 }

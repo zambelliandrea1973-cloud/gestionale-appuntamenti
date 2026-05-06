@@ -6214,5 +6214,131 @@
       "customer": "Kunde",
       "client": "Klient"
     }
+  },
+  "landingPro": {
+    "nav": {
+      "brand": "Avtalebehandling",
+      "login": "Logg inn",
+      "tryFree": "Prøv gratis"
+    },
+    "hero": {
+      "badge": "★ 5.0 på Google Play · 213 fagfolk allerede registrert",
+      "title": "Avtalebehandlingen",
+      "titleHighlight": "laget for deg",
+      "subtitle": "Hvis du jobber selvstendig og tilbyr personlige tjenester, slutt å administrere timeplanen din på papir eller WhatsApp. Du er i gang på 10 minutter.",
+      "ctaStart": "Start gratis · 40 dager",
+      "ctaLogin": "Jeg har allerede en konto",
+      "noCard": "Intet kredittkort nødvendig · Ingen automatiske belastninger"
+    },
+    "professions": {
+      "sectionLabel": "Designet for selvstendige fagfolk",
+      "hairdressers": "Frisører",
+      "beauticians": "Skjønnhetseksperter",
+      "masseurs": "Massører",
+      "psychologists": "Psykologer",
+      "dentists": "Tannleger",
+      "osteopaths": "Osteopater",
+      "physiotherapists": "Fysioterapeuter",
+      "naturopaths": "Naturleger",
+      "nutritionists": "Ernæringsrådgivere",
+      "coaches": "Coacher og konsulenter",
+      "personalTrainers": "Personlige trenere",
+      "tattooArtists": "Tatovørere"
+    },
+    "benefits": {
+      "sectionTitle": "Alt du trenger, ingenting du ikke trenger",
+      "schedule": {
+        "title": "Din timeplan, alltid med deg",
+        "desc": "Administrer avtaler fra smarttelefon, nettbrett eller PC. Daglige, ukentlige og månedlige visninger med fargekoder per tjeneste."
+      },
+      "reminders": {
+        "title": "Automatiske påminnelser",
+        "desc": "Kundene dine mottar en påminnelse via WhatsApp eller e-post før avtalen. No-shows og forsinkelser synker med opptil 80%."
+      },
+      "clients": {
+        "title": "Komplett kundeprofil",
+        "desc": "Sykehistorie, allergier, notater, avtalehistorikk, GDPR-samtykker. Alt på ett sted, tilgjengelig på 2 sekunder."
+      },
+      "billing": {
+        "title": "Enkel fakturering",
+        "desc": "Generer tilbud og fakturaer med noen få klikk. Spor betalinger uten komplikasjoner."
+      },
+      "booking": {
+        "title": "Nettbestilling",
+        "desc": "Kunder bestiller selv fra lenken du deler på Instagram eller WhatsApp. Ingen unødvendige telefonsamtaler."
+      },
+      "reports": {
+        "title": "Rapporter og statistikk",
+        "desc": "Oppdag hvilke tjenester som presterer best, hvem dine mest lojale kunder er og hvordan praksisen din vokser måned for måned."
+      }
+    },
+    "stats": {
+      "professionals": "registrerte fagfolk",
+      "rating": "Google Play-vurdering",
+      "trial": "gratis, uten kort"
+    },
+    "testimonials": {
+      "lucia": {
+        "text": "Endelig en app som forstår soloarbeid. Jeg bruker den hver dag for massasjesalongen min.",
+        "author": "Lucia M. · Massør"
+      },
+      "marco": {
+        "text": "Jeg sluttet å svare på WhatsApp for hver bestilling. De automatiske påminnelsene reddet meg.",
+        "author": "Marco T. · Osteopat"
+      },
+      "sara": {
+        "text": "Enkel, rask, profesjonell. Jeg anbefaler det til alle frisører.",
+        "author": "Sara V. · Frisør"
+      }
+    },
+    "checklist": {
+      "sectionTitle": "Hvorfor velge det fremfor papir og WhatsApp?",
+      "items": {
+        "realtime": "Timeplan alltid oppdatert i sanntid",
+        "whatsapp": "Automatiske WhatsApp-påminnelser til kunder",
+        "profile": "Kundeprofil med sykehistorie og GDPR-samtykke",
+        "booking": "Nettbestilling uten telefonsamtaler",
+        "stats": "Månedlig statistikk og rapporter",
+        "devices": "Fungerer på smarttelefon, nettbrett og PC",
+        "backup": "Automatisk sikkerhetskopiering av dataene dine",
+        "support": "Dedikert støtte"
+      }
+    },
+    "cta": {
+      "title": "Klar til å forenkle timeplanen din?",
+      "subtitle": "40 dager gratis. Intet kredittkort. Ingen automatiske belastninger. Avbryt når som helst.",
+      "button": "Opprett din gratis konto",
+      "note": "Tar mindre enn 2 minutter · Ingen installasjon nødvendig"
+    },
+    "faq": {
+      "sectionTitle": "Ofte stilte spørsmål",
+      "techSavvy": {
+        "q": "Trenger jeg å være teknisk kyndig?",
+        "a": "Nei. Appen er designet for folk med lite tid som ønsker enkelhet. Du er i gang på 10 minutter. Hvis du har spørsmål, svarer støtten vår innen 24 timer."
+      },
+      "dataSafe": {
+        "q": "Er mine data og kundenes data trygge?",
+        "a": "Ja. Data lagres på europeiske servere, kryptert og GDPR-kompatibelt. Samtykkeskjemaer for kundene dine er også inkludert."
+      },
+      "offline": {
+        "q": "Fungerer det uten internettilkobling?",
+        "a": "PWA lar deg se timeplanen din offline. Internettilkobling er nødvendig for å gjøre endringer og motta oppdateringer."
+      },
+      "freeTrial": {
+        "q": "Kan jeg prøve det gratis?",
+        "a": "Ja, 40 dager gratis uten kredittkort. Ingen automatiske belastninger ved slutten av prøveperioden."
+      },
+      "staff": {
+        "q": "Kan jeg også administrere personalet mitt?",
+        "a": "Ja. Du kan legge til samarbeidspartnere, tildele avtaler og se timeplanen deres på ett skjermbilde."
+      }
+    },
+    "footer": {
+      "brand": "Avtalebehandling · Castinox Srl",
+      "privacy": "Personvernpolicy",
+      "terms": "Tjenestevilkår",
+      "login": "Logg inn",
+      "copyright": "© {{year}} Castinox Srl · MVA IT01234567890"
+    }
   }
 }

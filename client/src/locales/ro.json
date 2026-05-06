@@ -6214,5 +6214,131 @@
       "customer": "Utilizator",
       "client": "Client"
     }
+  },
+  "landingPro": {
+    "nav": {
+      "brand": "Manager de Programări",
+      "login": "Autentificare",
+      "tryFree": "Încearcă gratuit"
+    },
+    "hero": {
+      "badge": "★ 5.0 pe Google Play · 213 profesioniști deja înregistrați",
+      "title": "Managerul de programări",
+      "titleHighlight": "creat pentru tine",
+      "subtitle": "Dacă lucrezi independent și oferi servicii personale, nu mai gestiona programul pe hârtie sau WhatsApp. Ești operațional în 10 minute.",
+      "ctaStart": "Începe gratuit · 40 de zile",
+      "ctaLogin": "Am deja un cont",
+      "noCard": "Fără card de credit · Fără taxe automate"
+    },
+    "professions": {
+      "sectionLabel": "Conceput pentru profesioniști independenți",
+      "hairdressers": "Frizeri",
+      "beauticians": "Cosmeticiene",
+      "masseurs": "Masori",
+      "psychologists": "Psihologi",
+      "dentists": "Stomatologi",
+      "osteopaths": "Osteopați",
+      "physiotherapists": "Fizioterapeuți",
+      "naturopaths": "Naturopați",
+      "nutritionists": "Nutriționiști",
+      "coaches": "Coachi și Consultanți",
+      "personalTrainers": "Antrenori Personali",
+      "tattooArtists": "Tatuatori"
+    },
+    "benefits": {
+      "sectionTitle": "Tot ce ai nevoie, nimic în plus",
+      "schedule": {
+        "title": "Agenda ta, mereu cu tine",
+        "desc": "Gestionează programările de pe smartphone, tabletă sau PC. Vizualizări zilnice, săptămânale și lunare cu coduri de culoare pe servicii."
+      },
+      "reminders": {
+        "title": "Memento-uri automate",
+        "desc": "Clienții tăi primesc un memento prin WhatsApp sau email înainte de programare. Absențele și întârzierile scad cu până la 80%."
+      },
+      "clients": {
+        "title": "Profil complet al clientului",
+        "desc": "Istoric medical, alergii, note, istoricul programărilor, consimțăminte GDPR. Totul într-un singur loc, accesibil în 2 secunde."
+      },
+      "billing": {
+        "title": "Facturare simplă",
+        "desc": "Generează oferte și facturi în câteva clicuri. Urmărește plățile fără complicații."
+      },
+      "booking": {
+        "title": "Rezervare online",
+        "desc": "Clienții rezervă singuri de pe link-ul pe care îl distribui pe Instagram sau WhatsApp. Fără apeluri telefonice inutile."
+      },
+      "reports": {
+        "title": "Rapoarte și statistici",
+        "desc": "Descoperă ce servicii performează cel mai bine, cine sunt cei mai fideli clienți și cum crește cabinetul tău lună de lună."
+      }
+    },
+    "stats": {
+      "professionals": "profesioniști înregistrați",
+      "rating": "rating Google Play",
+      "trial": "gratuit, fără card"
+    },
+    "testimonials": {
+      "lucia": {
+        "text": "În sfârșit o aplicație care înțelege munca solo. O folosesc zilnic pentru studioul meu de masaj.",
+        "author": "Lucia M. · Maseuză"
+      },
+      "marco": {
+        "text": "Am încetat să răspund pe WhatsApp pentru fiecare rezervare. Memento-urile automate m-au salvat.",
+        "author": "Marco T. · Osteopat"
+      },
+      "sara": {
+        "text": "Simplu, rapid, profesional. O recomand tuturor frizerilor.",
+        "author": "Sara V. · Frizeră"
+      }
+    },
+    "checklist": {
+      "sectionTitle": "De ce să îl alegi față de hârtie și WhatsApp?",
+      "items": {
+        "realtime": "Agendă mereu actualizată în timp real",
+        "whatsapp": "Memento-uri automate WhatsApp pentru clienți",
+        "profile": "Profil client cu istoric medical și consimțământ GDPR",
+        "booking": "Rezervare online fără apeluri telefonice",
+        "stats": "Statistici și rapoarte lunare",
+        "devices": "Funcționează pe smartphone, tabletă și PC",
+        "backup": "Backup automat al datelor tale",
+        "support": "Suport dedicat"
+      }
+    },
+    "cta": {
+      "title": "Gata să îți simplifici agenda?",
+      "subtitle": "40 de zile gratuit. Fără card de credit. Fără taxe automate. Anulează oricând.",
+      "button": "Creează-ți contul gratuit",
+      "note": "Mai puțin de 2 minute · Fără instalare necesară"
+    },
+    "faq": {
+      "sectionTitle": "Întrebări frecvente",
+      "techSavvy": {
+        "q": "Trebuie să fiu expert în tehnologie?",
+        "a": "Nu. Aplicația este concepută pentru persoane cu timp puțin care vor simplitate. Ești operațional în 10 minute. Dacă ai întrebări, suportul nostru răspunde în 24 de ore."
+      },
+      "dataSafe": {
+        "q": "Datele mele și cele ale clienților mei sunt în siguranță?",
+        "a": "Da. Datele sunt stocate pe servere europene, criptate și conforme GDPR. Formularele de consimțământ pentru clienții tăi sunt de asemenea incluse."
+      },
+      "offline": {
+        "q": "Funcționează fără conexiune la internet?",
+        "a": "PWA îți permite să vizualizezi agenda offline. Conexiunea la internet este necesară pentru a face modificări și a primi actualizări."
+      },
+      "freeTrial": {
+        "q": "Pot să îl încerc gratuit?",
+        "a": "Da, 40 de zile gratuit fără card de credit. Fără taxe automate la sfârșitul perioadei de probă."
+      },
+      "staff": {
+        "q": "Pot gestiona și personalul meu?",
+        "a": "Da. Poți adăuga colaboratori, atribui programări și vizualiza agendele lor pe un singur ecran."
+      }
+    },
+    "footer": {
+      "brand": "Manager de Programări · Castinox Srl",
+      "privacy": "Politica de Confidențialitate",
+      "terms": "Termeni de Serviciu",
+      "login": "Autentificare",
+      "copyright": "© {{year}} Castinox Srl · TVA IT01234567890"
+    }
   }
 }

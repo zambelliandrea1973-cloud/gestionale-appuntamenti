@@ -6214,5 +6214,131 @@
       "customer": "Customer",
       "client": "Client"
     }
+  },
+  "landingPro": {
+    "nav": {
+      "brand": "Appointment Manager",
+      "login": "Log in",
+      "tryFree": "Try for free"
+    },
+    "hero": {
+      "badge": "★ 5.0 on Google Play · 213 professionals already registered",
+      "title": "The appointment manager",
+      "titleHighlight": "built for you",
+      "subtitle": "If you work independently and offer personal services, stop managing your schedule on paper or WhatsApp. You are up and running in 10 minutes.",
+      "ctaStart": "Start free · 40 days",
+      "ctaLogin": "I already have an account",
+      "noCard": "No credit card required · No automatic charges"
+    },
+    "professions": {
+      "sectionLabel": "Designed for independent professionals",
+      "hairdressers": "Hairdressers",
+      "beauticians": "Beauticians",
+      "masseurs": "Masseurs",
+      "psychologists": "Psychologists",
+      "dentists": "Dentists",
+      "osteopaths": "Osteopaths",
+      "physiotherapists": "Physiotherapists",
+      "naturopaths": "Naturopaths",
+      "nutritionists": "Nutritionists",
+      "coaches": "Coaches & Consultants",
+      "personalTrainers": "Personal Trainers",
+      "tattooArtists": "Tattoo Artists"
+    },
+    "benefits": {
+      "sectionTitle": "Everything you need, nothing you don't",
+      "schedule": {
+        "title": "Your schedule, always with you",
+        "desc": "Manage appointments from smartphone, tablet or PC. Daily, weekly and monthly views with color codes by service."
+      },
+      "reminders": {
+        "title": "Automatic reminders",
+        "desc": "Your clients receive a reminder via WhatsApp or email before their appointment. No-shows and late arrivals drop by up to 80%."
+      },
+      "clients": {
+        "title": "Complete client profile",
+        "desc": "Medical history, allergies, notes, appointment history, GDPR consents. Everything in one place, accessible in 2 seconds."
+      },
+      "billing": {
+        "title": "Simple billing",
+        "desc": "Generate quotes and invoices in a few clicks. Track payments without complications."
+      },
+      "booking": {
+        "title": "Online booking",
+        "desc": "Clients book on their own from the link you share on Instagram or WhatsApp. No unnecessary phone calls."
+      },
+      "reports": {
+        "title": "Reports and statistics",
+        "desc": "Discover which services perform best, who your most loyal clients are and how your practice grows month by month."
+      }
+    },
+    "stats": {
+      "professionals": "registered professionals",
+      "rating": "Google Play rating",
+      "trial": "free, no card needed"
+    },
+    "testimonials": {
+      "lucia": {
+        "text": "Finally an app that understands solo work. I use it every day for my massage studio.",
+        "author": "Lucia M. · Masseuse"
+      },
+      "marco": {
+        "text": "I stopped answering WhatsApp for every booking. The automatic reminders saved me.",
+        "author": "Marco T. · Osteopath"
+      },
+      "sara": {
+        "text": "Simple, fast, professional. I recommend it to all hairdressers.",
+        "author": "Sara V. · Hairdresser"
+      }
+    },
+    "checklist": {
+      "sectionTitle": "Why choose it over paper and WhatsApp?",
+      "items": {
+        "realtime": "Schedule always up to date in real time",
+        "whatsapp": "Automatic WhatsApp reminders to clients",
+        "profile": "Client profile with medical history and GDPR consent",
+        "booking": "Online booking without phone calls",
+        "stats": "Monthly statistics and reports",
+        "devices": "Works on smartphone, tablet and PC",
+        "backup": "Automatic backup of your data",
+        "support": "Dedicated support"
+      }
+    },
+    "cta": {
+      "title": "Ready to simplify your schedule?",
+      "subtitle": "40 days free. No credit card. No automatic charges. Cancel at any time.",
+      "button": "Create your free account",
+      "note": "Takes less than 2 minutes · No installation required"
+    },
+    "faq": {
+      "sectionTitle": "Frequently asked questions",
+      "techSavvy": {
+        "q": "Do I need to be tech-savvy?",
+        "a": "No. The app is designed for people with little time who want simplicity. You are up and running in 10 minutes. If you have questions, our support responds within 24 hours."
+      },
+      "dataSafe": {
+        "q": "Are my data and my clients' data safe?",
+        "a": "Yes. Data is stored on European servers, encrypted and GDPR-compliant. Consent forms for your clients are also included."
+      },
+      "offline": {
+        "q": "Does it work without an internet connection?",
+        "a": "The PWA lets you view your schedule offline. An internet connection is required to make changes and receive updates."
+      },
+      "freeTrial": {
+        "q": "Can I try it for free?",
+        "a": "Yes, 40 days free with no credit card required. No automatic charges at the end of the trial."
+      },
+      "staff": {
+        "q": "Can I also manage my staff?",
+        "a": "Yes. You can add collaborators, assign appointments and view their schedules in a single screen."
+      }
+    },
+    "footer": {
+      "brand": "Appointment Manager · Castinox Srl",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "login": "Log in",
+      "copyright": "© {{year}} Castinox Srl · VAT IT01234567890"
+    }
   }
 }

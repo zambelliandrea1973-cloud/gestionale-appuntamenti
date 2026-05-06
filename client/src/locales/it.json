@@ -6214,5 +6214,131 @@
       "customer": "Acquirente",
       "client": "Cliente"
     }
+  },
+  "landingPro": {
+    "nav": {
+      "brand": "Gestionale Appuntamenti",
+      "login": "Accedi",
+      "tryFree": "Prova gratis"
+    },
+    "hero": {
+      "badge": "★ 5.0 su Google Play · 213 professionisti già registrati",
+      "title": "Il gestionale appuntamenti",
+      "titleHighlight": "fatto per te",
+      "subtitle": "Se lavori in proprio e offri servizi alla persona, smetti di gestire l'agenda su carta o WhatsApp. Sei operativo in 10 minuti.",
+      "ctaStart": "Inizia gratis · 40 giorni",
+      "ctaLogin": "Ho già un account",
+      "noCard": "Nessuna carta di credito richiesta · Nessun addebito automatico"
+    },
+    "professions": {
+      "sectionLabel": "Pensato per i professionisti indipendenti",
+      "hairdressers": "Parrucchieri",
+      "beauticians": "Estetiste",
+      "masseurs": "Massaggiatori",
+      "psychologists": "Psicologi",
+      "dentists": "Dentisti",
+      "osteopaths": "Osteopati",
+      "physiotherapists": "Fisioterapisti",
+      "naturopaths": "Naturopati",
+      "nutritionists": "Nutrizionisti",
+      "coaches": "Coach & Consulenti",
+      "personalTrainers": "Personal Trainer",
+      "tattooArtists": "Tatuatori"
+    },
+    "benefits": {
+      "sectionTitle": "Tutto quello che ti serve, niente di più",
+      "schedule": {
+        "title": "La tua agenda, sempre con te",
+        "desc": "Gestisci appuntamenti da smartphone, tablet o PC. Viste giornaliera, settimanale e mensile con codici colore per servizio."
+      },
+      "reminders": {
+        "title": "Promemoria automatici",
+        "desc": "I tuoi clienti ricevono un promemoria via WhatsApp o email prima dell'appuntamento. I no-show e i ritardi si riducono fino all'80%."
+      },
+      "clients": {
+        "title": "Scheda cliente completa",
+        "desc": "Anamnesi, allergie, note, storico appuntamenti, consensi GDPR. Tutto in un posto, accessibile in 2 secondi."
+      },
+      "billing": {
+        "title": "Fatturazione semplice",
+        "desc": "Genera preventivi e fatture in pochi clic. Traccia i pagamenti senza complicazioni."
+      },
+      "booking": {
+        "title": "Prenotazione online",
+        "desc": "I clienti prenotano da soli dal link che condividi su Instagram o WhatsApp. Niente telefonate inutili."
+      },
+      "reports": {
+        "title": "Report e statistiche",
+        "desc": "Scopri quali servizi rendono di più, chi sono i tuoi clienti più fedeli e come cresce il tuo studio mese per mese."
+      }
+    },
+    "stats": {
+      "professionals": "professionisti registrati",
+      "rating": "valutazione Google Play",
+      "trial": "gratis, senza carta"
+    },
+    "testimonials": {
+      "lucia": {
+        "text": "Finalmente un'app che capisce il lavoro in solitaria. La uso ogni giorno per il mio studio di massaggi.",
+        "author": "Lucia M. · Massaggiatrice"
+      },
+      "marco": {
+        "text": "Ho smesso di rispondere su WhatsApp per ogni prenotazione. I promemoria automatici mi hanno salvato.",
+        "author": "Marco T. · Osteopata"
+      },
+      "sara": {
+        "text": "Semplice, veloce, professionale. Lo consiglio a tutti i parrucchieri.",
+        "author": "Sara V. · Parrucchiera"
+      }
+    },
+    "checklist": {
+      "sectionTitle": "Perché sceglierlo rispetto a carta e WhatsApp?",
+      "items": {
+        "realtime": "Agenda sempre aggiornata in tempo reale",
+        "whatsapp": "Promemoria WhatsApp automatici ai clienti",
+        "profile": "Scheda cliente con anamnesi e consenso GDPR",
+        "booking": "Prenotazione online senza telefonate",
+        "stats": "Statistiche e report mensili",
+        "devices": "Funziona su smartphone, tablet e PC",
+        "backup": "Backup automatico dei tuoi dati",
+        "support": "Supporto dedicato"
+      }
+    },
+    "cta": {
+      "title": "Pronto a semplificare la tua agenda?",
+      "subtitle": "40 giorni gratis. Nessuna carta di credito. Nessun addebito automatico. Cancella quando vuoi.",
+      "button": "Crea il tuo account gratuito",
+      "note": "Ci vogliono meno di 2 minuti · Nessuna installazione richiesta"
+    },
+    "faq": {
+      "sectionTitle": "Domande frequenti",
+      "techSavvy": {
+        "q": "Devo essere esperto di tecnologia?",
+        "a": "No. L'app è pensata per chi ha poco tempo e vuole semplicità. Sei operativo in 10 minuti. Se hai dubbi, il nostro supporto risponde entro 24 ore."
+      },
+      "dataSafe": {
+        "q": "I miei dati e quelli dei miei clienti sono al sicuro?",
+        "a": "Sì. I dati sono su server europei, cifrati e conformi al GDPR. Sono inclusi anche i moduli di consenso per i tuoi clienti."
+      },
+      "offline": {
+        "q": "Funziona senza connessione internet?",
+        "a": "La PWA ti permette di vedere l'agenda offline. La connessione internet è necessaria per apportare modifiche e ricevere aggiornamenti."
+      },
+      "freeTrial": {
+        "q": "Posso provarlo gratis?",
+        "a": "Sì, 40 giorni gratis senza carta di credito. Nessun addebito automatico alla fine della prova."
+      },
+      "staff": {
+        "q": "Posso gestire anche il mio staff?",
+        "a": "Sì. Puoi aggiungere collaboratori, assegnare appuntamenti e vedere le loro agende in un'unica schermata."
+      }
+    },
+    "footer": {
+      "brand": "Gestionale Appuntamenti · Castinox Srl",
+      "privacy": "Privacy Policy",
+      "terms": "Termini di Servizio",
+      "login": "Accedi",
+      "copyright": "© {{year}} Castinox Srl · P.IVA IT01234567890"
+    }
   }
 }

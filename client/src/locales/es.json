@@ -6214,5 +6214,131 @@
       "customer": "Usuario",
       "client": "Cliente"
     }
+  },
+  "landingPro": {
+    "nav": {
+      "brand": "Gestor de Citas",
+      "login": "Iniciar sesión",
+      "tryFree": "Probar gratis"
+    },
+    "hero": {
+      "badge": "★ 5.0 en Google Play · 213 profesionales ya registrados",
+      "title": "El gestor de citas",
+      "titleHighlight": "hecho para ti",
+      "subtitle": "Si trabajas de forma independiente y ofreces servicios personales, deja de gestionar tu agenda en papel o WhatsApp. Estás operativo en 10 minutos.",
+      "ctaStart": "Empieza gratis · 40 días",
+      "ctaLogin": "Ya tengo una cuenta",
+      "noCard": "Sin tarjeta de crédito · Sin cargos automáticos"
+    },
+    "professions": {
+      "sectionLabel": "Diseñado para profesionales independientes",
+      "hairdressers": "Peluqueros",
+      "beauticians": "Esteticistas",
+      "masseurs": "Masajistas",
+      "psychologists": "Psicólogos",
+      "dentists": "Dentistas",
+      "osteopaths": "Osteopatas",
+      "physiotherapists": "Fisioterapeutas",
+      "naturopaths": "Naturópatas",
+      "nutritionists": "Nutricionistas",
+      "coaches": "Coaches y Consultores",
+      "personalTrainers": "Entrenadores Personales",
+      "tattooArtists": "Tatuadores"
+    },
+    "benefits": {
+      "sectionTitle": "Todo lo que necesitas, nada más",
+      "schedule": {
+        "title": "Tu agenda, siempre contigo",
+        "desc": "Gestiona citas desde smartphone, tablet o PC. Vistas diaria, semanal y mensual con códigos de color por servicio."
+      },
+      "reminders": {
+        "title": "Recordatorios automáticos",
+        "desc": "Tus clientes reciben un recordatorio por WhatsApp o email antes de su cita. Las ausencias y retrasos se reducen hasta un 80%."
+      },
+      "clients": {
+        "title": "Perfil de cliente completo",
+        "desc": "Historial médico, alergias, notas, historial de citas, consentimientos RGPD. Todo en un lugar, accesible en 2 segundos."
+      },
+      "billing": {
+        "title": "Facturación sencilla",
+        "desc": "Genera presupuestos y facturas en pocos clics. Rastrea los pagos sin complicaciones."
+      },
+      "booking": {
+        "title": "Reserva online",
+        "desc": "Los clientes reservan solos desde el enlace que compartes en Instagram o WhatsApp. Sin llamadas innecesarias."
+      },
+      "reports": {
+        "title": "Informes y estadísticas",
+        "desc": "Descubre qué servicios rinden mejor, quiénes son tus clientes más fieles y cómo crece tu negocio mes a mes."
+      }
+    },
+    "stats": {
+      "professionals": "profesionales registrados",
+      "rating": "valoración Google Play",
+      "trial": "gratis, sin tarjeta"
+    },
+    "testimonials": {
+      "lucia": {
+        "text": "Por fin una app que entiende el trabajo en solitario. La uso cada día para mi estudio de masajes.",
+        "author": "Lucia M. · Masajista"
+      },
+      "marco": {
+        "text": "Dejé de responder WhatsApp por cada reserva. Los recordatorios automáticos me salvaron.",
+        "author": "Marco T. · Osteópata"
+      },
+      "sara": {
+        "text": "Simple, rápida, profesional. Se la recomiendo a todos los peluqueros.",
+        "author": "Sara V. · Peluquera"
+      }
+    },
+    "checklist": {
+      "sectionTitle": "¿Por qué elegirlo frente a papel y WhatsApp?",
+      "items": {
+        "realtime": "Agenda siempre actualizada en tiempo real",
+        "whatsapp": "Recordatorios automáticos de WhatsApp a clientes",
+        "profile": "Perfil de cliente con historial médico y consentimiento RGPD",
+        "booking": "Reserva online sin llamadas telefónicas",
+        "stats": "Estadísticas e informes mensuales",
+        "devices": "Funciona en smartphone, tablet y PC",
+        "backup": "Copia de seguridad automática de tus datos",
+        "support": "Soporte dedicado"
+      }
+    },
+    "cta": {
+      "title": "¿Listo para simplificar tu agenda?",
+      "subtitle": "40 días gratis. Sin tarjeta de crédito. Sin cargos automáticos. Cancela cuando quieras.",
+      "button": "Crea tu cuenta gratuita",
+      "note": "Menos de 2 minutos · Sin instalación requerida"
+    },
+    "faq": {
+      "sectionTitle": "Preguntas frecuentes",
+      "techSavvy": {
+        "q": "¿Necesito ser experto en tecnología?",
+        "a": "No. La app está diseñada para personas con poco tiempo que quieren simplicidad. Estás operativo en 10 minutos. Si tienes preguntas, nuestro soporte responde en 24 horas."
+      },
+      "dataSafe": {
+        "q": "¿Están seguros mis datos y los de mis clientes?",
+        "a": "Sí. Los datos se almacenan en servidores europeos, cifrados y conformes al RGPD. También se incluyen formularios de consentimiento para tus clientes."
+      },
+      "offline": {
+        "q": "¿Funciona sin conexión a internet?",
+        "a": "La PWA te permite ver tu agenda sin conexión. Se necesita internet para hacer cambios y recibir actualizaciones."
+      },
+      "freeTrial": {
+        "q": "¿Puedo probarlo gratis?",
+        "a": "Sí, 40 días gratis sin tarjeta de crédito. Sin cargos automáticos al final del período de prueba."
+      },
+      "staff": {
+        "q": "¿Puedo gestionar también a mi personal?",
+        "a": "Sí. Puedes agregar colaboradores, asignar citas y ver sus agendas en una sola pantalla."
+      }
+    },
+    "footer": {
+      "brand": "Gestor de Citas · Castinox Srl",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Servicio",
+      "login": "Iniciar sesión",
+      "copyright": "© {{year}} Castinox Srl · IVA IT01234567890"
+    }
   }
 }
