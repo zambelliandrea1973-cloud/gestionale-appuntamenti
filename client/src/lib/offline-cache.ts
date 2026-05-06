@@ -47,10 +47,10 @@ class OfflineCache {
     
     if (this.isOnline && !wasOnline) {
       // Appena tornati online, avvia sincronizzazione
-      console.log('Connessione ripristinata, avvio sincronizzazione cache...');
+      console.log('Connection restored, starting cache sync...');
       this.synchronizeCache();
     } else if (!this.isOnline && wasOnline) {
-      console.log('Connessione persa, attivazione modalità offline');
+      console.log('Connection lost, activating offline mode');
     }
   }
   
@@ -98,7 +98,7 @@ class OfflineCache {
       
       return true;
     } catch (error) {
-      console.error(`Errore nel salvataggio della cache per ${key}:`, error);
+      console.error(`Error saving cache for ${key}:`, error);
       return false;
     }
   }
@@ -139,17 +139,17 @@ class OfflineCache {
             await this.set(key, freshData, { storage: storageType });
             return freshData;
           } catch (fetchError) {
-            console.error(`Errore nel recupero dati freschi per ${key}:`, fetchError);
+            console.error(`Error fetching fresh data for ${key}:`, fetchError);
             // Se c'è un errore ma abbiamo dati in cache, usiamo quelli anche se scaduti
             if (entry) {
-              console.log(`Uso dati scaduti dalla cache per ${key}`);
+              console.log(`Using stale cached data for ${key}`);
               return entry.data as T;
             }
             return null;
           }
         } else if (!this.isOnline && entry) {
           // Se siamo offline, usa i dati in cache anche se scaduti
-          console.log(`Modalità offline: uso dati scaduti dalla cache per ${key}`);
+          console.log(`Offline mode: using stale cached data for ${key}`);
           return entry.data as T;
         }
         
@@ -158,14 +158,14 @@ class OfflineCache {
       
       return entry.data as T;
     } catch (error) {
-      console.error(`Errore nel recupero dalla cache per ${key}:`, error);
+      console.error(`Error retrieving from cache for ${key}:`, error);
       
       // Se c'è un fallback e siamo online, usalo
       if (this.isOnline && options.fallbackFetch) {
         try {
           return await options.fallbackFetch();
         } catch (fetchError) {
-          console.error(`Anche il fallback è fallito per ${key}:`, fetchError);
+          console.error(`Fallback also failed for ${key}:`, fetchError);
         }
       }
       
@@ -189,7 +189,7 @@ class OfflineCache {
       
       return true;
     } catch (error) {
-      console.error(`Errore nella rimozione dalla cache per ${key}:`, error);
+      console.error(`Error removing from cache for ${key}:`, error);
       return false;
     }
   }
@@ -218,7 +218,7 @@ class OfflineCache {
       
       return true;
     } catch (error) {
-      console.error('Errore nella pulizia della cache:', error);
+      console.error('Error clearing cache:', error);
       return false;
     }
   }
@@ -262,7 +262,7 @@ class OfflineCache {
       
       return true;
     } catch (error) {
-      console.error('Errore nella pulizia della cache scaduta:', error);
+      console.error('Error clearing expired cache entries:', error);
       return false;
     }
   }
@@ -314,7 +314,7 @@ class OfflineCache {
         }
       }
     } catch (e) {
-      console.error('Errore nel calcolo delle statistiche cache:', e);
+      console.error('Error calculating cache statistics:', e);
     }
     
     return {

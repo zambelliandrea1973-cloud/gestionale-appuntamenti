@@ -20,7 +20,7 @@ export async function loadGoogleCalendarSettings(): Promise<GoogleCalendarSettin
     const settings = await response.json();
     return settings;
   } catch (error) {
-    console.error("Errore durante il caricamento delle impostazioni di Google Calendar:", error);
+    console.error("Error loading Google Calendar settings:", error);
     return null;
   }
 }
@@ -32,7 +32,7 @@ export async function saveGoogleCalendarSettings(settings: GoogleCalendarSetting
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error("Errore durante il salvataggio delle impostazioni di Google Calendar:", error);
+    console.error("Error saving Google Calendar settings:", error);
     return null;
   }
 }
@@ -44,7 +44,7 @@ export async function getGoogleAuthUrl(clientId: string, redirectUri: string): P
     const data = await response.json();
     return data.authUrl;
   } catch (error) {
-    console.error("Errore durante la generazione dell'URL di autorizzazione:", error);
+    console.error("Error generating authorization URL:", error);
     return null;
   }
 }
@@ -61,7 +61,7 @@ export async function exchangeCodeForToken(code: string, clientId: string, clien
     const data = await response.json();
     return data.success;
   } catch (error) {
-    console.error("Errore durante lo scambio del codice:", error);
+    console.error("Error exchanging authorization code:", error);
     return false;
   }
 }
@@ -72,7 +72,7 @@ export async function syncAppointmentWithGoogleCalendar(appointmentId: number): 
     const response = await apiRequest("POST", `/api/google-calendar/sync-appointment/${appointmentId}`);
     return response.status === 200;
   } catch (error) {
-    console.error("Errore durante la sincronizzazione dell'appuntamento:", error);
+    console.error("Error syncing appointment:", error);
     return false;
   }
 }
@@ -83,7 +83,7 @@ export async function updateSyncedAppointment(appointmentId: number): Promise<bo
     const response = await apiRequest("PUT", `/api/google-calendar/sync-appointment/${appointmentId}`);
     return response.status === 200;
   } catch (error) {
-    console.error("Errore durante l'aggiornamento dell'appuntamento sincronizzato:", error);
+    console.error("Error updating synced appointment:", error);
     return false;
   }
 }
@@ -95,7 +95,7 @@ export async function deleteSyncedAppointment(appointmentId: number): Promise<bo
     const data = await response.json();
     return data.success;
   } catch (error) {
-    console.error("Errore durante l'eliminazione dell'appuntamento sincronizzato:", error);
+    console.error("Error deleting synced appointment:", error);
     return false;
   }
 }
@@ -106,7 +106,7 @@ export async function isAppointmentSynced(appointmentId: number): Promise<boolea
     const appointments = await getGoogleCalendarEvents();
     return appointments.some(appt => appt.appointmentId === appointmentId);
   } catch (error) {
-    console.error("Errore durante la verifica dello stato di sincronizzazione:", error);
+    console.error("Error verifying sync status:", error);
     return false;
   }
 }
@@ -117,7 +117,7 @@ export async function getGoogleCalendarEvents(): Promise<{appointmentId: number,
     const response = await apiRequest("GET", "/api/google-calendar/events");
     return await response.json();
   } catch (error) {
-    console.error("Errore durante il recupero degli eventi di Google Calendar:", error);
+    console.error("Error fetching Google Calendar events:", error);
     return [];
   }
 }
@@ -136,7 +136,7 @@ export async function getAvailableCalendars(): Promise<GoogleCalendarInfo[]> {
     const response = await apiRequest("GET", "/api/google-calendar/calendars");
     return await response.json();
   } catch (error) {
-    console.error("Errore durante il recupero della lista dei calendari:", error);
+    console.error("Error fetching calendar list:", error);
     return [];
   }
 }

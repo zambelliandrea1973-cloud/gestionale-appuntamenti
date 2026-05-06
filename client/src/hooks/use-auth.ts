@@ -27,7 +27,7 @@ export function useAuth() {
     queryKey: ['/api/user-with-license'],
     queryFn: async () => {
       try {
-        console.log('🔐 useAuth chiamando /api/user-with-license');
+        console.log('🔐 useAuth calling /api/user-with-license');
         const timestamp = new Date().getTime();
         const response = await fetch(`/api/user-with-license?t=${timestamp}`, {
           credentials: 'include',
@@ -37,18 +37,18 @@ export function useAuth() {
             'Expires': '0'
           }
         });
-        console.log('🔐 useAuth risposta:', response.status, response.ok);
+        console.log('🔐 useAuth response:', response.status, response.ok);
         
         if (!response.ok) {
-          console.log('❌ useAuth - utente non autenticato');
+          console.log('❌ useAuth - user not authenticated');
           return null;
         }
         
         const data = await response.json();
-        console.log('✅ useAuth - dati utente:', data);
+        console.log('✅ useAuth - user data:', data);
         return data;
       } catch (error) {
-        console.error('❌ Errore useAuth:', error);
+        console.error('❌ useAuth error:', error);
         return null;
       }
     },

@@ -12,73 +12,73 @@ import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import fleurLogo from "../assets/fleur-de-vie.jpg";
 
 const PROFESSIONI = [
-  { icon: Scissors,   label: "Parrucchieri" },
-  { icon: Heart,      label: "Estetiste" },
-  { icon: Heart,      label: "Massaggiatori" },
-  { icon: Brain,      label: "Psicologi" },
-  { icon: Smile,      label: "Dentisti" },
-  { icon: Zap,        label: "Osteopati" },
-  { icon: Zap,        label: "Fisioterapisti" },
-  { icon: Heart,      label: "Naturopati" },
-  { icon: Smile,      label: "Nutrizionisti" },
-  { icon: Brain,      label: "Coach & Consulenti" },
-  { icon: Zap,        label: "Personal Trainer" },
-  { icon: Heart,      label: "Tatuatori" },
+  { icon: Scissors,   label: "Hairdressers" },
+  { icon: Heart,      label: "Beauticians" },
+  { icon: Heart,      label: "Masseurs" },
+  { icon: Brain,      label: "Psychologists" },
+  { icon: Smile,      label: "Dentists" },
+  { icon: Zap,        label: "Osteopaths" },
+  { icon: Zap,        label: "Physiotherapists" },
+  { icon: Heart,      label: "Naturopaths" },
+  { icon: Smile,      label: "Nutritionists" },
+  { icon: Brain,      label: "Coaches & Consultants" },
+  { icon: Zap,        label: "Personal Trainers" },
+  { icon: Heart,      label: "Tattoo Artists" },
 ];
 
 const BENEFICI = [
   {
     icon: Calendar,
-    title: "Agenda sempre con te",
-    desc: "Gestisci appuntamenti da smartphone, tablet o PC. Visualizzazione giornaliera, settimanale e mensile con codice colore per servizio.",
+    title: "Your schedule, always with you",
+    desc: "Manage appointments from smartphone, tablet or PC. Daily, weekly and monthly views with color codes by service.",
   },
   {
     icon: Bell,
-    title: "Promemoria automatici",
-    desc: "I tuoi clienti ricevono un promemoria via WhatsApp o email prima dell'appuntamento. Dimentichi, ritardi e no-show si riducono fino all'80%.",
+    title: "Automatic reminders",
+    desc: "Your clients receive a reminder via WhatsApp or email before their appointment. No-shows and late arrivals drop by up to 80%.",
   },
   {
     icon: Users,
-    title: "Scheda cliente completa",
-    desc: "Anamnesi, allergie, note, storico appuntamenti, consensi GDPR. Tutto in un posto, accessibile in 2 secondi.",
+    title: "Complete client profile",
+    desc: "Medical history, allergies, notes, appointment history, GDPR consents. Everything in one place, accessible in 2 seconds.",
   },
   {
     icon: Euro,
-    title: "Fatturazione semplice",
-    desc: "Genera preventivi e fatture in pochi clic. Tieni traccia dei pagamenti senza complicazioni.",
+    title: "Simple billing",
+    desc: "Generate quotes and invoices in a few clicks. Track payments without complications.",
   },
   {
     icon: MessageSquare,
-    title: "Prenotazione online",
-    desc: "I clienti prenotano autonomamente dal link che condividi su Instagram o WhatsApp. Nessuna telefonata inutile.",
+    title: "Online booking",
+    desc: "Clients book on their own from the link you share on Instagram or WhatsApp. No unnecessary phone calls.",
   },
   {
     icon: TrendingUp,
-    title: "Report e statistiche",
-    desc: "Scopri quali servizi rendono di più, chi sono i clienti più fedeli e come cresce il tuo studio mese per mese.",
+    title: "Reports and statistics",
+    desc: "Discover which services perform best, who your most loyal clients are and how your practice grows month by month.",
   },
 ];
 
 const FAQ = [
   {
-    q: "Devo essere bravo con la tecnologia?",
-    a: "No. L'app è pensata per chi ha poco tempo e vuole semplicità. In 10 minuti sei operativo. Se hai dubbi, la nostra assistenza risponde entro 24 ore.",
+    q: "Do I need to be tech-savvy?",
+    a: "No. The app is designed for people with little time who want simplicity. You are up and running in 10 minutes. If you have questions, our support responds within 24 hours.",
   },
   {
-    q: "I miei dati e quelli dei miei clienti sono al sicuro?",
-    a: "Sì. I dati sono salvati su server europei, crittografati e conformi al GDPR. Include anche i moduli di consenso per i tuoi clienti.",
+    q: "Are my data and my clients' data safe?",
+    a: "Yes. Data is stored on European servers, encrypted and GDPR-compliant. Consent forms for your clients are also included.",
   },
   {
-    q: "Funziona anche senza connessione internet?",
-    a: "La PWA permette di vedere l'agenda anche offline. Per modifiche e aggiornamenti è necessaria la connessione.",
+    q: "Does it work without an internet connection?",
+    a: "The PWA lets you view your schedule offline. An internet connection is required to make changes and receive updates.",
   },
   {
-    q: "Posso provarlo gratis?",
-    a: "Sì, 40 giorni gratuiti senza carta di credito. Nessun addebito automatico alla scadenza.",
+    q: "Can I try it for free?",
+    a: "Yes, 40 days free with no credit card required. No automatic charges at the end of the trial.",
   },
   {
-    q: "Posso gestire anche il mio personale?",
-    a: "Sì. Puoi aggiungere collaboratori, assegnare appuntamenti e visualizzare le loro agende in un'unica schermata.",
+    q: "Can I also manage my staff?",
+    a: "Yes. You can add collaborators, assign appointments and view their schedules in a single screen.",
   },
 ];
 
@@ -100,13 +100,13 @@ export default function ProfessionistiLandingPage() {
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src={fleurLogo} alt="Gestionale Appuntamenti" className="h-8 w-8 rounded-full object-cover" />
-            <span className="font-semibold text-sm hidden sm:inline">Gestionale Appuntamenti</span>
+            <img src={fleurLogo} alt="Appointment Manager" className="h-8 w-8 rounded-full object-cover" />
+            <span className="font-semibold text-sm hidden sm:inline">Appointment Manager</span>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={goLogin}>Accedi</Button>
+            <Button variant="ghost" size="sm" onClick={goLogin}>Log in</Button>
             <Button size="sm" className="bg-[#4a5e2a] hover:bg-[#3a4e1a] text-white" onClick={goRegister}>
-              Prova gratis
+              Try for free
             </Button>
           </div>
         </div>
@@ -116,17 +116,17 @@ export default function ProfessionistiLandingPage() {
       <section className="bg-gradient-to-br from-[#4a5e2a]/10 via-white to-[#4a5e2a]/5 py-16 px-4">
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <Badge className="bg-[#4a5e2a]/10 text-[#4a5e2a] border-[#4a5e2a]/20 hover:bg-[#4a5e2a]/10">
-            ★ 5,0 su Google Play · 213 professionisti già iscritti
+            ★ 5.0 on Google Play · 213 professionals already registered
           </Badge>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight">
-            Il gestionale appuntamenti<br className="hidden sm:block" />{" "}
-            <span className="text-[#4a5e2a]">pensato per te</span>
+            The appointment manager<br className="hidden sm:block" />{" "}
+            <span className="text-[#4a5e2a]">built for you</span>
           </h1>
 
           <p className="text-lg text-gray-600 max-w-xl mx-auto">
-            Se lavori in proprio e offri servizi alla persona, smetti di gestire
-            l'agenda su carta o su WhatsApp. In 10 minuti sei operativo.
+            If you work independently and offer personal services, stop managing
+            your schedule on paper or WhatsApp. You are up and running in 10 minutes.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -135,7 +135,7 @@ export default function ProfessionistiLandingPage() {
               className="bg-[#4a5e2a] hover:bg-[#3a4e1a] text-white text-base gap-2 rounded-full px-8"
               onClick={goRegister}
             >
-              Inizia gratis · 40 giorni
+              Start free · 40 days
               <ArrowRight className="h-4 w-4" />
             </Button>
             <Button
@@ -144,12 +144,12 @@ export default function ProfessionistiLandingPage() {
               className="rounded-full px-8 text-base"
               onClick={goLogin}
             >
-              Ho già un account
+              I already have an account
             </Button>
           </div>
 
           <p className="text-xs text-gray-400">
-            Nessuna carta di credito richiesta · Nessun addebito automatico
+            No credit card required · No automatic charges
           </p>
         </div>
       </section>
@@ -158,7 +158,7 @@ export default function ProfessionistiLandingPage() {
       <section className="py-14 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <p className="text-center text-sm font-medium text-gray-500 uppercase tracking-widest mb-8">
-            Adatto a chi lavora in autonomia
+            Designed for independent professionals
           </p>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
             {PROFESSIONI.map(({ icon: Icon, label }) => (
@@ -180,7 +180,7 @@ export default function ProfessionistiLandingPage() {
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10">
-            Tutto quello che ti serve, niente di superfluo
+            Everything you need, nothing you don't
           </h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
             {BENEFICI.map(({ icon: Icon, title, desc }) => (
@@ -204,22 +204,22 @@ export default function ProfessionistiLandingPage() {
           <div className="grid sm:grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold">213</div>
-              <div className="text-[#a8c060] text-sm mt-1">professionisti iscritti</div>
+              <div className="text-[#a8c060] text-sm mt-1">registered professionals</div>
             </div>
             <div>
-              <div className="text-4xl font-bold">5,0★</div>
-              <div className="text-[#a8c060] text-sm mt-1">valutazione Google Play</div>
+              <div className="text-4xl font-bold">5.0★</div>
+              <div className="text-[#a8c060] text-sm mt-1">Google Play rating</div>
             </div>
             <div>
-              <div className="text-4xl font-bold">40gg</div>
-              <div className="text-[#a8c060] text-sm mt-1">gratis, senza carta</div>
+              <div className="text-4xl font-bold">40d</div>
+              <div className="text-[#a8c060] text-sm mt-1">free, no card needed</div>
             </div>
           </div>
           <div className="mt-10 grid sm:grid-cols-3 gap-4">
             {[
-              { stars: 5, text: "Finalmente un'app che capisce il lavoro da soli. Lo uso ogni giorno per il mio studio di massaggi.", autore: "Lucia M. · Massaggiatrice" },
-              { stars: 5, text: "Ho smesso di rispondere su WhatsApp per ogni prenotazione. I promemoria automatici mi hanno salvato.", autore: "Marco T. · Osteopata" },
-              { stars: 5, text: "Semplice, veloce, professionale. Lo consiglio a tutti i parrucchieri.", autore: "Sara V. · Parrucchiera" },
+              { stars: 5, text: "Finally an app that understands solo work. I use it every day for my massage studio.", autore: "Lucia M. · Masseuse" },
+              { stars: 5, text: "I stopped answering WhatsApp for every booking. The automatic reminders saved me.", autore: "Marco T. · Osteopath" },
+              { stars: 5, text: "Simple, fast, professional. I recommend it to all hairdressers.", autore: "Sara V. · Hairdresser" },
             ].map(({ stars, text, autore }) => (
               <div key={autore} className="bg-white/10 rounded-xl p-4 space-y-2">
                 <div className="flex gap-0.5">
@@ -239,18 +239,18 @@ export default function ProfessionistiLandingPage() {
       <section className="py-16 px-4">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10">
-            Perché sceglierlo rispetto a carta e WhatsApp?
+            Why choose it over paper and WhatsApp?
           </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              "Agenda sempre aggiornata in tempo reale",
-              "Promemoria WhatsApp automatici ai clienti",
-              "Scheda cliente con anamnesi e consenso GDPR",
-              "Prenotazione online senza telefonate",
-              "Statistiche e report mensili",
-              "Funziona su smartphone, tablet e PC",
-              "Backup automatico dei tuoi dati",
-              "Supporto dedicato in italiano",
+              "Schedule always up to date in real time",
+              "Automatic WhatsApp reminders to clients",
+              "Client profile with medical history and GDPR consent",
+              "Online booking without phone calls",
+              "Monthly statistics and reports",
+              "Works on smartphone, tablet and PC",
+              "Automatic backup of your data",
+              "Dedicated support",
             ].map((v) => (
               <div key={v} className="flex items-center gap-3">
                 <CheckCircle2 className="h-5 w-5 text-[#4a5e2a] shrink-0" />
@@ -269,21 +269,21 @@ export default function ProfessionistiLandingPage() {
             <Shield className="h-4 w-4 text-[#4a5e2a]" />
             <Smartphone className="h-4 w-4 text-[#4a5e2a]" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold">Pronto a semplificare la tua agenda?</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold">Ready to simplify your schedule?</h2>
           <p className="text-gray-500 text-sm">
-            40 giorni gratuiti. Nessuna carta di credito. Nessun addebito automatico.
-            Puoi disdire in qualsiasi momento.
+            40 days free. No credit card. No automatic charges.
+            Cancel at any time.
           </p>
           <Button
             size="lg"
             className="bg-[#4a5e2a] hover:bg-[#3a4e1a] text-white text-base gap-2 rounded-full px-10 w-full sm:w-auto"
             onClick={goRegister}
           >
-            Crea il tuo account gratis
+            Create your free account
             <ArrowRight className="h-4 w-4" />
           </Button>
           <p className="text-xs text-gray-400">
-            Ci vogliono meno di 2 minuti · Nessuna installazione richiesta
+            Takes less than 2 minutes · No installation required
           </p>
         </div>
       </section>
@@ -291,7 +291,7 @@ export default function ProfessionistiLandingPage() {
       {/* ── FAQ ── */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-10">Domande frequenti</h2>
+          <h2 className="text-2xl font-bold text-center mb-10">Frequently asked questions</h2>
           <div className="space-y-4">
             {FAQ.map(({ q, a }) => (
               <div key={q} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
@@ -307,14 +307,14 @@ export default function ProfessionistiLandingPage() {
       <footer className="py-8 px-4 border-t border-gray-100 text-center text-xs text-gray-400 space-y-2">
         <div className="flex items-center justify-center gap-2">
           <img src={fleurLogo} alt="Logo" className="h-6 w-6 rounded-full object-cover" />
-          <span>Gestionale Appuntamenti · Castinox Srl</span>
+          <span>Appointment Manager · Castinox Srl</span>
         </div>
         <div className="flex justify-center gap-4">
           <a href="/privacy" className="hover:text-gray-600 transition-colors">Privacy Policy</a>
-          <a href="/terms" className="hover:text-gray-600 transition-colors">Termini di servizio</a>
-          <button onClick={goLogin} className="hover:text-gray-600 transition-colors">Accedi</button>
+          <a href="/terms" className="hover:text-gray-600 transition-colors">Terms of Service</a>
+          <button onClick={goLogin} className="hover:text-gray-600 transition-colors">Log in</button>
         </div>
-        <p>© {new Date().getFullYear()} Castinox Srl · P.IVA IT01234567890</p>
+        <p>© {new Date().getFullYear()} Castinox Srl · VAT IT01234567890</p>
       </footer>
     </div>
   );

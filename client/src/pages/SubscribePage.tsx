@@ -53,9 +53,24 @@ interface Plan {
   buttonVariant?: 'default' | 'outline' | 'secondary';
 }
 
-// Helper per tradurre le feature dal database
+// Helper to translate feature names from the database.
+// The map supports both legacy Italian DB values and current English DB values.
 const translateFeatureName = (featureName: string, t: any): string => {
   const featureMap: Record<string, string> = {
+    // English DB values (current)
+    'Appointment calendar': t('planFeatures.calendar'),
+    'Client management': t('planFeatures.clients'),
+    'QR/PWA app for clients': t('planFeatures.qrPwa'),
+    'Client appointment requests': t('planFeatures.appointmentRequests'),
+    'Client notifications': t('planFeatures.notifications'),
+    'Invoice generation': t('planFeatures.invoices'),
+    'Google Calendar sync': t('planFeatures.googleCalendar'),
+    'Reports and statistics': t('planFeatures.reports'),
+    'Promotional packages': t('planFeatures.packages'),
+    'Multi-staff management': t('planFeatures.multiStaff'),
+    'Product inventory': t('planFeatures.inventory'),
+    'AI Marketing campaigns': t('planFeatures.marketingAI'),
+    // Legacy Italian DB values (kept for backward compatibility)
     'Calendario appuntamenti': t('planFeatures.calendar'),
     'Gestione clienti': t('planFeatures.clients'),
     'App QR/PWA per clienti': t('planFeatures.qrPwa'),
@@ -65,6 +80,7 @@ const translateFeatureName = (featureName: string, t: any): string => {
     'Sincronizzazione Google Calendar': t('planFeatures.googleCalendar'),
     'Report e statistiche': t('planFeatures.reports'),
     'Pacchetti promozionali': t('planFeatures.packages'),
+    'Gestione piu dipendenti': t('planFeatures.multiStaff'),
     'Gestione più dipendenti': t('planFeatures.multiStaff'),
     'Magazzino prodotti': t('planFeatures.inventory'),
     'Campagne Marketing AI': t('planFeatures.marketingAI'),

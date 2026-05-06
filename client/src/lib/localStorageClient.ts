@@ -20,9 +20,9 @@ class LocalStorageClient {
       };
       
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
-      console.log('Credenziali salvate nel localStorage');
+      console.log('Credentials saved to localStorage');
     } catch (error) {
-      console.error('Errore nel salvataggio delle credenziali:', error);
+      console.error('Error saving credentials:', error);
     }
   }
   
@@ -34,7 +34,7 @@ class LocalStorageClient {
       const data = localStorage.getItem(this.STORAGE_KEY);
       return !!data;
     } catch (error) {
-      console.error('Errore nel controllo delle credenziali salvate:', error);
+      console.error('Error checking stored credentials:', error);
       return false;
     }
   }
@@ -49,7 +49,7 @@ class LocalStorageClient {
       
       return JSON.parse(data);
     } catch (error) {
-      console.error('Errore nel recupero delle credenziali:', error);
+      console.error('Error retrieving credentials:', error);
       return null;
     }
   }
@@ -76,14 +76,14 @@ class LocalStorageClient {
       });
       
       if (loginResponse.ok) {
-        console.log('Sessione client ripristinata con successo');
+        console.log('Client session restored successfully');
         return true;
       } else {
-        console.warn('Impossibile ripristinare la sessione');
+        console.warn('Unable to restore session');
         return false;
       }
     } catch (error) {
-      console.error('Errore durante il ripristino della sessione:', error);
+      console.error('Error restoring session:', error);
       return false;
     }
   }
@@ -94,9 +94,9 @@ class LocalStorageClient {
   clearStoredCredentials(): void {
     try {
       localStorage.removeItem(this.STORAGE_KEY);
-      console.log('Credenziali rimosse dal localStorage');
+      console.log('Credentials removed from localStorage');
     } catch (error) {
-      console.error('Errore nella rimozione delle credenziali:', error);
+      console.error('Error removing credentials:', error);
     }
   }
 }

@@ -303,7 +303,7 @@ export default function Calendar() {
           <div className="mt-3 pt-3 border-t border-gray-100">
             {!hasCollaboratorsOrRooms ? (
               <p className="text-sm text-muted-foreground text-center py-1">
-                {t('calendar.noCollaboratorsForFilter', 'Aggiungi collaboratori o stanze nelle impostazioni per usare il filtro.')}
+                {t('calendar.noCollaboratorsForFilter', 'Add collaborators or rooms in settings to use the filter.')}
               </p>
             ) : (
               <div className="flex flex-wrap gap-2 items-center">
@@ -387,7 +387,7 @@ export default function Calendar() {
         {calendarMode === 'columns' && view !== 'day' && (
           <div className="mt-3 pt-3 border-t border-gray-100">
             <p className="text-sm text-amber-600 text-center py-1 bg-amber-50 rounded-md px-3">
-              {t('calendar.columnsOnlyInDayView', 'La vista colonne è disponibile solo nella visualizzazione Giorno.')}
+              {t('calendar.columnsOnlyInDayView', 'Column view is only available in Day view.')}
             </p>
           </div>
         )}
@@ -396,7 +396,7 @@ export default function Calendar() {
         {calendarMode === 'columns' && view === 'day' && activeCollaborators.length === 0 && (
           <div className="mt-3 pt-3 border-t border-gray-100">
             <p className="text-sm text-muted-foreground text-center py-1">
-              {t('calendar.noCollaboratorsForColumns', 'Aggiungi collaboratori nelle impostazioni per usare la vista colonne.')}
+              {t('calendar.noCollaboratorsForColumns', 'Add collaborators in settings to use the column view.')}
             </p>
           </div>
         )}

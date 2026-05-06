@@ -53,7 +53,7 @@ export async function loadContactInfoFromAPI(userId?: number): Promise<ContactIn
     // per evitare contaminazione
     return {};
   } catch (error) {
-    console.error('Errore durante il recupero delle informazioni di contatto dall\'API:', error);
+    console.error('Error fetching contact information from API:', error);
     // In caso di errore di rete, ritorna oggetto vuoto invece di cache potenzialmente obsoleta
     return {};
   }
@@ -72,7 +72,7 @@ export function loadContactInfo(userId?: number): ContactInfo {
   try {
     return JSON.parse(savedInfo) as ContactInfo;
   } catch (error) {
-    console.error('Errore durante il caricamento delle informazioni di contatto:', error);
+    console.error('Error loading contact information:', error);
     return {};
   }
 }
@@ -107,7 +107,7 @@ export async function saveContactInfoToAPI(contactInfo: ContactInfo, userId?: nu
     
     return result.success;
   } catch (error) {
-    console.error('Errore durante il salvataggio delle informazioni di contatto tramite API:', error);
+    console.error('Error saving contact information via API:', error);
     return false;
   }
 }
@@ -133,13 +133,13 @@ export function saveContactInfo(contactInfo: ContactInfo, userId?: number): void
     
     // Tenta anche di salvare tramite API in background
     saveContactInfoToAPI(contactInfo, userId).catch(error => {
-      console.error('Errore durante il salvataggio delle informazioni di contatto in background:', error);
+      console.error('Error saving contact information in background:', error);
     });
     
     // Invia un evento personalizzato per notificare che i dati sono cambiati
     window.dispatchEvent(new CustomEvent('contactInfoUpdated'));
   } catch (error) {
-    console.error('Errore durante il salvataggio delle informazioni di contatto:', error);
+    console.error('Error saving contact information:', error);
   }
 }
 

@@ -98,7 +98,7 @@ export async function apiRequest(
       credentials: "include",
     });
 
-    console.log(`Risposta da ${url}:`, res.status, res.statusText, 'ok:', res.ok);
+    console.log(`Response from ${url}:`, res.status, res.statusText, 'ok:', res.ok);
     
     if (!res.ok) {
       const errorText = await res.text();
@@ -106,7 +106,7 @@ export async function apiRequest(
       // Ignora silenziosamente gli errori 404 per i token di attivazione clienti inesistenti
       const isClientTokenError = url.includes('/activation-token') && res.status === 404;
       if (!isClientTokenError) {
-        console.error(`Errore API (${res.status}):`, errorText);
+        console.error(`API error (${res.status}):`, errorText);
       }
       
       // Prova a parsare il JSON per estrarre il messaggio di errore

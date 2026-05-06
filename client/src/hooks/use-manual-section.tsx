@@ -136,7 +136,7 @@ export function useManualSection(section: string, locale: string) {
 
       const response = await apiRequest('POST', '/api/manual/save', payload);
       if (!response.ok) {
-        throw new Error('Errore durante il salvataggio');
+        throw new Error('Error saving');
       }
       return response.json();
     },
@@ -153,7 +153,7 @@ export function useManualSection(section: string, locale: string) {
 
       const response = await apiRequest('POST', '/api/manual/upload', formData);
       if (!response.ok) {
-        throw new Error('Errore durante l\'upload del file');
+        throw new Error('Error uploading file');
       }
       return response.json();
     },
@@ -164,7 +164,7 @@ export function useManualSection(section: string, locale: string) {
     mutationFn: async (fileUrl: string) => {
       const response = await apiRequest('DELETE', '/api/manual/file', { fileUrl });
       if (!response.ok) {
-        throw new Error('Errore durante l\'eliminazione del file');
+        throw new Error('Error deleting file');
       }
       return response.json();
     },

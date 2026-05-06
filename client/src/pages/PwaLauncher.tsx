@@ -33,15 +33,15 @@ export default function PwaLauncher() {
       clientUsername: localStorage.getItem('clientUsername'),
       clientId: localStorage.getItem('clientId'),
       clientAccessToken: localStorage.getItem('clientAccessToken'),
-      hasToken: localStorage.getItem('clientAccessToken') ? 'sì' : 'no'
+      hasToken: localStorage.getItem('clientAccessToken') ? 'yes' : 'no'
     };
     
     setStorageData(storedData);
-    console.log("PwaLauncher - Contenuto localStorage:", storedData);
+    console.log("PwaLauncher - localStorage contents:", storedData);
     
     // RAFFORZAMENTO: Se abbiamo alcuni dati ma non altri (per evitare perdita di dati)
     if (storedData.clientId && !storedData.clientAccessToken && storedData.qrData) {
-      console.log("Ricostruzione token da qrData");
+      console.log("Rebuilding token from qrData");
       localStorage.setItem('clientAccessToken', storedData.qrData);
       storedData.clientAccessToken = storedData.qrData;
     }

@@ -117,7 +117,7 @@ function AppRoutes() {
     const isPromotionPage = actualPath.startsWith('/promozioni/') || location.startsWith('/promozioni/');
     
     if (isPartnershipPage || isPromotionPage) {
-      console.log('🎯 Pagina pubblica partnership/promozione:', actualPath);
+      console.log('🎯 Public partnership/promotion page:', actualPath);
       return; // Non fare NULLA, lascia caricare la pagina
     }
     
@@ -139,18 +139,18 @@ function AppRoutes() {
     
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
-      console.log('Stato autenticazione:', { user: !!user, location, isLoading });
+      console.log('Auth state:', { user: !!user, location, isLoading });
       
       // Se siamo su un percorso dedicato ai clienti o inizia con /client/, NON applicare la logica di autenticazione staff
       // MA se siamo su desktop e non abbiamo parametri QR, reindirizza alla dashboard
       if (clientOnlyPaths.includes(location) || isClientPath) {
-        console.log('Percorso cliente rilevato, salto controlli autenticazione staff');
+        console.log('Client path detected, skipping staff auth checks');
         
         // Se siamo su /client/... senza parametri QR e abbiamo un utente autenticato, vai alla dashboard
         // NOTA: location da wouter NON include query params, usa window.location.search
         const hasToken = window.location.search.includes('token=');
         if (isClientPath && user && !hasToken) {
-          console.log('Area cliente senza QR rilevata, reindirizzamento a dashboard');
+          console.log('Client area without QR detected, redirecting to dashboard');
           setLocation('/dashboard');
           return;
         }
@@ -160,7 +160,7 @@ function AppRoutes() {
       
       // SOLO se l'utente NON è autenticato e sta cercando di accedere a una pagina protetta
       if (!user && !publicPaths.includes(location)) {
-        console.log('Utente non autenticato su pagina protetta, reindirizzamento a /');
+        console.log('Unauthenticated user on protected page, redirecting to /');
         setLocation('/');
       }
       
@@ -570,7 +570,7 @@ function App() {
   useEffect(() => {
     // Ascolta messaggi dal service worker
     const handleServiceWorkerMessage = (event: MessageEvent) => {
-      console.log('Messaggio ricevuto dal Service Worker:', event.data);
+      console.log('Message received from Service Worker:', event.data);
       
       // Se il service worker viene attivato e dobbiamo reindirizzare
       if (event.data && event.data.type === 'SW_ACTIVATED' && event.data.redirectOnLaunch) {
@@ -587,17 +587,17 @@ function App() {
           
           if (qrLink) {
             // Se abbiamo un link QR, reindirizza direttamente lì
-            console.log('Reindirizzamento al link QR salvato:', qrLink);
+            console.log('Redirecting to saved QR link:', qrLink);
             window.location.href = qrLink;
           } else if (qrData) {
             // Se abbiamo dati QR, reindirizza alla pagina di attivazione con i dati
-            console.log('Reindirizzamento alla pagina di attivazione con dati QR');
+            console.log('Redirecting to activation page with QR data');
             window.location.href = `/activate?data=${encodeURIComponent(qrData)}`;
           } else {
             // Altrimenti, reindirizza alla pagina principale
             const currentPath = window.location.pathname;
             if (currentPath === '/' || currentPath === '') {
-              console.log('Reindirizzamento alla pagina principale');
+              console.log('Redirecting to main page');
               window.location.href = event.data.defaultPath || '/';
             }
           }
@@ -606,7 +606,7 @@ function App() {
       
       // Salva i dati QR nel localStorage
       if (event.data && event.data.type === 'STORE_QR_DATA_LOCALLY' && event.data.qrData) {
-        console.log('Salvataggio dati QR nel localStorage');
+        console.log('Saving QR data to localStorage');
         localStorage.setItem('qrData', event.data.qrData);
         
         // Opzionalmente, se il qrData contiene un link diretto, lo salviamo separatamente
@@ -617,7 +617,7 @@ function App() {
             
             // Salviamo anche come URL originale per compatibilità
             localStorage.setItem('originalUrl', data.link);
-            console.log('URL originale salvato:', data.link);
+            console.log('Original URL saved:', data.link);
           }
         } catch (e) {
           // Se non è JSON o non ha un campo link, ignoriamo
@@ -626,7 +626,7 @@ function App() {
       
       // Salva l'URL originale nel localStorage
       if (event.data && event.data.type === 'STORE_ORIGINAL_URL' && event.data.url) {
-        console.log('Salvataggio URL originale nel localStorage:', event.data.url);
+        console.log('Saving original URL to localStorage:', event.data.url);
         localStorage.setItem('originalUrl', event.data.url);
       }
     };

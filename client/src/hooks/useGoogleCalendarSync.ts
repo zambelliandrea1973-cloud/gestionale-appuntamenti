@@ -25,13 +25,13 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
       
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Sessione scaduta. Effettua nuovamente il login.');
+        throw new Error('Session expired. Please log in again.');
       }
       
       const data = await response.json();
       
       if (!response.ok || !data.success) {
-        throw new Error(data.error || data.message || 'Errore durante la sincronizzazione');
+        throw new Error(data.error || data.message || 'Sync error');
       }
       
       return data;
@@ -69,7 +69,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
       if (showToast) {
         toast({
           title: t('i18nFinale.googleCalendarSync.errorWithEmoji'),
-          description: error.message || "Impossibile sincronizzare con Google Calendar",
+          description: error.message || "Unable to sync with Google Calendar",
           variant: "destructive",
         });
       }

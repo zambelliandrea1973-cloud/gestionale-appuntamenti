@@ -108,11 +108,11 @@ export function UserLicenseProvider({ children }: { children: ReactNode }) {
       case 'staff':
         return t('user.type.staff', 'Staff');
       case 'user':
-        return t('user.type.user', 'Utente');
+        return t('user.type.user', 'User');
       case 'customer':
-        return t('user.type.customer', 'Acquirente');
+        return t('user.type.customer', 'Customer');
       case 'client':
-        return t('user.type.client', 'Cliente');
+        return t('user.type.client', 'Client');
       default:
         return userType;
     }
