@@ -79,34 +79,51 @@ async function checkDatabaseAvailability(): Promise<boolean> {
 checkDatabaseAvailability();
 
 // Ensure the user_sessions table exists (for connect-pg-simple)
+// Retries up to 5 times with exponential backoff; in production throws on final failure.
 export async function ensureSessionTable(): Promise<void> {
   if (!process.env.DATABASE_URL) return;
-  try {
-    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS "user_sessions" (
-        "sid" varchar NOT NULL COLLATE "default",
-        "sess" json NOT NULL,
-        "expire" timestamp(6) NOT NULL
-      );
-    `);
-    await pool.query(`
-      DO $$
-      BEGIN
-        IF NOT EXISTS (
-          SELECT 1 FROM pg_constraint WHERE conname = 'session_pkey'
-        ) THEN
-          ALTER TABLE "user_sessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
-        END IF;
-      END$$;
-    `);
-    await pool.query(`
-      CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "user_sessions" ("expire");
-    `);
-    await pool.end();
-    console.log('✅ Table user_sessions verified/created successfully');
-  } catch (error) {
-    console.error('⚠️ Error creating user_sessions table:', error);
+  const MAX_RETRIES = 5;
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, connectionTimeoutMillis: 10000 });
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS "user_sessions" (
+          "sid" varchar NOT NULL COLLATE "default",
+          "sess" json NOT NULL,
+          "expire" timestamp(6) NOT NULL
+        );
+      `);
+      await pool.query(`
+        DO $$
+        BEGIN
+          IF NOT EXISTS (
+            SELECT 1 FROM pg_constraint WHERE conname = 'session_pkey'
+          ) THEN
+            ALTER TABLE "user_sessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+          END IF;
+        END$$;
+      `);
+      await pool.query(`
+        CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "user_sessions" ("expire");
+      `);
+      await pool.end();
+      console.log('✅ Table user_sessions verified/created successfully');
+      return;
+    } catch (error) {
+      lastError = error;
+      console.error(`⚠️ Error creating user_sessions table (attempt ${attempt}/${MAX_RETRIES}):`, error);
+      if (attempt < MAX_RETRIES) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
+        console.log(`⏳ Retrying user_sessions creation in ${delay}ms...`);
+        await new Promise(r => setTimeout(r, delay));
+      }
+    }
+  }
+  const msg = `❌ FATAL: Could not create user_sessions table after ${MAX_RETRIES} attempts. Login will not work.`;
+  console.error(msg, lastError);
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(msg);
   }
 }
 
