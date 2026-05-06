@@ -356,10 +356,25 @@ export function registerSimpleRoutes(app: Express): Server {
         console.error(`Error during demo seeding for user ${username}:`, demoError);
       }
       
+      // Persist language preference to user settings before sending welcome email
+      // so getUserLanguage() returns the correct value for all future emails
+      const { parseLangFromHeader, getUserLanguage } = await import('./utils/userLanguage');
+      const detectedLang = parseLangFromHeader(req.headers['accept-language']);
+      try {
+        const currentSettings = await storage.getUserSettings(newUser.id);
+        const currentPrefs = (currentSettings?.preferences as any) || {};
+        await storage.updateUserSettings(newUser.id, {
+          preferences: { ...currentPrefs, language: detectedLang }
+        });
+      } catch (langErr) {
+        console.error(`⚠️ [WELCOME] Could not persist language preference for user ${newUser.id}:`, langErr);
+      }
+
       // Send welcome email with credentials (asynchronous, does not block the response)
       console.log(`📧 [WELCOME] Starting welcome email send to ${email}...`);
       const { welcomeEmailService } = await import('./services/welcomeEmailService');
-      welcomeEmailService.sendWelcomeEmail(email, username, password, name)
+      const welcomeLang = await getUserLanguage(newUser.id);
+      welcomeEmailService.sendWelcomeEmail(email, username, password, name, welcomeLang)
         .then(sent => {
           if (sent) {
             console.log(`📧 [WELCOME] Welcome email SENT to ${email}`);

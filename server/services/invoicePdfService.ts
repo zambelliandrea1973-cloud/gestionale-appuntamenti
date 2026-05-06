@@ -23,6 +23,7 @@ interface InvoiceDependencies {
     fiscalCode?: string;
   };
   currencySymbol: string;
+  language?: string;
 }
 
 interface GeneratePdfOptions {
@@ -182,12 +183,15 @@ export async function resolveInvoiceDependencies(
  * Build the context for the invoice HTML template
  */
 export function buildInvoiceContext(deps: InvoiceDependencies): InvoiceRenderContext {
-  const { invoice, client, items, logoBase64, businessHeader, businessData, currencySymbol } = deps;
-  
+  const { invoice, client, items, logoBase64, businessHeader, businessData, currencySymbol, language } = deps;
+  const { normalizeLang, LOCALE_MAP } = require('../utils/emailTranslations');
+  const lang = normalizeLang(language);
+  const dateLocale = LOCALE_MAP[lang] ?? 'it-IT';
+
   return {
     invoiceNumber: invoice.invoiceNumber,
-    date: new Date(invoice.date).toLocaleDateString('en-GB'),
-    dueDate: new Date(invoice.dueDate).toLocaleDateString('en-GB'),
+    date: new Date(invoice.date).toLocaleDateString(dateLocale),
+    dueDate: new Date(invoice.dueDate).toLocaleDateString(dateLocale),
     status: invoice.status,
     totalAmount: invoice.totalAmount,
     tax: invoice.tax || 0,
@@ -199,7 +203,7 @@ export function buildInvoiceContext(deps: InvoiceDependencies): InvoiceRenderCon
     clientEmail: client.email || undefined,
     clientTaxCode: client.taxCode || undefined,
     clientVatNumber: client.vatNumber || undefined,
-    clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString('en-GB') : undefined,
+    clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString(dateLocale) : undefined,
     
     businessHeader,
     businessAddress: businessData.address || undefined,
@@ -218,7 +222,8 @@ export function buildInvoiceContext(deps: InvoiceDependencies): InvoiceRenderCon
     })),
     
     logoBase64,
-    currencySymbol
+    currencySymbol,
+    language: lang,
   };
 }
 
@@ -233,8 +238,15 @@ export async function generateInvoicePdf(options: GeneratePdfOptions): Promise<B
   
   // 1. Resolve dependencies (load data) - pass userId OR clientCode
   const dependencies = await resolveInvoiceDependencies(invoiceId, { userId, clientCode }, storage);
-  
-  // 2. Build context
+
+  // 2. Fetch user language (owner = invoice.userId already resolved inside dependencies.invoice)
+  const { getUserLanguage } = await import('../utils/userLanguage');
+  const ownerUserId = dependencies.invoice?.userId ?? userId;
+  if (ownerUserId) {
+    dependencies.language = await getUserLanguage(ownerUserId);
+  }
+
+  // 3. Build context
   const context = buildInvoiceContext(dependencies);
   
   // 3. Generate HTML

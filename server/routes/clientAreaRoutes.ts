@@ -327,11 +327,17 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
       const userCurrency = await getCurrencyForUser(storage, client.userId);
       const currencySymbol = userCurrency.symbol;
       
+      // Fetch the professional's language preference for locale-aware labels
+      const { getUserLanguage: getPwaUserLang } = await import('./utils/userLanguage');
+      const { LOCALE_MAP: PWA_LOCALE_MAP } = await import('./utils/emailTranslations');
+      const pwaLang = await getPwaUserLang(client.userId);
+      const pwaDateLocale = PWA_LOCALE_MAP[pwaLang] ?? 'it-IT';
+
       // Build context for the template
       const context = {
         invoiceNumber: invoiceData.invoiceNumber,
-        date: new Date(invoiceData.date).toLocaleDateString('it-IT'),
-        dueDate: new Date(invoiceData.dueDate).toLocaleDateString('it-IT'),
+        date: new Date(invoiceData.date).toLocaleDateString(pwaDateLocale),
+        dueDate: new Date(invoiceData.dueDate).toLocaleDateString(pwaDateLocale),
         status: invoiceData.status,
         totalAmount: invoiceData.totalAmount,
         tax: invoiceData.tax || 0,
@@ -343,7 +349,7 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         clientEmail: client.email || undefined,
         clientTaxCode: client.tax_code || undefined,
         clientVatNumber: client.vat_number || undefined,
-        clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString('it-IT') : undefined,
+        clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString(pwaDateLocale) : undefined,
         
         businessHeader,
         businessAddress: businessData.address || undefined,
@@ -362,7 +368,8 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         })),
         
         logoBase64,
-        currencySymbol
+        currencySymbol,
+        language: pwaLang,
       };
       
       // Generate HTML professionale con logo e grafica

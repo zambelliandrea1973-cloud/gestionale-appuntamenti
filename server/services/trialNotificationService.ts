@@ -1,8 +1,15 @@
 import { db } from '../db';
 import { licenses, users, userSettings } from '../../shared/schema';
-import { eq, and, lt, gte, isNull } from 'drizzle-orm';
+import { eq, and, lt, gte } from 'drizzle-orm';
 import { getEmailConfig } from '../utils/emailConfig';
 import nodemailer from 'nodemailer';
+import {
+  normalizeLang,
+  SupportedLang,
+  getTrialExpiryStrings,
+  formatDate,
+} from '../utils/emailTranslations';
+import { getUserLanguage } from '../utils/userLanguage';
 
 /**
  * Determine the base application URL
@@ -11,11 +18,11 @@ function getAppBaseUrl(): string {
   if (process.env.APP_URL) {
     return process.env.APP_URL.replace(/\/$/, '');
   }
-  
+
   if (process.env.REPLIT_DOMAINS) {
     return `https://${process.env.REPLIT_DOMAINS}`;
   }
-  
+
   return 'https://gestionale-appuntamenti.sliplane.app';
 }
 
@@ -31,15 +38,12 @@ export const trialNotificationService = {
   async findTrialUsersToNotify() {
     try {
       const now = new Date();
-      const tenDaysFromNow = new Date(now);
-      tenDaysFromNow.setDate(tenDaysFromNow.getDate() + 10);
-      
       const nineDaysFromNow = new Date(now);
       nineDaysFromNow.setDate(nineDaysFromNow.getDate() + 9);
-      
+
       const elevenDaysFromNow = new Date(now);
       elevenDaysFromNow.setDate(elevenDaysFromNow.getDate() + 11);
-      
+
       const trialLicenses = await db
         .select({
           licenseId: licenses.id,
@@ -59,7 +63,7 @@ export const trialNotificationService = {
             eq(licenses.trialNotificationSent, false)
           )
         );
-      
+
       console.log(`📧 Found ${trialLicenses.length} trial users to notify (expiring in 9-11 days)`);
       return trialLicenses;
     } catch (error) {
@@ -69,16 +73,20 @@ export const trialNotificationService = {
   },
 
   /**
-   * Generate the email HTML template with plan comparison
+   * Generate the email HTML template with plan comparison, in the user's language
    */
-  generateTrialExpiryEmailHTML(username: string, expiryDate: Date): string {
-    const formattedDate = expiryDate.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    });
-    
+  generateTrialExpiryEmailHTML(username: string, expiryDate: Date, lang: SupportedLang = 'it'): string {
+    const t = getTrialExpiryStrings(lang);
+    const formattedDate = formatDate(expiryDate, lang);
     const appBaseUrl = getAppBaseUrl();
+
+    const warningText = t.warningText.replace('{date}', formattedDate);
+
+    const renderFeatureList = (enabled: string[], disabled: string[]): string => {
+      const enabledItems = enabled.map(f => `<li>${f}</li>`).join('');
+      const disabledItems = disabled.map(f => `<li class="disabled">${f}</li>`).join('');
+      return enabledItems + disabledItems;
+    };
 
     return `
 <!DOCTYPE html>
@@ -107,101 +115,81 @@ export const trialNotificationService = {
 </head>
 <body>
   <div class="header">
-    <h1>⏰ Your trial expires in 10 days</h1>
+    <h1>${t.headerTitle}</h1>
   </div>
-  
+
   <div class="content">
-    <p>Hello <strong>${username}</strong>,</p>
-    
+    <p>${t.greeting} <strong>${username}</strong>,</p>
+
     <div class="warning-box">
-      <strong>Your trial period will end on ${formattedDate}.</strong><br>
-      After this date, access will be suspended until a subscription plan is chosen.
+      <strong>${warningText}</strong><br>
+      ${t.afterDateText}
     </div>
-    
-    <p>To continue using our management system, choose the plan that best suits your needs:</p>
+
+    <p>${t.choosePlan}</p>
 
     <!-- BASE Plan -->
     <div class="plan-card">
-      <div class="plan-header">📅 BASE Plan</div>
-      <div class="plan-price">€5.99 <span style="font-size:16px; color:#666;">/month</span></div>
+      <div class="plan-header">${t.basePlanTitle}</div>
+      <div class="plan-price">€5.99 <span style="font-size:16px; color:#666;">${t.perMonth}</span></div>
       <div class="plan-price-annual">
-        €59.00/year <span class="savings">Save €11.88</span>
+        €59.00${t.perYear} <span class="savings">${t.saveLabel} €11.88</span>
       </div>
-      <p style="color:#666; margin:10px 0;"><strong>Limit:</strong> 100 clients</p>
+      <p style="color:#666; margin:10px 0;"><strong>${t.basePlanLimit}</strong></p>
       <ul class="features">
-        <li>Appointment calendar</li>
-        <li>Client management</li>
-        <li>QR/PWA client app</li>
-        <li>Client appointment requests</li>
-        <li>Client notifications</li>
-        <li>Invoice generation</li>
-        <li class="disabled">Google Calendar sync</li>
-        <li class="disabled">Reports and statistics</li>
-        <li class="disabled">Promotional packages</li>
-        <li class="disabled">Multi-staff management</li>
-        <li class="disabled">Product inventory</li>
-        <li class="disabled">AI Marketing campaigns</li>
+        ${renderFeatureList(t.baseFeatures, t.baseDisabled)}
       </ul>
       <div style="text-align:center; margin-top:20px;">
         <a href="${appBaseUrl}/subscribe?plan=base" class="cta-button" style="display:inline-block;">
-          Buy BASE Plan
+          ${t.basePlanBuy}
         </a>
       </div>
     </div>
 
     <!-- PRO Plan -->
     <div class="plan-card featured">
-      <div class="plan-header">⭐ PRO Plan</div>
-      <div class="plan-price">€9.99 <span style="font-size:16px; color:#666;">/month</span></div>
+      <div class="plan-header">${t.proPlanTitle}</div>
+      <div class="plan-price">€9.99 <span style="font-size:16px; color:#666;">${t.perMonth}</span></div>
       <div class="plan-price-annual">
-        €99.00/year <span class="savings">Save €19.88</span>
+        €99.00${t.perYear} <span class="savings">${t.saveLabel} €19.88</span>
       </div>
-      <p style="color:#666; margin:10px 0;"><strong>Limit:</strong> 500 clients</p>
+      <p style="color:#666; margin:10px 0;"><strong>${t.proPlanLimit}</strong></p>
       <ul class="features">
-        <li>All BASE features</li>
-        <li>Google Calendar sync</li>
-        <li>Reports and statistics</li>
-        <li>Promotional packages</li>
-        <li class="disabled">Multi-staff management</li>
-        <li class="disabled">Product inventory</li>
-        <li class="disabled">AI Marketing campaigns</li>
+        ${renderFeatureList(t.proFeatures, t.proDisabled)}
       </ul>
       <div style="text-align:center; margin-top:20px;">
         <a href="${appBaseUrl}/subscribe?plan=pro" class="cta-button" style="display:inline-block;">
-          Buy PRO Plan
+          ${t.proPlanBuy}
         </a>
       </div>
     </div>
 
     <!-- BUSINESS Plan -->
     <div class="plan-card">
-      <div class="plan-header">🚀 BUSINESS Plan</div>
-      <div class="plan-price">€19.99 <span style="font-size:16px; color:#666;">/month</span></div>
+      <div class="plan-header">${t.businessPlanTitle}</div>
+      <div class="plan-price">€19.99 <span style="font-size:16px; color:#666;">${t.perMonth}</span></div>
       <div class="plan-price-annual">
-        €199.00/year <span class="savings">Save €39.88</span>
+        €199.00${t.perYear} <span class="savings">${t.saveLabel} €39.88</span>
       </div>
-      <p style="color:#666; margin:10px 0;"><strong>Unlimited clients</strong></p>
+      <p style="color:#666; margin:10px 0;"><strong>${t.businessPlanLimit}</strong></p>
       <ul class="features">
-        <li>All PRO features</li>
-        <li>Multi-staff management</li>
-        <li>Product inventory</li>
-        <li>AI Marketing campaigns</li>
+        ${renderFeatureList(t.businessFeatures, [])}
       </ul>
       <div style="text-align:center; margin-top:20px;">
         <a href="${appBaseUrl}/subscribe?plan=business" class="cta-button" style="display:inline-block;">
-          Buy BUSINESS Plan
+          ${t.businessPlanBuy}
         </a>
       </div>
     </div>
 
     <p style="margin-top:30px; color:#666;">
-      <strong>Note:</strong> Your data will remain safe and will be available as soon as you activate a subscription.
+      <strong>Note:</strong> ${t.note}
     </p>
   </div>
 
   <div class="footer">
-    <p>Have questions? Contact us by replying to this email.</p>
-    <p style="color:#999; font-size:12px;">This is an automated system notification.</p>
+    <p>${t.contactUs}</p>
+    <p style="color:#999; font-size:12px;">${t.automatedNotice}</p>
   </div>
 </body>
 </html>
@@ -214,7 +202,7 @@ export const trialNotificationService = {
   async sendTrialExpiryEmail(userEmail: string, username: string, expiryDate: Date, userId: number): Promise<boolean> {
     try {
       const emailConfig = await getEmailConfig(userId);
-      
+
       if (!emailConfig || !emailConfig.emailEnabled) {
         console.warn(`⚠️ Email configuration not available for user ${userId}, using environment fallback`);
         if (!process.env.EMAIL_ADDRESS || !process.env.EMAIL_PASSWORD) {
@@ -222,6 +210,10 @@ export const trialNotificationService = {
           return false;
         }
       }
+
+      // Fetch user language preference
+      const lang = await getUserLanguage(userId);
+      const t = getTrialExpiryStrings(lang);
 
       const transporter = nodemailer.createTransport({
         host: emailConfig?.smtpServer || process.env.SMTP_SERVER || 'smtp.gmail.com',
@@ -233,19 +225,19 @@ export const trialNotificationService = {
         },
       });
 
-      const htmlContent = this.generateTrialExpiryEmailHTML(username, expiryDate);
+      const htmlContent = this.generateTrialExpiryEmailHTML(username, expiryDate, lang);
 
       const mailOptions = {
         from: emailConfig?.emailAddress || process.env.EMAIL_ADDRESS,
         to: userEmail,
-        subject: '⏰ Your trial period expires in 10 days',
+        subject: t.subject,
         html: htmlContent,
       };
 
-      console.log(`📧 Sending trial expiry email to ${userEmail}...`);
+      console.log(`📧 Sending trial expiry email to ${userEmail} (lang: ${lang})...`);
       await transporter.sendMail(mailOptions);
       console.log(`✅ Trial expiry email sent successfully to ${userEmail}`);
-      
+
       return true;
     } catch (error: any) {
       console.error(`❌ Error sending trial expiry email to ${userEmail}:`, error.message);
@@ -259,7 +251,7 @@ export const trialNotificationService = {
    */
   async processTrialNotifications(): Promise<{ sent: number; failed: number }> {
     console.log('📧 Starting processing of expiring trial notifications...');
-    
+
     const usersToNotify = await this.findTrialUsersToNotify();
     let sentCount = 0;
     let failedCount = 0;
@@ -281,7 +273,7 @@ export const trialNotificationService = {
               trialNotificationSentAt: new Date(),
             })
             .where(eq(licenses.id, user.licenseId));
-          
+
           sentCount++;
           console.log(`✅ Trial notification sent to ${user.username} (${user.userEmail})`);
         } else {

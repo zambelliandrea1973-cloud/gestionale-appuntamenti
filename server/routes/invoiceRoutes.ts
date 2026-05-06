@@ -1265,14 +1265,21 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
       // Retrieve the user's currency
       const userCurrency = await getCurrencyForUser(storage, user.id);
       const currencySymbol = userCurrency.symbol;
-      
+
+      // Fetch user language for locale-aware labels
+      const { getUserLanguage: getUserLangForPdf } = await import('../utils/userLanguage');
+      const { getInvoicePdfStrings, LOCALE_MAP: LOCALE_MAP_PDF } = await import('../utils/emailTranslations');
+      const pdfLang = await getUserLangForPdf(user.id);
+      const pdfT = getInvoicePdfStrings(pdfLang);
+      const pdfDateLocale = LOCALE_MAP_PDF[pdfLang] ?? 'it-IT';
+
       // Generate HTML for PDF with logo and improved layout
       const htmlContent = `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="UTF-8">
-          <title>Invoice ${invoice.invoiceNumber}</title>
+          <title>${pdfT.invoiceTitle} ${invoice.invoiceNumber}</title>
           <style>
             @page { 
               size: A4 portrait;
@@ -1378,33 +1385,33 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
             <img src="${userLogo}" alt="Logo" />
             <h1>${businessHeader}</h1>
             ${businessData.address || businessData.city || businessData.postalCode ? `
-              <p><strong>Address:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>
+              <p><strong>${pdfT.addressLabel}:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>
             ` : ''}
-            ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : ''}
-            ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : ''}
-            ${businessData.vatNumber ? `<p><strong>VAT No.:</strong> ${businessData.vatNumber}</p>` : ''}
-            ${businessData.fiscalCode ? `<p><strong>Tax Code:</strong> ${businessData.fiscalCode}</p>` : ''}
+            ${businessData.phone ? `<p><strong>${pdfT.telLabel}:</strong> ${businessData.phone}</p>` : ''}
+            ${businessData.email ? `<p><strong>${pdfT.emailLabel}:</strong> ${businessData.email}</p>` : ''}
+            ${businessData.vatNumber ? `<p><strong>${pdfT.vatNoLabel}:</strong> ${businessData.vatNumber}</p>` : ''}
+            ${businessData.fiscalCode ? `<p><strong>${pdfT.taxCodeLabel}:</strong> ${businessData.fiscalCode}</p>` : ''}
           </div>
           
           <div class="invoice-info">
             <div class="client-info">
-              <h3>Client Details</h3>
-              <p><strong>Name:</strong> ${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Client'}</p>
-              ${clientDetails?.address ? `<p><strong>Address:</strong> ${clientDetails.address}</p>` : ''}
-              ${clientDetails?.phone ? `<p><strong>Phone:</strong> ${clientDetails.phone}</p>` : ''}
-              ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
-              ${clientDetails?.taxCode ? `<p><strong>Tax Code:</strong> ${clientDetails.taxCode}</p>` : ''}
-              ${clientDetails?.vatNumber ? `<p><strong>VAT Number:</strong> ${clientDetails.vatNumber}</p>` : ''}
-              ${clientDetails?.birthday ? `<p><strong>Date of Birth:</strong> ${new Date(clientDetails.birthday).toLocaleDateString('en-GB')}</p>` : ''}
+              <h3>${pdfT.clientDetails}</h3>
+              <p><strong>${pdfT.nameLabel}:</strong> ${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Client'}</p>
+              ${clientDetails?.address ? `<p><strong>${pdfT.addressLabel}:</strong> ${clientDetails.address}</p>` : ''}
+              ${clientDetails?.phone ? `<p><strong>${pdfT.phoneLabel}:</strong> ${clientDetails.phone}</p>` : ''}
+              ${clientDetails?.email ? `<p><strong>${pdfT.emailLabel}:</strong> ${clientDetails.email}</p>` : ''}
+              ${clientDetails?.taxCode ? `<p><strong>${pdfT.taxCodeLabel}:</strong> ${clientDetails.taxCode}</p>` : ''}
+              ${clientDetails?.vatNumber ? `<p><strong>${pdfT.vatNumberLabel}:</strong> ${clientDetails.vatNumber}</p>` : ''}
+              ${clientDetails?.birthday ? `<p><strong>${pdfT.dateOfBirthLabel}:</strong> ${new Date(clientDetails.birthday).toLocaleDateString(pdfDateLocale)}</p>` : ''}
             </div>
             <div class="invoice-details">
-              <h3>Invoice No. ${invoice.invoiceNumber}</h3>
-              <p><strong>Date:</strong> ${new Date(invoice.date).toLocaleDateString('en-GB')}</p>
-              <p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString('en-GB')}</p>
-              <p><strong>Status:</strong> ${
-                invoice.status === 'paid' ? 'Paid' :
-                invoice.status === 'sent' ? 'Sent' :
-                invoice.status === 'overdue' ? 'Overdue' : 'Draft'
+              <h3>${pdfT.invoiceNoLabel} ${invoice.invoiceNumber}</h3>
+              <p><strong>${pdfT.dateLabel}:</strong> ${new Date(invoice.date).toLocaleDateString(pdfDateLocale)}</p>
+              <p><strong>${pdfT.dueDateLabel}:</strong> ${new Date(invoice.dueDate).toLocaleDateString(pdfDateLocale)}</p>
+              <p><strong>${pdfT.statusLabel}:</strong> ${
+                invoice.status === 'paid' ? pdfT.statusPaid :
+                invoice.status === 'sent' ? pdfT.statusSent :
+                invoice.status === 'overdue' ? pdfT.statusOverdue : pdfT.statusDraft
               }</p>
             </div>
           </div>
@@ -1412,10 +1419,10 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
           <table class="items-table">
             <thead>
               <tr>
-                <th style="width: 50%;">Description</th>
-                <th style="width: 15%; text-align: center;">Quantity</th>
-                <th style="width: 17.5%; text-align: right;">Unit Price</th>
-                <th style="width: 17.5%; text-align: right;">Total</th>
+                <th style="width: 50%;">${pdfT.descriptionCol}</th>
+                <th style="width: 15%; text-align: center;">${pdfT.quantityCol}</th>
+                <th style="width: 17.5%; text-align: right;">${pdfT.unitPriceCol}</th>
+                <th style="width: 17.5%; text-align: right;">${pdfT.totalCol}</th>
               </tr>
             </thead>
             <tbody>
@@ -1435,7 +1442,7 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
                 </tr>
               `}
               <tr class="total-row">
-                <td colspan="3" style="text-align: right; padding: 15px;"><strong>TOTAL:</strong></td>
+                <td colspan="3" style="text-align: right; padding: 15px;"><strong>${pdfT.totalLabel}:</strong></td>
                 <td style="text-align: right; padding: 15px;"><strong>${currencySymbol}${invoice.totalAmount.toFixed(2)}</strong></td>
               </tr>
             </tbody>
@@ -1443,14 +1450,14 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
           
           ${invoice.notes ? `
             <div class="notes-section">
-              <h4>Notes</h4>
+              <h4>${pdfT.notesLabel}</h4>
               <p>${invoice.notes}</p>
             </div>
           ` : ''}
           
           <div class="footer">
-            <p>Thank you for choosing our services</p>
-            <p style="margin-top: 10px; font-size: 9pt;">Document generated on ${new Date().toLocaleDateString('en-GB')}</p>
+            <p>${pdfT.thankYou}</p>
+            <p style="margin-top: 10px; font-size: 9pt;">${pdfT.documentGenerated} ${new Date().toLocaleDateString(pdfDateLocale)}</p>
           </div>
         </body>
         </html>
@@ -1810,11 +1817,17 @@ router.get('/api/invoices/:id/email-suggestions', async (req, res) => {
         }
       }
       
-      // Create custom subject and message
+      // Fetch user language for locale-aware date in suggestion message
+      const { getUserLanguage: getUserLangForSug } = await import('../utils/userLanguage');
+      const { LOCALE_MAP: LOCALE_MAP_SUG } = await import('../utils/emailTranslations');
+      const sugLang = await getUserLangForSug(user.id);
+      const sugDateLocale = LOCALE_MAP_SUG[sugLang] ?? 'it-IT';
+
+      // Create custom subject and message (in user's language — English fallback for subject/message body)
       const subject = `Invoice ${invoice.invoiceNumber} - ${businessName}`;
       const message = `Dear ${invoice.clientName || 'Client'},
 
-Please find attached invoice no. ${invoice.invoiceNumber} dated ${new Date(invoice.issueDate).toLocaleDateString('en-GB')}.
+Please find attached invoice no. ${invoice.invoiceNumber} dated ${new Date(invoice.issueDate).toLocaleDateString(sugDateLocale)}.
 
 Total amount: ${currencySymbol}${invoice.totalAmount.toFixed(2)}
 
@@ -2698,6 +2711,9 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                 
                 // Load logo personalizzato (usa invoice.userId = professional owner, NON user.id = admin)
                 const { loadUserLogo, buildInvoiceHtml, generatePdfBuffer } = await import('../utils/invoicePdf');
+                const { getUserLanguage } = await import('../utils/userLanguage');
+                const { formatDateShort, LOCALE_MAP, getInvoicePdfStrings, normalizeLang } = await import('../utils/emailTranslations');
+                const invoiceOwnerLang = await getUserLanguage(invoice.userId);
                 const logoBase64 = await loadUserLogo(invoice.userId);
                 
                 // Load company data (usa invoice.userId = professional owner)
@@ -2737,10 +2753,11 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                 const currencySymbol = userCurrency.symbol;
                 
                 // Build context for the template
+                const invoiceDateLocale = LOCALE_MAP[invoiceOwnerLang] || 'en-GB';
                 const context = {
                   invoiceNumber: invoice.invoiceNumber,
-                  date: new Date(invoice.date).toLocaleDateString('en-GB'),
-                  dueDate: new Date(invoice.dueDate).toLocaleDateString('en-GB'),
+                  date: new Date(invoice.date).toLocaleDateString(invoiceDateLocale),
+                  dueDate: new Date(invoice.dueDate).toLocaleDateString(invoiceDateLocale),
                   status: invoice.status,
                   totalAmount: invoice.totalAmount,
                   tax: invoice.tax || 0,
@@ -2752,7 +2769,7 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                   clientEmail: client.email || undefined,
                   clientTaxCode: (client as any).tax_code || (client as any).taxCode || undefined,
                   clientVatNumber: (client as any).vat_number || (client as any).vatNumber || undefined,
-                  clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString('en-GB') : undefined,
+                  clientBirthday: client.birthday ? new Date(client.birthday).toLocaleDateString(invoiceDateLocale) : undefined,
                   
                   businessHeader,
                   businessAddress: businessData.address || undefined,
@@ -2771,7 +2788,8 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                   })),
                   
                   logoBase64,
-                  currencySymbol
+                  currencySymbol,
+                  language: invoiceOwnerLang
                 };
                 
                 // Generate HTML professionale con logo e grafica

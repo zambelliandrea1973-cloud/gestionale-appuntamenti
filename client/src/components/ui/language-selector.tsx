@@ -6,19 +6,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Globe, ChevronDown } from 'lucide-react';
+import { Globe } from 'lucide-react';
 
 export function LanguageSelector() {
   const { t, i18n } = useTranslation();
-  
+
   const handleLanguageChange = (value: string) => {
     i18n.changeLanguage(value);
-    // Salva la lingua selezionata nel localStorage
     localStorage.setItem('i18nextLng', value);
+    // Persist language preference to the server (fire-and-forget)
+    fetch('/api/user/language', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ language: value }),
+    }).catch(() => {
+      // Silent fail — localStorage already stores the preference
+    });
   };
 
-  // Funzione per ottenere il nome della lingua corrente
-  // Normalizza il codice lingua (es. "it-IT" -> "it")
   const getCurrentLanguageName = () => {
     const langCode = i18n.language.split('-')[0];
     return t(`language.${langCode}`);

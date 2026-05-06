@@ -1280,6 +1280,25 @@ router.get("/api/currency-settings", async (req, res) => {
     }
   });
 
+  // Endpoint to save user language preference
+router.post("/api/user/language", requireAuth, async (req, res) => {
+    try {
+      const userId = req.user!.id;
+      const { language } = req.body;
+      const { normalizeLang } = await import('../utils/emailTranslations');
+      const lang = normalizeLang(language);
+      const currentSettings = await storage.getUserSettings(userId);
+      const currentPrefs = (currentSettings?.preferences as any) || {};
+      await storage.updateUserSettings(userId, {
+        preferences: { ...currentPrefs, language: lang }
+      });
+      res.json({ success: true, language: lang });
+    } catch (error: any) {
+      console.error('❌ [POST] Error saving language preference:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
   // Endpoint to save currency settings
 router.post("/api/currency-settings", async (req, res) => {
     if (!req.isAuthenticated()) {

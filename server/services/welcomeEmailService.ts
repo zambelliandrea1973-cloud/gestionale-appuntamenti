@@ -1,16 +1,20 @@
 import { sendSystemEmail } from './systemEmailService';
+import { normalizeLang, SupportedLang, getWelcomeStrings } from '../utils/emailTranslations';
 
 export const welcomeEmailService = {
   async sendWelcomeEmail(
     recipientEmail: string,
     username: string,
     password: string,
-    name?: string
+    name?: string,
+    language?: string
   ): Promise<boolean> {
     try {
+      const lang: SupportedLang = normalizeLang(language);
+      const t = getWelcomeStrings(lang);
       const displayName = name || username;
       const appUrl = process.env.PRODUCTION_DOMAIN || process.env.APP_BASE_URL || 'https://gestionale-appuntamenti.sliplane.app';
-      
+
       const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -32,33 +36,33 @@ export const welcomeEmailService = {
 <body>
   <div class="container">
     <div class="header">
-      <h1>Welcome to Appointment Manager!</h1>
+      <h1>${t.title}</h1>
     </div>
     <div class="content">
-      <p>Hello <strong>${displayName}</strong>,</p>
-      <p>Your registration has been completed successfully! You can now access the platform to manage your appointments easily and professionally.</p>
-      
+      <p>${t.greeting} <strong>${displayName}</strong>,</p>
+      <p>${t.registrationSuccess}</p>
+
       <div class="credentials">
-        <h3>Your login credentials</h3>
+        <h3>${t.credentialsTitle}</h3>
         <div class="credential-item">
-          <span class="label">Username:</span> <span class="value">${username}</span>
+          <span class="label">${t.usernameLabel}:</span> <span class="value">${username}</span>
         </div>
         <div class="credential-item">
-          <span class="label">Password:</span> <span class="value">${password}</span>
+          <span class="label">${t.passwordLabel}:</span> <span class="value">${password}</span>
         </div>
       </div>
-      
-      <p><strong>Important:</strong> We recommend keeping these credentials in a safe place and changing your password on first login.</p>
-      
-      <p>You have <strong>40 days of free trial</strong> to explore all platform features!</p>
-      
+
+      <p><strong>${t.importantNote}</strong></p>
+
+      <p>${t.trialNote}</p>
+
       <center>
-        <a href="${appUrl}" class="button">Access the Platform</a>
+        <a href="${appUrl}" class="button">${t.accessButton}</a>
       </center>
-      
+
       <div class="footer">
-        <p>If you have any questions or need assistance, please do not hesitate to contact us.</p>
-        <p>Thank you for choosing Appointment Manager!</p>
+        <p>${t.helpText}</p>
+        <p>${t.thankYou}</p>
       </div>
     </div>
   </div>
@@ -67,34 +71,34 @@ export const welcomeEmailService = {
       `;
 
       const textContent = `
-Welcome to Appointment Manager!
+${t.title}
 
-Hello ${displayName},
+${t.greeting} ${displayName},
 
-Your registration has been completed successfully!
+${t.registrationSuccess}
 
-Your login credentials:
-- Username: ${username}
-- Password: ${password}
+${t.credentialsTitle}:
+- ${t.usernameLabel}: ${username}
+- ${t.passwordLabel}: ${password}
 
-Important: We recommend keeping these credentials in a safe place and changing your password on first login.
+${t.importantNote}
 
-You have 40 days of free trial to explore all platform features!
+${t.trialNote.replace(/<[^>]+>/g, '')}
 
-Access the platform: ${appUrl}
+${t.accessButton}: ${appUrl}
 
-Thank you for choosing Appointment Manager!
+${t.thankYou}
       `;
 
       const result = await sendSystemEmail(
         recipientEmail,
-        'Welcome to Appointment Manager - Your login credentials',
+        t.subject,
         htmlContent,
         textContent
       );
 
       if (result.success) {
-        console.log(`📧 [WELCOME EMAIL] Welcome email sent to ${recipientEmail}`);
+        console.log(`📧 [WELCOME EMAIL] Welcome email sent to ${recipientEmail} (lang: ${lang})`);
       } else {
         console.log(`📧 [WELCOME EMAIL] Welcome email NOT sent to ${recipientEmail}: ${result.error}`);
       }
