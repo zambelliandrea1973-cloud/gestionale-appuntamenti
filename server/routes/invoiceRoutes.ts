@@ -1890,14 +1890,14 @@ ${businessName}`;
     
     // Same logic as the /pdf endpoint for company data
     let businessInfo = {
-      nome: 'busnari silvia',
-      indirizzo: 'via largo caduti nassiria 17', 
-      citta: 'olgiate comasco',
-      cap: '22100',
-      partitaIva: 'it32445929',
+      nome: '',
+      indirizzo: '',
+      citta: '',
+      cap: '',
+      partitaIva: '',
       codiceFiscale: '',
-      telefono: '3471445767',
-      email: 'silvia.busnari@libero.it'
+      telefono: '',
+      email: ''
     };
     
     try {
