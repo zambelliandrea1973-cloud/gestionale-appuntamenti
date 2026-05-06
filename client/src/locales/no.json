@@ -437,7 +437,7 @@
       "messageText": "Hei {{name}}, her er lenken din for å få tilgang til det reserverte området:"
     },
     "adminPersonalClientsHint": "Dine personlige kunder vises her. Bruk 'Personale'-fanen for å se kundene til andre fagfolk.",
-    "loadMore": "Load more"
+    "loadMore": "Last inn mer"
   },
   "invoices": {
     "title": "Fakturaadministrasjon",
@@ -669,35 +669,35 @@
       "templatePlaceholder": "F.eks. Kjære {{nome}}, dette er en påminnelse for din {{servizio}}-avtale den {{data}} kl. {{ora}} med {{collaboratore}} i {{stanza}}.",
       "templateHelp": "Bruk variabler for å inkludere spesifikk avtaleinformasjon.",
       "setAsDefault": "Angi som standardmal",
-      "default": "Default",
-      "noTemplates": "No reminder templates defined",
-      "createFirst": "Create the first template"
+      "default": "Standard",
+      "noTemplates": "Ingen påminnelsesmaler definert",
+      "createFirst": "Opprett den første malen"
     },
     "contactInfo": {
       "phone1": "Primærtelefon",
       "phone1Desc": "Primært telefonnummer for kontakter",
       "phone2Desc": "Sekundært telefonnummer (valgfritt)",
       "websiteDesc": "Skriv inn bare domenet (eksempel.no) eller den fullstendige URL-en (https://eksempel.no)",
-      "validationError": "Validation error",
-      "checkFields": "Please check the highlighted fields",
-      "saveSuccess": "Save complete",
-      "saveSuccessDesc": "Contact information has been updated successfully",
-      "saveError": "An error occurred while saving",
-      "saveErrorTitle": "Save error",
-      "title": "Contact information",
-      "description": "Enter the contact information that will be displayed in the client app",
-      "errorTitle": "Error",
-      "email": "Email",
-      "emailDesc": "Public contact email address",
-      "phone2": "Secondary phone",
-      "website": "Website",
+      "validationError": "Valideringsfeil",
+      "checkFields": "Sjekk de merkede feltene",
+      "saveSuccess": "Lagring fullført",
+      "saveSuccessDesc": "Kontaktinformasjonen er oppdatert",
+      "saveError": "Det oppstod en feil under lagring",
+      "saveErrorTitle": "Lagringsfeil",
+      "title": "Kontaktinformasjon",
+      "description": "Fyll inn kontaktinformasjonen som vil vises i klientappen",
+      "errorTitle": "Feil",
+      "email": "E-post",
+      "emailDesc": "Offentlig e-postadresse for kontakt",
+      "phone2": "Sekundær telefon",
+      "website": "Nettside",
       "facebook": "Facebook",
-      "facebookDesc": "Page name or full Facebook URL",
+      "facebookDesc": "Sidenavn eller full Facebook-URL",
       "instagram": "Instagram",
-      "instagramDesc": "Username or full Instagram URL",
-      "saving": "Saving...",
-      "save": "Save contact information",
-      "invalidFormat": "Invalid format"
+      "instagramDesc": "Brukernavn eller full Instagram-URL",
+      "saving": "Lagrer...",
+      "save": "Lagre kontaktinformasjon",
+      "invalidFormat": "Ugyldig format"
     }
   },
   "common": {
@@ -735,10 +735,10 @@
     "view": "Vis",
     "hidePassword": "Skjul passord",
     "showPassword": "Vis passord",
-    "support": "Support",
-    "terms": "Terms of Service",
-    "copyFailed": "Unable to copy to clipboard",
-    "reset": "Reset"
+    "support": "Støtte",
+    "terms": "Tjenestevilkår",
+    "copyFailed": "Kan ikke kopiere til utklippstavlen",
+    "reset": "Tilbakestill"
   },
   "notifications": {
     "clientDeleted": "Kunde slettet",
@@ -1254,11 +1254,11 @@
     "currentRole": "Din nåværende rolle: {{role}}",
     "required": "Innlogging kreves",
     "loginRequired": "Du må være logget inn for å få tilgang til denne seksjonen",
-    "logoutSuccess": "Logout successful",
-    "redirecting": "Redirecting...",
-    "logoutError": "Logout error",
-    "tryAgain": "Please try again",
-    "loggingOut": "Logging out..."
+    "logoutSuccess": "Utlogging vellykket",
+    "redirecting": "Omdirigerer...",
+    "logoutError": "Utloggingsfeil",
+    "tryAgain": "Prøv igjen",
+    "loggingOut": "Logger ut..."
   },
   "clientArea": {
     "installApp": "Installer app",
@@ -5497,43 +5497,43 @@
     "syncDetails": "📥 Importert: {{imported}} | 📤 Eksportert: {{exported}} | 🗑️ Slettet: {{deleted}}",
     "calendarEvent": "Google Kalender-hendelse",
     "cannotDeleteImported": "Denne hendelsen ble importert fra Google Kalender og kan ikke slettes fra appen. For å slette den, gå direkte til Google Kalender.",
-    "popupBlocked": "The popup was blocked. Please disable the popup blocker for this site.",
-    "authSuccess": "Authorization complete",
-    "calendarConnected": "Your Google Calendar has been connected successfully",
-    "startAuthError": "Unable to start Google authorization",
-    "unknownError": "An error occurred during disconnection",
-    "syncEnabled": "Sync enabled",
-    "syncExplanation": "When you create or edit an appointment, it will be automatically updated in your Google Calendar.",
-    "syncDisabled": "Sync disabled",
-    "authRevoked": "Authorization revoked",
-    "calendarDisconnected": "Google Calendar has been disconnected",
-    "revokeError": "An error occurred while revoking authorization",
-    "syncComplete": "Sync complete",
-    "syncError": "Sync error",
-    "syncFailedError": "Sync failed",
-    "enableSync": "Enable sync",
-    "syncActive": "Sync active",
-    "connecting": "Connecting...",
-    "advancedSettings": "Advanced settings",
-    "authStarted": "Authorization started",
-    "authOpenedWindow": "A new window has been opened for Google authorization",
-    "authError": "Authorization error",
-    "genericError": "An error occurred while starting authorization",
-    "testSuccess": "Test completed successfully",
-    "configCorrect": "The Google configuration appears correct",
-    "testFailed": "Test failed",
-    "configError": "An error occurred with the Google configuration",
-    "networkError": "Network error during test",
-    "setupTitle": "Google Calendar Setup",
-    "setupDescription": "Follow these steps to correctly set up the Google Calendar integration.",
-    "enableAPIDesc": "Enable Google Calendar and Gmail APIs for the integration",
-    "searchCalendar": "Search \"Google Calendar API\", select it and click \"Enable\"",
-    "searchGmail": "Search \"Gmail API\", select it and click \"Enable\"",
-    "clickCreate": "Click \"Create credentials\" > \"OAuth client ID\"",
-    "clientID": "Client ID",
-    "clientSecret": "Client Secret",
-    "error400": "Error 400: redirect_uri_mismatch",
-    "error403": "Error 403: access_denied"
+    "popupBlocked": "Popup-vinduet ble blokkert. Deaktiver popup-blokkering for dette nettstedet.",
+    "authSuccess": "Autorisasjon fullført",
+    "calendarConnected": "Google Kalender er koblet til",
+    "startAuthError": "Kan ikke starte Google-autorisasjon",
+    "unknownError": "Det oppstod en feil under frakobling",
+    "syncEnabled": "Synkronisering aktivert",
+    "syncExplanation": "Når du oppretter eller redigerer en avtale, oppdateres den automatisk i Google Kalender.",
+    "syncDisabled": "Synkronisering deaktivert",
+    "authRevoked": "Autorisasjon tilbakekalt",
+    "calendarDisconnected": "Google Kalender er koblet fra",
+    "revokeError": "Det oppstod en feil under tilbakekalling av autorisasjon",
+    "syncComplete": "Synkronisering fullført",
+    "syncError": "Synkroniseringsfeil",
+    "syncFailedError": "Synkronisering mislyktes",
+    "enableSync": "Aktiver synkronisering",
+    "syncActive": "Synkronisering aktiv",
+    "connecting": "Kobler til...",
+    "advancedSettings": "Avanserte innstillinger",
+    "authStarted": "Autorisasjon startet",
+    "authOpenedWindow": "Et nytt vindu ble åpnet for Google-autorisasjon",
+    "authError": "Autorisasjonsfeil",
+    "genericError": "Det oppstod en feil under oppstart av autorisasjon",
+    "testSuccess": "Test fullført",
+    "configCorrect": "Google-konfigurasjonen ser ut til å være korrekt",
+    "testFailed": "Test mislyktes",
+    "configError": "Det oppstod en feil med Google-konfigurasjonen",
+    "networkError": "Nettverksfeil under test",
+    "setupTitle": "Google Kalender-oppsett",
+    "setupDescription": "Følg disse trinnene for å konfigurere Google Kalender-integrasjonen riktig.",
+    "enableAPIDesc": "Aktiver Google Kalender- og Gmail-API-er for integrasjonen",
+    "searchCalendar": "Søk etter \"Google Calendar API\", velg det og klikk på \"Aktiver\"",
+    "searchGmail": "Søk etter \"Gmail API\", velg det og klikk på \"Aktiver\"",
+    "clickCreate": "Klikk på \"Opprett legitimasjon\" > \"OAuth-klient-ID\"",
+    "clientID": "Klient-ID",
+    "clientSecret": "Klienthemmelighet",
+    "error400": "Feil 400: redirect_uri_mismatch",
+    "error403": "Feil 403: access_denied"
   },
   "landingBicom": {
     "header": {
@@ -6125,11 +6125,11 @@
     "licenseRequired": "Denne seksjonen krever en {{license}}-lisens",
     "upgrade": "Oppgrader til {{license}}",
     "type": {
-      "trial": "Trial",
-      "base": "Base",
+      "trial": "Prøveperiode",
+      "base": "Basis",
       "pro": "Pro",
-      "business": "Business",
-      "staff": "Staff",
+      "business": "Bedrift",
+      "staff": "Ansatte",
       "passepartout": "Master"
     }
   },
@@ -6155,14 +6155,14 @@
       "info": "Betalingen din er mottatt og abonnementet ditt vil bli aktivert snart.",
       "wait": "Vent et øyeblikk mens vi behandler transaksjonen.",
       "refresh": "Hvis siden ikke oppdateres automatisk, last den inn på nytt om noen minutter.",
-      "description": "Your payment is being processed. This may take a few minutes. Check your subscription status in your personal area."
+      "description": "Betalingen din behandles. Dette kan ta noen minutter. Sjekk abonnementsstatusen din i ditt personlige område."
     },
     "checking": "Kontrollerer abonnementsstatus...",
     "success": {
       "description": "Takk for at du abonnerer. Kontoen din er oppdatert.",
       "activated": "Abonnementet ditt er aktivert.",
       "access": "Du har nå tilgang til alle premium-funksjoner.",
-      "title": "Payment completed successfully!"
+      "title": "Betaling fullført!"
     },
     "plan": "Plan",
     "activePlan": "Aktiv plan",
@@ -6174,13 +6174,13 @@
     "supportInfo": "For spørsmål om abonnementet ditt, kontakt support. Ta vare på betalingskvitteringen du mottar via e-post.",
     "return": "Tilbake til dashbord",
     "cancel": {
-      "title": "Payment not completed",
-      "description": "The payment process was interrupted or cancelled.",
-      "info": "Your payment was not processed and you have not been charged.",
-      "retry": "You can retry the payment at any time from the subscription page.",
-      "tryAgain": "Retry payment"
+      "title": "Betaling ikke fullført",
+      "description": "Betalingsprosessen ble avbrutt eller kansellert.",
+      "info": "Betalingen din ble ikke behandlet og du ble ikke belastet.",
+      "retry": "Du kan prøve betalingen på nytt når som helst fra abonnementssiden.",
+      "tryAgain": "Prøv betaling på nytt"
     },
-    "nextBilling": "Next billing"
+    "nextBilling": "Neste fakturering"
   },
   "stripe": {
     "payWithCard": "Betal med kredittkort",
@@ -6200,11 +6200,11 @@
   },
   "user": {
     "type": {
-      "admin": "Admin",
-      "staff": "Staff",
-      "user": "User",
-      "customer": "Customer",
-      "client": "Client"
+      "admin": "Administrator",
+      "staff": "Ansatte",
+      "user": "Bruker",
+      "customer": "Kunde",
+      "client": "Klient"
     }
   }
 }

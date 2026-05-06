@@ -437,7 +437,7 @@
       "messageText": "Hallo {{name}}, hier is uw link om toegang te krijgen tot het beveiligde gebied:"
     },
     "adminPersonalClientsHint": "Uw persoonlijke klanten verschijnen hier. Gebruik het tabblad 'Personeel' om klanten van andere professionals te zien.",
-    "loadMore": "Load more"
+    "loadMore": "Meer laden"
   },
   "invoices": {
     "title": "Factuurbeheer",
@@ -669,35 +669,35 @@
       "templatePlaceholder": "Bijv. Beste {{nome}}, dit is een herinnering voor uw {{servizio}} afspraak op {{data}} om {{ora}} met {{collaboratore}} in {{stanza}}.",
       "templateHelp": "Gebruik variabelen om specifieke afspraakgegevens op te nemen.",
       "setAsDefault": "Als standaardsjabloon instellen",
-      "default": "Default",
-      "noTemplates": "No reminder templates defined",
-      "createFirst": "Create the first template"
+      "default": "Standaard",
+      "noTemplates": "Geen herinneringssjablonen gedefinieerd",
+      "createFirst": "Eerste sjabloon aanmaken"
     },
     "contactInfo": {
       "phone1": "Primaire telefoon",
       "phone1Desc": "Primair telefoonnummer voor contacten",
       "phone2Desc": "Secundair telefoonnummer (optioneel)",
       "websiteDesc": "Voer alleen het domein (voorbeeld.nl) of de volledige URL (https://voorbeeld.nl) in",
-      "validationError": "Validation error",
-      "checkFields": "Please check the highlighted fields",
-      "saveSuccess": "Save complete",
-      "saveSuccessDesc": "Contact information has been updated successfully",
-      "saveError": "An error occurred while saving",
-      "saveErrorTitle": "Save error",
-      "title": "Contact information",
-      "description": "Enter the contact information that will be displayed in the client app",
-      "errorTitle": "Error",
-      "email": "Email",
-      "emailDesc": "Public contact email address",
-      "phone2": "Secondary phone",
+      "validationError": "Validatiefout",
+      "checkFields": "Controleer de gemarkeerde velden",
+      "saveSuccess": "Opslaan voltooid",
+      "saveSuccessDesc": "Contactinformatie is succesvol bijgewerkt",
+      "saveError": "Er is een fout opgetreden bij het opslaan",
+      "saveErrorTitle": "Opslagfout",
+      "title": "Contactinformatie",
+      "description": "Voer de contactinformatie in die wordt weergegeven in de klanten-app",
+      "errorTitle": "Fout",
+      "email": "E-mail",
+      "emailDesc": "Openbaar e-mailadres voor contact",
+      "phone2": "Tweede telefoonnummer",
       "website": "Website",
       "facebook": "Facebook",
-      "facebookDesc": "Page name or full Facebook URL",
+      "facebookDesc": "Paginanaam of volledige Facebook-URL",
       "instagram": "Instagram",
-      "instagramDesc": "Username or full Instagram URL",
-      "saving": "Saving...",
-      "save": "Save contact information",
-      "invalidFormat": "Invalid format"
+      "instagramDesc": "Gebruikersnaam of volledige Instagram-URL",
+      "saving": "Opslaan...",
+      "save": "Contactinformatie opslaan",
+      "invalidFormat": "Ongeldig formaat"
     }
   },
   "common": {
@@ -735,10 +735,10 @@
     "view": "Bekijken",
     "hidePassword": "Wachtwoord verbergen",
     "showPassword": "Wachtwoord weergeven",
-    "support": "Support",
-    "terms": "Terms of Service",
-    "copyFailed": "Unable to copy to clipboard",
-    "reset": "Reset"
+    "support": "Ondersteuning",
+    "terms": "Servicevoorwaarden",
+    "copyFailed": "Kan niet naar klembord kopiëren",
+    "reset": "Opnieuw instellen"
   },
   "notifications": {
     "clientDeleted": "Klant verwijderd",
@@ -1254,11 +1254,11 @@
     "currentRole": "Uw huidige rol: {{role}}",
     "required": "Inloggen vereist",
     "loginRequired": "U moet ingelogd zijn om toegang te krijgen tot dit gedeelte",
-    "logoutSuccess": "Logout successful",
-    "redirecting": "Redirecting...",
-    "logoutError": "Logout error",
-    "tryAgain": "Please try again",
-    "loggingOut": "Logging out..."
+    "logoutSuccess": "Uitloggen geslaagd",
+    "redirecting": "Doorsturen...",
+    "logoutError": "Uitlogfout",
+    "tryAgain": "Probeer het opnieuw",
+    "loggingOut": "Uitloggen..."
   },
   "clientArea": {
     "installApp": "App installeren",
@@ -5497,43 +5497,43 @@
     "syncDetails": "📥 Geïmporteerd: {{imported}} | 📤 Geëxporteerd: {{exported}} | 🗑️ Verwijderd: {{deleted}}",
     "calendarEvent": "Google Agenda-evenement",
     "cannotDeleteImported": "Dit evenement is geïmporteerd vanuit Google Agenda en kan niet worden verwijderd via de app. Ga rechtstreeks naar Google Agenda om het te verwijderen.",
-    "popupBlocked": "The popup was blocked. Please disable the popup blocker for this site.",
-    "authSuccess": "Authorization complete",
-    "calendarConnected": "Your Google Calendar has been connected successfully",
-    "startAuthError": "Unable to start Google authorization",
-    "unknownError": "An error occurred during disconnection",
-    "syncEnabled": "Sync enabled",
-    "syncExplanation": "When you create or edit an appointment, it will be automatically updated in your Google Calendar.",
-    "syncDisabled": "Sync disabled",
-    "authRevoked": "Authorization revoked",
-    "calendarDisconnected": "Google Calendar has been disconnected",
-    "revokeError": "An error occurred while revoking authorization",
-    "syncComplete": "Sync complete",
-    "syncError": "Sync error",
-    "syncFailedError": "Sync failed",
-    "enableSync": "Enable sync",
-    "syncActive": "Sync active",
-    "connecting": "Connecting...",
-    "advancedSettings": "Advanced settings",
-    "authStarted": "Authorization started",
-    "authOpenedWindow": "A new window has been opened for Google authorization",
-    "authError": "Authorization error",
-    "genericError": "An error occurred while starting authorization",
-    "testSuccess": "Test completed successfully",
-    "configCorrect": "The Google configuration appears correct",
-    "testFailed": "Test failed",
-    "configError": "An error occurred with the Google configuration",
-    "networkError": "Network error during test",
-    "setupTitle": "Google Calendar Setup",
-    "setupDescription": "Follow these steps to correctly set up the Google Calendar integration.",
-    "enableAPIDesc": "Enable Google Calendar and Gmail APIs for the integration",
-    "searchCalendar": "Search \"Google Calendar API\", select it and click \"Enable\"",
-    "searchGmail": "Search \"Gmail API\", select it and click \"Enable\"",
-    "clickCreate": "Click \"Create credentials\" > \"OAuth client ID\"",
-    "clientID": "Client ID",
-    "clientSecret": "Client Secret",
-    "error400": "Error 400: redirect_uri_mismatch",
-    "error403": "Error 403: access_denied"
+    "popupBlocked": "De pop-up is geblokkeerd. Schakel de pop-upblokkering voor deze site uit.",
+    "authSuccess": "Autorisatie voltooid",
+    "calendarConnected": "Uw Google Agenda is succesvol verbonden",
+    "startAuthError": "Kan Google-autorisatie niet starten",
+    "unknownError": "Er is een fout opgetreden bij het verbreken van de verbinding",
+    "syncEnabled": "Synchronisatie ingeschakeld",
+    "syncExplanation": "Wanneer u een afspraak maakt of bewerkt, wordt deze automatisch bijgewerkt in uw Google Agenda.",
+    "syncDisabled": "Synchronisatie uitgeschakeld",
+    "authRevoked": "Autorisatie ingetrokken",
+    "calendarDisconnected": "Google Agenda is losgekoppeld",
+    "revokeError": "Er is een fout opgetreden bij het intrekken van de autorisatie",
+    "syncComplete": "Synchronisatie voltooid",
+    "syncError": "Synchronisatiefout",
+    "syncFailedError": "Synchronisatie mislukt",
+    "enableSync": "Synchronisatie inschakelen",
+    "syncActive": "Synchronisatie actief",
+    "connecting": "Verbinden...",
+    "advancedSettings": "Geavanceerde instellingen",
+    "authStarted": "Autorisatie gestart",
+    "authOpenedWindow": "Er is een nieuw venster geopend voor Google-autorisatie",
+    "authError": "Autorisatiefout",
+    "genericError": "Er is een fout opgetreden bij het starten van de autorisatie",
+    "testSuccess": "Test succesvol voltooid",
+    "configCorrect": "De Google-configuratie lijkt correct",
+    "testFailed": "Test mislukt",
+    "configError": "Er is een fout opgetreden met de Google-configuratie",
+    "networkError": "Netwerkfout tijdens de test",
+    "setupTitle": "Google Agenda-instelling",
+    "setupDescription": "Volg deze stappen om de Google Agenda-integratie correct in te stellen.",
+    "enableAPIDesc": "Schakel Google Agenda- en Gmail-API's in voor de integratie",
+    "searchCalendar": "Zoek \"Google Calendar API\", selecteer het en klik op \"Inschakelen\"",
+    "searchGmail": "Zoek \"Gmail API\", selecteer het en klik op \"Inschakelen\"",
+    "clickCreate": "Klik op \"Referenties maken\" > \"OAuth-client-ID\"",
+    "clientID": "Client-ID",
+    "clientSecret": "Clientgeheim",
+    "error400": "Fout 400: redirect_uri_mismatch",
+    "error403": "Fout 403: access_denied"
   },
   "landingBicom": {
     "header": {
@@ -6125,11 +6125,11 @@
     "licenseRequired": "Dit gedeelte vereist een {{license}}-licentie",
     "upgrade": "Upgraden naar {{license}}",
     "type": {
-      "trial": "Trial",
-      "base": "Base",
+      "trial": "Proefperiode",
+      "base": "Basis",
       "pro": "Pro",
-      "business": "Business",
-      "staff": "Staff",
+      "business": "Zakelijk",
+      "staff": "Personeel",
       "passepartout": "Master"
     }
   },
@@ -6155,14 +6155,14 @@
       "info": "Uw betaling is ontvangen en uw abonnement wordt binnenkort geactiveerd.",
       "wait": "Een moment geduld terwijl we de transactie verwerken.",
       "refresh": "Als de pagina niet automatisch wordt vernieuwd, laad deze dan over een paar minuten opnieuw.",
-      "description": "Your payment is being processed. This may take a few minutes. Check your subscription status in your personal area."
+      "description": "Uw betaling wordt verwerkt. Dit kan enkele minuten duren. Controleer uw abonnementsstatus in uw persoonlijk gebied."
     },
     "checking": "Abonnementsstatus controleren...",
     "success": {
       "description": "Bedankt voor uw abonnement. Uw account is bijgewerkt.",
       "activated": "Uw abonnement is succesvol geactiveerd.",
       "access": "U heeft nu toegang tot alle premium functies.",
-      "title": "Payment completed successfully!"
+      "title": "Betaling succesvol voltooid!"
     },
     "plan": "Plan",
     "activePlan": "Actief plan",
@@ -6174,13 +6174,13 @@
     "supportInfo": "Voor vragen over uw abonnement kunt u contact opnemen met de ondersteuning. Bewaar het betalingsbewijs dat u per e-mail ontvangt.",
     "return": "Terug naar dashboard",
     "cancel": {
-      "title": "Payment not completed",
-      "description": "The payment process was interrupted or cancelled.",
-      "info": "Your payment was not processed and you have not been charged.",
-      "retry": "You can retry the payment at any time from the subscription page.",
-      "tryAgain": "Retry payment"
+      "title": "Betaling niet voltooid",
+      "description": "Het betalingsproces werd onderbroken of geannuleerd.",
+      "info": "Uw betaling is niet verwerkt en er zijn geen kosten in rekening gebracht.",
+      "retry": "U kunt de betaling op elk moment opnieuw proberen via de abonnementspagina.",
+      "tryAgain": "Betaling opnieuw proberen"
     },
-    "nextBilling": "Next billing"
+    "nextBilling": "Volgende facturering"
   },
   "stripe": {
     "payWithCard": "Betalen met creditcard",
@@ -6200,11 +6200,11 @@
   },
   "user": {
     "type": {
-      "admin": "Admin",
-      "staff": "Staff",
-      "user": "User",
-      "customer": "Customer",
-      "client": "Client"
+      "admin": "Beheerder",
+      "staff": "Personeel",
+      "user": "Gebruiker",
+      "customer": "Gebruiker",
+      "client": "Klant"
     }
   }
 }

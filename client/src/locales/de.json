@@ -446,7 +446,7 @@
       "messageText": "Hallo {{name}}, hier ist Ihr Link zum geschützten Bereich:"
     },
     "adminPersonalClientsHint": "Ihre persönlichen Kunden werden hier angezeigt. Verwenden Sie den Tab 'Personal', um Kunden anderer Fachleute zu sehen.",
-    "loadMore": "Load more"
+    "loadMore": "Mehr laden"
   },
   "invoices": {
     "title": "Rechnungsverwaltung",
@@ -678,35 +678,35 @@
       "templatePlaceholder": "Z.B. Liebe(r) {{nome}}, dies ist eine Erinnerung für Ihren {{servizio}}-Termin am {{data}} um {{ora}} Uhr mit {{collaboratore}} in {{stanza}}.",
       "templateHelp": "Verwenden Sie Variablen, um spezifische Termindetails einzufügen.",
       "setAsDefault": "Als Standardvorlage festlegen",
-      "default": "Default",
-      "noTemplates": "No reminder templates defined",
-      "createFirst": "Create the first template"
+      "default": "Standard",
+      "noTemplates": "Keine Erinnerungsvorlagen definiert",
+      "createFirst": "Erste Vorlage erstellen"
     },
     "contactInfo": {
       "phone1": "Haupttelefon",
       "phone1Desc": "Haupttelefonnummer für Kontakte",
       "phone2Desc": "Zweite Telefonnummer (optional)",
       "websiteDesc": "Nur die Domain (beispiel.de) oder die vollständige URL (https://beispiel.de) eingeben",
-      "validationError": "Validation error",
-      "checkFields": "Please check the highlighted fields",
-      "saveSuccess": "Save complete",
-      "saveSuccessDesc": "Contact information has been updated successfully",
-      "saveError": "An error occurred while saving",
-      "saveErrorTitle": "Save error",
-      "title": "Contact information",
-      "description": "Enter the contact information that will be displayed in the client app",
-      "errorTitle": "Error",
-      "email": "Email",
-      "emailDesc": "Public contact email address",
-      "phone2": "Secondary phone",
+      "validationError": "Validierungsfehler",
+      "checkFields": "Bitte überprüfen Sie die markierten Felder",
+      "saveSuccess": "Speichern abgeschlossen",
+      "saveSuccessDesc": "Kontaktinformationen wurden erfolgreich aktualisiert",
+      "saveError": "Beim Speichern ist ein Fehler aufgetreten",
+      "saveErrorTitle": "Speicherfehler",
+      "title": "Kontaktinformationen",
+      "description": "Geben Sie die Kontaktinformationen ein, die in der Kunden-App angezeigt werden",
+      "errorTitle": "Fehler",
+      "email": "E-Mail",
+      "emailDesc": "Öffentliche Kontakt-E-Mail-Adresse",
+      "phone2": "Zweite Telefonnummer",
       "website": "Website",
       "facebook": "Facebook",
-      "facebookDesc": "Page name or full Facebook URL",
+      "facebookDesc": "Seitenname oder vollständige Facebook-URL",
       "instagram": "Instagram",
-      "instagramDesc": "Username or full Instagram URL",
-      "saving": "Saving...",
-      "save": "Save contact information",
-      "invalidFormat": "Invalid format"
+      "instagramDesc": "Benutzername oder vollständige Instagram-URL",
+      "saving": "Speichern...",
+      "save": "Kontaktinformationen speichern",
+      "invalidFormat": "Ungültiges Format"
     }
   },
   "common": {
@@ -745,9 +745,9 @@
     "hidePassword": "Passwort ausblenden",
     "showPassword": "Passwort anzeigen",
     "support": "Support",
-    "terms": "Terms of Service",
-    "copyFailed": "Unable to copy to clipboard",
-    "reset": "Reset"
+    "terms": "Nutzungsbedingungen",
+    "copyFailed": "In die Zwischenablage kopieren nicht möglich",
+    "reset": "Zurücksetzen"
   },
   "notifications": {
     "clientDeleted": "Kunde gelöscht",
@@ -1263,11 +1263,11 @@
     "currentRole": "Ihre aktuelle Rolle: {{role}}",
     "required": "Anmeldung erforderlich",
     "loginRequired": "Sie müssen angemeldet sein, um auf diesen Bereich zuzugreifen",
-    "logoutSuccess": "Logout successful",
-    "redirecting": "Redirecting...",
-    "logoutError": "Logout error",
-    "tryAgain": "Please try again",
-    "loggingOut": "Logging out..."
+    "logoutSuccess": "Abmeldung erfolgreich",
+    "redirecting": "Weiterleiten...",
+    "logoutError": "Abmeldefehler",
+    "tryAgain": "Bitte versuche es erneut",
+    "loggingOut": "Abmelden..."
   },
   "clientArea": {
     "installApp": "App installieren",
@@ -5497,43 +5497,43 @@
     "syncDetails": "📥 Importiert: {{imported}} | 📤 Exportiert: {{exported}} | 🗑️ Gelöscht: {{deleted}}",
     "calendarEvent": "Google Kalender-Ereignis",
     "cannotDeleteImported": "Dieses Ereignis wurde aus Google Kalender importiert und kann nicht aus der App gelöscht werden. Um es zu löschen, gehen Sie direkt zu Google Kalender.",
-    "popupBlocked": "The popup was blocked. Please disable the popup blocker for this site.",
-    "authSuccess": "Authorization complete",
-    "calendarConnected": "Your Google Calendar has been connected successfully",
-    "startAuthError": "Unable to start Google authorization",
-    "unknownError": "An error occurred during disconnection",
-    "syncEnabled": "Sync enabled",
-    "syncExplanation": "When you create or edit an appointment, it will be automatically updated in your Google Calendar.",
-    "syncDisabled": "Sync disabled",
-    "authRevoked": "Authorization revoked",
-    "calendarDisconnected": "Google Calendar has been disconnected",
-    "revokeError": "An error occurred while revoking authorization",
-    "syncComplete": "Sync complete",
-    "syncError": "Sync error",
-    "syncFailedError": "Sync failed",
-    "enableSync": "Enable sync",
-    "syncActive": "Sync active",
-    "connecting": "Connecting...",
-    "advancedSettings": "Advanced settings",
-    "authStarted": "Authorization started",
-    "authOpenedWindow": "A new window has been opened for Google authorization",
-    "authError": "Authorization error",
-    "genericError": "An error occurred while starting authorization",
-    "testSuccess": "Test completed successfully",
-    "configCorrect": "The Google configuration appears correct",
-    "testFailed": "Test failed",
-    "configError": "An error occurred with the Google configuration",
-    "networkError": "Network error during test",
-    "setupTitle": "Google Calendar Setup",
-    "setupDescription": "Follow these steps to correctly set up the Google Calendar integration.",
-    "enableAPIDesc": "Enable Google Calendar and Gmail APIs for the integration",
-    "searchCalendar": "Search \"Google Calendar API\", select it and click \"Enable\"",
-    "searchGmail": "Search \"Gmail API\", select it and click \"Enable\"",
-    "clickCreate": "Click \"Create credentials\" > \"OAuth client ID\"",
-    "clientID": "Client ID",
-    "clientSecret": "Client Secret",
-    "error400": "Error 400: redirect_uri_mismatch",
-    "error403": "Error 403: access_denied"
+    "popupBlocked": "Das Popup wurde blockiert. Bitte deaktivieren Sie den Popup-Blocker für diese Website.",
+    "authSuccess": "Autorisierung abgeschlossen",
+    "calendarConnected": "Ihr Google Kalender wurde erfolgreich verbunden",
+    "startAuthError": "Google-Autorisierung kann nicht gestartet werden",
+    "unknownError": "Beim Trennen ist ein Fehler aufgetreten",
+    "syncEnabled": "Synchronisierung aktiviert",
+    "syncExplanation": "Wenn Sie einen Termin erstellen oder bearbeiten, wird er automatisch in Ihrem Google Kalender aktualisiert.",
+    "syncDisabled": "Synchronisierung deaktiviert",
+    "authRevoked": "Autorisierung widerrufen",
+    "calendarDisconnected": "Google Kalender wurde getrennt",
+    "revokeError": "Beim Widerrufen der Autorisierung ist ein Fehler aufgetreten",
+    "syncComplete": "Synchronisierung abgeschlossen",
+    "syncError": "Synchronisierungsfehler",
+    "syncFailedError": "Synchronisierung fehlgeschlagen",
+    "enableSync": "Synchronisierung aktivieren",
+    "syncActive": "Synchronisierung aktiv",
+    "connecting": "Verbinden...",
+    "advancedSettings": "Erweiterte Einstellungen",
+    "authStarted": "Autorisierung gestartet",
+    "authOpenedWindow": "Ein neues Fenster für die Google-Autorisierung wurde geöffnet",
+    "authError": "Autorisierungsfehler",
+    "genericError": "Beim Starten der Autorisierung ist ein Fehler aufgetreten",
+    "testSuccess": "Test erfolgreich abgeschlossen",
+    "configCorrect": "Die Google-Konfiguration scheint korrekt zu sein",
+    "testFailed": "Test fehlgeschlagen",
+    "configError": "Bei der Google-Konfiguration ist ein Fehler aufgetreten",
+    "networkError": "Netzwerkfehler beim Test",
+    "setupTitle": "Google Calendar-Einrichtung",
+    "setupDescription": "Befolgen Sie diese Schritte, um die Google Calendar-Integration korrekt einzurichten.",
+    "enableAPIDesc": "Aktivieren Sie Google Calendar- und Gmail-APIs für die Integration",
+    "searchCalendar": "Suchen Sie \"Google Calendar API\", wählen Sie es aus und klicken Sie auf \"Aktivieren\"",
+    "searchGmail": "Suchen Sie \"Gmail API\", wählen Sie es aus und klicken Sie auf \"Aktivieren\"",
+    "clickCreate": "Klicken Sie auf \"Anmeldedaten erstellen\" > \"OAuth-Client-ID\"",
+    "clientID": "Client-ID",
+    "clientSecret": "Client-Geheimnis",
+    "error400": "Fehler 400: redirect_uri_mismatch",
+    "error403": "Fehler 403: access_denied"
   },
   "landingBicom": {
     "header": {
@@ -6125,11 +6125,11 @@
     "licenseRequired": "Dieser Bereich erfordert eine {{license}}-Lizenz",
     "upgrade": "Upgrade auf {{license}}",
     "type": {
-      "trial": "Trial",
-      "base": "Base",
+      "trial": "Testversion",
+      "base": "Basis",
       "pro": "Pro",
       "business": "Business",
-      "staff": "Staff",
+      "staff": "Mitarbeiter",
       "passepartout": "Master"
     }
   },
@@ -6155,14 +6155,14 @@
       "info": "Ihre Zahlung wurde empfangen und Ihr Abonnement wird in Kürze aktiviert.",
       "wait": "Bitte warten Sie einen Moment, während wir die Transaktion verarbeiten.",
       "refresh": "Wenn die Seite nicht automatisch aktualisiert wird, laden Sie sie in einigen Minuten neu.",
-      "description": "Your payment is being processed. This may take a few minutes. Check your subscription status in your personal area."
+      "description": "Ihre Zahlung wird verarbeitet. Dies kann einige Minuten dauern. Überprüfen Sie Ihren Abonnementstatus in Ihrem persönlichen Bereich."
     },
     "checking": "Abonnementstatus wird überprüft...",
     "success": {
       "description": "Danke für Ihr Abonnement. Ihr Konto wurde aktualisiert.",
       "activated": "Ihr Abonnement wurde erfolgreich aktiviert.",
       "access": "Sie können jetzt auf alle Premium-Funktionen zugreifen.",
-      "title": "Payment completed successfully!"
+      "title": "Zahlung erfolgreich abgeschlossen!"
     },
     "plan": "Plan",
     "activePlan": "Aktiver Plan",
@@ -6174,13 +6174,13 @@
     "supportInfo": "Bei Fragen zu Ihrem Abonnement wenden Sie sich an den Support. Bewahren Sie die Zahlungsquittung auf, die Sie per E-Mail erhalten.",
     "return": "Zurück zum Dashboard",
     "cancel": {
-      "title": "Payment not completed",
-      "description": "The payment process was interrupted or cancelled.",
-      "info": "Your payment was not processed and you have not been charged.",
-      "retry": "You can retry the payment at any time from the subscription page.",
-      "tryAgain": "Retry payment"
+      "title": "Zahlung nicht abgeschlossen",
+      "description": "Der Zahlungsvorgang wurde unterbrochen oder abgebrochen.",
+      "info": "Ihre Zahlung wurde nicht verarbeitet und es wurde kein Betrag abgebucht.",
+      "retry": "Sie können die Zahlung jederzeit von der Abonnementseite aus erneut versuchen.",
+      "tryAgain": "Zahlung erneut versuchen"
     },
-    "nextBilling": "Next billing"
+    "nextBilling": "Nächste Abrechnung"
   },
   "stripe": {
     "payWithCard": "Mit Kreditkarte bezahlen",
@@ -6200,11 +6200,11 @@
   },
   "user": {
     "type": {
-      "admin": "Admin",
-      "staff": "Staff",
-      "user": "User",
-      "customer": "Customer",
-      "client": "Client"
+      "admin": "Administrator",
+      "staff": "Mitarbeiter",
+      "user": "Benutzer",
+      "customer": "Klient",
+      "client": "Kunde"
     }
   }
 }

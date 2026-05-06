@@ -437,7 +437,7 @@
       "messageText": "Bună {{name}}, iată linkul tău pentru a accesa zona rezervată:"
     },
     "adminPersonalClientsHint": "Clienții dvs. personali vor apărea aici. Folosiți fila 'Personal' pentru a vedea clienții altor profesioniști.",
-    "loadMore": "Load more"
+    "loadMore": "Încarcă mai mult"
   },
   "invoices": {
     "title": "Gestionare Facturi",
@@ -669,35 +669,35 @@
       "templatePlaceholder": "Ex. Stimate {{nome}}, acesta este un memento pentru programarea ta {{servizio}} pe {{data}} la ora {{ora}} cu {{collaboratore}} în {{stanza}}.",
       "templateHelp": "Folosește variabile pentru a include informații specifice programării.",
       "setAsDefault": "Setează ca șablon implicit",
-      "default": "Default",
-      "noTemplates": "No reminder templates defined",
-      "createFirst": "Create the first template"
+      "default": "Implicit",
+      "noTemplates": "Nu există șabloane de memento definite",
+      "createFirst": "Creați primul șablon"
     },
     "contactInfo": {
       "phone1": "Telefon principal",
       "phone1Desc": "Număr de telefon principal pentru contacte",
       "phone2Desc": "Număr de telefon secundar (opțional)",
       "websiteDesc": "Introduceți doar domeniul (exemplu.ro) sau URL-ul complet (https://exemplu.ro)",
-      "validationError": "Validation error",
-      "checkFields": "Please check the highlighted fields",
-      "saveSuccess": "Save complete",
-      "saveSuccessDesc": "Contact information has been updated successfully",
-      "saveError": "An error occurred while saving",
-      "saveErrorTitle": "Save error",
-      "title": "Contact information",
-      "description": "Enter the contact information that will be displayed in the client app",
-      "errorTitle": "Error",
-      "email": "Email",
-      "emailDesc": "Public contact email address",
-      "phone2": "Secondary phone",
-      "website": "Website",
+      "validationError": "Eroare de validare",
+      "checkFields": "Vă rugăm să verificați câmpurile evidențiate",
+      "saveSuccess": "Salvare completă",
+      "saveSuccessDesc": "Informațiile de contact au fost actualizate cu succes",
+      "saveError": "A apărut o eroare la salvare",
+      "saveErrorTitle": "Eroare la salvare",
+      "title": "Informații de contact",
+      "description": "Introduceți informațiile de contact care vor fi afișate în aplicația pentru clienți",
+      "errorTitle": "Eroare",
+      "email": "E-mail",
+      "emailDesc": "Adresă de e-mail publică pentru contact",
+      "phone2": "Telefon secundar",
+      "website": "Site web",
       "facebook": "Facebook",
-      "facebookDesc": "Page name or full Facebook URL",
+      "facebookDesc": "Numele paginii sau URL-ul complet Facebook",
       "instagram": "Instagram",
-      "instagramDesc": "Username or full Instagram URL",
-      "saving": "Saving...",
-      "save": "Save contact information",
-      "invalidFormat": "Invalid format"
+      "instagramDesc": "Numele de utilizator sau URL-ul complet Instagram",
+      "saving": "Se salvează...",
+      "save": "Salvare informații de contact",
+      "invalidFormat": "Format invalid"
     }
   },
   "common": {
@@ -735,10 +735,10 @@
     "view": "Vezi",
     "hidePassword": "Ascundeți parola",
     "showPassword": "Afișați parola",
-    "support": "Support",
-    "terms": "Terms of Service",
-    "copyFailed": "Unable to copy to clipboard",
-    "reset": "Reset"
+    "support": "Asistență",
+    "terms": "Termeni de serviciu",
+    "copyFailed": "Nu se poate copia în clipboard",
+    "reset": "Resetare"
   },
   "notifications": {
     "clientDeleted": "Client șters",
@@ -1254,11 +1254,11 @@
     "currentRole": "Rolul tău actual: {{role}}",
     "required": "Autentificare necesară",
     "loginRequired": "Trebuie să fiți autentificat pentru a accesa această secțiune",
-    "logoutSuccess": "Logout successful",
-    "redirecting": "Redirecting...",
-    "logoutError": "Logout error",
-    "tryAgain": "Please try again",
-    "loggingOut": "Logging out..."
+    "logoutSuccess": "Deconectare reușită",
+    "redirecting": "Redirecționare...",
+    "logoutError": "Eroare la deconectare",
+    "tryAgain": "Vă rugăm să încercați din nou",
+    "loggingOut": "Deconectare..."
   },
   "clientArea": {
     "installApp": "Instalează aplicația",
@@ -5497,43 +5497,43 @@
     "syncDetails": "📥 Importate: {{imported}} | 📤 Exportate: {{exported}} | 🗑️ Șterse: {{deleted}}",
     "calendarEvent": "Eveniment Google Calendar",
     "cannotDeleteImported": "Acest eveniment a fost importat din Google Calendar și nu poate fi șters din aplicație. Pentru a-l șterge, accesați direct Google Calendar.",
-    "popupBlocked": "The popup was blocked. Please disable the popup blocker for this site.",
-    "authSuccess": "Authorization complete",
-    "calendarConnected": "Your Google Calendar has been connected successfully",
-    "startAuthError": "Unable to start Google authorization",
-    "unknownError": "An error occurred during disconnection",
-    "syncEnabled": "Sync enabled",
-    "syncExplanation": "When you create or edit an appointment, it will be automatically updated in your Google Calendar.",
-    "syncDisabled": "Sync disabled",
-    "authRevoked": "Authorization revoked",
-    "calendarDisconnected": "Google Calendar has been disconnected",
-    "revokeError": "An error occurred while revoking authorization",
-    "syncComplete": "Sync complete",
-    "syncError": "Sync error",
-    "syncFailedError": "Sync failed",
-    "enableSync": "Enable sync",
-    "syncActive": "Sync active",
-    "connecting": "Connecting...",
-    "advancedSettings": "Advanced settings",
-    "authStarted": "Authorization started",
-    "authOpenedWindow": "A new window has been opened for Google authorization",
-    "authError": "Authorization error",
-    "genericError": "An error occurred while starting authorization",
-    "testSuccess": "Test completed successfully",
-    "configCorrect": "The Google configuration appears correct",
-    "testFailed": "Test failed",
-    "configError": "An error occurred with the Google configuration",
-    "networkError": "Network error during test",
-    "setupTitle": "Google Calendar Setup",
-    "setupDescription": "Follow these steps to correctly set up the Google Calendar integration.",
-    "enableAPIDesc": "Enable Google Calendar and Gmail APIs for the integration",
-    "searchCalendar": "Search \"Google Calendar API\", select it and click \"Enable\"",
-    "searchGmail": "Search \"Gmail API\", select it and click \"Enable\"",
-    "clickCreate": "Click \"Create credentials\" > \"OAuth client ID\"",
-    "clientID": "Client ID",
-    "clientSecret": "Client Secret",
-    "error400": "Error 400: redirect_uri_mismatch",
-    "error403": "Error 403: access_denied"
+    "popupBlocked": "Fereastra pop-up a fost blocată. Dezactivați blocarea ferestrelor pop-up pentru acest site.",
+    "authSuccess": "Autorizare finalizată",
+    "calendarConnected": "Google Calendar a fost conectat cu succes",
+    "startAuthError": "Nu se poate porni autorizarea Google",
+    "unknownError": "A apărut o eroare la deconectare",
+    "syncEnabled": "Sincronizare activată",
+    "syncExplanation": "Când creați sau editați o programare, aceasta va fi actualizată automat în Google Calendar.",
+    "syncDisabled": "Sincronizare dezactivată",
+    "authRevoked": "Autorizare revocată",
+    "calendarDisconnected": "Google Calendar a fost deconectat",
+    "revokeError": "A apărut o eroare la revocarea autorizării",
+    "syncComplete": "Sincronizare finalizată",
+    "syncError": "Eroare de sincronizare",
+    "syncFailedError": "Sincronizare eșuată",
+    "enableSync": "Activare sincronizare",
+    "syncActive": "Sincronizare activă",
+    "connecting": "Se conectează...",
+    "advancedSettings": "Setări avansate",
+    "authStarted": "Autorizare pornită",
+    "authOpenedWindow": "O fereastră nouă a fost deschisă pentru autorizarea Google",
+    "authError": "Eroare de autorizare",
+    "genericError": "A apărut o eroare la pornirea autorizării",
+    "testSuccess": "Test finalizat cu succes",
+    "configCorrect": "Configurația Google pare corectă",
+    "testFailed": "Test eșuat",
+    "configError": "A apărut o eroare cu configurația Google",
+    "networkError": "Eroare de rețea în timpul testului",
+    "setupTitle": "Configurare Google Calendar",
+    "setupDescription": "Urmați acești pași pentru a configura corect integrarea Google Calendar.",
+    "enableAPIDesc": "Activați API-urile Google Calendar și Gmail pentru integrare",
+    "searchCalendar": "Căutați \"Google Calendar API\", selectați-o și faceți clic pe \"Activare\"",
+    "searchGmail": "Căutați \"Gmail API\", selectați-o și faceți clic pe \"Activare\"",
+    "clickCreate": "Faceți clic pe \"Creare acreditări\" > \"ID client OAuth\"",
+    "clientID": "ID client",
+    "clientSecret": "Secret client",
+    "error400": "Eroare 400: redirect_uri_mismatch",
+    "error403": "Eroare 403: access_denied"
   },
   "landingBicom": {
     "header": {
@@ -6125,11 +6125,11 @@
     "licenseRequired": "Această secțiune necesită o licență {{license}}",
     "upgrade": "Actualizați la {{license}}",
     "type": {
-      "trial": "Trial",
-      "base": "Base",
+      "trial": "Perioadă de probă",
+      "base": "De bază",
       "pro": "Pro",
       "business": "Business",
-      "staff": "Staff",
+      "staff": "Personal",
       "passepartout": "Master"
     }
   },
@@ -6155,14 +6155,14 @@
       "info": "Plata ta a fost primită și abonamentul tău va fi activat în curând.",
       "wait": "Te rugăm să aștepți un moment cât procesăm tranzacția.",
       "refresh": "Dacă pagina nu se actualizează automat, reîncarcă-o în câteva minute.",
-      "description": "Your payment is being processed. This may take a few minutes. Check your subscription status in your personal area."
+      "description": "Plata dvs. este în curs de procesare. Aceasta poate dura câteva minute. Verificați statusul abonamentului dvs. în zona personală."
     },
     "checking": "Se verifică starea abonamentului...",
     "success": {
       "description": "Mulțumim pentru abonament. Contul tău a fost actualizat.",
       "activated": "Abonamentul tău a fost activat cu succes.",
       "access": "Acum poți accesa toate funcționalitățile premium.",
-      "title": "Payment completed successfully!"
+      "title": "Plată finalizată cu succes!"
     },
     "plan": "Plan",
     "activePlan": "Plan Activ",
@@ -6174,13 +6174,13 @@
     "supportInfo": "Pentru orice întrebare despre abonament, contactați suportul. Păstrați chitanța de plată pe care o veți primi pe email.",
     "return": "Înapoi la panou",
     "cancel": {
-      "title": "Payment not completed",
-      "description": "The payment process was interrupted or cancelled.",
-      "info": "Your payment was not processed and you have not been charged.",
-      "retry": "You can retry the payment at any time from the subscription page.",
-      "tryAgain": "Retry payment"
+      "title": "Plată nefinalizată",
+      "description": "Procesul de plată a fost întrerupt sau anulat.",
+      "info": "Plata dvs. nu a fost procesată și nu ați fost taxat.",
+      "retry": "Puteți reîncerca plata oricând de pe pagina de abonament.",
+      "tryAgain": "Reîncercați plata"
     },
-    "nextBilling": "Next billing"
+    "nextBilling": "Următoarea facturare"
   },
   "stripe": {
     "payWithCard": "Plătește cu cardul",
@@ -6200,10 +6200,10 @@
   },
   "user": {
     "type": {
-      "admin": "Admin",
-      "staff": "Staff",
-      "user": "User",
-      "customer": "Customer",
+      "admin": "Administrator",
+      "staff": "Personal",
+      "user": "Utilizator",
+      "customer": "Utilizator",
       "client": "Client"
     }
   }
