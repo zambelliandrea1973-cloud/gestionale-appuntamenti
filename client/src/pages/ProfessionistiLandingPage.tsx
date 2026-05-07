@@ -10,6 +10,7 @@ import {
   Smartphone, Euro, MessageSquare, TrendingUp, Lock,
 } from "lucide-react";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import { LanguageSelector } from "@/components/ui/language-selector";
 import fleurLogo from "../assets/fleur-de-vie.jpg";
 
 export default function ProfessionistiLandingPage() {
@@ -73,6 +74,7 @@ export default function ProfessionistiLandingPage() {
             <span className="font-semibold text-sm hidden sm:inline">{t("landingPro.nav.brand")}</span>
           </div>
           <div className="flex items-center gap-2">
+            <LanguageSelector />
             <Button variant="ghost" size="sm" onClick={goLogin}>{t("landingPro.nav.login")}</Button>
             <Button size="sm" className="bg-[#4a5e2a] hover:bg-[#3a4e1a] text-white" onClick={goRegister}>
               {t("landingPro.nav.tryFree")}
