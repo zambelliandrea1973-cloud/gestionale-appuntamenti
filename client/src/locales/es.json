@@ -448,13 +448,13 @@
     "adminPersonalClientsHint": "Tus clientes personales aparecerán aquí. Usa la pestaña 'Personal' para ver los clientes de otros profesionales.",
     "loadMore": "Cargar más",
     "qrTip": {
-      "eyebrow": "¡Primer cliente registrado!",
-      "title": "La app ha creado un QR personal para tu cliente",
-      "subtitle": "Haz que lo escanee con el teléfono: desde ese momento accede a su área personal y permanece conectado contigo de forma autónoma.",
-      "b1": "Solicita citas — elige entre tus huecos disponibles y reserva sin llamarte",
-      "b2": "Ve todo en un lugar — citas reservadas, pagos realizados y sus datos personales",
-      "b3": "Se mantiene conectado contigo — recibe actualizaciones y puede comunicarse directamente desde su teléfono",
-      "hint": "Pulsa \"Generar código QR\" en la ficha del cliente para verlo y compartirlo",
+      "eyebrow": "¡Enhorabuena, has creado tu primer cliente!",
+      "title": "¿Para qué sirve su QR personal?",
+      "subtitle": "Cada cliente tiene un QR personal vinculado directamente a tu negocio. Solo necesita escanearlo una vez: a partir de ese momento accede de forma autónoma a su área privada.",
+      "b1": "Reserva de forma autónoma en tus horarios disponibles",
+      "b2": "Ve citas, facturas y pagos",
+      "b3": "Accede rápidamente a tus contactos y redes sociales",
+      "hint": "Para ti: menos mensajes repetitivos, menos gestión manual, una experiencia más profesional. Compártelo por WhatsApp, hazlo escanear en el estudio o imprímelo.",
       "dismiss": "Entendido, no mostrar más"
     }
   },

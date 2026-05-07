@@ -461,13 +461,13 @@
     "adminPersonalClientsHint": "Your personal clients will appear here. Use the 'Staff' tab to see other professionals' clients.",
     "loadMore": "Load more",
     "qrTip": {
-      "eyebrow": "First client registered!",
-      "title": "The app has created a personal QR for your client",
-      "subtitle": "Have them scan it with their phone: from that moment they access their personal area and stay connected with you independently.",
-      "b1": "Requests appointments — picks from your available slots and books without calling you",
-      "b2": "Sees everything in one place — booked appointments, payments and their personal data",
-      "b3": "Stays connected with you — receives updates and can communicate directly from their phone",
-      "hint": "Press \"Generate QR Code\" on the client card to view and share it",
+      "eyebrow": "Congratulations, you've created your first client!",
+      "title": "What is their personal QR code for?",
+      "subtitle": "Every client has a personal QR code linked directly to your business. They only need to scan it once: from that moment they can independently access their private area.",
+      "b1": "Book autonomously during your available hours",
+      "b2": "View appointments, invoices and payments",
+      "b3": "Quickly access your contacts and social profiles",
+      "hint": "For you: fewer repetitive messages, less manual management, a more professional experience. Share it on WhatsApp, have it scanned in the studio, or print it.",
       "dismiss": "Got it, don't show again"
     }
   },

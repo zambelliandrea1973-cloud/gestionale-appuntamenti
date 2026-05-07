@@ -448,13 +448,13 @@
     "adminPersonalClientsHint": "Ihre persönlichen Kunden werden hier angezeigt. Verwenden Sie den Tab 'Personal', um Kunden anderer Fachleute zu sehen.",
     "loadMore": "Mehr laden",
     "qrTip": {
-      "eyebrow": "Erster Kunde registriert!",
-      "title": "Die App hat einen persönlichen QR für Ihren Kunden erstellt",
-      "subtitle": "Lassen Sie ihn ihn mit dem Handy scannen: ab diesem Moment greift er auf seinen persönlichen Bereich zu und bleibt selbständig mit Ihnen verbunden.",
-      "b1": "Vereinbart Termine — wählt aus Ihren verfügbaren Slots und bucht ohne Sie anzurufen",
-      "b2": "Sieht alles an einem Ort — gebuchte Termine, Zahlungen und seine persönlichen Daten",
-      "b3": "Bleibt mit Ihnen verbunden — erhält Updates und kann direkt vom Handy kommunizieren",
-      "hint": "Klicken Sie auf \"QR-Code generieren\" auf der Kundenkarte, um ihn anzuzeigen und zu teilen",
+      "eyebrow": "Herzlichen Glückwunsch, Sie haben Ihren ersten Kunden erstellt!",
+      "title": "Wofür dient sein persönlicher QR-Code?",
+      "subtitle": "Jeder Kunde hat einen persönlichen QR-Code, der direkt mit Ihrem Betrieb verknüpft ist. Er muss ihn nur einmal scannen: ab diesem Moment greift er selbständig auf seinen persönlichen Bereich zu.",
+      "b1": "Bucht eigenständig in Ihren verfügbaren Zeiten",
+      "b2": "Sieht Termine, Rechnungen und Zahlungen",
+      "b3": "Greift schnell auf Ihre Kontakte und Social-Profile zu",
+      "hint": "Für Sie: weniger wiederholte Nachrichten, weniger manuelle Verwaltung, ein professionelleres Erlebnis. Per WhatsApp teilen, im Studio scannen lassen oder ausdrucken.",
       "dismiss": "Verstanden, nicht mehr anzeigen"
     }
   },

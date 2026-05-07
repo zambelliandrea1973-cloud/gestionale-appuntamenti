@@ -439,13 +439,13 @@
     "adminPersonalClientsHint": "Dine personlige kunder vises her. Bruk 'Personale'-fanen for å se kundene til andre fagfolk.",
     "loadMore": "Last inn mer",
     "qrTip": {
-      "eyebrow": "Første kunde registrert!",
-      "title": "Appen har opprettet en personlig QR for kunden din",
-      "subtitle": "La dem skanne den med telefonen: fra det øyeblikket får de tilgang til sitt personlige område og forblir selvstendig forbundet med deg.",
-      "b1": "Ber om avtaler — velger blant dine ledige tider og bestiller uten å ringe deg",
-      "b2": "Ser alt på ett sted — bestilte avtaler, utførte betalinger og sine personlige data",
-      "b3": "Forblir forbundet med deg — mottar oppdateringer og kan kommunisere direkte fra telefonen",
-      "hint": "Trykk \"Generer QR-kode\" på kundekortet for å vise og dele det",
+      "eyebrow": "Gratulerer, du har opprettet din første kunde!",
+      "title": "Hva er deres personlige QR til?",
+      "subtitle": "Hver kunde har en personlig QR koblet direkte til din virksomhet. De trenger bare å skanne den én gang: fra det øyeblikket får de selvstendig tilgang til sitt personlige område.",
+      "b1": "Bestiller selvstendig i dine tilgjengelige tider",
+      "b2": "Ser avtaler, fakturaer og betalinger",
+      "b3": "Får rask tilgang til dine kontakter og sosiale profiler",
+      "hint": "For deg: færre gjentatte meldinger, mindre manuell administrasjon, en mer profesjonell opplevelse. Del det på WhatsApp, la det scannes i studioet eller skriv det ut.",
       "dismiss": "Forstått, ikke vis igjen"
     }
   },

@@ -439,13 +439,13 @@
     "adminPersonalClientsHint": "Uw persoonlijke klanten verschijnen hier. Gebruik het tabblad 'Personeel' om klanten van andere professionals te zien.",
     "loadMore": "Meer laden",
     "qrTip": {
-      "eyebrow": "Eerste klant geregistreerd!",
-      "title": "De app heeft een persoonlijke QR aangemaakt voor uw klant",
-      "subtitle": "Laat hem deze scannen met zijn telefoon: vanaf dat moment heeft hij toegang tot zijn persoonlijke omgeving en blijft hij zelfstandig met u verbonden.",
-      "b1": "Vraagt afspraken aan — kiest uit uw beschikbare slots en boekt zonder u te bellen",
-      "b2": "Ziet alles op één plek — geboekte afspraken, gedane betalingen en zijn persoonlijke gegevens",
-      "b3": "Blijft met u verbonden — ontvangt updates en kan direct communiceren vanaf zijn telefoon",
-      "hint": "Druk op \"QR-code genereren\" op de klantenkaart om deze te bekijken en te delen",
+      "eyebrow": "Gefeliciteerd, u heeft uw eerste klant aangemaakt!",
+      "title": "Waarvoor dient zijn persoonlijke QR?",
+      "subtitle": "Elke klant heeft een persoonlijke QR die rechtstreeks gekoppeld is aan uw bedrijf. Ze hoeven hem maar één keer te scannen: vanaf dat moment hebben ze zelfstandig toegang tot hun persoonlijke omgeving.",
+      "b1": "Boekt zelfstandig in uw beschikbare tijden",
+      "b2": "Ziet afspraken, facturen en betalingen",
+      "b3": "Heeft snel toegang tot uw contacten en sociale profielen",
+      "hint": "Voor u: minder herhaalde berichten, minder handmatig beheer, een professionelere ervaring. Deel via WhatsApp, laat scannen in de praktijk of druk het af.",
       "dismiss": "Begrepen, niet meer tonen"
     }
   },
