@@ -40,3 +40,6 @@ fi
 
 echo "==> npm run db:push -- --force"
 npm run db:push -- --force </dev/null
+
+echo "==> ensure user_sessions table (recreate if db:push dropped it)"
+npx tsx scripts/ensure-session-table.ts </dev/null
