@@ -463,7 +463,7 @@
     "qrTip": {
       "eyebrow": "Congratulations, you've created your first client!",
       "title": "What is their personal QR code for?",
-      "subtitle": "Every client has a personal QR code linked directly to your business. They only need to scan it once: from that moment they can independently access their private area.",
+      "subtitle": "A personal QR code is created for every client, linked directly to your business. They just need to scan it once and install it on their personal device to access their private area independently at any time.",
       "b1": "Book autonomously during your available hours",
       "b2": "View appointments, invoices and payments",
       "b3": "Quickly access your contacts and social profiles",
