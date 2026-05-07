@@ -28,5 +28,15 @@ fi
 # unique, cast di tipo, FK violations) vanno gestiti manualmente prima
 # del merge facendo girare `npm run db:push -- --force` in locale e
 # applicando i fix SQL necessari (drop duplicati / cast / pulizia FK).
+echo "==> i18n placeholder check (npx tsx scripts/i18n-placeholder-check.ts)"
+if ! npx tsx scripts/i18n-placeholder-check.ts </dev/null; then
+  echo ""
+  echo "❌ Controllo placeholder inglesi FALLITO: il rilascio è bloccato."
+  echo "   Alcune chiavi in de/es/fr/nl/no/ro/ru hanno lo stesso valore di en.json."
+  echo "   Traduci le chiavi indicate o aggiungi il valore a"
+  echo "   .local/i18n-placeholder-exceptions.json se è un termine legittimo."
+  exit 1
+fi
+
 echo "==> npm run db:push -- --force"
 npm run db:push -- --force </dev/null

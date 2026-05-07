@@ -31,6 +31,10 @@ author = "agent"
 task = "workflow.run"
 args = "Start application"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "i18n-placeholder-check"
+
 [[workflows.workflow]]
 name = "Start application"
 author = "agent"
@@ -43,6 +47,17 @@ outputType = "webview"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[[workflows.workflow]]
+name = "i18n-placeholder-check"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsx scripts/i18n-placeholder-check.ts"
+
+[workflows.workflow.metadata]
+isValidation = true
 
 [agent]
 integrations = ["javascript_stripe:1.0.0"]
