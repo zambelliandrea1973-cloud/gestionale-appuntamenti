@@ -6232,18 +6232,18 @@
       "subtitle": "Hvis du jobber selvstendig og tilbyr personlige tjenester, slutt å administrere timeplanen din på papir eller WhatsApp. Du er i gang på 10 minutter.",
       "ctaStart": "Start gratis · 40 dager",
       "ctaLogin": "Jeg har allerede en konto",
-      "noCard": "Intet kredittkort nødvendig · Ingen automatiske belastninger"
+      "noCard": "Ingen kredittkort nødvendig · Ingen automatiske belastninger"
     },
     "professions": {
       "sectionLabel": "Designet for selvstendige fagfolk",
       "hairdressers": "Frisører",
-      "beauticians": "Skjønnhetseksperter",
+      "beauticians": "Skjønnhetspleiere",
       "masseurs": "Massører",
       "psychologists": "Psykologer",
       "dentists": "Tannleger",
       "osteopaths": "Osteopater",
       "physiotherapists": "Fysioterapeuter",
-      "naturopaths": "Naturleger",
+      "naturopaths": "Naturterapeuter",
       "nutritionists": "Ernæringsrådgivere",
       "coaches": "Coacher og konsulenter",
       "personalTrainers": "Personlige trenere",
@@ -6284,14 +6284,14 @@
     "testimonials": {
       "lucia": {
         "text": "Endelig en app som forstår soloarbeid. Jeg bruker den hver dag for massasjesalongen min.",
-        "author": "Lucia M. · Massør"
+        "author": "Lucia M. · Massøse"
       },
       "marco": {
         "text": "Jeg sluttet å svare på WhatsApp for hver bestilling. De automatiske påminnelsene reddet meg.",
         "author": "Marco T. · Osteopat"
       },
       "sara": {
-        "text": "Enkel, rask, profesjonell. Jeg anbefaler det til alle frisører.",
+        "text": "Enkel, rask, profesjonell. Jeg anbefaler den til alle frisører.",
         "author": "Sara V. · Frisør"
       }
     },
