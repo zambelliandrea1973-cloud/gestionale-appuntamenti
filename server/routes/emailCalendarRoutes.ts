@@ -52,7 +52,7 @@ router.get('/', isAuthenticated, async (req, res) => {
   }
 });
 
-// Endpoint per ottenere the password in chiaro
+// Endpoint to retrieve the plaintext password
 router.get('/show-password', isAuthenticated, async (req, res) => {
   try {
     const userId = (req as any).user?.id;
@@ -125,7 +125,7 @@ router.post('/send-test-email', isAuthenticated, async (req, res) => {
     testMessage = testMessage
       .replace(/{{nome}}/g, 'Mario')
       .replace(/{{cognome}}/g, 'Rossi')
-      .replace(/{{servizio}}/g, 'Consulenza')
+      .replace(/{{servizio}}/g, 'Consultation')
       .replace(/{{data}}/g, '15/05/2025')
       .replace(/{{ora}}/g, '10:00');
     

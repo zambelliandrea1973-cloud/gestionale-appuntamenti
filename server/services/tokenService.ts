@@ -82,7 +82,7 @@ export const tokenService = {
       // Find the token in the database
       const activationToken = await storage.getActivationToken(token);
       
-      // Check if the token esiste
+      // Check if the token exists
       if (!activationToken) {
         console.log('Token not found:', token);
         return null;
@@ -117,7 +117,7 @@ export const tokenService = {
   
   /**
    * Mark a token as used
-   * @param token the token da marcare come utilizzato
+   * @param token the token to mark as used
    * @returns true if the operation succeeded, false otherwise
    */
   async markTokenAsUsed(token: string): Promise<boolean> {
@@ -125,7 +125,7 @@ export const tokenService = {
       // Find the token in the database
       const activationToken = await storage.getActivationToken(token);
       
-      // Check if the token esiste
+      // Check if the token exists
       if (!activationToken) {
         return false;
       }
@@ -151,7 +151,7 @@ export const tokenService = {
       // Find the token in the database
       const activationToken = await storage.getActivationToken(token);
       
-      // Check if the token esiste
+      // Check if the token exists
       if (!activationToken) {
         return false;
       }
@@ -184,7 +184,7 @@ export const tokenService = {
       
       // Generate the new token using the deterministic generator
       const clientIdString = clientId.toString();
-      const secretKey = 'FIXED_CLIENT_SECRET_' + clientIdString + '_' + Date.now(); // Aggiungiamo timestamp per renderlo unico
+      const secretKey = 'FIXED_CLIENT_SECRET_' + clientIdString + '_' + Date.now(); // Adding timestamp to make it unique
       const newToken = crypto.createHash('sha256').update(secretKey).digest('hex');
       
       // Calculate the expiry date
@@ -210,8 +210,8 @@ export const tokenService = {
   /**
    * Activate a client account using an activation token
    * @param token the token activation
-   * @param username Username scelto per l'account
-   * @param password Password scelta per l'account
+   * @param username Username chosen for the account
+   * @param password Password chosen for the account
    * @returns true if activation succeeded, false otherwise
    */
   async activateAccount(token: string, username: string, password: string): Promise<boolean> {
@@ -224,7 +224,7 @@ export const tokenService = {
         return false;
       }
       
-      // Check if l'account esiste already
+      // Check if the account already exists
       const existingAccount = await storage.getClientAccountByClientId(clientId);
       
       if (existingAccount) {
@@ -245,7 +245,7 @@ export const tokenService = {
         });
       }
       
-      // Marca the token come utilizzato
+      // Mark the token as used
       await this.markTokenAsUsed(token);
       
       return true;

@@ -43,7 +43,7 @@ export async function serveCustomIcon(req: Request, res: Response) {
   try {
     const { size } = req.params;
 
-    // Determine dimensione numerica (supporta sia "192" che "192x192")
+    // Determine numeric dimension (supports both "192" and "192x192")
     const sizeNum = parseInt(size.split('x')[0]);
     if (!sizeNum || ![16, 32, 48, 64, 96, 128, 144, 152, 192, 384, 512].includes(sizeNum)) {
       console.log(`❌ ICON PROXY DB: Invalid size: ${size} → ${sizeNum}`);
@@ -86,7 +86,7 @@ export async function serveCustomIcon(req: Request, res: Response) {
       }
     }
     
-    // Fallback a icon default da file
+    // Fallback to default icon from file
     if (!iconBase64) {
       const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'app_icon.jpg');
       if (fs.existsSync(defaultIconPath)) {
@@ -101,11 +101,11 @@ export async function serveCustomIcon(req: Request, res: Response) {
     try {
       const sharp = await import('sharp').then(m => m.default);
       
-      // Estrai buffer dall'immagine base64
+      // Extract buffer from base64 image
       const base64Data = iconBase64.split(',')[1];
       const imageBuffer = Buffer.from(base64Data, 'base64');
       
-      // Ridimensiona al volo (NO FILE SYSTEM!)
+      // Resize on the fly (NO FILE SYSTEM!)
       const resizedBuffer = await sharp(imageBuffer)
         .resize(sizeNum, sizeNum, { 
           fit: 'cover',
@@ -138,7 +138,7 @@ export async function serveCustomIcon(req: Request, res: Response) {
     } catch (error) {
       console.error('❌ ICON PROXY DB: Error generating icon:', error);
       
-      // Fallback a icon statica If generazione fallisce
+      // Fallback to static icon if generation fails
       const staticIconPath = path.join(process.cwd(), 'public', 'icons', `icon-${size}.png`);
       if (fs.existsSync(staticIconPath)) {
         res.sendFile(staticIconPath);

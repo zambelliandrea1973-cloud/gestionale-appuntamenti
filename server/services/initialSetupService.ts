@@ -57,11 +57,11 @@ export class InitialSetupService {
         return;
       }
       
-      // Creo l'account amministratore
+      // Create the administrator account
       const hashedPassword = await hashPassword(password);
       
       // Free trial expiry date (40 days)
-      // Free trial expiry date (40 days) - da implementare in licenseService
+      // Free trial expiry date (40 days) - to be implemented in licenseService
       
       const admin = await storage.createUser({
         username: email,
@@ -71,7 +71,7 @@ export class InitialSetupService {
         type: 'staff'
       });
       
-      console.log(`Account amministratore created successfully: ${email}`);
+      console.log(`Administrator account created successfully: ${email}`);
     } catch (error) {
       console.error('Error creating administrator account:', error);
       throw error;

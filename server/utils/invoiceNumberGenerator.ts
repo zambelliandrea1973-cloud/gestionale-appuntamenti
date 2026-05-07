@@ -6,12 +6,12 @@ import { eq, and, sql } from 'drizzle-orm';
  * Generate the next invoice number in format CODICE-XXX/YEAR
  * Es: BUS14-001/2025, BUS14-002/2025, etc.
  * 
- * Handle race conditions con unique index + retry logic
+ * Handle race conditions with unique index + retry logic
  * 
  * @param userId - Professional ID
- * @param invoiceDate - Data invoice in format YYYY-MM-DD
- * @param maxRetries - Number massimo dthe attempts (default: 5)
- * @returns Number invoice formattato (es: "BUS14-001/2025")
+ * @param invoiceDate - Invoice date in format YYYY-MM-DD
+ * @param maxRetries - Maximum number of attempts (default: 5)
+ * @returns Formatted invoice number (e.g.: "BUS14-001/2025")
  */
 export async function generateInvoiceNumber(userId: number, invoiceDate: string, maxRetries: number = 5): Promise<string> {
   // 1. Retrieve the unique professional code (cache this for performance)
@@ -39,7 +39,7 @@ export async function generateInvoiceNumber(userId: number, invoiceDate: string,
           eq(invoices.userId, userId),
           sql`SUBSTRING(${invoices.invoiceNumber} FROM '/([0-9]{4})$') = ${year}`
         ))
-        .for('update'); // LOCK FOR UPDATE: previene letture concorrenti
+        .for('update'); // LOCK FOR UPDATE: prevents concurrent reads
       
       // Extract the sequential numbers and find the maximum
       let maxSequence = 0;
@@ -55,7 +55,7 @@ export async function generateInvoiceNumber(userId: number, invoiceDate: string,
         }
       }
       
-      // Incrementa e formatta con padding a 3 cifre
+      // Increment and format with 3-digit padding
       const nextSequence = maxSequence + 1;
       const paddedSequence = nextSequence.toString().padStart(3, '0');
       const invoiceNumber = `${professionalCode}-${paddedSequence}/${year}`;

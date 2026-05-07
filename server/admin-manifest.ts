@@ -101,9 +101,9 @@ export async function serveAdminManifest(req: Request, res: Response) {
           ]
         },
         {
-          "name": "Clienti",
-          "url": "/clienti",
-          "description": "Gestisci i tuoi clienti",
+          "name": "Clients",
+          "url": "/clients",
+          "description": "Manage your clients",
           "icons": [
             {
               "src": `${iconBaseUrl}/96x96${iconParams}`,
@@ -113,9 +113,9 @@ export async function serveAdminManifest(req: Request, res: Response) {
           ]
         },
         {
-          "name": "Notifiche",
+          "name": "Notifications",
           "url": "/notifiche",
-          "description": "Visualizza le notifiche",
+          "description": "View your notifications",
           "icons": [
             {
               "src": `${iconBaseUrl}/96x96${iconParams}`,

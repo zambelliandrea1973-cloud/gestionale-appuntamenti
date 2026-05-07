@@ -67,10 +67,10 @@ export function registerRoutes(app: Express): Server {
     res.json(assetLinks);
   });
 
-  // Route proxy per icons PWA ottimizzate per Android
+  // Proxy route for PWA icons optimized for Android
   app.get('/pwa-icon/:size', serveCustomIcon);
   
-  // Route per manifest STATICO Google Play Store (per PWABuilder/TWA)
+  // Route for STATIC manifest for Google Play Store (for PWABuilder/TWA)
   app.get('/manifest-playstore.json', servePlayStoreManifest);
   
   // Route for the ADMIN manifest (professional management system) - DYNAMIC with authentication
@@ -79,7 +79,7 @@ export function registerRoutes(app: Express): Server {
   // Route for the dynamic PWA manifest (clients)
   app.get('/manifest.json', serveDynamicManifest);
   
-  // LEGACY: Manifest handler inline (RIMOSSO - sostituito con dynamic-manifest.ts)
+  // LEGACY: Manifest handler inline (REMOVED - replaced with dynamic-manifest.ts)
   app.get('/manifest-legacy.json', (req, res) => {
     console.log('🔍 ROUTES MANIFEST: Dynamic handler called');
     console.log('🔍 ROUTES MANIFEST: URL:', req.url);
@@ -117,7 +117,7 @@ export function registerRoutes(app: Express): Server {
     const manifest = {
       "name": "Silvia Busnari - Client Area",
       "short_name": "Client Area",
-      "description": "Gestione consensi e servizi medici",
+      "description": "Consent management and medical services",
       "start_url": startUrl,
       "display": "standalone",
       "background_color": "#ffffff",

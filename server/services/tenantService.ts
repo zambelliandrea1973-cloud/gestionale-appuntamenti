@@ -159,22 +159,22 @@ class TenantService {
     switch (context.userType) {
       case 'admin':
         return {
-          primary: '#dc2626', // Rosso per admin
+          primary: '#dc2626', // Red for admin
           variant: 'professional'
         };
       case 'customer':
         return {
-          primary: '#2563eb', // Blu per customer
+          primary: '#2563eb', // Blue for customer
           variant: 'professional'
         };
       case 'staff':
         return {
-          primary: '#059669', // Verde per staff
+          primary: '#059669', // Green for staff
           variant: 'tint'
         };
       case 'client':
         return {
-          primary: '#7c3aed', // Viola per client
+          primary: '#7c3aed', // Purple for client
           variant: 'vibrant'
         };
       default:

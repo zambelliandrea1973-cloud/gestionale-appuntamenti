@@ -177,7 +177,7 @@ router.get('/application-title', async (req, res) => {
       // Check if the user is staff based on type
       if (user.type === 'staff') {
         console.log('Staff user detected, returning PRO title');
-        return res.json({ title: "Gestione Appuntamenti PRO" }); // Titolo per staff
+        return res.json({ title: "Gestione Appuntamenti PRO" }); // Title for staff
       }
       
       // For customer users, verify the specific license
@@ -204,7 +204,7 @@ router.get('/application-title', async (req, res) => {
             title = "Gestione Appuntamenti";
         }
         
-        console.log(`Usando titolo personalizzato per license type ${licenseInfo.type}: ${title}`);
+        console.log(`Using custom title for license type ${licenseInfo.type}: ${title}`);
         return res.json({ title });
       }
     }
@@ -247,7 +247,7 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
     // Format the code by removing spaces and converting to uppercase
     const formattedCode = code.replace(/\s/g, '').toUpperCase();
     
-    // Check if the code esiste already
+    // Check if the code already exists
     const existingLicense = await db.query.licenses.findFirst({
       where: (licenses, { eq }) => eq(licenses.code, formattedCode)
     });
@@ -302,14 +302,14 @@ function verifyAdminPassword(req: any, res: any, next: any) {
   next();
 }
 
-// Endpoint specifico per creare il code passepartout required
+// Specific endpoint to create the required passepartout code
 router.post('/create-passepartout', verifyAdminPassword, async (req, res) => {
   try {
     
-    // Code passepartout required (senza spazi)
+    // Passepartout code required (without spaces)
     const rawCode = '0103197320091979';
     
-    // Check if the code esiste already
+    // Check if the code already exists
     const existingLicense = await db.query.licenses.findFirst({
       where: (licenses, { eq }) => eq(licenses.code, rawCode)
     });
@@ -321,7 +321,7 @@ router.post('/create-passepartout', verifyAdminPassword, async (req, res) => {
       });
     }
     
-    // Inserisci la nuova license passepartout permanente
+    // Insert the new permanent passepartout license
     await db.insert(licenses).values({
       code: rawCode,
       type: LicenseType.PASSEPARTOUT,  // License with access to all features

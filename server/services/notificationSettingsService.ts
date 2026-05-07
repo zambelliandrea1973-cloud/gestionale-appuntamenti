@@ -6,8 +6,8 @@ import { NotificationSettings, InsertNotificationSettings } from '../../shared/s
  */
 export const notificationSettingsService = {
   /**
-   * Get the notification settings correnti
-   * @returns Le settings di notifica o undefined If esistono
+   * Get the current notification settings
+   * @returns The notification settings or undefined if they exist
    */
   async getSettings(): Promise<NotificationSettings | undefined> {
     try {
@@ -20,9 +20,9 @@ export const notificationSettingsService = {
   },
 
   /**
-   * Save nuove settings di notifica
+   * Save new notification settings
    * @param settings Notification settings to save
-   * @returns Le settings di notifica salvate
+   * @returns The saved notification settings
    */
   async saveSettings(settings: InsertNotificationSettings): Promise<NotificationSettings> {
     try {
@@ -50,7 +50,7 @@ export const notificationSettingsService = {
 
   /**
    * Create default notification settings if they exist
-   * @returns Le settings di notifica create o esistenti
+   * @returns The notification settings created or existing
    */
   async ensureDefaultSettings(): Promise<NotificationSettings> {
     const existingSettings = await this.getSettings();
@@ -67,7 +67,7 @@ export const notificationSettingsService = {
       smtpUsername: '',
       smtpPassword: '',
       senderEmail: '',
-      emailSignature: 'Con i migliori saluti,',
+      emailSignature: 'Best regards,',
       notificationCenterEnabled: true,
       defaultReminderTime: 24, // 24 hours before the appointment
       smsEnabled: false,

@@ -3,7 +3,7 @@ import { db } from "../db";
 import { users } from "../../shared/schema";
 import { eq } from "drizzle-orm";
 
-// Versione semplificata che funziona per the staff
+// Simplified version that works for staff
 export async function getStaffReferralStatsSimple(req: Request, res: Response) {
   try {
     const staffId = parseInt(req.params.staffId);

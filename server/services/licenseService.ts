@@ -2,9 +2,9 @@
 /**
  * Service for managing licenses
  * 
- * This service gestisce:
+ * This service manages:
  * - Verify the license status (trial, base, pro)
- * - Generazione di codici activation
+ * - Generation of activation codes
  * - License activation
  * - Verify trial period expiration
  */
@@ -50,7 +50,7 @@ class LicenseService {
    * Generate a code activation for a license
    */
   async generateActivationCode(licenseType: LicenseType): Promise<string> {
-    // Generate a code univoco di 16 caratteri
+    // Generate a unique 16-character code
     const randomBytes = crypto.randomBytes(8);
     const activationCode = randomBytes.toString('hex').toUpperCase();
     
@@ -199,7 +199,7 @@ class LicenseService {
         const trialCode = await this.generateActivationCode(LicenseType.TRIAL);
         // Immediately activate the trial license
         await this.activateLicense(trialCode);
-        // Ricarica the license
+        // Reload the license
         const [newTrialLicense] = await db.select()
           .from(licenses)
           .where(eq(licenses.code, trialCode));
@@ -281,7 +281,7 @@ class LicenseService {
     // Verify that the license is active and not expired
     const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
     
-    // Accesso consentito per licenses PRO, BUSINESS, STAFF_FREE e PASSEPARTOUT
+    // Access allowed for PRO, BUSINESS, STAFF_FREE and PASSEPARTOUT licenses
     if (isActive && (
         licenseInfo.type === LicenseType.PRO || 
         licenseInfo.type === LicenseType.BUSINESS || 
@@ -312,7 +312,7 @@ class LicenseService {
     // Verify that the license is active and not expired
     const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
     
-    // Accesso consentito per licenses BUSINESS e PASSEPARTOUT
+    // Access allowed for BUSINESS and PASSEPARTOUT licenses
     if (isActive && (
         licenseInfo.type === LicenseType.BUSINESS || 
         licenseInfo.type === LicenseType.PASSEPARTOUT
@@ -363,7 +363,7 @@ class LicenseService {
    */
   async createTrialLicense(userId: number, expiresAt: Date): Promise<void> {
     try {
-      // Generate a code univoco per the license trial
+      // Generate a unique code for the trial license
       const randomBytes = crypto.randomBytes(8);
       const trialCode = `TRIAL-${randomBytes.toString('hex').toUpperCase()}`;
       
@@ -417,7 +417,7 @@ class LicenseService {
    */
   async generateStaffLicense(userId: number, licenseType: LicenseType, expiresAt: Date): Promise<string> {
     try {
-      // Generate a code univoco con prefisso STAFF-
+      // Generate a unique code with STAFF- prefix
       const randomBytes = crypto.randomBytes(6);
       const staffCode = `STAFF-${randomBytes.toString('hex').toUpperCase()}`;
       

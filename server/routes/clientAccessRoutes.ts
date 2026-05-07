@@ -484,13 +484,13 @@ router.get("/activate", async (req, res) => {
     return res.status(400).send(`
       <html>
         <head>
-          <title>Errore Attivazione</title>
+          <title>Activation Error</title>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
           <h1 style="color: #EF4444;">❌ Token Missing</h1>
-          <p>Token di attivazione non fornito. Scansiona nuovamente il QR code.</p>
+          <p>Activation token not provided. Please scan the QR code again.</p>
         </body>
       </html>
     `);
@@ -504,10 +504,10 @@ router.get("/activate", async (req, res) => {
   if (lastUnderscoreIndex === -1) {
     console.log(`❌ [ACTIVATE] Token without hash: ${token}`);
     return res.status(400).send(`
-      <html><head><title>Errore Attivazione</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+      <html><head><title>Activation Error</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
-        <p>Formato invalid token. Richiedi un nuovo QR code.</p>
+        <h1 style="color: #EF4444;">❌ Invalid Token</h1>
+        <p>Invalid token format. Please request a new QR code.</p>
       </body></html>
     `);
   }
@@ -519,12 +519,12 @@ router.get("/activate", async (req, res) => {
   
   if (!clientCode.match(/^PROF_\d{2,3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
     console.log(`❌ [ACTIVATE] Non-hierarchical client code: ${clientCode}`);
-    console.log(`❌ [ACTIVATE] Pattern atteso: PROF_XX_XXXX_CLIENT_NNNNN_XXXX o PROF_XXX_XXXX_CLIENT_NNNNN_XXXX`);
+    console.log(`❌ [ACTIVATE] Expected pattern: PROF_XX_XXXX_CLIENT_NNNNN_XXXX or PROF_XXX_XXXX_CLIENT_NNNNN_XXXX`);
     return res.status(400).send(`
-      <html><head><title>Errore Attivazione</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+      <html><head><title>Activation Error</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
-        <p>Formato invalid token. Richiedi un nuovo QR code.</p>
+        <h1 style="color: #EF4444;">❌ Invalid Token</h1>
+        <p>Invalid token format. Please request a new QR code.</p>
       </body></html>
     `);
   }
@@ -533,10 +533,10 @@ router.get("/activate", async (req, res) => {
   if (!ownerMatch) {
     console.log(`❌ [ACTIVATE] Unable to extract owner from: ${clientCode}`);
     return res.status(400).send(`
-      <html><head><title>Errore Attivazione</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+      <html><head><title>Activation Error</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
-        <p>Unable to identify owner from code. Richiedi un nuovo QR code.</p>
+        <h1 style="color: #EF4444;">❌ Invalid Token</h1>
+        <p>Unable to identify owner from code. Please request a new QR code.</p>
       </body></html>
     `);
   }
@@ -551,9 +551,9 @@ router.get("/activate", async (req, res) => {
   if (providedHash !== expectedHash) {
     console.log(`❌ [ACTIVATE] Hash mismatch. Provided: ${providedHash}, Expected: ${expectedHash}`);
     return res.status(401).send(`
-      <html><head><title>Token Non Autorizzato</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+      <html><head><title>Unauthorized Token</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1 style="color: #EF4444;">🔒 Token Non Autorizzato</h1>
+        <h1 style="color: #EF4444;">🔒 Unauthorized Token</h1>
         <p>The token is not valid for this client. Please request a new QR code.</p>
       </body></html>
     `);
@@ -563,10 +563,10 @@ router.get("/activate", async (req, res) => {
   if (!clientMatch) {
     console.log(`❌ [ACTIVATE] Unable to extract client ID from: ${clientCode}`);
     return res.status(400).send(`
-      <html><head><title>Errore Attivazione</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+      <html><head><title>Activation Error</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
-        <p>Impossibile identificare cliente dal codice. Richiedi un nuovo QR code.</p>
+        <h1 style="color: #EF4444;">❌ Invalid Token</h1>
+        <p>Unable to identify client from code. Please request a new QR code.</p>
       </body></html>
     `);
   }
@@ -584,7 +584,7 @@ router.get("/activate", async (req, res) => {
       <html><head><title>Client Not Found</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
         <h1 style="color: #EF4444;">👤 Client Not Found</h1>
-        <p>Il cliente non esiste nel sistema. Verifica il QR code.</p>
+        <p>The client does not exist in the system. Please verify the QR code.</p>
       </body></html>
     `);
   }

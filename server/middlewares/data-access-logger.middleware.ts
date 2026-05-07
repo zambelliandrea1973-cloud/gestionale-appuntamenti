@@ -7,7 +7,7 @@ import { DataAccessLogger } from '../services/data-access-logger';
  */
 export function logDataAccess(resourceType: string) {
   return (req: Request, res: Response, next: NextFunction) => {
-    // Identifica l'azione in base al metodo HTTP
+    // Identify the action based on the HTTP method
     let action: 'read' | 'create' | 'update' | 'delete';
     switch (req.method) {
       case 'GET':
@@ -32,7 +32,7 @@ export function logDataAccess(resourceType: string) {
     // Get the user ID from the session
     const userId = req.user?.id || 'anonymous';
 
-    // Register access prima di procedere
+    // Register access before proceeding
     DataAccessLogger.logAccess(
       userId,
       action,

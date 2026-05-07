@@ -8,13 +8,13 @@ const router = Router();
 const isProduction = process.env.NODE_ENV === 'production';
 const DEFAULT_BETA_ADMIN_PASSWORD = process.env.BETA_ADMIN_PASSWORD || (isProduction ? '' : '');
 
-// Middleware per l'autenticazione personalizzata per l'area beta
+// Middleware for custom authentication for the beta area
 const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {
     // Check all possible authentication headers
     const adminToken = req.headers['x-beta-admin-token'] as string | undefined;
     const authHeader = req.headers['authorization'] as string | undefined;
-    // Estrae the token dall'header Authorization If presente
+    // Extract the token from the Authorization header if present
     let bearerToken: string | undefined;
     if (authHeader && authHeader.startsWith('Bearer ')) {
       bearerToken = authHeader.substring(7); // Remove "Bearer " from the beginning
@@ -81,7 +81,7 @@ router.post('/invitations', isBetaAdmin, async (req, res) => {
 });
 
 /**
- * Endpoint per ottenere all inviti beta
+ * Endpoint to get all beta invitations
  * GET /api/beta/invitations
  * Access: beta admin (uses token authentication)
  */
@@ -103,7 +103,7 @@ router.get('/invitations', isBetaAdmin, async (req, res) => {
 /**
  * Endpoint for verifying an invitation code
  * GET /api/beta/verify/:code
- * Accesso: pubblico
+ * Access: public
  */
 router.get('/verify/:code', async (req, res) => {
   try {
@@ -160,7 +160,7 @@ router.post('/feedback', isAuthenticated, async (req, res) => {
 });
 
 /**
- * Endpoint per ottenere all feedback
+ * Endpoint to get all feedback
  * GET /api/beta/feedback
  * Access: beta admin (uses token authentication)
  */
@@ -263,9 +263,9 @@ router.get('/dashboard', isBetaAdmin, async (req, res) => {
     const invitations = await storage.getBetaInvitations();
     const feedback = await BetaService.getAllFeedbacks();
     
-    console.log(`Found ${invitations.length} inviti e ${feedback.length} feedback`);
+    console.log(`Found ${invitations.length} invitations and ${feedback.length} feedback`);
     
-    // Calculate alcune statistiche
+    // Calculate some statistics
     const usedInvitations = invitations.filter(invite => invite.isUsed).length;
     const unusedInvitations = invitations.length - usedInvitations;
     
@@ -293,7 +293,7 @@ router.get('/dashboard', isBetaAdmin, async (req, res) => {
         total: feedback.length,
         byStatus: feedbackByStatus,
         byType: feedbackByType,
-        recent: feedback.slice(0, 5) // Ultimi 5 feedback
+        recent: feedback.slice(0, 5) // Last 5 feedback items
       }
     });
   } catch (error) {

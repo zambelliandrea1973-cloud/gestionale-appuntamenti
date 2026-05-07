@@ -48,8 +48,8 @@ router.get("/api/appointments", async (req, res) => {
         startTime: apt.startTime,
         endTime: apt.endTime,
         clientId: apt.clientId,
-        client: apt.client, // ✅ Oggetto client completo
-        service: apt.service, // ✅ Oggetto service completo
+        client: apt.client, // ✅ Full client object
+        service: apt.service, // ✅ Full service object
         serviceId: apt.serviceId,
         userId: apt.userId,
         notes: apt.notes,
@@ -57,10 +57,10 @@ router.get("/api/appointments", async (req, res) => {
         reminderConfirmed: apt.reminderConfirmed,
         staffId: apt.staffId,
         roomId: apt.roomId,
-        staff: apt.staff, // ✅ NEW: Oggetto staff completo (opzionale)
-        room: apt.room, // ✅ NEW: Oggetto room completo (opzionale)
-        importedFromGoogle: apt.importedFromGoogle, // ✅ Flag per eventi Google importati
-        googleEventTitle: apt.googleEventTitle // ✅ Titolo originale evento Google
+        staff: apt.staff, // ✅ NEW: Full staff object (optional)
+        room: apt.room, // ✅ NEW: Full room object (optional)
+        importedFromGoogle: apt.importedFromGoogle, // ✅ Flag for imported Google events
+        googleEventTitle: apt.googleEventTitle // ✅ Original Google event title
       }));
       
       res.json(formattedAppointments);
@@ -84,7 +84,7 @@ router.get("/api/appointments/date/:date", async (req, res) => {
       // 🔄 USE POSTGRESQL: Load appointments by date from shared database
       const dayAppointments = await storage.getAppointmentsByDateForUser(date, user.id, user.type);
       
-      logger.debug(`📅 [${deviceType}] Caricati ${dayAppointments.length} appointments from PostgreSQL per ${date}`);
+      logger.debug(`📅 [${deviceType}] Loaded ${dayAppointments.length} appointments from PostgreSQL for ${date}`);
       
       // Convert PostgreSQL format → JSON for frontend compatibility
       const formattedAppointments = dayAppointments.map(apt => ({
@@ -93,8 +93,8 @@ router.get("/api/appointments/date/:date", async (req, res) => {
         startTime: apt.startTime,
         endTime: apt.endTime,
         clientId: apt.clientId,
-        client: apt.client, // ✅ Oggetto client completo
-        service: apt.service, // ✅ Oggetto service completo
+        client: apt.client, // ✅ Full client object
+        service: apt.service, // ✅ Full service object
         serviceId: apt.serviceId,
         userId: apt.userId,
         notes: apt.notes,
@@ -102,10 +102,10 @@ router.get("/api/appointments/date/:date", async (req, res) => {
         reminderConfirmed: apt.reminderConfirmed,
         staffId: apt.staffId,
         roomId: apt.roomId,
-        staff: apt.staff, // ✅ NEW: Oggetto staff completo (opzionale)
-        room: apt.room, // ✅ NEW: Oggetto room completo (opzionale)
-        importedFromGoogle: apt.importedFromGoogle, // ✅ Flag per eventi Google importati
-        googleEventTitle: apt.googleEventTitle // ✅ Titolo originale evento Google
+        staff: apt.staff, // ✅ NEW: Full staff object (optional)
+        room: apt.room, // ✅ NEW: Full room object (optional)
+        importedFromGoogle: apt.importedFromGoogle, // ✅ Flag for imported Google events
+        googleEventTitle: apt.googleEventTitle // ✅ Original Google event title
       }));
       
       res.json(formattedAppointments);
@@ -181,7 +181,7 @@ router.post("/api/appointments", async (req, res) => {
       let reminderTime = null;
       if (req.body.date && req.body.startTime) {
         const appointmentDateTime = new Date(`${req.body.date}T${req.body.startTime}`);
-        reminderTime = new Date(appointmentDateTime.getTime() - 24 * 60 * 60 * 1000); // 24 ore prima
+        reminderTime = new Date(appointmentDateTime.getTime() - 24 * 60 * 60 * 1000); // 24 hours before
         logger.debug(`⏰ [REMINDER] Calculated reminder_time: ${reminderTime.toISOString()} (24h before ${appointmentDateTime.toISOString()})`);
       }
       
@@ -250,7 +250,7 @@ router.post("/api/appointments", async (req, res) => {
         const [googleUser] = await db.select().from(users).where(eq(users.id, user.id));
         if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
           
-          // Create direttamente l'evento in Google Calendar usando the token of the user
+          // Create the event directly in Google Calendar using the user's token
           const tokens = JSON.parse(EncryptionService.decryptToken(googleUser.googleAuthToken));
           const oauth2Client = new google.auth.OAuth2(
             process.env.GOOGLE_CLIENT_ID,
@@ -270,7 +270,7 @@ router.post("/api/appointments", async (req, res) => {
           
           if (clientData) {
             // USE ISO format WITHOUT Z to respect Europe/Rome timezone
-            // Handle sia format HH:MM che HH:MM:SS
+            // Handle both HH:MM and HH:MM:SS formats
             const startTime = newAppointment.startTime.length === 5 ? `${newAppointment.startTime}:00` : newAppointment.startTime;
             const endTime = newAppointment.endTime.length === 5 ? `${newAppointment.endTime}:00` : newAppointment.endTime;
             const startDateTimeStr = `${newAppointment.date}T${startTime}`;
@@ -279,7 +279,7 @@ router.post("/api/appointments", async (req, res) => {
             
             const summary = serviceData 
               ? `${clientData.firstName} ${clientData.lastName} - ${serviceData.name}`
-              : `Appuntamento con ${clientData.firstName} ${clientData.lastName}`;
+              : `Appointment with ${clientData.firstName} ${clientData.lastName}`;
             
             const description = newAppointment.notes 
               ? `Note: ${newAppointment.notes}\nClient: ${clientData.firstName} ${clientData.lastName}\nPhone: ${clientData.phone || 'N/A'}\nEmail: ${clientData.email || 'N/A'}`
@@ -302,13 +302,13 @@ router.post("/api/appointments", async (req, res) => {
               }
             });
             
-            // Save the google_event_id e marca come sincronizzato
+            // Save the google_event_id and mark as synchronized
             if (response.data.id) {
               await db.update(appointments)
                 .set({ synced: true, googleEventId: response.data.id })
                 .where(eq(appointments.id, newAppointment.id));
               
-              // Save also nelthe table di mapping per UPDATE/DELETE
+              // Save also in the mapping table for UPDATE/DELETE
               await db.insert(googleCalendarEvents).values({
                 appointmentId: newAppointment.id,
                 googleEventId: response.data.id,
@@ -335,7 +335,7 @@ router.post("/api/appointments", async (req, res) => {
           const [packagePurchase] = await db.select().from(packagePurchases).where(eq(packagePurchases.id, packagePurchaseId));
           
           if (!packagePurchase) {
-            console.error(`❌ [PACKAGE] Pacchetto ${packagePurchaseId} not found`);
+            console.error(`❌ [PACKAGE] Package ${packagePurchaseId} not found`);
           } else if (packagePurchase.sessionsRemaining <= 0) {
             console.error(`❌ [PACKAGE] Package ${packagePurchaseId} has no remaining sessions`);
           } else {
@@ -357,11 +357,11 @@ router.post("/api/appointments", async (req, res) => {
               packagePurchaseId: packagePurchaseId,
               appointmentId: newAppointment.id,
               redeemedAt: new Date(),
-              notes: `Appuntamento ${newAppointment.id} del ${req.body.date}`
+              notes: `Appointment ${newAppointment.id} on ${req.body.date}`
             };
             await db.insert(packageRedemptions).values(redemptionData);
             
-            logger.debug(`✅ [PACKAGE] Session redeemed! Package ${packagePurchaseId}: ${newSessionsRemaining}/${packagePurchase.sessionsTotal} remanenti (status: ${newStatus})`);
+            logger.debug(`✅ [PACKAGE] Session redeemed! Package ${packagePurchaseId}: ${newSessionsRemaining}/${packagePurchase.sessionsTotal} remaining (status: ${newStatus})`);
           }
         } catch (packageError) {
           console.error(`❌ [PACKAGE] Error redeeming session:`, packageError);
@@ -447,7 +447,7 @@ router.put("/api/appointments/:id", async (req, res) => {
         return res.status(404).json({ message: "Appointment not found" });
       }
       
-      logger.debug(`✅ [PostgreSQL] appointment ${appointmentId} updated con staffId: ${updatedAppointment.staffId}, roomId: ${updatedAppointment.roomId}`);
+      logger.debug(`✅ [PostgreSQL] appointment ${appointmentId} updated with staffId: ${updatedAppointment.staffId}, roomId: ${updatedAppointment.roomId}`);
       
       // 🔄 GOOGLE CALENDAR SYNC: Update in Google Calendar if enabled
       // IMPORTANT: Do not update events IMPORTED from Google Calendar!
@@ -489,7 +489,7 @@ router.put("/api/appointments/:id", async (req, res) => {
                 
                 const summary = serviceData 
                   ? `${clientData.firstName} ${clientData.lastName} - ${serviceData.name}`
-                  : `Appuntamento con ${clientData.firstName} ${clientData.lastName}`;
+                  : `Appointment with ${clientData.firstName} ${clientData.lastName}`;
                 
                 const description = updatedAppointment.notes 
                   ? `Note: ${updatedAppointment.notes}\nClient: ${clientData.firstName} ${clientData.lastName}`
@@ -531,7 +531,7 @@ router.delete("/api/appointments/:id", async (req, res) => {
     const user = req.user as any;
     const appointmentId = parseInt(req.params.id);
     
-    logger.debug(`🗑️ [DELETE] ===== INIZIO RICHIESTA DELETE =====`);
+    logger.debug(`🗑️ [DELETE] ===== START DELETE REQUEST =====`);
     logger.debug(`🗑️ [DELETE] Attempting to delete appointment ${appointmentId} from user ${user.id} (${user.type})`);
     
     if (isNaN(appointmentId)) {
@@ -659,7 +659,7 @@ router.post("/api/booking-requests", async (req, res) => {
         timeStart: requestedTimeStart,
         timeEnd: requestedTimeEnd,
         duration: serviceDuration,
-        staffId: staffId || undefined // Passa preferenza professionista se presente
+        staffId: staffId || undefined // Pass professional preference if present
       });
       
       // Create the request with "slots_proposed" status
@@ -687,7 +687,7 @@ router.post("/api/booking-requests", async (req, res) => {
     }
   });
 
-  // GET /api/booking-requests - Admin vede richieste pendenti (multi-tenant)
+  // GET /api/booking-requests - Admin sees pending requests (multi-tenant)
 router.get("/api/booking-requests", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
     const user = req.user as any;
@@ -718,7 +718,7 @@ router.get("/api/booking-requests", async (req, res) => {
     }
   });
 
-  // PUT /api/booking-requests/:id/select-slot - Client seleziona uno slot proposto
+  // PUT /api/booking-requests/:id/select-slot - Client selects a proposed slot
 router.put("/api/booking-requests/:id/select-slot", async (req, res) => {
     try {
       const requestId = parseInt(req.params.id);
@@ -791,7 +791,7 @@ router.put("/api/booking-requests/:id/confirm", async (req, res) => {
     
     try {
       const requestId = parseInt(req.params.id);
-      const { staffId: manualStaffId, roomId: manualRoomId } = req.body; // Override manuale opzionale
+      const { staffId: manualStaffId, roomId: manualRoomId } = req.body; // Optional manual override
       
       // Find the booking request
       const request = await db.select().from(bookingRequests).where(eq(bookingRequests.id, requestId)).limit(1);
@@ -819,7 +819,7 @@ router.put("/api/booking-requests/:id/confirm", async (req, res) => {
       const finalStaffId = manualStaffId || requestData.staffId || null;
       
       // Re-verify slot availability before confirming (avoids race conditions)
-      // IMPORTANTE: usa finalStaffId per validare also override admin
+      // IMPORTANT: use finalStaffId to validate also admin override
       const service = await db.select().from(services).where(eq(services.id, requestData.serviceId)).limit(1);
       if (!service || service.length === 0) {
         return res.status(404).json({ error: "Service not found" });
@@ -844,9 +844,9 @@ router.put("/api/booking-requests/:id/confirm", async (req, res) => {
         return res.status(409).json({ error: "The selected slot is no longer available. Please choose a different time." });
       }
       
-      // ASSEGNAZIONE STANZA: automatica o con validazione override admin
+      // ROOM ASSIGNMENT: automatic or with admin override validation
       
-      // Load rooms attive
+      // Load active rooms
       const activeRooms = await db.select()
         .from(treatmentRooms)
         .where(and(
@@ -989,7 +989,7 @@ router.put("/api/booking-requests/:id/reject", async (req, res) => {
         return res.status(403).json({ error: "Unauthorized" });
       }
       
-      // Update come rifiutata
+      // Update as rejected
       const updated = await db.update(bookingRequests)
         .set({
           status: "rejected",

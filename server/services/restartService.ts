@@ -21,7 +21,7 @@ export function generateRestartToken(): string {
   // Store the token with current timestamp
   restartTokens[token] = Date.now();
   
-  // Pulisci i token scaduti
+  // Clean up expired tokens
   cleanExpiredTokens();
   
   return token;
@@ -77,7 +77,7 @@ export async function restartApplication(token: string): Promise<{ success: bool
     };
   }
   
-  // Rimuovi the token utilizzato
+  // Remove the used token
   delete restartTokens[token];
   
   try {
@@ -90,12 +90,12 @@ export async function restartApplication(token: string): Promise<{ success: bool
         message: "Restart initiated. The application will be available again in a few seconds."
       };
     } else {
-      // Su altri ambienti, esegui pm2 reload o restart
+      // On other environments, run pm2 reload or restart
       return new Promise((resolve) => {
         exec('pm2 reload all 2>/dev/null || pm2 restart all 2>/dev/null || pkill -HUP node', (error) => {
           if (error) {
             console.error('Error during restart:', error);
-            // Fallback al processo Node
+            // Fallback to Node process
             try {
               process.kill(process.pid, 'SIGHUP');
               resolve({

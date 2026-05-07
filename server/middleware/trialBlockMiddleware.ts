@@ -27,7 +27,7 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
     const userRole = user.role;
 
 
-    // Admin e passepartout hanno sempre accesso
+    // Admin and passepartout always have access
     if (userType === 'admin' || userRole === 'admin') {
       return next();
     }
@@ -50,45 +50,45 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
       const isExpired = new Date(licenseInfo.expiresAt) < new Date();
 
       if (isExpired && licenseInfo.type === 'trial') {
-        // TRIAL SCADUTO: blocks access eccetto alcune route
+        // EXPIRED TRIAL: blocks access except for some routes
         
         // Routes allowed even with expired trial
         const allowedPaths = [
           '/subscribe',           // Subscriptions page
-          '/payment/success',     // Callback successo PayPal/Stripe
-          '/payment/cancel',      // Callback annullamento PayPal/Stripe
+          '/payment/success',     // PayPal/Stripe success callback
+          '/payment/cancel',      // PayPal/Stripe cancellation callback
           '/api/payments',        // Payments API (for subscribing)
           '/api/logout',          // Logout
           '/api/user-with-license', // User info
-          '/api/payments/plans',    // Lista piani
+          '/api/payments/plans',    // Plans list
           '/api/payments/subscription', // Subscription info
           '/api/payments/stripe/create-checkout-session', // Stripe checkout
           '/api/payments/paypal/subscribe', // PayPal checkout
-          '/api/payments/paypal/capture', // PayPal capture ordine
-          '/api/payments/paypal/confirm-order', // PayPal conferma ordine
+          '/api/payments/paypal/capture', // PayPal order capture
+          '/api/payments/paypal/confirm-order', // PayPal order confirmation
           '/api/payments/paypal/finalize', // PayPal public finalization
-          '/api/timezone-settings',  // Fuso orario
-          '/api/tenant-context',     // Contesto tenant
-          '/api/client-app-info',    // Info app
+          '/api/timezone-settings',  // Timezone settings
+          '/api/tenant-context',     // Tenant context
+          '/api/client-app-info',    // App info
           '/api/company-name-settings', // Company settings
-          '/api/contact-info',       // Info contatto
+          '/api/contact-info',       // Contact info
           '/api/forgot-password',    // Password recovery (available to all)
-          '/api/reset-password',     // Reset password con token
+          '/api/reset-password',     // Reset password with token
           '/api/verify-reset-token', // Reset token verification
           '/api/register',           // New user registration
           '/manifest-admin.json',    // PWA manifest
-          '/icon-proxy',             // Icone PWA
-          '/pwa-icon',               // Icone PWA alternative
+          '/icon-proxy',             // PWA icons
+          '/pwa-icon',               // Alternative PWA icons
           '/api/license',            // License API (to show expiry info)
           '/@vite',                  // Vite HMR
-          '/src/',                   // File sorgente React
-          '/assets/',                // Asset compilati
-          '/forced-style.css',       // CSS forzato
-          '/disable-vite-overlay.js', // Script Vite
+          '/src/',                   // React source files
+          '/assets/',                // Compiled assets
+          '/forced-style.css',       // Forced CSS
+          '/disable-vite-overlay.js', // Vite script
           '/service-worker.js',      // Service Worker
           '/@react-refresh',         // React Fast Refresh
-          '/node_modules',           // Moduli node (per dev)
-          '/@fs',                    // File system virtuale Vite
+          '/node_modules',           // Node modules (for dev)
+          '/@fs',                    // Vite virtual file system
         ];
 
         const isAllowed = allowedPaths.some(path => req.path.startsWith(path));

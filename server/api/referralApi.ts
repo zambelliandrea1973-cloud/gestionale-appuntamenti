@@ -31,7 +31,7 @@ export async function getStaffReferralStats(req: Request, res: Response) {
       pending: allCommissions.filter(comm => comm.status !== 'active').reduce((sum, comm) => sum + (comm.monthlyAmount || 0), 0) / 100
     };
 
-    // Lista commissions recenti usando referralCommissions
+    // List recent commissions using referralCommissions
     const recentCommissions = await db
       .select({
         id: referralCommissions.id,
@@ -206,7 +206,7 @@ export async function assignSponsorship(req: Request, res: Response) {
   }
 }
 
-// Segna commission come pagata (only admin)
+// Mark commission as paid (only admin)
 export async function markCommissionPaid(req: Request, res: Response) {
   try {
     if (!req.user || req.user.role !== 'admin') {

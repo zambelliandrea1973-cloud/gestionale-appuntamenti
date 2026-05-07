@@ -17,7 +17,7 @@ export interface ContactInfo {
  */
 class ContactService {
   /**
-   * Load the information di contatto dall'user (per multi-tenant)
+   * Load contact information for the user (per multi-tenant)
    */
   async getContactInfo(userId?: number): Promise<ContactInfo> {
     try {
@@ -79,5 +79,5 @@ class ContactService {
   }
 }
 
-// Export istanza singleton
+// Export singleton instance
 export const contactService = new ContactService();

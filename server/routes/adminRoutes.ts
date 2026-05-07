@@ -35,7 +35,7 @@ function isAdmin(req: Request, res: Response, next: Function) {
 
 /**
  * Endpoint for getting a restart token
- * Richiede autenticazione come admin
+ * Requires admin authentication
  */
 adminRouter.get('/restart-token', isAdmin, (req: Request, res: Response) => {
   try {
@@ -84,7 +84,7 @@ adminRouter.post('/restart', async (req: Request, res: Response) => {
 });
 
 /**
- * Endpoint pubblico per the restart d'emergenza
+ * Public endpoint for emergency restart
  * Can be called even when the application is nearly offline
  * Requires a fixed security key in the "key" parameter
  * 
@@ -104,7 +104,7 @@ adminRouter.post('/emergency-restart', async (req: Request, res: Response) => {
     
     console.log('🚨 EMERGENCY RESTART INITIATED');
     
-    // Generate a token temporaneo per the restart
+    // Generate a temporary token for the restart
     const token = generateRestartToken();
     
     const result = await restartApplication(token);

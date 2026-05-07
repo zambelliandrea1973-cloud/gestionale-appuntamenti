@@ -73,11 +73,11 @@ router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
 });
 
 // NOTE: The POST /sync endpoint has been moved to simple-routes.ts
-// per evitare conflitti di routing
+// to avoid routing conflicts
 
 /**
  * GET /api/google-calendar/status
- * Get stato sincronizzazione
+ * Get sync status
  */
 router.get('/status', isAuthenticated, async (req, res) => {
   try {
@@ -91,7 +91,7 @@ router.get('/status', isAuthenticated, async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Conta eventi sincronizzati
+    // Count synced events
     const syncedEvents = await db.select().from(googleCalendarEvents);
     
     res.json({

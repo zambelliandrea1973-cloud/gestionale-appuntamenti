@@ -7,7 +7,7 @@ import path from 'path';
  */
 export const dataProtectionService = {
   /**
-   * Create backup automatici of the data critici
+   * Create automatic backups of critical data
    */
   createAutoBackup(reason: string = 'scheduled'): void {
     try {
@@ -15,7 +15,7 @@ export const dataProtectionService = {
       const storageDataPath = './storage_data.json';
       
       if (!fs.existsSync(storageDataPath)) {
-        console.error('File storage_data.json not found per backup');
+        console.error('File storage_data.json not found for backup');
         return;
       }
       
@@ -58,7 +58,7 @@ export const dataProtectionService = {
       
       const data = JSON.parse(fs.readFileSync(storageDataPath, 'utf8'));
       
-      // Verify presenza di fields critici
+      // Verify presence of critical fields
       if (!data.userServices) {
         console.warn('Field userServices missing');
         return false;

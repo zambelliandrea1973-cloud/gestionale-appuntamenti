@@ -26,9 +26,9 @@ const setupPaypalClient = (clientId: string, clientSecret: string, mode: 'sandbo
 };
 
 /**
- * Get i metodi di payment configurati
+ * Get configured payment methods
  * GET /api/payments/payment-admin/payment-methods
- * Accesso: payment admin
+ * Access: payment admin
  */
 router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) => {
   try {
@@ -116,7 +116,7 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
       });
     }
     
-    // Restituisci the credentials complete (user autenticato come payment admin)
+    // Return full credentials (user authenticated as payment admin)
     return res.json(paymentMethods);
   } catch (error: any) {
     console.error('Error retrieving payment methods:', error);
@@ -130,7 +130,7 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
 /**
  * Save payment method configuration
  * POST /api/payments/payment-admin/payment-methods
- * Accesso: payment admin
+ * Access: payment admin
  */
 router.post('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) => {
   try {
@@ -162,7 +162,7 @@ router.post('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =
 /**
  * Test the configuration of a payment method
  * POST /api/payments/payment-admin/test-payment-method/:id
- * Accesso: payment admin
+ * Access: payment admin
  */
 router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req, res) => {
   try {
@@ -210,7 +210,7 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
       }
       
       try {
-        console.log('🔧 PayPal test - Setup client con mode:', config.mode || 'sandbox');
+        console.log('🔧 PayPal test - Setup client with mode:', config.mode || 'sandbox');
         const paypalClient = setupPaypalClient(config.clientId, config.clientSecret, config.mode || 'sandbox');
         
         // Verify credentials by creating a trial order with the old SDK
@@ -310,7 +310,7 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
 /**
  * Auto-configure Wise by retrieving Profile ID and Account ID from the API
  * POST /api/payments/payment-admin/wise/auto-configure
- * Accesso: payment admin
+ * Access: payment admin
  */
 router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, res) => {
   try {
@@ -435,7 +435,7 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
 /**
  * Get available payment methods for user
  * GET /api/payments/available-methods
- * Accesso: all (pubblico)
+ * Access: all (public)
  */
 router.get('/available-methods', async (req, res) => {
   try {
@@ -482,7 +482,7 @@ router.get('/available-methods', async (req, res) => {
 /**
  * Verify which payment method to use for a subscription
  * GET /api/payments/subscription/:id/payment-method
- * Accesso: admin, staff
+ * Access: admin, staff
  */
 router.get('/subscription/:id/payment-method', isAdminOrStaff, async (req, res) => {
   try {

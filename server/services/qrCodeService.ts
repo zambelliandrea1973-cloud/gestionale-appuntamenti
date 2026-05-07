@@ -23,7 +23,7 @@ export const qrCodeService = {
         }
       };
       
-      // Generate the QR code come stringa base64
+      // Generate the QR code as a base64 string
       return await QRCode.toDataURL(text, qrOptions);
     } catch (error) {
       console.error('Error generating QR code:', error);
@@ -34,7 +34,7 @@ export const qrCodeService = {
   /**
    * Generate an activation URL from a token
    * @param token the token activation
-   * @returns L'URL completo per l'attivazione
+   * @returns The complete activation URL
    */
   generateActivationUrl(token: string): string {
     // Get the application host from environment variables or use the Replit URL

@@ -8,7 +8,7 @@ import { loadStorageData } from "../utils/jsonStorage";
  * Configure routes for staff user management
  */
 export default function setupStaffRoutes(app: Express) {
-  // Get the lista di all users staff (only per admin) - endpoint alternativo
+  // Get the list of all staff users (only for admin) - alternative endpoint
   app.get("/api/staff/users", isAdmin, async (req: Request, res: Response) => {
     try {
       console.log("🔵 [/api/staff/users] START - Retrieving staff from PostgreSQL database");
@@ -42,7 +42,7 @@ export default function setupStaffRoutes(app: Express) {
     }
   });
 
-  // Get the lista di all users staff (only per admin)
+  // Get the list of all staff users (only for admin)
   app.get("/api/staff/list", isAdmin, async (req: Request, res: Response) => {
     try {
       // Retrieve all staff users from the database
@@ -77,7 +77,7 @@ export default function setupStaffRoutes(app: Express) {
     try {
       const { username, password, email, role } = req.body;
       
-      // Verify che username e password siano presenti
+      // Verify that username and password are present
       if (!username || !password) {
         return res.status(400).json({ message: "Username and password are required" });
       }
@@ -137,7 +137,7 @@ export default function setupStaffRoutes(app: Express) {
         return res.status(400).json({ message: "Invalid user ID" });
       }
       
-      // Verify che l'user esista
+      // Verify that the user exists
       const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
@@ -162,12 +162,12 @@ export default function setupStaffRoutes(app: Express) {
         updateData.username = username;
       }
       
-      // Update l'email If fornita
+      // Update email if provided
       if (email !== undefined) {
-        updateData.email = email || null; // Consenti di rimuovere l'email impostando null
+        updateData.email = email || null; // Allow removing the email by setting null
       }
       
-      // Update the password If fornita
+      // Update the password if provided
       if (password) {
         updateData.password = await hashPassword(password);
       }
@@ -199,7 +199,7 @@ export default function setupStaffRoutes(app: Express) {
         return res.status(400).json({ message: "No data to update provided" });
       }
       
-      // Update l'user
+      // Update the user
       const updatedUser = await storage.updateUser(userId, updateData);
       
       if (updatedUser) {
@@ -225,7 +225,7 @@ export default function setupStaffRoutes(app: Express) {
         return res.status(400).json({ message: "Invalid user ID" });
       }
       
-      // Verify che l'user esista
+      // Verify that the user exists
       const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
@@ -244,7 +244,7 @@ export default function setupStaffRoutes(app: Express) {
       // CROSS-STORE PROTECTION: Check if user has data in JSON before deleting
       const storageData = loadStorageData();
       
-      // Normalize struttura JSON (supporta sia [id, obj] che obj)
+      // Normalize JSON structure (supports both [id, obj] and obj)
       const clients = (storageData.clients || []).map((it: any) => Array.isArray(it) ? it[1] : it);
       const appointments = (storageData.appointments || []).map((it: any) => Array.isArray(it) ? it[1] : it);
       
@@ -267,9 +267,9 @@ export default function setupStaffRoutes(app: Express) {
         });
       }
       
-      console.log(`✅ [PROTEZIONE] user ${userId} not ha data in JSON, Deleting sicura`);
+      console.log(`✅ [PROTEZIONE] user ${userId} has no JSON data, safe to delete`);
       
-      // Delete l'user
+      // Delete the user
       const deleted = await storage.deleteUser(userId);
       
       if (deleted) {

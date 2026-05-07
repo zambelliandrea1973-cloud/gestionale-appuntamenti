@@ -275,7 +275,7 @@ export function getSmtpConfig(
     };
   }
 
-  // otherwise, prova auto-detection
+  // otherwise, try auto-detection
   const detected = detectEmailProvider(email);
   if (detected) {
     return detected;

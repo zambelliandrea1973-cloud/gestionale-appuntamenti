@@ -5,7 +5,7 @@ import { ensureAuthenticated } from '../middleware/authMiddleware';
 
 const router = Router();
 
-// TEMA (COD_005) - ESATTO IDENTICO AL NOME AZIENDALE
+// THEME (COD_005) - EXACTLY IDENTICAL TO THE BUSINESS NAME
 router.post('/theme', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     const userId = req.user!.id;

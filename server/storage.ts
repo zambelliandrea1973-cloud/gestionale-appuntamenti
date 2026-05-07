@@ -482,7 +482,7 @@ export class DatabaseStorage implements IStorage {
 
   async getClients(ownerId?: number): Promise<Client[]> {
     try {
-      logger.debug(`🔍 DatabaseStorage.getClients chiamato con ownerId: ${ownerId}`);
+      logger.debug(`🔍 DatabaseStorage.getClients called with ownerId: ${ownerId}`);
       
       let rawClients;
       if (ownerId !== undefined) {
@@ -529,10 +529,10 @@ export class DatabaseStorage implements IStorage {
 
   async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
     try {
-      logger.debug(`🔍 DatabaseStorage.getVisibleClientsForUser per userId: ${userId}, role: ${role}`);
+      logger.debug(`🔍 DatabaseStorage.getVisibleClientsForUser for userId: ${userId}, role: ${role}`);
       
       // Exclude only the dummy clients imported from Google Calendar (email @imported.local)
-      // Includi i clients con email NULL (es. contatti importati da Google Contacts)
+      // Include clients with NULL email (e.g. contacts imported from Google Contacts)
       const excludeGoogleImported = or(
         sql`${clients.email} IS NULL`,
         not(like(clients.email, '%@imported.local'))
@@ -1497,8 +1497,8 @@ export class DatabaseStorage implements IStorage {
           ...row.appointment,
           client: row.client!,
           service: row.service!,
-          staff: row.staff || undefined, // Staff opzionale
-          room: row.room || undefined // Room opzionale
+          staff: row.staff || undefined, // Staff optional
+          room: row.room || undefined // Room optional
         }));
 
       logger.debug(`✅ NEW multi-tenant system: ${formattedResult.length} appointments for user ${userId} (with staff/room) - FULL SEPARATION`);
@@ -1576,8 +1576,8 @@ export class DatabaseStorage implements IStorage {
           ...row.appointment,
           client: row.client!,
           service: row.service!,
-          staff: row.staff || undefined, // Staff opzionale
-          room: row.room || undefined // Room opzionale
+          staff: row.staff || undefined, // Staff optional
+          room: row.room || undefined // Room optional
         }));
 
       logger.debug(`✅ NEW multi-tenant system: ${formattedResult.length} appointments for date ${date} - user ${userId} (with staff/room) - FULL SEPARATION`);
@@ -2290,7 +2290,7 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error generating invoice number:", error);
       
-      // Fallback con timestamp
+      // Fallback with timestamp
       const now = new Date();
       return `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}-${now.getTime().toString().substring(7)}`;
     }
@@ -3856,7 +3856,7 @@ export class DatabaseStorage implements IStorage {
       }
       
       // If cancelAtPeriodEnd is true, we only set the flag and the subscription will end at the end of the period
-      // otherwise, impostiamo the status come 'cancelled' immediatamente
+      // otherwise, we immediately set the status to 'cancelled'
       const updateData: Record<string, any> = {
         cancelAtPeriodEnd,
         updatedAt: new Date()
@@ -4254,7 +4254,7 @@ export class DatabaseStorage implements IStorage {
    */
   async getSubscriptionByUserId(userId: number): Promise<SubscriptionWithDetails | undefined> {
     try {
-      console.log(`Retrieving subscription for user con ID ${userId}`);
+      console.log(`Retrieving subscription for user with ID ${userId}`);
       
       // First retrieve the base subscription
       const [subscription] = await db
@@ -4693,7 +4693,7 @@ export class DatabaseStorage implements IStorage {
         .returning();
       
       if (updated) {
-        logger.debug(`✅ settings contact aggiornate for tenant ${tenantId}`);
+        logger.debug(`✅ contact settings updated for tenant ${tenantId}`);
       } else {
         logger.debug(`⚠️ No contact settings found for tenant ${tenantId}`);
       }
@@ -4749,7 +4749,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(contactSettings.tenantId, tenantId));
       
       await result;
-      logger.debug(`✅ settings contact eliminate for tenant ${tenantId}`);
+      logger.debug(`✅ contact settings deleted for tenant ${tenantId}`);
       const success = true;
       
       return success;
@@ -4896,7 +4896,7 @@ export class DatabaseStorage implements IStorage {
         })
         .returning();
       
-      logger.debug(`✅ Contenuto manual saved con ID ${saved.id}`);
+      logger.debug(`✅ Manual content saved with ID ${saved.id}`);
       return saved;
     } catch (error) {
       console.error(`Error saving manual content:`, error);
@@ -5066,7 +5066,7 @@ export class DatabaseStorage implements IStorage {
         
         logger.debug(`✅ Icon updated for user ${userId}`);
       } else {
-        // Inserisci nuova icon
+        // Insert new icon
         await db
           .insert(userIcons)
           .values({ 

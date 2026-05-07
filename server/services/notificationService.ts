@@ -19,10 +19,10 @@ const messagesPendingDelivery = new Map<string, boolean>();
  */
 export const notificationService = {
   /**
-   * Generate a link diretto a WhatsApp
+   * Generate a direct link to WhatsApp
    * @param to Recipient phone number in international format (e.g. +39123456789)
    * @param message Message text to send
-   * @returns URL per aprire WhatsApp con the message precompilato
+   * @returns URL to open WhatsApp with the pre-filled message
    */
   generateWhatsAppLink(to: string, message: string): string {
     return directNotificationService.generateWhatsAppLink(to, message);
@@ -42,15 +42,15 @@ export const notificationService = {
   /**
    * Classify an SMTP error as permanent or temporary
    * LOGIC: All 5xx are PERMANENT, 4xx and timeouts are TEMPORARY
-   * @param error Error da Nodemailer
-   * @returns Type di error e dettagli
+   * @param error Error from Nodemailer
+   * @returns Error type and details
    */
   classifySMTPError(error: any): { type: 'permanent' | 'temporary'; code: string; reason: string } {
     const errorMessage = error.message?.toLowerCase() || '';
     const responseCode = error.responseCode || error.code || '';
     const numericCode = parseInt(responseCode);
     
-    // TEMPORANEI: 4xx codes (required client valida ma problema temporaneo)
+    // TEMPORARY: 4xx codes (valid client required but temporary problem)
     if (
       (numericCode >= 400 && numericCode < 500) ||
       responseCode === 421 || // Service not available
@@ -98,7 +98,7 @@ export const notificationService = {
       };
     }
     
-    // Default: errors sconosciuti trattati come PERMANENTI per sicurezza
+    // Default: unknown errors treated as PERMANENT for safety
     // (better to block a suspicious address than to keep sending pointlessly)
     return { type: 'permanent', code: responseCode.toString(), reason: 'unknown_error' };
   },
@@ -107,8 +107,8 @@ export const notificationService = {
    * Register a bounce and update the client status
    * LOGIC: Track consecutive PERMANENT bounces (reset on success/temporary)
    * @param email Email that generated the bounce
-   * @param clientId ID client (opzionale)
-   * @param ownerId ID proprietario account
+   * @param clientId Client ID (optional)
+   * @param ownerId Account owner ID
    * @param error Error SMTP
    */
   async registerBounce(email: string, clientId: number | null, ownerId: number, error: any): Promise<void> {
@@ -131,19 +131,19 @@ export const notificationService = {
       if (existingBounces.length > 0) {
         // Update existing bounce
         const currentBounce = existingBounces[0];
-        const newBounceCount = currentBounce.bounceCount + 1; // Sempre incrementato (storico)
+        const newBounceCount = currentBounce.bounceCount + 1; // Always incremented (history)
         
         // Handling CONSECUTIVE permanent bounces
         let newConsecutivePermanent = currentBounce.consecutivePermanentBounces || 0;
         if (errorInfo.type === 'permanent') {
-          // Error PERMANENTE: incrementa streak
+          // PERMANENT error: increment streak
           newConsecutivePermanent++;
         } else {
           // TEMPORARY error: reset streak (consecutive interruption)
           newConsecutivePermanent = 0;
         }
         
-        // Blocco SOLO If abbiamo 3+ bounce PERMANENTI CONSECUTIVI
+        // Block ONLY if we have 3+ CONSECUTIVE PERMANENT bounces
         const shouldBlock = newConsecutivePermanent >= 3;
         
         await db.update(emailBounces)
@@ -200,15 +200,15 @@ export const notificationService = {
    * @param subject Email subject
    * @param message Email body text
    * @param emailConfig Email configuration from the file
-   * @param clientId ID client (opzionale, per tracciamento bounce)
-   * @param ownerId ID proprietario (opzionale, per tracciamento bounce)
+   * @param clientId Client ID (optional, for bounce tracking)
+   * @param ownerId Owner ID (optional, for bounce tracking)
    * @returns A Promise that resolves to true if sending succeeded
    */
   async sendEmailDirect(to: string, subject: string, message: string, emailConfig: any, clientId?: number, ownerId?: number): Promise<boolean> {
     try {
       const nodemailer = await import('nodemailer');
       
-      // Create trasportatore SMTP per Gmail
+      // Create SMTP transporter for Gmail
       const transporter = nodemailer.default.createTransport({
         service: 'gmail',
         auth: {
@@ -236,16 +236,16 @@ export const notificationService = {
       const info = await transporter.sendMail(mailOptions);
       logger.debug(`✅ Reminder email sent successfully: ${info.messageId}`);
       
-      // Reset bounce streak e sblocco email in caso di successo
-      // IMPORTANTE: manteniamo bounceCount per storico, resettiamo SOLO consecutivePermanentBounces
+      // Reset bounce streak and unblock email on success
+      // IMPORTANT: we keep bounceCount for history, reset ONLY consecutivePermanentBounces
       if (clientId && ownerId) {
         const { emailBounces, clients: clientsTable } = await import('../../shared/schema');
         const { eq, and } = await import('drizzle-orm');
         
-        // Reset SOLO streak permanenti (mantiene bounceCount per storico)
+        // Reset ONLY permanent bounce streak (keeps bounceCount for history)
         await db.update(emailBounces)
           .set({ 
-            consecutivePermanentBounces: 0, // Reset streak permanenti
+            consecutivePermanentBounces: 0, // Reset permanent bounce streak
             isBlocked: false 
           })
           .where(and(
@@ -291,7 +291,7 @@ export const notificationService = {
     try {
       const nodemailer = await import('nodemailer');
       
-      // Create trasportatore SMTP per Gmail
+      // Create SMTP transporter for Gmail
       const transporter = nodemailer.default.createTransport({
         service: 'gmail',
         auth: {
@@ -316,7 +316,7 @@ export const notificationService = {
         }];
       }
       
-      console.log(`Sending invoice email to ${to} con oggetto: ${subject}`);
+      console.log(`Sending invoice email to ${to} with subject: ${subject}`);
       
       const info = await transporter.sendMail(mailOptions);
       console.log(`Invoice email sent successfully: ${info.messageId}`);
@@ -371,7 +371,7 @@ export const notificationService = {
     // Add a notification to the notification center for the professional
     await directNotificationService.addToNotificationCenter(
       0, // Special ID for the professional
-      `📱 Invia WhatsApp to client con numero ${to}. [Apri WhatsApp](${whatsappLink})`,
+      `📱 Send WhatsApp to client with number ${to}. [Open WhatsApp](${whatsappLink})`,
       'staff_reminder'
     );
     
@@ -427,7 +427,7 @@ export const notificationService = {
         staffMember = staffResult[0] || null;
       }
       
-      // 🗄️ RECUPERA STANZA DA POSTGRESQL (If presente)
+      // 🗄️ RETRIEVE ROOM FROM POSTGRESQL (if present)
       let room = null;
       if (appointment.roomId) {
         const roomResult = await db.select().from(treatmentRooms).where(eq(treatmentRooms.id, appointment.roomId)).limit(1);
@@ -438,7 +438,7 @@ export const notificationService = {
       const appointmentDate = format(new Date(appointment.date), 'dd/MM/yyyy');
       const startTime = appointment.startTime.substring(0, 5); // Extract HH:MM only
       
-      // 🗄️ TEMPLATE CON DATI DA POSTGRESQL
+      // 🗄️ TEMPLATE WITH DATA FROM POSTGRESQL
       // Default message with all available details
       let appointmentDetails = '';
       if (service) appointmentDetails += `for ${service.name}`;
@@ -459,7 +459,7 @@ export const notificationService = {
       // Set the flag to avoid duplicate sends
       messagesPendingDelivery.set(messageId, true);
       
-      // Send the message in base al type di promemoria
+      // Send the message based on the reminder type
       // Time supports multiple channels separated by comma (e.g. "sms,whatsapp,email")
       const reminderTypes = appointment.reminderType.split(',');
       let successCount = 0;
@@ -533,7 +533,7 @@ export const notificationService = {
         
         // 🔄 UPDATE STATUS IN POSTGRESQL (not JSON)
         if (successCount > 0) {
-          // Update l'appointment in PostgreSQL
+          // Update the appointment in PostgreSQL
           const { db } = await import('../db');
           const { appointments: appointmentsTable } = await import('../../shared/schema');
           const { eq } = await import('drizzle-orm');
@@ -542,9 +542,9 @@ export const notificationService = {
             .set({ reminderStatus: 'sent' })
             .where(eq(appointmentsTable.id, appointment.id));
             
-          logger.debug(`✅ [NOTIFICHE POSTGRESQL] Reminder sent successfully for appointment ${appointment.id}. Successful channels: ${successCount}, failed: ${errorCount}`);
+          logger.debug(`✅ [NOTIFICATIONS POSTGRESQL] Reminder sent successfully for appointment ${appointment.id}. Successful channels: ${successCount}, failed: ${errorCount}`);
         } else {
-          // Update l'appointment in PostgreSQL
+          // Update the appointment in PostgreSQL
           const { db } = await import('../db');
           const { appointments: appointmentsTable } = await import('../../shared/schema');
           const { eq } = await import('drizzle-orm');
@@ -553,7 +553,7 @@ export const notificationService = {
             .set({ reminderStatus: 'failed' })
             .where(eq(appointmentsTable.id, appointment.id));
             
-          console.error(`❌ [NOTIFICHE POSTGRESQL] All reminder send attempts for appointment ${appointment.id} failed`);
+          console.error(`❌ [NOTIFICATIONS POSTGRESQL] All reminder send attempts for appointment ${appointment.id} failed`);
         }
       } finally {
         // Remove the flag also in case of error
@@ -572,7 +572,7 @@ export const notificationService = {
    * 🗄️ POSTGRESQL SYSTEM - Load data from database
    * 🔄 TIMING: Every 15 minutes check appointments with reminder_time in the next 30 hours
    * 📧 EMAIL ONLY: WhatsApp remains manual from the notification center
-   * @returns Il number di promemoria EMAIL inviati successfully
+   * @returns The number of EMAIL reminders sent successfully
    */
   async processReminders(): Promise<number> {
     try {
@@ -619,7 +619,7 @@ export const notificationService = {
       
       let remindersSent = 0;
       
-      // Send i promemoria EMAIL
+      // Send EMAIL reminders
       for (const appointment of appointments) {
         if (isVerbose) logger.debug(`📧 [EMAIL] appointment ID ${appointment.id} on ${appointment.date} at ${appointment.startTime} - reminder_time: ${appointment.reminderTime?.toISOString()}`);
         
@@ -667,7 +667,7 @@ export const notificationService = {
         return false;
       }
       
-      // Create trasportatore SMTP per Gmail
+      // Create SMTP transporter for Gmail
       const transporter = nodemailer.default.createTransport({
         service: 'gmail',
         auth: {

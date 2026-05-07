@@ -11,7 +11,7 @@ import { requireAuth } from '../middleware/authMiddleware';
 
 const router = Router();
 
-  // === AREA CLIENTI - ROTTE PER QR CODE ACCESS ===
+  // === CLIENT AREA - ROUTES FOR QR CODE ACCESS ===
   
   // QR token validation - UPDATED FOR POSTGRESQL
   async function validateQRToken(clientCode: string, token: string) {
@@ -190,7 +190,7 @@ router.get('/api/simple/client/:clientCode/invoices', async (req, res) => {
       
       const { client, legacyClientId } = validation;
       
-      // Query PostgreSQL con filtro multi-tenant sicuro + OR match su legacy ID
+      // Query PostgreSQL with secure multi-tenant filter + OR match on legacy ID
       const allClientInvoices = await db
         .select({
           id: invoicesTable.id,
@@ -287,7 +287,7 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         .from(invoiceItems)
         .where(eq(invoiceItems.invoiceId, invoiceData.id));
       
-      // Load logo personalizzato
+      // Load custom logo
       const { loadUserLogo, buildInvoiceHtml, generatePdfBuffer } = await import('./utils/invoicePdf');
       const logoBase64 = await loadUserLogo(client.userId);
       
@@ -372,15 +372,15 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         language: pwaLang,
       };
       
-      // Generate HTML professionale con logo e grafica
+      // Generate professional HTML with logo and graphics
       const htmlContent = buildInvoiceHtml(context);
       
-      // Usa Puppeteer per generare PDF vero, con fallback HTML If fallisce
+      // Use Puppeteer to generate a real PDF, with HTML fallback if it fails
       try {
         const pdfBuffer = await generatePdfBuffer(htmlContent);
         
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="Fattura_${invoiceData.invoiceNumber}.pdf"`);
+        res.setHeader('Content-Disposition', `attachment; filename="Invoice_${invoiceData.invoiceNumber}.pdf"`);
         res.send(pdfBuffer);
         
         logger.debug(`✅ [CLIENT-INVOICE-PDF] Professional PDF generated for client ${clientCode}`);
@@ -389,7 +389,7 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         
         // Fallback: send professional HTML (same template, but not PDF)
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.setHeader('Content-Disposition', `inline; filename="Fattura_${invoiceData.invoiceNumber}.html"`);
+        res.setHeader('Content-Disposition', `inline; filename="Invoice_${invoiceData.invoiceNumber}.html"`);
         res.send(htmlContent);
         
         logger.debug(`📄 [CLIENT-INVOICE-PDF] Professional HTML sent as fallback for client ${clientCode}`);

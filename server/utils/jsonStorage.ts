@@ -53,9 +53,9 @@ export function saveStorageData(data: any) {
 }
 
 /**
- * 🗓️ FILTRO CONDIVISO: Find appointments di domani DA POSTGRESQL
+ * 🗓️ SHARED FILTER: Find tomorrow's appointments FROM POSTGRESQL
  * Used by both the WhatsApp Center and the automatic job for consistency
- * @returns Promise<Array> di appointments di domani
+ * @returns Promise<Array> of tomorrow's appointments
  */
 export async function getTomorrowAppointments() {
   // 🔄 USE POSTGRESQL instead of JSON

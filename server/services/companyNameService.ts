@@ -84,7 +84,7 @@ const validateSettings = (settings: any) => {
   };
 };
 
-// Check if personalizzato
+// Check if customized
 export const isCustomized = async (userId: number): Promise<boolean> => {
   const settings = await loadSettings(userId);
   if (!settings) return false;

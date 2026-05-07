@@ -16,7 +16,7 @@ router.get('/email-bounces', async (req, res) => {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // Risolvi ownerId per multi-tenant (staff usa ownerId, admin usa proprio userId)
+    // Resolve ownerId for multi-tenant (staff uses ownerId, admin uses their own userId)
     const ownerId = req.user.ownerId ?? req.user.tenantId ?? req.user.id;
 
     // Query with join to also get client data
@@ -31,7 +31,7 @@ router.get('/email-bounces', async (req, res) => {
         lastBounceAt: emailBounces.lastBounceAt,
         isBlocked: emailBounces.isBlocked,
         createdAt: emailBounces.createdAt,
-        // Dati client (If presente)
+        // Client data (if present)
         clientId: clients.id,
         clientFirstName: clients.firstName,
         clientLastName: clients.lastName,
@@ -69,7 +69,7 @@ router.post('/email-bounces/unblock', async (req, res) => {
       return res.status(400).json({ error: 'Email required' });
     }
 
-    // Risolvi ownerId per multi-tenant
+    // Resolve ownerId for multi-tenant
     const ownerId = req.user.ownerId ?? req.user.tenantId ?? req.user.id;
 
     // Reset bounce record
@@ -94,7 +94,7 @@ router.post('/email-bounces/unblock', async (req, res) => {
         eq(clients.ownerId, ownerId)
       ));
 
-    console.log(`✅ Email ${email} sbloccata per owner ${ownerId}`);
+    console.log(`✅ Email ${email} unblocked for owner ${ownerId}`);
     
     res.json({ 
       success: true, 
@@ -122,10 +122,10 @@ router.delete('/email-bounces/:id', async (req, res) => {
       return res.status(400).json({ error: 'ID bounce invalid' });
     }
 
-    // Risolvi ownerId per multi-tenant
+    // Resolve ownerId for multi-tenant
     const ownerId = req.user.ownerId ?? req.user.tenantId ?? req.user.id;
 
-    // Verify ownership e elimina
+    // Verify ownership and delete
     const deleted = await db.delete(emailBounces)
       .where(and(
         eq(emailBounces.id, bounceId),

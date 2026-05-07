@@ -71,22 +71,22 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
       if (emailAddress !== undefined) updateData.smtpEmail = emailAddress;
       if (emailPassword !== undefined && emailPassword !== '••••••••••') {
         updateData.smtpPasswordEncrypted = encryptPassword(emailPassword);
-        logger.debug(`🔐 [EMAIL SETTINGS] Password criptata con AES-256-GCM`);
+        logger.debug(`🔐 [EMAIL SETTINGS] Password encrypted with AES-256-GCM`);
       }
       if (emailTemplate !== undefined) updateData.emailTemplate = emailTemplate;
       if (emailSubject !== undefined) updateData.emailSubject = emailSubject;
       if (calendarEnabled !== undefined) updateData.calendarIntegrationEnabled = calendarEnabled;
       if (calendarId !== undefined) updateData.defaultCalendarId = calendarId;
       
-      // 🚀 AUTO-DETECTION SMTP: If emailAddress fornito MA smtpServer/smtpPort NON forniti
+      // 🚀 AUTO-DETECTION SMTP: If emailAddress is provided BUT smtpServer/smtpPort are NOT provided
       if (emailAddress && !smtpServer && !smtpPort) {
         const detected = detectEmailProvider(emailAddress);
         if (detected) {
           updateData.smtpServer = detected.smtp_server;
           updateData.smtpPort = detected.smtp_port;
-          console.log(`✨ [AUTO-DETECTION] Provider rilevato: ${detected.providerName || detected.smtp_server} (${detected.smtp_server}:${detected.smtp_port})`);
+          console.log(`✨ [AUTO-DETECTION] Provider detected: ${detected.providerName || detected.smtp_server} (${detected.smtp_server}:${detected.smtp_port})`);
           
-          // If provider richiede App Password (Gmail, iCloud), logga avviso
+          // If provider requires App Password (Gmail, iCloud), log a warning
           if (detected.requiresAppPassword) {
             logger.debug(`⚠️ [AUTO-DETECTION] ${detected.providerName} requires App Password - will be verified on test`);
           }
@@ -167,11 +167,11 @@ router.post('/api/test-system-email', requireAuth, async (req, res) => {
       const { sendSystemEmail } = await import('../services/systemEmailService');
       const result = await sendSystemEmail(
         email,
-        'Test Email Sistema - Verifica Funzionamento',
-        `<h2>Test Email di Sistema</h2>
+        'System Test Email - Functionality Check',
+        `<h2>System Test Email</h2>
          <p>This email confirms that the email sending system is working correctly.</p>
          <p><strong>Server:</strong> ${process.env.PRODUCTION_DOMAIN || 'Replit development'}</p>
-         <p><strong>Data:</strong> ${new Date().toLocaleString('it-IT')}</p>`
+         <p><strong>Date:</strong> ${new Date().toLocaleString('en-US')}</p>`
       );
       
       if (result.success) {
@@ -227,12 +227,12 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
       await transporter.sendMail({
         from: emailConfig.emailAddress,
         to: email,
-        subject: 'Test Email - Sistema Gestione Appuntamenti',
+        subject: 'Test Email - Appointment Management System',
         html: `
-          <h2>✅ Test Email Configurazione</h2>
+          <h2>✅ Test Email Configuration</h2>
           <p>This is a test email from the appointment management system.</p>
           <p><strong>Date sent:</strong> ${new Date().toLocaleString('en-US')}</p>
-          <p><strong>Da:</strong> ${emailConfig.emailAddress}</p>
+          <p><strong>From:</strong> ${emailConfig.emailAddress}</p>
           <p>If you receive this email, the configuration is correct!</p>
         `
       });
@@ -257,82 +257,82 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
       const domain = emailConfig?.emailAddress ? emailConfig.emailAddress.split('@')[1] : '';
       const providerName = detected?.providerName || domain || 'Provider email';
       
-      // 🔍 MAPPA ERRORI SMTP A MESSAGGI USER-FRIENDLY
+      // 🔍 MAP SMTP ERRORS TO USER-FRIENDLY MESSAGES
       let userMessage = 'Error sending test email';
       let helpUrl: string | null = null;
       let errorCode = 'UNKNOWN';
       
-      // ✉️ ERRORI AUTENTICAZIONE (535, EAUTH)
+      // ✉️ AUTHENTICATION ERRORS (535, EAUTH)
       if (error.responseCode === 535 || error.code === 'EAUTH' || (error.message && error.message.includes('535'))) {
         errorCode = 'AUTH_FAILED';
         
-        // 📧 GMAIL - Richiede App Password
+        // 📧 GMAIL - Requires App Password
         if (domain === 'gmail.com' || domain === 'googlemail.com') {
-          userMessage = `⚠️ ${providerName} richiede una App Password (NON la password normale del tuo account Gmail).\n\n` +
-                       `📝 Come ottenerla:\n` +
-                       `1. Vai su https://myaccount.google.com/security\n` +
-                       `2. Attiva "Verifica in due passaggi"\n` +
-                       `3. Vai su https://myaccount.google.com/apppasswords\n` +
-                       `4. Genera una password per "Mail"\n` +
-                       `5. Usa quella password (16 caratteri) al posto della password Gmail normale`;
+          userMessage = `⚠️ ${providerName} requires an App Password (NOT your regular Gmail account password).\n\n` +
+                       `📝 How to get it:\n` +
+                       `1. Go to https://myaccount.google.com/security\n` +
+                       `2. Enable "2-Step Verification"\n` +
+                       `3. Go to https://myaccount.google.com/apppasswords\n` +
+                       `4. Generate a password for "Mail"\n` +
+                       `5. Use that password (16 characters) instead of your regular Gmail password`;
           helpUrl = 'https://myaccount.google.com/apppasswords';
         }
-        // 🍎 ICLOUD - Richiede App Password
+        // 🍎 ICLOUD - Requires App Password
         else if (domain === 'icloud.com' || domain === 'me.com') {
-          userMessage = `⚠️ ${providerName} richiede una password specifica per l'app.\n\n` +
-                       `📝 Come ottenerla:\n` +
-                       `1. Vai su appleid.apple.com\n` +
-                       `2. Accedi e vai su "Sicurezza"\n` +
-                       `3. Genera una "password specifica per l'app"\n` +
-                       `4. Usa quella password al posto della password iCloud`;
+          userMessage = `⚠️ ${providerName} requires an app-specific password.\n\n` +
+                       `📝 How to get it:\n` +
+                       `1. Go to appleid.apple.com\n` +
+                       `2. Sign in and go to "Security"\n` +
+                       `3. Generate an "app-specific password"\n` +
+                       `4. Use that password instead of your iCloud password`;
           helpUrl = 'https://appleid.apple.com';
         }
-        // 📬 ALTRI PROVIDER - Password errata
+        // 📬 OTHER PROVIDERS - Wrong password
         else {
-          userMessage = `❌ Email o password non corretti per ${providerName}.\n\n` +
-                       `Verifica che:\n` +
-                       `• L'indirizzo email sia corretto\n` +
-                       `• La password sia quella che usi per entrare nella webmail\n` +
-                       `• Non ci siano spazi extra nella password`;
+          userMessage = `❌ Incorrect email or password for ${providerName}.\n\n` +
+                       `Check that:\n` +
+                       `• The email address is correct\n` +
+                       `• The password is the one you use to log into webmail\n` +
+                       `• There are no extra spaces in the password`;
         }
       }
-      // 🔌 SERVER NON RAGGIUNGIBILE
+      // 🔌 SERVER UNREACHABLE
       else if (error.code === 'ECONNREFUSED') {
         errorCode = 'CONN_REFUSED';
-        userMessage = `❌ Impossibile connettersi al server SMTP di ${providerName}.\n\n` +
+        userMessage = `❌ Unable to connect to the SMTP server of ${providerName}.\n\n` +
                      `Server: ${emailConfig?.smtpServer || 'not configured'}\n` +
                      `Port: ${emailConfig?.smtpPort || 'not configured'}\n\n` +
-                     `Possibili cause:\n` +
+                     `Possible causes:\n` +
                      `• The SMTP server is incorrect\n` +
                      `• The port is blocked by the firewall`;
       }
       // ⏱️ CONNECTION TIMEOUT
       else if (error.code === 'ETIMEDOUT' || error.code === 'ESOCKET') {
         errorCode = 'TIMEOUT';
-        userMessage = `⏱️ Timeout durante la connessione a ${providerName}.\n\n` +
-                     `Il server SMTP non risponde. Verifica la tua connessione internet.`;
+        userMessage = `⏱️ Timeout connecting to ${providerName}.\n\n` +
+                     `The SMTP server is not responding. Check your internet connection.`;
       }
-      // 🔍 SERVER NON TROVATO
+      // 🔍 SERVER NOT FOUND
       else if (error.code === 'ENOTFOUND') {
         errorCode = 'NOT_FOUND';
-        userMessage = `❌ Server SMTP not found: ${emailConfig?.smtpServer}\n\n` +
-                     `Verifica che il server sia corretto per ${providerName}.`;
+        userMessage = `❌ SMTP server not found: ${emailConfig?.smtpServer}\n\n` +
+                     `Check that the server is correct for ${providerName}.`;
       }
-      // 🚫 POLICY / SPAM (Libero, Virgilio, ISP italiani)
+      // 🚫 POLICY / SPAM (Libero, Virgilio, Italian ISPs)
       else if ((error.responseCode === 550 || error.responseCode === 554) && 
                (error.message?.includes('policy') || error.message?.includes('spam'))) {
         errorCode = 'POLICY_REJECT';
         userMessage = `🚫 The provider ${providerName} has blocked sending.\n\n` +
-                     `Possibili cause:\n` +
-                     `• Limite di invii giornalieri raggiunto\n` +
-                     `• Email classificata come spam\n` +
-                     `• Connessione da IP unauthorized\n\n` +
+                     `Possible causes:\n` +
+                     `• Daily sending limit reached\n` +
+                     `• Email classified as spam\n` +
+                     `• Connection from unauthorized IP\n\n` +
                      `Contact ${providerName} support for more details.`;
       }
-      // ⚠️ ERRORE GENERICO
+      // ⚠️ GENERIC ERROR
       else {
         userMessage = `Error sending test email.\n\n` +
-                     `Dettagli tecnici: ${error.message || 'Unknown error'}`;
+                     `Technical details: ${error.message || 'Unknown error'}`;
       }
       
       console.error(`❌ [TEST EMAIL ERROR] Code: ${errorCode}, Provider: ${providerName}, Domain: ${domain}`);
@@ -349,7 +349,7 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
     }
   });
 
-  // Servire file statici da attached_assets per icons
+  // Serve static files from attached_assets for icons
   router.use('/attached_assets', (req, res, next) => {
     const filePath = path.join(process.cwd(), 'attached_assets', req.path);
     res.sendFile(filePath, (err) => {

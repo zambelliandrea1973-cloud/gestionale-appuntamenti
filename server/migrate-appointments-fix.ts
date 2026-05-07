@@ -5,7 +5,7 @@ import { loadStorageData } from './utils/jsonStorage';
 import { eq, and } from 'drizzle-orm';
 
 /**
- * Fix per the appointments con serviceId troppo grande
+ * Fix for appointments with serviceId too large
  * Create serviceId JSON → serviceId PostgreSQL mapping
  */
 
@@ -115,11 +115,11 @@ async function fixAppointmentsServiceId() {
         continue;
       }
       
-      // Inserisci con serviceId rimappato
+      // Insert with remapped serviceId
       await db.insert(appointments).values({
         userId: pgUserId,
         clientId: pgClientId,
-        serviceId: pgServiceId, // ✅ ID PostgreSQL corretto
+        serviceId: pgServiceId, // ✅ Correct PostgreSQL ID
         staffId: appointment.staffId,
         roomId: appointment.roomId,
         date: appointment.date,
@@ -145,9 +145,9 @@ async function fixAppointmentsServiceId() {
   console.log('📊 FIX completed');
   console.log(`${'='.repeat(60)}`);
   console.log(`
-✅ Migrati:  ${migrated}
-⏭️  Skipped:  ${skipped}
-❌ Errori:   ${errors}
+✅ Migrated:  ${migrated}
+⏭️  Skipped:   ${skipped}
+❌ Errors:    ${errors}
 `);
   
   // Verify finale per Silvia

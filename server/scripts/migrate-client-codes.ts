@@ -1,11 +1,11 @@
 /**
- * Script di migrazione automatica per uniformare i codici client
+ * Automatic migration script to standardize client codes
  * 
  * Find all clients with old long format (uniqueCode) but without new short format (newUniqueCode)
  * and automatically generates new codes while keeping old QR codes working.
  * 
- * SICUREZZA:
- * - Lascia uniqueCode invariato → vecchi QR continuano a funzionare
+ * SECURITY:
+ * - Leaves uniqueCode unchanged → old QR codes keep working
  * - Generate only newUniqueCode → standardizes the display
  */
 
@@ -113,7 +113,7 @@ async function migrateClientCodes(): Promise<MigrationStats> {
 
         console.log(`✅ [MIGRATED] Client ${client.id} (${clientName})`);
         console.log(`   Old: ${client.uniqueCode || 'N/A'} (QR still valid)`);
-        console.log(`   Nuovo:   ${newCode}\n`);
+        console.log(`   New:     ${newCode}\n`);
 
         stats.migrated++;
         stats.details.push({
@@ -140,18 +140,18 @@ async function migrateClientCodes(): Promise<MigrationStats> {
       }
     }
 
-    // Stampa riepilogo
+    // Print summary
     console.log('\n' + '='.repeat(60));
-    console.log('📈 [RIEPILOGO MIGRAZIONE]');
+    console.log('📈 [MIGRATION SUMMARY]');
     console.log('='.repeat(60));
     console.log(`Total clients processed: ${stats.total}`);
-    console.log(`✅ Migrati successfully:  ${stats.migrated}`);
-    console.log(`⚠️  Saltati:              ${stats.skipped}`);
-    console.log(`❌ Errori:                ${stats.errors}`);
+    console.log(`✅ Migrated successfully: ${stats.migrated}`);
+    console.log(`⚠️  Skipped:              ${stats.skipped}`);
+    console.log(`❌ Errors:                ${stats.errors}`);
     console.log('='.repeat(60) + '\n');
 
     if (stats.errors > 0) {
-      console.log('⚠️  CLIENTI CON ERRORI:');
+      console.log('⚠️  CLIENTS WITH ERRORS:');
       stats.details
         .filter(d => d.status === 'error')
         .forEach(d => {
@@ -161,7 +161,7 @@ async function migrateClientCodes(): Promise<MigrationStats> {
     }
 
     if (stats.skipped > 0) {
-      console.log('ℹ️  CLIENTI SALTATI:');
+      console.log('ℹ️  SKIPPED CLIENTS:');
       stats.details
         .filter(d => d.status === 'skipped')
         .forEach(d => {

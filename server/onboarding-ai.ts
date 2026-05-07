@@ -35,7 +35,7 @@ const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
   ru: 'Russian (Русский)',
 };
 
-// Fallback localizzati per quando Gemini fallisce o la key manca
+// Localized fallbacks used when Gemini is unavailable or the API key is missing
 const FALLBACK_BY_LANG: Record<string, BusinessAnalysis> = {
   it: {
     suggestedBusinessType: 'consulting',

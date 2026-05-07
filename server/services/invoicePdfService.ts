@@ -28,8 +28,8 @@ interface InvoiceDependencies {
 
 interface GeneratePdfOptions {
   invoiceId: number;
-  userId?: number;         // Per route autenticate (email admin)
-  clientCode?: string;     // Per route pubbliche PWA
+  userId?: number;         // For authenticated routes (email admin)
+  clientCode?: string;     // For public PWA routes
   storage?: any;
 }
 
@@ -62,15 +62,15 @@ export async function resolveInvoiceDependencies(
     console.log(`🔍 [invoicePdfService] Resolved userId ${userId} from clientCode ${options.clientCode}`);
     
   } else if (options.userId) {
-    // Flusso autenticato: usa userId diretto
+    // Authenticated flow: use userId directly
     userId = options.userId;
-    console.log(`🔍 [invoicePdfService] Uso userId ${userId} diretto`);
+    console.log(`🔍 [invoicePdfService] Using userId ${userId} directly`);
     
   } else {
-    throw new Error('Specificare userId o clientCode');
+    throw new Error('Specify userId or clientCode');
   }
   
-  // Load invoice da PostgreSQL con multi-tenant guard
+  // Load invoice from PostgreSQL with multi-tenant guard
   const invoiceResults = await db.select()
     .from(invoices)
     .where(and(
@@ -104,7 +104,7 @@ export async function resolveInvoiceDependencies(
     .from(invoiceItems)
     .where(eq(invoiceItems.invoiceId, invoice.id));
   
-  // Load logo personalizzato
+  // Load custom logo
   const logoBase64 = await loadUserLogo(userId);
   
   // Load company data - use injected storage if present, otherwise fallback to global
@@ -234,7 +234,7 @@ export function buildInvoiceContext(deps: InvoiceDependencies): InvoiceRenderCon
 export async function generateInvoicePdf(options: GeneratePdfOptions): Promise<Buffer> {
   const { invoiceId, userId, clientCode, storage } = options;
   
-  console.log(`📄 [invoicePdfService] Generation PDF per invoice ${invoiceId}${userId ? `, userId ${userId}` : ''}${clientCode ? `, clientCode ${clientCode}` : ''}`);
+  console.log(`📄 [invoicePdfService] Generating PDF for invoice ${invoiceId}${userId ? `, userId ${userId}` : ''}${clientCode ? `, clientCode ${clientCode}` : ''}`);
   
   // 1. Resolve dependencies (load data) - pass userId OR clientCode
   const dependencies = await resolveInvoiceDependencies(invoiceId, { userId, clientCode }, storage);
@@ -252,7 +252,7 @@ export async function generateInvoicePdf(options: GeneratePdfOptions): Promise<B
   // 3. Generate HTML
   const html = buildInvoiceHtml(context);
   
-  // 4. Generate PDF con Puppeteer (lancia eccezione If fallisce)
+  // 4. Generate PDF with Puppeteer (throws exception if it fails)
   const pdfBuffer = await generatePdfBuffer(html);
   
   console.log(`✅ [invoicePdfService] PDF generated: ${pdfBuffer.length} bytes`);

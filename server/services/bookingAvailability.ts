@@ -43,7 +43,7 @@ export async function calculateAvailableSlots(
 ): Promise<TimeSlot[]> {
   const { userId, date, timeStart, timeEnd, duration, staffId } = params;
   
-  console.log(`🔍 [AVAILABILITY] Calcolo slot per userId=${userId}, data=${date}, fascia=${timeStart}-${timeEnd}, durata=${duration}min${staffId ? `, staffId=${staffId}` : ''}`);
+  console.log(`🔍 [AVAILABILITY] Calculating slots for userId=${userId}, date=${date}, range=${timeStart}-${timeEnd}, duration=${duration}min${staffId ? `, staffId=${staffId}` : ''}`);
   
   // Input validation
   if (!timeStart || !timeEnd || !timeStart.match(/^\d{2}:\d{2}$/) || !timeEnd.match(/^\d{2}:\d{2}$/)) {
@@ -56,7 +56,7 @@ export async function calculateAvailableSlots(
   
   // Verify that the window is sufficient for the service duration
   if (windowEnd - windowStart < duration) {
-    console.log(`⚠️ [AVAILABILITY] Finestra troppo piccola: ${windowEnd - windowStart}min < ${duration}min richiesti`);
+    console.log(`⚠️ [AVAILABILITY] Window too small: ${windowEnd - windowStart}min < ${duration}min required`);
     return [];
   }
   
@@ -165,7 +165,7 @@ export async function calculateAvailableSlots(
         
         // Limit to 5 slots to avoid overloading the UI
         if (candidates.length === 5) {
-          logger.debug(`✅ [AVAILABILITY] Found 5 slot, fermata ricerca`);
+          logger.debug(`✅ [AVAILABILITY] Found 5 slots, stopping search`);
           break;
         }
       }

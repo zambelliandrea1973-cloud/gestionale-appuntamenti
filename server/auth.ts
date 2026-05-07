@@ -70,11 +70,11 @@ export function setupAuth(app: Express) {
     saveUninitialized: false,
     store: storage.sessionStore,
     rolling: true,
-    proxy: true, // IMPORTANTE: fiducia proxy headers
+    proxy: true, // IMPORTANT: trust proxy headers
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       httpOnly: true,
-      secure: isProduction || isReplit, // true su Replit/Sliplane (HTTPS)
+      secure: isProduction || isReplit, // true on Replit/Sliplane (HTTPS)
       sameSite: 'none', // 'none' always to allow redirects from PayPal/Stripe
       domain: isSliplane ? undefined : undefined // auto-detect domain
     },
@@ -168,7 +168,7 @@ export function setupAuth(app: Express) {
         ...clientAccount, 
         client, 
         type: userType,
-        id: userId // Usa l'ID corretto in base al tipo
+        id: userId // Use the correct ID based on user type
       });
     } catch (err) {
       return done(err);
@@ -385,7 +385,7 @@ export function setupAuth(app: Express) {
     // First verify if there are token and clientId (high priority)
     if (token && clientId) {
       try {
-        // Import the service token (import dinamico)
+        // Import the token service (dynamic import)
         const tokenServiceModule = await import('./services/tokenService');
         const tokenService = tokenServiceModule.tokenService;
         
@@ -403,7 +403,7 @@ export function setupAuth(app: Express) {
             console.log('Authentication bypass with token only activated');
             
             try {
-              // Import dipendenze necessarie (usando import dinamico)
+              // Import required dependencies (using dynamic import)
               const dbModule = await import('./db');
               const db = dbModule.db;
               const ormModule = await import('drizzle-orm');
@@ -450,7 +450,7 @@ export function setupAuth(app: Express) {
             }
           }
           
-          // If abbiamo also username e password, continua con l'autenticazione standard
+          // If we also have username and password, continue with standard authentication
           if (username && password) {
             console.log('Standard token+credentials authentication');
             passport.authenticate('local-client', (err: any, user: Express.User | false, info: any) => {

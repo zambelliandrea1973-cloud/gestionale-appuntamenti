@@ -26,7 +26,7 @@ function getLicenseTypeFromPlanName(planName: string): LicenseTypeValue {
     return 'business';
   }
   
-  // Check "base" PRIMA di "pro" per evitare che "promo" sia interpretato come "pro"
+  // Check "base" BEFORE "pro" to avoid "promo" being interpreted as "pro"
   if (lowerName.includes('base')) {
     return 'base';
   }
@@ -136,7 +136,7 @@ const getPayPalClient = async () => {
     mode = paypalConfig.config.mode || 'sandbox';
     logger.debug(`🔐 PayPal: using credentials from DATABASE (${mode.toUpperCase()})`);
   } else {
-    // Fallback ai Secrets
+    // Fallback to Secrets
     const isProduction = process.env.PAYMENT_MODE === 'production';
     clientId = isProduction 
       ? process.env.PAYPAL_CLIENT_ID_LIVE 
@@ -242,7 +242,7 @@ export class PaymentService {
         };
       }
       
-      console.log('Piano found:', plan);
+      console.log('Plan found:', plan);
       
       // Calculate the price in euros
       const priceInEuro = (plan.price / 100).toFixed(2);
@@ -284,7 +284,7 @@ export class PaymentService {
       const client = await getPayPalClient();
       const response = await client.execute(request);
       
-      console.log('Risposta PayPal:', {
+      console.log('PayPal response:', {
         statusCode: response.statusCode,
         resultId: response.result.id,
         linksCount: response.result.links?.length || 0
@@ -297,7 +297,7 @@ export class PaymentService {
         };
       }
       
-      // Find l'URL di approvazione
+      // Find the approval URL
       const approvalLink = response.result.links.find((link: any) => link.rel === 'approve');
       if (!approvalLink) {
         console.error('Available links:', response.result.links);
@@ -477,7 +477,7 @@ export class PaymentService {
       
       // If already active, do nothing
       if (subscription.status === 'active') {
-        logger.debug(`📦 [PAYPAL PUBLIC] subscription already active, ritorno successo`);
+        logger.debug(`📦 [PAYPAL PUBLIC] subscription already active, returning success`);
         return {
           success: true,
           userId
@@ -491,7 +491,7 @@ export class PaymentService {
       
       logger.debug(`📦 [PAYPAL PUBLIC] Sending capture request to PayPal...`);
       const response = await client.execute(request);
-      logger.debug(`📦 [PAYPAL PUBLIC] Risposta PayPal: ${response.statusCode}`);
+      logger.debug(`📦 [PAYPAL PUBLIC] PayPal response: ${response.statusCode}`);
       
       if (response.statusCode !== 201) {
         return {
@@ -770,7 +770,7 @@ export class PaymentService {
         };
       }
       
-      // Verify che l'user corrisponda
+      // Verify that the user matches
       const sessionUserId = session.metadata?.userId ? parseInt(session.metadata.userId) : null;
       if (sessionUserId && sessionUserId !== userId) {
         console.warn(`⚠️ User mismatch: session ${sessionUserId}, request ${userId}`);
@@ -814,7 +814,7 @@ export class PaymentService {
         await this.handleReferralCommission(userId, subscription.id, session.amount_total / 100);
       }
       
-      // Register the transaction If esiste already
+      // Register the transaction if it already exists
       if (session.payment_intent) {
         const transactionData: InsertPaymentTransaction = {
           userId,
@@ -928,7 +928,7 @@ export class PaymentService {
    * The `monthlyAmount` field always contains 25% of the total price.
    * The payment type depends on the plan interval (year/month).
    * 
-   * @param userId ID of the user che ha fatto l'subscription
+   * @param userId ID of the user who made the subscription
    * @param subscriptionId Subscription ID
    * @param planPrice Plan price in cents
    */
@@ -996,10 +996,10 @@ export class PaymentService {
       await storage.createReferralCommission(commissionData);
       
       const paymentType = isRecurring ? 'monthly recurring' : 'one-time';
-      console.log(`🎉 commission AUTOMATICA created!`);
+      console.log(`🎉 AUTOMATIC commission created!`);
       console.log(`   Sponsor: ${sponsor.username} (ID: ${sponsor.id})`);
       console.log(`   Client: ${user.username} (ID: ${user.id})`);
-      console.log(`   Piano: ${plan.name} (${plan.interval === 'year' ? 'Annuale' : 'Mensile'})`);
+      console.log(`   Plan: ${plan.name} (${plan.interval === 'year' ? 'Annual' : 'Monthly'})`);
       console.log(`   commission: €${(commissionAmount/100).toFixed(2)} ${paymentType} (25% of €${(planPrice/100).toFixed(2)})`);
       console.log(`   📅 Payout scheduled for: ${payoutDate.toLocaleDateString('en-US')} (30d)`);
     } catch (error) {

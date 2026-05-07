@@ -9,8 +9,8 @@ import { eq, and } from 'drizzle-orm';
  * Handle race conditions with transactional locking
  * 
  * @param ownerId - ID of the professional owner
- * @param maxRetries - Number massimo dthe attempts (default: 5)
- * @returns Code client formattato (es: "BUS1422-001")
+ * @param maxRetries - Maximum number of attempts (default: 5)
+ * @returns Formatted client code (e.g.: "BUS1422-001")
  */
 export async function generateClientCode(ownerId: number, maxRetries: number = 5): Promise<string> {
   const user = await db.select({ assignmentCode: users.assignmentCode })
@@ -73,7 +73,7 @@ export async function generateClientCode(ownerId: number, maxRetries: number = 5
  * Parse a client code in the format CODICE-XXX
  * 
  * @param clientCode - Code client (es: "BUS1422-001")
- * @returns Object con code e sequenza
+ * @returns Object with code and sequence
  */
 export function parseClientCode(clientCode: string): { code: string; sequence: number } | null {
   const pattern = /^([A-Z0-9]+)-(\d+)$/;

@@ -53,7 +53,7 @@ export class EncryptionService {
   static isEncrypted(value: string): boolean {
     if (!value) return false;
     // A simple heuristic to verify if a string is already encrypted
-    // Il format AES di CryptoJS inizia normalmente con "U2FsdGVk"
+    // The CryptoJS AES format normally starts with "U2FsdGVk"
     return value.startsWith('U2FsdGVk');
   }
 

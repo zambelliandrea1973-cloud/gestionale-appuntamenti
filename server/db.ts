@@ -3,7 +3,7 @@ import postgres from 'postgres';
 import { eq } from 'drizzle-orm';
 import * as schema from '../shared/schema';
 
-// Check che DATABASE_URL sia definito
+// Check that DATABASE_URL is defined
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL environment variable is not defined');
 }
@@ -38,7 +38,7 @@ export const notificationSettingsRepository = {
       const existing = await this.get();
       
       if (existing) {
-        // If esiste, aggiorniamo
+        // If it exists, update it
         return await this.update(existing.id, data);
       } else {
         // otherwise create a new configuration

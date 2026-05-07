@@ -87,7 +87,7 @@ import { generateClientCode as generateNewClientCode } from './utils/clientCodeG
 // Import invoice number generator with professional code prefix
 import { generateInvoiceNumber as generateProfessionalInvoiceNumber } from './utils/invoiceNumberGenerator';
 
-// Import script di migrazione codici clients
+// Import client code migration script
 import { migrateClientCodes } from './scripts/migrate-client-codes';
 
 // Import PostgreSQL database e Drizzle ORM
@@ -123,7 +123,7 @@ interface Invoice {
 
 // 📁 STORAGE FUNCTIONS ARE NOW CENTRALIZED IN utils/jsonStorage.ts
 
-// Middleware di autenticazione
+// Authentication middleware
 function requireAuth(req: any, res: any, next: any) {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: "Not authenticated" });
@@ -162,8 +162,8 @@ const userData = {
     email: "zambelli.andrea.1973A@gmail.com",
     type: "customer",
     services: [
-      { id: 1, name: "Visita Generale", duration: 30, price: 50, color: "#3B82F6" },
-      { id: 2, name: "Controllo", duration: 15, price: 25, color: "#10B981" }
+      { id: 1, name: "General Visit", duration: 30, price: 50, color: "#3B82F6" },
+      { id: 2, name: "Check-up", duration: 15, price: 25, color: "#10B981" }
     ],
     clients: [
       { id: 1, firstName: "Mario", lastName: "Rossi", phone: "3331234567", email: "mario.rossi@email.com" },
@@ -185,12 +185,12 @@ const userData = {
     email: "zambelli.andrea.1973@gmail.com",
     type: "admin",
     services: [
-      { id: 1, name: "Consulenza Generale", duration: 30, price: 50, color: "#3B82F6" },
-      { id: 2, name: "Visita Specialistica", duration: 45, price: 80, color: "#10B981" },
-      { id: 3, name: "Controllo Periodico", duration: 20, price: 35, color: "#F59E0B" },
-      { id: 4, name: "Terapia Riabilitativa", duration: 60, price: 100, color: "#EF4444" },
-      { id: 5, name: "Consulenza Nutrizionale", duration: 40, price: 60, color: "#8B5CF6" },
-      { id: 6, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4" }
+      { id: 1, name: "General Consultation", duration: 30, price: 50, color: "#3B82F6" },
+      { id: 2, name: "Specialist Visit", duration: 45, price: 80, color: "#10B981" },
+      { id: 3, name: "Periodic Check-up", duration: 20, price: 35, color: "#F59E0B" },
+      { id: 4, name: "Rehabilitation Therapy", duration: 60, price: 100, color: "#EF4444" },
+      { id: 5, name: "Nutritional Consultation", duration: 40, price: 60, color: "#8B5CF6" },
+      { id: 6, name: "Physiotherapy", duration: 50, price: 75, color: "#06B6D4" }
     ],
     clients: [
       { id: 1, firstName: "Mario", lastName: "Rossi", phone: "3201234567", email: "mario.rossi@esempio.it" },
@@ -274,7 +274,7 @@ export function registerSimpleRoutes(app: Express): Server {
         return res.status(400).json({ message: "Email and password are required" });
       }
       
-      // Generate automaticamente username e nome If forniti (UX semplificata)
+      // Automatically generate username and name if provided (simplified UX)
       const emailPrefix = String(email).split('@')[0].replace(/[^a-zA-Z0-9._-]/g, '');
       if (!username || username.trim() === '') {
         // Unique username based on email prefix + timestamp if needed
@@ -289,7 +289,7 @@ export function registerSimpleRoutes(app: Express): Server {
         name = emailPrefix;
       }
       
-      // Verify code referral If fornito
+      // Verify referral code if provided
       let referrerStaff = null;
       if (referralCode && referralCode.trim() !== '') {
         referrerStaff = await storage.getUserByReferralCode(referralCode.trim());
@@ -423,7 +423,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/notification-settings', notificationSettingsRoutes);
   app.use('/api/direct-phone', directPhoneRoutes);
-  app.use('/api', emailBounceRoutes); // Gestione email bounce (anti-spam)
+  app.use('/api', emailBounceRoutes); // Email bounce management (anti-spam)
   app.use('/api/contact-settings', contactSettingsRoutes);
   app.use('/api/inventory', inventoryRoutes);
   app.use('/api/admin-license', adminLicenseRoutes);
@@ -434,7 +434,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use(promotionRoutes); // Public promotions (no prefix because already in /api)
   app.use(manualRoutes); // Manual management with media upload (already in /api)
 
-  // ENDPOINT SINCRONIZZAZIONE MOBILE FORZATA - USA POSTGRESQL
+  // FORCED MOBILE SYNC ENDPOINT - USES POSTGRESQL
   app.get("/api/mobile-sync", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
     const user = req.user as any;
@@ -488,9 +488,9 @@ export function registerSimpleRoutes(app: Express): Server {
   // NOTE: PWA/icons/client-access routes moved to server/routes/pwaRoutes.ts
   // NOTE: campaigns/onboarding/AI/test routes moved to server/routes/campaignRoutes.ts
 
-  // TEST ENDPOINT - Not richiede auth per debug
+  // TEST ENDPOINT - Does not require auth for debug
   app.get('/api/google-calendar/test-sync', (req, res) => {
-    res.json({ success: true, message: 'Test endpoint funziona!' });
+    res.json({ success: true, message: 'Test endpoint works!' });
   });
 
   // DEBUG: Endpoint to test sync without authentication (DEV ONLY)
@@ -531,7 +531,7 @@ export function registerSimpleRoutes(app: Express): Server {
       const calendarList = await calendar.calendarList.list();
       const calendars = calendarList.data.items || [];
       
-      console.log(`📅 [DEBUG] Found ${calendars.length} calendari`);
+      console.log(`📅 [DEBUG] Found ${calendars.length} calendars`);
       
       const results: any[] = [];
       
@@ -555,12 +555,12 @@ export function registerSimpleRoutes(app: Express): Server {
           calInfo.eventStatus = eventResponse.data.status;
           calInfo.eventSummary = eventResponse.data.summary;
           calInfo.eventStart = eventResponse.data.start;
-          console.log(`✅ [DEBUG] event found in calendar "${cal.summary}" con status=${eventResponse.data.status}`);
+          console.log(`✅ [DEBUG] event found in calendar "${cal.summary}" with status=${eventResponse.data.status}`);
         } catch (e: any) {
           if (e.code === 404 || e.response?.status === 404) {
             calInfo.eventFound = false;
             calInfo.eventStatus = 'NOT_FOUND';
-            console.log(`❌ [DEBUG] Evento NON found in calendario "${cal.summary}"`);
+            console.log(`❌ [DEBUG] Event NOT found in calendar "${cal.summary}"`);
           } else {
             calInfo.eventFound = 'error';
             calInfo.eventStatus = `ERROR: ${e.message}`;
@@ -586,11 +586,11 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  // Endpoint per sincronizzazione manuale Google Calendar
+  // Endpoint for manual Google Calendar synchronization
   app.post('/api/google-calendar/sync-now', async (req, res) => {
     
     try {
-      // Verify autenticazione
+      // Verify authentication
       if (!req.isAuthenticated() || !req.user) {
         return res.status(401).json({ success: false, message: 'Not authenticated' });
       }

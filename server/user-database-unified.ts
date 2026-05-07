@@ -1,16 +1,16 @@
 /**
- * SISTEMA UNIFICATO DATABASE SEPARATI - RISCRITTURA COMPLETA
+ * UNIFIED SEPARATE DATABASE SYSTEM - COMPLETE REWRITE
  * 
  * Manages ALL customizable fields for each account in a harmonized way:
  * - Company name, colors, contacts, social media, hours, billing
- * - Schema unico di lettura/scrittura per all fields
+ * - Single read/write schema for all fields
  * - Full independence from the removed shared database
  */
 
 import postgres from 'postgres';
 
 export const UNIFIED_FIELD_CODES = {
-  // ===== BRANDING E UI =====
+  // ===== BRANDING AND UI =====
   BUSINESS_NAME: 'COD_001',
   PRIMARY_COLOR: 'COD_002', 
   SECONDARY_COLOR: 'COD_003',
@@ -18,14 +18,14 @@ export const UNIFIED_FIELD_CODES = {
   THEME: 'COD_005',
   APPEARANCE: 'COD_006',
   
-  // ===== STILI TESTO NOME AZIENDALE =====
+  // ===== BUSINESS NAME TEXT STYLES =====
   FONT_SIZE: 'COD_071',
   FONT_FAMILY: 'COD_072',
   FONT_STYLE: 'COD_073',
   FONT_COLOR: 'COD_074',
   FONT_ENABLED: 'COD_075',
   
-  // ===== CONTATTI AZIENDALI =====
+  // ===== BUSINESS CONTACTS =====
   CONTACT_EMAIL: 'COD_007',
   CONTACT_PHONE: 'COD_008',
   CONTACT_PHONE2: 'COD_009',
@@ -43,7 +43,7 @@ export const UNIFIED_FIELD_CODES = {
   YOUTUBE: 'COD_019',
   TIKTOK: 'COD_020',
   
-  // ===== ORARI E APPUNTAMENTI =====
+  // ===== HOURS AND APPOINTMENTS =====
   WORKING_HOURS_START: 'COD_021',
   WORKING_HOURS_END: 'COD_022',
   APPOINTMENT_DURATION: 'COD_023',
@@ -63,20 +63,20 @@ export const UNIFIED_FIELD_CODES = {
   VAT_NUMBER: 'COD_035',
   FISCAL_CODE: 'COD_036',
   
-  // ===== SERVIZI E PREZZI =====
+  // ===== SERVICES AND PRICES =====
   DEFAULT_SERVICE_PRICE: 'COD_037',
   CONSULTATION_PRICE: 'COD_038',
   FOLLOW_UP_PRICE: 'COD_039',
   EMERGENCY_SURCHARGE: 'COD_040',
   
-  // ===== MESSAGGI E COMUNICAZIONI =====
+  // ===== MESSAGES AND COMMUNICATIONS =====
   WELCOME_MESSAGE: 'COD_041',
   APPOINTMENT_CONFIRMATION_MSG: 'COD_042',
   REMINDER_MESSAGE: 'COD_043',
   CANCELLATION_MESSAGE: 'COD_044',
   NO_SHOW_MESSAGE: 'COD_045',
   
-  // ===== PERSONALIZZAZIONE CLIENTE =====
+  // ===== CLIENT CUSTOMIZATION =====
   CUSTOM_FIELD_1_NAME: 'COD_046',
   CUSTOM_FIELD_1_TYPE: 'COD_047',
   CUSTOM_FIELD_2_NAME: 'COD_048',
@@ -84,7 +84,7 @@ export const UNIFIED_FIELD_CODES = {
   CUSTOM_FIELD_3_NAME: 'COD_050',
   CUSTOM_FIELD_3_TYPE: 'COD_051',
   
-  // ===== NOTIFICHE E PROMEMORIA =====
+  // ===== NOTIFICATIONS AND REMINDERS =====
   EMAIL_NOTIFICATIONS: 'COD_052',
   SMS_NOTIFICATIONS: 'COD_053',
   WHATSAPP_NOTIFICATIONS: 'COD_054',
@@ -96,48 +96,48 @@ export const UNIFIED_FIELD_CODES = {
   DATE_FORMAT: 'COD_058',
   TIME_FORMAT: 'COD_059',
   
-  // ===== PRIVACY E GDPR =====
+  // ===== PRIVACY AND GDPR =====
   PRIVACY_POLICY_URL: 'COD_060',
   TERMS_OF_SERVICE_URL: 'COD_061',
   DATA_RETENTION_DAYS: 'COD_062',
   CONSENT_TEXT: 'COD_063',
   
-  // ===== PERSONALIZZAZIONE AVANZATA =====
+  // ===== ADVANCED CUSTOMIZATION =====
   CUSTOM_CSS: 'COD_064',
   CUSTOM_HEADER: 'COD_065',
   CUSTOM_FOOTER: 'COD_066',
   FAVICON_URL: 'COD_067',
   
-  // ===== INTEGRAZIONE ESTERNA =====
+  // ===== EXTERNAL INTEGRATIONS =====
   GOOGLE_CALENDAR_ID: 'COD_068',
   STRIPE_ACCOUNT_ID: 'COD_069',
   PAYPAL_ACCOUNT: 'COD_070',
   
-  // ===== BACKUP E SICUREZZA =====
+  // ===== BACKUP AND SECURITY =====
   BACKUP_FREQUENCY: 'COD_071',
   TWO_FACTOR_AUTH: 'COD_072',
   SESSION_TIMEOUT: 'COD_073',
   
-  // ===== PERSONALIZZAZIONE UI =====
+  // ===== UI CUSTOMIZATION =====
   DASHBOARD_LAYOUT: 'COD_074_DASHBOARD',
   SIDEBAR_COLOR: 'COD_075_SIDEBAR',
   BUTTON_STYLE: 'COD_076_BUTTON',
   
-  // ===== ALTRI CAMPI BUSINESS =====
+  // ===== OTHER BUSINESS FIELDS =====
   BUSINESS_TYPE: 'COD_079',
   SPECIALIZATION: 'COD_080',
   YEARS_EXPERIENCE: 'COD_081',
   CERTIFICATIONS: 'COD_082',
   ABOUT_TEXT: 'COD_083',
   
-  // ===== ESTENSIONI FUTURE =====
+  // ===== FUTURE EXTENSIONS =====
   CUSTOM_EXTENSION_1: 'COD_084',
   CUSTOM_EXTENSION_2: 'COD_085',
   CUSTOM_EXTENSION_3: 'COD_086',
   CUSTOM_EXTENSION_4: 'COD_087',
   CUSTOM_EXTENSION_5: 'COD_088',
   
-  // ===== RISERVA PER FUTURE IMPLEMENTAZIONI =====
+  // ===== RESERVED FOR FUTURE IMPLEMENTATIONS =====
   RESERVED_FIELD_1: 'COD_089',
   RESERVED_FIELD_2: 'COD_090',
   RESERVED_FIELD_3: 'COD_091',
@@ -181,7 +181,7 @@ export class UnifiedUserDatabase {
   }
 
   /**
-   * LETTURA SINGOLO CAMPO - Metodo unificato per all fields
+   * READ SINGLE FIELD - Unified method for all fields
    */
   async getField(fieldCode: string): Promise<string | null> {
     try {
@@ -210,7 +210,7 @@ export class UnifiedUserDatabase {
   }
 
   /**
-   * SCRITTURA SINGOLO CAMPO - Metodo unificato per all fields
+   * WRITE SINGLE FIELD - Unified method for all fields
    */
   async setField(fieldCode: string, value: string): Promise<boolean> {
     try {
@@ -266,11 +266,11 @@ export class UnifiedUserDatabase {
 
   /**
    * FUNCTION REMOVED - Was causing overwrite of saved date
-   * Time si usa only setField() per salvare singoli fields
+   * Now use only setField() to save individual fields
    */
 
   /**
-   * INIZIALIZZAZIONE DISABILITATA - Not sovrascrive mai the data
+   * INITIALIZATION DISABLED - Never overwrites the data
    */
   async initializeAccount(): Promise<boolean> {
     // COMPLETELY DISABLED to avoid data overwrite
@@ -280,17 +280,17 @@ export class UnifiedUserDatabase {
 }
 
 /**
- * Factory per creare istanza database unificato
+ * Factory to create a unified database instance
  */
 export function createUnifiedUserDatabase(userId: number): UnifiedUserDatabase {
   return new UnifiedUserDatabase(userId);
 }
 
 /**
- * Helper per mappare nomi fields ai codici univoci - SISTEMA COMPLETO
+ * Helper to map field names to unique codes - COMPLETE SYSTEM
  */
 export const FIELD_MAPPING = {
-  // ===== BRANDING E UI =====
+  // ===== BRANDING AND UI =====
   'businessName': UNIFIED_FIELD_CODES.BUSINESS_NAME,
   'primaryColor': UNIFIED_FIELD_CODES.PRIMARY_COLOR,
   'secondaryColor': UNIFIED_FIELD_CODES.SECONDARY_COLOR,
@@ -298,7 +298,7 @@ export const FIELD_MAPPING = {
   'theme': UNIFIED_FIELD_CODES.THEME,
   'appearance': UNIFIED_FIELD_CODES.APPEARANCE,
   
-  // ===== CONTATTI AZIENDALI =====
+  // ===== BUSINESS CONTACTS =====
   'contactEmail': UNIFIED_FIELD_CODES.CONTACT_EMAIL,
   'contactPhone': UNIFIED_FIELD_CODES.CONTACT_PHONE,
   'contactPhone2': UNIFIED_FIELD_CODES.CONTACT_PHONE2,
@@ -316,7 +316,7 @@ export const FIELD_MAPPING = {
   'youtubeChannel': UNIFIED_FIELD_CODES.YOUTUBE,
   'tiktokHandle': UNIFIED_FIELD_CODES.TIKTOK,
   
-  // ===== ORARI E APPUNTAMENTI =====
+  // ===== HOURS AND APPOINTMENTS =====
   'workingHoursStart': UNIFIED_FIELD_CODES.WORKING_HOURS_START,
   'workingHoursEnd': UNIFIED_FIELD_CODES.WORKING_HOURS_END,
   'appointmentDuration': UNIFIED_FIELD_CODES.APPOINTMENT_DURATION,
@@ -336,20 +336,20 @@ export const FIELD_MAPPING = {
   'vatNumber': UNIFIED_FIELD_CODES.VAT_NUMBER,
   'fiscalCode': UNIFIED_FIELD_CODES.FISCAL_CODE,
   
-  // ===== SERVIZI E PREZZI =====
+  // ===== SERVICES AND PRICES =====
   'defaultServicePrice': UNIFIED_FIELD_CODES.DEFAULT_SERVICE_PRICE,
   'consultationPrice': UNIFIED_FIELD_CODES.CONSULTATION_PRICE,
   'followUpPrice': UNIFIED_FIELD_CODES.FOLLOW_UP_PRICE,
   'emergencySurcharge': UNIFIED_FIELD_CODES.EMERGENCY_SURCHARGE,
   
-  // ===== MESSAGGI E COMUNICAZIONI =====
+  // ===== MESSAGES AND COMMUNICATIONS =====
   'welcomeMessage': UNIFIED_FIELD_CODES.WELCOME_MESSAGE,
   'appointmentConfirmationMsg': UNIFIED_FIELD_CODES.APPOINTMENT_CONFIRMATION_MSG,
   'reminderMessage': UNIFIED_FIELD_CODES.REMINDER_MESSAGE,
   'cancellationMessage': UNIFIED_FIELD_CODES.CANCELLATION_MESSAGE,
   'noShowMessage': UNIFIED_FIELD_CODES.NO_SHOW_MESSAGE,
   
-  // ===== PERSONALIZZAZIONE CLIENTE =====
+  // ===== CLIENT CUSTOMIZATION =====
   'customField1Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_1_NAME,
   'customField1Type': UNIFIED_FIELD_CODES.CUSTOM_FIELD_1_TYPE,
   'customField2Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_2_NAME,
@@ -357,7 +357,7 @@ export const FIELD_MAPPING = {
   'customField3Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_3_NAME,
   'customField3Type': UNIFIED_FIELD_CODES.CUSTOM_FIELD_3_TYPE,
   
-  // ===== NOTIFICHE E PROMEMORIA =====
+  // ===== NOTIFICATIONS AND REMINDERS =====
   'emailNotifications': UNIFIED_FIELD_CODES.EMAIL_NOTIFICATIONS,
   'smsNotifications': UNIFIED_FIELD_CODES.SMS_NOTIFICATIONS,
   'whatsappNotifications': UNIFIED_FIELD_CODES.WHATSAPP_NOTIFICATIONS,
@@ -369,36 +369,36 @@ export const FIELD_MAPPING = {
   'dateFormat': UNIFIED_FIELD_CODES.DATE_FORMAT,
   'timeFormat': UNIFIED_FIELD_CODES.TIME_FORMAT,
   
-  // ===== PRIVACY E GDPR =====
+  // ===== PRIVACY AND GDPR =====
   'privacyPolicyUrl': UNIFIED_FIELD_CODES.PRIVACY_POLICY_URL,
   'termsOfServiceUrl': UNIFIED_FIELD_CODES.TERMS_OF_SERVICE_URL,
   'dataRetentionDays': UNIFIED_FIELD_CODES.DATA_RETENTION_DAYS,
   'consentText': UNIFIED_FIELD_CODES.CONSENT_TEXT,
   
-  // ===== PERSONALIZZAZIONE AVANZATA =====
+  // ===== ADVANCED CUSTOMIZATION =====
   'customCss': UNIFIED_FIELD_CODES.CUSTOM_CSS,
   'customHeader': UNIFIED_FIELD_CODES.CUSTOM_HEADER,
   'customFooter': UNIFIED_FIELD_CODES.CUSTOM_FOOTER,
   'faviconUrl': UNIFIED_FIELD_CODES.FAVICON_URL,
   
-  // ===== INTEGRAZIONE ESTERNA =====
+  // ===== EXTERNAL INTEGRATIONS =====
   'googleCalendarId': UNIFIED_FIELD_CODES.GOOGLE_CALENDAR_ID,
   'stripeAccountId': UNIFIED_FIELD_CODES.STRIPE_ACCOUNT_ID,
   'paypalAccount': UNIFIED_FIELD_CODES.PAYPAL_ACCOUNT,
   
-  // ===== BACKUP E SICUREZZA =====
+  // ===== BACKUP AND SECURITY =====
   'backupFrequency': UNIFIED_FIELD_CODES.BACKUP_FREQUENCY,
   'twoFactorAuth': UNIFIED_FIELD_CODES.TWO_FACTOR_AUTH,
   'sessionTimeout': UNIFIED_FIELD_CODES.SESSION_TIMEOUT,
   
-  // ===== PERSONALIZZAZIONE UI =====
+  // ===== UI CUSTOMIZATION =====
   'dashboardLayout': UNIFIED_FIELD_CODES.DASHBOARD_LAYOUT,
   'sidebarColor': UNIFIED_FIELD_CODES.SIDEBAR_COLOR,
   'buttonStyle': UNIFIED_FIELD_CODES.BUTTON_STYLE,
   'fontFamily': UNIFIED_FIELD_CODES.FONT_FAMILY,
   'fontSize': UNIFIED_FIELD_CODES.FONT_SIZE,
   
-  // ===== ALTRI CAMPI BUSINESS =====
+  // ===== OTHER BUSINESS FIELDS =====
   'businessType': UNIFIED_FIELD_CODES.BUSINESS_TYPE,
   'specialization': UNIFIED_FIELD_CODES.SPECIALIZATION,
   'yearsExperience': UNIFIED_FIELD_CODES.YEARS_EXPERIENCE,

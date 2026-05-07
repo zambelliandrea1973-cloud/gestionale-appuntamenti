@@ -106,14 +106,14 @@ class PingStatsService {
     this.stats.ping_count++;
     this.stats.last_status = status;
     
-    // Save the statistiche every 10 pings o in caso di error
+    // Save the statistics every 10 pings or in case of error
     if (this.stats.ping_count % 10 === 0 || status !== 'OK') {
       this.saveStats();
     }
   }
   
   /**
-   * Save the statistiche to file
+   * Save the statistics to file
    */
   private saveStats(): void {
     try {
@@ -155,7 +155,7 @@ class PingStatsService {
   }
   
   /**
-   * Get statistiche di uptime dettagliate
+   * Get detailed uptime statistics
    */
   getUptimeStats(): any {
     const now = new Date();

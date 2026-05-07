@@ -150,7 +150,7 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
 async function createGoogleEvent(calendar: any, calendarId: string, appointment: AppointmentData): Promise<void> {
   try {
     // Build event date/time - USE ISO format WITHOUT Z to respect the local timezone
-    // Handle sia format HH:MM che HH:MM:SS
+    // Handle both HH:MM and HH:MM:SS formats
     const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
     const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
     const startDateTimeStr = `${appointment.date}T${startTime}`;
@@ -159,7 +159,7 @@ async function createGoogleEvent(calendar: any, calendarId: string, appointment:
     console.log(`📅 [AUTO-SYNC] Creating event: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
 
     const event = {
-      summary: `Appuntamento #${appointment.id}`,
+      summary: `Appointment #${appointment.id}`,
       description: appointment.notes || 'Appointment from the scheduler',
       start: {
         dateTime: startDateTimeStr,
@@ -232,7 +232,7 @@ async function updateGoogleEvent(calendar: any, calendarId: string, appointment:
     }
 
     // Update the existing event - USE ISO format WITHOUT Z to respect local timezone
-    // Handle sia format HH:MM che HH:MM:SS
+    // Handle both HH:MM and HH:MM:SS formats
     const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
     const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
     const startDateTimeStr = `${appointment.date}T${startTime}`;
@@ -241,7 +241,7 @@ async function updateGoogleEvent(calendar: any, calendarId: string, appointment:
     console.log(`📅 [AUTO-SYNC] Updating event: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
 
     const event = {
-      summary: `Appuntamento #${appointment.id}`,
+      summary: `Appointment #${appointment.id}`,
       description: appointment.notes || 'Appointment from the scheduler',
       start: {
         dateTime: startDateTimeStr,

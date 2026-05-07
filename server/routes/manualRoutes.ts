@@ -532,8 +532,8 @@ router.get('/api/manual/content/:section/:locale', async (req, res) => {
       .limit(1);
 
     if (content.length === 0) {
-      // AUTO-PROVISIONING: Create sezione dal template If esiste
-      // ⚠️ PERMESSI: Only admin può creare nuove sezioni
+      // AUTO-PROVISIONING: Create section from template if it exists
+      // ⚠️ PERMISSIONS: Only admin can create new sections
       if (req.user.type !== 'admin') {
         // For professionals, return empty template without saving to DB
         const template = MANUAL_TEMPLATES[section];
@@ -653,7 +653,7 @@ router.post('/api/manual/content', async (req, res) => {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // ⚠️ PERMESSI: Only admin può creare/modificare contenuti del manuale
+    // ⚠️ PERMISSIONS: Only admin can create/modify manual content
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
         error: 'Permission denied: only administrators can modify the manual' 
@@ -740,7 +740,7 @@ router.put('/api/manual/content/:id', async (req, res) => {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // ⚠️ PERMESSI: Only admin può modificare contenuti del manuale
+    // ⚠️ PERMISSIONS: Only admin can modify manual content
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
         error: 'Permission denied: only administrators can modify the manual' 
@@ -777,11 +777,11 @@ router.put('/api/manual/content/:id', async (req, res) => {
 
     if (!updated) {
       return res.status(404).json({ 
-        error: 'Contenuto not found o permessi insufficienti' 
+        error: 'Content not found or insufficient permissions' 
       });
     }
 
-    console.log(`✅ Contenuto manual updated: ID ${id}`);
+    console.log(`✅ Manual content updated: ID ${id}`);
 
     return res.json({
       success: true,
@@ -802,7 +802,7 @@ router.delete('/api/manual/content/:id', async (req, res) => {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // ⚠️ PERMESSI: Only admin può eliminare contenuti del manuale
+    // ⚠️ PERMISSIONS: Only admin can delete manual content
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
         error: 'Permission denied: only administrators can modify the manual' 
@@ -826,7 +826,7 @@ router.delete('/api/manual/content/:id', async (req, res) => {
 
     if (!content) {
       return res.status(404).json({ 
-        error: 'Contenuto not found o permessi insufficienti' 
+        error: 'Content not found or insufficient permissions' 
       });
     }
 
@@ -879,7 +879,7 @@ router.delete('/api/manual/file', async (req, res) => {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // ⚠️ PERMESSI: Only admin può eliminare file dal manuale
+    // ⚠️ PERMISSIONS: Only admin can delete files from the manual
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
         error: 'Permission denied: only administrators can modify the manual' 

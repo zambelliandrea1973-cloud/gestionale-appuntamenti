@@ -53,7 +53,7 @@ export class ContactSettingsService {
    * If they exist, create them with default values
    */
   async getOrCreateContactSettings(tenantId: number, defaultPhone?: string, defaultEmail?: string): Promise<ContactSettings> {
-    logger.debug(`🔧 ContactSettingsService: Retrieving o Creating settings for tenant ${tenantId}`);
+    logger.debug(`🔧 ContactSettingsService: Retrieving or creating settings for tenant ${tenantId}`);
     
     let settings = await this.getContactSettings(tenantId);
     
@@ -96,7 +96,7 @@ export class ContactSettingsService {
    * Quick WhatsApp activation for a tenant with a phone number
    */
   async enableWhatsApp(tenantId: number, phone: string): Promise<ContactSettings | undefined> {
-    logger.debug(`🔧 ContactSettingsService: Abilitazione WhatsApp for tenant ${tenantId} con telefono ${phone}`);
+    logger.debug(`🔧 ContactSettingsService: Enabling WhatsApp for tenant ${tenantId} with phone ${phone}`);
     
     return await this.updateContactSettings(tenantId, {
       phone,
@@ -108,7 +108,7 @@ export class ContactSettingsService {
    * WhatsApp deactivation for a tenant
    */
   async disableWhatsApp(tenantId: number): Promise<ContactSettings | undefined> {
-    logger.debug(`🔧 ContactSettingsService: Disabilitazione WhatsApp for tenant ${tenantId}`);
+    logger.debug(`🔧 ContactSettingsService: Disabling WhatsApp for tenant ${tenantId}`);
     
     return await this.updateContactSettings(tenantId, {
       whatsappOptIn: false

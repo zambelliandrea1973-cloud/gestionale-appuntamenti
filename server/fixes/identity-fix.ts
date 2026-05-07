@@ -62,7 +62,7 @@ export async function correctIdentityIfNeeded(userId: number, sessionType: strin
   // IMPORTANT: DO NOT correct ID 16 which is Elisa Faverio, not Zambelli
   // This is a fix for backup14, we maintain the correct identity
   if (userId === 16 && (sessionType === 'staff' || sessionType === 'customer')) {
-    // Verify che sia davvero Elisa Faverio
+    // Verify that this is really Elisa Faverio
     const [elisaUser] = await db.select().from(users).where(eq(users.id, 16));
     
     if (elisaUser && elisaUser.username === 'faverioelisa6@gmail.com') {
@@ -72,9 +72,9 @@ export async function correctIdentityIfNeeded(userId: number, sessionType: strin
     }
   }
   
-  // Account A: Aggiungiamo supporto per zambelli.andrea.1973A@gmail.com
+  // Account A: Adding support for zambelli.andrea.1973A@gmail.com
   if (userId === 9 && sessionType === 'customer') {
-    // Verify che sia davvero l'account A
+    // Verify that this is really account A
     const [userA] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973A@gmail.com'));
     
     if (userA) {
@@ -89,9 +89,9 @@ export async function correctIdentityIfNeeded(userId: number, sessionType: strin
     }
   }
   
-  // Account C: Aggiungiamo supporto per zambelli.andrea.1973C@gmail.com
+  // Account C: Adding support for zambelli.andrea.1973C@gmail.com
   if (userId === 11 && sessionType === 'customer') {
-    // Verify che sia davvero l'account C
+    // Verify that this is really account C
     const [userC] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973C@gmail.com'));
     
     if (userC) {

@@ -5,7 +5,7 @@ import { ensureAuthenticated } from '../middleware/authMiddleware';
 
 const router = Router();
 
-// COLORE PRIMARIO (COD_002) - ESATTO IDENTICO AL NOME AZIENDALE
+// PRIMARY COLOR (COD_002) - EXACTLY IDENTICAL TO THE BUSINESS NAME
 router.post('/primary-color', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     const userId = req.user!.id;

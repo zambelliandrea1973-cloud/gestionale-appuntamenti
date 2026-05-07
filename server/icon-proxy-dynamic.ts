@@ -38,11 +38,11 @@ export async function serveCustomIconDynamic(req: Request, res: Response) {
       }
     }
     
-    // Fallback a icon default
+    // Fallback to default icon
     if (!iconBase64) {
       console.log(`🖼️ ICON DYNAMIC: Using default icon for owner ${ownerUserId}`);
       
-      // Prova a caricare icon default da file
+      // Try to load default icon from file
       const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'app_icon.jpg');
       if (fs.existsSync(defaultIconPath)) {
         const defaultBuffer = fs.readFileSync(defaultIconPath);
@@ -56,11 +56,11 @@ export async function serveCustomIconDynamic(req: Request, res: Response) {
     try {
       const sharp = await import('sharp').then(m => m.default);
       
-      // Estrai buffer dall'immagine base64
+      // Extract buffer from base64 image
       const base64Data = iconBase64.split(',')[1];
       const imageBuffer = Buffer.from(base64Data, 'base64');
       
-      // Ridimensiona al volo
+      // Resize on the fly
       const resizedBuffer = await sharp(imageBuffer)
         .resize(sizeNum, sizeNum, { 
           fit: 'cover',
@@ -69,7 +69,7 @@ export async function serveCustomIconDynamic(req: Request, res: Response) {
         .png()
         .toBuffer();
       
-      // Servi icon con headers ottimizzati
+      // Serve icon with optimized headers
       res.set({
         'Content-Type': 'image/png',
         'Content-Length': resizedBuffer.length.toString(),
@@ -88,7 +88,7 @@ export async function serveCustomIconDynamic(req: Request, res: Response) {
     } catch (error: any) {
       console.error('❌ ICON DYNAMIC: Error generating icon:', error);
       
-      // Fallback a icon statica If generazione fallisce
+      // Fallback to static icon if generation fails
       const staticIconPath = path.join(process.cwd(), 'public', 'icons', `icon-${size}.png`);
       if (fs.existsSync(staticIconPath)) {
         console.log(`📁 ICON DYNAMIC: Falling back to static icon: ${staticIconPath}`);

@@ -45,7 +45,7 @@ export const pushNotificationService = {
       await db.delete(pushSubscriptions)
         .where(eq(pushSubscriptions.clientId, clientId));
       
-      // Inserisci nuova subscription
+      // Insert new subscription
       await db.insert(pushSubscriptions).values({
         clientId,
         ownerId,
@@ -62,7 +62,7 @@ export const pushNotificationService = {
     }
   },
 
-  // Rimuovi subscription
+  // Remove subscription
   async removeSubscription(clientId: number): Promise<boolean> {
     try {
       await db.delete(pushSubscriptions)
@@ -124,7 +124,7 @@ export const pushNotificationService = {
     }
   },
 
-  // Send notifica di appointment confermato
+  // Send confirmed appointment notification
   async sendAppointmentConfirmed(clientId: number, appointmentDetails: {
     serviceName: string;
     date: string;
@@ -137,7 +137,7 @@ export const pushNotificationService = {
       badge: '/icons/icon-72.png',
       url: '/client',
       actions: [
-        { action: 'view', title: 'Visualizza' },
+        { action: 'view', title: 'View' },
       ],
     };
     

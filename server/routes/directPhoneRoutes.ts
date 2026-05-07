@@ -102,7 +102,7 @@ router.post('/disconnect-direct', async (req, res) => {
     
     res.json({
       success: true,
-      message: 'Telefono disconnesso successfully'
+      message: 'Phone disconnected successfully'
     });
   } catch (error: any) {
     console.error('Error disconnecting phone:', error);

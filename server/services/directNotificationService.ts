@@ -10,7 +10,7 @@ const messagesPendingDelivery = new Map<string, boolean>();
 
 /**
  * Interface definition for the phoneDeviceService module
- * per evitare problemi di import circolare
+ * to avoid circular import problems
  */
 interface PhoneDeviceInterface {
   getStatus(): { status: string; deviceId: string | null; phoneNumber: string | null };
@@ -36,7 +36,7 @@ export const directNotificationService = {
   },
 
   /**
-   * Get the phone number da utilizzare per the notifications
+   * Get the phone number to use for notifications
    * @returns The phone number to use for notifications, or null if configured
    */
   async getNotificationPhone(): Promise<string | null> {
@@ -64,10 +64,10 @@ export const directNotificationService = {
   },
 
   /**
-   * Generate a link diretto a WhatsApp
+   * Generate a direct link to WhatsApp
    * @param to Recipient phone number in international format (e.g. +39123456789)
    * @param message Message text to send
-   * @returns URL per aprire WhatsApp con the message precompilato
+   * @returns URL to open WhatsApp with the pre-filled message
    */
   generateWhatsAppLink(to: string, message: string): string {
     // Format the number if it starts with "+"
@@ -163,7 +163,7 @@ export const directNotificationService = {
         console.log('SMTP connection verified successfully');
       } catch (verifyError) {
         console.error('Error verifying SMTP connection:', verifyError);
-        throw verifyError; // Propagare l'errore per gestirlo nell'handler principale
+        throw verifyError; // Propagate the error to be handled in the main handler
       }
       
       const mailOptions = {
@@ -190,10 +190,10 @@ export const directNotificationService = {
   /**
    * Add a notification to the notification center
    * @param clientId Client ID
-   * @param appointmentId Appointment ID (opzionale)
+   * @param appointmentId Appointment ID (optional)
    * @param message Notification text
    * @param type Notification type
-   * @returns Promise che risolve a true if the notification was created
+   * @returns Promise that resolves to true if the notification was created
    */
   async addToNotificationCenter(
     clientId: number, 
@@ -279,7 +279,7 @@ export const directNotificationService = {
         message = reminderTemplate.template
           .replace('{{nome}}', client.firstName)
           .replace('{{cognome}}', client.lastName)
-          .replace('{{servizio}}', service ? service.name : 'appuntamento')
+          .replace('{{servizio}}', service ? service.name : 'appointment')
           .replace('{{data}}', appointmentDate)
           .replace('{{ora}}', startTime);
       } else {
@@ -329,14 +329,14 @@ export const directNotificationService = {
         }
         
         // For SMS and WhatsApp, use phoneDeviceService if available,
-        // otherwise generiamo i link come fallback
+        // otherwise generate links as fallback
         
         // Check if the device is paired and connected
         let phoneDevice = null;
         let deviceConnected = false;
         
         try {
-          // Import dinamico per evitare dipendenze circolari
+          // Dynamic import to avoid circular dependencies
           const phoneDeviceModule = await import('./phoneDeviceService');
           phoneDevice = phoneDeviceModule.phoneDeviceService;
           
@@ -407,7 +407,7 @@ export const directNotificationService = {
 
   /**
    * Check appointments that need a reminder
-   * @returns Il number di promemoria inviati successfully
+   * @returns The number of reminders sent successfully
    */
   async processReminders(): Promise<number> {
     try {
@@ -452,12 +452,12 @@ export const directNotificationService = {
       console.log(`Processing reminders for appointments between ${now.toISOString()} and ${nowPlusReminderHours.toISOString()}`);
       console.log(`Server time: ${now.toLocaleTimeString('it-IT')}, using direct time without offset`);
       
-      // Retrieve all appointments di oggi e domani
+      // Retrieve all appointments for today and tomorrow
       let appointments = [];
       
-      // Retrieve appointments di oggi
+      // Retrieve today's appointments
       const todayAppointments = await storage.getAppointmentsByDate(todayStr);
-      // Retrieve appointments di domani
+      // Retrieve tomorrow's appointments
       const tomorrowAppointments = await storage.getAppointmentsByDate(tomorrowStr);
       
       // Combine the appointments
@@ -496,7 +496,7 @@ export const directNotificationService = {
       
       console.log(`Found ${apptsToRemind.length} appointments needing reminders in the next ${reminderWindowStart}-${reminderWindowEnd} hours`);
       
-      // Send i promemoria
+      // Send reminders
       for (const appointment of apptsToRemind) {
         const success = await this.sendAppointmentReminder(appointment);
         

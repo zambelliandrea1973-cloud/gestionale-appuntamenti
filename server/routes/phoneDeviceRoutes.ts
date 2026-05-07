@@ -89,13 +89,13 @@ router.post('/start-pairing', async (req, res) => {
     res.json({
       success: result,
       message: result 
-        ? 'Inizializzazione dispositivo avviata. Controlla la pagina per il codice QR.' 
-        : 'Impossibile inizializzare il dispositivo. Controlla i log del server.'
+        ? 'Device initialization started. Check the page for the QR code.' 
+        : 'Unable to initialize the device. Check the server logs.'
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      error: error.message || 'Unknown error nell\'inizializzazione del dispositivo'
+      error: error.message || 'Unknown error during device initialization'
     });
   }
 });
@@ -109,13 +109,13 @@ router.post('/disconnect', async (req, res) => {
     res.json({
       success: result,
       message: result
-        ? 'Dispositivo disconnesso successfully.'
-        : 'Impossibile disconnettere il dispositivo. Controlla i log del server.'
+        ? 'Device disconnected successfully.'
+        : 'Unable to disconnect the device. Check the server logs.'
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      error: error.message || 'Unknown error nella disconnessione del dispositivo'
+      error: error.message || 'Unknown error during device disconnection'
     });
   }
 });
@@ -171,9 +171,9 @@ router.post('/simulate-scan', async (req, res) => {
       phoneDeviceService.setPhoneNumber('+393471445767');
       phoneDeviceService.setDeviceStatus(DeviceStatus.AUTHENTICATED);
       
-      // Breve attesa per simulare l'autenticazione
+      // Short wait to simulate authentication
       setTimeout(() => {
-        // Set the status a connesso
+        // Set the status to connected
         phoneDeviceService.setDeviceStatus(DeviceStatus.CONNECTED);
         
         // It's not necessary to call phoneDeviceService.saveDeviceSettings() here

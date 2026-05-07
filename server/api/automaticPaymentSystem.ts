@@ -214,7 +214,7 @@ async function processPayment(payment: CommissionPayment): Promise<{
     // Simulate bank system delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Simulate successo (95% di successo)
+    // Simulate success (95% success rate)
     const isSuccess = Math.random() > 0.05;
     
     if (isSuccess) {
@@ -246,7 +246,7 @@ export async function getStaffPaymentStatus(req: Request, res: Response) {
     
     // Retrieve all payments for this staff
     // const payments = await storage.getCommissionPaymentsByStaff(parseInt(staffId));
-    const payments = []; // Placeholder per ora
+    const payments = []; // Placeholder for now
     
     // Calculate statistics
     const totalPending = payments.filter((p: any) => p.status === 'pending').length;

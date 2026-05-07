@@ -13,6 +13,7 @@ import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clie
 // Normalises a features payload to slug-based PlanFeatureEntry objects.
 // Shared with subscriptionPlanRoutes — kept local to avoid circular imports.
 const _PLAN_FEATURE_SLUGS_SET = new Set<string>(PLAN_FEATURE_SLUGS);
+// Legacy Italian feature names stored in existing DB rows — kept for backward compatibility only.
 const _LEGACY_TO_SLUG: Record<string, string> = {
   'Appointment calendar': 'calendar', 'Client management': 'clients',
   'QR/PWA app for clients': 'qrPwa', 'Client appointment requests': 'appointmentRequests',
@@ -756,8 +757,8 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
       plans = [
         {
           id: 1,
-          name: 'Prova Gratuita',
-          description: 'Versione di prova gratuita per 40 giorni',
+          name: 'Free Trial',
+          description: 'Free trial version for 40 days',
           price: 0,
           interval: 'once',
           currency: 'EUR',
@@ -767,11 +768,11 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
         {
           id: 2,
           name: 'Base',
-          description: 'Piano base per professionisti individuali',
+          description: 'Base plan for individual professionals',
           price: 9900, // €99.00
           interval: 'year',
           currency: 'EUR',
-          features: ['Prenotazioni illimitate', 'Gestione clienti', 'Email promemoria'],
+          features: ['Unlimited bookings', 'Client management', 'Email reminders'],
           isActive: true
         },
         {

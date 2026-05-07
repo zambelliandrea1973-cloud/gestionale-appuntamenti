@@ -25,7 +25,7 @@ try {
 
 const router = Router();
 
-  // Funzione helper per generare PDF come buffer per allegati email
+  // Helper function to generate PDF as buffer for email attachments
   async function generateInvoicePDFBuffer(invoiceId: number, user: any): Promise<Buffer> {
     const storageData = loadStorageData();
     const invoices = storageData.invoices || [];
@@ -169,7 +169,7 @@ const router = Router();
 </body>
 </html>`;
     
-    // Ritorna HTML come buffer per allegato
+    // Return HTML as buffer for attachment
     return Buffer.from(htmlContent, 'utf-8');
   }
 
@@ -231,7 +231,7 @@ router.get('/api/invoices', async (req, res) => {
         notes: inv.notes,
         createdAt: inv.createdAt?.toISOString() || new Date().toISOString(),
         ownerId: user.id,
-        // Multi-channel send fields - CRITICI per pulsante verde->grigio
+        // Multi-channel send fields - CRITICAL for green->grey button state
         publishedToPwa: inv.publishedToPwa || false,
         pwaPublishedAt: inv.pwaPublishedAt?.toISOString() || null,
         sentViaEmail: inv.sentViaEmail || false,
@@ -264,7 +264,7 @@ router.get('/api/invoices', async (req, res) => {
     }
   });
 
-  // Funzione per generare number invoice automatico - FORMATO LEGALE
+  // Function to generate automatic invoice number - LEGAL FORMAT
   async function generateInvoiceNumber(ownerId: number): Promise<string> {
     const currentYear = new Date().getFullYear();
     
@@ -335,12 +335,12 @@ router.get('/api/invoices/suggestions', async (req, res) => {
           email: client.email || '',
           phone: client.phone || '',
           address: client.address || '',
-          taxCode: client.taxCode || '', // codice fiscale
-          vatNumber: client.vatNumber || '' // partita iva
+          taxCode: client.taxCode || '', // tax code
+          vatNumber: client.vatNumber || '' // VAT number
         }))
         .filter((client: any) => client.name.length > 0);
 
-      // Load invoices esistenti per analizzare importi comuni
+      // Load existing invoices to analyze common amounts
       const allInvoices = storageData.invoices || [];
       const userInvoices = allInvoices
         .filter(([_, invoice]: any) => invoice.ownerId === user.id)
@@ -382,7 +382,7 @@ router.get('/api/invoices/suggestions', async (req, res) => {
 
       // Add standard descriptions if the list is empty
       if (commonDescriptions.length === 0) {
-        commonDescriptions.push('visita medica', 'consulenza', 'controllo', 'terapia', 'esame');
+        commonDescriptions.push('medical visit', 'consultation', 'check-up', 'therapy', 'examination');
       }
 
       res.json({
@@ -411,7 +411,7 @@ router.post('/api/invoices/migrate-client-ids', async (req, res) => {
       
       let updatedCount = 0;
       
-      logger.debug(`🔄 [MIGRATE] Avvio migrazione clientId for user ${user.id}`);
+      logger.debug(`🔄 [MIGRATE] Starting clientId migration for user ${user.id}`);
       
       for (const [invoiceKey, invoice] of invoices as any[]) {
         if (invoice.ownerId === user.id && !invoice.clientId && invoice.clientName) {
@@ -450,7 +450,7 @@ router.post('/api/invoices/migrate-client-ids', async (req, res) => {
     }
   });
 
-  // PULIZIA FATTURE - Rinumera all invoices con format legale NNN/YYYY
+  // INVOICE CLEANUP - Renumber all invoices with legal format NNN/YYYY
 router.post('/api/invoices/cleanup-numbering', async (req, res) => {
     try {
       if (!req.user) {
@@ -458,7 +458,7 @@ router.post('/api/invoices/cleanup-numbering', async (req, res) => {
       }
       
       const user = req.user as any;
-      console.log(`🧹 [/api/invoices/cleanup-numbering] Pulizia numerazione invoices for user ${user.id}`);
+      console.log(`🧹 [/api/invoices/cleanup-numbering] Numbering cleanup for user ${user.id}`);
       
       const storageData = loadStorageData();
       const allInvoices = storageData.invoices || [];
@@ -490,10 +490,10 @@ router.post('/api/invoices/cleanup-numbering', async (req, res) => {
         }
       });
       
-      // Save the data aggiornati
+      // Save the updated data
       if (cleanedCount > 0) {
         saveStorageData(storageData);
-        logger.debug(`✅ [/api/invoices/cleanup-numbering] Pulizia completed: ${cleanedCount} invoices rinumerate`);
+        logger.debug(`✅ [/api/invoices/cleanup-numbering] Cleanup completed: ${cleanedCount} invoices renumbered`);
       }
       
       res.json({
@@ -521,7 +521,7 @@ router.delete('/api/invoices/:id', async (req, res) => {
       
       logger.debug(`🗑️ [/api/invoices/${invoiceId}] Delete request for user ${user.id}`);
       
-      // Controllo doppia sicurezza - richiede confirmation: true
+      // Double safety check - requires confirmation: true
       if (!confirmation) {
         return res.status(400).json({ 
           message: 'Security confirmation required',
@@ -575,7 +575,7 @@ router.delete('/api/invoices/:id', async (req, res) => {
 
   // ===== PACKAGES (PROMOTIONAL PACKAGES) - PRO FEATURES =====
   
-  // GET /api/packages/templates - Lista modelli pacchetti
+  // GET /api/packages/templates - List package templates
 router.get('/api/packages/templates', async (req, res) => {
     try {
       const user = req.user as any;
@@ -747,7 +747,7 @@ router.delete('/api/packages/templates/:id', async (req, res) => {
     }
   });
   
-  // GET /api/packages/purchases - Lista pacchetti venduti
+  // GET /api/packages/purchases - List sold packages
 router.get('/api/packages/purchases', async (req, res) => {
     try {
       const user = req.user as any;
@@ -799,7 +799,7 @@ router.get('/api/packages/purchases', async (req, res) => {
     }
   });
   
-  // POST /api/packages/purchases - Vendi pacchetto a client
+  // POST /api/packages/purchases - Sell package to client
 router.post('/api/packages/purchases', async (req, res) => {
     try {
       const user = req.user as any;
@@ -868,7 +868,7 @@ router.post('/api/packages/purchases', async (req, res) => {
     }
   });
   
-  // POST /api/packages/redeem - Riscatta seduta da pacchetto
+  // POST /api/packages/redeem - Redeem session from package
 router.post('/api/packages/redeem', async (req, res) => {
     try {
       const user = req.user as any;
@@ -905,7 +905,7 @@ router.post('/api/packages/redeem', async (req, res) => {
       if (purchase.expiresAt) {
         const today = new Date().toISOString().split('T')[0];
         if (today > purchase.expiresAt) {
-          // Update stato a expired
+          // Update status to expired
           await db
             .update(packagePurchases)
             .set({ status: 'expired' })
@@ -915,7 +915,7 @@ router.post('/api/packages/redeem', async (req, res) => {
         }
       }
       
-      // Calculate number seduta progressivo
+      // Calculate progressive session number
       const existingRedemptions = await db
         .select({ sessionNumber: packageRedemptions.sessionNumber })
         .from(packageRedemptions)
@@ -954,7 +954,7 @@ router.post('/api/packages/redeem', async (req, res) => {
         .set(updateData)
         .where(eq(packagePurchases.id, purchaseId));
       
-      // Update also l'appointment per collegarlo al pacchetto
+      // Also update the appointment to link it to the package
       if (appointmentId) {
         await db
           .update(appointmentsTable)
@@ -981,7 +981,7 @@ router.get('/download-gestionale-zip', (req, res) => {
     try {
       const zipPath = path.join(__dirname, '../../gestionale-sanitario-completo-20250910-061135.zip');
       
-      // Verify che the file esista
+      // Verify that the file exists
       if (!fs.existsSync(zipPath)) {
         return res.status(404).json({ error: 'File ZIP not found' });
       }
@@ -1018,7 +1018,7 @@ router.post('/api/invoices', async (req, res) => {
       
       console.log('📄 [/api/invoices] Creating invoice for user:', user.id, invoiceData);
       
-      // Generate number invoice automatico con code professional (format: BUS1422-001/2025)
+      // Generate automatic invoice number with professional code (format: BUS1422-001/2025)
       const invoiceNumber = await generateProfessionalInvoiceNumber(user.id, invoiceData.date || new Date().toISOString().split('T')[0]);
       
       // Save in PostgreSQL
@@ -1034,7 +1034,7 @@ router.post('/api/invoices', async (req, res) => {
         notes: invoiceData.notes || null
       }).returning();
       
-      // Save invoice items If presenti
+      // Save invoice items if present
       if (invoiceData.items && Array.isArray(invoiceData.items)) {
         for (const item of invoiceData.items) {
           await db.insert(invoiceItems).values({
@@ -1070,7 +1070,7 @@ router.post('/api/invoices', async (req, res) => {
     }
   });
 
-  // Update stato invoice - SOLO POSTGRESQL
+  // Update invoice status - POSTGRESQL ONLY
 router.patch('/api/invoices/:id/status', async (req, res) => {
     try {
       if (!req.user) {
@@ -1128,7 +1128,7 @@ router.patch('/api/invoices/:id/status', async (req, res) => {
     }
   });
 
-  // Generate PDF per stampa
+  // Generate PDF for printing
 router.get('/api/invoices/:id/pdf', async (req, res) => {
     try {
       if (!req.user) {
@@ -1174,7 +1174,7 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
         console.log('⚠️ [PDF] Error loading logo, using default:', error);
       }
       
-      // Load company data completi per intestazione invoice
+      // Load complete company data for invoice header
       let businessHeader = 'Gestionale Appuntamenti';
       let businessData = {
         companyName: '',
@@ -1241,9 +1241,9 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
             logger.debug(`📄 [PDF] Client not found for ID: ${invoice.clientId}`);
           }
         } else {
-          logger.debug(`⚠️ [PDF] invoice SENZA CLIENTID! invoice ${invoice.invoiceNumber} usa clientName obsoleto`);
+          logger.debug(`⚠️ [PDF] invoice WITHOUT CLIENTID! invoice ${invoice.invoiceNumber} uses legacy clientName`);
           
-          // Only come fallback per invoices vecchie
+          // Only as fallback for old invoices
           if (invoice.clientName) {
             const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
             const clientEntry = clients.find(([_, client]: any) => {
@@ -1463,7 +1463,7 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
         </html>
       `;
       
-      // Usa Puppeteer per generare PDF vero (portrait/verticale)
+      // Use Puppeteer to generate a real PDF (portrait/vertical)
       try {
         const puppeteer = require('puppeteer');
         const browser = await puppeteer.launch({
@@ -1532,7 +1532,7 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
       const userCurrency = await getCurrencyForUser(storage, user.id);
       const currencySymbol = userCurrency.symbol;
       
-      // Load company data completi per intestazione invoice
+      // Load complete company data for invoice header
       let businessHeader = 'Gestionale Appuntamenti';
       let businessData = {
         companyName: '',
@@ -1590,9 +1590,9 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
             console.log(`👁️ [PREVIEW] Client not found for ID: ${invoice.clientId}`);
           }
         } else {
-          logger.debug(`⚠️ [PREVIEW] invoice SENZA CLIENTID! invoice ${invoice.invoiceNumber} usa clientName obsoleto`);
+          logger.debug(`⚠️ [PREVIEW] invoice WITHOUT CLIENTID! invoice ${invoice.invoiceNumber} uses legacy clientName`);
           
-          // Only come fallback per invoices vecchie
+          // Only as fallback for old invoices
           if (invoice.clientName) {
             const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
             const clientEntry = clients.find(([_, client]: any) => {
@@ -1624,10 +1624,10 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
           const serviceEntry = services.find(([id, service]: any) => id === invoice.serviceId);
           if (serviceEntry) {
             serviceDescription = serviceEntry[1].name;
-            console.log(`👁️ [PREVIEW] Servizio found per ID ${invoice.serviceId}: ${serviceDescription}`);
+            console.log(`👁️ [PREVIEW] Service found for ID ${invoice.serviceId}: ${serviceDescription}`);
           }
         } else {
-          logger.debug(`⚠️ [PREVIEW] invoice SENZA SERVICEID! Using description: ${serviceDescription}`);
+          logger.debug(`⚠️ [PREVIEW] invoice WITHOUT SERVICEID! Using description: ${serviceDescription}`);
         }
       } catch (error) {
         console.log('⚠️ Error loading service data for preview:', error);
@@ -1797,7 +1797,7 @@ router.get('/api/invoices/:id/email-suggestions', async (req, res) => {
           logger.debug(`📧 [EMAIL SUGGESTIONS] Client not found for ID: ${invoice.clientId}`);
         }
       } else {
-        logger.debug(`⚠️ [EMAIL SUGGESTIONS] invoice SENZA CLIENTID! invoice ${invoice.invoiceNumber} usa clientName obsoleto`);
+        logger.debug(`⚠️ [EMAIL SUGGESTIONS] invoice WITHOUT CLIENTID! invoice ${invoice.invoiceNumber} uses legacy clientName`);
         
         // Only as fallback for old invoices without clientId
         if (invoice.clientName) {
@@ -1847,7 +1847,7 @@ ${businessName}`;
     }
   });
 
-  // Funzione per generare PDF identico al pulsante stampa
+  // Function to generate PDF identical to the print button
   async function generateInvoicePDFForEmail(invoiceId: number, user: any, req: any): Promise<Buffer> {
     console.log('📄 [INVOICE EMAIL] Using the same logic as the PDF endpoint directly...');
     
@@ -2180,7 +2180,7 @@ ${businessName}`;
     const userCurrency = await getCurrencyForUser(storage, user.id);
     const currencySymbol = userCurrency.symbol;
     
-    // Retrieve custom logo from the database (come funzione principale)
+    // Retrieve custom logo from the database (as main function)
     let userLogo = defaultIconBase64;
     try {
       const iconRow = await db
@@ -2516,31 +2516,31 @@ router.post('/api/invoices/:id/send-email', async (req, res) => {
         
         if (!fs.existsSync(emailConfigPath)) {
           console.log('⚠️ [EMAIL] Email configuration not found, simulating send');
-          logger.debug(`📧 SIMULAZIONE Sending EMAIL:
-            Da: ${businessName} <noreply@biomedicinaintegrata.it>
-            A: ${recipientEmail}
-            Oggetto: ${subject}
+          logger.debug(`📧 SIMULATED EMAIL send:
+            From: ${businessName} <noreply@biomedicinaintegrata.it>
+            To: ${recipientEmail}
+            Subject: ${subject}
             Message: ${message || 'Invoice attached'}
-            Allegato: fattura-${invoice.invoiceNumber}.pdf
+            Attachment: invoice-${invoice.invoiceNumber}.pdf
           `);
         } else {
           const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
           
           if (!emailConfig.emailEnabled || !emailConfig.emailAddress || !emailConfig.emailPassword) {
             console.log('⚠️ [EMAIL] Email not configured, simulating send');
-            logger.debug(`📧 SIMULAZIONE Sending EMAIL:
-              Da: ${businessName} <noreply@biomedicinaintegrata.it>
-              A: ${recipientEmail}
-              Oggetto: ${subject}
+            logger.debug(`📧 SIMULATED EMAIL send:
+              From: ${businessName} <noreply@biomedicinaintegrata.it>
+              To: ${recipientEmail}
+              Subject: ${subject}
               Message: ${message || 'Invoice attached'}
-              Allegato: fattura-${invoice.invoiceNumber}.pdf
+              Attachment: invoice-${invoice.invoiceNumber}.pdf
             `);
           } else {
             logger.debug(`📧 [INVOICE EMAIL] Sending invoice via email using tested system`);
-            logger.debug(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
-            logger.debug(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
+            logger.debug(`📧 [INVOICE EMAIL] From: ${emailConfig.emailAddress} To: ${recipientEmail}`);
+            logger.debug(`📧 [INVOICE EMAIL] Subject: ${subject}`);
             
-            // Generate PDF identico al pulsante stampa per allegato email
+            // Generate PDF identical to the print button for email attachment
             let pdfBuffer = null;
             let filename = null;
             
@@ -2554,7 +2554,7 @@ router.post('/api/invoices/:id/send-email', async (req, res) => {
                 filename = `invoice-${invoice.invoiceNumber}.pdf`;
                 logger.debug(`📎 [INVOICE EMAIL] Print-identical PDF generated: ${filename} (${pdfBuffer.length} bytes`);
               } else {
-                throw new Error('PDF Buffer vuoto');
+                throw new Error('PDF Buffer empty');
               }
 
             } catch (pdfError: any) {
@@ -2582,18 +2582,18 @@ router.post('/api/invoices/:id/send-email', async (req, res) => {
         }
       } catch (emailError) {
         console.error('❌ [EMAIL] Error sending real email, falling back to simulation:', emailError);
-        logger.debug(`📧 SIMULAZIONE Sending EMAIL:
-          Da: ${businessName} <noreply@biomedicinaintegrata.it>
-          A: ${recipientEmail}
-          Oggetto: ${subject}
+        logger.debug(`📧 SIMULATED EMAIL send:
+          From: ${businessName} <noreply@biomedicinaintegrata.it>
+          To: ${recipientEmail}
+          Subject: ${subject}
           Message: ${message || 'Invoice attached'}
-          Allegato: fattura-${invoice.invoiceNumber}.pdf
+          Attachment: invoice-${invoice.invoiceNumber}.pdf
         `);
       }
       
       logger.debug(`📧 [EMAIL] Business name used for send: "${businessName}"`);
       
-      // Update stato invoice a "inviata" If era in bozza
+      // Update invoice status to "sent" if it was in draft
       if (invoice.status === 'draft') {
         const invoiceIndex = invoices.findIndex(([id]: any) => id === invoiceId);
         if (invoiceIndex !== -1) {
@@ -2649,7 +2649,7 @@ router.post('/api/invoices/:id/send', async (req, res) => {
         return res.status(400).json({ message: 'Select at least one send channel' });
       }
       
-      // Load invoice da PostgreSQL
+      // Load invoice from PostgreSQL
       const invoiceResults = await db.select()
         .from(invoicesTable)
         .where(and(
@@ -2709,14 +2709,14 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                   .from(invoiceItems)
                   .where(eq(invoiceItems.invoiceId, invoice.id));
                 
-                // Load logo personalizzato (usa invoice.userId = professional owner, NON user.id = admin)
+                // Load custom logo (uses invoice.userId = professional owner, NOT user.id = admin)
                 const { loadUserLogo, buildInvoiceHtml, generatePdfBuffer } = await import('../utils/invoicePdf');
                 const { getUserLanguage } = await import('../utils/userLanguage');
                 const { formatDateShort, LOCALE_MAP, getInvoicePdfStrings, normalizeLang } = await import('../utils/emailTranslations');
                 const invoiceOwnerLang = await getUserLanguage(invoice.userId);
                 const logoBase64 = await loadUserLogo(invoice.userId);
                 
-                // Load company data (usa invoice.userId = professional owner)
+                // Load company data (uses invoice.userId = professional owner)
                 let businessHeader = 'Gestionale Appuntamenti';
                 let businessData = {
                   companyName: '',
@@ -2792,10 +2792,10 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                   language: invoiceOwnerLang
                 };
                 
-                // Generate HTML professionale con logo e grafica
+                // Generate professional HTML with logo and graphics
                 const htmlContent = buildInvoiceHtml(context);
                 
-                // Generate PDF con Puppeteer (con fallback silenzioso)
+                // Generate PDF with Puppeteer (with silent fallback)
                 let pdfBuffer: Buffer;
                 try {
                   pdfBuffer = await generatePdfBuffer(htmlContent);

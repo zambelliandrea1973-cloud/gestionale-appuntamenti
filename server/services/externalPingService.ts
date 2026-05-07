@@ -41,14 +41,14 @@ class ExternalPingService {
       externalPings: []
     };
     
-    // Load the statistics esistenti If presenti
+    // Load existing statistics if present
     this.loadStats();
     
-    // Update l'uptime
+    // Update uptime
     this.pingStats.uptime = process.uptime();
     this.pingStats.startTime = new Date(Date.now() - (process.uptime() * 1000)).toISOString();
     
-    // Save the statistiche aggiornate
+    // Save the updated statistics
     this.saveStats();
     
     // Start the periodic statistics saving process
@@ -94,7 +94,7 @@ class ExternalPingService {
       });
     });
     
-    // Endpoint speciale per forzare riavvio (richiede key segreta)
+    // Special endpoint to force restart (requires secret key)
     router.post('/ping/restart', (req: Request, res: Response) => {
       const { restartKey } = req.body;
       
@@ -111,7 +111,7 @@ class ExternalPingService {
       // Communicate the intention to restart before doing it
       res.status(200).json({
         status: 'OK',
-        message: 'Riavvio in corso...',
+        message: 'Restart in progress...',
         timestamp: new Date().toISOString()
       });
       
@@ -137,9 +137,9 @@ class ExternalPingService {
       }
     });
     
-    // Endpoint diagnostico per visualizzare the statistics di ping
+    // Diagnostic endpoint to display ping statistics
     router.get('/ping/stats', (req: Request, res: Response) => {
-      // Update l'uptime prima di inviare the statistics
+      // Update uptime before sending the statistics
       this.pingStats.uptime = process.uptime();
       
       res.status(200).json({
@@ -172,12 +172,12 @@ class ExternalPingService {
       this.pingStats.externalPings.shift();
     }
     
-    // Not salvare the statistics ad each ping per evitare sovraccarico di I/O
-    // the statistics verranno salvate periodicamente dall'intervallo
+    // Do not save statistics on every ping to avoid I/O overload
+    // Statistics will be saved periodically by the interval
   }
   
   /**
-   * Load the statistics da file If esistono
+   * Load the statistics from file if they exist
    */
   private loadStats(): void {
     try {
@@ -280,10 +280,10 @@ class ExternalPingService {
       restartUrl: `${baseUrl}/api/external/ping/restart`,
       restartKey: this.secretRestartKey,
       instructions: [
-        "1. Aggiungi un nuovo monitor su UptimeRobot di tipo HTTP(s)",
-        `2. Usa l'URL: ${baseUrl}/api/external/ping come endpoint di controllo`,
-        "3. Imposta l'intervallo a 5 minuti",
-        "4. Attiva le notifiche in caso di DOWN"
+        "1. Add a new HTTP(s) monitor on UptimeRobot",
+        `2. Use URL: ${baseUrl}/api/external/ping as the check endpoint`,
+        "3. Set the interval to 5 minutes",
+        "4. Enable notifications in case of DOWN"
       ],
       uptimeRobotLink: "https://uptimerobot.com/dashboard"
     };

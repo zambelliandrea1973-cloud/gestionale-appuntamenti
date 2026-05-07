@@ -28,12 +28,12 @@ router.get("/api/services", async (req, res) => {
     if (userServices.length === 0) {
       const defaultService = await storage.createService({
         userId: user.id,
-        name: "Consulenza",
+        name: "Consultation",
         duration: 30,
         price: 0,
         color: "#9e9e9e"
       });
-      console.log(`🆕 [/api/services] service default "Consulenza" created per new user ${user.id}`);
+      console.log(`🆕 [/api/services] default service "Consultation" created for new user ${user.id}`);
       userServices = [{ ...defaultService, isDefault: true }];
     }
     
@@ -119,7 +119,7 @@ router.delete("/api/services/:id", async (req, res) => {
     const deleted = await storage.deleteService(serviceId);
     
     if (!deleted) {
-      console.log(`❌ [DELETE] Servizio ID ${serviceId} not found`);
+      console.log(`❌ [DELETE] Service ID ${serviceId} not found`);
       return res.status(404).json({ message: "Service not found" });
     }
     

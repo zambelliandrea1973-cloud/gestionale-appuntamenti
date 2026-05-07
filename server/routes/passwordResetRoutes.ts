@@ -64,20 +64,20 @@ router.post("/api/forgot-password", passwordResetLimiter, async (req, res) => {
     const resetLink = `${baseUrl}/reset-password?token=${resetToken}`;
     
     const emailHtml = `
-      <h2>Recupero Password</h2>
-      <p>Hai required di resettare la tua password. Clicca il link sotto:</p>
+      <h2>Password Reset</h2>
+      <p>You requested a password reset. Click the link below:</p>
       <a href="${resetLink}" style="background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-        Reimposta Password
+        Reset Password
       </a>
-      <p>Il link scadrà tra 1 ora.</p>
-      <p>Se non hai required questo reset, ignora questa email.</p>
+      <p>The link will expire in 1 hour.</p>
+      <p>If you did not request this reset, please ignore this email.</p>
     `;
 
     try {
       const { sendSystemEmail } = await import('../services/systemEmailService');
       const result = await sendSystemEmail(
         email,
-        'Recupero Password - Gestionale Appuntamenti',
+        'Password Reset - Appointment Manager',
         emailHtml
       );
 

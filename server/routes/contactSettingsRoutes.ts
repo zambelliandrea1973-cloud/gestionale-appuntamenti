@@ -54,7 +54,7 @@ router.post('/', requireAuth, async (req: any, res: any) => {
     const userId = req.user.id;
     console.log(`📞 POST /api/contact-settings for user ${userId}`, req.body);
     
-    // Validazione con schema Zod
+    // Validation with Zod schema
     const updateSchema = z.object({
       phone: z.string().min(1, 'Phone is required'),
       email: z.string().email('Email invalid').optional().or(z.literal('')),
@@ -68,7 +68,7 @@ router.post('/', requireAuth, async (req: any, res: any) => {
     
     let settings;
     if (existingSettings) {
-      // Update settings esistenti
+      // Update existing settings
       settings = await contactSettingsService.updateContactSettings(userId, {
         phone: validatedData.phone,
         email: validatedData.email || '',
@@ -118,7 +118,7 @@ router.post('/', requireAuth, async (req: any, res: any) => {
 });
 
 /**
- * PUT /api/contact-settings/whatsapp - Enable/disabilita WhatsApp
+ * PUT /api/contact-settings/whatsapp - Enable/disable WhatsApp
  */
 router.put('/whatsapp', requireAuth, async (req: any, res: any) => {
   try {

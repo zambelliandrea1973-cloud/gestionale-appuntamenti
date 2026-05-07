@@ -15,7 +15,7 @@ export class ReferralService {
    * @returns The new referral code
    */
   async generateReferralCode(userId: number): Promise<string> {
-    // Generate a code casuale di 8 caratteri
+    // Generate a random 8-character code
     const code = randomBytes(4).toString('hex').toUpperCase();
     
     // Update the user with the new code
@@ -111,7 +111,7 @@ export class ReferralService {
       .from(users)
       .where(eq(users.id, userId));
       
-    // Get the commissions attive
+    // Get the active commissions
     const commissionsData = await db
       .select()
       .from(referralCommissions)
@@ -123,7 +123,7 @@ export class ReferralService {
       .from(bankAccounts)
       .where(eq(bankAccounts.userId, userId));
       
-    // Get the statistiche
+    // Get the statistics
     const statsData = await this.getReferralStats(userId);
     
     return {
@@ -210,7 +210,7 @@ export class ReferralService {
       .where(eq(subscriptions.userId, newUserId));
       
     if (subscription) {
-      // Conta i referral esistenti
+      // Count existing referrals
       const [{ count: referralCount }] = await db
         .select({ count: count() })
         .from(users)
@@ -236,8 +236,8 @@ export class ReferralService {
   }
 
   /**
-   * Get all payments in sospeso (per amministratori)
-   * @returns Lista of the payments in sospeso
+   * Get all pending payments (for administrators)
+   * @returns List of pending payments
    */
   async getPendingPayments() {
     return await db
@@ -267,7 +267,7 @@ export class ReferralService {
    * @returns The newly generated payments
    */
   async generatePaymentsForAllUsers(period: string) {
-    // Get all users con commissions attive
+    // Get all users with active commissions
     const users = await db
       .select({
         userId: referralCommissions.referrerId,
@@ -326,7 +326,7 @@ export class ReferralService {
   /**
    * Update the status of a payment
    * @param paymentId - Payment ID
-   * @param status - Nuovo stato
+   * @param status - New status
    * @param processingNote - Processing note
    * @returns The updated payment
    */

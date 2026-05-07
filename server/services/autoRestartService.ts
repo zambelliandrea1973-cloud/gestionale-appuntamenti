@@ -22,7 +22,7 @@ interface RestartLogEntry {
 class AutoRestartService {
   private readonly CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
   private readonly MEMORY_THRESHOLD = 0.85; // 85% of available memory
-  private readonly CPU_THRESHOLD = 0.9; // 90% di carico CPU
+  private readonly CPU_THRESHOLD = 0.9; // 90% CPU load
   private readonly RESPONSE_TIMEOUT = 10000; // 10 seconds timeout for responses
   private readonly RESTART_COOLDOWN = 15 * 60 * 1000; // 15 minutes of cooldown between restarts
   
@@ -154,11 +154,11 @@ class AutoRestartService {
       const cpuOk = cpuLoad < this.CPU_THRESHOLD;
       
       if (!memoryOk) {
-        console.warn(`Utilizzo memoria elevato: ${(memUsage * 100).toFixed(1)}%`);
+        console.warn(`High memory usage: ${(memUsage * 100).toFixed(1)}%`);
       }
       
       if (!cpuOk) {
-        console.warn(`Carico CPU elevato: ${(cpuLoad * 100).toFixed(1)}%`);
+        console.warn(`High CPU load: ${(cpuLoad * 100).toFixed(1)}%`);
       }
       
       return memoryOk && cpuOk;
@@ -197,7 +197,7 @@ class AutoRestartService {
   }
   
   /**
-   * Restart l'applicazione
+   * Restart the application
    */
   private restartApplication(reason: string): void {
     try {
@@ -240,7 +240,7 @@ class AutoRestartService {
         const data = fs.readFileSync(this.logFile, 'utf8');
         this.restartLogs = JSON.parse(data);
         
-        // Load l'ultimo timestamp restart
+        // Load the last restart timestamp
         if (this.restartLogs.length > 0) {
           const lastLog = this.restartLogs[this.restartLogs.length - 1];
           this.lastRestartTime = new Date(lastLog.timestamp).getTime();
@@ -280,7 +280,7 @@ class AutoRestartService {
   /**
    * Force a manual restart
    */
-  forceRestart(reason: string = 'Riavvio manuale'): void {
+  forceRestart(reason: string = 'Manual restart'): void {
     console.log(`Forced manual restart: ${reason}`);
     this.restartApplication(reason);
   }

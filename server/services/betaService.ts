@@ -30,7 +30,7 @@ export class BetaService {
       }
       
       if (maxUses < 1) {
-        console.error('Error: Numero utilizzi invalid:', maxUses);
+        console.error('Error: Invalid number of uses:', maxUses);
         return {
           success: false,
           message: 'The maximum number of uses must be at least 1'
@@ -64,7 +64,7 @@ export class BetaService {
       };
       
       const newInvitation = await storage.createBetaInvitation(invitation);
-      console.log('Invito created successfully:', { id: newInvitation.id, code: newInvitation.invitationCode });
+      console.log('Invitation created successfully:', { id: newInvitation.id, code: newInvitation.invitationCode });
       
       return {
         success: true,

@@ -3,7 +3,7 @@ import { logger } from '../utils/logger';
 /**
  * ClientLoginService - Centralized service for managing client authentication
  * Provides advanced functionality, support for token-based authentication
- * e metodi alternativi per adattarsi a dispositivi mobili e PWA.
+ * and alternative methods to adapt to mobile devices and PWA.
  */
 
 import { storage } from "../storage";
@@ -22,7 +22,7 @@ class ClientLoginService {
     bypassAuth = false
   ) {
     try {
-      // Log completo per tracciare the attempts
+      // Full log to trace the attempts
       console.log("Verifying credentials:", {
         username,
         hasPassword: !!password,
@@ -72,7 +72,7 @@ class ClientLoginService {
         const isPasswordValid = await comparePasswords(password, user.password);
         
         if (!isPasswordValid) {
-          console.warn(`Password invalid per: ${username}`);
+          console.warn(`Password invalid for: ${username}`);
           return null;
         }
       }
@@ -121,8 +121,8 @@ class ClientLoginService {
         return null;
       }
       
-      // Log dettagliato
-      console.log("Autenticazione via GET:", {
+      // Detailed login log
+      console.log("Authentication via GET:", {
         username,
         clientId,
         isPwa,
@@ -162,7 +162,7 @@ class ClientLoginService {
               const randomPassword = Math.random().toString(36).substring(2, 15);
               const hashedPassword = await hashPassword(randomPassword);
               
-              // Create l'user
+              // Create the user
               const newUser = await storage.createUser({
                 username,
                 password: hashedPassword,

@@ -251,12 +251,12 @@ router.post("/api/clients", async (req, res) => {
       
       const userLimit = limits[user.type] || limits.basic;
       
-      logger.debug(`📊 [POST /api/clients] Limite ${userLimit}, Correnti: ${currentClients}`);
+      logger.debug(`📊 [POST /api/clients] Limit ${userLimit}, Current: ${currentClients}`);
       
       if (userLimit !== 'unlimited' && currentClients >= userLimit) {
-        console.log(`❌ [POST /api/clients] Limite raggiunto for user ${user.id}`);
+        console.log(`❌ [POST /api/clients] Limit reached for user ${user.id}`);
         return res.status(403).json({ 
-          message: `Limite clienti raggiunto per piano ${user.type}`,
+          message: `Client limit reached for plan ${user.type}`,
           limit: userLimit,
           current: currentClients,
           upgradeRequired: true
@@ -391,7 +391,7 @@ router.post("/api/clients/import-csv", async (req, res) => {
       let skipped = 0;
       
       for (const contact of contacts) {
-        // Check if the contatto esiste already (stesso email o phone)
+        // Check if the contact already exists (same email or phone)
         const existingClients = await storage.getClients(ownerId);
         const exists = existingClients.some(c => 
           (contact.email && c.email && c.email.toLowerCase() === contact.email.toLowerCase()) ||
@@ -419,7 +419,7 @@ router.post("/api/clients/import-csv", async (req, res) => {
         imported++;
       }
 
-      logger.debug(`✅ [CSV IMPORT] Imported ${imported} contatti, saltati ${skipped}`);
+      logger.debug(`✅ [CSV IMPORT] Imported ${imported} contacts, skipped ${skipped}`);
 
       // Auto-cleanup: remove demo clients if the import added real ones
       if (imported > 0) {
@@ -435,7 +435,7 @@ router.post("/api/clients/import-csv", async (req, res) => {
         success: true, 
         imported, 
         skipped,
-        message: `Imported ${imported} contatti` + (skipped > 0 ? `, ${skipped} already existing` : '')
+        message: `Imported ${imported} contacts` + (skipped > 0 ? `, ${skipped} already existing` : '')
       });
     } catch (error: any) {
       console.error('[CSV IMPORT] Error:', error);
@@ -482,7 +482,7 @@ router.post("/api/clients/migrate-codes", async (req, res) => {
     }
   });
 
-  // Helper function per generare hash casuali
+  // Helper function to generate random hashes
   function generateRandomHash(): string {
     return Math.random().toString(36).substring(2, 6).toUpperCase();
   }
@@ -519,15 +519,15 @@ router.post("/api/clients/normalize-codes", async (req, res) => {
           updatedCount++;
         }
         
-        logger.debug(`🔄 NORMALIZZATO: ${client.firstName} ${client.lastName} - ${oldId} → ${newSequentialId}`);
+        logger.debug(`🔄 NORMALIZED: ${client.firstName} ${client.lastName} - ${oldId} → ${newSequentialId}`);
       }
       
       saveStorageData(storageData);
-      logger.debug(`✅ NORMALIZZAZIONE completed: ${updatedCount} clients aggiornati`);
+      logger.debug(`✅ NORMALIZATION completed: ${updatedCount} clients updated`);
       
       res.json({ 
         success: true, 
-        message: `${updatedCount} clienti normalizzati successfully`,
+        message: `${updatedCount} clients normalized successfully`,
         updatedCount 
       });
     } catch (error: any) {

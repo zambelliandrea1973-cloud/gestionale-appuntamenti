@@ -27,7 +27,7 @@ async function testInvoiceSend() {
       throw new Error(`Login failed: ${loginResponse.status}`);
     }
     
-    // Estrai cookie di session
+    // Extract session cookie
     const cookies = loginResponse.headers.get('set-cookie');
     console.log('✅ Login OK, cookie received');
     

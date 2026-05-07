@@ -113,7 +113,7 @@ router.post('/register', async (req: Request, res: Response) => {
       success: result,
       message: result 
         ? 'Referral registered successfully' 
-        : 'Impossibile registrare il referral (codice invalid)'
+        : 'Unable to register the referral (invalid code)'
     });
   } catch (error: any) {
     console.error('Error registering referral:', error);
@@ -197,7 +197,7 @@ router.post('/staff/:staffId/pay-commissions', isAuthenticated, async (req: Requ
 });
 
 /**
- * Get all payments di referral in sospeso
+ * Get all pending referral payments
  * GET /api/referral/admin/pending-payments
  */
 router.get('/admin/pending-payments', isAuthenticated, async (req: Request, res: Response) => {
@@ -292,7 +292,7 @@ router.get('/overview', isAuthenticated, async (req: Request, res: Response) => 
       });
     }
     
-    // SISTEMA PULITO - collegamento diretto al database autentico
+    // CLEAN SYSTEM - direct connection to the authentic database
     const { getCleanReferralOverview } = await import("../api/cleanReferralSystem");
     return getCleanReferralOverview(req, res);
   } catch (error: any) {

@@ -3,12 +3,12 @@ import { db } from "../db";
 import { users } from "../../shared/schema";
 import { eq } from "drizzle-orm";
 
-// Sistema referral autonomo per staff - VERSIONE SENZA DRIZZLE
+// Autonomous referral system for staff - VERSION WITHOUT DRIZZLE
 export async function getMyReferralData(req: Request, res: Response) {
   try {
     const staffUser = req.user!;
     const staffId = staffUser.id;
-    console.log(`🎯 STAFF REFERRAL AUTONOMO: ${staffUser.email} (ID: ${staffId})`);
+    console.log(`🎯 STAFF REFERRAL STANDALONE: ${staffUser.email} (ID: ${staffId})`);
 
     // Generate referral code based on existing user data
     const emailPrefix = staffUser.email.substring(0, 3).toUpperCase();

@@ -117,7 +117,7 @@ class PhoneDeviceService {
         // This code contains information for our test system
         const timestamp = Date.now();
         const deviceId = this.deviceId;
-        // Code QR con info test
+        // QR code with test info
         const testQR = `test-device:${deviceId}:${timestamp}`;
         this.currentQR = testQR;
         this.deviceStatus = DeviceStatus.QR_READY;
@@ -163,7 +163,7 @@ class PhoneDeviceService {
         // Get information about the connected device
         try {
           const info = await this.client.getWWebVersion();
-          console.log(`Versione WhatsApp Web: ${info}`);
+          console.log(`WhatsApp Web version: ${info}`);
           
           // Get the phone number
           const contactInfo = await this.client.getContactById(this.client.info.wid._serialized);
@@ -312,7 +312,7 @@ class PhoneDeviceService {
     try {
       console.log(`[TEST] Simulating WhatsApp send to ${to}: "${message}"`);
       
-      // Generate a link a WhatsApp come response test
+      // Generate a WhatsApp link as test response
       const formattedTo = to.startsWith('+') ? to.substring(1) : to;
       const whatsappLink = `https://wa.me/${formattedTo}?text=${encodeURIComponent(message)}`;
       
@@ -339,7 +339,7 @@ class PhoneDeviceService {
       if (!this.client || this.deviceStatus !== DeviceStatus.CONNECTED) {
         return { 
           success: false, 
-          error: `Dispositivo non connesso. Stato attuale: ${this.deviceStatus}` 
+          error: `Device not connected. Current status: ${this.deviceStatus}` 
         };
       }
 
@@ -397,7 +397,7 @@ class PhoneDeviceService {
    * Generate an SMS link that can be opened on the device
    * @param to Recipient phone number
    * @param message Message text
-   * @returns URL per aprire l'app SMS con the message precompilato
+   * @returns URL to open the SMS app with the pre-filled message
    */
   generateSMSLink(to: string, message: string): string {
     const formattedTo = to.startsWith('+') ? to : `+${to}`;
@@ -458,7 +458,7 @@ class PhoneDeviceService {
   }
   
   /**
-   * Espone the function saveDeviceSettings per uso esterno
+   * Exposes the saveDeviceSettings function for external use
    * (test mode only)
    */
   async saveDeviceSettings(): Promise<boolean> {

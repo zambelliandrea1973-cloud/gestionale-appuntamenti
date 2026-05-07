@@ -14,7 +14,7 @@ const smtpConfigurations: Record<string, {
     smtpServer: 'smtp.gmail.com',
     smtpPort: 587,
     secureConnection: false,
-    instructions: 'For Gmail you need to create an "app password" in Google security settings. Go to https://myaccount.google.com/apppasswords per crearla.'
+    instructions: 'For Gmail you need to create an "app password" in Google security settings. Go to https://myaccount.google.com/apppasswords to create one.'
   },
   'outlook.com': {
     smtpServer: 'smtp-mail.outlook.com',
@@ -35,7 +35,7 @@ const smtpConfigurations: Record<string, {
     smtpServer: 'smtp.mail.yahoo.com',
     smtpPort: 587,
     secureConnection: false,
-    instructions: 'Per Yahoo Mail potrebbe essere necessario generare una "password per app" nelle impostazioni dell\'account.'
+    instructions: "For Yahoo Mail you may need to generate an 'app password' in your account settings."
   },
   'icloud.com': {
     smtpServer: 'smtp.mail.me.com',
@@ -111,7 +111,7 @@ const getEmailDomain = (email: string): string => {
 
 /**
  * Detect SMTP configurations based on the email address
- * @param email Address email da analizzare
+ * @param email Email address to analyze
  * @returns SMTP configuration if found, otherwise null
  */
 export const detectSmtpConfig = (email: string) => {
@@ -136,7 +136,7 @@ export const detectSmtpConfig = (email: string) => {
     secureConnection: false,
     smtpUsername: email,
     senderEmail: email,
-    instructions: 'These are generic settings. Contact your email provider if they don't work.'
+    instructions: "These are generic settings. Contact your email provider if they don't work."
   };
 };
 

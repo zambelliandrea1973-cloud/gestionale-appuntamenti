@@ -52,7 +52,7 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
     logger.debug(`📧 [SYSTEM EMAIL] No admin with SMTP in DB, trying fallback...`);
     const config = await getEmailConfig(admins[0].id);
     if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
-      logger.debug(`📧 [SYSTEM EMAIL] Fallback config primo admin: ${config.emailAddress}`);
+      logger.debug(`📧 [SYSTEM EMAIL] Fallback config first admin: ${config.emailAddress}`);
       const transporter = nodemailer.createTransport({
         host: config.smtpServer || 'smtp.gmail.com',
         port: config.smtpPort || 587,
@@ -68,7 +68,7 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
     const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
     if (systemPassword) {
       const systemEmail = 'zambelli.andrea.1973@gmail.com';
-      logger.debug(`📧 [SYSTEM EMAIL] Ultimo fallback: SYSTEM_EMAIL_PASSWORD con ${systemEmail}`);
+      logger.debug(`📧 [SYSTEM EMAIL] Last fallback: SYSTEM_EMAIL_PASSWORD with ${systemEmail}`);
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,

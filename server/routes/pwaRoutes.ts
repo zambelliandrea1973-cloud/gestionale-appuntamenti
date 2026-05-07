@@ -97,7 +97,7 @@ router.get('/api/public/contact-info', (req, res) => {
         showWebsite: contactSettings.showWebsite !== false,
         showInstagram: contactSettings.showInstagram !== false,
         
-        // Settings di layout If presenti
+        // Layout settings if present
         contactLayout: contactSettings.layout || 'default'
       };
       
@@ -127,28 +127,28 @@ router.post('/api/client-access/:clientCode', async (req, res) => {
       const client = clientResults[0];
       const now = new Date();
       
-      // Generate token di accesso for client
+      // Generate access token for client
       const token = `${clientCode}_${now.getTime()}`;
       
-      // BACKWARD COMPATIBILITY: Update contatori JSON storage If client presente
+      // BACKWARD COMPATIBILITY: Update JSON storage counters if client is present
       const storageData = loadStorageData();
       const clientData = storageData.clients?.find(([id, c]: any) => c.uniqueCode === clientCode);
       if (clientData) {
         const [id, jsonClient] = clientData;
         const clientIndex = storageData.clients.findIndex(([cId, c]: any) => cId === id);
         
-        // Incrementa contatori accesso
+        // Increment access counters
         storageData.clients[clientIndex][1].accessCount = (jsonClient.accessCount || 0) + 1;
         storageData.clients[clientIndex][1].lastAccess = now.toISOString();
         
-        // Update info accesso PWA
+        // Update PWA access info
         if (req.body.source === 'pwa') {
           storageData.clients[clientIndex][1].lastPwaAccess = now.toISOString();
           storageData.clients[clientIndex][1].pwaAccessCount = (jsonClient.pwaAccessCount || 0) + 1;
         }
         
         saveStorageData(storageData);
-        logger.debug(`✅ [PWA ACCESS] Contatori JSON aggiornati per ${client.firstName} ${client.lastName}`);
+        logger.debug(`✅ [PWA ACCESS] JSON counters updated for ${client.firstName} ${client.lastName}`);
       }
       
       logger.debug(`✅ [PWA ACCESS] Client ${client.firstName} ${client.lastName} (${clientCode}) - Access registered, token generated`);
@@ -179,7 +179,7 @@ router.post('/api/client-access/track/:clientId', async (req, res) => {
         return res.status(404).json({ message: "Client not found" });
       }
       
-      // Register access nelthe table clientAccesses (PostgreSQL)
+      // Register access in the clientAccesses table (PostgreSQL)
       const ipAddress = req.ip || req.connection.remoteAddress || '';
       const userAgent = req.headers['user-agent'] || '';
       
@@ -263,7 +263,7 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
         const token = tokenMatch[1];
         const tokenParts = token.split('_');
         if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
-          ownerUserId = parseInt(tokenParts[1]); // Seconda parte = userId proprietario
+          ownerUserId = parseInt(tokenParts[1]); // Second part = owner userId
           logger.debug(`📱 PWA ICON: Found ownerId ${ownerUserId} from QR token in referer`);
         }
       }
@@ -303,7 +303,7 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
         }
       }
       
-      // NESSUN FALLBACK - Mantieni gerarchia client-proprietario
+      // NO FALLBACK - Maintain client-owner hierarchy
       if (!ownerUserId) {
         console.log(`❌ PWA ICON: No owner identified - using default icon`);
         return res.redirect('/icons/icon-' + size + '.png');
@@ -465,7 +465,7 @@ router.post('/api/test-reminder-flags', requireAuth, (req, res) => {
         storageData.appointments[appointmentIndex].reminderStatus = reminderStatus;
         storageData.appointments[appointmentIndex].reminderType = 'email'; // Ensure it has a type
         
-        // Save the data aggiornati
+        // Save the updated data
         saveStorageData(storageData);
         
         res.json({
@@ -482,7 +482,7 @@ router.post('/api/test-reminder-flags', requireAuth, (req, res) => {
     }
   });
 
-  // Endpoint per monitorare i promemoria email inviati
+  // Endpoint to monitor sent email reminders
 router.get('/api/email/reminders/status', requireAuth, (req, res) => {
     try {
       const storageData = loadStorageData();

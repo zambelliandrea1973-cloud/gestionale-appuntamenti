@@ -16,7 +16,7 @@ export class GDPRCompliance {
   }
 
   /**
-   * Get the istanza singleton of the service GDPR
+   * Get the singleton instance of the GDPR service
    */
   public static getInstance(): GDPRCompliance {
     if (!GDPRCompliance.instance) {
@@ -117,7 +117,7 @@ export class GDPRCompliance {
   /**
    * Anonymize personal data for deletion (right to be forgotten)
    * @param date Object containing personal data
-   * @returns Object con the data personali anonimizzati
+   * @returns Object with the anonymized personal data
    */
   public anonymizePersonalData(data: any): any {
     if (!data) return data;
@@ -170,7 +170,7 @@ export class GDPRCompliance {
     const recommendations = [];
     
     if (!this.isDatabaseInEU()) {
-      recommendations.push('Il database dovrebbe essere ospitato in una regione dell\'Unione Europea');
+      recommendations.push('The database should be hosted in a European Union region');
     }
     
     if (!this.isEncryptionEnabled) {

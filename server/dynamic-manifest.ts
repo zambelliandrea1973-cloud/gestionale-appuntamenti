@@ -25,7 +25,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
       return servePlayStoreManifest(req, res);
     }
     
-    // FORZA DEBUG PER IDENTIFICARE IL PROBLEMA
+    // FORCE DEBUG TO IDENTIFY THE PROBLEM
     console.error('📱 DEBUG MANIFEST FORCED: CALL RECEIVED');
     
     let ownerUserId = null;
@@ -54,7 +54,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
       
       // Search for /client/PROF_XXX_... pattern in referer (supports ALL formats)
       // NEW format: PROF_042_C00166
-      // Format VECCHIO: PROF_014_9C1F_CLIENT_1750163505034_340F
+      // OLD format: PROF_014_9C1F_CLIENT_1750163505034_340F
       const pathTokenMatch = referer.match(/\/client\/(PROF_\d{2,3}_[^/?#\s]+)/);
       if (pathTokenMatch) {
         const token = pathTokenMatch[1];
@@ -116,7 +116,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
     
     console.log(`🔍 PWA MANIFEST: Referer: ${referer}, isClientArea: ${isClientArea}, isAdminArea: ${isAdminArea}`);
     
-    // Determine start_url in base al contesto
+    // Determine start_url based on context
     let startUrl = "/";
     
     if (isClientArea) {
@@ -258,7 +258,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
     
   } catch (error) {
     console.error('Error serving dynamic manifest:', error);
-    // Fallback al manifest statico
+    // Fallback to static manifest
     const staticManifestPath = path.join(process.cwd(), 'public', 'manifest.json');
     if (fs.existsSync(staticManifestPath)) {
       res.sendFile(staticManifestPath);

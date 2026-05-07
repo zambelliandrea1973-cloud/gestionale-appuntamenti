@@ -13,7 +13,7 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }
 });
 
-// Generate code univoco
+// Generate unique code
 function generateUniqueCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }

@@ -10,25 +10,25 @@ import { EncryptionService } from '../services/encryption';
 import { z } from 'zod';
 import { generateClientCode } from '../utils/clientCodeGenerator';
 
-// Schema di validazione per l'importazione contatti
+// Validation schema for contact import
 const contactsImportSchema = z.object({
   resourceNames: z.array(z.string()).optional(),
   importAll: z.boolean().optional()
-}).strict(); // .strict() rifiuta campi extra
+}).strict(); // .strict() rejects extra fields
 
 const router = Router();
 
-// Configure l'OAuth client
+// Configure the OAuth client
 // This URL MUST match exactly what is configured in the Google Cloud Console
 // We use a FIXED URL that matches exactly what is in the Google Cloud Console
 
 // IMPORTANT: This URL must match EXACTLY what is configured in the Google Cloud Console
 // We use the actual application domain, based on REPL_SLUG and REPL_OWNER
-// Vecchio redirect URI fisso
+// Old fixed redirect URI
 //const redirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
 
 // Add the ability to override redirectUri for local testing
-// Controllo migliorato per l'ambiente di sviluppo locale
+// Enhanced check for the local development environment
 // Set the GOOGLE_LOCAL_DEVELOPMENT=true environment variable to enable the local environment
 // The local environment can also be inferred from requests coming from localhost
 const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
@@ -109,11 +109,11 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
     
     if (user?.googleAuthToken) {
       try {
-        // Decodifica the token
+        // Decode the token
         const decryptedToken = EncryptionService.decrypt(user.googleAuthToken);
         const tokens = JSON.parse(decryptedToken);
         
-        // Prova a revocare the token su Google (opzionale, potrebbe fallire)
+        // Try to revoke the token on Google (optional, may fail)
         if (tokens.access_token) {
           try {
             await fetch(`https://oauth2.googleapis.com/revoke`, {
@@ -152,7 +152,7 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
 // Start the authorization process
 router.get('/start', (req, res) => {
   try {
-    // Verify che l'user sia autenticato
+    // Verify that the user is authenticated
     const userId = (req as any).session?.passport?.user;
     if (!userId) {
       console.error("ERROR: User not authenticated for Google OAuth");
@@ -167,9 +167,9 @@ router.get('/start', (req, res) => {
     
     console.log("Google Client ID:", process.env.GOOGLE_CLIENT_ID);
     console.log("Request Host:", requestHost);
-    console.log("Redirect URI dinamico:", dynamicRedirectUri);
+    console.log("Dynamic redirect URI:", dynamicRedirectUri);
     
-    // Build manualmente l'URL di autenticazione
+    // Build the authentication URL manually
     const clientId = encodeURIComponent(process.env.GOOGLE_CLIENT_ID as string);
     const encodedRedirectUri = encodeURIComponent(dynamicRedirectUri);
     const encodedScopes = encodeURIComponent(SCOPES.join(' '));
@@ -237,14 +237,14 @@ router.get('/callback', async (req, res) => {
   console.log("Origin:", req.get('origin'));
   console.log("Referer:", req.get('referer'));
   
-  // Save i parametri per debug
+  // Save parameters for debug
   lastCallbackError = {
     timestamp: new Date().toISOString(),
-    error: 'Callback ricevuto - in elaborazione',
+    error: 'Callback received - processing',
     query: req.query
   };
   
-  // Log of the error, If presente
+  // Log the error, if present
   if (req.query.error) {
     console.error("GOOGLE AUTH ERROR:", {
       error: req.query.error,
@@ -263,7 +263,7 @@ router.get('/callback', async (req, res) => {
   
   // Retrieve userId and redirectUri from the state
   let userId: number | null = null;
-  let stateRedirectUri: string = redirectUri; // Fallback al default
+  let stateRedirectUri: string = redirectUri; // Fallback to default
   
   if (state) {
     try {
@@ -285,7 +285,7 @@ router.get('/callback', async (req, res) => {
         console.log("UserId extracted from 'type:id' format:", userId);
       } else if (typeof rawUserId === 'number') {
         userId = rawUserId;
-        console.log("UserId already numerico:", userId);
+        console.log("UserId already numeric:", userId);
       } else {
         userId = parseInt(rawUserId, 10);
         console.log("UserId converted from string:", userId);
@@ -304,7 +304,7 @@ router.get('/callback', async (req, res) => {
     console.error("ERROR: UserId not found or invalid in state");
     lastCallbackError = {
       timestamp: new Date().toISOString(),
-      error: 'UserId not found o invalid',
+      error: 'UserId not found or invalid',
       query: req.query
     };
     return res.status(400).send('Invalid session. Please try authorization again.');
@@ -357,12 +357,12 @@ router.get('/callback', async (req, res) => {
     res.send(`
       <html>
         <head>
-          <title>Autorizzazione completata</title>
+          <title>Authorization complete</title>
           <script>
             window.onload = function() {
               // Explicitly send a message to the opener to signal success
               if (window.opener) {
-                // Tentativo 1: Send the message direttamente
+                // Attempt 1: Send the message directly
                 try {
                   window.opener.postMessage('google-auth-success', '*');
                   console.log('Message sent directly to opener');
@@ -417,9 +417,9 @@ router.get('/callback', async (req, res) => {
         </head>
         <body>
           <div class="card">
-            <h1>✅ Autorizzazione completata!</h1>
+            <h1>✅ Authorization complete!</h1>
             <p>The Google account has been authorized successfully.</p>
-            <p>Questa finestra si chiuderà automaticamente tra pochi secondi...</p>
+            <p>This window will close automatically in a few seconds...</p>
           </div>
         </body>
       </html>
@@ -478,7 +478,7 @@ router.get('/callback', async (req, res) => {
 
 // Check authorization status - READS FROM DATABASE for persistence
 router.get('/status', async (req, res) => {
-  console.log("🔐 [GOOGLE AUTH STATUS] Controlthe status autorizzazione...");
+  console.log("🔐 [GOOGLE AUTH STATUS] Checking authorization status...");
   
   // If the user is authenticated, check the token in the database
   if (req.isAuthenticated() && req.user) {
@@ -526,7 +526,7 @@ router.get('/status', async (req, res) => {
           googleEmail = user.googleCalendarId;
         }
         
-        // Ultimo fallback: email of the user
+        // Last fallback: email of the user
         if (!googleEmail) {
           googleEmail = user.email;
         }
@@ -566,7 +566,7 @@ router.get('/test-configuration', (req, res) => {
       });
     }
     
-    // Verify l'URL di callback
+    // Verify the callback URL
     console.log("Configuration test: callback URL configured:", redirectUri);
     
     // Generate an authorization URL for testing
@@ -581,11 +581,11 @@ router.get('/test-configuration', (req, res) => {
     res.json({
       success: true,
       message: "Basic configuration correct",
-      clientIdPresente: !!process.env.GOOGLE_CLIENT_ID,
-      clientSecretPresente: !!process.env.GOOGLE_CLIENT_SECRET,
+      clientIdPresent: !!process.env.GOOGLE_CLIENT_ID,
+      clientSecretPresent: !!process.env.GOOGLE_CLIENT_SECRET,
       redirectUri: redirectUri,
       testAuthUrl: testAuthUrl,
-      scopeValidi: SCOPES
+      validScopes: SCOPES
     });
   } catch (error: any) {
     console.error("Error testing Google configuration:", error);
@@ -630,7 +630,7 @@ router.get('/debug-url', (req, res) => {
 
 // Added endpoint to display comparison of authorization URLs
 router.get('/compare-auth-urls', (req, res) => {
-  // Build manualmente l'URL di autenticazione di base
+  // Build the base authentication URL manually
   const clientId = encodeURIComponent(process.env.GOOGLE_CLIENT_ID as string);
   const encodedRedirectUri = encodeURIComponent(redirectUri);
   const encodedScopes = encodeURIComponent(SCOPES.join(' '));
@@ -753,7 +753,7 @@ router.get('/compare-auth-urls', (req, res) => {
           <h1>Google Authorization URL Comparison</h1>
           
           <div class="note">
-            <p><strong>Nota:</strong> Questa pagina confronta due metodi per generare l'URL di autorizzazione Google OAuth. L'URL generato manualmente non contiene parametri aggiuntivi che possono causare problemi di mismatch.</p>
+            <p><strong>Note:</strong> This page compares two methods for generating the Google OAuth authorization URL. The manually generated URL does not contain extra parameters that can cause mismatch problems.</p>
           </div>
           
           <h2>Manually generated URL (without extra parameters)</h2>
@@ -762,32 +762,32 @@ router.get('/compare-auth-urls', (req, res) => {
           <h2>URL generated by the official library</h2>
           <div class="url-box library">${libraryAuthUrl}</div>
           
-          <h2>Differenze tra i due URL</h2>
+          <h2>Differences between the two URLs</h2>
           <table>
             <tr>
-              <th>Parametro</th>
-              <th>URL Manuale</th>
-              <th>URL Libreria</th>
-              <th>Stato</th>
+              <th>Parameter</th>
+              <th>Manual URL</th>
+              <th>Library URL</th>
+              <th>Status</th>
             </tr>
             <tr>
               <td>client_id</td>
               <td>${process.env.GOOGLE_CLIENT_ID}</td>
               <td>${process.env.GOOGLE_CLIENT_ID}</td>
-              <td class="success">Identico</td>
+              <td class="success">Identical</td>
             </tr>
             <tr>
               <td>redirect_uri</td>
               <td>${redirectUri}</td>
               <td>${redirectUri}</td>
-              <td class="success">Identico</td>
+              <td class="success">Identical</td>
             </tr>
             <tr>
               <td>flowName</td>
-              <td>Non presente</td>
-              <td>${libraryAuthUrl.includes('flowName=') ? 'Presente' : 'Non presente'}</td>
+              <td>Not present</td>
+              <td>${libraryAuthUrl.includes('flowName=') ? 'Present' : 'Not present'}</td>
               <td class="${libraryAuthUrl.includes('flowName=') ? 'warning' : 'success'}">
-                ${libraryAuthUrl.includes('flowName=') ? 'Potenziale causa di errore' : 'OK'}
+                ${libraryAuthUrl.includes('flowName=') ? 'Potential error cause' : 'OK'}
               </td>
             </tr>
           </table>
@@ -795,13 +795,13 @@ router.get('/compare-auth-urls', (req, res) => {
           <h2>Authorization test</h2>
           <p>Select one of the methods to test the authorization:</p>
           
-          <a href="${manualAuthUrl}" class="button" target="_blank">Test con URL manuale</a>
-          <a href="${libraryAuthUrl}" class="button" style="margin-left: 10px;" target="_blank">Test con URL libreria</a>
+          <a href="${manualAuthUrl}" class="button" target="_blank">Test with manual URL</a>
+          <a href="${libraryAuthUrl}" class="button" style="margin-left: 10px;" target="_blank">Test with library URL</a>
           
           <div class="note" style="margin-top: 30px;">
-            <p><strong>Importante:</strong> Ricorda che la console Google Cloud deve avere configurato esattamente questo URI di reindirizzamento:</p>
+            <p><strong>Important:</strong> Remember that the Google Cloud console must have exactly this redirect URI configured:</p>
             <pre>${redirectUri}</pre>
-            <p>Assicurati anche che l'origine JavaScript sia configurata correttamente con lo schema https:</p>
+            <p>Also make sure the JavaScript origin is correctly configured with the https scheme:</p>
             <pre>https://wife-scheduler-zambelliandrea1.replit.app</pre>
           </div>
         </div>
@@ -817,7 +817,7 @@ router.get('/fix-error-400', (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>Risolvere l'Errore 400 con Google Calendar</title>
+        <title>Fix Error 400 with Google Calendar</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -940,47 +940,47 @@ router.get('/fix-error-400', (req, res) => {
       </head>
       <body>
         <div class="container">
-          <h1>Risolvere l'Errore 400 (redirect_uri_mismatch) di Google OAuth</h1>
+          <h1>Fix Error 400 (redirect_uri_mismatch) with Google OAuth</h1>
           
           <div class="error">
             <strong>Problem:</strong> Unable to complete Google OAuth authentication due to error 
-            <span class="code">redirect_uri_mismatch</span> con <span class="code">flowName=GeneralOAuthFlow</span>.
+            <span class="code">redirect_uri_mismatch</span> with <span class="code">flowName=GeneralOAuthFlow</span>.
           </div>
           
           <div class="section">
-            <h2>Spiegazione del problema</h2>
+            <h2>Explanation of the problem</h2>
             <p>This error means that the callback URL the application is sending to Google does not match exactly what is configured in the Google Cloud Console. Even a small difference (like a trailing slash or different uppercase/lowercase) can cause this error.</p>
             
-            <p>L'app sta utilizzando il seguente URL di callback:</p>
+            <p>The app is using the following callback URL:</p>
             <div class="highlight">${redirectUriProduction}</div>
             
             <p>This URL must match <strong>EXACTLY</strong> one of the authorized redirect URIs configured in the Google Cloud Console.</p>
           </div>
           
           <div class="section">
-            <h2>Istruzioni per la correzione</h2>
+            <h2>Instructions for fixing</h2>
             
             <div class="step">
-              <h3>Accedi alla console Google Cloud</h3>
-              <p>Vai a <a href="https://console.cloud.google.com/apis/credentials" target="_blank">https://console.cloud.google.com/apis/credentials</a> e accedi con l'account associato al progetto.</p>
+              <h3>Open the Google Cloud console</h3>
+              <p>Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank">https://console.cloud.google.com/apis/credentials</a> and sign in with the account associated with the project.</p>
             </div>
             
             <div class="step">
-              <h3>Trova le credenziali OAuth corrette</h3>
+              <h3>Find the correct OAuth credentials</h3>
               <p>In the "Credentials" section, find the OAuth 2.0 client ID you are using for this application.</p>
-              <p>Il tuo ID client dovrebbe essere: <span class="code">${process.env.GOOGLE_CLIENT_ID}</span></p>
+              <p>Your client ID should be: <span class="code">${process.env.GOOGLE_CLIENT_ID}</span></p>
             </div>
             
             <div class="step">
-              <h3>Verifica o aggiungi l'URI di reindirizzamento</h3>
+              <h3>Verify or add the redirect URI</h3>
               <p>Click the client ID to edit it. In the "Authorized redirect URIs" section, verify that exactly the following URL is present:</p>
               <div class="highlight">${redirectUriProduction}</div>
               
               <p>If it is not present or is different (even by a single character):</p>
               <ol>
-                <li>Aggiungi esattamente questo URL come URI di reindirizzamento autorizzato</li>
-                <li>Assicurati che non ci siano spazi o caratteri extra</li>
-                <li>Fai clic su "Salva" in fondo alla pagina</li>
+                <li>Add exactly this URL as an authorized redirect URI</li>
+                <li>Make sure there are no spaces or extra characters</li>
+                <li>Click "Save" at the bottom of the page</li>
               </ol>
             </div>
             
@@ -995,12 +995,12 @@ router.get('/fix-error-400', (req, res) => {
           </div>
           
           <div class="section">
-            <h2>Risoluzioni comuni per errori persistenti</h2>
+            <h2>Common solutions for persistent errors</h2>
             
             <div class="console-section">
-              <h3>Se l'errore 400 persiste:</h3>
+              <h3>If error 400 persists:</h3>
               <ul>
-                <li>Verifica che stai utilizzando lo stesso account Google per accedere alla console e per autorizzare l'applicazione</li>
+                <li>Make sure you are using the same Google account to access the console and to authorize the application</li>
                 <li>Try removing all existing redirect URIs and add only the correct one</li>
                 <li>Make sure the required APIs (Google Calendar API, Gmail API) are enabled in the project</li>
                 <li>Check that the client ID and client secret are correct in the application</li>
@@ -1012,11 +1012,11 @@ router.get('/fix-error-400', (req, res) => {
           <div class="section">
             <h2>Verify current status</h2>
             <p>Google authorization status in the application:</p>
-            <div id="auth-status">Verifica in corso...</div>
-            <button class="button" onclick="checkAuthStatus()">Aggiorna stato</button>
+            <div id="auth-status">Checking status...</div>
+            <button class="button" onclick="checkAuthStatus()">Refresh status</button>
             
             <div class="warning" style="margin-top: 20px;">
-              <p><strong>Nota:</strong> If the site is publicly inaccessible (<span class="code">DNS_PROBE_FINISHED_NXDOMAIN</span>), the Google Calendar integration will only work when the app is publicly accessible again. This is because Google must be able to reach the callback URL to complete the authorization process.</p>
+              <p><strong>Note:</strong> If the site is publicly inaccessible (<span class="code">DNS_PROBE_FINISHED_NXDOMAIN</span>), the Google Calendar integration will only work when the app is publicly accessible again. This is because Google must be able to reach the callback URL to complete the authorization process.</p>
             </div>
           </div>
           
@@ -1048,7 +1048,7 @@ router.get('/fix-error-400', (req, res) => {
   `);
 });
 
-// Nuovo endpoint test locale per l'integrazione con Google Calendar
+// New local test endpoint for Google Calendar integration
 router.get('/local-test', (req, res) => {
   const localRedirectUri = 'http://localhost:5000/api/google-auth/callback';
   const productionRedirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
@@ -1111,7 +1111,7 @@ router.get('/local-test', (req, res) => {
       </head>
       <body>
         <div class="container">
-          <h1>Configurazione Locale per Google Calendar</h1>
+          <h1>Local Configuration for Google Calendar</h1>
           
           <div class="step">
             <h2>1. Add this redirect URL to your Google Cloud Console</h2>
@@ -1126,16 +1126,16 @@ router.get('/local-test', (req, res) => {
           </div>
           
           <div class="step">
-            <h2>2. Testa l'integrazione locale</h2>
+            <h2>2. Test local integration</h2>
             <p>Once the redirect URL is added, you can test the integration by clicking the button below:</p>
-            <button class="button" onclick="window.open('/api/google-auth/start')">Testa Autorizzazione Google</button>
+            <button class="button" onclick="window.open('/api/google-auth/start')">Test Google Authorization</button>
           </div>
           
           <div class="step">
             <h2>3. Verify authorization status</h2>
             <p>Check the current authorization status:</p>
-            <div id="auth-status">Verifica in corso...</div>
-            <button class="button" onclick="checkAuthStatus()">Aggiorna Stato</button>
+            <div id="auth-status">Checking...</div>
+            <button class="button" onclick="checkAuthStatus()">Refresh Status</button>
           </div>
         </div>
         
@@ -1177,7 +1177,7 @@ router.get('/verify-redirect', (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>Verifica configurazione Google Cloud</title>
+        <title>Google Cloud Configuration Check</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -1217,7 +1217,7 @@ router.get('/verify-redirect', (req, res) => {
       </head>
       <body>
         <div class="container">
-          <h1>Verifica configurazione OAuth di Google</h1>
+          <h1>Google OAuth Configuration Check</h1>
           
           <div class="step">
             <h2>1. Configured callback URL</h2>
@@ -1227,9 +1227,9 @@ router.get('/verify-redirect', (req, res) => {
           
           <div class="step">
             <h2>2. Verify in the Google Cloud Console</h2>
-            <p>Apri la <a href="${consoleUrl}" target="_blank">console Google Cloud</a> e verifica che:</p>
+            <p>Open the <a href="${consoleUrl}" target="_blank">Google Cloud console</a> and verify that:</p>
             <ul>
-              <li>L'ID client sia <code>${process.env.GOOGLE_CLIENT_ID}</code></li>
+              <li>The client ID is <code>${process.env.GOOGLE_CLIENT_ID}</code></li>
               <li>The following is present in "Authorized redirect URIs" exactly: <code>${redirectUri}</code></li>
             </ul>
           </div>
@@ -1239,18 +1239,18 @@ router.get('/verify-redirect', (req, res) => {
           </div>
           
           <div class="step">
-            <h2>3. Errore 400 (redirect_uri_mismatch)</h2>
+            <h2>3. Error 400 (redirect_uri_mismatch)</h2>
             <p>If you continue to receive this error:</p>
             <ul>
-              <li>Assicurati che l'URI sia ESATTAMENTE uguale a quello mostrato sopra (anche un singolo carattere di differenza causerà l'errore)</li>
-              <li>Verifica che non ci siano spazi o caratteri speciali nell'URI</li>
-              <li>Prova a cancellare e aggiungere nuovamente l'URI di reindirizzamento nella console</li>
-              <li>Assicurati di aver salvato le modifiche nella console Google Cloud</li>
+              <li>Make sure the URI is EXACTLY the same as shown above (even a single character difference will cause the error)</li>
+              <li>Verify there are no spaces or special characters in the URI</li>
+              <li>Try deleting and re-adding the redirect URI in the console</li>
+              <li>Make sure you have saved the changes in the Google Cloud console</li>
             </ul>
           </div>
           
           <div class="step">
-            <h2>4. Verifica diretta</h2>
+            <h2>4. Direct verification</h2>
             <p>To perform a direct OAuth authorization test, click the button below:</p>
             <button onclick="window.open('/api/google-auth/start')">Test Google authorization</button>
           </div>
@@ -1267,7 +1267,7 @@ router.get('/test-configuration', async (req, res) => {
     if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       return res.status(400).json({
         success: false,
-        error: 'Credenziali OAuth mancanti. Verifica GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET nei segreti di Replit.'
+        error: 'Missing OAuth credentials. Verify GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in Replit secrets.'
       });
     }
     
@@ -1355,7 +1355,7 @@ router.get('/contacts/status', isAuthenticated, async (req, res) => {
     res.json({ 
       success: true, 
       authorized: hasContactsAuth,
-      message: hasContactsAuth ? 'Contatti Google autorizzati' : 'Autorizzazione contatti Google required'
+      message: hasContactsAuth ? 'Google Contacts authorized' : 'Google Contacts authorization required'
     });
   } catch (error) {
     console.error('📇 [CONTACTS STATUS] Error:', error);
@@ -1364,7 +1364,7 @@ router.get('/contacts/status', isAuthenticated, async (req, res) => {
 });
 
 /**
- * Generate URL per autorizzare l'accesso ai contatti Google (separato da Calendar/Gmail)
+ * Generate URL to authorize access to Google Contacts (separate from Calendar/Gmail)
  * GET /api/google-auth/contacts/authorize
  */
 router.get('/contacts/authorize', isAuthenticated, async (req, res) => {
@@ -1425,11 +1425,11 @@ router.get('/contacts/callback', async (req, res) => {
     // Redirect to the clients page with success message
     res.send(`
       <html>
-        <head><title>Autorizzazione Contatti Completata</title></head>
+        <head><title>Google Contacts Authorization Complete</title></head>
         <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-          <h2>✅ Autorizzazione Contatti Google Completata!</h2>
-          <p>Ora puoi importare i contatti dalla tua rubrica Google.</p>
-          <p>Questa finestra si chiuderà automaticamente...</p>
+          <h2>✅ Google Contacts Authorization Complete!</h2>
+          <p>You can now import contacts from your Google address book.</p>
+          <p>This window will close automatically...</p>
           <script>
             setTimeout(() => {
               if (window.opener) {
@@ -1584,10 +1584,10 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
 });
 
 /**
- * Import i contatti selezionati come clients
+ * Import selected contacts as clients
  * POST /api/google-auth/contacts/import
  * 
- * SICUREZZA: Accetta only resourceNames (ID) e importAll flag
+ * SECURITY: Accepts only resourceNames (ID) and importAll flag
  * contact data is always retrieved server-side from Google
  */
 router.post('/contacts/import', isAuthenticated, async (req, res) => {
@@ -1616,7 +1616,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
       });
     }
 
-    // Retrieve i token CONTATTI of the user (separato da Calendar/Gmail)
+    // Retrieve the CONTACTS token of the user (separate from Calendar/Gmail)
     const user = await storage.getUser(userId);
     if (!user?.googleContactsToken) {
       return res.status(401).json({ 
@@ -1716,7 +1716,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
       }
     }
 
-    // Retrieve i clients esistenti per evitare duplicati
+    // Retrieve existing clients to avoid duplicates
     const existingClients = await storage.getVisibleClientsForUser(userId, 'admin');
     
     // Create set for duplicate checking: priority to name+phone, then email
@@ -1773,7 +1773,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
 
         const newClient = await storage.createClient(clientData);
         
-        // Generate codici client (stessa logica di POST /api/clients)
+        // Generate client codes (same logic as POST /api/clients)
         let newUniqueCode = null;
         try {
           newUniqueCode = await generateClientCode(userId);
@@ -1818,7 +1818,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
       imported,
       skipped,
       errors: errors.length > 0 ? errors : undefined,
-      message: `Imported ${imported} contatti${skipped > 0 ? `, ${skipped} saltati (already existing)` : ''}`
+      message: `Imported ${imported} contacts${skipped > 0 ? `, ${skipped} skipped (already existing)` : ''}`
     });
 
   } catch (error) {

@@ -31,7 +31,7 @@ export function enforceDataIsolation(req: Request, res: Response, next: NextFunc
 
   // For all other users, automatically add the userId filter
   const originalPath = req.path;
-  console.log(`🔒 TENANT ISOLATION: ${user.username} (ID: ${user.id}, type: ${user.type}) - accesso isolato a ${originalPath}`);
+  console.log(`🔒 TENANT ISOLATION: ${user.username} (ID: ${user.id}, type: ${user.type}) - isolated access to ${originalPath}`);
   
   // Add userId to parameters to ensure isolation
   req.tenantUserId = user.id;
@@ -74,7 +74,7 @@ export function requireAdmin(req: Request, res: Response, next: NextFunction) {
     return res.status(403).json({ message: 'Access denied: function reserved for administrators' });
   }
 
-  console.log(`🔐 ADMIN FUNCTION: ${user.username} (ID: ${user.id}) - accesso funzione amministrativa`);
+  console.log(`🔐 ADMIN FUNCTION: ${user.username} (ID: ${user.id}) - administrative function access`);
   next();
 }
 

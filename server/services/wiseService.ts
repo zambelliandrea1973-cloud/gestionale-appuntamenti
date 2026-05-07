@@ -133,7 +133,7 @@ export class WiseService {
     try {
       // Verify the event type
       if (webhookEvent.event_type !== 'transfer-state-change') {
-        console.log('Evento Wise ignorato:', webhookEvent.event_type);
+        console.log('Wise event ignored:', webhookEvent.event_type);
         return { success: true, action: 'ignored' };
       }
       

@@ -21,7 +21,7 @@ export class DataAccessLogger {
   /**
    * Register a personal data access
    * @param userId ID of the user who performed the access
-   * @param action Azione eseguita (read, create, update, delete)
+   * @param action Action performed (read, create, update, delete)
    * @param resource Resource that was accessed (client, appointment, etc.)
    * @param resourceId Resource ID
    * @param details Additional details about the access

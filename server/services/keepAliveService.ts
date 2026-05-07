@@ -1,5 +1,5 @@
 /**
- * Service per mantenere l'applicazione attiva
+ * Service to keep the application alive
  * Implements an auto-ping mechanism to prevent the application from going to sleep
  */
 
@@ -40,7 +40,7 @@ class KeepAliveService {
   }
 
   /**
-   * Start the processo di ping automatico
+   * Start the automatic ping process
    */
   private startPinging() {
     if (this.interval) {
@@ -68,7 +68,7 @@ class KeepAliveService {
       if (response.status === 200) {
         console.log(`[${new Date().toISOString()}] Health check successful: the application is active`);
       } else {
-        console.warn(`Health check ha risposto con status: ${response.status}`);
+        console.warn(`Health check responded with status: ${response.status}`);
       }
     } catch (error) {
       console.error('Error during health check ping:', error);
@@ -76,7 +76,7 @@ class KeepAliveService {
   }
 
   /**
-   * Stop the process di ping automatico
+   * Stop the automatic ping process
    */
   stop() {
     if (this.interval) {

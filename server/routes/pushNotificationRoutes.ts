@@ -38,7 +38,7 @@ router.post('/subscribe', async (req: Request, res: Response) => {
     );
     
     if (saved) {
-      res.json({ success: true, message: 'Notifiche push attivate' });
+      res.json({ success: true, message: 'Push notifications enabled' });
     } else {
       res.status(500).json({ success: false, error: 'Error saving subscription' });
     }
@@ -48,7 +48,7 @@ router.post('/subscribe', async (req: Request, res: Response) => {
   }
 });
 
-// Rimuovi subscription
+// Remove subscription
 router.post('/unsubscribe', async (req: Request, res: Response) => {
   try {
     const { clientId } = req.body;
@@ -63,7 +63,7 @@ router.post('/unsubscribe', async (req: Request, res: Response) => {
     const removed = await pushNotificationService.removeSubscription(clientId);
     
     if (removed) {
-      res.json({ success: true, message: 'Notifiche push disattivate' });
+      res.json({ success: true, message: 'Push notifications disabled' });
     } else {
       res.status(500).json({ success: false, error: 'Error removing subscription' });
     }
@@ -114,7 +114,7 @@ router.get('/vapid-public-key', (req: Request, res: Response) => {
   });
 });
 
-// Test notifica (only per debug)
+// Test notification (debug only)
 router.post('/test/:clientId', async (req: Request, res: Response) => {
   try {
     const clientId = parseInt(req.params.clientId, 10);

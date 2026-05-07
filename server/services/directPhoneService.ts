@@ -62,7 +62,7 @@ class DirectPhoneService {
   
   /**
    * Register a new phone number
-   * @param phoneNumber Number di phone da registrare
+   * @param phoneNumber Phone number to register
    * @returns True if registration succeeded
    */
   public async registerPhone(phoneNumber: string): Promise<boolean> {
@@ -102,12 +102,12 @@ class DirectPhoneService {
         await transporter.sendMail({
           from: emailSettings.emailAddress,
           to: emailSettings.emailAddress,
-          subject: '🔐 Codice di verifica WhatsApp',
+          subject: '🔐 WhatsApp Verification Code',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
               <div style="text-align: center; margin-bottom: 30px;">
                 <h1 style="color: #25d366; margin: 0;">📱 WhatsApp</h1>
-                <h2 style="color: #333; margin: 10px 0;">Codice di Verifica</h2>
+                <h2 style="color: #333; margin: 10px 0;">Verification Code</h2>
               </div>
               
               <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -115,7 +115,7 @@ class DirectPhoneService {
                 <div style="background: #25d366; color: white; padding: 15px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 3px; border-radius: 8px; margin: 15px 0;">
                   ${verificationCode}
                 </div>
-                <p style="margin: 15px 0 0 0; color: #666; font-size: 14px;"><strong>Numero:</strong> ${phoneNumber}</p>
+                <p style="margin: 15px 0 0 0; color: #666; font-size: 14px;"><strong>Number:</strong> ${phoneNumber}</p>
               </div>
               
               <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin: 20px 0;">
@@ -132,7 +132,7 @@ class DirectPhoneService {
         console.log(`⚠️ Backup code available in logs: ${verificationCode}`);
       }
       
-      // First disattiviamo eventuali telefoni esistenti
+      // First deactivate any existing phones
       await db.update(phones).set({ isActive: false }).where(eq(phones.isActive, true));
       
       // Then insert the new phone

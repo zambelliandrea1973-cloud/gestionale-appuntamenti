@@ -30,7 +30,7 @@ export default function setupBankingRoutes(app: Express) {
         isConfigured: false,
       };
       
-      console.log('🏦 Ritorno al frontend:', JSON.stringify(responseData));
+      console.log('🏦 Returning to frontend:', JSON.stringify(responseData));
       res.json(responseData);
     } catch (error) {
       console.error("❌ Error retrieving banking settings:", error);
@@ -61,11 +61,11 @@ export default function setupBankingRoutes(app: Express) {
       }
 
       // IBAN validation (Italian format - 27 total characters)
-      // IT + 2 cifre controllo + 23 caratteri alfanumerici (CIN + ABI + CAB + number conto)
+      // IT + 2 check digits + 23 alphanumeric characters (CIN + ABI + CAB + account number)
       const ibanRegex = /^IT\d{2}[A-Z0-9]{23}$/;
       if (!ibanRegex.test(iban.replace(/\s/g, '').toUpperCase())) {
         return res.status(400).json({ 
-          message: "Invalid IBAN format (deve essere 27 caratteri: IT + 25 caratteri)" 
+          message: "Invalid IBAN format (must be 27 characters: IT + 25 characters)" 
         });
       }
 

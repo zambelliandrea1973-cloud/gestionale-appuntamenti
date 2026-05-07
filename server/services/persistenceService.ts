@@ -1,6 +1,6 @@
 /**
  * PersistenceService - Advanced service to keep the application alive on Replit
- * This service implementa diverse tecniche per evitare che l'applicazione venga sospesa
+ * This service implements several techniques to prevent the application from being suspended
  * 
  * 1. Maintains constant activity with lightweight background operations
  * 2. Connects to an external ping service (UptimeRobot)
@@ -13,7 +13,7 @@ import path from 'path';
 import { exec } from 'child_process';
 
 interface PersistenceOptions {
-  pingInterval: number;          // Intervallo tra i ping in millisecondi
+  pingInterval: number;          // Interval between pings in milliseconds
   activityInterval: number;      // Interval between activities in milliseconds
   maxRetries: number;            // Maximum number of reconnection attempts
   retryBackoffFactor: number;    // Backoff factor for retries (e.g. 1.5 = increases by 50% each attempt)
@@ -42,7 +42,7 @@ class PersistenceService {
   constructor(options: Partial<PersistenceOptions> = {}) {
     this.options = { ...DEFAULT_OPTIONS, ...options };
     
-    // Start the timer per l'uptime
+    // Start the uptime timer
     setInterval(() => {
       if (this.isActive) {
         this.uptimeMinutes++;
@@ -62,12 +62,12 @@ class PersistenceService {
     this.isActive = true;
     this.healthEndpoint = healthEndpoint;
     
-    // Determine l'URL di healthcheck basato su Replit
+    // Determine the healthcheck URL based on Replit
     this.determineApplicationUrl().then(baseUrl => {
       this.healthcheckUrl = baseUrl + this.healthEndpoint;
-      this.log(`URL di healthcheck configurato: ${this.healthcheckUrl}`);
+      this.log(`Healthcheck URL configured: ${this.healthcheckUrl}`);
       
-      // Start i ping regolari
+      // Start regular pings
       this.startRegularPings();
       
       // Start background activities
@@ -77,7 +77,7 @@ class PersistenceService {
       process.on('SIGTERM', () => this.stop());
       process.on('SIGINT', () => this.stop());
     }).catch(error => {
-      this.logError('Errore nel determinare l\'URL dell\'applicazione:', error);
+      this.logError('Error determining application URL:', error);
     });
   }
   
@@ -97,11 +97,11 @@ class PersistenceService {
       this.activityTimer = null;
     }
     
-    this.log('Servizio persistence fermato');
+    this.log('Persistence service stopped');
   }
   
   /**
-   * Start i ping regolari
+   * Start regular pings
    */
   private startRegularPings(): void {
     if (this.pingTimer) {
@@ -141,7 +141,7 @@ class PersistenceService {
         this.pingFailureCount = 0;
         
         if (this.options.debugLog) {
-          this.log('Ping di salute completato successfully');
+          this.log('Health ping completed successfully');
         }
         
         // Optionally write also to file to keep a history
@@ -150,7 +150,7 @@ class PersistenceService {
           uptime: this.uptimeMinutes
         });
       } else {
-        this.logError(`Ping di salute fallito con status: ${response.status}`);
+        this.logError(`Health ping failed with status: ${response.status}`);
         this.handlePingFailure();
       }
     } catch (error) {
@@ -164,21 +164,21 @@ class PersistenceService {
    */
   private handlePingFailure(): void {
     this.pingFailureCount++;
-    this.log(`Ping fallito (${this.pingFailureCount}/${this.options.maxRetries})`);
+    this.log(`Ping failed (${this.pingFailureCount}/${this.options.maxRetries})`);
     
     // if the number of consecutive failures exceeds the threshold, try to reactivate
     if (this.pingFailureCount >= this.options.maxRetries) {
-      this.log('Troppi fallimenti consecutivi, tentativo di riattivazione dell\'applicazione...');
+      this.log('Too many consecutive failures, attempting application wakeup...');
       this.attemptWakeup();
       this.pingFailureCount = 0; // Reset the counter after the attempt
     }
   }
   
   /**
-   * Attempt di riattivare l'applicazione If risponde
+   * Attempt to reactivate the application if it responds
    */
   private async attemptWakeup(): Promise<void> {
-    this.log('Tentativo di riattivazione dell\'applicazione...');
+    this.log('Application wakeup attempt...');
     
     // Save the current state before the attempt
     this.appendToLog('wakeup_attempt', {
@@ -190,7 +190,7 @@ class PersistenceService {
     // Execute a ping on an external endpoint to keep the process alive
     try {
       await axios.get('https://www.google.com', { timeout: 5000 });
-      this.log('Connessione a Internet attiva');
+      this.log('Internet connection active');
     } catch (error) {
       this.logError('Error verifying internet connectivity:', error);
     }
@@ -199,7 +199,7 @@ class PersistenceService {
     try {
       const wakeupFile = path.join(process.cwd(), '.wakeup');
       fs.writeFileSync(wakeupFile, new Date().toISOString());
-      this.log('File di wakeup scritto successfully');
+      this.log('Wakeup file written successfully');
     } catch (error) {
       this.logError('Error writing wakeup file:', error);
     }
@@ -211,7 +211,7 @@ class PersistenceService {
       counter += i;
     }
     const duration = Date.now() - startTime;
-    this.log(`Operazione CPU completata in ${duration}ms (risultato: ${counter})`);
+    this.log(`CPU operation completed in ${duration}ms (result: ${counter})`);
   }
   
   /**
@@ -236,7 +236,7 @@ class PersistenceService {
         buffer.fill(0);
         
         if (this.options.debugLog) {
-          this.log('Attività di background completata');
+          this.log('Background activity completed');
         }
       } catch (error) {
         this.logError('Error in background activity:', error);
@@ -258,7 +258,7 @@ class PersistenceService {
       return `https://${replitHostname}.${replitOwner}.repl.co`;
     }
     
-    // otherwise utilizza localhost
+    // otherwise use localhost
     return 'http://localhost:5000';
   }
   

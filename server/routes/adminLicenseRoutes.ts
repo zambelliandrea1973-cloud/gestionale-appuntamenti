@@ -77,7 +77,7 @@ router.get('/all-users', async (req, res) => {
               licenseStatus = 'expired';
             }
           } else if (license && !license.expiresAt) {
-            // License permanente (passepartout o staff)
+            // Permanent license (passepartout or staff)
             licenseStatus = 'permanent';
             daysLeft = null;
           }
@@ -156,7 +156,7 @@ router.post('/generate-staff-license', async (req, res) => {
       return res.status(400).json({ message: 'User ID required' });
     }
     
-    // Verify che l'user esista e sia di type staff
+    // Verify that the user exists and is of type staff
     const [user] = await db.select().from(users).where(eq(users.id, userId));
     
     if (!user) {
@@ -335,7 +335,7 @@ router.post('/extend-trial', async (req, res) => {
       });
     }
     
-    // Verify che l'user esista
+    // Verify that the user exists
     const [user] = await db.select().from(users).where(eq(users.id, userId));
     
     if (!user) {
@@ -451,7 +451,7 @@ router.get('/access-stats', async (req, res) => {
   try {
     const now = new Date();
     
-    // Inizio di oggi (mezzanotte)
+    // Start of today (midnight)
     const todayStart = new Date(now);
     todayStart.setHours(0, 0, 0, 0);
     
@@ -565,7 +565,7 @@ router.delete('/delete-user/:userId', async (req, res) => {
     } = await import('../../shared/schema');
     
     await db.transaction(async (tx) => {
-      // Delete tabelle figlie che referenziano altre tabelle of the user
+      // Delete child tables that reference other tables of the user
       const userClients = await tx.select({ id: clients.id }).from(clients).where(eq(clients.userId, userId));
       const clientIds = userClients.map(c => c.id);
       
@@ -584,7 +584,7 @@ router.delete('/delete-user/:userId', async (req, res) => {
         await tx.delete(invoiceItems).where(inArray(invoiceItems.invoiceId, invoiceIds));
       }
 
-      // Delete prodotti correlati (stockMovements e productSales referenziano products)
+      // Delete related products (stockMovements and productSales reference products)
       const userProducts = await tx.select({ id: products.id }).from(products).where(eq(products.userId, userId));
       const productIds = userProducts.map(p => p.id);
       if (productIds.length > 0) {
@@ -593,7 +593,7 @@ router.delete('/delete-user/:userId', async (req, res) => {
         await tx.delete(productSales).where(inArray(productSales.productId, productIds));
       }
 
-      // Elenco tabelle da pulire
+      // List of tables to clean up
       const tablesToClean = [
         { table: appointments, col: appointments.userId },
         { table: bookingRequests, col: bookingRequests.userId },

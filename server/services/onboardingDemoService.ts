@@ -20,9 +20,9 @@ const DEMO_CLIENTS = [
 ];
 
 const DEMO_SERVICES = [
-  { name: 'Consulenza', duration: 60, price: 100, color: '#3f51b5' },
-  { name: 'Servizio A', duration: 30, price: 50, color: '#4caf50' },
-  { name: 'Servizio B', duration: 45, price: 75, color: '#ff9800' },
+  { name: 'Consultation', duration: 60, price: 100, color: '#3f51b5' },
+  { name: 'Service A', duration: 30, price: 50, color: '#4caf50' },
+  { name: 'Service B', duration: 45, price: 75, color: '#ff9800' },
 ];
 
 /**

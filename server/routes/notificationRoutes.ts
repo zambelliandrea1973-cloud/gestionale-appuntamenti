@@ -10,13 +10,13 @@ import { db } from '../db';
 import { appointments, clients, services } from '../../shared/schema';
 import { eq, and, gte, lte, or, isNull } from 'drizzle-orm';
 
-// 🔄 MIGRATO A POSTGRESQL per sincronizzazione Replit ↔ Sliplane
+// 🔄 MIGRATED TO POSTGRESQL for Replit ↔ Sliplane synchronization
 
 const router = Router();
 
 /**
  * Get all appointments for the current month
- * 🔄 USA POSTGRESQL per sincronizzazione Replit ↔ Sliplane
+ * 🔄 USES POSTGRESQL for Replit ↔ Sliplane synchronization
  */
 router.get('/upcoming-appointments', async (req: Request, res: Response) => {
   try {
@@ -41,8 +41,8 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     
     console.log(`🔍 [NOTIFICATIONS PG] Looking for appointments from last 10 days to tomorrow: ${startDate} - ${endDate}`);
     
-    // 🔄 USA POSTGRESQL: Query with JOIN per client e service
-    // ✅ MULTI-TENANT: Filter per userId (each staff vede only i suoi)
+    // 🔄 USES POSTGRESQL: Query with JOIN for client and service
+    // ✅ MULTI-TENANT: Filter by userId (each staff sees only their own)
     const appointmentsData = await db
       .select({
         id: appointments.id,
@@ -150,13 +150,13 @@ router.post('/send-batch', async (req: Request, res: Response) => {
       whatsappEnabled: true // Set WhatsApp as always enabled by default
     };
     
-    // Sistema ottimizzato per WhatsApp only
+    // Optimized system for WhatsApp only
     
     // WhatsApp is the default system for sending notifications
     
     const results = [];
     
-    // 🔄 USA POSTGRESQL: Load all appointments in batch with JOIN
+    // 🔄 USES POSTGRESQL: Load all appointments in batch with JOIN
     const appointmentsData = await db
       .select({
         id: appointments.id,
@@ -249,11 +249,11 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           // Prepare phone number (remove spaces and leading + for WhatsApp)
           const phoneNumber = client.phone.replace(/\s+/g, '').replace(/^\+/, '');
           
-          // Generate l'URL di WhatsApp
+          // Generate the WhatsApp URL
           const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
           
           // Add clickable link to the message
-          const messageWithLink = `${message}\n\n[Apri WhatsApp](${whatsappUrl})`;
+          const messageWithLink = `${message}\n\n[Open WhatsApp](${whatsappUrl})`;
           
           // SKIP DATABASE SAVE - Only log the send (avoids PostgreSQL errors with large IDs)
           console.log(`📲 WhatsApp message generated for appointment ${appointmentId} - client: ${client.firstName} ${client.lastName}`);
@@ -271,9 +271,9 @@ router.post('/send-batch', async (req: Request, res: Response) => {
             whatsappUrl
           });
           
-        } // SISTEMA OTTIMIZZATO - Solo WhatsApp
+        } // OPTIMIZED SYSTEM - WhatsApp only
         else if (type === 'email' && notificationSettings.emailEnabled) {
-          // 📧 RIPRISTINO SISTEMA EMAIL - era funzionante prima
+          // 📧 EMAIL SYSTEM RESTORE - was working before
           try {
             if (!client.email) {
               results.push({
@@ -284,7 +284,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
               continue;
             }
 
-            const emailSubject = `Promemoria appuntamento - ${service.name}`;
+            const emailSubject = `Appointment reminder - ${service.name}`;
             const emailMessage = `Dear ${client.firstName},\n\nThis is a reminder for your ${service.name} appointment on ${appointmentDate} at ${appointmentTime}.\n\nBest regards`;
             
             console.log(`📧 Attempting to send email to ${client.email} for appointment ${appointmentId}`);
@@ -349,7 +349,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
 });
 
 /**
- * Get the storico delthe notifications WhatsApp inviate
+ * Get the history of sent WhatsApp notifications
  */
 router.get('/whatsapp-history', async (req: Request, res: Response) => {
   try {
@@ -369,7 +369,7 @@ router.get('/whatsapp-history', async (req: Request, res: Response) => {
 
 /**
  * Mark an appointment as "WhatsApp message sent"
- * 🔄 USA POSTGRESQL con multi-tenant isolation
+ * 🔄 USES POSTGRESQL with multi-tenant isolation
  */
 router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => {
   try {
@@ -390,7 +390,7 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
       });
     }
     
-    // 🔄 USA POSTGRESQL: Find appointment con multi-tenant isolation
+    // 🔄 USES POSTGRESQL: Find appointment with multi-tenant isolation
     const [appointment] = await db
       .select()
       .from(appointments)
@@ -409,7 +409,7 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
       });
     }
     
-    // Update reminderStatus e aggiungi timestamp
+    // Update reminderStatus and add timestamp
     let reminderStatus = appointment.reminderStatus || '';
     if (!reminderStatus.includes('whatsapp_generated')) {
       reminderStatus = reminderStatus 

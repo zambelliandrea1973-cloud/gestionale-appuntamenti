@@ -21,7 +21,7 @@ router.post("/api/test-reminder-system", requireAuth, async (req, res) => {
     try {
       console.log('🔧 Manual test of reminder system requested');
       
-      // Import e esegue the service di promemoria
+      // Import and run the reminder service
       const { notificationService } = await import('../services/notificationService');
       
       console.log('📨 Starting reminder processor test...');
@@ -73,8 +73,8 @@ router.post("/api/test-email-direct", requireAuth, async (req, res) => {
       
       const emailSent = await notificationService.sendEmailDirect(
         testEmail,
-        'Test Sistema Email',
-        `Test invio email dal sistema.\n\nData/Ora: ${new Date().toLocaleString('it-IT')}\n\nSe ricevi questa email, il sistema funziona correttamente!`,
+        'Email System Test',
+        `Test email from the system.\n\nDate/Time: ${new Date().toLocaleString('en-GB')}\n\nIf you receive this email, the system is working correctly!`,
         emailConfig
       );
       
@@ -387,11 +387,11 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
       if (includeContext) {
         const storageData = loadStorageData();
         
-        // Load client datas per suggerimenti personalizzati
+        // Load client data for personalized suggestions
         const clients = storageData.clients || [];
         const userClients = clients.filter((c: any) => c.ownerId === user.id);
         
-        // Load preferenze onboarding
+        // Load onboarding preferences
         const onboardingKey = `onboarding_${user.id}`;
         const onboardingData = storageData[onboardingKey];
         
@@ -401,7 +401,7 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
         };
       }
       
-      // Process the message con AI
+      // Process the message with AI
       const response = await processChatMessage({
         messages,
         context
@@ -417,7 +417,7 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
     }
   });
 
-  // POST /api/ai/generate-campaign - Generate campagna marketing con AI (Only Pro+)
+  // POST /api/ai/generate-campaign - Generate marketing campaign with AI (Only Pro+)
 router.post('/api/ai/generate-campaign', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
@@ -533,7 +533,7 @@ router.delete('/api/campaigns/:id', requireAuth, async (req, res) => {
     }
   });
 
-  // POST /api/campaigns/send-batch - Send campagna a all clients
+  // POST /api/campaigns/send-batch - Send campaign to all clients
   const uploadCampaign = multer({ 
     storage: multer.memoryStorage(),
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
@@ -559,7 +559,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
     try {
       const user = req.user as any;
       
-      // Verify license Pro o superiore
+      // Verify Pro or higher license
       const userLicenses = await db.select().from(licenses).where(eq(licenses.userId, user.id));
       const activeLicense = userLicenses.find(l => l.isActive);
       const licenseType = activeLicense?.type || 'trial';
@@ -577,7 +577,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
       
       console.log('📤 [CAMPAIGN NEW] Campaign send request:', title, '- Channel:', channel);
       
-      // 🔐 STEP 1: GENERA CHIAVE IDEMPOTENZA CON DATA (userId + titolo + messaggio + date)
+      // 🔐 STEP 1: GENERATE IDEMPOTENCY KEY WITH DATE (userId + title + message + date)
       // Include the current date (YYYY-MM-DD) so the same campaign can be sent on different days
       const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
       const idempotencyData = `${user.id}-${title}-${message}-${currentDate}`;
@@ -623,7 +623,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
         return res.json({ sent: 0, message: 'No clients found' });
       }
       
-      // 💾 STEP 3: CREA RECORD CAMPAGNA CON STATUS='LOCKED' (PRIMA DI INVIARE!)
+      // 💾 STEP 3: CREATE CAMPAIGN RECORD WITH STATUS='LOCKED' (BEFORE SENDING!)
       const uniqueCode = crypto.randomBytes(8).toString('hex');
       const [newCampaign] = await db.insert(marketingCampaigns).values({
         userId: user.id,
@@ -643,7 +643,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
         success: true,
         campaignId: campaignId,
         total: userClients.length,
-        message: `Sending in corso a ${userClients.length} clients...`,
+        message: `Sending in progress to ${userClients.length} clients...`,
         campaignSaved: true
       });
       
@@ -810,7 +810,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
     }
   });
 
-  // GET /api/campaigns/pending-messages - Load messaggi marketing WhatsApp pendenti
+  // GET /api/campaigns/pending-messages - Load pending WhatsApp marketing messages
 router.get('/api/campaigns/pending-messages', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
@@ -819,7 +819,7 @@ router.get('/api/campaigns/pending-messages', requireAuth, async (req, res) => {
         return res.status(401).json({ success: false, error: 'Not authenticated' });
       }
       
-      // Load messaggi marketing pendenti con informazioni client (JOIN)
+      // Load pending marketing messages with client information (JOIN)
       const pendingMessages = await db
         .select({
           id: marketingMessages.id,
@@ -847,7 +847,7 @@ router.get('/api/campaigns/pending-messages', requireAuth, async (req, res) => {
         )
         .orderBy(asc(marketingMessages.createdAt));
       
-      logger.debug(`📱 [MARKETING MESSAGES] Caricati ${pendingMessages.length} messaggi pendenti per user ${user.id}`);
+      logger.debug(`📱 [MARKETING MESSAGES] Loaded ${pendingMessages.length} pending messages for user ${user.id}`);
       
       res.json({
         success: true,
@@ -869,6 +869,6 @@ router.get('/api/campaigns/pending-messages', requireAuth, async (req, res) => {
 
   // NOTE: forgot-password, verify-reset-token, reset-password moved to server/routes/passwordResetRoutes.ts
 
-  // TEST ENDPOINT - Not richiede auth per debug
+  // TEST ENDPOINT - Does not require auth for debug
 
 export default router;

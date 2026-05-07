@@ -25,7 +25,7 @@ export class PayPalPayoutService {
           ? 'https://api.paypal.com' 
           : 'https://api.sandbox.paypal.com';
       } else {
-        // Fallback ai Secrets
+        // Fallback to Secrets
         const isProduction = process.env.PAYMENT_MODE === 'production';
         clientId = isProduction 
           ? process.env.PAYPAL_CLIENT_ID_LIVE! 
@@ -139,7 +139,7 @@ export class PayPalPayoutService {
       
       logger.debug(`✅ PayPal payout sent successfully!`);
       console.log(`   Email: ${recipientEmail}`);
-      console.log(`   Importo: €${amountInEuro}`);
+      console.log(`   Amount: €${amountInEuro}`);
       console.log(`   Batch ID: ${batchId}`);
       
       return {

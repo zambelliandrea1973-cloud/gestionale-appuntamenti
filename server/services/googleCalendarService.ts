@@ -98,7 +98,7 @@ async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
       return google.calendar({ version: 'v3', auth });
     }
     
-    // Usa i token di authInfo
+    // Use authInfo tokens
     console.log('Using token from authInfo for Google Calendar');
     const redirectUri = process.env.PRODUCTION_DOMAIN 
       ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
@@ -135,14 +135,14 @@ export async function addAppointmentToGoogleCalendar(appointmentId: number): Pro
       return null;
     }
     
-    // IMPORTANTE: Not esportare eventi IMPORTATI da Google Calendar!
+    // IMPORTANT: Do not export events IMPORTED from Google Calendar!
     // These events have external origin and must not be re-synchronized
     if (appointment.importedFromGoogle) {
       console.log(`⏭️ [GOOGLE CALENDAR] Skip export for appointment ${appointmentId} - imported from Google Calendar`);
       return null;
     }
     
-    // Get dettagli client e service
+    // Get client and service details
     const client = await storage.getClient(appointment.clientId);
     const service = appointment.serviceId 
       ? await storage.getService(appointment.serviceId) 
@@ -153,12 +153,12 @@ export async function addAppointmentToGoogleCalendar(appointmentId: number): Pro
       return null;
     }
     
-    // Create evento Google Calendar
+    // Create Google Calendar event
     const event = createGoogleCalendarEvent(appointment, client, service || null);
     
     // Load the configuration to get the ID of the selected calendar
     const config = await loadConfig();
-    const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
+    const calendarId = config?.calendarId || 'primary'; // Use the specified ID or 'primary' as fallback
     
     // Insert event into calendar
     const response = await calendar.events.insert({
@@ -166,7 +166,7 @@ export async function addAppointmentToGoogleCalendar(appointmentId: number): Pro
       requestBody: event
     });
     
-    console.log('Evento created successfully in Google Calendar:', response.data.htmlLink);
+    console.log('Event created successfully in Google Calendar:', response.data.htmlLink);
     return response.data.id || null;
     
   } catch (error) {
@@ -184,7 +184,7 @@ function createGoogleCalendarEvent(
   service: ServiceType | null
 ): calendar_v3.Schema$Event {
   // Prepare date and time - USE ISO format WITHOUT Z to respect local timezone
-  // Handle sia format HH:MM che HH:MM:SS
+  // Handle both HH:MM and HH:MM:SS formats
   const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
   const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
   const startDateTimeStr = `${appointment.date}T${startTime}`;
@@ -193,14 +193,14 @@ function createGoogleCalendarEvent(
   // Event title
   const summary = service 
     ? `${client.firstName} ${client.lastName} - ${service.name}`
-    : `Appuntamento con ${client.firstName} ${client.lastName}`;
+    : `Appointment with ${client.firstName} ${client.lastName}`;
     
   // Event description
   const description = appointment.notes 
     ? `Note: ${appointment.notes}\nClient: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
     : `Client: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`;
   
-  // Create l'evento
+  // Create the event
   return {
     summary,
     description,
@@ -249,7 +249,7 @@ export async function updateAppointmentInGoogleCalendar(
       return false;
     }
     
-    // Get dettagli client e service
+    // Get client and service details
     const client = await storage.getClient(appointment.clientId);
     const service = appointment.serviceId 
       ? await storage.getService(appointment.serviceId) 
@@ -265,7 +265,7 @@ export async function updateAppointmentInGoogleCalendar(
     
     // Load the configuration to get the ID of the selected calendar
     const config = await loadConfig();
-    const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
+    const calendarId = config?.calendarId || 'primary'; // Use the specified ID or 'primary' as fallback
     
     // Update event in calendar
     await calendar.events.update({
@@ -274,7 +274,7 @@ export async function updateAppointmentInGoogleCalendar(
       requestBody: event
     });
     
-    console.log('Evento updated successfully in Google Calendar');
+    console.log('Event updated successfully in Google Calendar');
     return true;
     
   } catch (error) {
@@ -295,7 +295,7 @@ export async function deleteAppointmentFromGoogleCalendar(googleEventId: string)
     
     // Load the configuration to get the ID of the selected calendar
     const config = await loadConfig();
-    const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
+    const calendarId = config?.calendarId || 'primary'; // Use the specified ID or 'primary' as fallback
     
     // Delete event from calendar
     await calendar.events.delete({
@@ -328,7 +328,7 @@ export async function isGoogleCalendarEnabled(): Promise<boolean> {
 }
 
 /**
- * Generate l'URL di autorizzazione OAuth
+ * Generate the OAuth authorization URL
  */
 export function getAuthUrl(clientId: string, redirectUri: string): string {
   const oauth2Client = new google.auth.OAuth2(
@@ -397,7 +397,7 @@ export async function getAvailableCalendars(): Promise<calendar_v3.Schema$Calend
 }
 
 /**
- * Retrieve all eventi sincronizzati da Google Calendar
+ * Retrieve all events synced from Google Calendar
  */
 async function getAllEvents() {
   try {

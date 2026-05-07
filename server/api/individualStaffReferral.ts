@@ -81,10 +81,10 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
         myReferralCode: myReferralCode,
         totalReferrals: allReferredUsers.length, // ALL sponsored users
         activeCommissions: activeCommissions.length,
-        paidCommissions: 0, // TODO: contare da referral_payments
+        paidCommissions: 0, // TODO: count from referral_payments
         pendingCommissions: activeCommissions.length,
         totalEarned: totalEarned,
-        trialUsers: allReferredUsers.length - activeCommissions.length // Utenti in trial
+        trialUsers: allReferredUsers.length - activeCommissions.length // Users in trial
       },
       commissionsData: commissionsData,
       statsData: {

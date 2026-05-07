@@ -6,11 +6,11 @@ import { eq, and } from 'drizzle-orm';
 import crypto from 'crypto';
 
 /**
- * Script di migrazione da JSON a PostgreSQL
- * GARANZIE:
+ * Migration script from JSON to PostgreSQL
+ * GUARANTEES:
  * - Multi-tenant isolation (each professional sees only their own date)
  * - Admin sees all clients BUT only their own configurations
- * - Sincronizzazione Replit ↔ Sliplane via PostgreSQL condiviso
+ * - Replit ↔ Sliplane synchronization via shared PostgreSQL
  */
 
 interface MigrationStats {
@@ -23,7 +23,7 @@ interface MigrationStats {
 }
 
 async function migrateJsonToPostgres() {
-  console.log('🔄 INIZIO MIGRAZIONE JSON → PostgreSQL\n');
+  console.log('🔄 START JSON → PostgreSQL MIGRATION\n');
   
   const stats: MigrationStats = {
     users: { total: 0, migrated: 0, skipped: 0 },
@@ -42,7 +42,7 @@ async function migrateJsonToPostgres() {
     // ============================================
     // 1. USERS MIGRATION
     // ============================================
-    console.log('👥 Migrazione USERS...');
+    console.log('👥 Migrating USERS...');
     const jsonUsers = jsonData.users || [];
     stats.users.total = jsonUsers.length;
 
@@ -86,9 +86,9 @@ async function migrateJsonToPostgres() {
     console.log(`  📊 Mapping users: ${userMapping.size} users mapped\n`);
 
     // ============================================
-    // 2. MIGRAZIONE SERVICES
+    // 2. MIGRATE SERVICES
     // ============================================
-    console.log('🛠️  Migrazione SERVICES...');
+    console.log('🛠️  Migrating SERVICES...');
     const userServices = jsonData.userServices || {};
     
     for (const [userJsonId, servicesList] of Object.entries(userServices)) {
@@ -134,7 +134,7 @@ async function migrateJsonToPostgres() {
     // ============================================
     // 3. CLIENTS MIGRATION
     // ============================================
-    console.log('👤 Migrazione CLIENTS...');
+    console.log('👤 Migrating CLIENTS...');
     const jsonClients = jsonData.clients || [];
     stats.clients.total = jsonClients.length;
 
@@ -189,7 +189,7 @@ async function migrateJsonToPostgres() {
     // ============================================
     // 4. APPOINTMENTS MIGRATION
     // ============================================
-    console.log('📅 Migrazione APPOINTMENTS...');
+    console.log('📅 Migrating APPOINTMENTS...');
     const jsonAppointments = jsonData.appointments || [];
     stats.appointments.total = jsonAppointments.length;
 
@@ -296,7 +296,7 @@ async function migrateJsonToPostgres() {
   }
 }
 
-// Execute migrazione
+// Execute migration
 migrateJsonToPostgres()
   .then(() => {
     console.log('✨ Script completed successfully');

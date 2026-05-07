@@ -38,7 +38,7 @@ router.get("/api/contact-info", requireAuth, async (req, res) => {
     const user = req.user!;
 
     try {
-      // Sorgente primaria: userSettings (PostgreSQL)
+      // Primary source: userSettings (PostgreSQL)
       const settings = await storage.getUserSettings(user.id);
 
       // Fallback 1: contact_settings table (populated by onboarding/profile)
@@ -147,7 +147,7 @@ router.get('/api/owner-contact-info/:ownerId', async (req, res) => {
         return res.status(400).json({ error: 'Invalid owner ID' });
       }
       
-      // 🔄 USA POSTGRESQL: Load da userSettings (sorgente primaria)
+      // 🔄 USES POSTGRESQL: Load from userSettings (primary source)
       const settings = await storage.getUserSettings(ownerId);
 
       // 🔄 FALLBACK 1: contact_settings table (populated in onboarding/profile)
@@ -170,7 +170,7 @@ router.get('/api/owner-contact-info/:ownerId', async (req, res) => {
         legacy = undefined;
       }
 
-      // 🔄 FALLBACK 3: username come ultimo ripiego per businessName
+      // 🔄 FALLBACK 3: username as last resort for businessName
       let userBusinessName = '';
       try {
         const [u] = await db
@@ -209,7 +209,7 @@ router.get('/api/owner-contact-info/:ownerId', async (req, res) => {
     }
   });
 
-  // Endpoint POST per salvare the information di contatto
+  // POST endpoint to save contact information
 router.post("/api/contact-info", requireAuth, async (req, res) => {
     try {
       const user = req.user!;
@@ -234,7 +234,7 @@ router.post("/api/contact-info", requireAuth, async (req, res) => {
       if (contactInfo.instagram !== undefined) settingsUpdate.instagramHandle = contactInfo.instagram;
       if (contactInfo.facebook !== undefined) settingsUpdate.facebookPage = contactInfo.facebook;
       
-      // 🔄 USA POSTGRESQL: Update o crea userSettings
+      // 🔄 USES POSTGRESQL: Update or create userSettings
       const updatedSettings = await storage.updateUserSettings(user.id, settingsUpdate);
       
       // Reconvert PostgreSQL → JSON format for frontend compatibility
@@ -329,9 +329,9 @@ router.post("/api/hide-welcome-guide", requireAuth, async (req, res) => {
     }
   });
 
-  // Info applicazione rimossa - usa l'endpoint unificato sopra
+  // Application info removed - uses the unified endpoint above
 
-  // Contesto tenant
+  // Tenant context
 router.get("/api/tenant-context", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
     const user = req.user as any;
@@ -367,7 +367,7 @@ router.get("/api/user-with-license", async (req, res) => {
           ipAddress: ip.substring(0, 45),
           userAgent: ua.substring(0, 500)
         });
-        logger.debug(`📊 [SESSION-TRACKING] Accesso registered for user ${user.id} (${user.username}) - pausa >30min`);
+        logger.debug(`📊 [SESSION-TRACKING] Access registered for user ${user.id} (${user.username}) - pause >30min`);
       }
     } catch (trackErr) {
       console.error(`⚠️ [SESSION-TRACKING] Error (non-blocking):`, trackErr);
@@ -388,7 +388,7 @@ router.get("/api/user-with-license", async (req, res) => {
       }
     }
     
-    // Retrieve code professional NUOVO (assignment_code) e VECCHIO (legacy) per staff e admin
+    // Retrieve professional code NEW (assignment_code) and OLD (legacy) for staff and admin
     let assignmentCode = null;
     let legacyProfessionistCode = null;
     
@@ -487,12 +487,12 @@ router.get("/api/user-with-license", async (req, res) => {
     res.json(response);
   });
 
-  // Fuso orario
+  // Timezone
 router.get("/api/timezone-settings", (req, res) => {
-    // Calculate dinamicamente l'offset per Europe/Rome
+    // Dynamically calculate the offset for Europe/Rome
     const date = new Date();
     
-    // Get the date formattata in Roma
+    // Get the date formatted for Rome
     const formatter = new Intl.DateTimeFormat('en-US', {
       timeZone: 'Europe/Rome',
       year: 'numeric',
@@ -569,11 +569,11 @@ router.get("/api/license/license-info", async (req, res) => {
   });
 
   // Endpoint for verifying PRO access - respects the plans logic:
-  // - BASE: NO accesso PRO
-  // - PRO/BUSINESS/TRIAL/PASSEPARTOUT: SI accesso PRO
-  // - Admin/Staff: SI accesso completo
+  // - BASE: NO PRO access
+  // - PRO/BUSINESS/TRIAL/PASSEPARTOUT: YES PRO access
+  // - Admin/Staff: YES full access
 router.get("/api/license/has-pro-access", async (req, res) => {
-    // Log dettagliato per debug session su Sliplane
+    // Detailed log for debug session on Sliplane
     console.log('🔐 [has-pro-access] ====== DEBUG SESSION ======');
     console.log('🔐 [has-pro-access] Session ID:', req.sessionID);
     console.log('🔐 [has-pro-access] isAuthenticated:', req.isAuthenticated());
@@ -616,9 +616,9 @@ router.get("/api/license/has-pro-access", async (req, res) => {
   });
 
   // Endpoint for verifying BUSINESS access - respects the plans logic:
-  // - BASE/PRO: NO accesso BUSINESS
-  // - BUSINESS/TRIAL/PASSEPARTOUT: SI accesso BUSINESS
-  // - Admin/Staff: SI accesso completo
+  // - BASE/PRO: NO BUSINESS access
+  // - BUSINESS/TRIAL/PASSEPARTOUT: YES BUSINESS access
+  // - Admin/Staff: YES full access
 router.get("/api/license/has-business-access", async (req, res) => {
     if (!req.isAuthenticated()) return res.json(false);
     const user = req.user as any;
@@ -652,9 +652,9 @@ router.get("/api/license/application-title", (req, res) => {
     res.json({ title: "Gestionale Appuntamenti" });
   });
 
-  // 📁 Sistema permanente icons PER UTENTE con persistenza (usa utils centralizzate)
+  // 📁 Permanent per-user icon system with persistence (uses centralized utils)
 
-  // Generate code professional univoco SEMPLIFICATO
+  // Generate unique professional code (simplified)
   async function generateProfessionistCode(userId: number): Promise<string> {
     // Simple code without visible MD5 hash
     return `PROF_${userId.toString().padStart(3, '0')}`;
@@ -683,7 +683,7 @@ router.get("/api/license/application-title", (req, res) => {
     return newCode;
   }
 
-  // Generate code client SEMPLIFICATO - max 99999 clients per studio
+  // Generate SIMPLIFIED client code - max 99999 clients per studio
   async function generateClientCode(ownerId: number, clientId: number): Promise<string> {
     const profCode = await getProfessionistCode(ownerId);
     // Simple code: PROF_003_C00001 (max 99999 clients)
@@ -734,7 +734,7 @@ router.get("/api/license/application-title", (req, res) => {
         uniqueCode: `TA${baseId + 2}`,
         ownerId: userId,
         createdAt: new Date().toISOString(),
-        notes: "Account di test generato automaticamente"
+        notes: "Test account auto-generated"
       }
     ];
   }
@@ -802,7 +802,7 @@ router.get("/api/license/application-title", (req, res) => {
       
     } catch (error: any) {
       console.error('❌ Critical error saving to storage:', error);
-      throw error; // Rilancia l'errore per far fallire l'operazione
+      throw error; // Re-throw to fail the operation
     }
   }
   
@@ -1098,7 +1098,7 @@ router.get("/api/company-name-settings", async (req, res) => {
     const currentSettings = await storage.getUserSettings(userId);
     const companyNameSettings = (currentSettings?.preferences as any)?.companyName || {};
     
-    // Values by default If esistono settings
+    // Default values if settings exist
     const userSettings = {
       businessName: companyNameSettings.businessName || "Gestionale Appuntamenti",
       showBusinessName: companyNameSettings.showBusinessName !== undefined ? companyNameSettings.showBusinessName : true,
@@ -1167,7 +1167,7 @@ router.post("/api/company-business-data", async (req, res) => {
       const { companyName, address, city, postalCode, vatNumber, fiscalCode, phone, email } = req.body;
       const userId = req.user.id;
       
-      console.log(`🏢 [POST] Salvando data business completi for user ${userId}:`, req.body);
+      console.log(`🏢 [POST] Saving complete business data for user ${userId}:`, req.body);
       
       // 🔄 USE POSTGRESQL: Update userSettings with company data
       const currentSettings = await storage.getUserSettings(userId);
@@ -1213,13 +1213,13 @@ router.post("/api/company-name-settings", async (req, res) => {
       const userId = req.user.id;
       const userType = req.user.type;
       
-      console.log(`🏢 [POST] Salvando settings complete for user ${userId} (${userType}):`, req.body);
+      console.log(`🏢 [POST] Saving complete settings for user ${userId} (${userType}):`, req.body);
       
-      // 🔄 USA POSTGRESQL: Load settings correnti
+      // 🔄 USES POSTGRESQL: Load current settings
       const currentSettings = await storage.getUserSettings(userId);
       const currentPrefs = (currentSettings?.preferences as any) || {};
       
-      // Prepare preferenze nome azienda
+      // Prepare company name preferences
       const companyNameSettings = currentPrefs.companyName || {};
       if (businessName !== undefined) companyNameSettings.businessName = businessName;
       if (showBusinessName !== undefined) companyNameSettings.showBusinessName = showBusinessName;
@@ -1230,7 +1230,7 @@ router.post("/api/company-name-settings", async (req, res) => {
       if (color !== undefined) companyNameSettings.color = color;
       if (enabled !== undefined) companyNameSettings.enabled = enabled;
       
-      // Update userSettings con preferences aggiornate
+      // Update userSettings with updated preferences
       await storage.updateUserSettings(userId, {
         businessName: businessName,
         preferences: {

@@ -27,7 +27,7 @@ async function regenerateAllQRCodes() {
   let baseUrl = process.env.BASE_URL;
   
   if (!baseUrl) {
-    // Fallback per test su Replit
+    // Fallback for testing on Replit
     const replitSlug = process.env.REPLIT_SLUG || process.env.REPL_SLUG;
     if (replitSlug) {
       baseUrl = `https://${replitSlug}.replit.app`;
@@ -51,7 +51,7 @@ async function regenerateAllQRCodes() {
       allClients = await db.select().from(clients);
       console.log(`📊 Found ${allClients.length} clients in database\n`);
     } catch (dbError) {
-      // Fallback a JSON storage
+      // Fallback to JSON storage
       console.log('⚠️  Database not available, using JSON storage...');
       const { loadStorageData } = await import('../utils/jsonStorage.js');
       const storageData = loadStorageData();
@@ -87,7 +87,7 @@ async function regenerateAllQRCodes() {
           
           token = existingToken;
         } catch (dbError) {
-          // Fallback a JSON
+          // Fallback to JSON
           const { loadStorageData } = await import('../utils/jsonStorage.js');
           const storageData = loadStorageData();
           
@@ -124,7 +124,7 @@ async function regenerateAllQRCodes() {
         
         // Save the new QR (optional - might already be saved)
         console.log(`   ✅ QR code regenerated successfully`);
-        console.log(`   📱 Nuovo URL: ${activationUrl}\n`);
+        console.log(`   📱 New URL: ${activationUrl}\n`);
         
         results.push({
           clientId: client.id,
@@ -160,7 +160,7 @@ async function regenerateAllQRCodes() {
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>QR Codes Clienti - Sliplane</title>
+  <title>Client QR Codes - Sliplane</title>
   <style>
     @media print {
       .page-break { page-break-after: always; }
@@ -180,8 +180,8 @@ async function regenerateAllQRCodes() {
   </style>
 </head>
 <body>
-  <h1>QR Codes Clienti - Sliplane Migration</h1>
-  <p style="text-align: center;">Generati il: ${new Date().toLocaleString('it-IT')}</p>
+  <h1>QR Codes Clients - Sliplane Migration</h1>
+  <p style="text-align: center;">Generated on: ${new Date().toLocaleString('it-IT')}</p>
   <p style="text-align: center;">Base URL: ${baseUrl}</p>
   <hr>
   ${results.map((r, index) => `
@@ -193,7 +193,7 @@ async function regenerateAllQRCodes() {
         Token: ${r.token.substring(0, 20)}...
       </div>
       <div class="info" style="font-size: 12px;">
-        Scansiona per accedere alla tua area personale
+        Scan to access your personal area
       </div>
     </div>
   `).join('\n')}
@@ -204,14 +204,14 @@ async function regenerateAllQRCodes() {
     const htmlPath = path.join(reportDir, `qr-print-${timestamp}.html`);
     fs.writeFileSync(htmlPath, htmlContent, 'utf-8');
     
-    // Riepilogo finale
+    // Final summary
     console.log('\n' + '='.repeat(60));
-    console.log('📊 RIEPILOGO RIGENERAZIONE QR CODES');
+    console.log('📊 QR CODE REGENERATION SUMMARY');
     console.log('='.repeat(60));
-    console.log(`✅ QR rigenerati successfully: ${successCount}`);
-    console.log(`❌ Errori: ${errorCount}`);
+    console.log(`✅ QR codes regenerated successfully: ${successCount}`);
+    console.log(`❌ Errors: ${errorCount}`);
     console.log(`📁 JSON report saved to: ${reportPath}`);
-    console.log(`🖨️  File HTML per stampa: ${htmlPath}`);
+    console.log(`🖨️  HTML file for printing: ${htmlPath}`);
     console.log('='.repeat(60));
     console.log('\n📋 NEXT STEPS:');
     console.log('1. Open the HTML file in the browser to print the QR codes');
