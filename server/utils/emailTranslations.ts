@@ -1051,3 +1051,124 @@ const scalabilityWarningTranslations: Record<SupportedLang, ScalabilityWarningSt
 export function getScalabilityWarningStrings(lang: SupportedLang): ScalabilityWarningStrings {
   return scalabilityWarningTranslations[lang] ?? scalabilityWarningTranslations['en'];
 }
+
+// ---------------------------------------------------------------------------
+// Appointment reminder email translations
+// ---------------------------------------------------------------------------
+export interface ReminderEmailStrings {
+  subject: string;
+  greeting: string;
+  bodyIntro: string;
+  forService: string;
+  withStaff: string;
+  inRoom: string;
+  onDate: string;
+  atTime: string;
+  closing: string;
+}
+
+const reminderEmailTranslations: Record<SupportedLang, ReminderEmailStrings> = {
+  it: {
+    subject: 'Promemoria appuntamento',
+    greeting: 'Gentile',
+    bodyIntro: 'ti ricordiamo del tuo appuntamento',
+    forService: 'per',
+    withStaff: 'con',
+    inRoom: 'nella sala',
+    onDate: 'il',
+    atTime: 'alle',
+    closing: 'Per modifiche o cancellazioni, contattaci.',
+  },
+  en: {
+    subject: 'Appointment reminder',
+    greeting: 'Dear',
+    bodyIntro: 'this is a reminder for your appointment',
+    forService: 'for',
+    withStaff: 'with',
+    inRoom: 'in',
+    onDate: 'on',
+    atTime: 'at',
+    closing: 'For changes or cancellations, please contact us.',
+  },
+  de: {
+    subject: 'Terminerinnerung',
+    greeting: 'Sehr geehrte/r',
+    bodyIntro: 'dies ist eine Erinnerung an Ihren Termin',
+    forService: 'für',
+    withStaff: 'mit',
+    inRoom: 'in',
+    onDate: 'am',
+    atTime: 'um',
+    closing: 'Für Änderungen oder Absagen kontaktieren Sie uns bitte.',
+  },
+  fr: {
+    subject: 'Rappel de rendez-vous',
+    greeting: 'Cher/Chère',
+    bodyIntro: 'ceci est un rappel pour votre rendez-vous',
+    forService: 'pour',
+    withStaff: 'avec',
+    inRoom: 'dans la salle',
+    onDate: 'le',
+    atTime: 'à',
+    closing: 'Pour toute modification ou annulation, veuillez nous contacter.',
+  },
+  es: {
+    subject: 'Recordatorio de cita',
+    greeting: 'Estimado/a',
+    bodyIntro: 'este es un recordatorio de su cita',
+    forService: 'para',
+    withStaff: 'con',
+    inRoom: 'en la sala',
+    onDate: 'el',
+    atTime: 'a las',
+    closing: 'Para cambios o cancelaciones, por favor contáctenos.',
+  },
+  ru: {
+    subject: 'Напоминание о записи',
+    greeting: 'Уважаемый/ая',
+    bodyIntro: 'напоминаем о вашей записи',
+    forService: '—',
+    withStaff: 'к',
+    inRoom: 'в зале',
+    onDate: '',
+    atTime: 'в',
+    closing: 'Для изменений или отмены записи свяжитесь с нами.',
+  },
+  nl: {
+    subject: 'Afspraakherinnering',
+    greeting: 'Beste',
+    bodyIntro: 'dit is een herinnering voor uw afspraak',
+    forService: 'voor',
+    withStaff: 'met',
+    inRoom: 'in',
+    onDate: 'op',
+    atTime: 'om',
+    closing: 'Voor wijzigingen of annuleringen, neem contact met ons op.',
+  },
+  no: {
+    subject: 'Avtalepåminnelse',
+    greeting: 'Kjære',
+    bodyIntro: 'dette er en påminnelse om din avtale',
+    forService: 'for',
+    withStaff: 'med',
+    inRoom: 'i',
+    onDate: 'den',
+    atTime: 'kl.',
+    closing: 'For endringer eller avlysninger, vennligst kontakt oss.',
+  },
+  ro: {
+    subject: 'Reminder programare',
+    greeting: 'Stimate/ă',
+    bodyIntro: 'acesta este un memento pentru programarea dumneavoastră',
+    forService: 'pentru',
+    withStaff: 'cu',
+    inRoom: 'în sala',
+    onDate: 'în data de',
+    atTime: 'la ora',
+    closing: 'Pentru modificări sau anulări, vă rugăm să ne contactați.',
+  },
+};
+
+export function getReminderEmailStrings(lang: SupportedLang): ReminderEmailStrings {
+  return reminderEmailTranslations[lang] ?? reminderEmailTranslations['it'];
+}

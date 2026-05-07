@@ -8,6 +8,8 @@ import { loadStorageData, saveStorageData, getTomorrowAppointments } from '../ut
 import { db } from '../db';
 import { clients, services, staff, treatmentRooms } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
+import { getReminderEmailStrings, formatDate, LOCALE_MAP } from '../utils/emailTranslations';
+import { getUserLanguage } from '../utils/userLanguage';
 
 // 📁 FUNZIONI JSON CENTRALIZZATE IN utils/jsonStorage.ts
 
@@ -434,18 +436,30 @@ export const notificationService = {
         room = roomResult[0] || null;
       }
       
-      // Format the appointment date and time
-      const appointmentDate = format(new Date(appointment.date), 'dd/MM/yyyy');
-      const startTime = appointment.startTime.substring(0, 5); // Extract HH:MM only
+      // Fetch the owner's language preference for translated reminder strings
+      // client.ownerId is already available from the initial client fetch — no extra query needed
+      const ownerIdForLang = client.ownerId ?? 0;
+      const lang = ownerIdForLang ? await getUserLanguage(ownerIdForLang) : 'it';
+      const strings = getReminderEmailStrings(lang);
+
+      // Format the appointment date with the owner's locale
+      const formattedDate = formatDate(new Date(appointment.date), lang);
+
+      // Format time locale-aware (e.g. 12h for en-US, 24h for most others)
+      const [hh, mm] = appointment.startTime.split(':');
+      const timeDate = new Date();
+      timeDate.setHours(Number(hh), Number(mm), 0, 0);
+      const formattedTime = timeDate.toLocaleTimeString(LOCALE_MAP[lang], { hour: '2-digit', minute: '2-digit' });
       
       // 🗄️ TEMPLATE WITH DATA FROM POSTGRESQL
-      // Default message with all available details
+      // Build translated appointment details with language-aware connectors
       let appointmentDetails = '';
-      if (service) appointmentDetails += `for ${service.name}`;
-      if (staffMember) appointmentDetails += ` with ${staffMember.firstName} ${staffMember.lastName}`;
-      if (room) appointmentDetails += ` in ${room.name}`;
-      
-      const message = `Dear ${client.firstName}, this is a reminder for your appointment${appointmentDetails ? ` ${appointmentDetails}` : ''} on ${appointmentDate} at ${startTime}. For changes or cancellations, please contact us.`;
+      if (service) appointmentDetails += ` ${strings.forService} ${service.name}`;
+      if (staffMember) appointmentDetails += ` ${strings.withStaff} ${staffMember.firstName} ${staffMember.lastName}`;
+      if (room) appointmentDetails += ` ${strings.inRoom} ${room.name}`;
+
+      const onDatePart = strings.onDate ? ` ${strings.onDate}` : '';
+      const message = `${strings.greeting} ${client.firstName},\n${strings.bodyIntro}${appointmentDetails}${onDatePart} ${formattedDate} ${strings.atTime} ${formattedTime}.\n${strings.closing}`;
       
       // Generate a unique ID for this message
       const messageId = `${appointment.id}-${appointment.date}-${appointment.startTime}`;
@@ -498,9 +512,10 @@ export const notificationService = {
                 
                 if (emailConfig && emailConfig.emailEnabled && emailConfig.emailAddress && emailConfig.emailPassword) {
                   // Passa clientId e ownerId per tracciamento bounce
+                  const emailSubject = `${strings.subject} – ${formattedDate}`;
                   const success = await this.sendEmailDirect(
                     client.email, 
-                    `Appointment reminder for ${appointmentDate}`, 
+                    emailSubject,
                     message, 
                     emailConfig,
                     client.id,
