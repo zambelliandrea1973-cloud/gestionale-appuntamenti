@@ -121,8 +121,12 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
   const progressPct = Math.round((completed / total) * 100);
 
   const handleNavigate = (path: string, tab: string | null) => {
-    if (tab) localStorage.setItem('settings_active_tab', tab);
-    setLocation(path);
+    if (tab) {
+      localStorage.setItem('settings_active_tab', tab);
+      setLocation(`${path}?tab=${tab}`);
+    } else {
+      setLocation(path);
+    }
   };
 
   // X = nasconde solo per la sessione corrente. Il banner riapparirà al prossimo

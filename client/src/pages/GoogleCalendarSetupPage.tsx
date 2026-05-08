@@ -609,7 +609,7 @@ export default function GoogleCalendarSetupPage() {
   return (
     <div className="container py-8 max-w-2xl">
       <div className="mb-6">
-        <Link to="/pro-features" className="text-sm text-primary hover:underline flex items-center gap-1 mb-4">
+        <Link to="/settings?tab=integrations" className="text-sm text-primary hover:underline flex items-center gap-1 mb-4">
           ← {t('googleCalendar.setup.backToProFeatures')}
         </Link>
       </div>

@@ -465,7 +465,7 @@ export default function GoogleCalendarSimpleSetup() {
           </div>
           <div className="flex items-center gap-4">
             {isGoogleAuthorized && (
-              <Link to="/settings" className="text-xs text-primary hover:underline flex items-center">
+              <Link to="/settings?tab=integrations" className="text-xs text-primary hover:underline flex items-center">
                 {t('google.advancedSettings', 'Advanced settings')}
                 <ArrowRight className="h-3 w-3 ml-1" />
               </Link>
