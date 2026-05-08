@@ -207,6 +207,8 @@
     "changePasswordHeading": "Сменить пароль",
     "changePasswordDescription": "Обновите пароль, чтобы сохранить учётную запись в безопасности. Вам потребуется ввести текущий пароль для подтверждения личности.",
     "goToPasswordChange": "Перейти к смене пароля",
+    "subscriptionTab": "Подписка",
+    "openSubscribePage": "Открыть страницу подписки",
     "subscriptionPlansHeading": "Управление тарифами подписки",
     "subscriptionPlansDescription": "Изменяйте цены и разрешения пакетов подписки (Trial, Base, Pro, Business)"
   },

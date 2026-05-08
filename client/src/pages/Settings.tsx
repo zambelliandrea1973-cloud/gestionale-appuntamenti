@@ -28,6 +28,7 @@ import AdminNotifications from '@/components/AdminNotifications';
 import SubscriptionPlansAdmin from '@/components/SubscriptionPlansAdmin';
 import CurrencySelector from '@/components/CurrencySelector';
 import WorkingHoursEditor from '@/components/WorkingHoursEditor';
+import SubscriptionPlansPanel from '@/components/SubscriptionPlansPanel';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
 
@@ -67,7 +68,7 @@ export default function Settings() {
       }, 300);
     } else {
       const savedTab = localStorage.getItem('settings_active_tab');
-      const validTabs = ['app', 'contacts', 'staff', 'integrations', 'appearance', 'security'];
+      const validTabs = ['app', 'contacts', 'staff', 'integrations', 'appearance', 'security', 'subscription'];
       if (savedTab && validTabs.includes(savedTab)) {
         setActiveTab(savedTab);
       } else if (savedTab === 'admin') {
@@ -237,6 +238,10 @@ export default function Settings() {
             <KeyRound className="mr-2 h-4 w-4" />
             <span>{t('settingsPage.security')}</span>
           </TabsTrigger>
+          <TabsTrigger value="subscription" className="flex items-center whitespace-nowrap">
+            <CreditCard className="mr-2 h-4 w-4" />
+            <span>{t('settingsPage.subscriptionTab', 'Abbonamento')}</span>
+          </TabsTrigger>
           {isAdmin && (
             <TabsTrigger value="admin" className="flex items-center whitespace-nowrap">
               <Shield className="mr-2 h-4 w-4" />
@@ -273,10 +278,13 @@ export default function Settings() {
                 <Button
                   variant="default"
                   className="flex items-center"
-                  onClick={() => setLocation('/subscribe')}
+                  onClick={() => {
+                    setActiveTab('subscription');
+                    localStorage.setItem('settings_active_tab', 'subscription');
+                  }}
                 >
                   <CreditCard className="mr-2 h-4 w-4" />
-                  {t('settingsPage.manageSubscription')}
+                  {t('settingsPage.subscriptionTab', 'Abbonamento')}
                 </Button>
               </div>
               
@@ -501,6 +509,23 @@ export default function Settings() {
               </CardContent>
             </Card>
           </div>
+        </TabsContent>
+
+        <TabsContent value="subscription">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <CreditCard className="mr-2 h-5 w-5" />
+                {t('settingsPage.subscriptionHeading')}
+              </CardTitle>
+              <CardDescription>
+                {t('settingsPage.subscriptionDescription')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SubscriptionPlansPanel />
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="security">

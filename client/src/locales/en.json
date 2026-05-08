@@ -207,6 +207,8 @@
     "changePasswordHeading": "Change Password",
     "changePasswordDescription": "Update your password to keep your account safe. You will be asked to enter your current password to confirm your identity.",
     "goToPasswordChange": "Go to Change Password",
+    "subscriptionTab": "Subscription",
+    "openSubscribePage": "Open subscription page",
     "subscriptionPlansHeading": "Subscription Plans Management",
     "subscriptionPlansDescription": "Edit prices and permissions for subscription packages (Trial, Base, Pro, Business)"
   },

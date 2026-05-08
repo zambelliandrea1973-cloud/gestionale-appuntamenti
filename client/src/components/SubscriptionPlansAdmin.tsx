@@ -183,13 +183,15 @@ export default function SubscriptionPlansAdmin() {
                   </CardTitle>
                   <CardDescription className="mt-2">
                     {isEditing ? (
-                      <Input
+                      <Textarea
                         value={editForm.description || ''}
                         onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
                         placeholder={t('i18nFinale.subscriptionPlansAdmin.planDescription')}
+                        rows={2}
+                        className="text-sm"
                       />
                     ) : (
-                      plan.description
+                      plan.description || <span className="italic text-muted-foreground/60">{t('i18nFinale.subscriptionPlansAdmin.noDescription', 'Nessuna descrizione')}</span>
                     )}
                   </CardDescription>
                 </div>

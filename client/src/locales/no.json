@@ -207,6 +207,8 @@
     "changePasswordHeading": "Bytt passord",
     "changePasswordDescription": "Oppdater passordet ditt for å holde kontoen sikker. Du blir bedt om å skrive inn nåværende passord for å bekrefte identiteten din.",
     "goToPasswordChange": "Gå til bytt passord",
+    "subscriptionTab": "Abonnement",
+    "openSubscribePage": "Åpne abonnementssiden",
     "subscriptionPlansHeading": "Administrasjon av abonnementsplaner",
     "subscriptionPlansDescription": "Rediger priser og tillatelser for abonnementspakkene (Trial, Base, Pro, Business)"
   },

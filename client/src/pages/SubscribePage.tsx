@@ -1,153 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'wouter';
 import { useAuth } from '@/hooks/use-auth';
-import { 
-  Check, 
-  Crown, 
-  CreditCard, 
-  Star, 
-  CalendarRange, 
-  Users, 
+import { useLicense, LicenseType } from '@/hooks/use-license';
+import {
+  CalendarRange,
+  Users,
   FileSpreadsheet,
-  CalendarClock,
   BellRing,
   AlertCircle,
-  Loader2,
-  ArrowRight,
-  Wallet,
-  Copy
+  Crown,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useLicense, LicenseType } from '@/hooks/use-license';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
-
-// Importazioni per API e gestione pagamenti
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { apiRequest } from '@/lib/queryClient';
-import { useCurrency } from '@/hooks/use-currency';
-
-// Definizione delle offerte
-interface PlanFeature {
-  key?: string;
-  name: string;
-  included: boolean;
-}
-
-interface Plan {
-  id: string;
-  type: LicenseType;
-  name: string;
-  description: string;
-  price: number;
-  priceLabel: string;
-  features: PlanFeature[];
-  popular?: boolean;
-  buttonVariant?: 'default' | 'outline' | 'secondary';
-}
-
-// Map from legacy display strings (Italian and English) to the corresponding slug.
-// Used only to migrate old DB records that haven't been updated yet.
-const LEGACY_NAME_TO_SLUG: Record<string, string> = {
-  // English display strings
-  'Appointment calendar': 'calendar',
-  'Client management': 'clients',
-  'QR/PWA app for clients': 'qrPwa',
-  'Client appointment requests': 'appointmentRequests',
-  'Client notifications': 'notifications',
-  'Invoice generation': 'invoices',
-  'Google Calendar sync': 'googleCalendar',
-  'Reports and statistics': 'reports',
-  'Promotional packages': 'packages',
-  'Multi-staff management': 'multiStaff',
-  'Product inventory': 'inventory',
-  'AI Marketing campaigns': 'marketingAI',
-  // Italian display strings
-  'Calendario appuntamenti': 'calendar',
-  'Gestione appuntamenti': 'calendar',
-  'Gestione appuntamenti base': 'calendar',
-  'Gestione clienti': 'clients',
-  'App QR/PWA per clienti': 'qrPwa',
-  'PWA area clienti scaricabile': 'qrPwa',
-  'Richiesta appuntamenti cliente': 'appointmentRequests',
-  'Notifiche clienti': 'notifications',
-  'Notifiche ai clienti': 'notifications',
-  'Notifiche email': 'notifications',
-  'Emissione fatture': 'invoices',
-  'Gestione fatture': 'invoices',
-  'Sincronizzazione Google Calendar': 'googleCalendar',
-  'Integrazione Google Calendar': 'googleCalendar',
-  'Integrazione calendario': 'googleCalendar',
-  'Report e statistiche': 'reports',
-  'Report dettagliati': 'reports',
-  'Report avanzati': 'reports',
-  'Pacchetti promozionali': 'packages',
-  'Gestione piu dipendenti': 'multiStaff',
-  'Gestione più dipendenti': 'multiStaff',
-  'Supporto per più operatori': 'multiStaff',
-  'Magazzino prodotti': 'inventory',
-  'Campagne Marketing AI': 'marketingAI',
-};
-
-// Translates a feature to the current UI language.
-// Primary path: `featureKey` is a slug → t('planFeatures.<slug>').
-// Fallback: `featureName` is a legacy display string → resolve to slug first.
-// If the slug has no translation, returns a generic localized label — never raw DB text.
-const translateFeatureName = (featureKey: string | undefined, featureName: string, t: any): string => {
-  const slug = featureKey || LEGACY_NAME_TO_SLUG[featureName];
-  if (slug) {
-    // t() returns the key path string itself when a key is missing; detect that
-    // and fall back to a safe generic label instead of exposing the raw slug.
-    const translated = t(`planFeatures.${slug}`);
-    if (translated && translated !== `planFeatures.${slug}`) {
-      return translated;
-    }
-  }
-  // If the legacy map had a match but translation failed, try to surface the
-  // closest known translation key rather than raw text.
-  const fallbackSlug = LEGACY_NAME_TO_SLUG[featureName];
-  if (fallbackSlug) {
-    const translated = t(`planFeatures.${fallbackSlug}`);
-    if (translated && translated !== `planFeatures.${fallbackSlug}`) {
-      return translated;
-    }
-  }
-  // Final safe fallback: a generic localized label (never raw Italian).
-  return t('planFeatures.unknownFeature', 'Feature');
-};
+import SubscriptionPlansPanel from '@/components/SubscriptionPlansPanel';
 
 export default function SubscribePage() {
   const { t } = useTranslation();
-  const { licenseInfo, activateLicense } = useLicense();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
-  const { user, isAuthenticated, isLoading } = useAuth();
-  const { symbol } = useCurrency();
-  const [paymentMethod, setPaymentMethod] = useState<'credit-card' | 'paypal' | 'bank'>('credit-card');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [showActivationDialog, setShowActivationDialog] = useState(false);
-  const [activationCode, setActivationCode] = useState('');
-  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  
-  // Controlla se l'utente è stato reindirizzato qui per trial scaduto
-  const isTrialExpired = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('expired') === 'true';
-  
-  // Reindirizza alla pagina di login se l'utente non è autenticato
+  const { isAuthenticated, isLoading } = useAuth();
+  const { licenseInfo } = useLicense();
+
+  const isTrialExpired =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('expired') === 'true' &&
+    licenseInfo?.type === LicenseType.TRIAL;
+
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      // Salva l'URL corrente (incluso query params) per il redirect post-login
       const currentUrl = window.location.pathname + window.location.search;
       sessionStorage.setItem('redirectAfterLogin', currentUrl);
-      
       toast({
         title: t('subscribe.loginRequiredTitle'),
         description: t('subscribe.loginRequired'),
@@ -156,391 +39,7 @@ export default function SubscribePage() {
       setLocation('/');
     }
   }, [isAuthenticated, isLoading, setLocation, toast]);
-  
-  // Funzione per gestire l'attivazione della licenza
-  const handleActivateCode = async () => {
-    if (!activationCode.trim()) {
-      toast({
-        title: t('subscribe.missingCode'),
-        description: t('subscribe.invalidActivation'),
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    try {
-      setIsProcessing(true);
-      // Rimuove tutti gli spazi dal codice prima di inviarlo al server
-      const normalizedCode = activationCode.replace(/\s/g, '');
-      await activateLicense(normalizedCode);
-      setShowActivationDialog(false);
-      setActivationCode('');
-      
-      toast({
-        title: t('subscribe.licenseActivated'),
-        description: t('subscribe.licenseActivatedDesc'),
-      });
-    } catch (error: any) {
-      toast({
-        title: t('common.error'),
-        description: error.message || t('subscribe.genericError'),
-        variant: 'destructive',
-      });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-  
-  // Mutation per avviare un abbonamento con PayPal
-  const startPaypalSubscription = useMutation({
-    mutationFn: async (planId: string) => {
-      const res = await apiRequest('POST', { planId });
-      return await res.json();
-    },
-    onSuccess: (data) => {
-      console.log('📱 PAYPAL: Response received:', data);
-      
-      if (data.success && data.url) {
-        console.log('✅ PAYPAL: Redirecting to:', data.url);
-        
-        // Mostra un toast prima del redirect
-        toast({
-          title: t('subscribe.redirectingPaypalTitle'),
-          description: t('subscribe.redirectingPaypal'),
-        });
-        
-        // Attendi 500ms prima del redirect per far vedere il toast
-        setTimeout(() => {
-          window.location.href = data.url;
-        }, 500);
-      } else {
-        console.error('❌ PAYPAL: URL missing in response:', data);
-        toast({
-          title: t('subscribe.paypalError'),
-          description: data.message || t('subscribe.paypalStartFailed'),
-          variant: 'destructive',
-        });
-      }
-    },
-    onError: (error: Error) => {
-      console.error('❌ PAYPAL: mutation error:', error);
-      toast({
-        title: t('subscribe.paypalError'),
-        description: error.message || t('subscribe.genericError'),
-        variant: 'destructive',
-      });
-    }
-  });
 
-  // Mutation per avviare un abbonamento con carta di credito (Stripe)
-  const startStripeSubscription = useMutation({
-    mutationFn: async (planId: string) => {
-      const res = await apiRequest('POST', { planId });
-      return await res.json();
-    },
-    onSuccess: (data) => {
-      console.log('💳 STRIPE: Response received:', data);
-      
-      if (data.success && data.url) {
-        console.log('✅ STRIPE: URL received:', data.url);
-        console.log('✅ STRIPE: URL length:', data.url.length);
-        
-        // Mostra un toast prima del redirect
-        toast({
-          title: t('subscribe.redirectingStripeTitle'),
-          description: t('subscribe.redirectingSecure'),
-        });
-        
-        // DEBUG: Verifica che l'URL sia valido
-        try {
-          new URL(data.url);
-          console.log('✅ STRIPE: Valid URL, executing redirect...');
-        } catch (e) {
-          console.error('❌ STRIPE: Invalid URL!', e);
-        }
-        
-        // Redirect diretto alla pagina di checkout Stripe
-        console.log('🚀 STRIPE: Direct redirect to checkout...');
-        window.location.href = data.url;
-      } else {
-        console.error('❌ STRIPE: URL missing in response:', data);
-        toast({
-          title: t('subscribe.stripeError'),
-          description: data.message || t('subscribe.stripeStartFailed'),
-          variant: 'destructive',
-        });
-      }
-    },
-    onError: (error: Error) => {
-      console.error('❌ STRIPE: mutation error:', error);
-      toast({
-        title: t('subscribe.stripeError'),
-        description: error.message || t('subscribe.genericError'),
-        variant: 'destructive',
-      });
-    }
-  });
-
-  // Funzione per gestire il pagamento in base al metodo selezionato
-  // Stato per mostrare le istruzioni del bonifico
-  const [showBankTransferInfo, setShowBankTransferInfo] = useState(false);
-  // Contenuto istruzioni bonifico
-  const [bankTransferInfo, setBankTransferInfo] = useState<{
-    bankInfo: {
-      recipient?: string;
-      iban?: string;
-      notes?: string;
-    };
-    planId: string;
-  } | null>(null);
-
-  // Mutation per ottenere le informazioni sul bonifico bancario
-  const getBankTransferInfo = useMutation({
-    mutationFn: async (planId: string) => {
-      const res = await apiRequest('GET', '/api/payments/methods');
-      const methods = await res.json();
-      // Trova il metodo banco
-      const bankMethod = methods.find((m: any) => m.id === 'bank');
-      return { 
-        bankInfo: bankMethod?.publicConfig || {},
-        planId
-      };
-    },
-    onSuccess: (data) => {
-      setBankTransferInfo(data);
-      setShowBankTransferInfo(true);
-    },
-    onError: (error: Error) => {
-      toast({
-        title: t('common.error'),
-        description: t('subscribe.bankInfoFailed'),
-        variant: 'destructive',
-      });
-      console.error(error);
-    }
-  });
-
-  const handlePayment = (planId: string) => {
-    // Verifica che l'utente sia autenticato prima di procedere
-    if (!isAuthenticated || !user) {
-      toast({
-        title: t('subscribe.loginRequiredTitle'),
-        description: t('subscribe.loginRequired'),
-        variant: 'destructive',
-      });
-      // Salva l'URL corrente per il redirect post-login
-      sessionStorage.setItem('redirectAfterLogin', window.location.pathname + window.location.search);
-      setLocation('/');
-      return;
-    }
-    
-    setSelectedPlanId(planId);
-    
-    if (paymentMethod === 'paypal') {
-      startPaypalSubscription.mutate(planId);
-    } else if (paymentMethod === 'credit-card') {
-      startStripeSubscription.mutate(planId);
-    } else if (paymentMethod === 'bank') {
-      // Per bonifico bancario, mostra le istruzioni per il pagamento
-      getBankTransferInfo.mutate(planId);
-    } else {
-      // Per altri metodi sconosciuti, apriamo la finestra di attivazione
-      setShowActivationDialog(true);
-    }
-  };
-  
-  // Ottieni i piani dal server
-  const { data: serverPlans, isLoading: isLoadingPlans } = useQuery({
-    queryKey: ['/api/payments/plans'],
-    queryFn: async () => {
-      const res = await apiRequest('GET', '/api/payments/plans');
-      return await res.json();
-    },
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-  });
-  
-  // Ottieni lo stato attuale dell'abbonamento
-  const { data: subscriptionInfo, isLoading: isLoadingSubscription } = useQuery({
-    queryKey: ['/api/payments/subscription'],
-    queryFn: async () => {
-      const res = await apiRequest('GET', '/api/payments/subscription');
-      return await res.json();
-    },
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-  });
-
-  // Definizione dei piani — features use slug keys so translateFeatureName works
-  // in any language without relying on the legacy display-name lookup map.
-  const fallbackPlans: Plan[] = [
-    {
-      id: 'trial',
-      type: LicenseType.TRIAL,
-      name: t('plans.trial.name'),
-      description: t('plans.trial.description'),
-      price: 0,
-      priceLabel: t('plans.trial.price'),
-      buttonVariant: 'outline',
-      features: [
-        { key: 'calendar', name: 'calendar', included: true },
-        { key: 'clients', name: 'clients', included: true },
-        { key: 'qrPwa', name: 'qrPwa', included: true },
-        { key: 'appointmentRequests', name: 'appointmentRequests', included: true },
-        { key: 'notifications', name: 'notifications', included: true },
-        { key: 'invoices', name: 'invoices', included: true },
-        { key: 'reports', name: 'reports', included: false },
-        { key: 'googleCalendar', name: 'googleCalendar', included: false },
-        { key: 'packages', name: 'packages', included: false },
-        { key: 'marketingAI', name: 'marketingAI', included: false },
-      ],
-    },
-    {
-      id: '1',
-      type: LicenseType.BASE,
-      name: t('plans.base.name'),
-      description: t('plans.base.description'),
-      price: 5.99,
-      priceLabel: t('plans.base.priceLabel'),
-      buttonVariant: 'outline',
-      features: [
-        { key: 'calendar', name: 'calendar', included: true },
-        { key: 'clients', name: 'clients', included: true },
-        { key: 'qrPwa', name: 'qrPwa', included: true },
-        { key: 'appointmentRequests', name: 'appointmentRequests', included: true },
-        { key: 'notifications', name: 'notifications', included: true },
-        { key: 'invoices', name: 'invoices', included: true },
-        { key: 'reports', name: 'reports', included: false },
-        { key: 'googleCalendar', name: 'googleCalendar', included: false },
-        { key: 'packages', name: 'packages', included: false },
-        { key: 'marketingAI', name: 'marketingAI', included: false },
-      ],
-    },
-    {
-      id: '2',
-      type: LicenseType.PRO,
-      name: t('plans.pro.name'),
-      description: t('plans.pro.description'),
-      price: 9.99,
-      priceLabel: t('plans.pro.priceLabel'),
-      popular: true,
-      buttonVariant: 'default',
-      features: [
-        { key: 'calendar', name: 'calendar', included: true },
-        { key: 'clients', name: 'clients', included: true },
-        { key: 'qrPwa', name: 'qrPwa', included: true },
-        { key: 'appointmentRequests', name: 'appointmentRequests', included: true },
-        { key: 'notifications', name: 'notifications', included: true },
-        { key: 'invoices', name: 'invoices', included: true },
-        { key: 'googleCalendar', name: 'googleCalendar', included: true },
-        { key: 'reports', name: 'reports', included: true },
-        { key: 'packages', name: 'packages', included: true },
-        { key: 'multiStaff', name: 'multiStaff', included: false },
-        { key: 'inventory', name: 'inventory', included: false },
-        { key: 'marketingAI', name: 'marketingAI', included: false },
-      ],
-    },
-    {
-      id: '3',
-      type: LicenseType.BUSINESS,
-      name: t('plans.business.name'),
-      description: t('plans.business.description'),
-      price: 19.99,
-      priceLabel: t('plans.business.priceLabel'),
-      buttonVariant: 'outline',
-      features: [
-        { key: 'calendar', name: 'calendar', included: true },
-        { key: 'clients', name: 'clients', included: true },
-        { key: 'qrPwa', name: 'qrPwa', included: true },
-        { key: 'appointmentRequests', name: 'appointmentRequests', included: true },
-        { key: 'notifications', name: 'notifications', included: true },
-        { key: 'invoices', name: 'invoices', included: true },
-        { key: 'googleCalendar', name: 'googleCalendar', included: true },
-        { key: 'reports', name: 'reports', included: true },
-        { key: 'packages', name: 'packages', included: true },
-        { key: 'multiStaff', name: 'multiStaff', included: true },
-        { key: 'inventory', name: 'inventory', included: true },
-        { key: 'marketingAI', name: 'marketingAI', included: true },
-      ],
-    },
-  ];
-  
-  // Definisci l'interfaccia per i piani dal server
-  interface ServerPlan {
-    id: string | number;
-    name: string;
-    description?: string;
-    price: number;
-    interval?: 'month' | 'year';
-    features?: string;
-    active?: boolean;
-  }
-
-  // Converte i piani dal server al formato locale
-  const plans = serverPlans?.length 
-    ? serverPlans.map((plan: ServerPlan) => {
-        let features: PlanFeature[] = [];
-        try {
-          if (plan.features) {
-            if (typeof plan.features === 'string') {
-              features = JSON.parse(plan.features);
-            } else if (typeof plan.features === 'object') {
-              features = plan.features as any;
-            }
-          }
-        } catch (error) {
-          console.error('Plan features parsing error:', error);
-        }
-        
-        const planType = plan.name.toLowerCase().includes('pro') 
-          ? LicenseType.PRO 
-          : plan.name.toLowerCase().includes('business')
-            ? LicenseType.BUSINESS
-            : LicenseType.BASE;
-        
-        // Normalizza le features: possono essere oggetti {key, included}, {name, included} o stringhe
-        const normalizedFeatures: PlanFeature[] = Array.isArray(features) && features.length > 0
-          ? features.map((f: any) => {
-              if (typeof f === 'object') {
-                // Slug-based format: {key: "calendar", included: true}
-                if (f.key !== undefined) {
-                  return {
-                    key: String(f.key),
-                    name: String(f.key),
-                    included: f.included !== undefined ? f.included : true
-                  };
-                }
-                // Legacy display-name format: {name: "Calendario appuntamenti", included: true}
-                if (f.name !== undefined) {
-                  return {
-                    name: String(f.name),
-                    included: f.included !== undefined ? f.included : true
-                  };
-                }
-              }
-              // Plain string
-              return {
-                name: String(f),
-                included: true
-              };
-            })
-          : fallbackPlans.find(p => p.type === planType)?.features || [];
-        
-        return {
-          id: String(plan.id),
-          type: planType,
-          name: plan.name,
-          description: plan.description || '',
-          price: plan.price / 100, // Converti da centesimi a euro
-          priceLabel: `€${(plan.price / 100).toFixed(2).replace('.', ',')}/${plan.interval === 'year' ? t('plans.intervalYear') : t('plans.intervalMonth')}`,
-          popular: plan.name.toLowerCase().includes('pro'),
-          buttonVariant: plan.name.toLowerCase().includes('pro') ? 'default' : 'outline' as 'default' | 'outline',
-          features: normalizedFeatures,
-        };
-      }) 
-    : fallbackPlans;
-  
-  // Ottieni le features distintive per mostrare nella sezione hero
   const keyFeatures = [
     {
       icon: <CalendarRange className="h-10 w-10 text-primary" />,
@@ -563,10 +62,10 @@ export default function SubscribePage() {
       description: t('subscribe.features.reports.description'),
     },
   ];
-  
+
   return (
     <div className="container py-10">
-      {/* Hero Section */}
+      {/* Hero */}
       <div className="text-center mb-16">
         <h1 className="text-4xl font-bold tracking-tight mb-6">
           {t('subscribe.title')}
@@ -574,55 +73,20 @@ export default function SubscribePage() {
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12">
           {t('subscribe.subtitle')}
         </p>
-        
-        {/* Trial Expired Warning - nascosto se c'è già un abbonamento attivo */}
-        {isTrialExpired && !(subscriptionInfo && subscriptionInfo.status === 'active') && (
+
+        {/* Trial Expired Warning */}
+        {isTrialExpired && (
           <Alert className="max-w-3xl mx-auto mb-8 bg-red-50 border-red-300" data-testid="alert-trial-expired">
-            <div className="flex items-center">
-              <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
-              <h3 className="font-semibold text-red-900 text-lg">
-                {t('subscribe.trialExpiredTitle')}
-              </h3>
-            </div>
-            <AlertDescription className="text-red-800 mt-3">
-              <p className="mb-3">
-                {t('subscribe.trialExpiredBody')}
-              </p>
-              <p className="font-medium">
-                {t('subscribe.trialExpiredSafe')}
-              </p>
+            <AlertCircle className="h-5 w-5 text-red-600" />
+            <AlertDescription className="text-red-800">
+              <p className="font-semibold text-red-900 text-lg mb-2">{t('subscribe.trialExpiredTitle')}</p>
+              <p className="mb-3">{t('subscribe.trialExpiredBody')}</p>
+              <p className="font-medium">{t('subscribe.trialExpiredSafe')}</p>
             </AlertDescription>
           </Alert>
         )}
-        
-        {/* Subscription Status */}
-        {subscriptionInfo && subscriptionInfo.status === 'active' && (
-          <Alert className="max-w-3xl mx-auto mb-8 bg-green-50 border-green-200">
-            <div className="flex items-center">
-              <Check className="h-5 w-5 text-green-500 mr-2" />
-              <h3 className="font-medium text-green-800">
-                {t('subscribe.activeSubscription')}
-              </h3>
-            </div>
-            <AlertDescription className="text-green-700 mt-2">
-              {subscriptionInfo.plan ? (
-                <>
-                  <p className="mb-1">
-                    {t('subscribe.currentPlan')}: <strong>{subscriptionInfo.plan.name}</strong>
-                  </p>
-                  {subscriptionInfo.expiresAt && (
-                    <p>
-                      {t('subscribe.expiresAt')}: <strong>{new Date(subscriptionInfo.expiresAt).toLocaleDateString()}</strong>
-                    </p>
-                  )}
-                </>
-              ) : (
-                <p>{t('subscribe.trialActive')}: <strong>{new Date(licenseInfo?.expiresAt || '').toLocaleDateString()}</strong></p>
-              )}
-            </AlertDescription>
-          </Alert>
-        )}
-        
+
+        {/* Key features grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
           {keyFeatures.map((feature, index) => (
             <div key={index} className="flex flex-col items-center text-center p-4">
@@ -633,352 +97,35 @@ export default function SubscribePage() {
           ))}
         </div>
       </div>
-      
-      {/* Pricing Section */}
+
+      {/* Pricing Section — rendered via shared SubscriptionPlansPanel */}
       <div>
         <h2 className="text-3xl font-bold text-center mb-10 flex items-center justify-center">
           <Crown className="mr-2 h-8 w-8 text-amber-500" />
           {t('subscribe.pricingTitle')}
         </h2>
-        
-        {isLoadingPlans || isLoadingSubscription ? (
-          <div className="flex justify-center items-center p-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <span className="ml-2">{t('common.loading')}</span>
+
+        <SubscriptionPlansPanel />
+      </div>
+
+      {/* FAQ */}
+      <div className="mt-20 max-w-3xl mx-auto text-center">
+        <h2 className="text-2xl font-bold mb-6">{t('subscribe.faq.title')}</h2>
+        <div className="text-left space-y-6">
+          <div>
+            <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q1')}</h3>
+            <p className="text-muted-foreground">{t('subscribe.faq.a1')}</p>
           </div>
-        ) : (
-          <>
-            {/* Payment Method Tabs */}
-            <Tabs 
-              defaultValue="credit-card" 
-              className="mb-8 max-w-md mx-auto"
-              onValueChange={(value) => {
-                // Converti il valore della tab nel tipo di metodo di pagamento corretto
-                if (value === 'credit-card' || value === 'paypal' || value === 'bank') {
-                  setPaymentMethod(value as 'credit-card' | 'paypal' | 'bank');
-                }
-              }}
-            >
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger 
-                  value="credit-card" 
-                  className="flex items-center"
-                >
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  {t('subscribe.paymentMethods.card')}
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="paypal" 
-                  className="flex items-center"
-                >
-                  <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.003-2.598 6.726-8.674 6.726h-2.19c-1.279 0-2.385.945-2.585 2.22v.03l-.956 6.05h4.433c.48 0 .888-.348.965-.82l.04-.225.764-4.82.05-.264c.076-.472.485-.82.965-.82h.608c3.938 0 7.014-1.6 7.913-6.228.37-1.92.18-3.521-.685-4.562z" />
-                    <path d="M22.8 7.362c-.073-.43-.168-.838-.293-1.224a7.398 7.398 0 0 0-.412-1.143 5.855 5.855 0 0 0-.637-1.042c-.862-1.134-2.355-1.674-4.067-1.674h-7.46A2.486 2.486 0 0 0 7.49.772L4.382 19.316c-.094.596.296 1.15.896 1.15h4.433l1.115-7.07v.228c.19-1.274 1.296-2.218 2.575-2.218h2.19c6.085 0 10.008-3.722 10.675-9.204.02-.163.037-.325.052-.484h-.007c.122-1.586-.012-2.96-.51-4.355z" />
-                  </svg>
-                  PayPal
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="bank" 
-                  className="flex items-center"
-                >
-                  <Wallet className="h-4 w-4 mr-2" />
-                  {t('subscribe.paymentMethods.bank')}
-                </TabsTrigger>
-              </TabsList>
-              
-              <div className="text-center mt-4 text-sm text-muted-foreground">
-                <p className="flex items-center justify-center">
-                  <AlertCircle className="h-4 w-4 mr-1 text-amber-500" />
-                  {t('subscribe.paymentSecurity')}
-                </p>
-              </div>
-            </Tabs>
-            
-            {/* Pricing Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {plans.map((plan: Plan) => {
-                const isCurrentPlan = subscriptionInfo?.plan?.id === plan.id || 
-                                    (plan.type === LicenseType.TRIAL && 
-                                     licenseInfo?.type === LicenseType.TRIAL);
-                                     
-                return (
-                  <Card key={plan.id} className={`flex flex-col h-full ${plan.popular ? 'border-primary shadow-md relative' : ''} ${isCurrentPlan ? 'border-green-500 bg-green-50/30' : ''}`}>
-                    {plan.popular && (
-                      <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
-                        <span className="bg-amber-500 text-white text-xs py-1 px-3 rounded-full font-medium">
-                          {t('subscribe.popular')}
-                        </span>
-                      </div>
-                    )}
-                    
-                    {isCurrentPlan && (
-                      <div className="absolute top-0 left-0 transform -translate-x-2 -translate-y-2">
-                        <span className="bg-green-500 text-white text-xs py-1 px-3 rounded-full font-medium">
-                          {t('subscribe.currentPlan')}
-                        </span>
-                      </div>
-                    )}
-                    
-                    <CardHeader className="pb-4">
-                      <CardTitle className="flex items-center">
-                        {plan.type === LicenseType.PRO ? (
-                          <Crown className="h-5 w-5 mr-2 text-amber-500" />
-                        ) : plan.type === LicenseType.BUSINESS ? (
-                          <Users className="h-5 w-5 mr-2 text-purple-500" />
-                        ) : plan.type === LicenseType.BASE ? (
-                          <Star className="h-5 w-5 mr-2 text-blue-500" />
-                        ) : (
-                          <CalendarClock className="h-5 w-5 mr-2 text-green-500" />
-                        )}
-                        {plan.name}
-                      </CardTitle>
-                      <CardDescription>{plan.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex-grow pt-0">
-                      <div className="mt-2 mb-4">
-                        <span className="text-3xl font-bold">{plan.priceLabel}</span>
-                        {plan.type === LicenseType.TRIAL && (
-                          <span className="block text-sm text-muted-foreground">{t('subscribe.for40Days')}</span>
-                        )}
-                        {plan.type !== LicenseType.TRIAL && (
-                          <span className="block text-sm text-muted-foreground">{t('subscribe.annualSub')}</span>
-                        )}
-                      </div>
-                      <ul className="space-y-2 mb-6">
-                        {plan.features.flatMap((feature: PlanFeature, featureIndex: number) => {
-                          // Traduci la feature prima di splitarla
-                          const translatedFeatureName = translateFeatureName(feature.key, feature.name, t);
-                          // Separa la feature per virgola, punto o trattino
-                          const items = translatedFeatureName
-                            .split(/[,;.\-]/)
-                            .map(item => item.trim())
-                            .filter(item => item.length > 0);
-                          
-                          return items.map((item, itemIndex) => (
-                            <li key={`${featureIndex}-${itemIndex}`} className="flex items-start">
-                              <div className={`rounded-full p-1 mr-2 flex-shrink-0 ${feature.included ? 'text-green-500' : 'text-gray-300'}`}>
-                                {feature.included ? <Check className="h-4 w-4" /> : <span className="block h-4 w-4">-</span>}
-                              </div>
-                              <span className={feature.included ? '' : 'text-gray-400'}>{item}</span>
-                            </li>
-                          ));
-                        })}
-                      </ul>
-                    </CardContent>
-                    <CardFooter>
-                      <Button 
-                        variant={isCurrentPlan ? 'outline' : plan.buttonVariant}
-                        className={`w-full ${isCurrentPlan ? 'border-green-500 text-green-700 hover:bg-green-50' : ''}`}
-                        onClick={() => !isCurrentPlan && handlePayment(plan.id)}
-                        disabled={isCurrentPlan || plan.type === LicenseType.TRIAL || plan.id === 'trial' || !isAuthenticated}
-                      >
-                        {isCurrentPlan ? (
-                          <div className="flex items-center justify-center">
-                            <Check className="h-5 w-5 mr-2" />
-                            {t('subscribe.active')}
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center">
-                            {plan.type === LicenseType.TRIAL || plan.id === 'trial' 
-                              ? t('subscribe.startTrial')
-                              : (
-                                <>
-                                  {startStripeSubscription.isPending || startPaypalSubscription.isPending ? (
-                                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                  ) : (
-                                    <ArrowRight className="h-4 w-4 mr-2" />
-                                  )}
-                                  {t('subscribe.subscribe')}
-                                </>
-                              )
-                            }
-                          </div>
-                        )}
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                );
-              })}
-            </div>
-          </>
-        )}
-        
-        {/* FAQ and additional info */}
-        <div className="mt-20 max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-6">{t('subscribe.faq.title')}</h2>
-          <div className="text-left space-y-6">
-            <div>
-              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q1')}</h3>
-              <p className="text-muted-foreground">{t('subscribe.faq.a1')}</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q2')}</h3>
-              <p className="text-muted-foreground">{t('subscribe.faq.a2')}</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q3')}</h3>
-              <p className="text-muted-foreground">{t('subscribe.faq.a3')}</p>
-            </div>
+          <div>
+            <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q2')}</h3>
+            <p className="text-muted-foreground">{t('subscribe.faq.a2')}</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q3')}</h3>
+            <p className="text-muted-foreground">{t('subscribe.faq.a3')}</p>
           </div>
         </div>
       </div>
-      
-      {/* Dialog per l'attivazione del codice */}
-      <Dialog open={showActivationDialog} onOpenChange={setShowActivationDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('subscribe.activateCode')}</DialogTitle>
-            <DialogDescription>
-              {t('subscribe.activateCodeDescription')}
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="activationCode">{t('subscribe.code')}</Label>
-              <Input
-                id="activationCode"
-                value={activationCode}
-                onChange={(e) => {
-                  // Rimuove tutti gli spazi dall'input
-                  const rawValue = e.target.value.replace(/\s/g, '');
-                  
-                  if (rawValue.length > 16) {
-                    // Limita a 16 caratteri
-                    return;
-                  }
-                  
-                  // Formatta aggiungendo spazi ogni 4 caratteri
-                  let formattedValue = '';
-                  for (let i = 0; i < rawValue.length; i++) {
-                    if (i > 0 && i % 4 === 0) {
-                      formattedValue += ' ';
-                    }
-                    formattedValue += rawValue[i];
-                  }
-                  
-                  setActivationCode(formattedValue);
-                }}
-                placeholder="XXXX XXXX XXXX XXXX"
-                className="col-span-3"
-              />
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="terms" 
-                checked={acceptTerms} 
-                onCheckedChange={(checked) => setAcceptTerms(checked as boolean)} 
-              />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {t('subscribe.acceptTerms')}
-              </label>
-            </div>
-          </div>
-          
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowActivationDialog(false)}>
-              {t('common.cancel')}
-            </Button>
-            <Button 
-              onClick={handleActivateCode} 
-              disabled={isProcessing || !acceptTerms || !activationCode.trim()}
-            >
-              {isProcessing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t('common.processing')}
-                </>
-              ) : (
-                t('common.activate')
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      
-      {/* Dialog per le istruzioni del bonifico bancario */}
-      <Dialog open={showBankTransferInfo} onOpenChange={setShowBankTransferInfo}>
-        <DialogContent className="min-[1200px]:max-w-[550px]">
-          <DialogHeader>
-            <DialogTitle>{t('subscribe.bankTransfer.title')}</DialogTitle>
-            <DialogDescription>
-              {t('subscribe.bankTransfer.description')}
-            </DialogDescription>
-          </DialogHeader>
-          
-          {bankTransferInfo && (
-            <div className="space-y-4 py-2">
-              <div className="border rounded-md p-4 bg-muted/30">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-sm font-medium">{t('subscribe.bankTransfer.plan')}</span>
-                    <span className="text-sm">{serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.name}</span>
-                  </div>
-                  
-                  <div className="flex justify-between">
-                    <span className="text-sm font-medium">{t('subscribe.bankTransfer.amount')}</span>
-                    <span className="text-sm">{symbol}{serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.price}</span>
-                  </div>
-                  
-                  <Separator className="my-2" />
-                  
-                  <div className="space-y-1">
-                    <h4 className="text-sm font-medium">{t('subscribe.bankTransfer.recipient')}</h4>
-                    <p className="text-sm">{bankTransferInfo.bankInfo.recipient || t('common.notSpecified')}</p>
-                  </div>
-                  
-                  <div className="space-y-1">
-                    <h4 className="text-sm font-medium">IBAN</h4>
-                    <p className="text-sm font-mono">{bankTransferInfo.bankInfo.iban || t('common.notSpecified')}</p>
-                  </div>
-                  
-                  <div className="space-y-1">
-                    <h4 className="text-sm font-medium">{t('subscribe.bankTransfer.reason')}</h4>
-                    <p className="text-sm font-mono">{t('subscribe.bankTransfer.reasonTemplate', { plan: serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.name })}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>{t('subscribe.bankTransfer.noteTitle')}</AlertTitle>
-                <AlertDescription>
-                  {t('subscribe.bankTransfer.noteDesc')}
-                </AlertDescription>
-              </Alert>
-            </div>
-          )}
-          
-          <DialogFooter>
-            <Button variant="secondary" onClick={() => setShowBankTransferInfo(false)}>
-              {t('common.close')}
-            </Button>
-            <Button variant="default" onClick={() => {
-              // Copia negli appunti le informazioni del bonifico
-              const info = `
-IBAN: ${bankTransferInfo?.bankInfo.iban || t('subscribe.notSpecified')}
-${t('subscribe.recipientLabel')}: ${bankTransferInfo?.bankInfo.recipient || t('subscribe.notSpecified')}
-${t('subscribe.bankTransfer.amount')}: ${symbol}${serverPlans?.find((p: any) => p.id === bankTransferInfo?.planId)?.price}
-${t('subscribe.reasonLabel')}: ${t('subscribe.bankTransfer.reasonTemplate', { plan: serverPlans?.find((p: any) => p.id === bankTransferInfo?.planId)?.name })}
-              `.trim();
-              
-              navigator.clipboard.writeText(info).then(() => {
-                toast({
-                  title: t('common.copied'),
-                  description: t('subscribe.bankTransfer.copiedDetails'),
-                });
-              });
-            }}>
-              <Copy className="mr-2 h-4 w-4" />
-              {t('common.copy')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

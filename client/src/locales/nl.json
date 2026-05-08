@@ -207,6 +207,8 @@
     "changePasswordHeading": "Wachtwoord wijzigen",
     "changePasswordDescription": "Werk je wachtwoord bij om je account veilig te houden. Je wordt gevraagd je huidige wachtwoord in te voeren om je identiteit te bevestigen.",
     "goToPasswordChange": "Naar wachtwoord wijzigen",
+    "subscriptionTab": "Abonnement",
+    "openSubscribePage": "Abonnementspagina openen",
     "subscriptionPlansHeading": "Beheer van abonnementsplannen",
     "subscriptionPlansDescription": "Wijzig prijzen en machtigingen van abonnementspakketten (Trial, Base, Pro, Business)"
   },

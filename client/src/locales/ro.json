@@ -207,6 +207,8 @@
     "changePasswordHeading": "Schimbă parola",
     "changePasswordDescription": "Actualizează parola pentru a-ți păstra contul în siguranță. Ți se va cere să introduci parola actuală pentru a confirma identitatea.",
     "goToPasswordChange": "Mergi la schimbarea parolei",
+    "subscriptionTab": "Abonament",
+    "openSubscribePage": "Deschide pagina de abonament",
     "subscriptionPlansHeading": "Gestionarea planurilor de abonament",
     "subscriptionPlansDescription": "Modifică prețurile și permisiunile pachetelor de abonament (Trial, Base, Pro, Business)"
   },

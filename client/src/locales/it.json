@@ -207,6 +207,8 @@
     "changePasswordHeading": "Cambia Password",
     "changePasswordDescription": "Aggiorna la tua password per mantenere sicuro il tuo account. Ti verrà chiesto di inserire la password attuale per confermare l'identità.",
     "goToPasswordChange": "Vai al Cambio Password",
+    "subscriptionTab": "Abbonamento",
+    "openSubscribePage": "Apri pagina abbonamenti",
     "subscriptionPlansHeading": "Gestione Piani Abbonamento",
     "subscriptionPlansDescription": "Modifica prezzi e autorizzazioni dei pacchetti abbonamento (Trial, Base, Pro, Business)"
   },

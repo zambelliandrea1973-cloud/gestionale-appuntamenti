@@ -207,6 +207,8 @@
     "changePasswordHeading": "Changer le mot de passe",
     "changePasswordDescription": "Mets à jour ton mot de passe pour garder ton compte sécurisé. Il te sera demandé de saisir le mot de passe actuel pour confirmer ton identité.",
     "goToPasswordChange": "Aller au changement de mot de passe",
+    "subscriptionTab": "Abonnement",
+    "openSubscribePage": "Ouvrir la page d'abonnement",
     "subscriptionPlansHeading": "Gestion des plans d'abonnement",
     "subscriptionPlansDescription": "Modifie les prix et autorisations des forfaits d'abonnement (Trial, Base, Pro, Business)"
   },
