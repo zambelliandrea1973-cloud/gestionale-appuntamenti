@@ -38,6 +38,8 @@ export default function SubscriptionPlansAdmin() {
   const { toast } = useToast();
   const [editingPlan, setEditingPlan] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<SubscriptionPlan>>({});
+  const [showNewPlanForm, setShowNewPlanForm] = useState(false);
+  const [newPlanForm, setNewPlanForm] = useState({ name: '', description: '', price: 0, interval: 'month' });
 
   // Preset Defaults state
   const [editingPresets, setEditingPresets] = useState(false);
@@ -91,6 +93,32 @@ export default function SubscriptionPlansAdmin() {
         description: t('i18nFinale.subscriptionPlansAdmin.presetsUpdated'),
       });
       setEditingPresets(false);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: t('common.error'),
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Mutation per creare un nuovo piano
+  const createPlanMutation = useMutation({
+    mutationFn: async (data: { name: string; description: string; price: number; interval: string }) => {
+      const response = await apiRequest('POST', '/api/subscription-plans', data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/subscription-plans'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/payments/plans'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/plan-preset-descriptions'] });
+      toast({
+        title: t('i18nFinale.subscriptionPlansAdmin.planCreatedTitle'),
+        description: t('i18nFinale.subscriptionPlansAdmin.planCreated'),
+      });
+      setShowNewPlanForm(false);
+      setNewPlanForm({ name: '', description: '', price: 0, interval: 'month' });
     },
     onError: (error: Error) => {
       toast({
@@ -241,8 +269,17 @@ export default function SubscriptionPlansAdmin() {
 
   return (
     <div className="space-y-6">
-      {/* Pulsante Anteprima */}
-      <div className="flex justify-end">
+      {/* Pulsanti superiori */}
+      <div className="flex justify-between items-center">
+        <Button
+          variant="default"
+          onClick={() => setShowNewPlanForm(!showNewPlanForm)}
+          className="gap-2"
+          data-testid="button-new-plan"
+        >
+          <Plus className="h-4 w-4" />
+          {t('i18nFinale.subscriptionPlansAdmin.newPlan')}
+        </Button>
         <Button
           variant="outline"
           onClick={() => window.open('/subscribe', '_blank')}
@@ -253,6 +290,66 @@ export default function SubscriptionPlansAdmin() {
           {t('i18nFinale.subscriptionPlansAdmin.previewPublicPlans')}
         </Button>
       </div>
+
+      {/* Form nuovo piano */}
+      {showNewPlanForm && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">{t('i18nFinale.subscriptionPlansAdmin.newPlan')}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <Label>{t('i18nFinale.subscriptionPlansAdmin.presetPlanNamePlaceholder')}</Label>
+                <Input
+                  value={newPlanForm.name}
+                  onChange={(e) => setNewPlanForm({ ...newPlanForm, name: e.target.value })}
+                  placeholder="es. Enterprise"
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label>{t('i18nFinale.subscriptionPlansAdmin.priceCents')}</Label>
+                <Input
+                  type="number"
+                  value={newPlanForm.price}
+                  onChange={(e) => setNewPlanForm({ ...newPlanForm, price: parseInt(e.target.value) || 0 })}
+                  className="mt-1"
+                />
+              </div>
+            </div>
+            <div>
+              <Label>{t('i18nFinale.subscriptionPlansAdmin.planDescription')}</Label>
+              <Textarea
+                value={newPlanForm.description}
+                onChange={(e) => setNewPlanForm({ ...newPlanForm, description: e.target.value })}
+                placeholder={t('i18nFinale.subscriptionPlansAdmin.presetDescriptionLabel')}
+                rows={2}
+                className="mt-1 text-sm"
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => { setShowNewPlanForm(false); setNewPlanForm({ name: '', description: '', price: 0, interval: 'month' }); }}
+                disabled={createPlanMutation.isPending}
+              >
+                <X className="h-4 w-4 mr-1" />
+                {t('common.cancel')}
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => createPlanMutation.mutate(newPlanForm)}
+                disabled={createPlanMutation.isPending || !newPlanForm.name.trim()}
+              >
+                <Save className="h-4 w-4 mr-1" />
+                {t('common.save')}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Sezione Preset Descrizioni */}
       <Card>

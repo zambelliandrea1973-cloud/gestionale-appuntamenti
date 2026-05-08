@@ -92,6 +92,30 @@ router.post("/api/subscription-plans", requireAuth, async (req, res) => {
       body.features = normalizeFeatures(body.features);
     }
     const newPlan = await storage.createSubscriptionPlan(body);
+
+    // Auto-seed an empty preset description entry for the new plan name
+    // if one does not already exist, so the Preset Defaults section shows it immediately.
+    const planName: string = newPlan.name?.trim();
+    if (planName) {
+      const setting = await storage.getSetting(PLAN_PRESET_DESCRIPTIONS_KEY);
+      let presets: Record<string, string> = {};
+      if (setting?.value) {
+        try { presets = JSON.parse(setting.value); } catch { /* ignore */ }
+      }
+      const existingKey = Object.keys(presets).find(
+        (k) => k.toLowerCase() === planName.toLowerCase()
+      );
+      if (!existingKey) {
+        presets[planName] = '';
+        await storage.saveSetting(
+          PLAN_PRESET_DESCRIPTIONS_KEY,
+          JSON.stringify(presets),
+          'Editable plan preset descriptions',
+          'plans'
+        );
+      }
+    }
+
     res.json(newPlan);
   } catch (error) {
     console.error('Error creating plan:', error);
