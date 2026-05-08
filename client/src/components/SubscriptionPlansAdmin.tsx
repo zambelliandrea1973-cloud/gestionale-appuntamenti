@@ -25,7 +25,8 @@ interface SubscriptionPlan {
 }
 
 interface PlanFeature {
-  name: string;
+  key?: string;
+  name?: string;
   included: boolean;
 }
 
@@ -291,11 +292,17 @@ export default function SubscriptionPlansAdmin() {
                   {isEditing ? (
                     (editForm.features || []).map((feature: PlanFeature, index: number) => (
                       <div key={index} className="flex items-center gap-2">
-                        <Input
-                          value={feature.name}
-                          onChange={(e) => updateFeature(index, 'name', e.target.value)}
-                          placeholder={t('i18nFinale.subscriptionPlansAdmin.featureNamePlaceholder')}
-                        />
+                        {feature.key ? (
+                          <span className="flex-1 text-sm px-3 py-2 bg-muted rounded-md text-foreground">
+                            {t(`planFeatures.${feature.key}`, feature.key)}
+                          </span>
+                        ) : (
+                          <Input
+                            value={feature.name || ''}
+                            onChange={(e) => updateFeature(index, 'name', e.target.value)}
+                            placeholder={t('i18nFinale.subscriptionPlansAdmin.featureNamePlaceholder')}
+                          />
+                        )}
                         <Switch
                           checked={feature.included}
                           onCheckedChange={(checked) => updateFeature(index, 'included', checked)}
@@ -318,7 +325,9 @@ export default function SubscriptionPlansAdmin() {
                           <X className="h-4 w-4 text-gray-400" />
                         )}
                         <span className={feature.included ? 'text-foreground' : 'text-muted-foreground line-through'}>
-                          {feature.name}
+                          {feature.key
+                            ? t(`planFeatures.${feature.key}`, feature.name || feature.key)
+                            : (feature.name || '')}
                         </span>
                       </div>
                     ))
