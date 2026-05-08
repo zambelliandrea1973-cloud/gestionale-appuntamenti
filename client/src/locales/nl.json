@@ -5739,7 +5739,18 @@
       "monthShort": "maand",
       "yearShort": "jaar",
       "unlimited": "Onbeperkt",
-      "resetDescription": "Beschrijving herstellen"
+      "resetDescription": "Beschrijving herstellen",
+      "noDescription": "Geen beschrijving",
+      "presetDefaultsTitle": "Standaard planbeschrijvingen",
+      "presetDefaultsDescription": "Stel de standaardbeschrijving in voor elk plan. Deze waarden worden gebruikt door de knop \"Beschrijving herstellen\" op elke plankaart.",
+      "addPreset": "Preset toevoegen",
+      "presetPlanNameLabel": "Plannaam",
+      "presetPlanNamePlaceholder": "bijv. MijnPlan",
+      "presetDescriptionLabel": "Standaardbeschrijving",
+      "noPresetsConfigured": "Geen presets geconfigureerd. Klik op \"Preset toevoegen\" om te beginnen.",
+      "savePresets": "Presets opslaan",
+      "presetsUpdatedTitle": "Presets bijgewerkt",
+      "presetsUpdated": "Standaardbeschrijvingen succesvol bijgewerkt."
     },
     "clientsPage": {
       "newShort": "Nieuwe klant",

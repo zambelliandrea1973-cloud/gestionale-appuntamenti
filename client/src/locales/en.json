@@ -5739,7 +5739,18 @@
       "monthShort": "month",
       "yearShort": "year",
       "unlimited": "Unlimited",
-      "resetDescription": "Reset description"
+      "resetDescription": "Reset description",
+      "noDescription": "No description",
+      "presetDefaultsTitle": "Plan Preset Descriptions",
+      "presetDefaultsDescription": "Define the default description for each plan. These values are used by the \"Reset description\" button on each plan card.",
+      "addPreset": "Add preset",
+      "presetPlanNameLabel": "Plan name",
+      "presetPlanNamePlaceholder": "e.g. MyPlan",
+      "presetDescriptionLabel": "Default description",
+      "noPresetsConfigured": "No presets configured. Click \"Add preset\" to get started.",
+      "savePresets": "Save presets",
+      "presetsUpdatedTitle": "Presets updated",
+      "presetsUpdated": "Default descriptions updated successfully."
     },
     "clientsPage": {
       "newShort": "New client",

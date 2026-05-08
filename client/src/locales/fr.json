@@ -5739,7 +5739,18 @@
       "monthShort": "mois",
       "yearShort": "an",
       "unlimited": "Illimite",
-      "resetDescription": "Réinitialiser la description"
+      "resetDescription": "Réinitialiser la description",
+      "noDescription": "Aucune description",
+      "presetDefaultsTitle": "Descriptions prédéfinies des plans",
+      "presetDefaultsDescription": "Définissez la description par défaut de chaque plan. Ces valeurs sont utilisées par le bouton \"Réinitialiser la description\" sur chaque carte de plan.",
+      "addPreset": "Ajouter un preset",
+      "presetPlanNameLabel": "Nom du plan",
+      "presetPlanNamePlaceholder": "ex. MonPlan",
+      "presetDescriptionLabel": "Description par défaut",
+      "noPresetsConfigured": "Aucun preset configuré. Cliquez sur \"Ajouter un preset\" pour commencer.",
+      "savePresets": "Enregistrer les presets",
+      "presetsUpdatedTitle": "Presets mis à jour",
+      "presetsUpdated": "Les descriptions par défaut ont été mises à jour avec succès."
     },
     "clientsPage": {
       "newShort": "Nouveau client",

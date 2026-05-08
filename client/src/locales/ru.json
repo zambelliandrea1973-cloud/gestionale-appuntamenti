@@ -5739,7 +5739,18 @@
       "monthShort": "мес.",
       "yearShort": "год",
       "unlimited": "Неограниченно",
-      "resetDescription": "Сбросить описание"
+      "resetDescription": "Сбросить описание",
+      "noDescription": "Нет описания",
+      "presetDefaultsTitle": "Стандартные описания планов",
+      "presetDefaultsDescription": "Задайте описание по умолчанию для каждого плана. Эти значения используются кнопкой «Сбросить описание» на карточке каждого плана.",
+      "addPreset": "Добавить пресет",
+      "presetPlanNameLabel": "Название плана",
+      "presetPlanNamePlaceholder": "напр. МойПлан",
+      "presetDescriptionLabel": "Описание по умолчанию",
+      "noPresetsConfigured": "Пресеты не настроены. Нажмите «Добавить пресет», чтобы начать.",
+      "savePresets": "Сохранить пресеты",
+      "presetsUpdatedTitle": "Пресеты обновлены",
+      "presetsUpdated": "Описания по умолчанию успешно обновлены."
     },
     "clientsPage": {
       "newShort": "Новый клиент",

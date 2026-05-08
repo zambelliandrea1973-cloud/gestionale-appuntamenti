@@ -135,4 +135,57 @@ router.delete("/api/subscription-plans/:id", requireAuth, async (req, res) => {
   }
 });
 
+const PLAN_PRESET_DESCRIPTIONS_KEY = 'plan_preset_descriptions';
+
+router.get("/api/plan-preset-descriptions", requireAuth, async (req, res) => {
+  const user = req.user as any;
+  if (user.type !== 'admin') {
+    return res.status(403).json({ message: "Only admin can access plan presets" });
+  }
+  try {
+    const setting = await storage.getSetting(PLAN_PRESET_DESCRIPTIONS_KEY);
+    let presets: Record<string, string> = {};
+    if (setting?.value) {
+      try {
+        presets = JSON.parse(setting.value);
+      } catch {
+        presets = {};
+      }
+    }
+    res.json(presets);
+  } catch (error) {
+    console.error('Error loading plan preset descriptions:', error);
+    res.status(500).json({ message: "Error loading plan preset descriptions" });
+  }
+});
+
+router.put("/api/plan-preset-descriptions", requireAuth, async (req, res) => {
+  const user = req.user as any;
+  if (user.type !== 'admin') {
+    return res.status(403).json({ message: "Only admin can update plan presets" });
+  }
+  try {
+    const presets: Record<string, string> = req.body;
+    if (typeof presets !== 'object' || Array.isArray(presets)) {
+      return res.status(400).json({ message: "Invalid preset format" });
+    }
+    const sanitized: Record<string, string> = {};
+    for (const [key, value] of Object.entries(presets)) {
+      if (typeof key === 'string' && typeof value === 'string' && key.trim()) {
+        sanitized[key.trim()] = value;
+      }
+    }
+    await storage.saveSetting(
+      PLAN_PRESET_DESCRIPTIONS_KEY,
+      JSON.stringify(sanitized),
+      'Editable plan preset descriptions',
+      'plans'
+    );
+    res.json(sanitized);
+  } catch (error) {
+    console.error('Error updating plan preset descriptions:', error);
+    res.status(500).json({ message: "Error updating plan preset descriptions" });
+  }
+});
+
 export default router;

@@ -5739,7 +5739,18 @@
       "monthShort": "luna",
       "yearShort": "an",
       "unlimited": "Nelimitat",
-      "resetDescription": "Resetați descrierea"
+      "resetDescription": "Resetați descrierea",
+      "noDescription": "Nicio descriere",
+      "presetDefaultsTitle": "Descrieri implicite ale planurilor",
+      "presetDefaultsDescription": "Definiți descrierea implicită pentru fiecare plan. Aceste valori sunt utilizate de butonul \"Resetați descrierea\" de pe fiecare card de plan.",
+      "addPreset": "Adaugă preset",
+      "presetPlanNameLabel": "Nume plan",
+      "presetPlanNamePlaceholder": "ex. PlanulMeu",
+      "presetDescriptionLabel": "Descriere implicită",
+      "noPresetsConfigured": "Niciun preset configurat. Faceți clic pe \"Adaugă preset\" pentru a începe.",
+      "savePresets": "Salvează preseturile",
+      "presetsUpdatedTitle": "Preseturi actualizate",
+      "presetsUpdated": "Descrierile implicite au fost actualizate cu succes."
     },
     "clientsPage": {
       "newShort": "Client nou",

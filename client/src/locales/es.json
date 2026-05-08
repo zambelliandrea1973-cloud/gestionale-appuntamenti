@@ -5739,7 +5739,18 @@
       "monthShort": "mes",
       "yearShort": "año",
       "unlimited": "Ilimitado",
-      "resetDescription": "Restablecer descripción"
+      "resetDescription": "Restablecer descripción",
+      "noDescription": "Sin descripción",
+      "presetDefaultsTitle": "Descripciones predeterminadas de los planes",
+      "presetDefaultsDescription": "Define la descripción predeterminada para cada plan. Estos valores los usa el botón \"Restablecer descripción\" en cada tarjeta de plan.",
+      "addPreset": "Agregar preset",
+      "presetPlanNameLabel": "Nombre del plan",
+      "presetPlanNamePlaceholder": "ej. MiPlan",
+      "presetDescriptionLabel": "Descripción predeterminada",
+      "noPresetsConfigured": "No hay presets configurados. Haz clic en \"Agregar preset\" para comenzar.",
+      "savePresets": "Guardar presets",
+      "presetsUpdatedTitle": "Presets actualizados",
+      "presetsUpdated": "Descripciones predeterminadas actualizadas correctamente."
     },
     "clientsPage": {
       "newShort": "Nuevo cliente",

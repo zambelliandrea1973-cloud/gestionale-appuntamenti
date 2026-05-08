@@ -5739,7 +5739,18 @@
       "monthShort": "maned",
       "yearShort": "ar",
       "unlimited": "Ubegrenset",
-      "resetDescription": "Tilbakestill beskrivelse"
+      "resetDescription": "Tilbakestill beskrivelse",
+      "noDescription": "Ingen beskrivelse",
+      "presetDefaultsTitle": "Standard planbeskrivelser",
+      "presetDefaultsDescription": "Definer standardbeskrivelsen for hvert plan. Disse verdiene brukes av knappen \"Tilbakestill beskrivelse\" på hvert plankort.",
+      "addPreset": "Legg til forhåndsinnstilling",
+      "presetPlanNameLabel": "Plannavn",
+      "presetPlanNamePlaceholder": "f.eks. MittPlan",
+      "presetDescriptionLabel": "Standardbeskrivelse",
+      "noPresetsConfigured": "Ingen forhåndsinnstillinger konfigurert. Klikk \"Legg til forhåndsinnstilling\" for å starte.",
+      "savePresets": "Lagre forhåndsinnstillinger",
+      "presetsUpdatedTitle": "Forhåndsinnstillinger oppdatert",
+      "presetsUpdated": "Standardbeskrivelser ble oppdatert."
     },
     "clientsPage": {
       "newShort": "Ny kunde",

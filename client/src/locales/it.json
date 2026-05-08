@@ -5739,7 +5739,18 @@
       "monthShort": "mese",
       "yearShort": "anno",
       "unlimited": "Illimitato",
-      "resetDescription": "Ripristina descrizione"
+      "resetDescription": "Ripristina descrizione",
+      "noDescription": "Nessuna descrizione",
+      "presetDefaultsTitle": "Descrizioni Predefinite dei Piani",
+      "presetDefaultsDescription": "Definisci la descrizione predefinita per ogni piano. Questi valori vengono usati dal pulsante \"Ripristina descrizione\" in ogni scheda piano.",
+      "addPreset": "Aggiungi preset",
+      "presetPlanNameLabel": "Nome piano",
+      "presetPlanNamePlaceholder": "es. MyPlan",
+      "presetDescriptionLabel": "Descrizione predefinita",
+      "noPresetsConfigured": "Nessun preset configurato. Clicca \"Aggiungi preset\" per iniziare.",
+      "savePresets": "Salva preset",
+      "presetsUpdatedTitle": "Preset aggiornati",
+      "presetsUpdated": "Descrizioni predefinite aggiornate con successo."
     },
     "clientsPage": {
       "newShort": "Crea cliente",

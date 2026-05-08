@@ -8,9 +8,10 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Euro, Save, Edit2, Check, X, Eye, RotateCcw } from 'lucide-react';
+import { Euro, Save, Edit2, Check, X, Eye, RotateCcw, Plus, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
+import { Separator } from '@/components/ui/separator';
 
 interface SubscriptionPlan {
   id: number;
@@ -38,9 +39,18 @@ export default function SubscriptionPlansAdmin() {
   const [editingPlan, setEditingPlan] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<SubscriptionPlan>>({});
 
+  // Preset Defaults state
+  const [editingPresets, setEditingPresets] = useState(false);
+  const [presetDraft, setPresetDraft] = useState<Record<string, string>>({});
+
   // Carica i piani dal backend
   const { data: plans, isLoading } = useQuery<SubscriptionPlan[]>({
     queryKey: ['/api/subscription-plans'],
+  });
+
+  // Carica i preset dal backend
+  const { data: dbPresets = {} } = useQuery<Record<string, string>>({
+    queryKey: ['/api/plan-preset-descriptions'],
   });
 
   // Mutation per aggiornare un piano
@@ -68,8 +78,37 @@ export default function SubscriptionPlansAdmin() {
     }
   });
 
+  // Mutation per aggiornare i preset
+  const updatePresetsMutation = useMutation({
+    mutationFn: async (presets: Record<string, string>) => {
+      const response = await apiRequest('PUT', '/api/plan-preset-descriptions', presets);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/plan-preset-descriptions'] });
+      toast({
+        title: t('i18nFinale.subscriptionPlansAdmin.presetsUpdatedTitle'),
+        description: t('i18nFinale.subscriptionPlansAdmin.presetsUpdated'),
+      });
+      setEditingPresets(false);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: t('common.error'),
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+
   const getDefaultDescription = (planName: string): string | undefined => {
-    const slug = planName.toLowerCase();
+    // Check DB presets first (case-insensitive)
+    const nameLower = planName.toLowerCase();
+    for (const [key, value] of Object.entries(dbPresets)) {
+      if (key.toLowerCase() === nameLower && value.trim()) return value;
+    }
+    // Fall back to hardcoded Italian translation strings for known slugs
+    const slug = nameLower;
     if (!KNOWN_PLAN_SLUGS.includes(slug)) return undefined;
     const tIt = i18n.getFixedT('it');
     const val = tIt(`plans.${slug}.description`);
@@ -77,7 +116,6 @@ export default function SubscriptionPlansAdmin() {
   };
 
   const startEditing = (plan: SubscriptionPlan) => {
-    // Gestione corretta delle features all'avvio dell'editing
     let parsedFeatures: PlanFeature[] = [];
     if (plan.features) {
       if (typeof plan.features === 'string') {
@@ -90,7 +128,7 @@ export default function SubscriptionPlansAdmin() {
         parsedFeatures = plan.features;
       }
     }
-    
+
     setEditingPlan(plan.id);
     setEditForm({
       name: plan.name,
@@ -138,6 +176,61 @@ export default function SubscriptionPlansAdmin() {
     });
   };
 
+  const startEditingPresets = () => {
+    setPresetDraft({ ...dbPresets });
+    setEditingPresets(true);
+  };
+
+  const cancelEditingPresets = () => {
+    setEditingPresets(false);
+    setPresetDraft({});
+  };
+
+  const savePresets = () => {
+    const seen = new Set<string>();
+    for (const key of Object.keys(presetDraft)) {
+      const trimmed = key.trim();
+      if (!trimmed) continue;
+      const lower = trimmed.toLowerCase();
+      if (seen.has(lower)) {
+        toast({
+          title: t('common.error'),
+          description: `${t('i18nFinale.subscriptionPlansAdmin.presetPlanNameLabel')}: "${trimmed}"`,
+          variant: "destructive",
+        });
+        return;
+      }
+      seen.add(lower);
+    }
+    const cleaned: Record<string, string> = {};
+    for (const [key, value] of Object.entries(presetDraft)) {
+      if (key.trim()) cleaned[key.trim()] = value;
+    }
+    updatePresetsMutation.mutate(cleaned);
+  };
+
+  const addPresetRow = () => {
+    setPresetDraft({ ...presetDraft, '': '' });
+  };
+
+  const updatePresetKey = (oldKey: string, newKey: string) => {
+    const updated: Record<string, string> = {};
+    for (const [k, v] of Object.entries(presetDraft)) {
+      updated[k === oldKey ? newKey : k] = v;
+    }
+    setPresetDraft(updated);
+  };
+
+  const updatePresetValue = (key: string, value: string) => {
+    setPresetDraft({ ...presetDraft, [key]: value });
+  };
+
+  const removePresetRow = (key: string) => {
+    const updated = { ...presetDraft };
+    delete updated[key];
+    setPresetDraft(updated);
+  };
+
   if (isLoading) {
     return <div className="text-center p-4">{t('i18nFinale.subscriptionPlansAdmin.loadingPlans')}</div>;
   }
@@ -156,10 +249,107 @@ export default function SubscriptionPlansAdmin() {
           {t('i18nFinale.subscriptionPlansAdmin.previewPublicPlans')}
         </Button>
       </div>
+
+      {/* Sezione Preset Descrizioni */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>{t('i18nFinale.subscriptionPlansAdmin.presetDefaultsTitle')}</CardTitle>
+              <CardDescription className="mt-1">
+                {t('i18nFinale.subscriptionPlansAdmin.presetDefaultsDescription')}
+              </CardDescription>
+            </div>
+            <div className="flex items-center gap-2">
+              {editingPresets ? (
+                <>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={cancelEditingPresets}
+                    disabled={updatePresetsMutation.isPending}
+                  >
+                    <X className="h-4 w-4 mr-1" />
+                    {t('common.cancel')}
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={savePresets}
+                    disabled={updatePresetsMutation.isPending}
+                  >
+                    <Save className="h-4 w-4 mr-1" />
+                    {t('i18nFinale.subscriptionPlansAdmin.savePresets')}
+                  </Button>
+                </>
+              ) : (
+                <Button size="sm" variant="outline" onClick={startEditingPresets}>
+                  <Edit2 className="h-4 w-4 mr-1" />
+                  {t('common.edit')}
+                </Button>
+              )}
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {editingPresets ? (
+            <div className="space-y-3">
+              {Object.entries(presetDraft).length === 0 && (
+                <p className="text-sm text-muted-foreground italic">
+                  {t('i18nFinale.subscriptionPlansAdmin.noPresetsConfigured')}
+                </p>
+              )}
+              {Object.entries(presetDraft).map(([key, value], index) => (
+                <div key={index} className="grid grid-cols-[1fr_2fr_auto] gap-2 items-start">
+                  <Input
+                    value={key}
+                    onChange={(e) => updatePresetKey(key, e.target.value)}
+                    placeholder={t('i18nFinale.subscriptionPlansAdmin.presetPlanNamePlaceholder')}
+                    className="text-sm"
+                  />
+                  <Textarea
+                    value={value}
+                    onChange={(e) => updatePresetValue(key, e.target.value)}
+                    placeholder={t('i18nFinale.subscriptionPlansAdmin.presetDescriptionLabel')}
+                    rows={2}
+                    className="text-sm"
+                  />
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => removePresetRow(key)}
+                    className="mt-1"
+                  >
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                </div>
+              ))}
+              <Button size="sm" variant="outline" onClick={addPresetRow} className="gap-1">
+                <Plus className="h-4 w-4" />
+                {t('i18nFinale.subscriptionPlansAdmin.addPreset')}
+              </Button>
+            </div>
+          ) : Object.keys(dbPresets).length === 0 ? (
+            <p className="text-sm text-muted-foreground italic">
+              {t('i18nFinale.subscriptionPlansAdmin.noPresetsConfigured')}
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {Object.entries(dbPresets).map(([key, value]) => (
+                <div key={key} className="grid grid-cols-[1fr_2fr] gap-2 items-start text-sm">
+                  <span className="font-medium pt-0.5">{key}</span>
+                  <span className="text-muted-foreground">{value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Separator />
+
       {plans?.map((plan) => {
         const isEditing = editingPlan === plan.id;
-        
-        // Gestione corretta delle features (potrebbero essere string JSON o array)
+
         let features: PlanFeature[] = [];
         if (plan.features) {
           if (typeof plan.features === 'string') {
@@ -217,7 +407,7 @@ export default function SubscriptionPlansAdmin() {
                       </div>
                     ) : !plan.description ? (
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="italic text-muted-foreground/60">{t('i18nFinale.subscriptionPlansAdmin.noDescription', 'Nessuna descrizione')}</span>
+                        <span className="italic text-muted-foreground/60">{t('i18nFinale.subscriptionPlansAdmin.noDescription')}</span>
                         {getDefaultDescription(plan.name) && (
                           <Button
                             type="button"
