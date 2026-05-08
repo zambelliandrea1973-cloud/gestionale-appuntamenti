@@ -5736,7 +5736,8 @@
       "planUpdatedTitle": "Plan oppdatert",
       "monthShort": "maned",
       "yearShort": "ar",
-      "unlimited": "Ubegrenset"
+      "unlimited": "Ubegrenset",
+      "resetDescription": "Tilbakestill beskrivelse"
     },
     "clientsPage": {
       "newShort": "Ny kunde",
@@ -6345,6 +6346,23 @@
       "terms": "Tjenestevilkår",
       "login": "Logg inn",
       "copyright": "© {{year}} Castinox Srl · MVA IT01234567890"
+    }
+  },
+  "plans": {
+    "base": {
+      "description": "Grunnplan for enkeltpersoner. Grunnleggende klient-, avtale- og faktureringshåndtering."
+    },
+    "pro": {
+      "description": "Profesjonelt plan med avanserte funksjoner: Google Kalender-synkronisering, kampanjepakker og automatiske varsler."
+    },
+    "professional": {
+      "description": "Profesjonelt plan med avanserte funksjoner: Google Kalender-synkronisering, kampanjepakker og automatiske varsler."
+    },
+    "business": {
+      "description": "Komplett plan for flerprofesjonsbaserte praksiser. Alle Pro-funksjoner pluss avansert teamhåndtering og ubegrenset tilgang."
+    },
+    "trial": {
+      "description": "Gratis 40-dagers prøveversjon med full tilgang til alle funksjoner."
     }
   }
 }

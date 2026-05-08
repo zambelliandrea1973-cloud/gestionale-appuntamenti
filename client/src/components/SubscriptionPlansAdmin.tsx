@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Euro, Save, Edit2, Check, X, Eye } from 'lucide-react';
+import { Euro, Save, Edit2, Check, X, Eye, RotateCcw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 
@@ -30,8 +30,10 @@ interface PlanFeature {
   included: boolean;
 }
 
+const KNOWN_PLAN_SLUGS = ['base', 'pro', 'professional', 'business', 'trial'];
+
 export default function SubscriptionPlansAdmin() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [editingPlan, setEditingPlan] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<SubscriptionPlan>>({});
@@ -65,6 +67,14 @@ export default function SubscriptionPlansAdmin() {
       });
     }
   });
+
+  const getDefaultDescription = (planName: string): string | undefined => {
+    const slug = planName.toLowerCase();
+    if (!KNOWN_PLAN_SLUGS.includes(slug)) return undefined;
+    const tIt = i18n.getFixedT('it');
+    const val = tIt(`plans.${slug}.description`);
+    return val !== `plans.${slug}.description` ? val : undefined;
+  };
 
   const startEditing = (plan: SubscriptionPlan) => {
     // Gestione corretta delle features all'avvio dell'editing
@@ -184,15 +194,45 @@ export default function SubscriptionPlansAdmin() {
                   </CardTitle>
                   <CardDescription className="mt-2">
                     {isEditing ? (
-                      <Textarea
-                        value={editForm.description || ''}
-                        onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                        placeholder={t('i18nFinale.subscriptionPlansAdmin.planDescription')}
-                        rows={2}
-                        className="text-sm"
-                      />
+                      <div className="space-y-1">
+                        <Textarea
+                          value={editForm.description || ''}
+                          onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                          placeholder={t('i18nFinale.subscriptionPlansAdmin.planDescription')}
+                          rows={2}
+                          className="text-sm"
+                        />
+                        {getDefaultDescription(plan.name) && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="ghost"
+                            className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+                            onClick={() => setEditForm({ ...editForm, description: getDefaultDescription(plan.name) || '' })}
+                          >
+                            <RotateCcw className="h-3 w-3 mr-1" />
+                            {t('i18nFinale.subscriptionPlansAdmin.resetDescription')}
+                          </Button>
+                        )}
+                      </div>
+                    ) : !plan.description ? (
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="italic text-muted-foreground/60">{t('i18nFinale.subscriptionPlansAdmin.noDescription', 'Nessuna descrizione')}</span>
+                        {getDefaultDescription(plan.name) && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="ghost"
+                            className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground"
+                            onClick={() => startEditing({ ...plan, description: getDefaultDescription(plan.name) || null })}
+                          >
+                            <RotateCcw className="h-3 w-3 mr-1" />
+                            {t('i18nFinale.subscriptionPlansAdmin.resetDescription')}
+                          </Button>
+                        )}
+                      </div>
                     ) : (
-                      plan.description || <span className="italic text-muted-foreground/60">{t('i18nFinale.subscriptionPlansAdmin.noDescription', 'Nessuna descrizione')}</span>
+                      plan.description
                     )}
                   </CardDescription>
                 </div>

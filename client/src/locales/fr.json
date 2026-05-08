@@ -5736,7 +5736,8 @@
       "planUpdatedTitle": "Plan mis à jour",
       "monthShort": "mois",
       "yearShort": "an",
-      "unlimited": "Illimite"
+      "unlimited": "Illimite",
+      "resetDescription": "Réinitialiser la description"
     },
     "clientsPage": {
       "newShort": "Nouveau client",
@@ -6345,6 +6346,23 @@
       "terms": "Conditions d'Utilisation",
       "login": "Se connecter",
       "copyright": "© {{year}} Castinox Srl · TVA IT01234567890"
+    }
+  },
+  "plans": {
+    "base": {
+      "description": "Forfait de base pour les professionnels individuels. Gestion essentielle des clients, des rendez-vous et de la facturation."
+    },
+    "pro": {
+      "description": "Forfait professionnel avec des fonctionnalités avancées : synchronisation Google Agenda, forfaits promotionnels et notifications automatiques."
+    },
+    "professional": {
+      "description": "Forfait professionnel avec des fonctionnalités avancées : synchronisation Google Agenda, forfaits promotionnels et notifications automatiques."
+    },
+    "business": {
+      "description": "Forfait complet pour les cabinets multi-professionnels. Toutes les fonctionnalités Pro plus la gestion avancée de l'équipe et un accès illimité."
+    },
+    "trial": {
+      "description": "Version d'essai gratuite de 40 jours avec un accès complet à toutes les fonctionnalités."
     }
   }
 }

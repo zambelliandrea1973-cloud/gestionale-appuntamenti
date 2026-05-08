@@ -5736,7 +5736,8 @@
       "planUpdatedTitle": "Plan aktualisiert",
       "monthShort": "Monat",
       "yearShort": "Jahr",
-      "unlimited": "Unbegrenzt"
+      "unlimited": "Unbegrenzt",
+      "resetDescription": "Beschreibung zurücksetzen"
     },
     "clientsPage": {
       "newShort": "Neuer Kunde",
@@ -6345,6 +6346,23 @@
       "terms": "Nutzungsbedingungen",
       "login": "Anmelden",
       "copyright": "© {{year}} Castinox Srl · USt-IdNr. IT01234567890"
+    }
+  },
+  "plans": {
+    "base": {
+      "description": "Basisplan für Einzelprofis. Grundlegende Kunden-, Termin- und Abrechnungsverwaltung."
+    },
+    "pro": {
+      "description": "Professioneller Plan mit erweiterten Funktionen: Google Kalender-Synchronisierung, Aktionspakete und automatische Benachrichtigungen."
+    },
+    "professional": {
+      "description": "Professioneller Plan mit erweiterten Funktionen: Google Kalender-Synchronisierung, Aktionspakete und automatische Benachrichtigungen."
+    },
+    "business": {
+      "description": "Komplettplan für Mehrpersonenpraxen. Alle Pro-Funktionen plus erweitertes Teammanagement und unbegrenzten Zugriff."
+    },
+    "trial": {
+      "description": "Kostenlose 40-tägige Testversion mit vollem Zugriff auf alle Funktionen."
     }
   }
 }

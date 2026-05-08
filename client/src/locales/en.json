@@ -5736,7 +5736,8 @@
       "planUpdatedTitle": "Plan updated",
       "monthShort": "month",
       "yearShort": "year",
-      "unlimited": "Unlimited"
+      "unlimited": "Unlimited",
+      "resetDescription": "Reset description"
     },
     "clientsPage": {
       "newShort": "New client",
@@ -6345,6 +6346,23 @@
       "terms": "Terms of Service",
       "login": "Log in",
       "copyright": "© {{year}} Castinox Srl · VAT IT01234567890"
+    }
+  },
+  "plans": {
+    "base": {
+      "description": "Basic plan for individual professionals. Essential client, appointment, and billing management."
+    },
+    "pro": {
+      "description": "Professional plan with advanced features: Google Calendar sync, promotional packages, and automatic notifications."
+    },
+    "professional": {
+      "description": "Professional plan with advanced features: Google Calendar sync, promotional packages, and automatic notifications."
+    },
+    "business": {
+      "description": "Complete plan for multi-professional practices. All Pro features plus advanced team management and unlimited access."
+    },
+    "trial": {
+      "description": "Free 40-day trial with full access to all features."
     }
   }
 }

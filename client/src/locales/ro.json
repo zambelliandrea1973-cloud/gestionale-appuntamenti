@@ -5736,7 +5736,8 @@
       "planUpdatedTitle": "Plan actualizat",
       "monthShort": "luna",
       "yearShort": "an",
-      "unlimited": "Nelimitat"
+      "unlimited": "Nelimitat",
+      "resetDescription": "Resetați descrierea"
     },
     "clientsPage": {
       "newShort": "Client nou",
@@ -6345,6 +6346,23 @@
       "terms": "Termeni de Serviciu",
       "login": "Autentificare",
       "copyright": "© {{year}} Castinox Srl · TVA IT01234567890"
+    }
+  },
+  "plans": {
+    "base": {
+      "description": "Plan de bază pentru profesioniști individuali. Gestionare esențială a clienților, programărilor și facturării."
+    },
+    "pro": {
+      "description": "Plan profesional cu funcționalități avansate: sincronizare Google Calendar, pachete promoționale și notificări automate."
+    },
+    "professional": {
+      "description": "Plan profesional cu funcționalități avansate: sincronizare Google Calendar, pachete promoționale și notificări automate."
+    },
+    "business": {
+      "description": "Plan complet pentru cabinete multi-profesionale. Toate funcționalitățile Pro plus gestionare avansată a echipei și acces nelimitat."
+    },
+    "trial": {
+      "description": "Versiune de probă gratuită de 40 de zile cu acces complet la toate funcționalitățile."
     }
   }
 }

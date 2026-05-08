@@ -5736,7 +5736,8 @@
       "planUpdatedTitle": "Piano aggiornato",
       "monthShort": "mese",
       "yearShort": "anno",
-      "unlimited": "Illimitato"
+      "unlimited": "Illimitato",
+      "resetDescription": "Ripristina descrizione"
     },
     "clientsPage": {
       "newShort": "Crea cliente",
@@ -6345,6 +6346,23 @@
       "terms": "Termini di Servizio",
       "login": "Accedi",
       "copyright": "© {{year}} Castinox Srl · P.IVA IT01234567890"
+    }
+  },
+  "plans": {
+    "base": {
+      "description": "Piano base per professionisti individuali. Gestione clienti, appuntamenti e fatturazione essenziale."
+    },
+    "pro": {
+      "description": "Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche."
+    },
+    "professional": {
+      "description": "Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche."
+    },
+    "business": {
+      "description": "Piano completo per studi multi-professionista. Tutte le funzionalità Pro più gestione avanzata del team e accesso illimitato."
+    },
+    "trial": {
+      "description": "Versione di prova gratuita di 40 giorni con accesso completo a tutte le funzionalità."
     }
   }
 }

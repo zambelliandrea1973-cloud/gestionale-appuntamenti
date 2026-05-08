@@ -5736,7 +5736,8 @@
       "planUpdatedTitle": "Plan bijgewerkt",
       "monthShort": "maand",
       "yearShort": "jaar",
-      "unlimited": "Onbeperkt"
+      "unlimited": "Onbeperkt",
+      "resetDescription": "Beschrijving herstellen"
     },
     "clientsPage": {
       "newShort": "Nieuwe klant",
@@ -6345,6 +6346,23 @@
       "terms": "Servicevoorwaarden",
       "login": "Inloggen",
       "copyright": "© {{year}} Castinox Srl · BTW IT01234567890"
+    }
+  },
+  "plans": {
+    "base": {
+      "description": "Basisplan voor individuele professionals. Essentieel beheer van klanten, afspraken en facturering."
+    },
+    "pro": {
+      "description": "Professioneel plan met geavanceerde functies: Google Agenda-synchronisatie, promotiepakketten en automatische meldingen."
+    },
+    "professional": {
+      "description": "Professioneel plan met geavanceerde functies: Google Agenda-synchronisatie, promotiepakketten en automatische meldingen."
+    },
+    "business": {
+      "description": "Compleet plan voor praktijken met meerdere professionals. Alle Pro-functies plus geavanceerd teambeheer en onbeperkte toegang."
+    },
+    "trial": {
+      "description": "Gratis proefversie van 40 dagen met volledige toegang tot alle functies."
     }
   }
 }

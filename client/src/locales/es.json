@@ -5736,7 +5736,8 @@
       "planUpdatedTitle": "Plan actualizado",
       "monthShort": "mes",
       "yearShort": "año",
-      "unlimited": "Ilimitado"
+      "unlimited": "Ilimitado",
+      "resetDescription": "Restablecer descripción"
     },
     "clientsPage": {
       "newShort": "Nuevo cliente",
@@ -6345,6 +6346,23 @@
       "terms": "Términos de Servicio",
       "login": "Iniciar sesión",
       "copyright": "© {{year}} Castinox Srl · IVA IT01234567890"
+    }
+  },
+  "plans": {
+    "base": {
+      "description": "Plan básico para profesionales individuales. Gestión esencial de clientes, citas y facturación."
+    },
+    "pro": {
+      "description": "Plan profesional con funcionalidades avanzadas: sincronización con Google Calendar, paquetes promocionales y notificaciones automáticas."
+    },
+    "professional": {
+      "description": "Plan profesional con funcionalidades avanzadas: sincronización con Google Calendar, paquetes promocionales y notificaciones automáticas."
+    },
+    "business": {
+      "description": "Plan completo para consultorios multi-profesional. Todas las funcionalidades Pro más gestión avanzada del equipo y acceso ilimitado."
+    },
+    "trial": {
+      "description": "Versión de prueba gratuita de 40 días con acceso completo a todas las funcionalidades."
     }
   }
 }
