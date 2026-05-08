@@ -32,6 +32,13 @@ interface PlanFeature {
 }
 
 const KNOWN_PLAN_SLUGS = ['base', 'pro', 'professional', 'business', 'trial'];
+const SUPPORTED_LOCALES = ['it', 'en', 'es', 'fr', 'de', 'nl', 'no', 'ro', 'ru'];
+
+/** Normalise a BCP-47 locale tag to its base language code (e.g. "en-US" → "en"). */
+const baseLocale = (lang: string): string => lang.split('-')[0].toLowerCase();
+
+type LocaleMap = Record<string, string>;
+type PresetDescriptions = Record<string, LocaleMap>;
 
 export default function SubscriptionPlansAdmin() {
   const { t, i18n } = useTranslation();
@@ -43,15 +50,16 @@ export default function SubscriptionPlansAdmin() {
 
   // Preset Defaults state
   const [editingPresets, setEditingPresets] = useState(false);
-  const [presetDraft, setPresetDraft] = useState<Record<string, string>>({});
+  const [presetDraft, setPresetDraft] = useState<PresetDescriptions>({});
+  const [presetActiveLang, setPresetActiveLang] = useState<string>('it');
 
   // Carica i piani dal backend
   const { data: plans, isLoading } = useQuery<SubscriptionPlan[]>({
     queryKey: ['/api/subscription-plans'],
   });
 
-  // Carica i preset dal backend
-  const { data: dbPresets = {} } = useQuery<Record<string, string>>({
+  // Carica i preset dal backend (nested format: { planName: { locale: description } })
+  const { data: dbPresets = {} } = useQuery<PresetDescriptions>({
     queryKey: ['/api/plan-preset-descriptions'],
   });
 
@@ -82,7 +90,7 @@ export default function SubscriptionPlansAdmin() {
 
   // Mutation per aggiornare i preset
   const updatePresetsMutation = useMutation({
-    mutationFn: async (presets: Record<string, string>) => {
+    mutationFn: async (presets: PresetDescriptions) => {
       const response = await apiRequest('PUT', '/api/plan-preset-descriptions', presets);
       return response.json();
     },
@@ -129,22 +137,47 @@ export default function SubscriptionPlansAdmin() {
     }
   });
 
+  /**
+   * Returns the best available default description for a plan in the current UI language.
+   * Priority: DB preset for current locale → DB preset for 'it' → i18n translation → undefined
+   */
   const getDefaultDescription = (planName: string): string | undefined => {
-    // Check DB presets first (case-insensitive)
     const nameLower = planName.toLowerCase();
-    for (const [key, value] of Object.entries(dbPresets)) {
-      if (key.toLowerCase() === nameLower && value.trim()) return value;
+    const currentLang = baseLocale(i18n.resolvedLanguage ?? i18n.language);
+
+    for (const [key, localeMap] of Object.entries(dbPresets)) {
+      if (key.toLowerCase() !== nameLower) continue;
+      if (localeMap && typeof localeMap === 'object') {
+        // Try current language first, then fall back to Italian
+        if (localeMap[currentLang]?.trim()) return localeMap[currentLang];
+        if (currentLang !== 'it' && localeMap['it']?.trim()) return localeMap['it'];
+        // Try any available locale as last resort
+        const anyVal = Object.values(localeMap).find((v) => v?.trim());
+        if (anyVal) return anyVal;
+      }
     }
+
     // Fall back to the current interface language translation for known slugs,
     // then to Italian as a last resort so there is always a canonical value.
     const slug = nameLower;
     if (!KNOWN_PLAN_SLUGS.includes(slug)) return undefined;
-    const tCurrent = i18n.getFixedT(i18n.language);
+    const tCurrent = i18n.getFixedT(currentLang);
     const valCurrent = tCurrent(`plans.${slug}.description`);
     if (valCurrent && valCurrent !== `plans.${slug}.description`) return valCurrent;
     const tIt = i18n.getFixedT('it');
     const valIt = tIt(`plans.${slug}.description`);
     return valIt !== `plans.${slug}.description` ? valIt : undefined;
+  };
+
+  /**
+   * Returns the description for a plan in the current UI language from the DB presets,
+   * used for the read-only view of preset rows.
+   */
+  const getPresetDisplayValue = (localeMap: LocaleMap): string => {
+    const lang = baseLocale(i18n.resolvedLanguage ?? i18n.language);
+    if (localeMap[lang]?.trim()) return localeMap[lang];
+    if (localeMap['it']?.trim()) return localeMap['it'];
+    return Object.values(localeMap).find((v) => v?.trim()) ?? '';
   };
 
   const startEditing = (plan: SubscriptionPlan) => {
@@ -209,7 +242,20 @@ export default function SubscriptionPlansAdmin() {
   };
 
   const startEditingPresets = () => {
-    setPresetDraft({ ...dbPresets });
+    // Deep-copy dbPresets, migrating any legacy string values to { it: value }
+    const draft: PresetDescriptions = {};
+    for (const [key, value] of Object.entries(dbPresets)) {
+      if (typeof value === 'string') {
+        draft[key] = (value as string).trim() ? { it: value as string } : {};
+      } else if (value && typeof value === 'object') {
+        draft[key] = { ...(value as LocaleMap) };
+      } else {
+        draft[key] = {};
+      }
+    }
+    setPresetDraft(draft);
+    const normalised = baseLocale(i18n.resolvedLanguage ?? i18n.language);
+    setPresetActiveLang(SUPPORTED_LOCALES.includes(normalised) ? normalised : 'it');
     setEditingPresets(true);
   };
 
@@ -234,27 +280,31 @@ export default function SubscriptionPlansAdmin() {
       }
       seen.add(lower);
     }
-    const cleaned: Record<string, string> = {};
-    for (const [key, value] of Object.entries(presetDraft)) {
-      if (key.trim()) cleaned[key.trim()] = value;
+    const cleaned: PresetDescriptions = {};
+    for (const [key, localeMap] of Object.entries(presetDraft)) {
+      if (key.trim()) cleaned[key.trim()] = { ...localeMap };
     }
     updatePresetsMutation.mutate(cleaned);
   };
 
   const addPresetRow = () => {
-    setPresetDraft({ ...presetDraft, '': '' });
+    setPresetDraft({ ...presetDraft, '': {} });
   };
 
   const updatePresetKey = (oldKey: string, newKey: string) => {
-    const updated: Record<string, string> = {};
+    const updated: PresetDescriptions = {};
     for (const [k, v] of Object.entries(presetDraft)) {
       updated[k === oldKey ? newKey : k] = v;
     }
     setPresetDraft(updated);
   };
 
-  const updatePresetValue = (key: string, value: string) => {
-    setPresetDraft({ ...presetDraft, [key]: value });
+  const updatePresetLocaleValue = (key: string, lang: string, value: string) => {
+    const currentMap = presetDraft[key] ?? {};
+    setPresetDraft({
+      ...presetDraft,
+      [key]: { ...currentMap, [lang]: value },
+    });
   };
 
   const removePresetRow = (key: string) => {
@@ -396,13 +446,35 @@ export default function SubscriptionPlansAdmin() {
         </CardHeader>
         <CardContent>
           {editingPresets ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
+              {/* Language selector tabs */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs text-muted-foreground font-medium mr-1">
+                  {t('i18nFinale.subscriptionPlansAdmin.presetLanguageSelectorLabel')}:
+                </span>
+                {SUPPORTED_LOCALES.map((lang) => (
+                  <button
+                    key={lang}
+                    type="button"
+                    onClick={() => setPresetActiveLang(lang)}
+                    className={`px-2 py-0.5 rounded text-xs font-mono border transition-colors ${
+                      presetActiveLang === lang
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-background text-muted-foreground border-border hover:border-primary/60 hover:text-foreground'
+                    }`}
+                  >
+                    {lang}
+                  </button>
+                ))}
+              </div>
+
+              {/* Preset rows */}
               {Object.entries(presetDraft).length === 0 && (
                 <p className="text-sm text-muted-foreground italic">
                   {t('i18nFinale.subscriptionPlansAdmin.noPresetsConfigured')}
                 </p>
               )}
-              {Object.entries(presetDraft).map(([key, value], index) => (
+              {Object.entries(presetDraft).map(([key, localeMap], index) => (
                 <div key={index} className="grid grid-cols-[1fr_2fr_auto] gap-2 items-start">
                   <Input
                     value={key}
@@ -411,8 +483,8 @@ export default function SubscriptionPlansAdmin() {
                     className="text-sm"
                   />
                   <Textarea
-                    value={value}
-                    onChange={(e) => updatePresetValue(key, e.target.value)}
+                    value={localeMap[presetActiveLang] ?? ''}
+                    onChange={(e) => updatePresetLocaleValue(key, presetActiveLang, e.target.value)}
                     placeholder={t('i18nFinale.subscriptionPlansAdmin.presetDescriptionLabel')}
                     rows={2}
                     className="text-sm"
@@ -438,10 +510,14 @@ export default function SubscriptionPlansAdmin() {
             </p>
           ) : (
             <div className="space-y-2">
-              {Object.entries(dbPresets).map(([key, value]) => (
+              {Object.entries(dbPresets).map(([key, localeMap]) => (
                 <div key={key} className="grid grid-cols-[1fr_2fr] gap-2 items-start text-sm">
                   <span className="font-medium pt-0.5">{key}</span>
-                  <span className="text-muted-foreground">{value}</span>
+                  <span className="text-muted-foreground">
+                    {typeof localeMap === 'object' && localeMap !== null
+                      ? getPresetDisplayValue(localeMap as LocaleMap)
+                      : (localeMap as string)}
+                  </span>
                 </div>
               ))}
             </div>

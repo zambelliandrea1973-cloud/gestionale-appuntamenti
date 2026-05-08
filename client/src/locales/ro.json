@@ -5754,8 +5754,9 @@
       "savePresets": "Salvează preseturile",
       "presetsUpdatedTitle": "Preseturi actualizate",
       "presetsUpdated": "Descrierile implicite au fost actualizate cu succes.",
-      "presetLocaleNote": "Presetările salvate sunt utilizate ca atare, fără traducere automată. Dacă nu este configurată nicio presetare, traducerea în limba curentă a interfeței este utilizată ca alternativă.",
-      "resetDescriptionHint": "Utilizează presetarea salvată sau traducerea în limba curentă a interfeței"
+      "presetLocaleNote": "Descrierile sunt stocate pe limbă. Dacă nu există un preset pentru limba curentă, sistemul folosește mai întâi italiana, apoi traducerea interfeței.",
+      "resetDescriptionHint": "Utilizează presetarea salvată sau traducerea în limba curentă a interfeței",
+      "presetLanguageSelectorLabel": "Limbă"
     },
     "clientsPage": {
       "newShort": "Client nou",

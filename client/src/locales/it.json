@@ -5754,8 +5754,9 @@
       "savePresets": "Salva preset",
       "presetsUpdatedTitle": "Preset aggiornati",
       "presetsUpdated": "Descrizioni predefinite aggiornate con successo.",
-      "presetLocaleNote": "I preset salvati vengono usati così come sono, senza traduzione automatica. Se non è configurato alcun preset, viene usata la traduzione nella lingua attuale dell'interfaccia.",
-      "resetDescriptionHint": "Usa il preset salvato oppure la traduzione nella lingua attuale dell'interfaccia"
+      "presetLocaleNote": "Le descrizioni vengono salvate per ogni lingua. Se la lingua corrente non ha un preset, viene usata prima la versione italiana e poi la traduzione dell'interfaccia.",
+      "resetDescriptionHint": "Usa il preset salvato oppure la traduzione nella lingua attuale dell'interfaccia",
+      "presetLanguageSelectorLabel": "Lingua"
     },
     "clientsPage": {
       "newShort": "Crea cliente",

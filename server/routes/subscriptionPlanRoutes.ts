@@ -98,15 +98,18 @@ router.post("/api/subscription-plans", requireAuth, async (req, res) => {
     const planName: string = newPlan.name?.trim();
     if (planName) {
       const setting = await storage.getSetting(PLAN_PRESET_DESCRIPTIONS_KEY);
-      let presets: Record<string, string> = {};
+      let presets: Record<string, Record<string, string>> = {};
       if (setting?.value) {
-        try { presets = JSON.parse(setting.value); } catch { /* ignore */ }
+        try {
+          const parsed = JSON.parse(setting.value);
+          presets = migratePresets(parsed);
+        } catch { /* ignore */ }
       }
       const existingKey = Object.keys(presets).find(
         (k) => k.toLowerCase() === planName.toLowerCase()
       );
       if (!existingKey) {
-        presets[planName] = '';
+        presets[planName] = {};
         await storage.saveSetting(
           PLAN_PRESET_DESCRIPTIONS_KEY,
           JSON.stringify(presets),
@@ -162,13 +165,49 @@ router.delete("/api/subscription-plans/:id", requireAuth, async (req, res) => {
 const PLAN_PRESET_DESCRIPTIONS_KEY = 'plan_preset_descriptions';
 
 // Canonical Italian descriptions sourced from client/src/locales/it.json → plans.*.description
-const CANONICAL_PRESET_DESCRIPTIONS: Record<string, string> = {
-  base: 'Piano base per professionisti individuali. Gestione clienti, appuntamenti e fatturazione essenziale.',
-  pro: 'Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.',
-  professional: 'Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.',
-  business: 'Piano completo per studi multi-professionista. Tutte le funzionalità Pro più gestione avanzata del team e accesso illimitato.',
-  trial: 'Versione di prova gratuita di 40 giorni con accesso completo a tutte le funzionalità.',
+// Now stored in nested format: { planSlug: { locale: description } }
+const CANONICAL_PRESET_DESCRIPTIONS: Record<string, Record<string, string>> = {
+  base: {
+    it: 'Piano base per professionisti individuali. Gestione clienti, appuntamenti e fatturazione essenziale.',
+  },
+  pro: {
+    it: 'Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.',
+  },
+  professional: {
+    it: 'Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.',
+  },
+  business: {
+    it: 'Piano completo per studi multi-professionista. Tutte le funzionalità Pro più gestione avanzata del team e accesso illimitato.',
+  },
+  trial: {
+    it: 'Versione di prova gratuita di 40 giorni con accesso completo a tutte le funzionalità.',
+  },
 };
+
+/**
+ * Migrates a raw presets object from either old format (Record<string, string>)
+ * or new format (Record<string, Record<string, string>>) to the new nested format.
+ * Old string values are converted to { it: value }.
+ */
+function migratePresets(raw: Record<string, unknown>): Record<string, Record<string, string>> {
+  const result: Record<string, Record<string, string>> = {};
+  for (const [key, value] of Object.entries(raw)) {
+    if (typeof value === 'string') {
+      // Old format: migrate string to { it: value }
+      result[key] = value.trim() ? { it: value } : {};
+    } else if (value && typeof value === 'object' && !Array.isArray(value)) {
+      // New format: already a locale map
+      const localeMap: Record<string, string> = {};
+      for (const [lang, desc] of Object.entries(value as object)) {
+        if (typeof lang === 'string' && typeof desc === 'string') {
+          localeMap[lang] = desc;
+        }
+      }
+      result[key] = localeMap;
+    }
+  }
+  return result;
+}
 
 /**
  * Seeds the preset descriptions for the five canonical plan slugs when none
@@ -178,21 +217,37 @@ const CANONICAL_PRESET_DESCRIPTIONS: Record<string, string> = {
 async function seedPresetDescriptionsIfEmpty(): Promise<void> {
   try {
     const setting = await storage.getSetting(PLAN_PRESET_DESCRIPTIONS_KEY);
-    let presets: Record<string, string> = {};
+    let presets: Record<string, Record<string, string>> = {};
     if (setting?.value) {
-      try { presets = JSON.parse(setting.value); } catch { /* ignore */ }
+      try {
+        const parsed = JSON.parse(setting.value);
+        presets = migratePresets(parsed);
+      } catch { /* ignore */ }
     }
 
     // Merge: add only the canonical slugs that are not already present,
     // so any existing admin edits are never overwritten.
     let added = 0;
-    for (const [slug, description] of Object.entries(CANONICAL_PRESET_DESCRIPTIONS)) {
+    for (const [slug, localeMap] of Object.entries(CANONICAL_PRESET_DESCRIPTIONS)) {
       if (!(slug in presets)) {
-        presets[slug] = description;
+        presets[slug] = { ...localeMap };
         added++;
       }
     }
-    if (added === 0) return;
+
+    // Also persist if migration happened (old string format → new nested format)
+    const needsMigration = setting?.value
+      ? (() => {
+          try {
+            const parsed = JSON.parse(setting.value);
+            return Object.values(parsed).some((v) => typeof v === 'string');
+          } catch {
+            return false;
+          }
+        })()
+      : false;
+
+    if (added === 0 && !needsMigration) return;
 
     await storage.saveSetting(
       PLAN_PRESET_DESCRIPTIONS_KEY,
@@ -216,10 +271,11 @@ router.get("/api/plan-preset-descriptions", requireAuth, async (req, res) => {
   }
   try {
     const setting = await storage.getSetting(PLAN_PRESET_DESCRIPTIONS_KEY);
-    let presets: Record<string, string> = {};
+    let presets: Record<string, Record<string, string>> = {};
     if (setting?.value) {
       try {
-        presets = JSON.parse(setting.value);
+        const parsed = JSON.parse(setting.value);
+        presets = migratePresets(parsed);
       } catch {
         presets = {};
       }
@@ -237,14 +293,25 @@ router.put("/api/plan-preset-descriptions", requireAuth, async (req, res) => {
     return res.status(403).json({ message: "Only admin can update plan presets" });
   }
   try {
-    const presets: Record<string, string> = req.body;
-    if (typeof presets !== 'object' || Array.isArray(presets)) {
+    const body = req.body;
+    if (typeof body !== 'object' || Array.isArray(body)) {
       return res.status(400).json({ message: "Invalid preset format" });
     }
-    const sanitized: Record<string, string> = {};
-    for (const [key, value] of Object.entries(presets)) {
-      if (typeof key === 'string' && typeof value === 'string' && key.trim()) {
-        sanitized[key.trim()] = value;
+    // Accept nested format: { planName: { locale: description } }
+    const sanitized: Record<string, Record<string, string>> = {};
+    for (const [key, locales] of Object.entries(body)) {
+      if (typeof key !== 'string' || !key.trim()) continue;
+      if (typeof locales === 'string') {
+        // Handle old-format clients sending a string — migrate to { it: value }
+        sanitized[key.trim()] = (locales as string).trim() ? { it: locales as string } : {};
+      } else if (locales && typeof locales === 'object' && !Array.isArray(locales)) {
+        const localeMap: Record<string, string> = {};
+        for (const [lang, desc] of Object.entries(locales as object)) {
+          if (typeof lang === 'string' && typeof desc === 'string') {
+            localeMap[lang] = desc;
+          }
+        }
+        sanitized[key.trim()] = localeMap;
       }
     }
     await storage.saveSetting(

@@ -5754,8 +5754,9 @@
       "savePresets": "Save presets",
       "presetsUpdatedTitle": "Presets updated",
       "presetsUpdated": "Default descriptions updated successfully.",
-      "presetLocaleNote": "Saved presets are used as-is, without automatic translation. If no preset is configured, the translation in the current interface language is used as a fallback.",
-      "resetDescriptionHint": "Uses the saved preset, or the translation in the current interface language"
+      "presetLocaleNote": "Preset descriptions are stored per language. If no preset exists for the current language, the system falls back to Italian first, then to the interface translation.",
+      "resetDescriptionHint": "Uses the saved preset, or the translation in the current interface language",
+      "presetLanguageSelectorLabel": "Language"
     },
     "clientsPage": {
       "newShort": "New client",

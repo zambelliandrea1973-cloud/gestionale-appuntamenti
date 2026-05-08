@@ -5754,8 +5754,9 @@
       "savePresets": "Presets speichern",
       "presetsUpdatedTitle": "Presets aktualisiert",
       "presetsUpdated": "Standardbeschreibungen erfolgreich aktualisiert.",
-      "presetLocaleNote": "Gespeicherte Presets werden unverändert verwendet, ohne automatische Übersetzung. Wenn kein Preset konfiguriert ist, wird die Übersetzung in der aktuellen Benutzeroberflächensprache als Reserve verwendet.",
-      "resetDescriptionHint": "Verwendet den gespeicherten Preset oder die Übersetzung in der aktuellen Benutzeroberflächensprache"
+      "presetLocaleNote": "Beschreibungen werden pro Sprache gespeichert. Wenn kein Preset für die aktuelle Sprache vorhanden ist, wird zuerst Italienisch und dann die Interface-Übersetzung verwendet.",
+      "resetDescriptionHint": "Verwendet den gespeicherten Preset oder die Übersetzung in der aktuellen Benutzeroberflächensprache",
+      "presetLanguageSelectorLabel": "Sprache"
     },
     "clientsPage": {
       "newShort": "Neuer Kunde",

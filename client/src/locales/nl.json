@@ -5754,8 +5754,9 @@
       "savePresets": "Presets opslaan",
       "presetsUpdatedTitle": "Presets bijgewerkt",
       "presetsUpdated": "Standaardbeschrijvingen succesvol bijgewerkt.",
-      "presetLocaleNote": "Opgeslagen presets worden ongewijzigd gebruikt, zonder automatische vertaling. Als er geen preset is geconfigureerd, wordt de vertaling in de huidige interfacetaal gebruikt als terugval.",
-      "resetDescriptionHint": "Gebruikt de opgeslagen preset of de vertaling in de huidige interfacetaal"
+      "presetLocaleNote": "Beschrijvingen worden per taal opgeslagen. Als er geen preset bestaat voor de huidige taal, valt het systeem terug op Italiaans en dan op de interface-vertaling.",
+      "resetDescriptionHint": "Gebruikt de opgeslagen preset of de vertaling in de huidige interfacetaal",
+      "presetLanguageSelectorLabel": "Taal"
     },
     "clientsPage": {
       "newShort": "Nieuwe klant",

@@ -5754,8 +5754,9 @@
       "savePresets": "Lagre forhåndsinnstillinger",
       "presetsUpdatedTitle": "Forhåndsinnstillinger oppdatert",
       "presetsUpdated": "Standardbeskrivelser ble oppdatert.",
-      "presetLocaleNote": "Lagrede forhåndsinnstillinger brukes som de er, uten automatisk oversettelse. Hvis ingen forhåndsinnstilling er konfigurert, brukes oversettelsen i gjeldende grensesnittspråk som reserve.",
-      "resetDescriptionHint": "Bruker den lagrede forhåndsinnstillingen eller oversettelsen i gjeldende grensesnittspråk"
+      "presetLocaleNote": "Beskrivelser lagres per språk. Hvis det ikke finnes en forhåndsinnstilling for gjeldende språk, brukes først italiensk og deretter grensesnittets oversettelse.",
+      "resetDescriptionHint": "Bruker den lagrede forhåndsinnstillingen eller oversettelsen i gjeldende grensesnittspråk",
+      "presetLanguageSelectorLabel": "Språk"
     },
     "clientsPage": {
       "newShort": "Ny kunde",
