@@ -10,9 +10,7 @@ export default function EmailSettings() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    // Imposta la scheda attiva delle impostazioni e reindirizza
-    localStorage.setItem('settings_active_tab', 'integrations');
-    setLocation("/settings");
+    setLocation("/settings?tab=integrations");
   }, [setLocation]);
 
   // Mostra un caricatore durante il reindirizzamento

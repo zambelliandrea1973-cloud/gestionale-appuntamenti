@@ -734,10 +734,7 @@ const WhatsAppCenterPage: React.FC = () => {
             size="lg"
             className="bg-blue-600 hover:bg-blue-700 flex items-center mx-auto"
             onClick={() => {
-              // Reindirizza alla pagina impostazioni con tab email selezionato
-              // Memorizza la tab da selezionare in localStorage
-              localStorage.setItem('settings_active_tab', 'integrations');
-              setLocation("/settings");
+              setLocation("/settings?tab=integrations");
             }}
           >
             <Mail className="mr-2 h-5 w-5" />
