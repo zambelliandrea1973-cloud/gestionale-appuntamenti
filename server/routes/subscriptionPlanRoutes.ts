@@ -161,6 +161,54 @@ router.delete("/api/subscription-plans/:id", requireAuth, async (req, res) => {
 
 const PLAN_PRESET_DESCRIPTIONS_KEY = 'plan_preset_descriptions';
 
+// Canonical Italian descriptions sourced from client/src/locales/it.json → plans.*.description
+const CANONICAL_PRESET_DESCRIPTIONS: Record<string, string> = {
+  base: 'Piano base per professionisti individuali. Gestione clienti, appuntamenti e fatturazione essenziale.',
+  pro: 'Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.',
+  professional: 'Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.',
+  business: 'Piano completo per studi multi-professionista. Tutte le funzionalità Pro più gestione avanzata del team e accesso illimitato.',
+  trial: 'Versione di prova gratuita di 40 giorni con accesso completo a tutte le funzionalità.',
+};
+
+/**
+ * Seeds the preset descriptions for the five canonical plan slugs when none
+ * exist yet in app_settings.  Runs once on server start-up; is a no-op if
+ * any presets are already stored.
+ */
+async function seedPresetDescriptionsIfEmpty(): Promise<void> {
+  try {
+    const setting = await storage.getSetting(PLAN_PRESET_DESCRIPTIONS_KEY);
+    let presets: Record<string, string> = {};
+    if (setting?.value) {
+      try { presets = JSON.parse(setting.value); } catch { /* ignore */ }
+    }
+
+    // Merge: add only the canonical slugs that are not already present,
+    // so any existing admin edits are never overwritten.
+    let added = 0;
+    for (const [slug, description] of Object.entries(CANONICAL_PRESET_DESCRIPTIONS)) {
+      if (!(slug in presets)) {
+        presets[slug] = description;
+        added++;
+      }
+    }
+    if (added === 0) return;
+
+    await storage.saveSetting(
+      PLAN_PRESET_DESCRIPTIONS_KEY,
+      JSON.stringify(presets),
+      'Editable plan preset descriptions',
+      'plans'
+    );
+  } catch (err) {
+    // Non-fatal — log and continue
+    console.warn('[subscriptionPlanRoutes] Could not seed preset descriptions:', err);
+  }
+}
+
+// Run the seed check immediately when this module is loaded (server start-up)
+seedPresetDescriptionsIfEmpty();
+
 router.get("/api/plan-preset-descriptions", requireAuth, async (req, res) => {
   const user = req.user as any;
   if (user.type !== 'admin') {
