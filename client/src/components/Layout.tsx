@@ -222,7 +222,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                         </span>
                       </div>
                       <div className="text-xs text-amber-200 flex items-center whitespace-nowrap">
-                        <Link href="/pro" className="hover:text-amber-100 underline transition-colors">
+                        <Link href="/settings?tab=subscription" className="hover:text-amber-100 underline transition-colors">
                           {t('trial.upgradeMessage', 'Discover premium plans')} →
                         </Link>
                       </div>

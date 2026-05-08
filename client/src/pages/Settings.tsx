@@ -32,8 +32,19 @@ import SubscriptionPlansPanel from '@/components/SubscriptionPlansPanel';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
 
+const VALID_TABS = ['app', 'contacts', 'staff', 'integrations', 'appearance', 'security', 'subscription', 'admin'] as const;
+
+function resolveTabFromUrl(): string | null {
+  const params = new URLSearchParams(window.location.search);
+  const queryTab = params.get('tab');
+  if (queryTab && (VALID_TABS as readonly string[]).includes(queryTab)) return queryTab;
+  const hash = window.location.hash.slice(1);
+  if (hash && (VALID_TABS as readonly string[]).includes(hash)) return hash;
+  return null;
+}
+
 export default function Settings() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const { t } = useTranslation();
   const { toast } = useToast();
   const { user } = useUserWithLicense(); // Ottiene i dati dell'utente corrente incluso il tipo
@@ -56,7 +67,7 @@ export default function Settings() {
     }
   }, []);
   
-  // Recupera la tab selezionata da localStorage quando il componente viene montato
+  // Recupera la tab selezionata da URL (?tab= o #tab) o da localStorage quando il componente viene montato
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const section = params.get('section');
@@ -66,10 +77,15 @@ export default function Settings() {
         const el = document.getElementById('service-manager-section');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 300);
+      return;
+    }
+    const urlTab = resolveTabFromUrl();
+    if (urlTab) {
+      setActiveTab(urlTab);
+      localStorage.setItem('settings_active_tab', urlTab);
     } else {
       const savedTab = localStorage.getItem('settings_active_tab');
-      const validTabs = ['app', 'contacts', 'staff', 'integrations', 'appearance', 'security', 'subscription'];
-      if (savedTab && validTabs.includes(savedTab)) {
+      if (savedTab && (VALID_TABS as readonly string[]).includes(savedTab)) {
         setActiveTab(savedTab);
       } else if (savedTab === 'admin') {
         setActiveTab('app');
@@ -77,6 +93,15 @@ export default function Settings() {
       }
     }
   }, []);
+
+  // Reagisce ai cambi di URL (navigazione via Link sullo stesso percorso)
+  useEffect(() => {
+    const urlTab = resolveTabFromUrl();
+    if (urlTab) {
+      setActiveTab(urlTab);
+      localStorage.setItem('settings_active_tab', urlTab);
+    }
+  }, [location]);
 
   // Debug del tab attivo
   useEffect(() => {
@@ -212,6 +237,9 @@ export default function Settings() {
       <Tabs value={activeTab} className="w-full" onValueChange={(value) => {
         setActiveTab(value);
         localStorage.setItem('settings_active_tab', value);
+        const url = new URL(window.location.href);
+        url.searchParams.set('tab', value);
+        window.history.replaceState(null, '', url.toString());
       }}>
         <TabsList className="mb-6 h-auto flex-wrap justify-start">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
@@ -275,16 +303,11 @@ export default function Settings() {
                 <p className="text-sm text-muted-foreground mb-4">
                   {t('settingsPage.subscriptionDescription')}
                 </p>
-                <Button
-                  variant="default"
-                  className="flex items-center"
-                  onClick={() => {
-                    setActiveTab('subscription');
-                    localStorage.setItem('settings_active_tab', 'subscription');
-                  }}
-                >
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  {t('settingsPage.subscriptionTab', 'Abbonamento')}
+                <Button variant="default" className="flex items-center" asChild>
+                  <a href="/settings?tab=subscription">
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    {t('settingsPage.subscriptionTab', 'Abbonamento')}
+                  </a>
                 </Button>
               </div>
               
