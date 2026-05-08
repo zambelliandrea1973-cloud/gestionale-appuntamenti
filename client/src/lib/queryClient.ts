@@ -62,9 +62,6 @@ export async function apiRequest(
   // Rileva se il payload è FormData (per upload di file)
   const isFormData = data instanceof FormData;
   
-  console.log(`Esecuzione richiesta ${method} a ${url}`, 
-    isFormData ? "[FormData]" : (data ? JSON.stringify(data) : "")
-  );
   
   try {
     // Usa l'helper condiviso per headers consistenti
@@ -82,14 +79,6 @@ export async function apiRequest(
     headers["Expires"] = "0";
     headers["If-Modified-Since"] = "Mon, 26 Jul 1997 05:00:00 GMT";
     headers["If-None-Match"] = "*";
-    console.log("Header anti-cache aggiunti per garantire dati sempre freschi");
-    console.log(`Header x-device-type aggiunto: ${headers["x-device-type"]}`);
-    
-    console.log(`Dettagli richiesta ${method} a ${url}:`, { 
-      method, 
-      headers,
-      body: isFormData ? "[FormData]" : (data ? JSON.stringify(data) : undefined)
-    });
     
     const res = await fetch(url, {
       method,
@@ -98,7 +87,6 @@ export async function apiRequest(
       credentials: "include",
     });
 
-    console.log(`Response from ${url}:`, res.status, res.statusText, 'ok:', res.ok);
     
     if (!res.ok) {
       const errorText = await res.text();
