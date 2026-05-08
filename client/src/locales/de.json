@@ -5750,7 +5750,9 @@
       "noPresetsConfigured": "Keine Presets konfiguriert. Klicke auf \"Preset hinzufügen\", um zu beginnen.",
       "savePresets": "Presets speichern",
       "presetsUpdatedTitle": "Presets aktualisiert",
-      "presetsUpdated": "Standardbeschreibungen erfolgreich aktualisiert."
+      "presetsUpdated": "Standardbeschreibungen erfolgreich aktualisiert.",
+      "presetLocaleNote": "Gespeicherte Presets werden unverändert verwendet, ohne automatische Übersetzung. Wenn kein Preset konfiguriert ist, wird die Übersetzung in der aktuellen Benutzeroberflächensprache als Reserve verwendet.",
+      "resetDescriptionHint": "Verwendet den gespeicherten Preset oder die Übersetzung in der aktuellen Benutzeroberflächensprache"
     },
     "clientsPage": {
       "newShort": "Neuer Kunde",

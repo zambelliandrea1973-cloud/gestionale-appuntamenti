@@ -5750,7 +5750,9 @@
       "noPresetsConfigured": "No presets configured. Click \"Add preset\" to get started.",
       "savePresets": "Save presets",
       "presetsUpdatedTitle": "Presets updated",
-      "presetsUpdated": "Default descriptions updated successfully."
+      "presetsUpdated": "Default descriptions updated successfully.",
+      "presetLocaleNote": "Saved presets are used as-is, without automatic translation. If no preset is configured, the translation in the current interface language is used as a fallback.",
+      "resetDescriptionHint": "Uses the saved preset, or the translation in the current interface language"
     },
     "clientsPage": {
       "newShort": "New client",

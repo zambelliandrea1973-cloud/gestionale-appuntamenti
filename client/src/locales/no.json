@@ -5750,7 +5750,9 @@
       "noPresetsConfigured": "Ingen forhåndsinnstillinger konfigurert. Klikk \"Legg til forhåndsinnstilling\" for å starte.",
       "savePresets": "Lagre forhåndsinnstillinger",
       "presetsUpdatedTitle": "Forhåndsinnstillinger oppdatert",
-      "presetsUpdated": "Standardbeskrivelser ble oppdatert."
+      "presetsUpdated": "Standardbeskrivelser ble oppdatert.",
+      "presetLocaleNote": "Lagrede forhåndsinnstillinger brukes som de er, uten automatisk oversettelse. Hvis ingen forhåndsinnstilling er konfigurert, brukes oversettelsen i gjeldende grensesnittspråk som reserve.",
+      "resetDescriptionHint": "Bruker den lagrede forhåndsinnstillingen eller oversettelsen i gjeldende grensesnittspråk"
     },
     "clientsPage": {
       "newShort": "Ny kunde",

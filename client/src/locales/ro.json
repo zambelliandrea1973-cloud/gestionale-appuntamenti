@@ -5750,7 +5750,9 @@
       "noPresetsConfigured": "Niciun preset configurat. Faceți clic pe \"Adaugă preset\" pentru a începe.",
       "savePresets": "Salvează preseturile",
       "presetsUpdatedTitle": "Preseturi actualizate",
-      "presetsUpdated": "Descrierile implicite au fost actualizate cu succes."
+      "presetsUpdated": "Descrierile implicite au fost actualizate cu succes.",
+      "presetLocaleNote": "Presetările salvate sunt utilizate ca atare, fără traducere automată. Dacă nu este configurată nicio presetare, traducerea în limba curentă a interfeței este utilizată ca alternativă.",
+      "resetDescriptionHint": "Utilizează presetarea salvată sau traducerea în limba curentă a interfeței"
     },
     "clientsPage": {
       "newShort": "Client nou",

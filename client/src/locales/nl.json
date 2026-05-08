@@ -5750,7 +5750,9 @@
       "noPresetsConfigured": "Geen presets geconfigureerd. Klik op \"Preset toevoegen\" om te beginnen.",
       "savePresets": "Presets opslaan",
       "presetsUpdatedTitle": "Presets bijgewerkt",
-      "presetsUpdated": "Standaardbeschrijvingen succesvol bijgewerkt."
+      "presetsUpdated": "Standaardbeschrijvingen succesvol bijgewerkt.",
+      "presetLocaleNote": "Opgeslagen presets worden ongewijzigd gebruikt, zonder automatische vertaling. Als er geen preset is geconfigureerd, wordt de vertaling in de huidige interfacetaal gebruikt als terugval.",
+      "resetDescriptionHint": "Gebruikt de opgeslagen preset of de vertaling in de huidige interfacetaal"
     },
     "clientsPage": {
       "newShort": "Nieuwe klant",

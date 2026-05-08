@@ -107,12 +107,16 @@ export default function SubscriptionPlansAdmin() {
     for (const [key, value] of Object.entries(dbPresets)) {
       if (key.toLowerCase() === nameLower && value.trim()) return value;
     }
-    // Fall back to hardcoded Italian translation strings for known slugs
+    // Fall back to the current interface language translation for known slugs,
+    // then to Italian as a last resort so there is always a canonical value.
     const slug = nameLower;
     if (!KNOWN_PLAN_SLUGS.includes(slug)) return undefined;
+    const tCurrent = i18n.getFixedT(i18n.language);
+    const valCurrent = tCurrent(`plans.${slug}.description`);
+    if (valCurrent && valCurrent !== `plans.${slug}.description`) return valCurrent;
     const tIt = i18n.getFixedT('it');
-    const val = tIt(`plans.${slug}.description`);
-    return val !== `plans.${slug}.description` ? val : undefined;
+    const valIt = tIt(`plans.${slug}.description`);
+    return valIt !== `plans.${slug}.description` ? valIt : undefined;
   };
 
   const startEditing = (plan: SubscriptionPlan) => {
@@ -259,6 +263,9 @@ export default function SubscriptionPlansAdmin() {
               <CardDescription className="mt-1">
                 {t('i18nFinale.subscriptionPlansAdmin.presetDefaultsDescription')}
               </CardDescription>
+              <p className="mt-2 text-xs text-muted-foreground/70 italic">
+                {t('i18nFinale.subscriptionPlansAdmin.presetLocaleNote')}
+              </p>
             </div>
             <div className="flex items-center gap-2">
               {editingPresets ? (
@@ -398,6 +405,7 @@ export default function SubscriptionPlansAdmin() {
                             size="sm"
                             variant="ghost"
                             className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+                            title={t('i18nFinale.subscriptionPlansAdmin.resetDescriptionHint')}
                             onClick={() => setEditForm({ ...editForm, description: getDefaultDescription(plan.name) || '' })}
                           >
                             <RotateCcw className="h-3 w-3 mr-1" />
@@ -414,6 +422,7 @@ export default function SubscriptionPlansAdmin() {
                             size="sm"
                             variant="ghost"
                             className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground"
+                            title={t('i18nFinale.subscriptionPlansAdmin.resetDescriptionHint')}
                             onClick={() => startEditing({ ...plan, description: getDefaultDescription(plan.name) || null })}
                           >
                             <RotateCcw className="h-3 w-3 mr-1" />
