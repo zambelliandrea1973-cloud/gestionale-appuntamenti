@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Loader2, Gift, CheckCircle2, Mail } from "lucide-react";
+import { AlertCircle, Loader2, Gift, CheckCircle2, Mail, Tag, Zap } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -235,25 +235,41 @@ export default function RegisterPage() {
                 {loading ? t('registerPage.creating') : t('registerPage.createButton')}
               </Button>
 
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <Gift className="w-4 h-4 text-primary" />
-                  <h3 className="font-semibold text-xs text-primary">{t('registerPage.trialTitle')}</h3>
+              <div className="rounded-xl overflow-hidden border border-primary/25 shadow-sm">
+                <div className="bg-primary/10 px-4 py-2.5 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Gift className="w-4 h-4 text-primary" />
+                    <h3 className="font-bold text-sm text-primary">{t('registerPage.trialTitle')}</h3>
+                  </div>
+                  <span className="flex items-center gap-1 text-xs bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full font-bold tracking-wide">
+                    <Zap className="w-3 h-3" />
+                    GRATIS
+                  </span>
                 </div>
-                <ul className="text-xs text-muted-foreground space-y-1 ml-6">
-                  <li className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3 h-3 text-primary flex-shrink-0" />
-                    <span>{t('registerPage.trialFeature1')}</span>
-                  </li>
-                  <li className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3 h-3 text-primary flex-shrink-0" />
-                    <span>{t('registerPage.trialFeature2')}</span>
-                  </li>
-                  <li className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3 h-3 text-primary flex-shrink-0" />
-                    <span>{t('registerPage.trialFeature3')}</span>
-                  </li>
-                </ul>
+                <div className="bg-gradient-to-br from-primary/5 via-primary/3 to-transparent px-4 py-3 space-y-2">
+                  <ul className="text-xs text-foreground space-y-2">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="font-medium leading-snug">{t('registerPage.trialFeature1')}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="font-medium leading-snug">{t('registerPage.trialFeature2')}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="font-medium leading-snug">{t('registerPage.trialFeature3')}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="font-medium leading-snug">{t('registerPage.trialFeature4')}</span>
+                    </li>
+                  </ul>
+                  <div className="mt-1 pt-2.5 border-t border-primary/20 flex items-center gap-1.5">
+                    <Tag className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                    <p className="text-xs text-primary font-semibold leading-snug">{t('registerPage.trialPricingFrom')}</p>
+                  </div>
+                </div>
               </div>
             </form>
           </CardContent>
