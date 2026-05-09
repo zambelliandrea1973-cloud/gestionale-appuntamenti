@@ -1,0 +1,2166 @@
+{
+  "app": {
+    "title": "अपॉइंटमेंट मैनेजर",
+    "welcome": "अपॉइंटमेंट मैनेजर में आपका स्वागत है",
+    "description": "अपॉइंटमेंट, ग्राहक और चालान आसानी से प्रबंधित करें",
+    "version": "अपॉइंटमेंट मैनेजर v3.5.0",
+    "copyright": "© 2023-2025 सर्वाधिकार सुरक्षित",
+    "clientAreaTitle": "ग्राहक क्षेत्र",
+    "defaultTitle": "अपॉइंटमेंट मैनेजर"
+  },
+  "welcomePage": {
+    "login": "लॉग इन करें",
+    "badge": "सैकड़ों पेशेवरों द्वारा उपयोग किया जाता है",
+    "heroTitle": "आपका व्यवसाय, हमेशा आपकी जेब में",
+    "heroSubtitle": "एक ऐप में अपॉइंटमेंट, ग्राहक, रिमाइंडर और चालान प्रबंधित करें — नाई, ब्यूटीशियन और वेलनेस पेशेवरों के लिए बना।",
+    "ctaPrimary": "मुफ्त शुरू करें · नया खाता बनाएं",
+    "ctaHint": "क्रेडिट कार्ड की आवश्यकता नहीं · जब चाहें रद्द करें",
+    "alreadyAccount": "पहले से खाता है?",
+    "feature1Title": "स्मार्ट कैलेंडर",
+    "feature1Desc": "अपॉइंटमेंट हमेशा नियंत्रण में",
+    "feature2Title": "ग्राहक और रिकॉर्ड",
+    "feature2Desc": "पूरा इतिहास हाथ में",
+    "feature3Title": "WhatsApp रिमाइंडर",
+    "feature3Desc": "नो-शो 70% तक कम करें",
+    "feature4Title": "चालान और भुगतान",
+    "feature4Desc": "एकीकृत कर प्रबंधन",
+    "benefit1": "क्रेडिट कार्ड की आवश्यकता नहीं",
+    "benefit2": "ऐप में कोई विज्ञापन नहीं",
+    "benefit3": "Google Calendar के साथ सिंक",
+    "benefit4": "फोन, टैबलेट और PC पर काम करता है",
+    "headerTitle": "में आपका स्वागत है"
+  },
+  "staffLoginPage": {
+    "title": "स्टाफ एक्सेस",
+    "adminTitle": "प्रशासक एक्सेस",
+    "description": "प्रशासन पैनल में प्रवेश करें",
+    "adminDescription": "प्रशासक क्रेडेंशियल्स के साथ प्रवेश करें",
+    "username": "उपयोगकर्ता नाम",
+    "usernamePlaceholder": "अपना उपयोगकर्ता नाम दर्ज करें",
+    "password": "पासवर्ड",
+    "passwordPlaceholder": "अपना पासवर्ड दर्ज करें",
+    "rememberMe": "मेरा खाता याद रखें",
+    "login": "लॉग इन",
+    "loggingIn": "लॉग इन हो रहा है...",
+    "error": "त्रुटि",
+    "loginError": "लॉगिन त्रुटि",
+    "errorOccurred": "लॉगिन के दौरान एक त्रुटि हुई",
+    "enterCredentials": "उपयोगकर्ता नाम और पासवर्ड दोनों दर्ज करें",
+    "forgotPassword": "मैं पासवर्ड भूल गया",
+    "clearCache": "ऐप कैश साफ करें",
+    "clearing": "साफ हो रहा है...",
+    "clearCacheHint": "यदि आप अन्य उपयोगकर्ताओं का डेटा देख रहे हैं तो इस बटन का उपयोग करें",
+    "noAccount": "खाता नहीं है?",
+    "register": "पंजीकरण करें",
+    "areProfessional": "क्या आप एक पेशेवर हैं?",
+    "loginAsProfessional": "पेशेवर के रूप में लॉग इन करें",
+    "adminPanel": "प्रशासन पैनल",
+    "adminPanelDesc": "एक इंटरफेस से अपना व्यवसाय प्रबंधित करें:",
+    "featureCalendar": "अपॉइंटमेंट कैलेंडर",
+    "featureClients": "ग्राहक प्रबंधन",
+    "featureBilling": "बिलिंग और भुगतान",
+    "featureNotifications": "सूचनाएं और रिमाइंडर भेजें",
+    "accessRestricted": "पहुंच केवल स्टाफ और प्रशासकों के लिए आरक्षित है।"
+  },
+  "welcomeGuide": {
+    "title": "आपके मैनेजर में आपका स्वागत है!",
+    "subtitle": "सबसे अच्छी शुरुआत के लिए, ये मूलभूत चरण पूरे करें:",
+    "dontShowAgain": "यह संदेश फिर न दिखाएं",
+    "gotIt": "समझ गया, शुरू करते हैं!",
+    "steps": {
+      "companyData": {
+        "title": "व्यवसाय डेटा",
+        "description": "अपने व्यवसाय का नाम, पता, ईमेल और फोन दर्ज करें। यह डेटा ग्राहकों को संचार में दिखेगा।",
+        "button": "व्यवसाय डेटा पर जाएं"
+      },
+      "services": {
+        "title": "सेवाएं / उपचार",
+        "description": "अवधि और मूल्य के साथ अपनी सेवाएं जोड़ें। इनका उपयोग अपॉइंटमेंट बनाने और लागत की गणना के लिए होगा।",
+        "button": "सेवाओं पर जाएं"
+      },
+      "clients": {
+        "title": "ग्राहक",
+        "description": "नाम, फोन और ईमेल के साथ अपने ग्राहक जोड़ें। आप उन्हें Google संपर्कों या CSV फ़ाइल से भी आयात कर सकते हैं।",
+        "button": "ग्राहकों पर जाएं"
+      },
+      "workingHours": {
+        "title": "कार्य समय",
+        "description": "अपने स्टूडियो के खुलने के दिन और समय कॉन्फ़िगर करें। ग्राहक केवल उपलब्ध स्लॉट देखेंगे।",
+        "button": "समय पर जाएं"
+      }
+    }
+  },
+  "homeFooter": {
+    "systemInfo": "सिस्टम जानकारी",
+    "appVersion": "अपॉइंटमेंट मैनेजर v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "सर्वाधिकार सुरक्षित",
+    "privacySecurity": "गोपनीयता और सुरक्षा",
+    "technicalSupport": "तकनीकी सहायता:",
+    "privacyPolicy": "गोपनीयता नीति →",
+    "termsOfService": "सेवा की शर्तें →"
+  },
+  "clientsPageNotifications": {
+    "refreshSuccess": "अपडेट पूर्ण",
+    "refreshSuccessDesc": "सर्वर से {count} ग्राहक लोड हुए",
+    "refreshError": "त्रुटि",
+    "refreshErrorDesc": "सर्वर से अपडेट करना असंभव",
+    "staffLabel": "पेशेवर द्वारा",
+    "myClientsLabel": "मेरे ग्राहक",
+    "otherAccountsLabel": "अन्य खाते",
+    "loadingClients": "ग्राहक लोड हो रहे हैं...",
+    "errorLoadingClients": "ग्राहक लोड करने में त्रुटि:",
+    "retry": "पुनः प्रयास"
+  },
+  "proPages": {
+    "categoryRequired": "श्रेणी का नाम आवश्यक है",
+    "productRequired": "उत्पाद का नाम आवश्यक है",
+    "pricePositive": "मूल्य सकारात्मक होना चाहिए",
+    "costPositive": "लागत सकारात्मक होनी चाहिए",
+    "stockPositive": "स्टॉक सकारात्मक होना चाहिए",
+    "minStockPositive": "न्यूनतम स्टॉक सकारात्मक होना चाहिए",
+    "quantityPositive": "मात्रा सकारात्मक होनी चाहिए",
+    "maxDiscount": "अधिकतम छूट 100%",
+    "categoryCreated": "श्रेणी सफलतापूर्वक बनाई गई",
+    "invalidFileType": "अमान्य फ़ाइल प्रकार",
+    "selectImage": "एक छवि चुनें (JPG, PNG, GIF, WEBP)",
+    "fileTooLarge": "फ़ाइल बहुत बड़ी है",
+    "maxImageSize": "छवि अधिकतम 5MB होनी चाहिए",
+    "productCreatedImageError": "उत्पाद बनाया गया, लेकिन छवि अपलोड त्रुटि",
+    "canAddImageLater": "छवि जोड़ने के लिए उत्पाद को संपादित कर सकते हैं",
+    "productCreateError": "उत्पाद बनाने में त्रुटि",
+    "productUpdateError": "उत्पाद संपादित करने में त्रुटि",
+    "productDeleteError": "उत्पाद हटाने में त्रुटि",
+    "unknownError": "अज्ञात त्रुटि"
+  },
+  "services": {
+    "title": "सेवा प्रबंधन",
+    "description": "अपने व्यवसाय द्वारा प्रदान की जाने वाली सेवाओं को प्रबंधित करें।",
+    "newService": "नई सेवा सहेजें",
+    "createInstruction": "नई सेवा भरें और बटन से सहेजें",
+    "serviceName": "सेवा का नाम",
+    "durationMin": "अवधि (मिनट)",
+    "price": "मूल्य",
+    "loading": "सेवाएं लोड हो रही हैं...",
+    "noServices": "कोई सेवा नहीं है। पहली सेवा बनाएं!",
+    "goToSettings": "सेटिंग्स पर जाएं",
+    "noServicesHint": "बुकिंग स्वीकार करना शुरू करने के लिए अपनी सेवाएं कॉन्फ़िगर करें।",
+    "name": "नाम",
+    "duration": "अवधि",
+    "color": "रंग",
+    "actions": "क्रियाएं",
+    "editService": "सेवा संपादित करें",
+    "deleteService": "सेवा हटाएं",
+    "servicesLoaded": "सेवाएं लोड हुईं",
+    "lastUpdate": "अंतिम अपडेट",
+    "never": "कभी नहीं",
+    "editTitle": "सेवा संपादित करें",
+    "servicePlaceholder": "सेवा का नाम",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "saving": "सहेज रहा है...",
+    "serviceCreated": "सेवा बनाई गई!",
+    "serviceDeleted": "सेवा हटाई गई!",
+    "serviceUpdated": "सेवा अपडेट हुई!",
+    "enterName": "सेवा के लिए नाम दर्ज करें",
+    "createError": "बनाने में त्रुटि",
+    "deleteError": "हटाने में त्रुटि",
+    "updateError": "अपडेट में त्रुटि",
+    "defaultServiceAlert": "आप \"परामर्श\" की सामान्य सेवा का उपयोग कर रहे हैं। अपनी कस्टम सूची बनाएं!",
+    "goToServiceSettings": "सेवा सूची पर जाएं",
+    "onlineBookingTitle": "ऑनलाइन बुकिंग",
+    "onlineBookingDesc": "ग्राहकों के लिए प्रत्येक सेवा की ऑनलाइन बुकिंग सक्रिय या निष्क्रिय करें।",
+    "disableAllOnline": "सभी निष्क्रिय करें",
+    "enableAllOnline": "सभी सक्रिय करें",
+    "allOnlineEnabled": "सभी सेवाएं ऑनलाइन बुक की जा सकती हैं",
+    "allOnlineDisabled": "सभी सेवाओं के लिए ऑनलाइन बुकिंग निष्क्रिय",
+    "onlineHeader": "ऑनलाइन बुकिंग"
+  },
+  "settingsPage": {
+    "accessDenied": "पहुंच अस्वीकृत",
+    "adminOnlyAccess": "केवल प्रशासक इस क्षेत्र तक पहुंच सकते हैं",
+    "staffAndRooms": "स्टाफ और कमरे",
+    "security": "सुरक्षा",
+    "admin": "प्रशासक",
+    "administrativeArea": "प्रशासनिक क्षेत्र",
+    "adminAreaDescription": "बीटा आमंत्रण प्रबंधित करने और बीटा उपयोगकर्ता फ़ीडबैक की निगरानी के लिए बीटा एडमिन डैशबोर्ड तक पहुंचें।",
+    "accessBetaAdminDashboard": "बीटा एडमिन डैशबोर्ड तक पहुंचें",
+    "systemManagement": "सिस्टम प्रबंधन",
+    "systemManagementDescription": "यहां से आप सिस्टम प्रबंधित कर सकते हैं, एप्लिकेशन पुनः आरंभ कर सकते हैं या स्वास्थ्य स्थिति की जांच कर सकते हैं।",
+    "serverStatus": "सर्वर स्थिति:",
+    "online": "ऑनलाइन",
+    "collaboratorsManagement": "सहयोगी प्रबंधन",
+    "collaboratorsManagementDesc": "स्टूडियो सहयोगियों और उनकी विशेषज्ञताओं को प्रबंधित करें",
+    "collaboratorsDescription": "स्टूडियो में काम करने वाले सहयोगियों को जोड़ें और प्रबंधित करें।",
+    "manageCollaborators": "सहयोगी प्रबंधित करें",
+    "roomsManagement": "कमरे/केबिन प्रबंधन",
+    "roomsManagementDesc": "स्टूडियो के उपचार कमरे और केबिन कॉन्फ़िगर करें",
+    "roomsDescription": "कैलेंडर के लिए कस्टम रंगों के साथ अपने स्टूडियो के कमरे व्यवस्थित करें।",
+    "manageRooms": "कमरे प्रबंधित करें",
+    "iconUpdated": "आइकन अपडेट हुआ",
+    "iconUpdatedDescription": "PWA आइकन सफलतापूर्वक कस्टमाइज़ किया गया।",
+    "subscriptionHeading": "सदस्यता",
+    "subscriptionDescription": "उपलब्ध प्लान देखें, अपनी सदस्यता प्रबंधित करें या उच्च प्लान पर जाएं।",
+    "manageSubscription": "सदस्यता प्रबंधित करें",
+    "accountSecurityTitle": "खाता सुरक्षा",
+    "accountSecurityDescription": "अपने खाते की सुरक्षा और एक्सेस सेटिंग्स प्रबंधित करें",
+    "changePasswordHeading": "पासवर्ड बदलें",
+    "changePasswordDescription": "अपने खाते को सुरक्षित रखने के लिए पासवर्ड अपडेट करें।",
+    "goToPasswordChange": "पासवर्ड बदलने पर जाएं",
+    "subscriptionTab": "सदस्यता",
+    "openSubscribePage": "सदस्यता पृष्ठ खोलें",
+    "subscriptionPlansHeading": "सदस्यता प्लान प्रबंधन",
+    "subscriptionPlansDescription": "सदस्यता पैकेज (Trial, Base, Pro, Business) की कीमतें और अनुमतियां संशोधित करें"
+  },
+  "notificationsPageExtra": {
+    "marketingCampaigns": "AI मार्केटिंग अभियान",
+    "phoneConfig": "फोन कॉन्फ़िगरेशन",
+    "advancedConfig": "उन्नत कॉन्फ़िगरेशन (QR विधि)",
+    "whatsappNotifications": "WhatsApp सूचनाएं",
+    "whatsappInfo": "WhatsApp सूचनाओं के बारे में जानकारी:",
+    "error": "त्रुटि",
+    "messageTemplates": "संदेश टेम्पलेट",
+    "noAppointmentSelected": "कोई अपॉइंटमेंट चुना नहीं गया",
+    "selectAppointmentForNotifications": "सूचनाएं भेजने के लिए कम से कम एक अपॉइंटमेंट चुनें",
+    "selectAppointmentForSMS": "SMS भेजने के लिए कम से कम एक अपॉइंटमेंट चुनें",
+    "whatsappRemindersGenerated": "WhatsApp रिमाइंडर उत्पन्न हुए",
+    "whatsappRemindersGeneratedDesc": "WhatsApp रिमाइंडर सफलतापूर्वक उत्पन्न हुए",
+    "cannotSendWhatsApp": "WhatsApp रिमाइंडर भेजना असंभव:",
+    "smsDelivered": "SMS भेजे गए",
+    "smsDeliveredDesc": "SMS सफलतापूर्वक भेजे गए",
+    "cannotSendSMS": "SMS भेजना असंभव:",
+    "twilioLimitations": "Twilio खाते की सीमाएं",
+    "twilioLimitationsDesc": "आपके Twilio खाते की सीमाएं हैं और यह सभी नंबरों पर SMS नहीं भेज सकता।",
+    "smsError": "SMS भेजने में त्रुटि",
+    "recipient": "प्राप्तकर्ता",
+    "recipients": "प्राप्तकर्ता"
+  },
+  "bookingRequests": {
+    "title": "बुकिंग अनुरोध",
+    "subtitle": "ग्राहकों के अपॉइंटमेंट अनुरोध प्रबंधित करें",
+    "toManage": "प्रबंधित करना है",
+    "confirmed": "पुष्टि हुई",
+    "rejected": "अस्वीकृत",
+    "tabToManage": "प्रबंधित करें",
+    "tabAll": "सभी",
+    "noRequestsToManage": "प्रबंधित करने के लिए कोई अनुरोध नहीं",
+    "noRequestsFound": "कोई अनुरोध नहीं मिला",
+    "statusChooseSlot": "स्लॉट चुनें",
+    "statusPending": "लंबित",
+    "statusConfirmed": "पुष्टि हुई",
+    "statusRejected": "अस्वीकृत",
+    "preference": "प्राथमिकता:",
+    "requestedTimeSlot": "अनुरोधित समय स्लॉट:",
+    "clientSelectedSlot": "ग्राहक द्वारा चुना गया स्लॉट:",
+    "proposedSlots": "प्रस्तावित स्लॉट:",
+    "clientNotes": "ग्राहक की टिप्पणियां:",
+    "approveAndCreate": "अनुमोदित करें और अपॉइंटमेंट बनाएं",
+    "approve": "अनुमोदित करें",
+    "reject": "अस्वीकार करें",
+    "no": "नहीं",
+    "confirmAppointment": "अपॉइंटमेंट पुष्टि करें",
+    "confirmAppointmentDesc": "अपॉइंटमेंट के लिए सहयोगी और कमरा चुनें।",
+    "clientRequested": "ग्राहक ने अनुरोध किया:",
+    "collaborator": "सहयोगी",
+    "room": "कमरा",
+    "autoAssignment": "स्वचालित असाइनमेंट",
+    "cancel": "रद्द करें",
+    "creating": "बना रहा है...",
+    "confirmAndCreate": "पुष्टि करें और बनाएं",
+    "requestApproved": "अनुरोध अनुमोदित",
+    "appointmentCreated": "अपॉइंटमेंट सफलतापूर्वक बनाया गया",
+    "error": "त्रुटि",
+    "cannotApprove": "अनुरोध अनुमोदित करना असंभव",
+    "requestRejected": "अनुरोध अस्वीकृत",
+    "clientWillBeNotified": "ग्राहक को सूचित किया जाएगा",
+    "cannotReject": "अनुरोध अस्वीकार करना असंभव"
+  },
+  "professionalLoginPage": {
+    "title": "पेशेवर एक्सेस",
+    "description": "ग्राहकों और अपॉइंटमेंट प्रबंधित करने के लिए अपने पेशेवर खाते में लॉग इन करें",
+    "username": "उपयोगकर्ता नाम",
+    "usernamePlaceholder": "अपना उपयोगकर्ता नाम दर्ज करें",
+    "password": "पासवर्ड",
+    "passwordPlaceholder": "अपना पासवर्ड दर्ज करें",
+    "rememberMe": "मेरा खाता याद रखें",
+    "login": "लॉग इन",
+    "loggingIn": "लॉग इन हो रहा है...",
+    "error": "त्रुटि",
+    "loginError": "लॉगिन त्रुटि",
+    "errorOccurred": "लॉगिन के दौरान एक त्रुटि हुई",
+    "enterCredentials": "उपयोगकर्ता नाम और पासवर्ड दोनों दर्ज करें",
+    "forgotPassword": "मैं पासवर्ड भूल गया",
+    "areStaffOrAdmin": "क्या आप स्टाफ या प्रशासक हैं?",
+    "loginAsStaff": "स्टाफ के रूप में लॉग इन करें",
+    "professionalManagement": "पेशेवर प्रबंधन",
+    "professionalManagementDesc": "ग्राहकों, अपॉइंटमेंट और अपने काम के सभी टूल प्रबंधित करने के लिए लॉग इन करें।",
+    "featureClients": "ग्राहक प्रबंधन",
+    "featureClientsDesc": "अपने सभी ग्राहकों को एक जगह व्यवस्थित और प्रबंधित करें",
+    "featureAppointments": "अपॉइंटमेंट",
+    "featureAppointmentsDesc": "आसानी से अपॉइंटमेंट की योजना बनाएं और उनकी निगरानी करें",
+    "featureReports": "रिपोर्ट और विश्लेषण",
+    "featureReportsDesc": "अपने व्यवसाय के प्रदर्शन की निगरानी करें"
+  },
+  "appointment": {
+    "confirmDelete": "क्या आप सच में इस अपॉइंटमेंट को हटाना चाहते हैं?",
+    "confirmDeleteTitle": "अपॉइंटमेंट हटाएं",
+    "confirmDeleteDescription": "क्या आप सच में इस अपॉइंटमेंट को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
+    "deleted": "अपॉइंटमेंट हटाया गया",
+    "deletedDesc": "अपॉइंटमेंट सफलतापूर्वक हटाया गया",
+    "errorOccurred": "एक त्रुटि हुई: {{message}}",
+    "frequentClient": "नियमित ग्राहक",
+    "noConsent": "सहमति प्रदान नहीं की गई",
+    "notesLabel": "टिप्पणियां:",
+    "noSlotsSelected": "कोई स्लॉट नहीं चुना गया",
+    "pleaseSelectSlots": "पुष्टि करने से पहले कम से कम एक स्लॉट चुनें"
+  },
+  "navigation": {
+    "home": "होम",
+    "notifications": "सूचनाएं",
+    "referral": "रेफरल",
+    "aiAssistant": "AI सहायक",
+    "staff": "स्टाफ",
+    "payments": "भुगतान",
+    "requests": "अनुरोध"
+  },
+  "language": {
+    "it": "इतालवी",
+    "en": "अंग्रेजी",
+    "de": "जर्मन",
+    "fr": "फ्रेंच",
+    "es": "स्पेनिश",
+    "ru": "रूसी",
+    "nl": "डच",
+    "no": "नॉर्वेजियन",
+    "ro": "रोमानियाई",
+    "hi": "हिंदी",
+    "select": "भाषा चुनें"
+  },
+  "trial": {
+    "days": "दिन",
+    "expired": "समाप्त",
+    "upgradeMessage": "प्रीमियम प्लान देखें"
+  },
+  "home": {
+    "manual": {
+      "title": "मैनुअल",
+      "description": "पूर्ण उपयोग मार्गदर्शिका",
+      "content": "प्रत्येक सुविधा के लिए स्क्रीनशॉट और वीडियो ट्यूटोरियल के साथ उपयोग मैनुअल देखें",
+      "button": "मैनुअल पर जाएं"
+    }
+  },
+  "calendar": {
+    "title": "कैलेंडर",
+    "description": "सभी अपॉइंटमेंट देखें और प्रबंधित करें",
+    "subDescription": "दैनिक, साप्ताहिक या मासिक मोड में अपॉइंटमेंट देखें और नए अपॉइंटमेंट आसानी से बनाएं",
+    "goTo": "कैलेंडर पर जाएं",
+    "daily": "दैनिक",
+    "weekly": "साप्ताहिक",
+    "monthly": "मासिक",
+    "weekView": "साप्ताहिक दृश्य",
+    "monthView": "मासिक दृश्य",
+    "addAppointment": "नया अपॉइंटमेंट",
+    "selectTimeNewAppointment": "नए अपॉइंटमेंट का समय चुनें",
+    "confirmAndAssociateClient": "पुष्टि करें और ग्राहक को जोड़ें",
+    "today": "आज",
+    "searchResults": "खोज परिणाम",
+    "noAppointmentsFound": "कोई अपॉइंटमेंट नहीं मिला",
+    "goToDay": "दिन पर जाएं",
+    "hasAppointments": "अपॉइंटमेंट हैं",
+    "slotOccupied": "पिछले अपॉइंटमेंट से स्लॉट व्यस्त",
+    "customDuration": "कस्टम अवधि",
+    "incrementBy15Min": "15 मिनट बढ़ाएं",
+    "decrementBy15Min": "15 मिनट घटाएं",
+    "noServicesAvailable": "कोई सेवा उपलब्ध नहीं",
+    "goToSettingsToCreateService": "सेवा बनाने के लिए सेटिंग्स में जाएं",
+    "noServicesFound": "कोई सेवा नहीं मिली",
+    "selectNewAppointment": "नया अपॉइंटमेंट",
+    "modeGlobal": "वैश्विक",
+    "modeFilter": "फ़िल्टर",
+    "modeColumns": "कॉलम",
+    "filterAll": "सभी",
+    "noAssigned": "असाइन नहीं",
+    "noCollaboratorsForColumns": "कॉलम दृश्य के लिए सेटिंग्स में सहयोगी जोड़ें।",
+    "noCollaboratorsForFilter": "फ़िल्टर के लिए सेटिंग्स में सहयोगी या कमरे जोड़ें।",
+    "columnsOnlyInDayView": "कॉलम दृश्य केवल दिन दृश्य में उपलब्ध है।"
+  },
+  "clients": {
+    "title": "ग्राहक",
+    "subtitle": "अपने सभी ग्राहकों को प्रबंधित करें",
+    "total": "ग्राहक",
+    "searchPlaceholder": "नाम, फोन या ईमेल से ग्राहक खोजें...",
+    "allClients": "सभी ग्राहक",
+    "frequentClients": "नियमित ग्राहक",
+    "noConsent": "सहमति के बिना",
+    "description": "ग्राहक रजिस्ट्री प्रबंधित करें",
+    "subDescription": "ग्राहकों के व्यक्तिगत और चिकित्सा डेटा सहित डेटा जोड़ें, संपादित करें और देखें",
+    "goTo": "ग्राहक प्रबंधित करें",
+    "addClient": "नया ग्राहक बनाएं",
+    "addFirstClient": "पहला ग्राहक जोड़ें",
+    "filter": {
+      "noConsent": "सहमति के बिना"
+    },
+    "accesses": {
+      "loading": "लोड हो रहा है...",
+      "count": "ऐप एक्सेस: {{count}}",
+      "tooltip": "ग्राहक ने ऐप कितनी बार खोला: {{count}}",
+      "unknownDevice": "अज्ञात डिवाइस",
+      "browserAccess": "ब्राउज़र से एक्सेस",
+      "loadingDetails": "एक्सेस विवरण लोड हो रहे हैं...",
+      "errorLoadingDetails": "एक्सेस विवरण लोड करने में त्रुटि",
+      "title": "ग्राहक की एक्सेस",
+      "description": "ग्राहक के अंतिम {{count}} एक्सेस की सूची",
+      "noData": "इस ग्राहक के लिए कोई एक्सेस दर्ज नहीं",
+      "date": "तारीख",
+      "time": "समय",
+      "device": "डिवाइस",
+      "dialogDescription": "ग्राहक द्वारा एप्लिकेशन एक्सेस का विवरण देखें",
+      "detailsTitle": "{{name}} की एक्सेस"
+    },
+    "details": {
+      "personalInfo": "व्यक्तिगत जानकारी",
+      "appointments": "अपॉइंटमेंट",
+      "consents": "सहमतियां",
+      "clientDataConsent": "ग्राहक डेटा/सहमति",
+      "clientFile": "ग्राहक फ़ाइल",
+      "addAppointment": "नया अपॉइंटमेंट",
+      "generateQRCode": "QR कोड उत्पन्न करें",
+      "accessActivated": "ग्राहक एक्सेस QR कोड",
+      "showDetails": "विवरण",
+      "deleteClient": "ग्राहक हटाएं",
+      "deleteClientConfirmation": "क्या आप सच में इस ग्राहक को हटाना चाहते हैं? उनके सभी अपॉइंटमेंट भी हटा दिए जाएंगे। यह क्रिया पूर्ववत नहीं की जा सकती।",
+      "notFound": "ग्राहक नहीं मिला",
+      "notSpecified": "निर्दिष्ट नहीं",
+      "frequentClient": "नियमित ग्राहक",
+      "dataConsent": "डेटा प्रोसेसिंग सहमति",
+      "obtained": "प्राप्त",
+      "notObtained": "प्राप्त नहीं",
+      "viewAllAppointments": "सभी अपॉइंटमेंट देखें",
+      "backToClients": "ग्राहक सूची पर वापस",
+      "structuredNotes": "संरचित टिप्पणियां",
+      "legacyMedicalData": "पुराना चिकित्सा डेटा",
+      "otherInfo": "अन्य जानकारी",
+      "viewMode": "टिप्पणी दृश्य मोड",
+      "stackedView": "स्टैक्ड कार्ड दृश्य",
+      "classicView": "क्लासिक दृश्य",
+      "stackedViewDescription": "टिप्पणियां स्टैक्ड कार्ड के रूप में दिखाई देती हैं।",
+      "classicViewDescription": "टिप्पणियां ऊर्ध्वाधर क्रम में दिखाई देती हैं।",
+      "generalNotes": "सामान्य टिप्पणियां",
+      "medicalNotes": "चिकित्सा टिप्पणियां",
+      "allergiesInfo": "एलर्जी और स्वास्थ्य जानकारी",
+      "medicalNotesLegacy": "चिकित्सा टिप्पणियां (पुरानी)",
+      "allergiesInfoLegacy": "एलर्जी और स्वास्थ्य जानकारी (पुरानी)",
+      "generalNotesLegacy": "सामान्य टिप्पणियां (पुरानी)",
+      "noMedicalNotes": "कोई चिकित्सा टिप्पणी दर्ज नहीं",
+      "noAllergiesInfo": "कोई एलर्जी या स्वास्थ्य जानकारी दर्ज नहीं",
+      "noGeneralNotes": "कोई सामान्य टिप्पणी दर्ज नहीं"
+    },
+    "form": {
+      "firstName": "नाम",
+      "lastName": "उपनाम"
+    },
+    "share": {
+      "copyLink": "लिंक कॉपी करें",
+      "linkCopied": "लिंक कॉपी हुआ!",
+      "linkCopiedDesc": "एक्सेस लिंक क्लिपबोर्ड में कॉपी हुआ",
+      "emailSubject": "आरक्षित क्षेत्र में आपकी एक्सेस",
+      "messageText": "नमस्ते {{name}}, आरक्षित क्षेत्र तक पहुंचने के लिए आपका लिंक यहां है:"
+    },
+    "adminPersonalClientsHint": "आपके व्यक्तिगत ग्राहक यहां दिखेंगे। अन्य पेशेवरों के ग्राहकों के लिए 'स्टाफ' टैब उपयोग करें।",
+    "loadMore": "और लोड करें",
+    "qrTip": {
+      "eyebrow": "बधाई, आपने अपना पहला ग्राहक बनाया!",
+      "title": "उनका व्यक्तिगत QR किस काम आता है?",
+      "subtitle": "प्रत्येक ग्राहक के लिए एक व्यक्तिगत QR बनाया जाता है जो सीधे आपके व्यवसाय से जुड़ा होता है।",
+      "b1": "उपलब्ध समय में स्वयं बुक करें",
+      "b2": "अपॉइंटमेंट, चालान और भुगतान देखें",
+      "b3": "आपके संपर्क और सोशल मीडिया तक त्वरित पहुंच",
+      "hint": "आपके लिए: कम दोहराए जाने वाले संदेश, कम मैनुअल प्रबंधन, एक अधिक पेशेवर अनुभव।",
+      "dismiss": "समझ गया, फिर न दिखाएं"
+    }
+  },
+  "invoices": {
+    "title": "चालान प्रबंधन",
+    "subtitle": "अपने ग्राहकों के लिए चालान बनाएं और प्रबंधित करें",
+    "updateInvoices": "चालान अपडेट करें",
+    "updating": "माइग्रेट हो रहा है...",
+    "cleanupNumbering": "नंबरिंग साफ करें",
+    "cleaning": "साफ हो रहा है...",
+    "newInvoice": "नया चालान",
+    "noInvoices": "कोई चालान नहीं",
+    "startCreating": "अपना पहला चालान बनाना शुरू करें",
+    "createFirst": "पहला चालान बनाएं",
+    "invoiceNumber": "चालान #",
+    "client": "ग्राहक",
+    "date": "तारीख",
+    "dueDate": "देय तारीख",
+    "amount": "राशि",
+    "paid": "भुगतान किया",
+    "unpaid": "अदा नहीं",
+    "sentToClient": "ग्राहक को भेजा गया",
+    "preview": "पूर्वावलोकन",
+    "print": "प्रिंट",
+    "deleteInvoice": "चालान हटाएं",
+    "irreversibleAction": "यह क्रिया पूर्ववत नहीं की जा सकती!",
+    "form": {
+      "clientRequired": "ग्राहक आवश्यक है",
+      "amountPositive": "राशि सकारात्मक होनी चाहिए",
+      "dateRequired": "तारीख आवश्यक है",
+      "dueDateRequired": "देय तारीख आवश्यक है",
+      "description": "विवरण",
+      "selectClient": "ग्राहक चुनें",
+      "amountManualPh": "राशि मैन्युअल रूप से दर्ज करें"
+    },
+    "channels": {
+      "noChannelSelected": "कम से कम एक भेजने का चैनल चुनें",
+      "noChannelSelectedTitle": "कोई चैनल नहीं चुना"
+    },
+    "toast": {
+      "created": "चालान सफलतापूर्वक बनाया गया",
+      "createError": "चालान बनाने में त्रुटि",
+      "emailSent": "ईमेल सफलतापूर्वक भेजा गया",
+      "emailError": "ईमेल भेजने में त्रुटि",
+      "statusUpdated": "स्थिति अपडेट हुई",
+      "statusError": "स्थिति अपडेट में त्रुटि",
+      "sent": "चालान भेजा गया",
+      "printStarted": "प्रिंट शुरू हुआ",
+      "printWindowWillOpen": "प्रिंट विंडो अपने आप खुलेगी",
+      "printError": "पॉपअप अवरुद्ध। प्रिंट के लिए पॉपअप सक्षम करें",
+      "previewGenerated": "पूर्वावलोकन उत्पन्न हुआ",
+      "previewDescription": "चालान इस तरह दिखेगा",
+      "cleanupCompleted": "साफ पूर्ण",
+      "cleanupError": "नंबरिंग साफ करने में त्रुटि",
+      "paymentDeleted": "भुगतान हटाया गया",
+      "paymentDeletedDesc": "भुगतान सफलतापूर्वक हटाया गया",
+      "paymentDeleteError": "भुगतान हटाना संभव नहीं हुआ"
+    },
+    "paymentStatus": "भुगतान स्थिति",
+    "selectStatus": "स्थिति चुनें",
+    "cancel": "रद्द करें",
+    "creating": "बना रहा है...",
+    "createInvoice": "चालान बनाएं",
+    "sendByEmail": "ईमेल से चालान भेजें",
+    "sendInvoiceTo": "ग्राहक को चालान {{number}} भेजें",
+    "recipientEmail": "प्राप्तकर्ता ईमेल",
+    "subject": "विषय",
+    "subjectPlaceholder": "ईमेल का विषय",
+    "messageOptional": "संदेश (वैकल्पिक)",
+    "customMessagePlaceholder": "कस्टम संदेश...",
+    "sending": "भेज रहा है...",
+    "sendEmailBtn": "ईमेल भेजें",
+    "cleanupTitle": "🧹 चालान नंबरिंग साफ करें",
+    "cleanupDescription": "यह ऑपरेशन आपके सभी चालानों को कालानुक्रमिक क्रम में NNN/YYYY कानूनी प्रारूप का उपयोग करके पुनः नंबर देगा।",
+    "cleanupWarning": "चालान स्वचालित रूप से पुनः नंबर होंगे!",
+    "currentFormat": "वर्तमान प्रारूप",
+    "afterFormat": "साफ के बाद प्रारूप",
+    "totalInvoices": "कुल चालान",
+    "chronologicalKept": "✓ कालानुक्रमिक क्रम बनाए रखा गया",
+    "doCleanup": "नंबरिंग साफ करें",
+    "previewTitle": "👁️ चालान पूर्वावलोकन",
+    "printing": "प्रिंट हो रहा है...",
+    "printInvoice": "चालान प्रिंट करें",
+    "resendTitle": "⚠️ चालान पुनः भेजने की पुष्टि करें",
+    "resendQuestion": "क्या आप सच में चालान चुने हुए चैनलों पर पुनः भेजना चाहते हैं?",
+    "recipientPlaceholder": "client@example.com",
+    "previewDescription": "भेजने या प्रिंट से पहले चालान {{number}} का पूर्वावलोकन",
+    "previewGenerating": "पूर्वावलोकन उत्पन्न हो रहा है...",
+    "previewEmpty": "कोई पूर्वावलोकन उपलब्ध नहीं",
+    "previewClose": "पूर्वावलोकन बंद करें",
+    "sendViaEmail": "ईमेल से भेजें",
+    "resendIntro": "यह चालान पहले से निम्नलिखित चैनलों के माध्यम से भेजा गया है:",
+    "resendSentOn": "{{date}} को भेजा गया",
+    "resendConfirm": "पुनः भेजने की पुष्टि करें",
+    "invoiceDate": "चालान तारीख",
+    "migrationError": "माइग्रेशन में त्रुटि",
+    "newInvoiceDesc": "एक ग्राहक के लिए नया चालान बनाएं",
+    "validation": {
+      "invalidEmail": "अमान्य ईमेल",
+      "subjectRequired": "विषय आवश्यक है"
+    },
+    "migrationComplete": "माइग्रेशन पूर्ण",
+    "sendError": "चालान भेजने में त्रुटि",
+    "clientFallback": "ग्राहक",
+    "emailBodyTemplate": "प्रिय {{firstName}} {{lastName}},\n\nसंलग्न चालान {{invoiceNumber}} है।\n\nसादर",
+    "invoicePreview": "चालान पूर्वावलोकन",
+    "invoicePrint": "चालान प्रिंट",
+    "sendToChannels": "चुने हुए चैनलों पर भेजें",
+    "unknownDate": "अज्ञात तारीख",
+    "changeStatus": "स्थिति बदलें",
+    "deleting": "हटा रहा है...",
+    "noClientsFound": "कोई ग्राहक नहीं मिला। पहले कुछ ग्राहक जोड़ें।",
+    "totalAmount": "कुल राशि",
+    "descriptionOptional": "विवरण (वैकल्पिक)",
+    "descriptionPlaceholder": "सेवाओं का विवरण..."
+  },
+  "errors": {
+    "genericError": "एक त्रुटि हुई: {{error}}"
+  },
+  "auth": {
+    "login": "लॉग इन",
+    "logout": "लॉग आउट",
+    "accessDenied": "पहुंच अस्वीकृत",
+    "insufficientRole": "इस अनुभाग के लिए '{{role}}' भूमिका आवश्यक है",
+    "currentRole": "आपकी वर्तमान भूमिका: {{role}}",
+    "required": "एक्सेस आवश्यक",
+    "loginRequired": "इस अनुभाग तक पहुंचने के लिए आपको प्रमाणित होना होगा",
+    "logoutSuccess": "लॉग आउट सफल",
+    "redirecting": "पुनर्निर्देशित हो रहा है...",
+    "logoutError": "लॉग आउट में त्रुटि",
+    "tryAgain": "पुनः प्रयास करें",
+    "loggingOut": "डिस्कनेक्ट हो रहा है..."
+  },
+  "clientArea": {
+    "installApp": "ऐप इंस्टॉल करें",
+    "installAppDesc": "त्वरित पहुंच के लिए इस ऐप को होम स्क्रीन पर जोड़ें",
+    "install": "इंस्टॉल करें",
+    "requestAppointment": "अपॉइंटमेंट अनुरोध करें",
+    "requestAppointmentDesc": "सेवा, तारीख और समय स्लॉट चुनकर नया अपॉइंटमेंट अनुरोध करें",
+    "newRequest": "नया अनुरोध",
+    "pushNotifDesc": "जब आपका अपॉइंटमेंट पुष्टि हो तो सूचना प्राप्त करें",
+    "selectService": "सेवा चुनें",
+    "chooseService": "एक सेवा चुनें...",
+    "preferredStaff": "पसंदीदा पेशेवर (वैकल्पिक)",
+    "chooseStaff": "पेशेवर चुनें...",
+    "noPreference": "कोई प्राथमिकता नहीं",
+    "staffHint": "आप एक विशिष्ट पेशेवर इंगित कर सकते हैं या \"कोई प्राथमिकता नहीं\" छोड़ सकते हैं",
+    "selectDate": "तारीख चुनें",
+    "selectTimeSlot": "समय स्लॉट चुनें",
+    "chooseTimeSlot": "स्लॉट चुनें...",
+    "morning": "सुबह (09:00-13:00)",
+    "afternoon": "दोपहर (14:00-18:00)",
+    "evening": "शाम (18:00-21:00)",
+    "notesOptional": "टिप्पणियां (वैकल्पिक)",
+    "notesPlaceholder": "कोई टिप्पणी या प्राथमिकताएं...",
+    "availableSlots": "उपलब्ध स्लॉट",
+    "noSlotsAvailable": "इस समय स्लॉट में कोई स्लॉट उपलब्ध नहीं।",
+    "tryAnotherSlot": "किसी अन्य तारीख या स्लॉट का प्रयास करें।",
+    "back": "वापस",
+    "continue": "जारी रखें",
+    "sending": "भेज रहा है...",
+    "sendRequest": "अनुरोध भेजें",
+    "cancel": "रद्द करें",
+    "yourRequests": "आपके अनुरोध",
+    "chooseSlot": "स्लॉट चुनें",
+    "waiting": "प्रतीक्षारत",
+    "approved": "अनुमोदित ✓",
+    "rejected": "अस्वीकृत",
+    "selectedSlot": "चुना गया स्लॉट:",
+    "service": "सेवा",
+    "requestSent": "अनुरोध भेजा गया!",
+    "confirmationPending": "जैसे ही अनुमोदित होगा, पुष्टि मिलेगी।",
+    "error": "त्रुटि",
+    "errorCreateRequest": "अनुरोध बनाना असंभव। पुनः प्रयास करें।",
+    "errorSelectSlot": "स्लॉट चुनना असंभव। पुनः प्रयास करें।",
+    "loadingPersonalArea": "व्यक्तिगत क्षेत्र लोड हो रहा है...",
+    "accessDenied": "पहुंच अस्वीकृत",
+    "cannotAccessArea": "व्यक्तिगत क्षेत्र तक पहुंचना असंभव",
+    "invalidAccessCode": "अमान्य एक्सेस कोड",
+    "unauthorizedAccess": "अनधिकृत पहुंच",
+    "connectionError": "कनेक्शन त्रुटि",
+    "welcome": "स्वागत है, {{name}}",
+    "personalAreaDesc": "आपके अपॉइंटमेंट देखने के लिए आपका व्यक्तिगत क्षेत्र",
+    "yourAppointments": "आपके अपॉइंटमेंट",
+    "noAppointments": "कोई अपॉइंटमेंट निर्धारित नहीं",
+    "completed": "पूर्ण",
+    "confirmed": "पुष्टि हुई",
+    "documentsInvoices": "दस्तावेज़ और चालान",
+    "invoicesAccess": "सभी जारी चालानों तक पहुंच",
+    "noInvoices": "कोई चालान उपलब्ध नहीं",
+    "invoice": "चालान",
+    "total": "कुल:",
+    "paid": "भुगतान किया",
+    "overdue": "देय",
+    "unpaid": "भुगतान बाकी",
+    "downloadPdf": "PDF डाउनलोड करें",
+    "installInstructions": "ऐप इंस्टॉलेशन निर्देश",
+    "onAndroid": "Android पर:",
+    "androidStep1": "ऊपर दाईं ओर ⋮ मेनू टैप करें",
+    "androidStep2": "\"होम स्क्रीन पर जोड़ें\" चुनें",
+    "androidStep3": "\"इंस्टॉल\" या \"जोड़ें\" की पुष्टि करें",
+    "onIos": "iOS पर:",
+    "iosStep1": "शेयर बटन 📤 टैप करें",
+    "iosStep2": "स्क्रॉल करें और \"होम स्क्रीन पर जोड़ें\" टैप करें",
+    "iosStep3": "ऊपर दाईं ओर \"जोड़ें\" टैप करें",
+    "onDesktop": "Desktop पर:",
+    "desktopStep1": "एड्रेस बार में + आइकन देखें",
+    "desktopStep2": "दिखने पर \"इंस्टॉल करें\" क्लिक करें",
+    "installBenefits": "इंस्टॉलेशन के फायदे:",
+    "benefit1": "होम स्क्रीन से त्वरित पहुंच",
+    "benefit2": "कनेक्शन के बिना भी काम करता है",
+    "benefit3": "नेटिव ऐप अनुभव",
+    "benefit4": "आपके अपॉइंटमेंट के लिए सूचनाएं",
+    "professionalStudio": "पेशेवर स्टूडियो",
+    "emailLabel": "ईमेल:",
+    "phoneLabel": "फोन:",
+    "mobileLabel": "मोबाइल:",
+    "websiteLabel": "वेबसाइट:",
+    "instagramLabel": "Instagram:",
+    "termsOfService": "सेवा की शर्तें",
+    "dataProtection": "डेटा सुरक्षा",
+    "technicalSupport": "तकनीकी सहायता",
+    "dataProtectionTitle": "डेटा सुरक्षा",
+    "dataSecurity": "1. डेटा सुरक्षा",
+    "dataSecurityDesc": "हम व्यक्तिगत डेटा की सुरक्षा के लिए उचित तकनीकी और संगठनात्मक उपाय लागू करते हैं।",
+    "encryption": "2. एन्क्रिप्शन",
+    "encryptionDesc": "सभी संवेदनशील डेटा ट्रांसमिशन और स्टोरेज के दौरान उन्नत एन्क्रिप्शन द्वारा सुरक्षित है।",
+    "dataAccess": "3. डेटा एक्सेस",
+    "dataAccessDesc": "व्यक्तिगत डेटा तक पहुंच उन अधिकृत कर्मियों तक सीमित है जिन्हें प्रोसेसिंग उद्देश्यों के लिए इसकी आवश्यकता है।",
+    "backupRecovery": "4. बैकअप और रिकवरी",
+    "backupRecoveryDesc": "सेवा की निरंतरता और डेटा हानि से सुरक्षा के लिए नियमित बैकअप किए जाते हैं।",
+    "monitoring": "5. निगरानी",
+    "monitoringDesc": "सिस्टम की लगातार निगरानी की जाती है।",
+    "staffTraining": "6. कर्मचारी प्रशिक्षण",
+    "staffTrainingDesc": "कर्मचारियों को सुरक्षा प्रक्रियाओं पर नियमित प्रशिक्षण प्राप्त होता है।",
+    "breachReporting": "7. उल्लंघन रिपोर्टिंग",
+    "breachReportingDesc": "डेटा उल्लंघन के मामले में, हम समय पर अधिकारियों को सूचित करते हैं।",
+    "onlineBookingDisabled": "पेशेवर ने ऑनलाइन बुकिंग सेवा अस्थायी रूप से अक्षम की है।",
+    "contactByPhone": "अपॉइंटमेंट के लिए सुविधा से संपर्क करें।",
+    "appInstalledTitle": "ऐप सफलतापूर्वक इंस्टॉल हुआ",
+    "needAccessQR": "अपने व्यक्तिगत क्षेत्र तक पहुंचने के लिए, अपने पेशेवर द्वारा प्रदान किया गया QR कोड स्कैन करें",
+    "appInstalledHint": "ऐप अब आपके डिवाइस पर इंस्टॉल है। पहली पहुंच के लिए, आपको प्रदान किया गया QR कोड उपयोग करें।",
+    "retry": "पुनः प्रयास",
+    "recoveringLastAccess": "अंतिम एक्सेस पुनः प्राप्त हो रहा है...",
+    "sessionClosed": "सत्र बंद"
+  },
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "confirm": "पुष्टि करें",
+    "back": "वापस",
+    "next": "अगला",
+    "yes": "हां",
+    "no": "नहीं",
+    "ok": "ठीक है",
+    "close": "बंद करें",
+    "search": "खोजें",
+    "filter": "फ़िल्टर",
+    "actions": "क्रियाएं",
+    "status": "स्थिति",
+    "date": "तारीख",
+    "time": "समय",
+    "name": "नाम",
+    "email": "ईमेल",
+    "phone": "फोन",
+    "address": "पता",
+    "notes": "टिप्पणियां",
+    "description": "विवरण",
+    "price": "मूल्य",
+    "total": "कुल",
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "enabled": "सक्षम",
+    "disabled": "अक्षम",
+    "required": "आवश्यक",
+    "optional": "वैकल्पिक",
+    "unknown": "अज्ञात",
+    "none": "कोई नहीं",
+    "all": "सभी",
+    "new": "नया",
+    "create": "बनाएं",
+    "update": "अपडेट करें",
+    "add": "जोड़ें",
+    "remove": "हटाएं",
+    "refresh": "रीफ्रेश करें",
+    "retry": "पुनः प्रयास",
+    "success": "सफलता",
+    "warning": "चेतावनी",
+    "info": "जानकारी",
+    "settings": "सेटिंग्स",
+    "profile": "प्रोफ़ाइल",
+    "logout": "लॉग आउट",
+    "login": "लॉग इन",
+    "register": "पंजीकरण"
+  },
+  "planFeatures": {
+    "calendar": "अपॉइंटमेंट कैलेंडर",
+    "clients": "ग्राहक प्रबंधन",
+    "qrPwa": "ग्राहकों के लिए QR/PWA ऐप",
+    "appointmentRequests": "ग्राहक अपॉइंटमेंट अनुरोध",
+    "notifications": "ग्राहक सूचनाएं",
+    "invoices": "चालान जारी करना",
+    "googleCalendar": "Google Calendar सिंक",
+    "reports": "रिपोर्ट और सांख्यिकी",
+    "packages": "प्रचार पैकेज",
+    "multiStaff": "बहु-कर्मचारी प्रबंधन",
+    "inventory": "उत्पाद गोदाम",
+    "marketingAI": "AI मार्केटिंग अभियान",
+    "unknownFeature": "सुविधा"
+  },
+  "subscribe": {
+    "trialExpiredTitle": "आपकी परीक्षण अवधि समाप्त हो गई",
+    "trialExpiredBody": "आपकी 40-दिन की मुफ्त परीक्षण अवधि समाप्त हो गई है। मैनेजर का उपयोग जारी रखने और सभी सुविधाओं तक पहुंच के लिए, नीचे हमारे किसी एक प्लान की सदस्यता लें।",
+    "trialExpiredSafe": "💾 चिंता न करें: आपका सभी डेटा (ग्राहक, अपॉइंटमेंट, सेटिंग्स) सुरक्षित है और प्लान सदस्यता लेने के बाद बहाल हो जाएगा।",
+    "for40Days": "40 दिनों के लिए",
+    "annualSub": "वार्षिक सदस्यता",
+    "invalidActivation": "एक वैध सक्रियण कोड दर्ज करें",
+    "licenseActivated": "लाइसेंस सक्रिय हुआ",
+    "licenseActivatedDesc": "आपका लाइसेंस सफलतापूर्वक सक्रिय हुआ।",
+    "genericError": "ऑपरेशन के दौरान एक त्रुटि हुई",
+    "redirectingPaypal": "आपको PayPal भुगतान पृष्ठ पर पुनर्निर्देशित किया जाएगा",
+    "paypalError": "PayPal त्रुटि",
+    "stripeError": "Stripe त्रुटि",
+    "activateCode": "अपना कोड सक्रिय करें",
+    "currentPlan": "वर्तमान प्लान",
+    "missingCode": "कोड गुम",
+    "redirectingPaypalTitle": "PayPal पर पुनर्निर्देशित हो रहा है...",
+    "redirectingStripeTitle": "Stripe पर पुनर्निर्देशित हो रहा है...",
+    "paypalStartFailed": "PayPal भुगतान प्रक्रिया शुरू नहीं हो सकी",
+    "stripeStartFailed": "कार्ड भुगतान प्रक्रिया शुरू नहीं हो सकी",
+    "bankInfoFailed": "बैंक ट्रांसफर जानकारी प्राप्त नहीं हो सकी",
+    "loginRequired": "सदस्यता लेने के लिए लॉग इन करना होगा",
+    "loginRequiredTitle": "एक्सेस आवश्यक",
+    "notSpecified": "निर्दिष्ट नहीं",
+    "recipientLabel": "प्राप्तकर्ता",
+    "reasonLabel": "कारण",
+    "title": "अपने व्यवसाय के लिए सही प्लान चुनें",
+    "subtitle": "सभी प्लान में 40 दिन की मुफ्त परीक्षण अवधि शामिल है। शुरू करने के लिए कोई क्रेडिट कार्ड आवश्यक नहीं।",
+    "activeSubscription": "सक्रिय सदस्यता",
+    "expiresAt": "समाप्ति",
+    "trialActive": "आपकी परीक्षण अवधि सक्रिय है",
+    "pricingTitle": "प्लान और मूल्य",
+    "paymentMethods": {
+      "card": "क्रेडिट कार्ड",
+      "bank": "बैंक ट्रांसफर"
+    },
+    "paymentSecurity": "सुरक्षित और संरक्षित भुगतान",
+    "popular": "सबसे लोकप्रिय",
+    "active": "सक्रिय",
+    "startTrial": "पहले से सक्रिय",
+    "subscribe": "सदस्यता लें",
+    "faq": {
+      "title": "अक्सर पूछे जाने वाले प्रश्न",
+      "q1": "क्या मैं अपनी सदस्यता रद्द कर सकता हूं?",
+      "a1": "हां, आप किसी भी समय अपनी सदस्यता रद्द कर सकते हैं। भुगतान अवधि के अंत तक प्रीमियम सुविधाओं तक पहुंच सक्रिय रहेगी।",
+      "q2": "परीक्षण अवधि कैसे काम करती है?",
+      "a2": "40-दिन की परीक्षण अवधि में सभी बुनियादी सुविधाएं शामिल हैं। शुरू करने के लिए कोई क्रेडिट कार्ड आवश्यक नहीं।",
+      "q3": "क्या मैं बाद में प्लान बदल सकता हूं?",
+      "a3": "हां, आप किसी भी समय उच्च प्लान पर जा सकते हैं। मूल्य अंतर आनुपातिक रूप से गणना की जाएगी।"
+    },
+    "activateCodeDescription": "भुगतान के बाद प्राप्त सक्रियण कोड दर्ज करें।",
+    "code": "सक्रियण कोड",
+    "acceptTerms": "मैं सेवा की शर्तें और गोपनीयता नीति स्वीकार करता हूं",
+    "redirectingSecure": "आपको सुरक्षित भुगतान पृष्ठ पर पुनर्निर्देशित किया जाएगा",
+    "bankTransfer": {
+      "title": "बैंक ट्रांसफर भुगतान",
+      "description": "बैंक ट्रांसफर के माध्यम से भुगतान पूरा करने के लिए निर्देशों का पालन करें।",
+      "plan": "प्लान",
+      "amount": "राशि",
+      "recipient": "प्राप्तकर्ता",
+      "reason": "कारण",
+      "reasonTemplate": "{{plan}} सदस्यता",
+      "noteTitle": "महत्वपूर्ण नोट",
+      "noteDesc": "ट्रांसफर करने के बाद, भुगतान प्राप्त होने के 1-2 कार्यदिवसों के भीतर आपकी सदस्यता मैन्युअल रूप से सक्रिय होगी।",
+      "copiedDetails": "ट्रांसफर विवरण क्लिपबोर्ड में कॉपी हुआ"
+    },
+    "features": {
+      "scheduling": {
+        "title": "अपॉइंटमेंट प्रबंधन",
+        "description": "आसानी से अपना कैलेंडर और ग्राहकों के साथ अपॉइंटमेंट व्यवस्थित करें।"
+      },
+      "clients": {
+        "title": "ग्राहक प्रबंधन",
+        "description": "अपने सभी ग्राहकों का डेटा एक सुरक्षित स्थान पर रखें।"
+      },
+      "notifications": {
+        "title": "स्वचालित सूचनाएं",
+        "description": "रद्दीकरण कम करने के लिए ग्राहकों को स्वचालित रिमाइंडर भेजें।"
+      },
+      "reports": {
+        "title": "विस्तृत रिपोर्ट",
+        "description": "रिपोर्ट और पूर्ण सांख्यिकी के साथ अपने व्यवसाय का विश्लेषण करें।"
+      }
+    }
+  },
+  "plans": {
+    "base": {
+      "priceLabel": "₹149 / माह",
+      "name": "बेस मासिक",
+      "description": "व्यक्तिगत पेशेवरों के लिए बेस प्लान। ग्राहक, अपॉइंटमेंट और आवश्यक बिलिंग प्रबंधन।"
+    },
+    "pro": {
+      "priceLabel": "₹299 / माह",
+      "name": "प्रो मासिक",
+      "description": "उन्नत सुविधाओं के साथ पेशेवर प्लान: Google Calendar सिंक, प्रचार पैकेज और स्वचालित सूचनाएं।"
+    },
+    "professional": {
+      "description": "उन्नत सुविधाओं के साथ पेशेवर प्लान: Google Calendar सिंक, प्रचार पैकेज और स्वचालित सूचनाएं।"
+    },
+    "business": {
+      "priceLabel": "₹499 / माह",
+      "name": "बिज़नेस मासिक",
+      "description": "बहु-पेशेवर स्टूडियो के लिए पूर्ण प्लान। सभी Pro सुविधाएं और उन्नत टीम प्रबंधन।"
+    },
+    "intervalYear": "वर्ष",
+    "intervalMonth": "माह",
+    "trial": {
+      "name": "परीक्षण",
+      "description": "सभी सुविधाओं तक पूर्ण पहुंच के साथ 40 दिन की मुफ्त परीक्षण अवधि।",
+      "price": "मुफ्त"
+    }
+  },
+  "registerPage": {
+    "title": "अपना खाता बनाएं",
+    "subtitle": "केवल 30 सेकंड · 40 दिन मुफ्त",
+    "errorTitle": "त्रुटि",
+    "emailLabel": "ईमेल",
+    "emailPlaceholder": "aapka@email.com",
+    "didYouMean": "क्या आपका मतलब था",
+    "passwordLabel": "पासवर्ड",
+    "passwordPlaceholder": "कम से कम 8 अक्षर",
+    "referralCodeLabel": "स्पॉन्सर कोड",
+    "optional": "(वैकल्पिक)",
+    "referralCodePlaceholder": "जैसे ABC123",
+    "referralCodeHint": "क्या आपको किसी सलाहकार से कोड मिला है? यहां दर्ज करें।",
+    "acceptPrefix": "मैं स्वीकार करता हूं",
+    "termsLink": "सेवा की शर्तें",
+    "andThe": "और",
+    "privacyLink": "गोपनीयता नीति",
+    "creating": "खाता बना रहे हैं...",
+    "createButton": "मुफ्त खाता बनाएं",
+    "trialTitle": "40 दिन का मुफ्त परीक्षण",
+    "trialFeature1": "कैलेंडर, ग्राहक, चालान — पहले दिन से सब शामिल",
+    "trialFeature2": "कोई क्रेडिट कार्ड नहीं · कोई जोखिम नहीं, कोई आश्चर्य नहीं",
+    "trialFeature3": "जब चाहें रद्द करें या अनइंस्टॉल करें",
+    "trialFeature4": "WhatsApp और ईमेल से स्वचालित रिमाइंडर",
+    "trialPricingFrom": "केवल ₹149/माह से, एक चाय की कीमत से भी कम",
+    "haveAccount": "पहले से खाता है?",
+    "signIn": "लॉग इन करें",
+    "validationEmailPasswordRequired": "ईमेल और पासवर्ड आवश्यक हैं",
+    "validationInvalidEmail": "एक वैध ईमेल दर्ज करें",
+    "validationPasswordTooShort": "पासवर्ड कम से कम 8 अक्षर लंबा होना चाहिए",
+    "validationAcceptTerms": "आगे बढ़ने के लिए सेवा की शर्तें स्वीकार करनी होंगी",
+    "registrationError": "पंजीकरण के दौरान त्रुटि",
+    "genericRegistrationError": "पंजीकरण के दौरान एक त्रुटि हुई"
+  },
+  "simpleLoginButton": {
+    "defaultText": "सरल एक्सेस",
+    "loggingIn": "लॉग इन हो रहा है...",
+    "errorTitle": "त्रुटि",
+    "missingCredentials": "सरल लॉगिन के लिए अधूरे क्रेडेंशियल्स",
+    "loginSuccessTitle": "एक्सेस हुआ",
+    "loginSuccessDescription": "ग्राहक क्षेत्र में आपका स्वागत है",
+    "loginErrorTitle": "एक्सेस त्रुटि",
+    "loginErrorDescription": "इन क्रेडेंशियल्स से लॉग इन करना असंभव",
+    "connectionErrorTitle": "कनेक्शन त्रुटि",
+    "connectionErrorDescription": "इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें"
+  },
+  "addToHomeScreen": {
+    "iosToastTitle": "शॉर्टकट बनाएं",
+    "iosToastDescription": "शेयर आइकन टैप करें और 'होम में जोड़ें' चुनें",
+    "createdToastTitle": "शॉर्टकट बनाया गया",
+    "createdToastDescription": "ऐप आपकी होम स्क्रीन पर जोड़ा गया",
+    "androidToastTitle": "शॉर्टकट बनाएं",
+    "androidToastDescription": "ब्राउज़र मेनू ⋮ उपयोग करें और 'होम स्क्रीन पर जोड़ें' चुनें",
+    "genericToastTitle": "शॉर्टकट बनाएं",
+    "genericToastDescription": "ब्राउज़र मेनू उपयोग करें और 'ऐप इंस्टॉल करें' या 'होम में जोड़ें' चुनें",
+    "minimalButton": "शॉर्टकट सहेजें",
+    "cardTitle": "सीधा शॉर्टकट बनाएं",
+    "cardDescription": "होम स्क्रीन पर सीधे अपने ग्राहक क्षेत्र में त्वरित पहुंच जोड़ें",
+    "cardBody": "अपने व्यक्तिगत क्षेत्र तक पहुंचने के लिए QR कोड का उपयोग नहीं करना होगा!",
+    "iosButton": "होम स्क्रीन पर जोड़ें",
+    "androidButton": "फोन पर शॉर्टकट सहेजें"
+  },
+  "onboardingWizard": {
+    "headerTitle": "स्मार्ट कॉन्फ़िगरेशन",
+    "stepLabel": "चरण {{current}} / {{total}}: {{title}}",
+    "progressLabel": "प्रगति",
+    "completedTitle": "ऑनबोर्डिंग पूर्ण!",
+    "completedDesc": "आपका व्यवसाय सफलतापूर्वक कॉन्फ़िगर हुआ।",
+    "completedToastTitle": "ऑनबोर्डिंग पूर्ण!",
+    "goToDashboard": "डैशबोर्ड पर जाएं",
+    "previous": "पिछला",
+    "continue": "जारी रखें",
+    "steps": {
+      "welcome": "स्वागत",
+      "welcomeDesc": "अपना व्यवसाय कॉन्फ़िगर करना शुरू करते हैं",
+      "businessInfo": "व्यवसाय जानकारी",
+      "businessInfoDesc": "हमें अपने व्यवसाय के बारे में बताएं",
+      "aiAnalysis": "AI विश्लेषण",
+      "aiAnalysisDesc": "AI को आपकी जरूरतों का विश्लेषण करने दें",
+      "services": "सेवाएं",
+      "servicesDesc": "अपनी मुख्य सेवाएं कॉन्फ़िगर करें",
+      "workingHours": "कार्य समय",
+      "workingHoursDesc": "अपना समय निर्धारित करें",
+      "clientManagement": "ग्राहक प्रबंधन",
+      "clientManagementDesc": "अपने ग्राहकों को कैसे प्रबंधित करना चाहते हैं",
+      "communication": "संचार",
+      "communicationDesc": "संचार प्राथमिकताएं",
+      "integrations": "एकीकरण",
+      "integrationsDesc": "एकीकृत करने के लिए बाहरी सेवाएं",
+      "completion": "समापन",
+      "completionDesc": "कॉन्फ़िगरेशन पूर्ण!"
+    },
+    "welcome": {
+      "title": "स्मार्ट ऑनबोर्डिंग में आपका स्वागत है",
+      "description": "हमारी AI आपके पेशेवर व्यवसाय की व्यक्तिगत कॉन्फ़िगरेशन में मार्गदर्शन करेगी",
+      "quickSetup": "त्वरित सेटअप",
+      "quickSetupDesc": "कुछ ही मिनटों में सेटअप",
+      "aiAnalysis": "AI विश्लेषण",
+      "aiAnalysisDesc": "व्यक्तिगत सिफारिशें",
+      "bestPractices": "सर्वोत्तम प्रथाएं",
+      "bestPracticesDesc": "विशेषज्ञ सुझाव",
+      "startButton": "कॉन्फ़िगरेशन शुरू करें"
+    },
+    "businessInfo": {
+      "title": "आपके व्यवसाय के बारे में जानकारी",
+      "description": "हमें आपके पेशेवर व्यवसाय को बेहतर समझने में मदद करें",
+      "businessName": "व्यवसाय का नाम *",
+      "businessNamePlaceholder": "जैसे मेरा सैलून",
+      "businessType": "व्यवसाय का प्रकार *",
+      "businessTypePlaceholder": "जैसे डॉक्टर, फिजियोथेरेपिस्ट, सलाहकार...",
+      "descriptionLabel": "विवरण (वैकल्पिक)",
+      "descriptionPlaceholder": "अपनी सेवाओं और विशेषज्ञता का संक्षिप्त विवरण..."
+    },
+    "aiAnalysisStep": {
+      "title": "AI विश्लेषण जारी है",
+      "description": "हमारी AI आपकी जरूरतों का विश्लेषण कर रही है",
+      "analyzing": "विश्लेषण हो रहा है...",
+      "processingFor": "हम \"{{name}}\" की जानकारी प्रोसेस कर रहे हैं",
+      "completed": "✨ विश्लेषण पूर्ण",
+      "identifiedBusiness": "हमने आपके व्यवसाय की पहचान की:",
+      "recommendedServices": "अनुशंसित सेवाएं:",
+      "personalizedTips": "व्यक्तिगत सुझाव:",
+      "loading": "विश्लेषण लोड हो रहा है...",
+      "errorTitle": "विश्लेषण में त्रुटि",
+      "errorDesc": "AI विश्लेषण के दौरान एक त्रुटि हुई"
+    },
+    "servicesStep": {
+      "title": "अपनी सेवाएं कॉन्फ़िगर करें",
+      "description": "वे सेवाएं चुनें जो आप अपने ग्राहकों को प्रदान करते हैं",
+      "aiRecommended": "AI द्वारा अनुशंसित सेवाएं:",
+      "addCustom": "कस्टम सेवा जोड़ें:",
+      "customPlaceholder": "सेवा का नाम...",
+      "addButton": "जोड़ें",
+      "selected": "चुनी गई सेवाएं:",
+      "editLater": "आप सेटिंग्स से प्रत्येक सेवा का नाम, अवधि और मूल्य बाद में संपादित कर सकते हैं।"
+    },
+    "workingHoursStep": {
+      "title": "कार्य समय",
+      "description": "हमने पहले से डिफ़ॉल्ट खुलने का समय निर्धारित किया है। आप इसे सेटिंग्स से कभी भी बदल सकते हैं।",
+      "defaultsLabel": "सक्रिय डिफ़ॉल्ट समय",
+      "defaultsValue": "सोमवार – शनिवार, 08:00 – 22:00",
+      "editHint": "दिन, समय स्लॉट या ब्रेक समायोजित करने के लिए सेटिंग्स खोलें।",
+      "openSettings": "सेटिंग्स में संपादित करें",
+      "keepDefaults": "ठीक है, जारी रखें",
+      "returnHint": "सेटिंग्स में सहेजने के बाद, आप AI कॉन्फ़िगरेशन पूरा करने के लिए वापस आ जाएंगे।"
+    },
+    "clientManagementStep": {
+      "title": "ग्राहक प्रबंधन",
+      "description": "आपको कौन सी सुविधाएं सबसे अधिक रुचिकर हैं?",
+      "helpText": "ये केवल प्राथमिकताएं हैं: ऐप में सभी सुविधाएं उपलब्ध रहती हैं।",
+      "needs": {
+        "notes": {
+          "title": "ग्राहक नोट्स और प्राथमिकताएं",
+          "desc": "निजी नोट्स, एलर्जी, उपचार प्राथमिकताएं सहेजें"
+        },
+        "history": {
+          "title": "अपॉइंटमेंट इतिहास",
+          "desc": "प्रत्येक ग्राहक के सभी पिछले अपॉइंटमेंट देखें"
+        },
+        "payments": {
+          "title": "भुगतान प्रबंधन",
+          "desc": "भुगतान, रसीदें और चालान ट्रैक करें"
+        },
+        "loyalty": {
+          "title": "वफादारी",
+          "desc": "स्वचालित रिमाइंडर, छूट और पैकेज"
+        }
+      }
+    },
+    "communicationStep": {
+      "title": "ग्राहकों के साथ संचार",
+      "description": "आप अपने ग्राहकों को उनके अपॉइंटमेंट के बारे में कैसे सूचित करना चाहते हैं?",
+      "helpText": "अतिरिक्त चैनल (SMS, WhatsApp) के लिए सेटिंग्स में अलग कॉन्फ़िगरेशन आवश्यक है।",
+      "options": {
+        "email": {
+          "title": "ईमेल",
+          "desc": "ईमेल से स्वचालित रिमाइंडर (मुफ्त)"
+        },
+        "sms": {
+          "title": "SMS",
+          "desc": "SMS रिमाइंडर (Twilio कॉन्फ़िगरेशन आवश्यक)"
+        },
+        "whatsapp": {
+          "title": "WhatsApp",
+          "desc": "WhatsApp रिमाइंडर (कॉन्फ़िगरेशन आवश्यक)"
+        },
+        "push": {
+          "title": "पुश सूचनाएं",
+          "desc": "ग्राहक ऐप में सीधी सूचनाएं"
+        }
+      }
+    },
+    "integrationsStep": {
+      "title": "बाहरी एकीकरण",
+      "description": "क्या आप मैनेजर को उन अन्य टूल के साथ सिंक करना चाहते हैं जो आप पहले से उपयोग करते हैं?",
+      "helpText": "एकीकरण सेटिंग्स पृष्ठ से एक-एक करके सक्रिय होते हैं।",
+      "options": {
+        "googleCalendar": {
+          "title": "Google Calendar",
+          "desc": "अपने Google कैलेंडर पर भी अपॉइंटमेंट देखें"
+        },
+        "appleCalendar": {
+          "title": "Apple Calendar",
+          "desc": "iPhone और Mac कैलेंडर के साथ सिंक करें"
+        },
+        "outlook": {
+          "title": "Outlook",
+          "desc": "Microsoft Outlook कैलेंडर के साथ सिंक करें"
+        },
+        "payments": {
+          "title": "ऑनलाइन भुगतान",
+          "desc": "Stripe / PayPal से अग्रिम और जमा राशि प्राप्त करें"
+        }
+      }
+    },
+    "completionStep": {
+      "title": "सब तैयार है!",
+      "description": "जब आप पुष्टि करेंगे तो हम आपके खाते में यह बनाएंगे।",
+      "saving": "सहेज रहा है...",
+      "finishButton": "सहेजें और डैशबोर्ड पर जाएं",
+      "editHint": "सेटिंग्स से सब कुछ किसी भी समय संपादित किया जा सकता है।",
+      "summary": {
+        "business": "आपका व्यवसाय",
+        "services": "{{count}} सेवा बनाई गई",
+        "services_other": "{{count}} सेवाएं बनाई गईं"
+      }
+    },
+    "appliedToast": {
+      "business": "व्यवसाय डेटा सहेजा गया",
+      "services": "{{count}} सेवा बनाई गई",
+      "preferences": "प्राथमिकताएं सहेजी गईं",
+      "services_other": "{{count}} सेवाएं बनाई गईं"
+    }
+  },
+  "serviceManagerSimple": {
+    "title": "सेवा प्रबंधन",
+    "description": "अवधि और मूल्य सहित प्रदान किए जाने वाले उपचार और सेवाओं का प्रबंधन करें।",
+    "availableServices": "उपलब्ध सेवाएं",
+    "newService": "नई सेवा",
+    "editService": "सेवा संपादित करें",
+    "fields": {
+      "name": "सेवा का नाम *",
+      "namePlaceholder": "जैसे सामान्य परामर्श",
+      "duration": "अवधि (मिनट) *",
+      "price": "मूल्य (₹) *",
+      "color": "रंग",
+      "description": "विवरण",
+      "descriptionPlaceholder": "सेवा का वैकल्पिक विवरण"
+    },
+    "actions": {
+      "cancel": "रद्द करें",
+      "create": "बनाएं",
+      "update": "अपडेट करें"
+    },
+    "table": {
+      "name": "नाम",
+      "duration": "अवधि",
+      "price": "मूल्य",
+      "color": "रंग",
+      "actions": "क्रियाएं"
+    },
+    "empty": {
+      "title": "कोई सेवा कॉन्फ़िगर नहीं है।",
+      "hint": "शुरू करने के लिए पहली सेवा जोड़ें।"
+    },
+    "confirm": {
+      "delete": "क्या आप सच में इस सेवा को हटाना चाहते हैं?"
+    },
+    "toast": {
+      "successTitle": "सफलता",
+      "created": "सेवा सफलतापूर्वक बनाई गई",
+      "updated": "सेवा सफलतापूर्वक अपडेट हुई",
+      "deleted": "सेवा सफलतापूर्वक हटाई गई",
+      "errorTitle": "त्रुटि"
+    },
+    "validation": {
+      "nameRequired": "सेवा का नाम आवश्यक है",
+      "durationPositive": "अवधि 0 से अधिक होनी चाहिए",
+      "priceNonNegative": "मूल्य नकारात्मक नहीं हो सकता"
+    }
+  },
+  "clientForm": {
+    "editClient": "ग्राहक संपादित करें",
+    "newClient": "नया ग्राहक",
+    "personalData": "व्यक्तिगत डेटा",
+    "medicalData": "चिकित्सा डेटा",
+    "gdprConsent": "डेटा सहमति (GDPR)",
+    "firstName": "नाम",
+    "lastName": "उपनाम",
+    "phone": "फोन",
+    "phonePlaceholder": "फोन नंबर",
+    "phoneDescription": "फोन नंबर में अंतरराष्ट्रीय कोड शामिल होना चाहिए",
+    "email": "ईमेल",
+    "address": "पता",
+    "taxCode": "टैक्स कोड",
+    "vatNumber": "VAT नंबर",
+    "birthday": "जन्म तारीख",
+    "frequentClient": "नियमित ग्राहक",
+    "frequentClientDesc": "ग्राहक नियमित रूप से आता है",
+    "notes": "टिप्पणियां",
+    "notesPlaceholder": "ग्राहक के बारे में टिप्पणियां",
+    "allergies": "एलर्जी",
+    "allergiesPlaceholder": "किसी भी एलर्जी दर्ज करें",
+    "medicalNotes": "चिकित्सा टिप्पणियां",
+    "medicalNotesPlaceholder": "कोई भी प्रासंगिक चिकित्सा टिप्पणियां दर्ज करें",
+    "medicalNotesDesc": "उपचार के लिए प्रासंगिक चिकित्सा जानकारी",
+    "consentAfterCreate": "ग्राहक बनाने के बाद डेटा प्रोसेसिंग सहमति एकत्र की जा सकती है।",
+    "cancel": "रद्द करें",
+    "checkingDuplicates": "डुप्लिकेट जांच...",
+    "updateData": "डेटा अपडेट करें",
+    "save": "सहेजें",
+    "clientUpdated": "ग्राहक अपडेट हुआ",
+    "clientUpdatedDesc": "ग्राहक का डेटा सफलतापूर्वक अपडेट हुआ",
+    "clientCreated": "ग्राहक बनाया गया",
+    "clientCreatedDesc": "नया ग्राहक सफलतापूर्वक बनाया गया",
+    "error": "त्रुटि",
+    "notAuthenticated": "उपयोगकर्ता प्रमाणित नहीं है। लॉग इन करें।",
+    "duplicateTitle": "संभावित डुप्लिकेट ग्राहक",
+    "duplicateExisting": "समान नाम या फोन वाले ग्राहक पहले से मौजूद हैं:",
+    "duplicateConfirm": "क्या आप फिर भी नया ग्राहक बनाना चाहते हैं?",
+    "createAnyway": "फिर भी बनाएं",
+    "nameMinChars": "नाम में कम से कम 2 अक्षर होने चाहिए",
+    "lastNameMinChars": "उपनाम में कम से कम 2 अक्षर होने चाहिए",
+    "phoneMinChars": "फोन नंबर में कम से कम 6 अंक होने चाहिए",
+    "emailInvalid": "अमान्य ईमेल",
+    "prefixPlaceholder": "प्रीफ़िक्स",
+    "codePreview": "इस ग्राहक को कोड मिलेगा: {{code}}"
+  },
+  "privacyConsent": {
+    "consentRequired": "सहमति आवश्यक",
+    "consentRequiredDesc": "आगे बढ़ने के लिए गोपनीयता शर्तें स्वीकार करनी होंगी",
+    "error": "त्रुटि",
+    "registrationError": "सहमति पंजीकरण के दौरान त्रुटि",
+    "registrationErrorDesc": "सहमति पंजीकरण के दौरान एक समस्या हुई",
+    "selectLanguage": "भाषा चुनें"
+  },
+  "autoLogin": {
+    "loadingTitle": "स्वचालित लॉगिन जारी है...",
+    "verifyingCredentials": "हम आपके क्रेडेंशियल्स सत्यापित कर रहे हैं, कृपया प्रतीक्षा करें।",
+    "successMessage": "स्वचालित रूप से लॉग इन हुआ",
+    "qrToastTitle": "QR के माध्यम से स्वचालित लॉगिन",
+    "qrToastDesc": "आपका स्वागत है, {{name}}!",
+    "welcomeUser": "आपका स्वागत है, {{name}}!",
+    "redirectingClient": "आपको एक पल में ग्राहक क्षेत्र में पुनर्निर्देशित किया जाएगा...",
+    "qrInvalidTitle": "अमान्य QR कोड",
+    "qrInvalidDesc": "QR कोड समाप्त हो गया हो सकता है या अमान्य है।",
+    "connectionErrorTitle": "कनेक्शन त्रुटि",
+    "connectionErrorDesc": "QR कोड सत्यापित करना असंभव। इंटरनेट कनेक्शन जांचें।",
+    "unavailableTitle": "स्वचालित लॉगिन उपलब्ध नहीं",
+    "unavailableDesc": "कोई वैध QR कोड नहीं मिला। स्वचालित रूप से लॉग इन करने के लिए QR कोड स्कैन करें।",
+    "unexpectedErrorTitle": "अप्रत्याशित त्रुटि",
+    "unexpectedErrorDesc": "स्वचालित लॉगिन के दौरान एक अप्रत्याशित त्रुटि हुई।",
+    "manualLoginButton": "मैन्युअल लॉगिन पर जाएं",
+    "defaultUser": "उपयोगकर्ता"
+  },
+  "unifiedLoginPage": {
+    "title": "लॉग इन करें",
+    "description": "लॉग इन करने के लिए अपने क्रेडेंशियल्स दर्ज करें",
+    "username": "उपयोगकर्ता नाम",
+    "usernamePlaceholder": "अपना उपयोगकर्ता नाम दर्ज करें",
+    "password": "पासवर्ड",
+    "passwordPlaceholder": "अपना पासवर्ड दर्ज करें",
+    "rememberMe": "मेरा खाता याद रखें",
+    "login": "लॉग इन",
+    "loggingIn": "लॉग इन हो रहा है...",
+    "error": "त्रुटि",
+    "errorOccurred": "लॉगिन के दौरान एक त्रुटि हुई",
+    "loginError": "लॉगिन त्रुटि",
+    "enterCredentials": "उपयोगकर्ता नाम और पासवर्ड दर्ज करें",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "clearCache": "कैश साफ करें",
+    "clearing": "साफ हो रहा है...",
+    "clearCacheHint": "यदि एक्सेस या देखने में समस्या है तो इस बटन का उपयोग करें",
+    "noAccount": "खाता नहीं है?",
+    "register": "पंजीकरण करें",
+    "infoTitle": "पेशेवर प्रबंधन",
+    "infoDesc": "अपॉइंटमेंट, ग्राहकों और बहुत कुछ के लिए अपने प्रबंधन पैनल में लॉग इन करें।",
+    "featureCalendar": "दैनिक और साप्ताहिक दृश्य के साथ अपॉइंटमेंट कैलेंडर",
+    "featureClients": "ग्राहकों और रोगियों का पूर्ण प्रबंधन",
+    "featureBilling": "एकीकृत बिलिंग और भुगतान",
+    "featureNotifications": "पुश सूचनाएं और स्वचालित रिमाइंडर"
+  },
+  "appointmentForm": {
+    "editTitle": "अपॉइंटमेंट संपादित करें",
+    "client": "ग्राहक",
+    "service": "सेवा",
+    "save": "अपॉइंटमेंट सहेजें",
+    "newTitle": "नया अपॉइंटमेंट",
+    "fields": {
+      "clientPlaceholder": "ग्राहक खोजें...",
+      "servicePlaceholder": "सेवा खोजें...",
+      "staff": "पेशेवर",
+      "staffPlaceholder": "पेशेवर चुनें...",
+      "noStaff": "कोई पेशेवर नहीं",
+      "room": "कमरा/केबिन (वैकल्पिक)",
+      "roomPlaceholder": "कमरा चुनें...",
+      "noRoom": "कोई कमरा नहीं",
+      "notesPlaceholder": "अपॉइंटमेंट के बारे में कोई टिप्पणी दर्ज करें"
+    },
+    "loadingClient": "ग्राहक डेटा लोड हो रहा है...",
+    "otherAccount": "अन्य खाता",
+    "creatingClient": "बना रहा है...",
+    "createNewClient": {
+      "before": "+ \"",
+      "after": "\" को नए ग्राहक के रूप में बनाएं"
+    },
+    "warnings": {
+      "otherAccountClient": "आप किसी अन्य खाते के ग्राहक के लिए अपॉइंटमेंट बना रहे हैं।"
+    },
+    "notifications": {
+      "title": "सूचना चैनल चुनें"
+    },
+    "slotDetails": {
+      "title": "चुने हुए स्लॉट का विवरण:",
+      "dateLabel": "तारीख: {{date}}",
+      "timeLabel": "समय: {{time}}"
+    },
+    "actions": {
+      "update": "अपडेट करें",
+      "savingButton": "सहेज रहा है..."
+    },
+    "packageBadge": "पैकेज ({{count}} उपलब्ध)",
+    "toast": {
+      "created": {
+        "title": "अपॉइंटमेंट बनाया गया",
+        "desc": "नया अपॉइंटमेंट सफलतापूर्वक बनाया गया"
+      },
+      "updated": {
+        "title": "अपॉइंटमेंट अपडेट हुआ",
+        "desc": "अपॉइंटमेंट सफलतापूर्वक अपडेट हुआ"
+      },
+      "clientCreated": {
+        "title": "ग्राहक बनाया गया",
+        "desc": "{{firstName}} {{lastName}} बनाया गया।"
+      },
+      "validationTitle": "सत्यापन त्रुटि",
+      "validationDesc": "त्रुटि वाले फ़ील्ड: {{fields}}",
+      "clientCreateErrorDesc": "ग्राहक बनाने में त्रुटि",
+      "savedAndCalendarUpdated": "अपॉइंटमेंट सहेजा गया और कैलेंडर अपडेट हुआ"
+    },
+    "errors": {
+      "requiredClient": "अपॉइंटमेंट के लिए एक ग्राहक चुनें",
+      "requiredService": "अपॉइंटमेंट के लिए एक सेवा चुनें",
+      "consentWarning": "ग्राहक ने डेटा प्रोसेसिंग सहमति नहीं दी है। अपॉइंटमेंट फिर भी बनाया जाएगा।",
+      "confirmOtherAccount": "सावधान: आप {{firstName}} {{lastName}} के लिए अपॉइंटमेंट बनाने वाले हैं जो किसी अन्य खाते से संबंधित है।",
+      "savingTitle": "सहेजने के दौरान त्रुटि",
+      "createClient": "ग्राहक बनाना असंभव",
+      "dataIncomplete": "अपॉइंटमेंट के लिए डेटा अधूरा",
+      "serviceNotFound": "सेवा नहीं मिली",
+      "requiredDate": "अपॉइंटमेंट के लिए एक तारीख चुनें",
+      "requiredStartTime": "शुरुआती समय चुनें"
+    },
+    "conflict": {
+      "title": "उपलब्धता विरोध",
+      "intro": "चुने हुए अपॉइंटमेंट के लिए विरोध का पता चला:",
+      "staffHeading": "स्टाफ के साथ विरोध:",
+      "roomHeading": "कमरों के साथ विरोध:",
+      "askProceed": "क्या आप फिर भी आगे बढ़ना चाहते हैं?",
+      "proceed": "फिर भी आगे बढ़ें",
+      "staffLineSuffix": "पर पहले से अपॉइंटमेंट है",
+      "withClient": "के साथ",
+      "roomLineSuffix": "पहले से व्यस्त है",
+      "byClient": "द्वारा"
+    },
+    "directSaveButton": "सीधे सहेजें",
+    "directSaveNote": "अपॉइंटमेंट सीधे सहेजने के साथ बनाया गया",
+    "durationLabel": "अवधि: {{minutes}} मिनट"
+  },
+  "clientNotes": {
+    "headerTitle": "ग्राहक की टिप्पणियां",
+    "newNote": "नई टिप्पणी",
+    "addButton": "जोड़ें",
+    "createTitle": "नई टिप्पणी बनाएं",
+    "editTitle": "टिप्पणी संपादित करें",
+    "fieldTitle": "शीर्षक",
+    "fieldTitlePlaceholder": "टिप्पणी का शीर्षक",
+    "fieldContent": "सामग्री",
+    "fieldContentPlaceholder": "टिप्पणी की सामग्री",
+    "fieldCategory": "श्रेणी",
+    "selectCategory": "श्रेणी चुनें",
+    "categoryGeneral": "सामान्य",
+    "categoryMedical": "चिकित्सा",
+    "categoryAllergies": "एलर्जी",
+    "save": "सहेजें",
+    "update": "अपडेट करें",
+    "saving": "सहेज रहा है...",
+    "cancel": "रद्द करें",
+    "noteCreated": "टिप्पणी बनाई गई",
+    "noteCreatedDesc": "टिप्पणी सफलतापूर्वक सहेजी गई",
+    "noteUpdated": "टिप्पणी अपडेट हुई",
+    "noteUpdatedDesc": "टिप्पणी सफलतापूर्वक अपडेट हुई",
+    "noteDeleted": "टिप्पणी हटाई गई",
+    "noteDeletedDesc": "टिप्पणी सफलतापूर्वक हटाई गई",
+    "noteDuplicated": "टिप्पणी डुप्लिकेट हुई",
+    "noteDuplicatedDesc": "टिप्पणी सफलतापूर्वक डुप्लिकेट हुई",
+    "missingData": "डेटा गुम",
+    "missingDataDesc": "टिप्पणी के लिए शीर्षक और सामग्री दर्ज करें",
+    "confirmDelete": "क्या आप सच में इस टिप्पणी को हटाना चाहते हैं?",
+    "errorCreate": "टिप्पणी बनाना असंभव: {{message}}",
+    "errorUpdate": "टिप्पणी अपडेट करना असंभव: {{message}}",
+    "errorDelete": "टिप्पणी हटाना असंभव: {{message}}",
+    "errorDuplicate": "टिप्पणी डुप्लिकेट करना असंभव: {{message}}",
+    "error": "त्रुटि",
+    "emptyState": "कोई टिप्पणी उपलब्ध नहीं",
+    "emptyStateHint": "इस ग्राहक के लिए एक नई टिप्पणी बनाएं",
+    "emptyStateAdd": "कोई टिप्पणी उपलब्ध नहीं। बनाने के लिए \"जोड़ें\" क्लिक करें।",
+    "noNoteToDelete": "हटाने के लिए कोई टिप्पणी नहीं",
+    "duplicateLast": "अंतिम टिप्पणी डुप्लिकेट करें",
+    "noNoteToDuplicate": "डुप्लिकेट करने के लिए कोई टिप्पणी नहीं",
+    "editLabel": "शीर्षक संपादित करें",
+    "resetLabel": "मूल शीर्षक पुनः स्थापित करें",
+    "labelUpdated": "शीर्षक अपडेट हुआ",
+    "labelUpdatedDesc": "अनुभाग का शीर्षक सफलतापूर्वक बदला गया",
+    "labelReset": "शीर्षक पुनः स्थापित",
+    "labelResetDesc": "अनुभाग का शीर्षक मूल मान पर पुनः स्थापित हुआ",
+    "addPhoto": "फोटो जोड़ें",
+    "copySuffix": "(प्रति)",
+    "photoUploaded": "फोटो अपलोड हुई",
+    "photoUploadedDesc": "फोटो सफलतापूर्वक जोड़ी गई",
+    "photoUploadedShort": "फोटो सफलतापूर्वक अपलोड हुई",
+    "photoDeleted": "फोटो हटाई गई",
+    "photoDeletedDesc": "फोटो सफलतापूर्वक हटाई गई",
+    "errorPhotoUpload": "फोटो अपलोड त्रुटि",
+    "errorPhotoDelete": "फोटो हटाने की त्रुटि",
+    "errorPhotoUploadDesc": "फोटो अपलोड करना असंभव: {{message}}",
+    "errorPhotoDeleteDesc": "फोटो हटाना असंभव: {{message}}",
+    "uploadFailed": "अपलोड विफल",
+    "uploadGenericError": "अपलोड के दौरान त्रुटि",
+    "confirmDeletePhoto": "इस फोटो को हटाएं?",
+    "photoAlt": "फोटो {{n}}",
+    "scrollNext": "अगली टिप्पणियां देखने के लिए स्क्रॉल करें →",
+    "createDialogTrigger": "नई टिप्पणी बनाएं"
+  },
+  "consentForm": {
+    "loading": "सहमति लोड हो रही है...",
+    "errorTitle": "त्रुटि",
+    "clientNotFound": "ग्राहक नहीं मिला। सहमति प्रबंधित करना असंभव।",
+    "alreadyRegistered": "सहमति पहले से पंजीकृत",
+    "alreadyRegisteredDesc": "इस ग्राहक के लिए डेटा प्रोसेसिंग सहमति पहले से एकत्र और पंजीकृत है।",
+    "detailsHeading": "सहमति विवरण:",
+    "clientField": "ग्राहक:",
+    "registrationDateField": "पंजीकरण तारीख:",
+    "signatureField": "हस्ताक्षर:",
+    "statusField": "स्थिति:",
+    "statusActive": "सक्रिय",
+    "statusInactive": "निष्क्रिय",
+    "consentTextLabel": "सहमति पाठ:",
+    "downloadConsent": "सहमति डाउनलोड करें",
+    "downloadFilenamePrefix": "सहमति",
+    "title": "डेटा प्रोसेसिंग सहमति",
+    "subtitle": "{{firstName}} {{lastName}} के लिए GDPR सहमति पंजीकृत करें",
+    "fullNameLabel": "ग्राहक का पूरा नाम",
+    "fullNamePlaceholder": "नाम और उपनाम दर्ज करें",
+    "fullNameHelp": "पूरा नाम आधिकारिक दस्तावेजों से मेल खाना चाहिए",
+    "consentTextField": "सहमति पाठ",
+    "consentTextHelp": "आवश्यक होने पर मानक पाठ संशोधित कर सकते हैं",
+    "consentAcceptedLabel": "मैं पुष्टि करता हूं कि ग्राहक ने सहमति पढ़ी और स्वीकार की",
+    "consentAcceptedHelp": "यह चेकबॉक्स चेक करके आप घोषित करते हैं कि ग्राहक ने जानकारी देखी और व्यक्तिगत डेटा प्रोसेसिंग के लिए सहमति दी।",
+    "registering": "पंजीकरण हो रहा है...",
+    "registerConsent": "सहमति पंजीकृत करें",
+    "consentRecorded": "सहमति पंजीकृत",
+    "consentRecordedDesc": "डेटा प्रोसेसिंग सहमति सफलतापूर्वक पंजीकृत हुई।",
+    "errorRegistering": "सहमति पंजीकरण के दौरान एक त्रुटि हुई।",
+    "validation": {
+      "consentTextRequired": "सहमति पाठ आवश्यक है",
+      "mustAccept": "आगे बढ़ने के लिए सहमति स्वीकार करनी होगी",
+      "fullNameRequired": "नाम और उपनाम आवश्यक हैं"
+    },
+    "signaturePrefix": "डिजिटल सहमति स्वीकार की गई",
+    "defaultConsentText": "गोपनीयता नीति और व्यक्तिगत डेटा प्रोसेसिंग सहमति\n\nआपके व्यक्तिगत डेटा का उपयोग निम्नलिखित उद्देश्यों के लिए किया जाएगा:\n\n1. चिकित्सा और प्रशासनिक अभ्यास का प्रबंधन\n2. कानूनी और नियामक अनुपालन\n3. प्रदान की गई सेवाओं से संबंधित संचार"
+  },
+  "resetPassword": {
+    "title": "पासवर्ड रीसेट",
+    "description": "अपना नया पासवर्ड दर्ज करें",
+    "error": "त्रुटि",
+    "newPassword": "नया पासवर्ड",
+    "newPasswordPlaceholder": "नया पासवर्ड दर्ज करें",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "confirmPasswordPlaceholder": "नया पासवर्ड पुष्टि करें",
+    "success": "पासवर्ड रीसेट हुआ",
+    "successDesc": "आपका पासवर्ड सफलतापूर्वक रीसेट हुआ। नए पासवर्ड से लॉग इन करें।",
+    "tokenNotFound": "रीसेट टोकन नहीं मिला। एक नया पुनर्प्राप्ति लिंक अनुरोध करें।",
+    "tokenInvalid": "टोकन समाप्त या अमान्य है। एक नया पुनर्प्राप्ति लिंक अनुरोध करें।",
+    "tokenVerifyError": "टोकन सत्यापन के दौरान त्रुटि।",
+    "bothFieldsRequired": "दोनों फ़ील्ड में नया पासवर्ड दर्ज करें",
+    "passwordsMismatch": "पासवर्ड मेल नहीं खाते",
+    "passwordTooShort": "पासवर्ड में कम से कम 6 अक्षर होने चाहिए",
+    "resetError": "पासवर्ड रीसेट के दौरान त्रुटि। बाद में पुनः प्रयास करें।",
+    "verifying": "सत्यापन हो रहा है...",
+    "resetting": "रीसेट हो रहा है...",
+    "submit": "पासवर्ड पुनः सेट करें",
+    "rateLimitError": "बहुत अधिक प्रयास। 15 मिनट बाद पुनः प्रयास करें।"
+  },
+  "payment": {
+    "processing": "भुगतान प्रोसेस हो रहा है...",
+    "pending": {
+      "title": "भुगतान प्रोसेसिंग",
+      "info": "आपका भुगतान प्राप्त हुआ और आपकी सदस्यता जल्द सक्रिय होगी।",
+      "wait": "कृपया कुछ क्षण प्रतीक्षा करें जबकि हम लेनदेन प्रोसेस करते हैं।",
+      "refresh": "यदि पृष्ठ स्वचालित रूप से अपडेट नहीं होता, तो कुछ मिनट बाद पृष्ठ पुनः लोड करें।",
+      "description": "आपका भुगतान प्रोसेस हो रहा है। इसमें कुछ मिनट लग सकते हैं।"
+    },
+    "checking": "हम आपकी सदस्यता की स्थिति जांच रहे हैं...",
+    "success": {
+      "description": "सदस्यता लेने के लिए धन्यवाद। आपका खाता अपडेट हो गया।",
+      "activated": "आपकी सदस्यता सफलतापूर्वक सक्रिय हुई।",
+      "access": "अब आप सभी प्रीमियम सुविधाओं तक पहुंच सकते हैं।",
+      "title": "भुगतान सफलतापूर्वक पूर्ण!"
+    },
+    "plan": "प्लान",
+    "activePlan": "सक्रिय प्लान",
+    "active": "सक्रिय",
+    "startDate": "शुरुआत तारीख",
+    "status": "स्थिति",
+    "details": "सदस्यता विवरण",
+    "features": "शामिल सुविधाएं",
+    "supportInfo": "सदस्यता के बारे में किसी भी प्रश्न के लिए, सहायता से संपर्क करें।",
+    "return": "डैशबोर्ड पर वापस",
+    "cancel": {
+      "title": "भुगतान पूर्ण नहीं हुआ",
+      "description": "भुगतान प्रक्रिया बाधित या रद्द हुई।",
+      "info": "आपका भुगतान प्रोसेस नहीं हुआ और आपसे कुछ नहीं लिया गया।",
+      "retry": "आप सदस्यता पृष्ठ से किसी भी समय भुगतान दोहरा सकते हैं।",
+      "tryAgain": "भुगतान पुनः प्रयास करें"
+    },
+    "nextBilling": "अगला नवीकरण"
+  },
+  "stripe": {
+    "payWithCard": "क्रेडिट कार्ड से भुगतान करें",
+    "sessionError": "भुगतान सत्र बनाना असंभव",
+    "urlError": "भुगतान सत्र URL नहीं मिला"
+  },
+  "license": {
+    "upgradeRequired": "अपग्रेड आवश्यक",
+    "featureRequiresLicense": "\"{{feature}}\" के लिए {{license}} लाइसेंस आवश्यक है",
+    "licenseRequired": "इस अनुभाग के लिए {{license}} लाइसेंस आवश्यक है",
+    "upgrade": "{{license}} पर जाएं",
+    "type": {
+      "trial": "परीक्षण",
+      "base": "बेस",
+      "pro": "प्रो",
+      "business": "बिज़नेस",
+      "staff": "स्टाफ",
+      "passepartout": "मास्टर"
+    }
+  },
+  "businessFeature": {
+    "title": "BUSINESS सुविधा",
+    "subtitle": "\"{{featureName}}\" केवल BUSINESS सदस्यता के साथ उपलब्ध है",
+    "benefits": {
+      "title": "BUSINESS के साथ आपको मिलता है",
+      "multiUser": "बहु-उपयोगकर्ता समर्थन",
+      "analytics": "उन्नत एनालिटिक्स",
+      "customization": "पूर्ण कस्टमाइज़ेशन",
+      "support": "24/7 प्राथमिकता समर्थन",
+      "branding": "ब्रांडिंग हटाना और white-label"
+    },
+    "learnMore": "और जानें",
+    "upgradeButton": "BUSINESS पर जाएं",
+    "description": "सभी उन्नत व्यवसाय सुविधाएं अनलॉक करने के लिए BUSINESS प्लान पर जाएं।"
+  },
+  "landingPro": {
+    "nav": {
+      "brand": "अपॉइंटमेंट मैनेजर",
+      "login": "लॉग इन",
+      "tryFree": "मुफ्त आज़माएं"
+    },
+    "hero": {
+      "badge": "★ 5.0 Google Play पर · 213 पेशेवर पहले से पंजीकृत",
+      "title": "अपॉइंटमेंट मैनेजर",
+      "titleHighlight": "आपके लिए बना",
+      "subtitle": "यदि आप स्वतंत्र रूप से काम करते हैं और व्यक्तिगत सेवाएं प्रदान करते हैं, तो कागज़ या WhatsApp पर एजेंडा प्रबंधन बंद करें। 10 मिनट में ऑपरेशनल हों।",
+      "ctaStart": "मुफ्त शुरू करें · 40 दिन",
+      "ctaLogin": "मेरे पास पहले से खाता है",
+      "noCard": "कोई क्रेडिट कार्ड आवश्यक नहीं · कोई स्वचालित शुल्क नहीं"
+    },
+    "professions": {
+      "sectionLabel": "स्वतंत्र पेशेवरों के लिए बना",
+      "hairdressers": "नाई",
+      "beauticians": "ब्यूटीशियन",
+      "masseurs": "मसाज थेरेपिस्ट",
+      "psychologists": "मनोवैज्ञानिक",
+      "dentists": "दंत चिकित्सक",
+      "osteopaths": "ऑस्टियोपैथ",
+      "physiotherapists": "फिजियोथेरेपिस्ट",
+      "naturopaths": "नेचरोपैथ",
+      "nutritionists": "पोषण विशेषज्ञ",
+      "coaches": "कोच और सलाहकार",
+      "personalTrainers": "पर्सनल ट्रेनर",
+      "tattooArtists": "टैटू कलाकार"
+    },
+    "benefits": {
+      "sectionTitle": "आपको जो चाहिए वह सब, उससे अधिक कुछ नहीं",
+      "schedule": {
+        "title": "आपका एजेंडा, हमेशा आपके साथ",
+        "desc": "स्मार्टफोन, टैबलेट या PC से अपॉइंटमेंट प्रबंधित करें।"
+      },
+      "reminders": {
+        "title": "स्वचालित रिमाइंडर",
+        "desc": "आपके ग्राहकों को अपॉइंटमेंट से पहले WhatsApp या ईमेल रिमाइंडर मिलता है।"
+      },
+      "clients": {
+        "title": "पूर्ण ग्राहक फ़ाइल",
+        "desc": "एनामनेसिस, एलर्जी, नोट्स, अपॉइंटमेंट इतिहास, GDPR सहमतियां।"
+      },
+      "billing": {
+        "title": "सरल बिलिंग",
+        "desc": "कुछ क्लिक में अनुमान और चालान बनाएं।"
+      },
+      "booking": {
+        "title": "ऑनलाइन बुकिंग",
+        "desc": "ग्राहक आपके Instagram या WhatsApp लिंक से स्वयं बुक करते हैं।"
+      },
+      "reports": {
+        "title": "रिपोर्ट और सांख्यिकी",
+        "desc": "जानें कौन सी सेवाएं सबसे अधिक कमाती हैं और आपके सबसे वफादार ग्राहक कौन हैं।"
+      }
+    },
+    "stats": {
+      "professionals": "पेशेवर पंजीकृत",
+      "rating": "Google Play रेटिंग",
+      "trial": "मुफ्त, बिना कार्ड"
+    },
+    "testimonials": {
+      "lucia": {
+        "text": "अंत में एक ऐप जो अकेले काम को समझती है। मैं इसे अपने मसाज स्टूडियो के लिए हर दिन उपयोग करती हूं।",
+        "author": "Lucia M. · मसाज थेरेपिस्ट"
+      },
+      "marco": {
+        "text": "मैंने हर बुकिंग के लिए WhatsApp पर जवाब देना बंद कर दिया। स्वचालित रिमाइंडर ने मुझे बचाया।",
+        "author": "Marco T. · ऑस्टियोपैथ"
+      },
+      "sara": {
+        "text": "सरल, तेज़, पेशेवर। मैं सभी नाइयों को इसकी सिफारिश करती हूं।",
+        "author": "Sara V. · नाई"
+      }
+    },
+    "checklist": {
+      "sectionTitle": "कागज़ और WhatsApp की तुलना में इसे क्यों चुनें?",
+      "items": {
+        "realtime": "एजेंडा हमेशा वास्तविक समय में अपडेट",
+        "whatsapp": "ग्राहकों को स्वचालित WhatsApp रिमाइंडर",
+        "profile": "एनामनेसिस और GDPR सहमति के साथ ग्राहक फ़ाइल",
+        "booking": "बिना फोन कॉल के ऑनलाइन बुकिंग",
+        "stats": "मासिक सांख्यिकी और रिपोर्ट",
+        "devices": "स्मार्टफोन, टैबलेट और PC पर काम करता है",
+        "backup": "आपके डेटा का स्वचालित बैकअप",
+        "support": "समर्पित समर्थन"
+      }
+    },
+    "cta": {
+      "title": "अपना एजेंडा सरल बनाने के लिए तैयार हैं?",
+      "subtitle": "40 दिन मुफ्त। कोई क्रेडिट कार्ड नहीं। कोई स्वचालित शुल्क नहीं। जब चाहें रद्द करें।",
+      "button": "अपना मुफ्त खाता बनाएं",
+      "note": "2 मिनट से कम लगते हैं · कोई इंस्टॉलेशन आवश्यक नहीं"
+    },
+    "faq": {
+      "sectionTitle": "अक्सर पूछे जाने वाले प्रश्न",
+      "techSavvy": {
+        "q": "क्या मुझे तकनीक का विशेषज्ञ होना होगा?",
+        "a": "नहीं। ऐप उन लोगों के लिए बनी है जिनके पास कम समय है और जो सरलता चाहते हैं। 10 मिनट में ऑपरेशनल हों।"
+      },
+      "dataSafe": {
+        "q": "क्या मेरा और मेरे ग्राहकों का डेटा सुरक्षित है?",
+        "a": "हां। डेटा यूरोपीय सर्वर पर है, एन्क्रिप्टेड और GDPR अनुरूप।"
+      },
+      "offline": {
+        "q": "क्या यह इंटरनेट कनेक्शन के बिना काम करता है?",
+        "a": "PWA आपको ऑफलाइन एजेंडा देखने की अनुमति देता है। बदलाव करने के लिए इंटरनेट कनेक्शन आवश्यक है।"
+      },
+      "freeTrial": {
+        "q": "क्या मैं इसे मुफ्त में आज़मा सकता हूं?",
+        "a": "हां, बिना क्रेडिट कार्ड के 40 दिन मुफ्त। परीक्षण के अंत में कोई स्वचालित शुल्क नहीं।"
+      },
+      "staff": {
+        "q": "क्या मैं अपने स्टाफ को भी प्रबंधित कर सकता हूं?",
+        "a": "हां। आप सहयोगी जोड़ सकते हैं, अपॉइंटमेंट असाइन कर सकते हैं और उनके एजेंडा एक स्क्रीन पर देख सकते हैं।"
+      }
+    },
+    "footer": {
+      "brand": "अपॉइंटमेंट मैनेजर · Castinox Srl",
+      "privacy": "गोपनीयता नीति",
+      "terms": "सेवा की शर्तें",
+      "login": "लॉग इन",
+      "copyright": "© {{year}} Castinox Srl"
+    }
+  },
+  "onboarding": {
+    "banner": {
+      "title": "अपना मैनेजर कॉन्फ़िगर करें",
+      "subtitle": "{{total}} में से {{completed}} चरण पूर्ण। जब आप अपना डेटा दर्ज करेंगे तो नमूना डेटा स्वचालित रूप से हटा दिया जाएगा।",
+      "dismiss": "इस मार्गदर्शिका को छुपाएं",
+      "allDone": "सब तैयार, बंद करें",
+      "stepDone": "पूर्ण",
+      "finishDialog": {
+        "title": "कॉन्फ़िगरेशन पूर्ण!",
+        "description": "आपने प्रारंभिक कॉन्फ़िगरेशन के सभी चरण पूरे कर लिए हैं।",
+        "permanent": "सुझावों को स्थायी रूप से हटाएं",
+        "session": "अगले पुनः आरंभ तक छुपाएं"
+      }
+    }
+  },
+  "fab": {
+    "dragging": "स्थानांतरित हो रहा है..."
+  },
+  "appointments": {
+    "noDataAvailable": "कोई अपॉइंटमेंट डेटा उपलब्ध नहीं",
+    "incompleteData": "अपॉइंटमेंट डेटा अधूरा"
+  },
+  "whatsapp": {
+    "reminderTemplate": "प्रिय {{name}},\nहम आपको {{date}} को {{time}} बजे {{service}} के लिए आपके अपॉइंटमेंट की याद दिलाते हैं।",
+    "testMessage": "अपॉइंटमेंट प्रबंधन प्रणाली से परीक्षण संदेश"
+  },
+  "user": {
+    "type": {
+      "admin": "प्रशासक",
+      "staff": "स्टाफ",
+      "user": "उपयोगकर्ता",
+      "customer": "खरीदार",
+      "client": "ग्राहक"
+    }
+  },
+  "aiChat": {
+    "title": "AI सहायक",
+    "subtitle": "मुझसे संदेश उत्पन्न करने, जानकारी खोजने या व्यवसाय सुझाव मांगें",
+    "welcome": "AI सहायक में आपका स्वागत है",
+    "tryAsking": "पूछने का प्रयास करें:",
+    "example1": "कल के लिए रिमाइंडर संदेश उत्पन्न करें",
+    "example2": "मुझे अपॉइंटमेंट बेहतर प्रबंधित करने के सुझाव दें",
+    "example3": "फिजियोथेरेपी तकनीकों के बारे में जानकारी खोजें",
+    "error": "त्रुटि",
+    "errorMessage": "AI से संवाद करना असंभव। पुनः प्रयास करें।",
+    "messageApproved": "संदेश अनुमोदित",
+    "messageApprovedDesc": "संदेश अनुमोदित हुआ और भेजा जा सकता है।",
+    "messageRejected": "संदेश अस्वीकृत",
+    "messageRejectedDesc": "आप AI से नया संदेश उत्पन्न करने के लिए कह सकते हैं।",
+    "previewTitle": "उत्पन्न संदेश - अनुमोदन आवश्यक",
+    "recipient": "प्राप्तकर्ता",
+    "approveAndUse": "अनुमोदित करें और उपयोग करें",
+    "reject": "अस्वीकार करें",
+    "placeholder": "अपना संदेश लिखें..."
+  },
+  "google": {
+    "step": "चरण",
+    "calendarIntegration": "Google Calendar एकीकरण",
+    "syncSummary": "{{imported}} इवेंट आयात हुए, {{exported}} अपॉइंटमेंट निर्यात हुए",
+    "syncDetails": "📥 आयात: {{imported}} | 📤 निर्यात: {{exported}} | 🗑️ हटाए: {{deleted}}",
+    "calendarEvent": "Google Calendar इवेंट",
+    "cannotDeleteImported": "यह इवेंट Google Calendar से आयात किया गया था और ऐप से हटाया नहीं जा सकता।",
+    "popupBlocked": "पॉपअप ब्लॉक हुआ। इस साइट के लिए पॉपअप ब्लॉकर अक्षम करें।",
+    "authSuccess": "प्राधिकरण पूर्ण",
+    "connectCalendar": "अपना Google Calendar कनेक्ट करें",
+    "connectCalendarDesc": "अपॉइंटमेंट को स्वचालित रूप से सिंक करने के लिए अपना Google खाता कनेक्ट करें।",
+    "connectWithGoogle": "Google के साथ कनेक्ट करें",
+    "disconnect": "डिस्कनेक्ट करें",
+    "notConnected": "स्थिति: कनेक्ट नहीं",
+    "lastSyncStatus": "स्थिति: Google Calendar से कनेक्ट",
+    "connectionActive": "Google Calendar एकीकरण सक्रिय है"
+  },
+  "staff": {
+    "title": "स्टाफ प्रबंधन"
+  },
+  "colorEditor": {
+    "saveError": "रंग सेटिंग्स सहेजना असंभव ({{status}})"
+  },
+  "manualAdmin": {
+    "error": {
+      "contentLoad": "सामग्री लोड करने के दौरान त्रुटि",
+      "upload": "फ़ाइल अपलोड के दौरान त्रुटि",
+      "save": "सहेजने के दौरान त्रुटि",
+      "deleteFile": "सर्वर से फ़ाइल हटाने के दौरान त्रुटि"
+    },
+    "fileType": {
+      "video": "वीडियो",
+      "image": "छवि"
+    },
+    "toast": {
+      "uploaded": "{{type}} अपलोड हुआ",
+      "uploadedDesc": "{{type}} जोड़ा गया। पुष्टि के लिए \"सहेजें\" क्लिक करें।",
+      "uploadError": "अपलोड त्रुटि",
+      "saved": "सहेजा गया",
+      "savedDesc": "सामग्री सफलतापूर्वक सहेजी गई",
+      "error": "त्रुटि",
+      "invalidFile": "केवल छवियां या वीडियो चुनें",
+      "fileTooBig": "फ़ाइल अधिकतम 1GB होनी चाहिए",
+      "titleMissing": "अनुभाग के लिए शीर्षक दर्ज करें",
+      "fileRemoved": "फ़ाइल हटाई गई",
+      "fileRemovedDesc": "फ़ाइल सर्वर से हटाई गई। परिवर्तनों को सहेजना याद रखें।",
+      "deleteError": "हटाने की त्रुटि",
+      "cannotDelete": "फ़ाइल हटाना असंभव"
+    },
+    "loading": "लोड हो रहा है...",
+    "title": "मैन्युअल प्रशासन",
+    "subtitle": "प्रत्येक अनुभाग के लिए सामग्री और वीडियो ट्यूटोरियल प्रबंधित करें",
+    "edit": "संपादित करें",
+    "saving": "सहेज रहा है...",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "selectorTitle": "अनुभाग और भाषा चुनें",
+    "sectionLabel": "मैनुअल अनुभाग",
+    "sectionPlaceholder": "एक अनुभाग चुनें...",
+    "languageLabel": "भाषा",
+    "languagePlaceholder": "भाषा चुनें...",
+    "titlePlaceholder": "अनुभाग शीर्षक...",
+    "noTitle": "कोई शीर्षक नहीं",
+    "textExplanation": "पाठ व्याख्या",
+    "contentPlaceholder": "इस अनुभाग के लिए पाठ व्याख्या दर्ज करें...",
+    "noContent": "कोई सामग्री उपलब्ध नहीं",
+    "supportMedia": "समर्थन मीडिया (वीडियो और छवियां)",
+    "imageAlt": "मैनुअल छवि",
+    "captionPlaceholder": "कैप्शन...",
+    "uploadHeading": "वीडियो या छवियां अपलोड करें",
+    "uploadHintImages": "छवियां: JPG, PNG, GIF, WEBP",
+    "uploadHintVideos": "वीडियो: MP4, WEBM, MOV (अधिकतम 1GB)",
+    "uploading": "अपलोड हो रहा है...",
+    "addFile": "फ़ाइल जोड़ें",
+    "uploadInProgress": "अपलोड जारी है...",
+    "noMedia": "कोई मीडिया उपलब्ध नहीं",
+    "sections": {
+      "s11": "1.1 सिस्टम तक पहली पहुंच",
+      "s12": "1.2 व्यवसाय डेटा कॉन्फ़िगर करें",
+      "s13": "1.3 बैंकिंग डेटा कॉन्फ़िगर करें",
+      "s14": "1.4 स्टाफ और उपचार कमरे प्रबंधित करें",
+      "s15": "1.5 स्वचालित ईमेल कॉन्फ़िगर करें",
+      "s21": "2.1 ग्राहक प्रबंधन",
+      "s22": "2.2 कैलेंडर और अपॉइंटमेंट",
+      "s23": "2.3 ग्राहक PWA अपॉइंटमेंट अनुरोध",
+      "s24": "2.4 चालान प्रबंधन",
+      "s31": "3.1 इन्वेंटरी और गोदाम प्रबंधन",
+      "s32": "3.2 रिपोर्ट और सांख्यिकी",
+      "s33": "3.3 AI के साथ मार्केटिंग अभियान",
+      "s34": "3.4 WhatsApp केंद्र",
+      "s35": "3.5 रेफरल और कमीशन सिस्टम",
+      "s41": "4.1 ग्राहक अपने क्षेत्र तक कैसे पहुंचते हैं",
+      "s42": "4.2 ग्राहक आरक्षित क्षेत्र में क्या कर सकते हैं",
+      "s43": "4.3 फोन पर ऐप कैसे इंस्टॉल करें (PWA)",
+      "s44": "4.4 ग्राहक क्षेत्र का स्वरूप कस्टमाइज़ करें",
+      "s51": "5.1 सेटिंग्स",
+      "s61": "6.1 उन्नत सुविधाएं"
+    }
+  },
+  "adminUsers": {
+    "title": "उपयोगकर्ता प्रबंधन",
+    "subtitle": "सिस्टम में पंजीकृत सभी उपयोगकर्ताओं को देखें और प्रबंधित करें",
+    "stats": {
+      "total": "कुल उपयोगकर्ता",
+      "active": "सक्रिय लाइसेंस",
+      "expiring": "समाप्त होने वाले (<7 दिन)",
+      "expired": "समाप्त"
+    },
+    "table": {
+      "title": "सभी उपयोगकर्ता",
+      "description": "लाइसेंस और सदस्यता स्थिति के साथ पूरी सूची",
+      "username": "उपयोगकर्ता नाम",
+      "email": "ईमेल",
+      "type": "प्रकार",
+      "status": "लाइसेंस स्थिति",
+      "expiresAt": "समाप्ति",
+      "daysLeft": "शेष दिन",
+      "plan": "प्लान",
+      "actions": "क्रियाएं",
+      "empty": "कोई उपयोगकर्ता नहीं मिला",
+      "daysCount": "{{count}} दिन"
+    },
+    "badges": {
+      "subscribed": "सदस्यता ली",
+      "trialActive": "परीक्षण सक्रिय",
+      "expired": "समाप्त",
+      "permanent": "स्थायी",
+      "unknown": "अज्ञात",
+      "customer": "ग्राहक"
+    },
+    "actions": {
+      "extending": "बढ़ा रहा है...",
+      "extend40": "+40 दिन"
+    },
+    "toast": {
+      "trialExtended": "परीक्षण बढ़ाया गया",
+      "cannotExtend": "परीक्षण बढ़ाना असंभव"
+    }
+  },
+  "capabilities": {
+    "calendar": {
+      "title": "कैलेंडर",
+      "description": "केंद्रीय कैलेंडर में अपने स्टाफ के अपॉइंटमेंट, समय और उपलब्धता प्रबंधित करें।"
+    },
+    "email_notifications": {
+      "title": "ईमेल सूचनाएं",
+      "description": "अपने ग्राहकों को ईमेल से स्वचालित पुष्टि और रिमाइंडर भेजें।"
+    },
+    "whatsapp_notifications": {
+      "title": "WhatsApp सूचनाएं",
+      "description": "पुष्टि, रिमाइंडर और संचार के लिए ग्राहकों को WhatsApp संदेश भेजें।"
+    },
+    "invoices": {
+      "title": "बिलिंग",
+      "description": "अपने ग्राहकों के लिए पेशेवर चालान बनाएं, प्रबंधित करें और भेजें।"
+    },
+    "reports": {
+      "title": "रिपोर्ट और सांख्यिकी",
+      "description": "विस्तृत रिपोर्ट और सांख्यिकी के साथ अपने व्यवसाय के प्रदर्शन का विश्लेषण करें।"
+    },
+    "google_calendar": {
+      "title": "Google Calendar सिंक",
+      "description": "अपने अपॉइंटमेंट को Google Calendar के साथ स्वचालित रूप से सिंक करें।"
+    },
+    "client_pwa_qr": {
+      "title": "कस्टम ग्राहक ऐप (QR)",
+      "description": "QR कोड के माध्यम से ग्राहकों को आपके ब्रांडिंग के साथ इंस्टॉल करने योग्य वेब ऐप प्रदान करें।"
+    },
+    "staff_rooms": {
+      "title": "स्टाफ और कमरे",
+      "description": "उन्नत योजना के साथ एक साथ कई ऑपरेटर और कमरे प्रबंधित करें।"
+    },
+    "warehouse": {
+      "title": "गोदाम प्रबंधन",
+      "description": "प्रत्येक सेवा के लिए उत्पादों, स्टॉक और उपभोग को ट्रैक करें।"
+    },
+    "unlimited_clients": {
+      "title": "असीमित ग्राहक",
+      "description": "बिना किसी प्रतिबंध के असीमित ग्राहक जोड़ें और प्रबंधित करें।"
+    },
+    "appointment_requests": {
+      "title": "अपॉइंटमेंट अनुरोध",
+      "description": "ग्राहकों को ऑनलाइन अपॉइंटमेंट अनुरोध करने दें और उन्हें आसानी से प्रबंधित करें।"
+    },
+    "promotional_packages": {
+      "title": "प्रचार पैकेज",
+      "description": "अपने ग्राहकों को बनाए रखने के लिए ऑफर और प्रचार पैकेज बनाएं।"
+    },
+    "marketing_ai": {
+      "title": "AI मार्केटिंग",
+      "description": "व्यक्तिगत मार्केटिंग अभियान उत्पन्न करने के लिए कृत्रिम बुद्धिमत्ता का उपयोग करें।"
+    }
+  },
+  "userSettings": {
+    "title": "उपयोगकर्ता सेटिंग्स",
+    "subtitle": "अपने अनुभव को अनुकूलित करें और अपने खाते का ब्रांडिंग कॉन्फ़िगर करें",
+    "loading": "सेटिंग्स लोड हो रही हैं...",
+    "roles": {
+      "admin": "प्रशासक",
+      "staff": "स्टाफ",
+      "customer": "प्रीमियम ग्राहक"
+    },
+    "tabs": {
+      "branding": "ब्रांडिंग",
+      "contact": "संपर्क",
+      "appearance": "स्वरूप",
+      "business": "व्यवसाय"
+    },
+    "branding": {
+      "cardTitle": "ब्रांड पहचान",
+      "cardDesc": "अपने व्यवसाय का नाम और स्वरूप कस्टमाइज़ करें",
+      "businessNameLabel": "व्यवसाय का नाम",
+      "businessNamePlaceholder": "अपने व्यवसाय का नाम दर्ज करें",
+      "logoUrlLabel": "लोगो URL",
+      "primaryColorLabel": "प्राथमिक रंग",
+      "secondaryColorLabel": "द्वितीयक रंग",
+      "greenButton": "🔥 हरा बटन",
+      "blueButton": "💾 नीला बटन",
+      "savingLabel": "सहेज रहा है...",
+      "creatingLabel": "बना रहा है...",
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "assignmentCodeLabel": "पहचान कोड",
+      "assignmentCodeDesc": "आपके ग्राहकों के कोड में उपसर्ग के रूप में उपयोग होता है",
+      "assignmentCodePlaceholder": "जैसे BRUNA42",
+      "assignmentCodeSave": "कोड सहेजें",
+      "assignmentCodeSaving": "सहेज रहा है...",
+      "assignmentCodeChangeWarningTitle": "पहचान कोड बदलें",
+      "assignmentCodeChangeWarningDesc": "आपके मौजूदा ग्राहक अपने वर्तमान कोड रखेंगे। केवल नए ग्राहक नए उपसर्ग का उपयोग करेंगे।",
+      "assignmentCodeChangeConfirm": "बदलाव की पुष्टि करें",
+      "assignmentCodeChangeCancel": "रद्द करें"
+    },
+    "contact": {
+      "cardTitle": "संपर्क जानकारी",
+      "cardDesc": "अपनी कस्टम संपर्क जानकारी कॉन्फ़िगर करें",
+      "emailLabel": "संपर्क ईमेल",
+      "phone1Label": "मुख्य फोन",
+      "phone2Label": "द्वितीयक फोन",
+      "websiteLabel": "वेबसाइट",
+      "addressLabel": "पता",
+      "addressPlaceholder": "पूरा पता",
+      "emailPlaceholder": "info@example.com",
+      "websitePlaceholder": "https://www.example.com"
+    },
+    "appearance": {
+      "cardTitle": "इंटरफेस स्वरूप",
+      "cardDesc": "एप्लिकेशन का थीम और स्वरूप चुनें",
+      "themeLabel": "थीम",
+      "themePlaceholder": "थीम चुनें",
+      "themeProfessional": "पेशेवर",
+      "themeVibrant": "जीवंत",
+      "themeTint": "रंगत",
+      "modeLabel": "मोड",
+      "modePlaceholder": "मोड चुनें",
+      "modeLight": "लाइट",
+      "modeDark": "डार्क",
+      "modeSystem": "सिस्टम"
+    },
+    "business": {
+      "cardTitle": "सोशल मीडिया",
+      "cardDesc": "अधिक दृश्यता के लिए अपने सोशल प्रोफाइल कनेक्ट करें",
+      "instagramLabel": "Instagram",
+      "facebookLabel": "Facebook",
+      "linkedinLabel": "LinkedIn"
+    },
+    "toast": {
+      "savedTitle": "सेटिंग्स सहेजी गईं",
+      "savedDesc": "सभी सेटिंग्स सफलतापूर्वक सहेजी गईं!",
+      "saveErrorDesc": "सेटिंग्स सहेजना असंभव। पुनः प्रयास करें।",
+      "businessNameSavedTitle": "व्यवसाय नाम सहेजा गया",
+      "businessNameSavedDesc": "व्यवसाय नाम सफलतापूर्वक सहेजा गया!",
+      "businessNameErrorDesc": "व्यवसाय नाम सहेजना असंभव। पुनः प्रयास करें।",
+      "colorSavedTitle": "रंग सहेजा गया",
+      "colorSavedDesc": "रंग सफलतापूर्वक सहेजा गया!",
+      "colorErrorDesc": "रंग सहेजना असंभव। पुनः प्रयास करें।",
+      "themeSavedTitle": "थीम सहेजा गया",
+      "themeSavedDesc": "थीम सफलतापूर्वक सहेजा गया!",
+      "themeErrorDesc": "थीम सहेजना असंभव। पुनः प्रयास करें।",
+      "contactsSavedTitle": "संपर्क सहेजे गए",
+      "contactsSavedDesc": "संपर्क जानकारी सहेजी गई!",
+      "contactsErrorDesc": "संपर्क सहेजना असंभव। पुनः प्रयास करें।",
+      "assignmentCodeSavedTitle": "कोड सहेजा गया",
+      "assignmentCodeSavedDesc": "पहचान कोड सफलतापूर्वक अपडेट हुआ।",
+      "assignmentCodeErrorDesc": "कोड सहेजना असंभव। पुनः प्रयास करें।",
+      "assignmentCodeDuplicate": "कोड पहले से किसी अन्य पेशेवर द्वारा उपयोग में है।",
+      "assignmentCodeInvalid": "कोड में केवल अल्फ़ान्यूमेरिक अक्षर होने चाहिए (4-10 अक्षर)।"
+    }
+  },
+  "components": {
+    "countryPrefixes": {
+      "italy": "इटली",
+      "usaCanada": "USA/कनाडा",
+      "unitedKingdom": "यूनाइटेड किंगडम",
+      "france": "फ्रांस",
+      "germany": "जर्मनी",
+      "spain": "स्पेन",
+      "switzerland": "स्विट्ज़रलैंड",
+      "austria": "ऑस्ट्रिया",
+      "belgium": "बेल्जियम",
+      "netherlands": "नीदरलैंड",
+      "portugal": "पुर्तगाल",
+      "greece": "ग्रीस",
+      "sweden": "स्वीडन",
+      "norway": "नॉर्वे",
+      "denmark": "डेनमार्क",
+      "finland": "फिनलैंड",
+      "poland": "पोलैंड",
+      "czechRepublic": "चेक गणराज्य",
+      "hungary": "हंगरी",
+      "romania": "रोमानिया"
+    },
+    "userLicenseBadge": {
+      "customer": "ग्राहक",
+      "user": "उपयोगकर्ता"
+    },
+    "upgradePrompt": {
+      "requiredPlan": "आवश्यक प्लान:",
+      "viewPlans": "प्लान देखें"
+    },
+    "paymentPageExtra": {
+      "popularBadge": "लोकप्रिय"
+    },
+    "pureClientAreaExtra": {
+      "copyrightLine": "© {{year}} अपॉइंटमेंट मैनेजर by {{author}}",
+      "versionLine": "संस्करण {{version}}"
+    },
+    "clientFooterContactIcons": {
+      "emailLabel": "ईमेल:",
+      "phoneLabel": "फोन:",
+      "termsOfService": "सेवा की शर्तें",
+      "privacyPolicy": "गोपनीयता नीति",
+      "cellularLabel": "मोबाइल:",
+      "websiteLabel": "वेबसाइट:",
+      "developedBy": "{{author}} द्वारा विकसित",
+      "versionLine": "संस्करण {{version}} - अपॉइंटमेंट मैनेजर PWA"
+    },
+    "appointmentCard": {
+      "hide": "छुपाएं",
+      "details": "विवरण",
+      "emailReminderSent": "ईमेल रिमाइंडर भेजा गया",
+      "emailSendFailed": "ईमेल भेजना विफल",
+      "whatsappReminderSent": "WhatsApp रिमाइंडर भेजा गया"
+    },
+    "monthView": {
+      "addAppointment": "अपॉइंटमेंट जोड़ें"
+    },
+    "socialIcons": {
+      "emailLabel": "ईमेल",
+      "phoneLabel": "फोन"
+    },
+    "welcomePage": {
+      "privacyPolicy": "गोपनीयता नीति",
+      "termsOfService": "सेवा की शर्तें"
+    },
+    "footerOnly": {
+      "privacyPolicy": "गोपनीयता नीति"
+    },
+    "dayViewWithTimeSlots": {
+      "closeTitle": "बंद करें",
+      "selectServiceTitle": "सेवा चुनें"
+    },
+    "saveDirectButton": {
+      "saveDirectly": "सीधे सहेजें"
+    },
+    "pwaRedirectorExtra": {
+      "starting": "शुरू हो रहा है...",
+      "redirecting": "पुनर्निर्देशित हो रहा है..."
+    },
+    "staffManagementSimple": {
+      "loading": "लोड हो रहा है..."
+    },
+    "promotionPageExtra": {
+      "loading": "लोड हो रहा है...",
+      "specialPromotionTitle": "विशेष प्रमोशन"
+    },
+    "clientCardExtra": {
+      "unlockDeletion": "हटाना अनलॉक करें",
+      "emailButton": "ईमेल",
+      "deletionNotificationTitle": "हटाने की सूचना",
+      "deletionUnlockedBadge": "हटाना अनलॉक",
+      "otherAccountClient": "अन्य खाते का ग्राहक (केवल देखें)",
+      "viewOnlyBadge": "केवल देखें",
+      "deletedFromSourceBadge": "मूल खाते से ग्राहक हटाया गया",
+      "deletedFromSourceToast": "{{firstName}} {{lastName}} मूल खाते से हटाया गया"
+    },
+    "staffSimple": {
+      "pageTitle": "स्टाफ प्रबंधन (सरल संस्करण)",
+      "pageLoadedSuccess": "पृष्ठ सफलतापूर्वक लोड हुआ! {{count}} उपयोगकर्ता मिले।"
+    },
+    "welcomePageExtra": {
+      "developerCredit": "{{author}} - अपॉइंटमेंट मैनेजर"
+    },
+    "whatsAppCenterPage": {
+      "emailPlaceholder": "naam@example.com"
+    },
+    "clientsPageExtra": {
+      "mobileSyncTitle": "मोबाइल सिंक",
+      "mobileSyncDesc": "टेस्ट सिंक: {{count}} ग्राहक उपलब्ध",
+      "testServer": "सर्वर टेस्ट"
+    },
+    "inventoryExtra": {
+      "removeImage": "हटाएं"
+    },
+    "appointmentForm": {
+      "emailLabel": "ईमेल"
+    },
+    "appointmentFormModal": {
+      "selectServiceAria": "सेवा चुनें"
+    },
+    "contactInfoEditor": {
+      "emailPlaceholder": "email@example.com",
+      "websiteExamplePlaceholder": "example.com या www.example.com"
+    },
+    "reminderTemplateManager": {
+      "emailLabel": "ईमेल"
+    },
+    "pureClientArea": {
+      "privacyPolicy": "गोपनीयता नीति"
+    }
+  }
+}

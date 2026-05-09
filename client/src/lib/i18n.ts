@@ -12,6 +12,7 @@ import translationRU from '../locales/ru.json';
 import translationNL from '../locales/nl.json';
 import translationNO from '../locales/no.json';
 import translationRO from '../locales/ro.json';
+import translationHI from '../locales/hi.json';
 
 // Risorse di traduzione
 const resources = {
@@ -42,6 +43,9 @@ const resources = {
   ro: {
     translation: translationRO,
   },
+  hi: {
+    translation: translationHI,
+  },
 };
 
 i18n
@@ -50,7 +54,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'it',
-    supportedLngs: ['it', 'en', 'de', 'fr', 'es', 'ru', 'nl', 'no', 'ro'],
+    supportedLngs: ['it', 'en', 'de', 'fr', 'es', 'ru', 'nl', 'no', 'ro', 'hi'],
     nonExplicitSupportedLngs: true,
     interpolation: {
       escapeValue: false,

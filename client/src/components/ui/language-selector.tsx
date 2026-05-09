@@ -51,6 +51,7 @@ export function LanguageSelector() {
           <SelectItem value="nl">{t('language.nl')}</SelectItem>
           <SelectItem value="no">{t('language.no')}</SelectItem>
           <SelectItem value="ro">{t('language.ro')}</SelectItem>
+          <SelectItem value="hi">{t('language.hi')}</SelectItem>
         </SelectContent>
       </Select>
     </div>
