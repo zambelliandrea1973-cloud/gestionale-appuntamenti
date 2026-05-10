@@ -170,6 +170,22 @@ export default function SubscriptionPlansAdmin() {
   };
 
   /**
+   * Returns how many of the supported locales have a non-empty description.
+   */
+  const countFilledLocales = (localeMap: LocaleMap): { filled: number; total: number; filledList: string[]; emptyList: string[] } => {
+    const filledList: string[] = [];
+    const emptyList: string[] = [];
+    for (const lang of SUPPORTED_LOCALES) {
+      if (localeMap[lang]?.trim()) {
+        filledList.push(lang);
+      } else {
+        emptyList.push(lang);
+      }
+    }
+    return { filled: filledList.length, total: SUPPORTED_LOCALES.length, filledList, emptyList };
+  };
+
+  /**
    * Returns the description for a plan in the current UI language from the DB presets,
    * used for the read-only view of preset rows.
    */
@@ -510,16 +526,40 @@ export default function SubscriptionPlansAdmin() {
             </p>
           ) : (
             <div className="space-y-2">
-              {Object.entries(dbPresets).map(([key, localeMap]) => (
-                <div key={key} className="grid grid-cols-[1fr_2fr] gap-2 items-start text-sm">
-                  <span className="font-medium pt-0.5">{key}</span>
-                  <span className="text-muted-foreground">
-                    {typeof localeMap === 'object' && localeMap !== null
-                      ? getPresetDisplayValue(localeMap as LocaleMap)
-                      : (localeMap as string)}
-                  </span>
-                </div>
-              ))}
+              {Object.entries(dbPresets).map(([key, localeMap]) => {
+                const lm = (typeof localeMap === 'object' && localeMap !== null) ? (localeMap as LocaleMap) : null;
+                const stats = lm ? countFilledLocales(lm) : null;
+                const tooltipText = stats
+                  ? [
+                      stats.filledList.length > 0 ? `✓ ${stats.filledList.join(', ')}` : '',
+                      stats.emptyList.length > 0 ? `✗ ${stats.emptyList.join(', ')}` : '',
+                    ].filter(Boolean).join('\n')
+                  : '';
+                const badgeVariant = stats
+                  ? stats.filled === stats.total
+                    ? 'default'
+                    : stats.filled === 0
+                      ? 'destructive'
+                      : 'secondary'
+                  : 'secondary';
+                return (
+                  <div key={key} className="grid grid-cols-[1fr_2fr_auto] gap-2 items-start text-sm">
+                    <span className="font-medium pt-0.5">{key}</span>
+                    <span className="text-muted-foreground">
+                      {lm ? getPresetDisplayValue(lm) : (localeMap as string)}
+                    </span>
+                    {stats && (
+                      <Badge
+                        variant={badgeVariant}
+                        className="text-xs font-mono cursor-default shrink-0 mt-0.5"
+                        title={tooltipText}
+                      >
+                        {stats.filled} / {stats.total}
+                      </Badge>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </CardContent>
