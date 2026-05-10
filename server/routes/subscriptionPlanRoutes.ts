@@ -164,23 +164,63 @@ router.delete("/api/subscription-plans/:id", requireAuth, async (req, res) => {
 
 const PLAN_PRESET_DESCRIPTIONS_KEY = 'plan_preset_descriptions';
 
-// Canonical Italian descriptions sourced from client/src/locales/it.json → plans.*.description
-// Now stored in nested format: { planSlug: { locale: description } }
+// Canonical descriptions for all 9 supported locales, sourced from client/src/locales/*.json → plans.*.description
+// Stored in nested format: { planSlug: { locale: description } }
 const CANONICAL_PRESET_DESCRIPTIONS: Record<string, Record<string, string>> = {
   base: {
     it: 'Piano base per professionisti individuali. Gestione clienti, appuntamenti e fatturazione essenziale.',
+    en: 'Basic plan for individual professionals. Essential client, appointment, and billing management.',
+    es: 'Plan básico para profesionales individuales. Gestión esencial de clientes, citas y facturación.',
+    fr: 'Forfait de base pour les professionnels individuels. Gestion essentielle des clients, des rendez-vous et de la facturation.',
+    de: 'Basisplan für Einzelprofis. Grundlegende Kunden-, Termin- und Abrechnungsverwaltung.',
+    nl: 'Basisplan voor individuele professionals. Essentieel beheer van klanten, afspraken en facturering.',
+    no: 'Grunnplan for enkeltpersoner. Grunnleggende klient-, avtale- og faktureringshåndtering.',
+    ro: 'Plan de bază pentru profesioniști individuali. Gestionare esențială a clienților, programărilor și facturării.',
+    ru: 'Базовый план для индивидуальных специалистов. Основное управление клиентами, записями и выставлением счетов.',
   },
   pro: {
     it: 'Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.',
+    en: 'Professional plan with advanced features: Google Calendar sync, promotional packages, and automatic notifications.',
+    es: 'Plan profesional con funcionalidades avanzadas: sincronización con Google Calendar, paquetes promocionales y notificaciones automáticas.',
+    fr: 'Forfait professionnel avec des fonctionnalités avancées : synchronisation Google Agenda, forfaits promotionnels et notifications automatiques.',
+    de: 'Professioneller Plan mit erweiterten Funktionen: Google Kalender-Synchronisierung, Aktionspakete und automatische Benachrichtigungen.',
+    nl: 'Professioneel plan met geavanceerde functies: Google Agenda-synchronisatie, promotiepakketten en automatische meldingen.',
+    no: 'Profesjonelt plan med avanserte funksjoner: Google Kalender-synkronisering, kampanjepakker og automatiske varsler.',
+    ro: 'Plan profesional cu funcționalități avansate: sincronizare Google Calendar, pachete promoționale și notificări automate.',
+    ru: 'Профессиональный план с расширенными функциями: синхронизация с Google Календарём, промо-пакеты и автоматические уведомления.',
   },
   professional: {
     it: 'Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.',
+    en: 'Professional plan with advanced features: Google Calendar sync, promotional packages, and automatic notifications.',
+    es: 'Plan profesional con funcionalidades avanzadas: sincronización con Google Calendar, paquetes promocionales y notificaciones automáticas.',
+    fr: 'Forfait professionnel avec des fonctionnalités avancées : synchronisation Google Agenda, forfaits promotionnels et notifications automatiques.',
+    de: 'Professioneller Plan mit erweiterten Funktionen: Google Kalender-Synchronisierung, Aktionspakete und automatische Benachrichtigungen.',
+    nl: 'Professioneel plan met geavanceerde functies: Google Agenda-synchronisatie, promotiepakketten en automatische meldingen.',
+    no: 'Profesjonelt plan med avanserte funksjoner: Google Kalender-synkronisering, kampanjepakker og automatiske varsler.',
+    ro: 'Plan profesional cu funcționalități avansate: sincronizare Google Calendar, pachete promoționale și notificări automate.',
+    ru: 'Профессиональный план с расширенными функциями: синхронизация с Google Календарём, промо-пакеты и автоматические уведомления.',
   },
   business: {
     it: 'Piano completo per studi multi-professionista. Tutte le funzionalità Pro più gestione avanzata del team e accesso illimitato.',
+    en: 'Complete plan for multi-professional practices. All Pro features plus advanced team management and unlimited access.',
+    es: 'Plan completo para consultorios multi-profesional. Todas las funcionalidades Pro más gestión avanzada del equipo y acceso ilimitado.',
+    fr: "Forfait complet pour les cabinets multi-professionnels. Toutes les fonctionnalités Pro plus la gestion avancée de l'équipe et un accès illimité.",
+    de: 'Komplettplan für Mehrpersonenpraxen. Alle Pro-Funktionen plus erweitertes Teammanagement und unbegrenzten Zugriff.',
+    nl: 'Compleet plan voor praktijken met meerdere professionals. Alle Pro-functies plus geavanceerd teambeheer en onbeperkte toegang.',
+    no: 'Komplett plan for flerprofesjonsbaserte praksiser. Alle Pro-funksjoner pluss avansert teamhåndtering og ubegrenset tilgang.',
+    ro: 'Plan complet pentru cabinete multi-profesionale. Toate funcționalitățile Pro plus gestionare avansată a echipei și acces nelimitat.',
+    ru: 'Полный план для многопрофессиональных практик. Все функции Pro плюс расширенное управление командой и неограниченный доступ.',
   },
   trial: {
     it: 'Versione di prova gratuita di 40 giorni con accesso completo a tutte le funzionalità.',
+    en: 'Free 40-day trial with full access to all features.',
+    es: 'Versión de prueba gratuita de 40 días con acceso completo a todas las funcionalidades.',
+    fr: "Version d'essai gratuite de 40 jours avec un accès complet à toutes les fonctionnalités.",
+    de: 'Kostenlose 40-tägige Testversion mit vollem Zugriff auf alle Funktionen.',
+    nl: 'Gratis proefversie van 40 dagen met volledige toegang tot alle functies.',
+    no: 'Gratis 40-dagers prøveversjon med full tilgang til alle funksjoner.',
+    ro: 'Versiune de probă gratuită de 40 de zile cu acces complet la toate funcționalitățile.',
+    ru: 'Бесплатная пробная версия на 40 дней с полным доступом ко всем функциям.',
   },
 };
 
@@ -225,13 +265,22 @@ async function seedPresetDescriptionsIfEmpty(): Promise<void> {
       } catch { /* ignore */ }
     }
 
-    // Merge: add only the canonical slugs that are not already present,
-    // so any existing admin edits are never overwritten.
-    let added = 0;
+    // Merge: add canonical slugs that are missing entirely, and fill in
+    // missing locale entries for slugs that already exist.
+    // Existing admin edits (non-empty values) are never overwritten.
+    let changed = 0;
     for (const [slug, localeMap] of Object.entries(CANONICAL_PRESET_DESCRIPTIONS)) {
       if (!(slug in presets)) {
         presets[slug] = { ...localeMap };
-        added++;
+        changed++;
+      } else {
+        // Slug exists — fill in any locale that has no value yet
+        for (const [lang, desc] of Object.entries(localeMap)) {
+          if (!presets[slug][lang]?.trim()) {
+            presets[slug][lang] = desc;
+            changed++;
+          }
+        }
       }
     }
 
@@ -247,7 +296,7 @@ async function seedPresetDescriptionsIfEmpty(): Promise<void> {
         })()
       : false;
 
-    if (added === 0 && !needsMigration) return;
+    if (changed === 0 && !needsMigration) return;
 
     await storage.saveSetting(
       PLAN_PRESET_DESCRIPTIONS_KEY,
