@@ -4080,27 +4080,30 @@
   },
   "plans": {
     "base": {
-      "priceLabel": "5,99 € / lună",
+      "description": "Plan de bază pentru profesioniști individuali. Gestionare esențială a clienților, programărilor și facturării.",
       "name": "Bază Lunar",
-      "description": "Plan de bază: facturare lunară"
+      "priceLabel": "€5,99/lună"
     },
     "pro": {
-      "priceLabel": "9,99 € / lună",
+      "description": "Plan profesional cu funcționalități avansate: sincronizare Google Calendar, pachete promoționale și notificări automate.",
       "name": "Pro Lunar",
-      "description": "Plan profesional: facturare lunară"
+      "priceLabel": "€9,99/lună"
+    },
+    "professional": {
+      "description": "Plan profesional cu funcționalități avansate: sincronizare Google Calendar, pachete promoționale și notificări automate."
     },
     "business": {
-      "priceLabel": "19,99 € / lună",
+      "description": "Plan complet pentru cabinete multi-profesionale. Toate funcționalitățile Pro plus gestionare avansată a echipei și acces nelimitat.",
       "name": "Business Lunar",
-      "description": "Plan business: facturare lunară"
+      "priceLabel": "€19,99/lună"
+    },
+    "trial": {
+      "description": "Versiune de probă gratuită de 40 de zile cu acces complet la toate funcționalitățile.",
+      "name": "Probă",
+      "price": "Gratuit"
     },
     "intervalYear": "an",
-    "intervalMonth": "lună",
-    "trial": {
-      "name": "Probă",
-      "description": "Probă gratuită 40 de zile",
-      "price": "Gratuit"
-    }
+    "intervalMonth": "lună"
   },
   "consentForm": {
     "loading": "Se încarcă consimțământul...",
@@ -6377,23 +6380,6 @@
       "terms": "Termeni de Serviciu",
       "login": "Autentificare",
       "copyright": "© {{year}} Castinox Srl · TVA IT01234567890"
-    }
-  },
-  "plans": {
-    "base": {
-      "description": "Plan de bază pentru profesioniști individuali. Gestionare esențială a clienților, programărilor și facturării."
-    },
-    "pro": {
-      "description": "Plan profesional cu funcționalități avansate: sincronizare Google Calendar, pachete promoționale și notificări automate."
-    },
-    "professional": {
-      "description": "Plan profesional cu funcționalități avansate: sincronizare Google Calendar, pachete promoționale și notificări automate."
-    },
-    "business": {
-      "description": "Plan complet pentru cabinete multi-profesionale. Toate funcționalitățile Pro plus gestionare avansată a echipei și acces nelimitat."
-    },
-    "trial": {
-      "description": "Versiune de probă gratuită de 40 de zile cu acces complet la toate funcționalitățile."
     }
   }
 }

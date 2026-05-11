@@ -4118,27 +4118,30 @@
   },
   "plans": {
     "base": {
-      "priceLabel": "€ 5,99 / mese",
+      "description": "Piano base per professionisti individuali. Gestione clienti, appuntamenti e fatturazione essenziale.",
       "name": "Base Mensile",
-      "description": "Piano base: fatturazione mensile"
+      "priceLabel": "€5,99/mese"
     },
     "pro": {
-      "priceLabel": "€ 9,99 / mese",
+      "description": "Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche.",
       "name": "Pro Mensile",
-      "description": "Piano professionale: fatturazione mensile"
+      "priceLabel": "€9,99/mese"
+    },
+    "professional": {
+      "description": "Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche."
     },
     "business": {
-      "priceLabel": "€ 19,99 / mese",
+      "description": "Piano completo per studi multi-professionista. Tutte le funzionalità Pro più gestione avanzata del team e accesso illimitato.",
       "name": "Business Mensile",
-      "description": "Piano business: fatturazione mensile"
+      "priceLabel": "€19,99/mese"
+    },
+    "trial": {
+      "description": "Versione di prova gratuita di 40 giorni con accesso completo a tutte le funzionalità.",
+      "name": "Prova",
+      "price": "Gratis"
     },
     "intervalYear": "anno",
-    "intervalMonth": "mese",
-    "trial": {
-      "name": "Prova",
-      "description": "Prova gratis per 40 giorni",
-      "price": "Gratis"
-    }
+    "intervalMonth": "mese"
   },
   "installationGuide": {
     "heading": "Come installare l'app sul tuo dispositivo",
@@ -6377,23 +6380,6 @@
       "terms": "Termini di Servizio",
       "login": "Accedi",
       "copyright": "© {{year}} Castinox Srl · P.IVA IT01234567890"
-    }
-  },
-  "plans": {
-    "base": {
-      "description": "Piano base per professionisti individuali. Gestione clienti, appuntamenti e fatturazione essenziale."
-    },
-    "pro": {
-      "description": "Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche."
-    },
-    "professional": {
-      "description": "Piano professionale con funzionalità avanzate: sincronizzazione Google Calendar, pacchetti promozionali e notifiche automatiche."
-    },
-    "business": {
-      "description": "Piano completo per studi multi-professionista. Tutte le funzionalità Pro più gestione avanzata del team e accesso illimitato."
-    },
-    "trial": {
-      "description": "Versione di prova gratuita di 40 giorni con accesso completo a tutte le funzionalità."
     }
   }
 }

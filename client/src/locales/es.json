@@ -4080,27 +4080,30 @@
   },
   "plans": {
     "base": {
-      "priceLabel": "€ 5,99 / mes",
+      "description": "Plan básico para profesionales individuales. Gestión esencial de clientes, citas y facturación.",
       "name": "Base Mensual",
-      "description": "Plan base: facturación mensual"
+      "priceLabel": "€5,99/mes"
     },
     "pro": {
-      "priceLabel": "€ 9,99 / mes",
+      "description": "Plan profesional con funcionalidades avanzadas: sincronización con Google Calendar, paquetes promocionales y notificaciones automáticas.",
       "name": "Pro Mensual",
-      "description": "Plan profesional: facturación mensual"
+      "priceLabel": "€9,99/mes"
+    },
+    "professional": {
+      "description": "Plan profesional con funcionalidades avanzadas: sincronización con Google Calendar, paquetes promocionales y notificaciones automáticas."
     },
     "business": {
-      "priceLabel": "€ 19,99 / mes",
+      "description": "Plan completo para consultorios multi-profesional. Todas las funcionalidades Pro más gestión avanzada del equipo y acceso ilimitado.",
       "name": "Business Mensual",
-      "description": "Plan business: facturación mensual"
+      "priceLabel": "€19,99/mes"
+    },
+    "trial": {
+      "description": "Versión de prueba gratuita de 40 días con acceso completo a todas las funcionalidades.",
+      "name": "Prueba",
+      "price": "Gratis"
     },
     "intervalYear": "año",
-    "intervalMonth": "mes",
-    "trial": {
-      "name": "Prueba",
-      "description": "Prueba gratis por 40 días",
-      "price": "Gratis"
-    }
+    "intervalMonth": "mes"
   },
   "consentForm": {
     "loading": "Cargando consentimiento...",
@@ -6377,23 +6380,6 @@
       "terms": "Términos de Servicio",
       "login": "Iniciar sesión",
       "copyright": "© {{year}} Castinox Srl · IVA IT01234567890"
-    }
-  },
-  "plans": {
-    "base": {
-      "description": "Plan básico para profesionales individuales. Gestión esencial de clientes, citas y facturación."
-    },
-    "pro": {
-      "description": "Plan profesional con funcionalidades avanzadas: sincronización con Google Calendar, paquetes promocionales y notificaciones automáticas."
-    },
-    "professional": {
-      "description": "Plan profesional con funcionalidades avanzadas: sincronización con Google Calendar, paquetes promocionales y notificaciones automáticas."
-    },
-    "business": {
-      "description": "Plan completo para consultorios multi-profesional. Todas las funcionalidades Pro más gestión avanzada del equipo y acceso ilimitado."
-    },
-    "trial": {
-      "description": "Versión de prueba gratuita de 40 días con acceso completo a todas las funcionalidades."
     }
   }
 }

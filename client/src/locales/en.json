@@ -4080,27 +4080,30 @@
   },
   "plans": {
     "base": {
-      "priceLabel": "€ 5.99 / month",
-      "name": "Monthly Base",
-      "description": "Base plan: monthly billing"
+      "description": "Basic plan for individual professionals. Essential client, appointment, and billing management.",
+      "name": "Base Monthly",
+      "priceLabel": "€5.99/month"
     },
     "pro": {
-      "priceLabel": "€ 9.99 / month",
-      "name": "Monthly Pro",
-      "description": "Professional plan: monthly billing"
+      "description": "Professional plan with advanced features: Google Calendar sync, promotional packages, and automatic notifications.",
+      "name": "Pro Monthly",
+      "priceLabel": "€9.99/month"
+    },
+    "professional": {
+      "description": "Professional plan with advanced features: Google Calendar sync, promotional packages, and automatic notifications."
     },
     "business": {
-      "priceLabel": "€ 19.99 / month",
-      "name": "Monthly Business",
-      "description": "Business plan: monthly billing"
+      "description": "Complete plan for multi-professional practices. All Pro features plus advanced team management and unlimited access.",
+      "name": "Business Monthly",
+      "priceLabel": "€19.99/month"
+    },
+    "trial": {
+      "description": "Free 40-day trial with full access to all features.",
+      "name": "Trial",
+      "price": "Free"
     },
     "intervalYear": "year",
-    "intervalMonth": "month",
-    "trial": {
-      "name": "Trial",
-      "description": "Free 40-day trial",
-      "price": "Free"
-    }
+    "intervalMonth": "month"
   },
   "consentForm": {
     "loading": "Loading consent...",
@@ -6377,23 +6380,6 @@
       "terms": "Terms of Service",
       "login": "Log in",
       "copyright": "© {{year}} Castinox Srl · VAT IT01234567890"
-    }
-  },
-  "plans": {
-    "base": {
-      "description": "Basic plan for individual professionals. Essential client, appointment, and billing management."
-    },
-    "pro": {
-      "description": "Professional plan with advanced features: Google Calendar sync, promotional packages, and automatic notifications."
-    },
-    "professional": {
-      "description": "Professional plan with advanced features: Google Calendar sync, promotional packages, and automatic notifications."
-    },
-    "business": {
-      "description": "Complete plan for multi-professional practices. All Pro features plus advanced team management and unlimited access."
-    },
-    "trial": {
-      "description": "Free 40-day trial with full access to all features."
     }
   }
 }

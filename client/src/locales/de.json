@@ -4080,27 +4080,30 @@
   },
   "plans": {
     "base": {
-      "priceLabel": "5,99 € / Monat",
+      "description": "Basisplan für Einzelprofis. Grundlegende Kunden-, Termin- und Abrechnungsverwaltung.",
       "name": "Basis Monatlich",
-      "description": "Basisplan: monatliche Abrechnung"
+      "priceLabel": "€5,99/Monat"
     },
     "pro": {
-      "priceLabel": "9,99 € / Monat",
+      "description": "Professioneller Plan mit erweiterten Funktionen: Google Kalender-Synchronisierung, Aktionspakete und automatische Benachrichtigungen.",
       "name": "Pro Monatlich",
-      "description": "Profi-Plan: monatliche Abrechnung"
+      "priceLabel": "€9,99/Monat"
+    },
+    "professional": {
+      "description": "Professioneller Plan mit erweiterten Funktionen: Google Kalender-Synchronisierung, Aktionspakete und automatische Benachrichtigungen."
     },
     "business": {
-      "priceLabel": "19,99 € / Monat",
+      "description": "Komplettplan für Mehrpersonenpraxen. Alle Pro-Funktionen plus erweitertes Teammanagement und unbegrenzten Zugriff.",
       "name": "Business Monatlich",
-      "description": "Business-Plan: monatliche Abrechnung"
+      "priceLabel": "€19,99/Monat"
+    },
+    "trial": {
+      "description": "Kostenlose 40-tägige Testversion mit vollem Zugriff auf alle Funktionen.",
+      "name": "Testversion",
+      "price": "Kostenlos"
     },
     "intervalYear": "Jahr",
-    "intervalMonth": "Monat",
-    "trial": {
-      "name": "Test",
-      "description": "40 Tage kostenlos testen",
-      "price": "Kostenlos"
-    }
+    "intervalMonth": "Monat"
   },
   "consentForm": {
     "loading": "Einwilligung wird geladen...",
@@ -6377,23 +6380,6 @@
       "terms": "Nutzungsbedingungen",
       "login": "Anmelden",
       "copyright": "© {{year}} Castinox Srl · USt-IdNr. IT01234567890"
-    }
-  },
-  "plans": {
-    "base": {
-      "description": "Basisplan für Einzelprofis. Grundlegende Kunden-, Termin- und Abrechnungsverwaltung."
-    },
-    "pro": {
-      "description": "Professioneller Plan mit erweiterten Funktionen: Google Kalender-Synchronisierung, Aktionspakete und automatische Benachrichtigungen."
-    },
-    "professional": {
-      "description": "Professioneller Plan mit erweiterten Funktionen: Google Kalender-Synchronisierung, Aktionspakete und automatische Benachrichtigungen."
-    },
-    "business": {
-      "description": "Komplettplan für Mehrpersonenpraxen. Alle Pro-Funktionen plus erweitertes Teammanagement und unbegrenzten Zugriff."
-    },
-    "trial": {
-      "description": "Kostenlose 40-tägige Testversion mit vollem Zugriff auf alle Funktionen."
     }
   }
 }

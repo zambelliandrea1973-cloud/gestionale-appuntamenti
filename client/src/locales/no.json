@@ -4080,27 +4080,30 @@
   },
   "plans": {
     "base": {
-      "priceLabel": "5,99 € / måned",
-      "name": "Månedlig Base",
-      "description": "Grunnplan: månedlig fakturering"
+      "description": "Grunnplan for enkeltpersoner. Grunnleggende klient-, avtale- og faktureringshåndtering.",
+      "name": "Basis Månedlig",
+      "priceLabel": "€5,99/mnd"
     },
     "pro": {
-      "priceLabel": "9,99 € / måned",
-      "name": "Månedlig Pro",
-      "description": "Profesjonell plan: månedlig fakturering"
+      "description": "Profesjonelt plan med avanserte funksjoner: Google Kalender-synkronisering, kampanjepakker og automatiske varsler.",
+      "name": "Pro Månedlig",
+      "priceLabel": "€9,99/mnd"
+    },
+    "professional": {
+      "description": "Profesjonelt plan med avanserte funksjoner: Google Kalender-synkronisering, kampanjepakker og automatiske varsler."
     },
     "business": {
-      "priceLabel": "19,99 € / måned",
-      "name": "Månedlig Business",
-      "description": "Forretningsplan: månedlig fakturering"
+      "description": "Komplett plan for flerprofesjonsbaserte praksiser. Alle Pro-funksjoner pluss avansert teamhåndtering og ubegrenset tilgang.",
+      "name": "Business Månedlig",
+      "priceLabel": "€19,99/mnd"
+    },
+    "trial": {
+      "description": "Gratis 40-dagers prøveversjon med full tilgang til alle funksjoner.",
+      "name": "Prøve",
+      "price": "Gratis"
     },
     "intervalYear": "år",
-    "intervalMonth": "måned",
-    "trial": {
-      "name": "Prøve",
-      "description": "Gratis prøve i 40 dager",
-      "price": "Gratis"
-    }
+    "intervalMonth": "måned"
   },
   "consentForm": {
     "loading": "Laster samtykke...",
@@ -6377,23 +6380,6 @@
       "terms": "Tjenestevilkår",
       "login": "Logg inn",
       "copyright": "© {{year}} Castinox Srl · MVA IT01234567890"
-    }
-  },
-  "plans": {
-    "base": {
-      "description": "Grunnplan for enkeltpersoner. Grunnleggende klient-, avtale- og faktureringshåndtering."
-    },
-    "pro": {
-      "description": "Profesjonelt plan med avanserte funksjoner: Google Kalender-synkronisering, kampanjepakker og automatiske varsler."
-    },
-    "professional": {
-      "description": "Profesjonelt plan med avanserte funksjoner: Google Kalender-synkronisering, kampanjepakker og automatiske varsler."
-    },
-    "business": {
-      "description": "Komplett plan for flerprofesjonsbaserte praksiser. Alle Pro-funksjoner pluss avansert teamhåndtering og ubegrenset tilgang."
-    },
-    "trial": {
-      "description": "Gratis 40-dagers prøveversjon med full tilgang til alle funksjoner."
     }
   }
 }

@@ -4080,27 +4080,30 @@
   },
   "plans": {
     "base": {
-      "priceLabel": "€ 5,99 / maand",
+      "description": "Basisplan voor individuele professionals. Essentieel beheer van klanten, afspraken en facturering.",
       "name": "Basis Maandelijks",
-      "description": "Basisabonnement: maandelijkse facturatie"
+      "priceLabel": "€5,99/maand"
     },
     "pro": {
-      "priceLabel": "€ 9,99 / maand",
+      "description": "Professioneel plan met geavanceerde functies: Google Agenda-synchronisatie, promotiepakketten en automatische meldingen.",
       "name": "Pro Maandelijks",
-      "description": "Pro-abonnement: maandelijkse facturatie"
+      "priceLabel": "€9,99/maand"
+    },
+    "professional": {
+      "description": "Professioneel plan met geavanceerde functies: Google Agenda-synchronisatie, promotiepakketten en automatische meldingen."
     },
     "business": {
-      "priceLabel": "€ 19,99 / maand",
+      "description": "Compleet plan voor praktijken met meerdere professionals. Alle Pro-functies plus geavanceerd teambeheer en onbeperkte toegang.",
       "name": "Business Maandelijks",
-      "description": "Business-abonnement: maandelijkse facturatie"
+      "priceLabel": "€19,99/maand"
+    },
+    "trial": {
+      "description": "Gratis proefversie van 40 dagen met volledige toegang tot alle functies.",
+      "name": "Proef",
+      "price": "Gratis"
     },
     "intervalYear": "jaar",
-    "intervalMonth": "maand",
-    "trial": {
-      "name": "Proef",
-      "description": "40 dagen gratis proberen",
-      "price": "Gratis"
-    }
+    "intervalMonth": "maand"
   },
   "consentForm": {
     "loading": "Toestemming laden...",
@@ -6377,23 +6380,6 @@
       "terms": "Servicevoorwaarden",
       "login": "Inloggen",
       "copyright": "© {{year}} Castinox Srl · BTW IT01234567890"
-    }
-  },
-  "plans": {
-    "base": {
-      "description": "Basisplan voor individuele professionals. Essentieel beheer van klanten, afspraken en facturering."
-    },
-    "pro": {
-      "description": "Professioneel plan met geavanceerde functies: Google Agenda-synchronisatie, promotiepakketten en automatische meldingen."
-    },
-    "professional": {
-      "description": "Professioneel plan met geavanceerde functies: Google Agenda-synchronisatie, promotiepakketten en automatische meldingen."
-    },
-    "business": {
-      "description": "Compleet plan voor praktijken met meerdere professionals. Alle Pro-functies plus geavanceerd teambeheer en onbeperkte toegang."
-    },
-    "trial": {
-      "description": "Gratis proefversie van 40 dagen met volledige toegang tot alle functies."
     }
   }
 }
