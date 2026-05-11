@@ -31,7 +31,8 @@ export const getBrowserLocale = (lang?: string): string => {
     nl: 'nl-NL',
     no: 'nb-NO',
     ro: 'ro-RO',
-    ru: 'ru-RU'
+    ru: 'ru-RU',
+    hi: 'hi-IN'
   };
   const language = lang || 'it';
   return localeMap[language] || 'it-IT';

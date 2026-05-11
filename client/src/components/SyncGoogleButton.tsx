@@ -31,7 +31,7 @@ export function SyncGoogleButton({
       ) : (
         <RefreshCw className="h-4 w-4" />
       )}
-      {showLabel && "Sincronizza Google"}
+      {showLabel && t('calendar.syncGoogle', 'Sincronizza Google')}
     </Button>
   );
 }
