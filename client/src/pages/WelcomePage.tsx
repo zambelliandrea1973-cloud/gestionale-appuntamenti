@@ -125,6 +125,7 @@ export default function WelcomePage() {
     t("welcomePage.benefit2", "No ads in the app"),
     t("welcomePage.benefit3", "Sync with Google Calendar"),
     t("welcomePage.benefit4", "Works on phone, tablet and PC"),
+    t("welcomePage.benefit5", "No data collection or spam"),
   ];
 
   return (
