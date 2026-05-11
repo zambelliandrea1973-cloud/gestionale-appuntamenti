@@ -23,11 +23,12 @@ import whatsappPreview from "../assets/preview-whatsapp.jpg";
 import fatturePreview from "../assets/preview-fatture.jpg";
 
 const QUICK_LANGS = [
+  { code: "hi", flag: "🇮🇳", label: "हिंदी" },
   { code: "en", flag: "🇬🇧", label: "English" },
+  { code: "it", flag: "🇮🇹", label: "Italiano" },
   { code: "fr", flag: "🇫🇷", label: "Français" },
   { code: "es", flag: "🇪🇸", label: "Español" },
-  { code: "de", flag: "🇩🇪", label: "Deutsch" },
-  { code: "it", flag: "🇮🇹", label: "Italiano" },
+  { code: "ru", flag: "🇷🇺", label: "Русский" },
 ];
 
 export default function WelcomePage() {
@@ -46,6 +47,22 @@ export default function WelcomePage() {
     window.matchMedia("(display-mode: standalone)").matches ||
     (window.navigator as any).standalone ||
     document.referrer.includes("android-app://");
+
+  // Auto-detect browser language for first-time visitors (no stored preference)
+  useEffect(() => {
+    const stored = localStorage.getItem("i18nextLng");
+    if (!stored) {
+      const supported = ["it", "en", "de", "fr", "es", "ru", "nl", "no", "ro", "hi"];
+      const browserLangs = navigator.languages ?? [navigator.language];
+      for (const lang of browserLangs) {
+        const code = lang.split("-")[0].toLowerCase();
+        if (supported.includes(code)) {
+          i18n.changeLanguage(code);
+          break;
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
