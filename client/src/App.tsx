@@ -107,7 +107,11 @@ function AppRoutes() {
   const { user, isLoading } = useUserWithLicense();
   const [location, setLocation] = useLocation();
 
-  // When a demo user closes the tab/app, reset demo data for the next visitor
+  // When a demo user closes the tab, reset demo data for the next visitor.
+  // NOTE: visibilitychange was removed — it fires on dropdown open, tab switch,
+  // focus loss, etc., causing mid-session data wipes.
+  // Reset is guaranteed by: login (re-seed) + logout handler (re-seed).
+  // sendBeacon on beforeunload is best-effort for hard tab closes only.
   useEffect(() => {
     if (!user || !(user as any).isDemo) return;
 
@@ -115,17 +119,9 @@ function AppRoutes() {
       navigator.sendBeacon("/api/auth/demo-reset");
     };
 
-    // beforeunload fires on tab/window close and navigation away
     window.addEventListener("beforeunload", resetDemo);
-    // visibilitychange catches mobile app-switch / PWA background
-    const onVisibility = () => {
-      if (document.visibilityState === "hidden") resetDemo();
-    };
-    document.addEventListener("visibilitychange", onVisibility);
-
     return () => {
       window.removeEventListener("beforeunload", resetDemo);
-      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [user]);
 

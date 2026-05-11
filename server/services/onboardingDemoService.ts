@@ -123,6 +123,10 @@ export async function seedDemoData(userId: number): Promise<void> {
       // Closed on Sundays
       if (dow === 0) continue;
 
+      // Leave TODAY completely free so the demo user can always create a new
+      // appointment without hitting a conflict on the current date.
+      if (toDateStr(d) === toDateStr(today)) continue;
+
       // Deterministic hash based on day-of-month + month so the pattern is
       // stable within each calendar month and shifts naturally month-to-month
       const dom = d.getDate();

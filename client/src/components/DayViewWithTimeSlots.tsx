@@ -654,7 +654,7 @@ export default function DayViewWithTimeSlots({
           onClose={() => { setIsAppointmentModalOpen(false); setSelectedAppointmentId(null); }}
           onSave={() => { setIsAppointmentModalOpen(false); setSelectedAppointmentId(null); onAppointmentUpdated(); }}
           defaultDate={selectedDate}
-          defaultTime="08:00"
+          defaultTime="09:00"
           appointmentId={selectedAppointmentId}
           selectedSlots={[]}
         />
@@ -994,7 +994,7 @@ export default function DayViewWithTimeSlots({
         onClose={handleModalClose}
         onSave={handleAppointmentSaved}
         defaultDate={selectedDate}
-        defaultTime={selectedSlots[0] || "08:00"}
+        defaultTime={selectedSlots[0] || "09:00"}
         appointmentId={selectedAppointmentId}
         selectedSlots={selectedSlots}
       />
