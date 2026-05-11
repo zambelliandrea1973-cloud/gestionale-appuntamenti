@@ -103,8 +103,10 @@ export async function seedDemoData(userId: number): Promise<void> {
     // 4. Generate appointments: full previous month + current month + full next month.
     //    Dates are always computed relative to today so the calendar auto-slides
     //    each month without any manual intervention.
-    const today = new Date();
+    const now   = new Date();                       // exact current time
+    const today = new Date(now);
     today.setHours(0, 0, 0, 0);
+    const currentHour = now.getHours();             // e.g. 18 if it's 18:11
 
     // Range: 1st of previous month → last day of next month
     const startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
@@ -123,43 +125,51 @@ export async function seedDemoData(userId: number): Promise<void> {
       // Closed on Sundays
       if (dow === 0) continue;
 
-      // Leave TODAY completely free so the demo user can always create a new
-      // appointment without hitting a conflict on the current date.
-      if (toDateStr(d) === toDateStr(today)) continue;
+      const dateStr  = toDateStr(d);
+      const todayStr = toDateStr(today);
+      const isPast   = dateStr < todayStr;
+      const isToday  = dateStr === todayStr;
 
-      // Deterministic hash based on day-of-month + month so the pattern is
-      // stable within each calendar month and shifts naturally month-to-month
-      const dom = d.getDate();
-      const mon = d.getMonth();
-      const hash = seededRand(dom * 17 + mon * 31 + dow * 7, 10);
+      let pickedSlots: string[];
 
-      let numSlots: number;
-      if (hash < 2) {
-        numSlots = 0; // ~20% giornate libere
-      } else if (hash < 4) {
-        numSlots = 2; // ~20% giornata leggera
-      } else if (hash < 7) {
-        numSlots = 4; // ~30% giornata normale
-      } else if (hash < 9) {
-        numSlots = 5; // ~20% giornata piena
+      if (isToday) {
+        // For TODAY: seed only slots that have already passed (completed),
+        // leaving all future hours free for the demo user to create new appointments.
+        // We keep a gap of 1 h so the last seeded slot won't conflict with a
+        // service starting at or after the current hour.
+        pickedSlots = DAY_SLOTS.filter(slot => {
+          const slotHour = parseInt(slot.split(':')[0], 10);
+          return slotHour < currentHour - 1; // at least 1 h in the past
+        });
       } else {
-        numSlots = 3; // ~10%
+        // Deterministic hash based on day-of-month + month so the pattern is
+        // stable within each calendar month and shifts naturally month-to-month
+        const dom  = d.getDate();
+        const mon  = d.getMonth();
+        const hash = seededRand(dom * 17 + mon * 31 + dow * 7, 10);
+
+        let numSlots: number;
+        if (hash < 2) {
+          numSlots = 0; // ~20% giornate libere
+        } else if (hash < 4) {
+          numSlots = 2; // ~20% giornata leggera
+        } else if (hash < 7) {
+          numSlots = 4; // ~30% giornata normale
+        } else if (hash < 9) {
+          numSlots = 5; // ~20% giornata piena
+        } else {
+          numSlots = 3; // ~10%
+        }
+
+        // Sabato: massimo 3 slot
+        if (dow === 6 && numSlots > 3) numSlots = 3;
+
+        pickedSlots = DAY_SLOTS.filter((_, i) => i < numSlots);
       }
 
-      // Sabato: massimo 3 slot
-      if (dow === 6 && numSlots > 3) numSlots = 3;
-
-      // Spread evenly across morning + afternoon slots
-      const pickedSlots = DAY_SLOTS.filter((_, i) => i < numSlots);
-      const dateStr = toDateStr(d);
-
-      // Past = completed, today/future = scheduled
-      const todayStr = toDateStr(today);
-      const isPast = dateStr < todayStr;
-
       for (const startTime of pickedSlots) {
-        const svcRow = serviceRows[svcCursor % serviceRows.length];
-        const endTime = addMinutes(startTime, svcRow.duration);
+        const svcRow   = serviceRows[svcCursor % serviceRows.length];
+        const endTime  = addMinutes(startTime, svcRow.duration);
         const clientId = clientIds[clientCursor % clientIds.length];
 
         apptValues.push({
@@ -169,10 +179,11 @@ export async function seedDemoData(userId: number): Promise<void> {
           date: dateStr,
           startTime,
           endTime,
-          status: isPast ? 'completed' : 'scheduled',
-          reminderSent: isPast,
-          reminderType: isPast ? (clientCursor % 2 === 0 ? 'whatsapp' : 'email') : null,
-          reminderStatus: isPast ? 'sent' : 'pending',
+          // Today's past slots are already completed; future days are scheduled
+          status:        (isPast || isToday) ? 'completed' : 'scheduled',
+          reminderSent:  (isPast || isToday),
+          reminderType:  (isPast || isToday) ? (clientCursor % 2 === 0 ? 'whatsapp' : 'email') : null,
+          reminderStatus:(isPast || isToday) ? 'sent' : 'pending',
           notes: null,
         });
 
