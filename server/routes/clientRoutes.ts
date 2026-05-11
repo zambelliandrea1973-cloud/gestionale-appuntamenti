@@ -120,15 +120,20 @@ router.get("/api/clients", async (req, res) => {
     if (user.type === 'admin') {
       ownerCondition = eq(clients.ownerId, user.id);
     } else if (user.type === 'staff') {
-      const [staffUser] = await db.select().from(users).where(eq(users.id, user.id));
-      if (!staffUser?.assignmentCode) {
-        return res.json([]);
+      // Demo account has no assignmentCode — show its own seeded clients directly
+      if (user.username === '__demo__') {
+        ownerCondition = eq(clients.ownerId, user.id);
+      } else {
+        const [staffUser] = await db.select().from(users).where(eq(users.id, user.id));
+        if (!staffUser?.assignmentCode) {
+          return res.json([]);
+        }
+        const userPrefix = staffUser.assignmentCode.substring(0, 3);
+        ownerCondition = or(
+          eq(clients.ownerId, user.id),
+          like(clients.uniqueCode, `${userPrefix}-%`)
+        );
       }
-      const userPrefix = staffUser.assignmentCode.substring(0, 3);
-      ownerCondition = or(
-        eq(clients.ownerId, user.id),
-        like(clients.uniqueCode, `${userPrefix}-%`)
-      );
     } else {
       ownerCondition = eq(clients.ownerId, user.id);
     }

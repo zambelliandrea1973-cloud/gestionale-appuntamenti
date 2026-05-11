@@ -592,11 +592,25 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/logout", (req, res, next) => {
+  app.post("/api/logout", async (req, res, next) => {
     if (req.session) {
-      // Make sure the session exists first
-      console.log(`Logout attempt for user ${req.user?.username || 'unknown'}, type: ${req.user?.type || 'unspecified'}`);
-      
+      const logoutUsername = req.user?.username || 'unknown';
+      const isDemo = logoutUsername === '__demo__';
+      const demoUserId = req.user?.id;
+      console.log(`Logout attempt for user ${logoutUsername}, type: ${req.user?.type || 'unspecified'}`);
+
+      // Re-seed demo data BEFORE destroying the session so the next visitor
+      // always finds a clean, fully-populated demo account.
+      if (isDemo && demoUserId) {
+        try {
+          const { seedDemoData } = await import('./services/onboardingDemoService');
+          await seedDemoData(demoUserId);
+          console.log(`🔄 [DEMO] Data reset on logout for user ${demoUserId}`);
+        } catch (seedErr) {
+          console.warn(`⚠️ [DEMO] Seed on logout failed (non-blocking):`, seedErr);
+        }
+      }
+
       req.logout((err) => {
         if (err) {
           console.error(`Error during logout:`, err);
