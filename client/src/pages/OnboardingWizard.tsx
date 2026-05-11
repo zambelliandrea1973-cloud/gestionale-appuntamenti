@@ -375,14 +375,9 @@ const WorkingHoursStep = ({ onNext, onPrevious, data }: StepProps) => {
   const [, setLocation] = useLocation();
 
   const openSettings = () => {
-    try {
-      localStorage.setItem('settings_active_tab', 'contacts');
-    } catch {
-      // ignore storage errors
-    }
     // Naviga nella stessa scheda con il flag returnTo: dopo il salvataggio
     // l'utente verrà rispedito al wizard per completare la configurazione AI.
-    setLocation('/settings?returnTo=/onboarding');
+    setLocation('/settings?tab=contacts&returnTo=/onboarding');
   };
 
   const handleNext = () => onNext({ ...data });

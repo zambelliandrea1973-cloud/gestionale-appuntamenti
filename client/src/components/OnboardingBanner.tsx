@@ -122,7 +122,6 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
 
   const handleNavigate = (path: string, tab: string | null) => {
     if (tab) {
-      localStorage.setItem('settings_active_tab', tab);
       setLocation(`${path}?tab=${tab}`);
     } else {
       setLocation(path);

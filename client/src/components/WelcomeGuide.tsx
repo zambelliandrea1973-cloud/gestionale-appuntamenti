@@ -75,7 +75,6 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
 
   const handleNavigate = (path: string, tab: string | null) => {
     if (tab) {
-      localStorage.setItem('settings_active_tab', tab);
       onClose();
       setLocation(`${path}?tab=${tab}`);
     } else {
