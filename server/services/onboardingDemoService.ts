@@ -100,45 +100,60 @@ export async function seedDemoData(userId: number): Promise<void> {
 
     const serviceRows = insertedServices; // [{id, duration}]
 
-    // 4. Generate appointments ±28 days from today
+    // 4. Generate appointments: full previous month + current month + full next month.
+    //    Dates are always computed relative to today so the calendar auto-slides
+    //    each month without any manual intervention.
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const DAY_SLOTS = ['09:00', '10:30', '12:00', '14:30', '16:00', '17:30'];
+    // Range: 1st of previous month → last day of next month
+    const startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    const endDate   = new Date(today.getFullYear(), today.getMonth() + 2, 0); // day 0 = last of prev month
+
+    const DAY_SLOTS = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
     const apptValues: Array<typeof appointments.$inferInsert> = [];
 
     let clientCursor = 0;
     let svcCursor = 0;
 
-    for (let offset = -28; offset <= 28; offset++) {
-      const d = addDays(today, offset);
-      const dow = d.getDay(); // 0=Sun
+    // Iterate day by day across the 3-month window
+    for (let d = new Date(startDate); d <= endDate; d = addDays(d, 1)) {
+      const dow = d.getDay(); // 0 = Sunday
 
-      // Close on Sundays
+      // Closed on Sundays
       if (dow === 0) continue;
 
-      // Decide number of appointments for this day using a deterministic hash
-      // Hash: mix offset and day-of-week to get stable variation
-      const hash = seededRand(Math.abs(offset) * 13 + dow * 7, 10);
+      // Deterministic hash based on day-of-month + month so the pattern is
+      // stable within each calendar month and shifts naturally month-to-month
+      const dom = d.getDate();
+      const mon = d.getMonth();
+      const hash = seededRand(dom * 17 + mon * 31 + dow * 7, 10);
+
       let numSlots: number;
       if (hash < 2) {
-        numSlots = 0;           // 20% rest day
-      } else if (hash < 5) {
-        numSlots = 2;           // 30% light day
+        numSlots = 0; // ~20% giornate libere
+      } else if (hash < 4) {
+        numSlots = 2; // ~20% giornata leggera
+      } else if (hash < 7) {
+        numSlots = 4; // ~30% giornata normale
       } else if (hash < 9) {
-        numSlots = 3;           // 40% normal day
+        numSlots = 5; // ~20% giornata piena
       } else {
-        numSlots = 1;           // 10% single appt
+        numSlots = 3; // ~10%
       }
 
-      // Saturdays are lighter
-      if (dow === 6 && numSlots > 2) numSlots = 2;
+      // Sabato: massimo 3 slot
+      if (dow === 6 && numSlots > 3) numSlots = 3;
 
-      const daySlots = DAY_SLOTS.slice(0, numSlots);
+      // Spread evenly across morning + afternoon slots
+      const pickedSlots = DAY_SLOTS.filter((_, i) => i < numSlots);
       const dateStr = toDateStr(d);
-      const isPast = offset < 0;
 
-      for (const startTime of daySlots) {
+      // Past = completed, today/future = scheduled
+      const todayStr = toDateStr(today);
+      const isPast = dateStr < todayStr;
+
+      for (const startTime of pickedSlots) {
         const svcRow = serviceRows[svcCursor % serviceRows.length];
         const endTime = addMinutes(startTime, svcRow.duration);
         const clientId = clientIds[clientCursor % clientIds.length];
