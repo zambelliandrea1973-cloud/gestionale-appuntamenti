@@ -645,12 +645,12 @@ export function setupAuth(app: Express) {
       const DEMO_EMAIL    = "demo@gestionale.demo";
       const DEMO_PASSWORD = "demo-tour-2025";
 
+      const { seedDemoData } = await import('./services/onboardingDemoService');
       let demoUser = await storage.getUserByUsername(DEMO_USERNAME);
 
       if (!demoUser) {
         const { addDays } = await import('date-fns');
         const { licenseService } = await import('./services/licenseService');
-        const { seedDemoData } = await import('./services/onboardingDemoService');
 
         const hashedPw = await hashPassword(DEMO_PASSWORD);
         demoUser = await storage.createUser({
@@ -658,17 +658,23 @@ export function setupAuth(app: Express) {
           email: DEMO_EMAIL,
           password: hashedPw,
           role: 'user',
-          type: 'admin',
+          type: 'staff',   // staff = no access to admin user-list or private admin data
         });
 
         // Trial license lasting 10 years so demo never expires
         const farFuture = addDays(new Date(), 3650);
         await licenseService.createTrialLicense(demoUser.id, farFuture);
-
-        // Seed demo clients, services, appointments
-        await seedDemoData(demoUser.id);
         console.log(`✅ [DEMO] Demo account created (id: ${demoUser.id})`);
+      } else if ((demoUser as any).type === 'admin') {
+        // Migrate existing demo account away from admin type
+        const { eq: eqFn } = await import('drizzle-orm');
+        await db.update(users).set({ type: 'staff' }).where(eqFn(users.id, demoUser.id));
+        (demoUser as any).type = 'staff';
+        console.log(`🔄 [DEMO] Migrated demo user type: admin → staff`);
       }
+
+      // Always re-seed on every login so appointments always centre on today
+      await seedDemoData(demoUser.id);
 
       // Log out any existing session first, then log in as demo
       req.logout((logoutErr) => {

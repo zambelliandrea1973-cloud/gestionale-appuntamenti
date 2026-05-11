@@ -413,8 +413,11 @@ router.get("/api/user-with-license", async (req, res) => {
     let licenseType = 'trial'; // Default
     let expiresAt = null;
     let daysLeft = null;
-    
-    if (user.type === 'admin') {
+
+    // Demo account always gets full passepartout so all features are visible
+    if (user.username === '__demo__') {
+      licenseType = 'passepartout';
+    } else if (user.type === 'admin') {
       licenseType = 'passepartout';
     } else if (user.type === 'staff') {
       licenseType = 'staff_free_10years';
@@ -447,6 +450,7 @@ router.get("/api/user-with-license", async (req, res) => {
       username: user.username,
       email: user.email,
       type: user.type,
+      isDemo: user.username === '__demo__',
       firstName: firstName,
       lastName: lastName,
       hideWelcomeGuide: hideWelcomeGuide,
@@ -460,18 +464,18 @@ router.get("/api/user-with-license", async (req, res) => {
         isActive: true,
         daysLeft: daysLeft,
         features: {
-          maxClients: user.type === 'admin' ? 'unlimited' : 
-                     user.type === 'staff' ? 'unlimited' : 
+          maxClients: (user.type === 'admin' || user.username === '__demo__') ? 'unlimited' :
+                     user.type === 'staff' ? 'unlimited' :
                      user.type === 'customer' ? 1000 : 50,
-          maxAppointments: user.type === 'admin' ? 'unlimited' : 
-                          user.type === 'staff' ? 'unlimited' : 
+          maxAppointments: (user.type === 'admin' || user.username === '__demo__') ? 'unlimited' :
+                          user.type === 'staff' ? 'unlimited' :
                           user.type === 'customer' ? 'unlimited' : 100,
           advancedReports: user.type !== 'basic',
           emailNotifications: true,
           mobileSync: true,
-          customBranding: user.type === 'admin' || user.type === 'staff',
+          customBranding: user.type === 'admin' || user.type === 'staff' || user.username === '__demo__',
           multiTenant: user.type === 'admin',
-          staffReferrals: user.type === 'staff'
+          staffReferrals: false
         }
       }
     };

@@ -126,7 +126,7 @@ export default function Clients() {
   useEffect(() => {
     if (currentUser && !hasInitializedTab.current) {
       hasInitializedTab.current = true;
-      if (currentUser.type === 'admin') {
+      if (currentUser.type === 'admin' && !currentUser.isDemo) {
         setActiveTab("by-staff");
       }
     }
@@ -191,13 +191,13 @@ export default function Clients() {
   // Fetch client owners metadata for grouping (admin-only)
   const { data: clientOwners = [] } = useQuery<Array<{ id: number; assignmentCode: string | null; username: string }>>({
     queryKey: ['/api/client-owners'],
-    enabled: currentUser?.type === 'admin' && activeTab === "by-staff"
+    enabled: currentUser?.type === 'admin' && !currentUser?.isDemo && activeTab === "by-staff"
   });
 
   // 🚀 LAZY LOADING: Query per riepilogo professionisti (solo conteggio, non dati completi)
   const { data: clientsSummary = [], isLoading: summaryLoading } = useQuery<ClientsSummary[]>({
     queryKey: ['/api/admin/clients-summary'],
-    enabled: currentUser?.type === 'admin' && activeTab === "by-staff"
+    enabled: currentUser?.type === 'admin' && !currentUser?.isDemo && activeTab === "by-staff"
   });
 
   // Funzione per caricare clienti di un professionista on-demand
