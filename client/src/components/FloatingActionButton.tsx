@@ -26,9 +26,10 @@ function loadSaved<T>(key: string, fallback: T): T {
 }
 
 function getDefaultPos(): { x: number; y: number } {
+  // Place at bottom-right with a safe margin; actual clamp happens after mount
   return {
-    x: window.innerWidth - 200,
-    y: window.innerHeight - 80,
+    x: window.innerWidth - 210,
+    y: window.innerHeight - 76,
   };
 }
 
@@ -63,6 +64,26 @@ export function FloatingActionButton({
   // Keep refs in sync with state
   posRef.current   = pos;
   scaleRef.current = scale;
+
+  // After mount (and on resize): clamp position to current viewport so the
+  // button is never cut off regardless of device or saved localStorage value.
+  useEffect(() => {
+    const recalc = () => {
+      setPos(prev => {
+        const w = (containerRef.current?.offsetWidth  ?? 180) * scaleRef.current;
+        const h = (containerRef.current?.offsetHeight ?? 48)  * scaleRef.current;
+        const clamped = {
+          x: Math.max(8, Math.min(window.innerWidth  - w - 8, prev.x)),
+          y: Math.max(8, Math.min(window.innerHeight - h - 8, prev.y)),
+        };
+        return clamped;
+      });
+    };
+    // Small delay lets the browser paint the button so offsetWidth is real
+    const t = setTimeout(recalc, 120);
+    window.addEventListener('resize', recalc);
+    return () => { clearTimeout(t); window.removeEventListener('resize', recalc); };
+  }, []);
 
   // Pinch-to-scale state
   const pinchRef = useRef<{ dist: number; scale0: number } | null>(null);
