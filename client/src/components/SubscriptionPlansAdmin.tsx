@@ -535,13 +535,13 @@ export default function SubscriptionPlansAdmin() {
                       stats.emptyList.length > 0 ? `✗ ${stats.emptyList.join(', ')}` : '',
                     ].filter(Boolean).join('\n')
                   : '';
-                const badgeVariant = stats
-                  ? stats.filled === stats.total
-                    ? 'default'
-                    : stats.filled === 0
-                      ? 'destructive'
-                      : 'secondary'
-                  : 'secondary';
+                const isComplete = stats ? stats.filled === stats.total : false;
+                const isEmpty = stats ? stats.filled === 0 : false;
+                const isPartial = stats ? !isComplete && !isEmpty : false;
+                const badgeVariant = isComplete ? 'default' : isEmpty ? 'destructive' : 'outline';
+                const badgeClass = isPartial
+                  ? 'text-xs font-mono cursor-default shrink-0 mt-0.5 border-amber-400 bg-amber-50 text-amber-700 dark:border-amber-500 dark:bg-amber-950 dark:text-amber-300'
+                  : 'text-xs font-mono cursor-default shrink-0 mt-0.5';
                 return (
                   <div key={key} className="grid grid-cols-[1fr_2fr_auto] gap-2 items-start text-sm">
                     <span className="font-medium pt-0.5">{key}</span>
@@ -551,7 +551,7 @@ export default function SubscriptionPlansAdmin() {
                     {stats && (
                       <Badge
                         variant={badgeVariant}
-                        className="text-xs font-mono cursor-default shrink-0 mt-0.5"
+                        className={badgeClass}
                         title={tooltipText}
                       >
                         {stats.filled} / {stats.total}
