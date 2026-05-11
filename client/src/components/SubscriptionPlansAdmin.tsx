@@ -468,20 +468,31 @@ export default function SubscriptionPlansAdmin() {
                 <span className="text-xs text-muted-foreground font-medium mr-1">
                   {t('i18nFinale.subscriptionPlansAdmin.presetLanguageSelectorLabel')}:
                 </span>
-                {SUPPORTED_LOCALES.map((lang) => (
-                  <button
-                    key={lang}
-                    type="button"
-                    onClick={() => setPresetActiveLang(lang)}
-                    className={`px-2 py-0.5 rounded text-xs font-mono border transition-colors ${
-                      presetActiveLang === lang
-                        ? 'bg-primary text-primary-foreground border-primary'
-                        : 'bg-background text-muted-foreground border-border hover:border-primary/60 hover:text-foreground'
-                    }`}
-                  >
-                    {lang}
-                  </button>
-                ))}
+                {SUPPORTED_LOCALES.map((lang) => {
+                  const hasEmpty = Object.values(presetDraft).some(
+                    (localeMap) => !(localeMap[lang] ?? '').trim()
+                  );
+                  return (
+                    <button
+                      key={lang}
+                      type="button"
+                      onClick={() => setPresetActiveLang(lang)}
+                      className={`relative px-2 py-0.5 rounded text-xs font-mono border transition-colors ${
+                        presetActiveLang === lang
+                          ? 'bg-primary text-primary-foreground border-primary'
+                          : 'bg-background text-muted-foreground border-border hover:border-primary/60 hover:text-foreground'
+                      }`}
+                    >
+                      {lang}
+                      {hasEmpty && Object.keys(presetDraft).length > 0 && (
+                        <span
+                          className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-amber-500 ring-1 ring-background"
+                          title={t('i18nFinale.subscriptionPlansAdmin.presetMissingTranslation', 'Missing translation')}
+                        />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Preset rows */}
