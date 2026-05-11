@@ -687,6 +687,84 @@ export function setupAuth(app: Express) {
     }
   });
 
+  // Demo reset — clears all demo-user data and re-seeds; safe to call via sendBeacon on tab close
+  app.post("/api/auth/demo-reset", async (req, res, next) => {
+    try {
+      const DEMO_USERNAME = "__demo__";
+      const demoUser = await storage.getUserByUsername(DEMO_USERNAME);
+      if (!demoUser) return res.status(204).end();
+
+      const { clients, services, appointments } = await import('../shared/schema');
+      const { eq } = await import('drizzle-orm');
+
+      // Delete all data belonging to the demo account
+      await db.delete(appointments).where(eq(appointments.userId, demoUser.id));
+      await db.delete(clients).where(eq(clients.ownerId, demoUser.id));
+      await db.delete(services).where(eq(services.userId, demoUser.id));
+
+      // Re-seed fresh demo data
+      const { seedDemoData } = await import('./services/onboardingDemoService');
+      await seedDemoData(demoUser.id);
+
+      console.log(`🔄 [DEMO] Data reset for user ${demoUser.id}`);
+
+      // Logout the caller's session (best-effort; sendBeacon may not carry cookies)
+      if (req.isAuthenticated && req.isAuthenticated()) {
+        req.logout((err) => { if (err) console.warn('[DEMO] logout err on reset:', err); });
+      }
+      res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // IP-based language detection — maps client IP to a supported app language
+  app.get("/api/geo/language", async (req, res) => {
+    // Country code → supported app language
+    const COUNTRY_TO_LANG: Record<string, string> = {
+      IT: 'it',
+      DE: 'de', AT: 'de', LI: 'de',
+      FR: 'fr', LU: 'fr', CD: 'fr', CI: 'fr', SN: 'fr',
+      ML: 'fr', MG: 'fr', CM: 'fr', BJ: 'fr', TG: 'fr',
+      BF: 'fr', NE: 'fr', GA: 'fr', CG: 'fr',
+      ES: 'es', MX: 'es', AR: 'es', CO: 'es', PE: 'es',
+      VE: 'es', CL: 'es', EC: 'es', BO: 'es', PY: 'es',
+      UY: 'es', CU: 'es', DO: 'es', GT: 'es', HN: 'es',
+      NI: 'es', PA: 'es', CR: 'es', GQ: 'es',
+      NL: 'nl', BE: 'nl',
+      NO: 'no',
+      RO: 'ro', MD: 'ro',
+      RU: 'ru', BY: 'ru', KZ: 'ru',
+    };
+
+    try {
+      // Extract real IP (handles Replit/Sliplane proxy headers)
+      const forwarded = req.headers['x-forwarded-for'];
+      const ip = (typeof forwarded === 'string' ? forwarded.split(',')[0].trim() : null)
+              || req.socket?.remoteAddress
+              || '';
+
+      // Skip geolocation for local/loopback IPs
+      const isLocal = !ip || ip === '::1' || ip.startsWith('127.') || ip.startsWith('10.')
+                    || ip.startsWith('172.16.') || ip.startsWith('192.168.');
+      if (isLocal) {
+        return res.json({ lang: 'en', country: null, source: 'local' });
+      }
+
+      const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=countryCode,status`, {
+        signal: AbortSignal.timeout(3000),
+      });
+      const geo = await geoRes.json() as { status: string; countryCode?: string };
+
+      if (geo.status === 'success' && geo.countryCode) {
+        const lang = COUNTRY_TO_LANG[geo.countryCode] ?? 'en';
+        return res.json({ lang, country: geo.countryCode, source: 'geo' });
+      }
+    } catch (_) { /* timeout or fetch error — fall through to default */ }
+
+    return res.json({ lang: 'en', country: null, source: 'fallback' });
+  });
+
   // Endpoint for password change
   app.post("/api/change-password", async (req, res) => {
     if (!req.isAuthenticated()) {

@@ -106,7 +106,29 @@ function AppRoutes() {
   // Hook per ottenere dati utente e licenza
   const { user, isLoading } = useUserWithLicense();
   const [location, setLocation] = useLocation();
-  
+
+  // When a demo user closes the tab/app, reset demo data for the next visitor
+  useEffect(() => {
+    if (!user || !(user as any).isDemo) return;
+
+    const resetDemo = () => {
+      navigator.sendBeacon("/api/auth/demo-reset");
+    };
+
+    // beforeunload fires on tab/window close and navigation away
+    window.addEventListener("beforeunload", resetDemo);
+    // visibilitychange catches mobile app-switch / PWA background
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") resetDemo();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      window.removeEventListener("beforeunload", resetDemo);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [user]);
+
   // Effetto per reindirizzare SOLO gli utenti non autenticati dalle pagine protette alla home
   useEffect(() => {
     // Usa window.location.pathname per evitare problemi di inizializzazione di wouter

@@ -64,20 +64,38 @@ export default function WelcomePage() {
     (window.navigator as any).standalone ||
     document.referrer.includes("android-app://");
 
-  // Auto-detect browser language for first-time visitors (no stored preference)
+  // Auto-detect language from IP for first-time visitors (no stored preference).
+  // Falls back to browser language, then English.
   useEffect(() => {
     const stored = localStorage.getItem("i18nextLng");
-    if (!stored) {
-      const supported = ["it", "en", "de", "fr", "es", "ru", "nl", "no", "ro", "hi"];
-      const browserLangs = navigator.languages ?? [navigator.language];
-      for (const lang of browserLangs) {
-        const code = lang.split("-")[0].toLowerCase();
-        if (supported.includes(code)) {
-          i18n.changeLanguage(code);
-          break;
+    if (stored) return;
+
+    const supported = ["it", "en", "de", "fr", "es", "ru", "nl", "no", "ro", "hi"];
+
+    fetch("/api/geo/language", { credentials: "include" })
+      .then((r) => r.json())
+      .then((data: { lang?: string }) => {
+        const lang = data?.lang && supported.includes(data.lang) ? data.lang : null;
+        if (lang) {
+          i18n.changeLanguage(lang);
+          return;
         }
-      }
-    }
+        // fallback: browser language
+        const browserLangs = navigator.languages ?? [navigator.language];
+        for (const bl of browserLangs) {
+          const code = bl.split("-")[0].toLowerCase();
+          if (supported.includes(code)) { i18n.changeLanguage(code); break; }
+        }
+      })
+      .catch(() => {
+        // network error: fall back to browser language
+        const supported2 = ["it", "en", "de", "fr", "es", "ru", "nl", "no", "ro", "hi"];
+        const browserLangs = navigator.languages ?? [navigator.language];
+        for (const bl of browserLangs) {
+          const code = bl.split("-")[0].toLowerCase();
+          if (supported2.includes(code)) { i18n.changeLanguage(code); break; }
+        }
+      });
   }, []);
 
   useEffect(() => {
