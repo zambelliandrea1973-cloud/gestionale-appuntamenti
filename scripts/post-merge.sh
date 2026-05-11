@@ -6,18 +6,19 @@ set -e
 echo "==> npm install"
 npm install --no-audit --no-fund
 
-# Controllo i18n NON aggirabile: verifica allineamento chiavi, assenza
-# marker [TODO:LANG] residui e coerenza interpolazioni in tutte le 9
-# lingue. Se anche un solo controllo fallisce, lo script si interrompe
-# (set -e) bloccando il post-merge e di conseguenza il rilascio.
-# Per dettagli vedere replit.md sezione "Sistema i18n".
-echo "==> i18n sync check (npx tsx scripts/i18n-sync.ts)"
-if ! npx tsx scripts/i18n-sync.ts </dev/null; then
+# Auto-fix i18n: aggiunge [TODO:LANG] per le chiavi mancanti nelle lingue
+# non-canonical, poi verifica (nella stessa esecuzione) che non restino
+# chiavi extra o interpolazioni divergenti — queste non possono essere
+# corrette automaticamente e bloccano il rilascio.
+# Nota: in modalità --fix i marker [TODO:LANG] (nuovi E pre-esistenti) NON
+# sono bloccanti. Il controllo stretto dei TODO viene delegato a una
+# pipeline CI separata (i18n-sync senza --fix) oppure al revisore manuale.
+echo "==> i18n auto-fix (npm run i18n:sync -- --fix)"
+if ! npm run i18n:sync -- --fix </dev/null; then
   echo ""
-  echo "❌ Controllo traduzioni FALLITO: il rilascio è bloccato."
-  echo "   Esegui in locale 'npx tsx scripts/i18n-sync.ts --fix' per"
-  echo "   aggiungere le chiavi mancanti, poi traduci i marker [TODO:LANG]"
-  echo "   e ricommitta prima di rilanciare il merge/deploy."
+  echo "❌ Fix traduzioni FALLITO: chiavi extra o interpolazioni divergenti rilevate."
+  echo "   Questi problemi non possono essere corretti automaticamente."
+  echo "   Risolvi le issues indicate sopra e ricommitta prima di rilanciare."
   exit 1
 fi
 

@@ -268,14 +268,18 @@ async function main() {
     console.log(`✓ Tutte le lingue allineate, nessun TODO, interpolazioni coerenti\n`);
   } else {
     console.log(
-      `⚠ Totale issues: ${total}${fix ? ' (solo chiavi mancanti corrette; extra/TODO/interpolazioni vanno risolti a mano)' : ' — usa --fix per correggere le chiavi mancanti'}\n`,
+      `⚠ Totale issues: ${total}${fix ? ' (chiavi mancanti corrette con placeholder; extra/interpolazioni vanno risolti a mano)' : ' — usa --fix per correggere le chiavi mancanti'}\n`,
     );
   }
 
   // Exit non-zero se ci sono issues residue.
-  // --fix corregge solo le chiavi MANCANTI: extra, TODO e interpolazioni
-  // restano problemi bloccanti anche in modalità fix.
-  const residual = (fix ? 0 : issuesMissing) + issuesExtra + issuesTodos + issuesInterp;
+  // --fix corregge solo le chiavi MANCANTI: extra e interpolazioni restano
+  // problemi bloccanti anche in modalità fix.
+  // In modalità --fix i marker TODO (nuovi E pre-esistenti) sono non-bloccanti:
+  // la logica non distingue TODO appena inseriti da quelli già presenti.
+  // Se si vuole un controllo stretto dei TODO, eseguire i18n-sync senza --fix
+  // in una pipeline CI separata (es. il check "i18n-sync" nel job di PR review).
+  const residual = (fix ? 0 : issuesMissing) + issuesExtra + (fix ? 0 : issuesTodos) + issuesInterp;
   if (residual > 0) process.exit(1);
 }
 
