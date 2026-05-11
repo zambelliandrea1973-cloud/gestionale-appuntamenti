@@ -57,6 +57,7 @@ interface ServerPlan {
   interval?: 'month' | 'year';
   features?: string | PlanFeature[];
   active?: boolean;
+  localizedPrices?: Record<string, { amount: number; currency: string; symbol: string }>;
 }
 
 interface PaymentMethod {
@@ -118,7 +119,7 @@ const translateFeatureName = (featureKey: string | undefined, featureName: strin
 };
 
 export default function SubscriptionPlansPanel() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { licenseInfo, activateLicense } = useLicense();
   const { toast } = useToast();
   const [location, setLocation] = useLocation();
@@ -285,7 +286,13 @@ export default function SubscriptionPlansPanel() {
           name: plan.name,
           description: plan.description || fallbackForType?.description || '',
           price: plan.price / 100,
-          priceLabel: `€${(plan.price / 100).toFixed(2).replace('.', ',')}/${plan.interval === 'year' ? t('plans.intervalYear') : t('plans.intervalMonth')}`,
+          priceLabel: (() => {
+            const hiPrice = plan.localizedPrices?.['hi'];
+            if (i18n.language === 'hi' && hiPrice) {
+              return `₹${(hiPrice.amount / 100).toFixed(0)}/${plan.interval === 'year' ? t('plans.intervalYear') : t('plans.intervalMonth')}`;
+            }
+            return `€${(plan.price / 100).toFixed(2).replace('.', ',')}/${plan.interval === 'year' ? t('plans.intervalYear') : t('plans.intervalMonth')}`;
+          })(),
           popular: plan.name.toLowerCase().includes('pro'),
           buttonVariant: plan.name.toLowerCase().includes('pro') ? 'default' : 'outline' as 'default' | 'outline',
           features: normalizedFeatures,

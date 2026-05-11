@@ -64,4 +64,5 @@ export const SUPPORTED_CURRENCIES = [
   { code: 'AUD', symbol: 'A$', name: 'Dollaro Australiano' },
   { code: 'CAD', symbol: 'C$', name: 'Dollaro Canadese' },
   { code: 'BRL', symbol: 'R$', name: 'Real Brasiliano' },
+  { code: 'INR', symbol: '₹', name: 'Rupia Indiana' },
 ] as const;

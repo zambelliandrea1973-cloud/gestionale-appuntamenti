@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, date, index } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, jsonb, date, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -763,6 +763,7 @@ export const subscriptionPlans = pgTable("subscription_plans", {
   interval: text("interval").notNull().default("month"), // month, year
   features: json("features").$type<PlanFeatureEntry[]>(), // Array of {key, included} entries
   clientLimit: integer("client_limit"), // Maximum number of clients
+  localizedPrices: jsonb("localized_prices").$type<Record<string, { amount: number; currency: string; symbol: string }>>(), // Locale-specific prices e.g. {hi: {amount:14900,currency:'INR',symbol:'₹'}}
   isActive: boolean("is_active").default(true),
   sortOrder: integer("sort_order").default(0),
   createdAt: timestamp("created_at").defaultNow(),
