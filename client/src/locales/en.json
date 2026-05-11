@@ -481,6 +481,9 @@
   "invoices": {
     "title": "Invoice Management",
     "subtitle": "Create and manage invoices for your clients",
+    "description": "Create and manage invoices for your clients",
+    "subDescription": "Issue professional invoices, track payments and send documents to your clients",
+    "goTo": "Manage Invoices",
     "updateInvoices": "Update Invoices",
     "updating": "Migrating...",
     "cleanupNumbering": "Clean Numbering",
@@ -630,6 +633,9 @@
   },
   "reports": {
     "title": "Reports and Statistics",
+    "description": "Analyze your business performance",
+    "subDescription": "View statistics on appointments, revenue and clients with detailed charts",
+    "goTo": "View Reports",
     "revenue": "Revenue",
     "appointments": "Appointments",
     "exportPdf": "Export PDF",

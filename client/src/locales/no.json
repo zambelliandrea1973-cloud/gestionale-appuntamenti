@@ -459,6 +459,9 @@
   "invoices": {
     "title": "Fakturaadministrasjon",
     "subtitle": "Opprett og administrer fakturaer for dine kunder",
+    "description": "Opprett og administrer fakturaer for dine kunder",
+    "subDescription": "Utsted profesjonelle fakturaer, spor betalinger og send dokumenter",
+    "goTo": "Administrer fakturaer",
     "updateInvoices": "Oppdater Fakturaer",
     "updating": "Migrering...",
     "cleanupNumbering": "Rydd opp Nummerering",
@@ -608,6 +611,9 @@
   },
   "reports": {
     "title": "Rapporter og Statistikk",
+    "description": "Analyser virksomhetens utvikling",
+    "subDescription": "Se statistikk over avtaler, inntekter og kunder med detaljerte diagrammer",
+    "goTo": "Se rapporter",
     "revenue": "Omsetning",
     "appointments": "Avtaler",
     "exportPdf": "Eksporter PDF",

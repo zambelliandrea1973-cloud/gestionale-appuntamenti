@@ -459,6 +459,9 @@
   "invoices": {
     "title": "Gestionare Facturi",
     "subtitle": "Creează și gestionează facturile pentru clienții tăi",
+    "description": "Creați și gestionați facturile clienților dvs.",
+    "subDescription": "Emiteți facturi profesionale, urmăriți plățile și trimiteți documente",
+    "goTo": "Gestionați facturile",
     "updateInvoices": "Actualizează Facturi",
     "updating": "Migrare...",
     "cleanupNumbering": "Curăță Numerotare",
@@ -608,6 +611,9 @@
   },
   "reports": {
     "title": "Rapoarte și Statistici",
+    "description": "Analizați performanța afacerii dvs.",
+    "subDescription": "Vizualizați statistici privind programările, veniturile și clienții",
+    "goTo": "Vizualizați rapoartele",
     "revenue": "Venituri",
     "appointments": "Programări",
     "exportPdf": "Exportă PDF",

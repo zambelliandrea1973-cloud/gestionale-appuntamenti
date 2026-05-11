@@ -468,6 +468,9 @@
   "invoices": {
     "title": "Rechnungsverwaltung",
     "subtitle": "Erstellen und verwalten Sie Rechnungen für Ihre Kunden",
+    "description": "Rechnungen für Ihre Kunden erstellen und verwalten",
+    "subDescription": "Professionelle Rechnungen ausstellen, Zahlungen verfolgen und Dokumente senden",
+    "goTo": "Rechnungen verwalten",
     "updateInvoices": "Rechnungen aktualisieren",
     "updating": "Migration...",
     "cleanupNumbering": "Nummerierung bereinigen",
@@ -617,6 +620,9 @@
   },
   "reports": {
     "title": "Berichte und Statistiken",
+    "description": "Analysieren Sie Ihre Geschäftsentwicklung",
+    "subDescription": "Zeigen Sie Statistiken zu Terminen, Einnahmen und Kunden mit detaillierten Diagrammen",
+    "goTo": "Berichte anzeigen",
     "revenue": "Umsatz",
     "appointments": "Termine",
     "exportPdf": "PDF exportieren",

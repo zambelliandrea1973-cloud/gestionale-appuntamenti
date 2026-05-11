@@ -468,6 +468,9 @@
   "invoices": {
     "title": "Gestion des Factures",
     "subtitle": "Créez et gérez les factures de vos clients",
+    "description": "Créer et gérer les factures de vos clients",
+    "subDescription": "Émettez des factures professionnelles, suivez les paiements et envoyez des documents",
+    "goTo": "Gérer les factures",
     "updateInvoices": "Mettre à jour Factures",
     "updating": "Migration...",
     "cleanupNumbering": "Nettoyer Numérotation",
@@ -617,6 +620,9 @@
   },
   "reports": {
     "title": "Rapports et Statistiques",
+    "description": "Analysez les performances de votre activité",
+    "subDescription": "Consultez des statistiques sur les rendez-vous, les revenus et les clients",
+    "goTo": "Voir les rapports",
     "revenue": "Chiffre d'affaires",
     "appointments": "Rendez-vous",
     "exportPdf": "Exporter PDF",

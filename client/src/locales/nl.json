@@ -459,6 +459,9 @@
   "invoices": {
     "title": "Factuurbeheer",
     "subtitle": "Maak en beheer facturen voor uw klanten",
+    "description": "Facturen aanmaken en beheren voor uw klanten",
+    "subDescription": "Professionele facturen uitstellen, betalingen bijhouden en documenten sturen",
+    "goTo": "Facturen beheren",
     "updateInvoices": "Facturen bijwerken",
     "updating": "Migratie...",
     "cleanupNumbering": "Nummering opschonen",
@@ -608,6 +611,9 @@
   },
   "reports": {
     "title": "Rapporten en Statistieken",
+    "description": "Analyseer uw bedrijfsprestaties",
+    "subDescription": "Bekijk statistieken over afspraken, omzet en klanten met gedetailleerde grafieken",
+    "goTo": "Rapporten bekijken",
     "revenue": "Omzet",
     "appointments": "Afspraken",
     "exportPdf": "PDF exporteren",

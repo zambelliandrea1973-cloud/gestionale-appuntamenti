@@ -486,6 +486,9 @@
   "invoices": {
     "title": "Gestione Fatture",
     "subtitle": "Crea e gestisci le fatture per i tuoi clienti",
+    "description": "Crea e gestisci le fatture per i tuoi clienti",
+    "subDescription": "Emetti fatture professionali, monitora i pagamenti e invia documenti ai clienti",
+    "goTo": "Gestisci Fatture",
     "updateInvoices": "Aggiorna Fatture",
     "updating": "Migrazione...",
     "cleanupNumbering": "Pulisci Numerazione",
@@ -635,6 +638,9 @@
   },
   "reports": {
     "title": "Report e Statistiche",
+    "description": "Analizza l'andamento della tua attività",
+    "subDescription": "Visualizza statistiche su appuntamenti, ricavi e clienti con grafici dettagliati",
+    "goTo": "Visualizza Report",
     "revenue": "Ricavi",
     "appointments": "Appuntamenti",
     "exportPdf": "Esporta PDF",

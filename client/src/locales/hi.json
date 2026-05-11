@@ -486,6 +486,9 @@
   "invoices": {
     "title": "चालान प्रबंधन",
     "subtitle": "अपने ग्राहकों के लिए चालान बनाएं और प्रबंधित करें",
+    "description": "अपने ग्राहकों के लिए चालान बनाएं और प्रबंधित करें",
+    "subDescription": "पेशेवर चालान जारी करें, भुगतान ट्रैक करें और ग्राहकों को दस्तावेज़ भेजें",
+    "goTo": "चालान प्रबंधित करें",
     "updateInvoices": "चालान अपडेट करें",
     "updating": "माइग्रेट हो रहा है...",
     "cleanupNumbering": "नंबरिंग साफ करें",
@@ -2224,6 +2227,9 @@
   },
   "reports": {
     "title": "रिपोर्ट और आंकड़े",
+    "description": "अपने व्यवसाय के प्रदर्शन का विश्लेषण करें",
+    "subDescription": "विस्तृत चार्ट के साथ अपॉइंटमेंट, राजस्व और ग्राहकों पर आंकड़े देखें",
+    "goTo": "रिपोर्ट देखें",
     "revenue": "राजस्व",
     "appointments": "अपॉइंटमेंट",
     "exportPdf": "PDF निर्यात करें",
@@ -2329,28 +2335,28 @@
       "instagram": "Instagram",
       "instagramDesc": "Instagram उपयोगकर्ता नाम या पूरा URL",
       "saving": "सहेज रहा है...",
-      "save": "सहेजें informazioni di contatto",
+      "save": "संपर्क जानकारी सहेजें",
       "invalidFormat": "अमान्य प्रारूप"
     }
   },
   "notifications": {
-    "clientDeleted": "ग्राहक eliminato",
+    "clientDeleted": "ग्राहक हटाया गया",
     "loadError": "सूचनाएं लोड करना असंभव"
   },
   "whatsappNotifications": {
-    "title": "नहींtifiche ai clienti",
+    "title": "ग्राहकों को सूचनाएं",
     "description": "अपॉइंटमेंट के लिए अनुस्मारक प्रबंधित करें",
     "subDescription": "ग्राहकों को आगामी अपॉइंटमेंट के लिए WhatsApp अनुस्मारक भेजें",
     "goTo": "सूचनाएं प्रबंधित करें"
   },
   "notificationsPage": {
-    "title": "नहींtifiche ai clienti",
-    "subtitle": "अपॉइंटमेंट के लिए अनुस्मारक प्रबंधित करें dei clienti",
+    "title": "ग्राहकों को सूचनाएं",
+    "subtitle": "अपॉइंटमेंट के लिए अनुस्मारक प्रबंधित करें",
     "refresh": "रीफ्रेश",
     "tabs": {
       "upcoming": "भेजना है",
       "history": "इतिहास",
-      "settings": "सेटिंग्स notifiche",
+      "settings": "सूचना सेटिंग्स",
       "calendar": "Google कैलेंडर"
     },
     "howItWorks": {
@@ -4818,11 +4824,11 @@
       "errorTitle": "त्रुटि",
       "fetchErrorDesc": "ऐप जानकारी लोड करना असंभव",
       "noChangesTitle": "कोई बदलाव नहीं",
-      "noChangesDesc": "नहींn sono state apportate modifiche al nome dell'app",
+      "noChangesDesc": "ऐप के नाम में कोई बदलाव नहीं किया गया",
       "savedTitle": "सहेजना पूर्ण",
       "savedDesc": "ऐप की जानकारी सफलतापूर्वक अपडेट की गई",
-      "saveErrorTitle": "त्रुटि di salvataggio",
-      "saveErrorDesc": "सहेजने के दौरान एक त्रुटि हुई delle informazioni"
+      "saveErrorTitle": "सहेजने की त्रुटि",
+      "saveErrorDesc": "जानकारी सहेजने के दौरान एक त्रुटि हुई"
     },
     "defaultAppName": "ग्राहक ऐप"
   },
@@ -5818,10 +5824,10 @@
       },
       "patients": {
         "title": "मरीज़ प्रबंधन",
-        "desc": "तारीखbase completo con anamnesi, note mediche, storico trattamenti"
+        "desc": "मरीजों का पूर्ण डेटाबेस, चिकित्सा इतिहास, नोट्स और उपचार लॉग"
       },
       "notifications": {
-        "title": "नहींtifiche Push",
+        "title": "पुश सूचनाएं",
         "desc": "ऐप, ईमेल और WhatsApp के माध्यम से स्वचालित अनुस्मारक"
       },
       "app": {
@@ -5943,15 +5949,15 @@
       "permissionRequired": "अपडेट प्राप्त करने के लिए सूचनाओं की अनुमति दें।",
       "subscribed": "आपका अपॉइंटमेंट पुष्टि होने पर आपको सूचना मिलेगी।",
       "subscribeError": "सूचनाएं सक्षम करना असंभव। पुनः प्रयास करें।",
-      "unsubscribed": "नहींn riceverai più notifiche push.",
+      "unsubscribed": "अब आपको पुश सूचनाएं नहीं मिलेंगी।",
       "unsubscribeError": "सूचनाएं निष्क्रिय करना असंभव।",
       "notSupported": "इस ब्राउज़र पर पुश सूचनाएं समर्थित नहीं हैं। ऐप को इंस्टॉल किए PWA के रूप में खोलें।",
       "permissionDeniedTitle": "अनुमति अस्वीकार",
-      "notificationsActivatedTitle": "नहींtifiche attivate",
-      "notificationsDeactivatedTitle": "नहींtifiche disattivate",
+      "notificationsActivatedTitle": "सूचनाएं सक्रिय",
+      "notificationsDeactivatedTitle": "सूचनाएं निष्क्रिय",
       "loading": "लोड हो रहा है...",
-      "active": "नहींtifiche attive",
-      "enable": "सक्रिय करें notifiche"
+      "active": "सक्रिय सूचनाएं",
+      "enable": "सूचनाएं सक्रिय करें"
     },
     "subscriptionPlansAdmin": {
       "addFeature": "सुविधा जोड़ें",
@@ -6161,16 +6167,16 @@
       "appointmentCreatedTitle": "अपॉइंटमेंट बनाया गया"
     },
     "stripeCheckout": {
-      "paymentError": "त्रुटि di pagamento",
+      "paymentError": "भुगतान त्रुटि",
       "paymentErrorDesc": "भुगतान प्रक्रिया के दौरान एक त्रुटि हुई"
     },
     "pwaRedirector": {
       "appStartError": "ऐप शुरू करने के दौरान एक त्रुटि हुई।"
     },
     "adminNotifications": {
-      "deletionTitle": "हटाएंzione Cliente",
+      "deletionTitle": "ग्राहक हटाना",
       "newBadge": "नया",
-      "title": "नहींtifiche Admin",
+      "title": "व्यवस्थापक सूचनाएं",
       "noNotifications": "कोई सूचना उपलब्ध नहीं"
     },
     "pwaInstaller": {
