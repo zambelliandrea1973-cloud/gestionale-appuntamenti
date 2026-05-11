@@ -1,21 +1,36 @@
 #!/usr/bin/env tsx
 /**
- * i18n-sync: confronta tutti i file locale JSON con la base canonica (it.json).
+ * i18n-sync: compares all locale JSON files against en.json as the canonical reference.
  *
- * Controlli eseguiti (tutti causano exit code != 0 se falliscono):
- *  (a) Disallineamento chiavi tra le 9 lingue (mancanti / extra)
- *  (b) Marker [TODO:LANG] residui in qualsiasi locale
- *  (c) Interpolazioni {{var}} non corrispondenti tra it.json e gli altri locale
+ * Checks performed (all cause exit code != 0 on failure):
+ *  (a) Key misalignment across the 9 required locales (missing / extra)
+ *  (b) Residual [TODO:LANG] markers in any locale
+ *  (c) {{var}} interpolation mismatches between en.json and other locales
  *
- * Uso:
- *   npm run i18n:sync          # solo report (exit 1 se ci sono issues)
- *   npm run i18n:sync -- --fix # auto-fix chiavi mancanti (NON corregge TODO né interpolazioni)
+ * Required locales: en, it, de, fr, es, nl, no, ro, ru
+ * Allowed extras (checked but not required): hi
+ *
+ * Usage:
+ *   npm run i18n:sync          # report only (exit 1 if issues found)
+ *   npm run i18n:sync -- --fix # auto-fix missing keys (does NOT fix TODO or interpolations)
  */
 import { promises as fs } from 'fs';
 import path from 'path';
 
 const LOCALES_DIR = path.resolve(process.cwd(), 'client/src/locales');
-const BASE_LANG = 'it';
+const BASE_LANG = 'en';
+
+/**
+ * The 9 required locales. Any locale file on disk that is not in this set
+ * and not in ALLOWED_EXTRAS is reported as unexpected and ignored.
+ */
+const REQUIRED_LOCALES = new Set(['en', 'it', 'de', 'fr', 'es', 'nl', 'no', 'ro', 'ru']);
+
+/**
+ * Extra locale files that exist in the repo and are checked alongside the
+ * required 9, but whose absence does not cause a failure.
+ */
+const ALLOWED_EXTRAS = new Set(['hi']);
 
 type Json = Record<string, any>;
 
@@ -106,22 +121,49 @@ function setsEqual(a: Set<string>, b: Set<string>): boolean {
 
 async function main() {
   const fix = process.argv.includes('--fix');
-  const files = (await fs.readdir(LOCALES_DIR)).filter(f => f.endsWith('.json'));
+  const diskFiles = (await fs.readdir(LOCALES_DIR)).filter(f => f.endsWith('.json'));
+  const diskLangs = new Set(diskFiles.map(f => f.replace('.json', '')));
+
+  // Warn about unexpected locale files not in REQUIRED_LOCALES or ALLOWED_EXTRAS
+  for (const lang of diskLangs) {
+    if (!REQUIRED_LOCALES.has(lang) && !ALLOWED_EXTRAS.has(lang)) {
+      console.log(`⚠ Unexpected locale file: ${lang}.json (not in required set or allowed extras)`);
+    }
+  }
+
+  // Check that every required locale file actually exists on disk
+  let missingFiles = 0;
+  for (const lang of REQUIRED_LOCALES) {
+    if (!diskLangs.has(lang)) {
+      console.log(`✗ Required locale file missing from disk: ${lang}.json`);
+      missingFiles++;
+    }
+  }
+  if (missingFiles > 0) {
+    console.log(`\n✗ ${missingFiles} required locale file(s) missing — cannot continue\n`);
+    process.exit(1);
+  }
+
+  // Process required locales + allowed extras that exist on disk
+  const filesToCheck = diskFiles.filter(f => {
+    const lang = f.replace('.json', '');
+    return REQUIRED_LOCALES.has(lang) || ALLOWED_EXTRAS.has(lang);
+  });
 
   const basePath = path.join(LOCALES_DIR, `${BASE_LANG}.json`);
   const baseData = JSON.parse(await fs.readFile(basePath, 'utf-8'));
   const baseFlat = flatten(baseData);
   const baseKeys = new Set(Object.keys(baseFlat));
 
-  console.log(`\n📚 Base: ${BASE_LANG}.json (${baseKeys.size} chiavi)\n`);
+  console.log(`\n📚 Reference: ${BASE_LANG}.json (${baseKeys.size} keys)\n`);
 
-  // (b) Verifica TODO anche nella base
+  // Check for TODO markers in the base reference (should have none)
   let baseTodos = 0;
-  for (const [k, v] of Object.entries(baseFlat)) {
+  for (const [, v] of Object.entries(baseFlat)) {
     if (hasTodoMarker(v)) baseTodos++;
   }
   if (baseTodos > 0) {
-    console.log(`⚠ ${BASE_LANG}: ${baseTodos} chiavi con marker [TODO:*] (la base non dovrebbe averne)`);
+    console.log(`⚠ ${BASE_LANG}: ${baseTodos} keys with [TODO:*] markers (reference should have none)`);
   }
 
   let issuesMissing = 0;
@@ -129,7 +171,7 @@ async function main() {
   let issuesTodos = baseTodos;
   let issuesInterp = 0;
 
-  for (const file of files) {
+  for (const file of filesToCheck) {
     const lang = file.replace('.json', '');
     if (lang === BASE_LANG) continue;
 

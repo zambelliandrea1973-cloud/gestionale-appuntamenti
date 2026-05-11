@@ -35,6 +35,10 @@ args = "Start application"
 task = "workflow.run"
 args = "i18n-placeholder-check"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "i18n-sync"
+
 [[workflows.workflow]]
 name = "Start application"
 author = "agent"
@@ -55,6 +59,17 @@ author = "agent"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npx tsx scripts/i18n-placeholder-check.ts"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "i18n-sync"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run i18n:sync"
 
 [workflows.workflow.metadata]
 isValidation = true
