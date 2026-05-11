@@ -5755,6 +5755,7 @@
       "presetPlanNamePlaceholder": "bijv. MijnPlan",
       "presetDescriptionLabel": "Standaardbeschrijving",
       "noPresetsConfigured": "Geen presets geconfigureerd. Klik op \"Preset toevoegen\" om te beginnen.",
+      "noTranslationsYet": "Nog geen vertalingen",
       "savePresets": "Presets opslaan",
       "presetsUpdatedTitle": "Presets bijgewerkt",
       "presetsUpdated": "Standaardbeschrijvingen succesvol bijgewerkt.",

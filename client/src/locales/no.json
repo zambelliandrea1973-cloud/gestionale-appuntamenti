@@ -5755,6 +5755,7 @@
       "presetPlanNamePlaceholder": "f.eks. MittPlan",
       "presetDescriptionLabel": "Standardbeskrivelse",
       "noPresetsConfigured": "Ingen forhåndsinnstillinger konfigurert. Klikk \"Legg til forhåndsinnstilling\" for å starte.",
+      "noTranslationsYet": "Ingen oversettelser ennå",
       "savePresets": "Lagre forhåndsinnstillinger",
       "presetsUpdatedTitle": "Forhåndsinnstillinger oppdatert",
       "presetsUpdated": "Standardbeskrivelser ble oppdatert.",

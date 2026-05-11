@@ -5755,6 +5755,7 @@
       "presetPlanNamePlaceholder": "ej. MiPlan",
       "presetDescriptionLabel": "Descripción predeterminada",
       "noPresetsConfigured": "No hay presets configurados. Haz clic en \"Agregar preset\" para comenzar.",
+      "noTranslationsYet": "Aún no hay traducciones",
       "savePresets": "Guardar presets",
       "presetsUpdatedTitle": "Presets actualizados",
       "presetsUpdated": "Descripciones predeterminadas actualizadas correctamente.",

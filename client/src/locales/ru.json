@@ -5755,6 +5755,7 @@
       "presetPlanNamePlaceholder": "напр. МойПлан",
       "presetDescriptionLabel": "Описание по умолчанию",
       "noPresetsConfigured": "Пресеты не настроены. Нажмите «Добавить пресет», чтобы начать.",
+      "noTranslationsYet": "Переводов пока нет",
       "savePresets": "Сохранить пресеты",
       "presetsUpdatedTitle": "Пресеты обновлены",
       "presetsUpdated": "Описания по умолчанию успешно обновлены.",

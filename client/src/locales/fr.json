@@ -5755,6 +5755,7 @@
       "presetPlanNamePlaceholder": "ex. MonPlan",
       "presetDescriptionLabel": "Description par défaut",
       "noPresetsConfigured": "Aucun preset configuré. Cliquez sur \"Ajouter un preset\" pour commencer.",
+      "noTranslationsYet": "Aucune traduction pour l'instant",
       "savePresets": "Enregistrer les presets",
       "presetsUpdatedTitle": "Presets mis à jour",
       "presetsUpdated": "Les descriptions par défaut ont été mises à jour avec succès.",

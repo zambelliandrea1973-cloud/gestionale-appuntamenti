@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Euro, Save, Edit2, Check, X, Eye, RotateCcw, Plus, Trash2 } from 'lucide-react';
+import { Euro, Save, Edit2, Check, X, Eye, RotateCcw, Plus, Trash2, AlertTriangle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -544,18 +544,33 @@ export default function SubscriptionPlansAdmin() {
                   : 'text-xs font-mono cursor-default shrink-0 mt-0.5';
                 return (
                   <div key={key} className="grid grid-cols-[1fr_2fr_auto] gap-2 items-start text-sm">
-                    <span className="font-medium pt-0.5">{key}</span>
+                    <div className="pt-0.5">
+                      <span className="font-medium">{key}</span>
+                      {isEmpty && (
+                        <p className="text-xs text-destructive mt-0.5">
+                          {t('i18nFinale.subscriptionPlansAdmin.noTranslationsYet', 'No translations yet')}
+                        </p>
+                      )}
+                    </div>
                     <span className="text-muted-foreground">
                       {lm ? getPresetDisplayValue(lm) : (localeMap as string)}
                     </span>
                     {stats && (
-                      <Badge
-                        variant={badgeVariant}
-                        className={badgeClass}
-                        title={tooltipText}
-                      >
-                        {stats.filled} / {stats.total}
-                      </Badge>
+                      <div className="flex items-center gap-1 shrink-0 mt-0.5">
+                        {isEmpty && (
+                          <AlertTriangle
+                            className="h-3.5 w-3.5 text-destructive"
+                            aria-label={t('i18nFinale.subscriptionPlansAdmin.noTranslationsYet', 'No translations yet')}
+                          />
+                        )}
+                        <Badge
+                          variant={badgeVariant}
+                          className={badgeClass}
+                          title={tooltipText}
+                        >
+                          {stats.filled} / {stats.total}
+                        </Badge>
+                      </div>
                     )}
                   </div>
                 );

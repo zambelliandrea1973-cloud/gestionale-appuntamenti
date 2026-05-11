@@ -5980,6 +5980,7 @@
       "presetPlanNamePlaceholder": "उदाहरण: MyPlan",
       "presetDescriptionLabel": "विवरण predefinita",
       "noPresetsConfigured": "कोई प्रीसेट कॉन्फ़िगर नहीं। \"प्रीसेट जोड़ें\" क्लिक करें।",
+      "noTranslationsYet": "अभी तक कोई अनुवाद नहीं",
       "savePresets": "सहेजें preset",
       "presetsUpdatedTitle": "प्रीसेट अपडेट हुए",
       "presetsUpdated": "विवरणrizioni predefinite aggiornate con successo.",

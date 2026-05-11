@@ -5755,6 +5755,7 @@
       "presetPlanNamePlaceholder": "ex. PlanulMeu",
       "presetDescriptionLabel": "Descriere implicită",
       "noPresetsConfigured": "Niciun preset configurat. Faceți clic pe \"Adaugă preset\" pentru a începe.",
+      "noTranslationsYet": "Nicio traducere încă",
       "savePresets": "Salvează preseturile",
       "presetsUpdatedTitle": "Preseturi actualizate",
       "presetsUpdated": "Descrierile implicite au fost actualizate cu succes.",
