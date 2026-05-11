@@ -251,7 +251,13 @@ export default function SubscriptionPlansPanel() {
   ];
 
   const plans: Plan[] = serverPlans?.length
-    ? serverPlans.map((plan: ServerPlan) => {
+    ? serverPlans
+      .filter((plan: ServerPlan) => {
+        // When language is Hindi, show only annual plans that have INR pricing
+        if (i18n.language === 'hi') return !!plan.localizedPrices?.['hi'];
+        return true;
+      })
+      .map((plan: ServerPlan) => {
         let features: PlanFeature[] = [];
         try {
           if (plan.features) {
