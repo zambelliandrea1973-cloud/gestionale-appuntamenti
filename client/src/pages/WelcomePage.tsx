@@ -13,6 +13,7 @@ import {
   LogIn,
   X,
   Eye,
+  PlayCircle,
 } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
@@ -36,11 +37,26 @@ export default function WelcomePage() {
   const { user, isLoading } = useUserWithLicense();
   const { t, i18n } = useTranslation();
   const [previewImg, setPreviewImg] = useState<{ src: string; title: string } | null>(null);
+  const [demoLoading, setDemoLoading] = useState(false);
 
   const currentLang = i18n.language?.split("-")[0] || "it";
   const changeLang = (code: string) => {
     i18n.changeLanguage(code);
     localStorage.setItem("i18nextLng", code);
+  };
+
+  const handleDemoLogin = async () => {
+    setDemoLoading(true);
+    try {
+      const res = await fetch("/api/auth/demo-login", { method: "POST", credentials: "include" });
+      if (res.ok) {
+        setLocation("/dashboard");
+      }
+    } catch (e) {
+      console.error("[DEMO] login failed", e);
+    } finally {
+      setDemoLoading(false);
+    }
   };
 
   const isPWA =
@@ -212,7 +228,21 @@ export default function WelcomePage() {
                 )}
               </p>
 
-              <div className="pt-4 space-y-2">
+              {/* Demo tour button */}
+              <Button
+                variant="ghost"
+                className="w-full h-11 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 border border-dashed border-muted-foreground/40 hover:border-primary/40 transition-colors"
+                onClick={handleDemoLogin}
+                disabled={demoLoading}
+                data-testid="button-demo"
+              >
+                <PlayCircle className="mr-2 h-4 w-4 flex-shrink-0" />
+                {demoLoading
+                  ? t("welcomePage.demoLoading", "Loading demo...")
+                  : t("welcomePage.demoButton", "Or try a demo tour without registration")}
+              </Button>
+
+              <div className="pt-2 space-y-2">
                 <p className="text-center text-sm text-muted-foreground">
                   {t("welcomePage.alreadyAccount", "Already have an account?")}
                 </p>

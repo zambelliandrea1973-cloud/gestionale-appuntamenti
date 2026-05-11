@@ -29,6 +29,8 @@
     "benefit3": "Se sincroniza con Google Calendar",
     "benefit4": "Funciona en móvil, tablet y PC",
     "benefit5": "Sin recopilación de datos ni spam",
+    "demoButton": "O prueba un tour de demostración sin registro",
+    "demoLoading": "Cargando demo...",
     "headerTitle": "Bienvenido a"
   },
   "staffLoginPage": {

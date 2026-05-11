@@ -638,6 +638,55 @@ export function setupAuth(app: Express) {
     res.json(req.user);
   });
 
+  // Demo login — creates a shared read-only demo account on first call
+  app.post("/api/auth/demo-login", async (req, res, next) => {
+    try {
+      const DEMO_USERNAME = "__demo__";
+      const DEMO_EMAIL    = "demo@gestionale.demo";
+      const DEMO_PASSWORD = "demo-tour-2025";
+
+      let demoUser = await storage.getUserByUsername(DEMO_USERNAME);
+
+      if (!demoUser) {
+        const { addDays } = await import('date-fns');
+        const { licenseService } = await import('./services/licenseService');
+        const { seedDemoData } = await import('./services/onboardingDemoService');
+
+        const hashedPw = await hashPassword(DEMO_PASSWORD);
+        demoUser = await storage.createUser({
+          username: DEMO_USERNAME,
+          email: DEMO_EMAIL,
+          password: hashedPw,
+          role: 'user',
+          type: 'admin',
+        });
+
+        // Trial license lasting 10 years so demo never expires
+        const farFuture = addDays(new Date(), 3650);
+        await licenseService.createTrialLicense(demoUser.id, farFuture);
+
+        // Seed demo clients, services, appointments
+        await seedDemoData(demoUser.id);
+        console.log(`✅ [DEMO] Demo account created (id: ${demoUser.id})`);
+      }
+
+      // Log out any existing session first, then log in as demo
+      req.logout((logoutErr) => {
+        if (logoutErr) console.warn('[DEMO] Preventive logout error:', logoutErr);
+        req.login(demoUser!, (loginErr) => {
+          if (loginErr) return next(loginErr);
+          req.session.save((saveErr) => {
+            if (saveErr) console.error('[DEMO] Session save error:', saveErr);
+            const { password: _pw, ...safe } = demoUser as any;
+            return res.status(200).json({ ...safe, isDemo: true });
+          });
+        });
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   // Endpoint for password change
   app.post("/api/change-password", async (req, res) => {
     if (!req.isAuthenticated()) {
