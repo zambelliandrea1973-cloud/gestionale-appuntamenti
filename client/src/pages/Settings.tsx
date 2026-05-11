@@ -38,8 +38,6 @@ function resolveTabFromUrl(): string | null {
   const params = new URLSearchParams(window.location.search);
   const queryTab = params.get('tab');
   if (queryTab && (VALID_TABS as readonly string[]).includes(queryTab)) return queryTab;
-  const hash = window.location.hash.slice(1);
-  if (hash && (VALID_TABS as readonly string[]).includes(hash)) return hash;
   return null;
 }
 
@@ -67,7 +65,7 @@ export default function Settings() {
     }
   }, []);
   
-  // Recupera la tab selezionata da URL (?tab= o #tab) o da localStorage quando il componente viene montato
+  // Recupera la tab selezionata dal parametro URL ?tab= al montaggio del componente
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const section = params.get('section');
@@ -80,27 +78,12 @@ export default function Settings() {
       return;
     }
     const urlTab = resolveTabFromUrl();
-    if (urlTab) {
-      setActiveTab(urlTab);
-      localStorage.setItem('settings_active_tab', urlTab);
-    } else {
-      const savedTab = localStorage.getItem('settings_active_tab');
-      if (savedTab && (VALID_TABS as readonly string[]).includes(savedTab)) {
-        setActiveTab(savedTab);
-      } else if (savedTab === 'admin') {
-        setActiveTab('app');
-        localStorage.setItem('settings_active_tab', 'app');
-      }
-    }
+    setActiveTab(urlTab ?? 'app');
   }, []);
 
   // Reagisce ai cambi di URL (navigazione via Link sullo stesso percorso)
   useEffect(() => {
-    const urlTab = resolveTabFromUrl();
-    if (urlTab) {
-      setActiveTab(urlTab);
-      localStorage.setItem('settings_active_tab', urlTab);
-    }
+    setActiveTab(resolveTabFromUrl() ?? 'app');
   }, [location]);
 
   // Debug del tab attivo
@@ -236,7 +219,6 @@ export default function Settings() {
 
       <Tabs value={activeTab} className="w-full" onValueChange={(value) => {
         setActiveTab(value);
-        localStorage.setItem('settings_active_tab', value);
         const url = new URL(window.location.href);
         url.searchParams.set('tab', value);
         window.history.replaceState(null, '', url.toString());
