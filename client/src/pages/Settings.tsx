@@ -86,11 +86,6 @@ export default function Settings() {
     setActiveTab(resolveTabFromUrl() ?? 'app');
   }, [location]);
 
-  // Debug del tab attivo
-  useEffect(() => {
-    console.log("🔧 SETTINGS: Tab attualmente attiva:", activeTab);
-  }, [activeTab]);
-
   // Carica il codice identificativo dall'utente corrente
   useEffect(() => {
     if (user && (user.type === 'staff' || user.type === 'admin') && user.assignmentCode) {
