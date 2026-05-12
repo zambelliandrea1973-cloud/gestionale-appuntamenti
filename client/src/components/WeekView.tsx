@@ -175,29 +175,32 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
         </div>
       </div>
       
-      {/* Day headers */}
-      <div className="grid" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
-        {/* Empty corner for time column */}
-        <div className="bg-gray-50 border-r border-b p-2"></div>
-        
-        {/* Day headers */}
-        {weekDays.map((day, index) => (
-          <div key={index} className="text-center py-3 font-medium text-sm border-r border-b bg-gray-50">
-            <div className={`${isToday(day) ? 'text-primary font-bold' : 'text-gray-700'}`}>
-              {new Intl.DateTimeFormat('it-IT', { weekday: 'short' }).format(day)}
+      {/* Scrollable container — header + time slots share the same overflow so the scrollbar
+           offset never causes column misalignment */}
+      <div className="overflow-y-auto max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-310px)] md:max-h-[calc(100vh-350px)] min-h-[300px]">
+
+        {/* Day headers — sticky so they stay visible while scrolling */}
+        <div className="grid sticky top-0 z-20 bg-gray-50" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
+          {/* Empty corner for time column */}
+          <div className="bg-gray-50 border-r border-b p-2"></div>
+          
+          {weekDays.map((day, index) => (
+            <div key={index} className="text-center py-3 font-medium text-sm border-r border-b bg-gray-50">
+              <div className={`${isToday(day) ? 'text-primary font-bold' : 'text-gray-700'}`}>
+                {new Intl.DateTimeFormat('it-IT', { weekday: 'short' }).format(day)}
+              </div>
+              <div className={`
+                ${isToday(day) ? 'bg-primary text-white' : 'text-gray-900'} 
+                rounded-full w-8 h-8 flex items-center justify-center mx-auto mt-1
+              `}>
+                {day.getDate()}
+              </div>
             </div>
-            <div className={`
-              ${isToday(day) ? 'bg-primary text-white' : 'text-gray-900'} 
-              rounded-full w-8 h-8 flex items-center justify-center mx-auto mt-1
-            `}>
-              {day.getDate()}
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      {/* Time slots grid */}
-      <div className="grid overflow-y-auto max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-310px)] md:max-h-[calc(100vh-350px)] min-h-[300px]" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
+          ))}
+        </div>
+
+        {/* Time slots grid — same column template, no separate overflow */}
+        <div className="grid" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
         {timeSlots.map((timeSlot, timeIndex) => (
           <div key={timeIndex} className="contents">
             {/* Time label — si espande automaticamente con la riga */}
@@ -256,7 +259,8 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
             })}
           </div>
         ))}
-      </div>
+        </div>{/* end time slots grid */}
+      </div>{/* end scrollable container */}
       
       {/* Form dialog for new appointment */}
       {isAppointmentFormOpen && (
