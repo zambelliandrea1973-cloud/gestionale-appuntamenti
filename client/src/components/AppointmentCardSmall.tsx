@@ -6,23 +6,22 @@ import { useToast } from "@/hooks/use-toast";
 import { Trash2, Pencil, X, Clock, User, Briefcase, Users, DoorOpen } from "lucide-react";
 import { AppointmentWithDetails } from "../../../shared/schema";
 import { Button } from "@/components/ui/button";
-import AppointmentForm from "./AppointmentForm";
-import { ErrorBoundary } from "./ErrorBoundary";
 
 interface AppointmentCardSmallProps {
   appointment: AppointmentWithDetails;
   onUpdate?: () => void;
+  onEdit?: (id: number) => void;
   view: "week" | "month";
 }
 
 export default function AppointmentCardSmall({ 
   appointment, 
   onUpdate,
+  onEdit,
   view 
 }: AppointmentCardSmallProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
-  const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
   // Popover
@@ -31,8 +30,6 @@ export default function AppointmentCardSmall({
   const [isPinned, setIsPinned] = useState(false);
   const [popoverPos, setPopoverPos] = useState({ top: 0, left: 0 });
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Guard: prevents Android synthesized click from immediately closing the form
-  const formOpenedAtRef = useRef<number>(0);
 
   const showPopover = isHovered || isPinned;
 
@@ -44,12 +41,10 @@ export default function AppointmentCardSmall({
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    // Prefer right side, fall back to left
     let left = rect.right + 6;
     if (left + popoverWidth > vw - 8) left = rect.left - popoverWidth - 6;
     if (left < 8) left = 8;
 
-    // Align top with card, clamp to viewport
     let top = rect.top;
     if (top + popoverHeight > vh - 8) top = vh - popoverHeight - 8;
     if (top < 8) top = 8;
@@ -64,7 +59,6 @@ export default function AppointmentCardSmall({
   };
 
   const handleMouseLeave = () => {
-    // Small delay so mouse can move into the popover itself
     hoverTimeout.current = setTimeout(() => setIsHovered(false), 120);
   };
 
@@ -127,6 +121,14 @@ export default function AppointmentCardSmall({
     return `${String(Math.floor(totalMin / 60)).padStart(2, '0')}:${String(totalMin % 60).padStart(2, '0')}`;
   })();
 
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsPinned(false);
+    setIsHovered(false);
+    if (onEdit) onEdit(appointment.id);
+  };
+
   return (
     <>
       <div 
@@ -155,7 +157,7 @@ export default function AppointmentCardSmall({
           )}
         </div>
         
-        {/* Quick action icons (month view or non-hover) */}
+        {/* Quick action icons (month view) */}
         {view === "month" && (
           <div 
             className="absolute top-0 right-0 hidden group-hover:flex space-x-1 bg-white bg-opacity-90 rounded-bl-md shadow-sm p-0.5"
@@ -166,7 +168,7 @@ export default function AppointmentCardSmall({
             <Button
               variant="ghost" size="icon"
               className="h-4 w-4 p-0 text-gray-500 hover:text-primary hover:bg-gray-100"
-              onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsFormDialogOpen(true); }}
+              onClick={handleEditClick}
             >
               <Pencil className="h-2.5 w-2.5" />
             </Button>
@@ -181,7 +183,7 @@ export default function AppointmentCardSmall({
         )}
       </div>
 
-      {/* ── Week-view detail popover ── */}
+      {/* Detail popover */}
       {showPopover && (
         <div
           className="fixed z-[9999] bg-white border border-gray-200 rounded-xl shadow-2xl p-3 w-60"
@@ -190,7 +192,6 @@ export default function AppointmentCardSmall({
           onMouseLeave={() => { setIsHovered(false); }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
           <div className="flex items-center justify-between mb-2">
             <div
               className="text-xs font-bold uppercase tracking-wide px-1.5 py-0.5 rounded"
@@ -206,7 +207,6 @@ export default function AppointmentCardSmall({
             </button>
           </div>
 
-          {/* Details */}
           <div className="space-y-1.5 text-sm">
             <div className="flex items-center gap-2">
               <Clock className="h-3.5 w-3.5 text-gray-400 shrink-0" />
@@ -243,12 +243,11 @@ export default function AppointmentCardSmall({
             )}
           </div>
 
-          {/* Actions */}
           <div className="flex gap-2 mt-3 pt-2 border-t">
             <Button
               size="sm" variant="outline"
               className="flex-1 h-7 text-xs"
-              onClick={(e) => { e.stopPropagation(); setIsPinned(false); setIsHovered(false); formOpenedAtRef.current = Date.now(); setIsFormDialogOpen(true); }}
+              onClick={handleEditClick}
             >
               <Pencil className="h-3 w-3 mr-1" /> {t('common.edit', 'Modifica')}
             </Button>
@@ -263,6 +262,7 @@ export default function AppointmentCardSmall({
         </div>
       )}
 
+      {/* Delete confirmation */}
       {isDeleteConfirmOpen && (
         <div 
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]"
@@ -297,32 +297,6 @@ export default function AppointmentCardSmall({
                 {deleteMutation.isPending ? t('common.deleting') : t('common.delete')}
               </Button>
             </div>
-          </div>
-        </div>
-      )}
-      
-      {isFormDialogOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-[9999] overflow-y-auto"
-          onClick={(e) => { e.stopPropagation(); e.preventDefault(); if (Date.now() - formOpenedAtRef.current > 300) setIsFormDialogOpen(false); }}
-        >
-          <div 
-            className="relative"
-            onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
-          >
-            <ErrorBoundary
-              fallback={
-                <div className="bg-white rounded-lg shadow-lg p-6 w-[calc(100vw-16px)] sm:w-auto sm:min-w-[380px] flex flex-col gap-4 items-center">
-                  <p className="text-sm text-gray-600">Errore nel caricamento del form. Riprova.</p>
-                  <button className="px-4 py-2 bg-primary text-white rounded-md text-sm" onClick={() => setIsFormDialogOpen(false)}>Chiudi</button>
-                </div>
-              }
-            >
-              <AppointmentForm 
-                appointmentId={appointment.id} 
-                onClose={() => { setIsFormDialogOpen(false); if (onUpdate) onUpdate(); }} 
-              />
-            </ErrorBoundary>
           </div>
         </div>
       )}

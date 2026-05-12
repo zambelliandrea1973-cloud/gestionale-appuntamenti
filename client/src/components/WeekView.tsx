@@ -45,6 +45,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
   const [selectedTimeForAppointment, setSelectedTimeForAppointment] = useState<string>("09:00");
+  const [editingAppointmentId, setEditingAppointmentId] = useState<number | null>(null);
   // Slot attualmente espanso (format "HH:00"); null = tutti collassati
   const [expandedSlot, setExpandedSlot] = useState<string | null>(null);
   const timeSlots = generateTimeSlots();
@@ -233,6 +234,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                           <AppointmentCardSmall 
                             appointment={appointment}
                             onUpdate={handleAppointmentUpdated}
+                            onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingAppointmentId(id); }}
                             view="week"
                           />
                         </div>
@@ -262,6 +264,26 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
         </div>{/* end time slots grid */}
       </div>{/* end scrollable container */}
       
+      {/* Form dialog for EDITING existing appointment */}
+      {editingAppointmentId && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-50 overflow-y-auto"
+          onClick={() => {
+            if (Date.now() - formOpenedAtRef.current > 300) setEditingAppointmentId(null);
+          }}
+        >
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <AppointmentForm
+              appointmentId={editingAppointmentId}
+              onClose={() => {
+                setEditingAppointmentId(null);
+                handleAppointmentUpdated();
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Form dialog for new appointment */}
       {isAppointmentFormOpen && (
         <div

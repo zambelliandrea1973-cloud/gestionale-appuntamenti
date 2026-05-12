@@ -28,6 +28,7 @@ export default function MonthView({ selectedDate, services = [], collaborators =
   const [calendar, setCalendar] = useState<Date[][]>([]);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
+  const [editingAppointmentId, setEditingAppointmentId] = useState<number | null>(null);
   
   // First day of the month
   const firstDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
@@ -199,6 +200,7 @@ export default function MonthView({ selectedDate, services = [], collaborators =
                         <AppointmentCardSmall 
                           appointment={appointment}
                           onUpdate={handleAppointmentUpdated}
+                          onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingAppointmentId(id); }}
                           view="month"
                         />
                       </div>
@@ -211,6 +213,26 @@ export default function MonthView({ selectedDate, services = [], collaborators =
         )}
       </div>
       
+      {/* Form dialog for EDITING existing appointment */}
+      {editingAppointmentId && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-50 overflow-y-auto"
+          onClick={() => {
+            if (Date.now() - formOpenedAtRef.current > 300) setEditingAppointmentId(null);
+          }}
+        >
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <AppointmentForm
+              appointmentId={editingAppointmentId}
+              onClose={() => {
+                setEditingAppointmentId(null);
+                handleAppointmentUpdated();
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Form dialog for new appointment - Custom modal implementation (popup) */}
       {isAppointmentFormOpen && (
         <div
