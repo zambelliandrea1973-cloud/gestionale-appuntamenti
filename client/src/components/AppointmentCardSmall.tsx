@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -62,8 +62,33 @@ export default function AppointmentCardSmall({
     hoverTimeout.current = setTimeout(() => setIsHovered(false), 120);
   };
 
+  // Chiude il popover quando si clicca/tocca fuori dal card o dal popover
+  useEffect(() => {
+    if (!showPopover) return;
+    const handleOutside = (e: Event) => {
+      const target = (e.type === 'touchstart'
+        ? (e as TouchEvent).changedTouches?.[0]?.target
+        : (e as MouseEvent).target) as Node | null;
+      if (!target) return;
+      // Non chiudere se il click è sul card stesso o dentro il popover
+      if (cardRef.current?.contains(target)) return;
+      const popoverEl = document.querySelector('[data-popover-card]');
+      if (popoverEl?.contains(target)) return;
+      setIsPinned(false);
+      setIsHovered(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('touchstart', handleOutside, { passive: true });
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('touchstart', handleOutside);
+    };
+  }, [showPopover]);
+
   const handleCardClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    // Resetta isHovered (su mobile mouseenter rimane attivo senza mouseleave)
+    setIsHovered(false);
     if (!isPinned) calcPosition();
     setIsPinned((p) => !p);
   };
@@ -157,35 +182,13 @@ export default function AppointmentCardSmall({
           )}
         </div>
         
-        {/* Quick action icons (month view) */}
-        {view === "month" && (
-          <div 
-            className="absolute top-0 right-0 hidden group-hover:flex space-x-1 bg-white bg-opacity-90 rounded-bl-md shadow-sm p-0.5"
-            data-appointment-icons="true"
-            onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
-            onMouseDown={(e) => e.stopPropagation()}
-          >
-            <Button
-              variant="ghost" size="icon"
-              className="h-4 w-4 p-0 text-gray-500 hover:text-primary hover:bg-gray-100"
-              onClick={handleEditClick}
-            >
-              <Pencil className="h-2.5 w-2.5" />
-            </Button>
-            <Button
-              variant="ghost" size="icon"
-              className="h-4 w-4 p-0 text-gray-500 hover:text-red-500 hover:bg-gray-100"
-              onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsDeleteConfirmOpen(true); }}
-            >
-              <Trash2 className="h-2.5 w-2.5" />
-            </Button>
-          </div>
-        )}
+        {/* Le icone modifica/elimina sono nel popover — non mostrate inline */}
       </div>
 
-      {/* Detail popover */}
+      {/* Detail popover — visibile solo dopo click/tap sul card */}
       {showPopover && (
         <div
+          data-popover-card="true"
           className="fixed z-[9999] bg-white border border-gray-200 rounded-xl shadow-2xl p-3 w-60"
           style={{ top: popoverPos.top, left: popoverPos.left }}
           onMouseEnter={() => { if (hoverTimeout.current) clearTimeout(hoverTimeout.current); setIsHovered(true); }}
