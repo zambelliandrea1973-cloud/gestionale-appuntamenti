@@ -755,6 +755,7 @@ export function setupAuth(app: Express) {
       NO: 'no',
       RO: 'ro', MD: 'ro',
       RU: 'ru', BY: 'ru', KZ: 'ru',
+      IN: 'hi',
     };
 
     try {
