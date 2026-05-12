@@ -265,7 +265,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
       {/* Form dialog for new appointment */}
       {isAppointmentFormOpen && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-50 overflow-y-auto"
           onClick={() => {
             if (Date.now() - formOpenedAtRef.current > 300) setIsAppointmentFormOpen(false);
           }}

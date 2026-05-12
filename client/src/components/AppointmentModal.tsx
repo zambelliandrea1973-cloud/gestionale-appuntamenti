@@ -130,7 +130,7 @@ export default function AppointmentModal({
   
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]"
+      className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-[100] overflow-y-auto"
       onClick={() => { if (Date.now() - openedAtRef.current > 300) onClose(); }}
     >
       <div 
