@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -45,6 +45,8 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
   const [selectedTimeForAppointment, setSelectedTimeForAppointment] = useState<string>("09:00");
+  // Slot attualmente espanso (format "HH:00"); null = tutti collassati
+  const [expandedSlot, setExpandedSlot] = useState<string | null>(null);
   const timeSlots = generateTimeSlots();
   
   // Calcola i giorni della settimana basato su viewDate
@@ -84,6 +86,9 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   // Calcola il numero della settimana ISO
   const weekNumber = getISOWeek(viewDate);
   
+  // Guard temporale: evita che il click sintetico Android chiuda il form subito dopo l'apertura
+  const formOpenedAtRef = useRef(0);
+
   // Handle appointment update
   const handleAppointmentUpdated = () => {
     refetch();
@@ -92,16 +97,29 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
     }
   };
   
-  // Handle time slot click to open new appointment form
-  const handleTimeSlotClick = (e: React.MouseEvent, day: Date, time: string) => {
-    // Ignora click provenienti da card appuntamento o area icone (evita apertura form durante delete/edit)
+  // Handle time slot click:
+  // - slot già espanso → collassa
+  // - slot con appuntamenti → espandi
+  // - slot vuoto → apri form nuovo appuntamento
+  const handleTimeSlotClick = (e: React.MouseEvent, day: Date, time: string, hasAppointments: boolean) => {
     const target = e.target as HTMLElement;
     if (target.closest('[data-appointment-card]') || target.closest('[data-appointment-icons]')) {
       return;
     }
-    setSelectedDayForAppointment(day);
-    setSelectedTimeForAppointment(time);
-    setIsAppointmentFormOpen(true);
+    if (expandedSlot === time) {
+      // Secondo click: collassa
+      setExpandedSlot(null);
+    } else if (hasAppointments) {
+      // Ha appuntamenti: espandi la riga
+      setExpandedSlot(time);
+    } else {
+      // Slot vuoto: apri form nuovo appuntamento
+      setExpandedSlot(null);
+      setSelectedDayForAppointment(day);
+      setSelectedTimeForAppointment(time);
+      formOpenedAtRef.current = Date.now();
+      setIsAppointmentFormOpen(true);
+    }
   };
   
   // Get appointments for a specific day and time slot
@@ -182,26 +200,30 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
       <div className="grid overflow-y-auto max-h-[calc(100vh-350px)] min-h-[400px]" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
         {timeSlots.map((timeSlot, timeIndex) => (
           <div key={timeIndex} className="contents">
-            {/* Time label */}
-            <div className="text-xs font-medium text-gray-500 bg-gray-50 border-r border-b p-2 sticky left-0 z-10">
+            {/* Time label — si espande automaticamente con la riga */}
+            <div
+              className="text-xs font-medium text-gray-500 bg-gray-50 border-r border-b p-2 sticky left-0 z-10 cursor-pointer select-none"
+              onClick={() => setExpandedSlot(expandedSlot === timeSlot ? null : timeSlot)}
+            >
               {timeSlot}
             </div>
             
             {/* Day cells for this time slot */}
             {weekDays.map((day, dayIndex) => {
               const slotAppointments = getAppointmentsForTimeSlot(day, timeSlot);
-              const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+              const isExpanded = expandedSlot === timeSlot;
+              const hasAppointments = slotAppointments.length > 0;
               
               return (
                 <div 
                   key={`${timeIndex}-${dayIndex}`}
-                  className="border-r border-b p-1 min-h-[60px] cursor-pointer hover:bg-blue-50 transition-colors relative group"
-                  onClick={(e) => handleTimeSlotClick(e, day, timeSlot)}
+                  className={`border-r border-b p-0.5 cursor-pointer hover:bg-blue-50 transition-all duration-200 relative group
+                    ${isExpanded ? 'min-h-[64px]' : 'h-[64px] overflow-hidden'}`}
+                  onClick={(e) => handleTimeSlotClick(e, day, timeSlot, hasAppointments)}
                 >
                   {isLoading ? (
                     <Skeleton className="h-12 w-full" />
-                  ) : slotAppointments.length > 0 ? (
-                    // Show appointments for this slot
+                  ) : hasAppointments ? (
                     <div className="space-y-1">
                       {slotAppointments.map((appointment) => (
                         <div key={appointment.id} className="text-xs">
@@ -222,7 +244,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                         className="text-gray-400 hover:text-primary h-auto p-1"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleTimeSlotClick(e, day, timeSlot);
+                          handleTimeSlotClick(e, day, timeSlot, false);
                         }}
                       >
                         <Plus className="h-4 w-4" />
@@ -238,7 +260,12 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
       
       {/* Form dialog for new appointment */}
       {isAppointmentFormOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          onClick={() => {
+            if (Date.now() - formOpenedAtRef.current > 300) setIsAppointmentFormOpen(false);
+          }}
+        >
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <AppointmentForm 
               onClose={() => {
@@ -258,6 +285,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
           onClick={() => {
             setSelectedDayForAppointment(selectedDate);
             setSelectedTimeForAppointment("09:00");
+            formOpenedAtRef.current = Date.now();
             setIsAppointmentFormOpen(true);
           }}
           text={t('calendar.selectNewAppointment', 'New appointment')}

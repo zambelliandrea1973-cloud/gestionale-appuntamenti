@@ -91,9 +91,8 @@ export default function AppointmentCardSmall({
         <div className="font-medium truncate text-xs p-1">
           {view === "week" ? (
             <>
-              <div className="truncate">{appointment.client?.firstName} {appointment.client?.lastName}</div>
-              <div className="text-xs opacity-75">{appointment.startTime?.substring(0, 5)}</div>
-              <div className="text-xs opacity-60 truncate">{appointment.service?.name}</div>
+              <div className="truncate font-semibold leading-tight">{appointment.startTime?.substring(0, 5)} · {appointment.client?.firstName} {appointment.client?.lastName}</div>
+              <div className="text-xs opacity-60 truncate leading-tight">{appointment.service?.name}</div>
             </>
           ) : (
             <>
