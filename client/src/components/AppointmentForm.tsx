@@ -439,6 +439,11 @@ export default function AppointmentForm({
         });
       }
       
+      // Invalida anche le query range usate da WeekView
+      await queryClient.invalidateQueries({
+        predicate: (query) => String(query.queryKey[0]).includes('/api/appointments/range'),
+      });
+
       // Force refresh of all appointment-related queries
       await queryClient.refetchQueries({ 
         queryKey: ['/api/appointments'],
@@ -543,6 +548,11 @@ export default function AppointmentForm({
         });
       }
       
+      // Invalida anche le query range usate da WeekView
+      await queryClient.invalidateQueries({
+        predicate: (query) => String(query.queryKey[0]).includes('/api/appointments/range'),
+      });
+
       // Forza il refetch immediato delle query principali
       await queryClient.refetchQueries({ queryKey: ['/api/appointments'] });
       await queryClient.refetchQueries({ queryKey: [`/api/appointments/date/${appointmentApiDate}`] });

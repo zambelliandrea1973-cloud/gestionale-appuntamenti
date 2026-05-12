@@ -39,6 +39,17 @@ const generateTimeSlots = () => {
   return slots;
 };
 
+// Calcola la durata in minuti da startTime e endTime ("HH:MM")
+const getDurationMinutes = (appointment: any): number => {
+  const start = appointment.startTime ?? "09:00";
+  const end = appointment.endTime;
+  if (!end) return 60;
+  const [sh, sm] = start.split(':').map(Number);
+  const [eh, em] = end.split(':').map(Number);
+  const diff = (eh * 60 + em) - (sh * 60 + sm);
+  return diff > 0 ? diff : 60;
+};
+
 export default function WeekView({ selectedDate, services = [], collaborators = [], treatmentRooms = [], activeFilter = null, onRefresh, onDateSelect }: WeekViewProps) {
   const { t } = useTranslation();
   const [viewDate, setViewDate] = useState(selectedDate);
@@ -222,15 +233,19 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                 <div 
                   key={`${timeIndex}-${dayIndex}`}
                   className={`border-r border-b p-0.5 cursor-pointer hover:bg-blue-50 transition-all duration-200 relative group
-                    ${isExpanded ? 'min-h-[64px]' : 'h-[64px] overflow-hidden'}`}
+                    ${hasAppointments ? 'min-h-[64px]' : isExpanded ? 'min-h-[64px]' : 'h-[64px] overflow-hidden'}`}
                   onClick={(e) => handleTimeSlotClick(e, day, timeSlot, hasAppointments)}
                 >
                   {isLoading ? (
                     <Skeleton className="h-12 w-full" />
                   ) : hasAppointments ? (
                     <div className="space-y-1">
-                      {slotAppointments.map((appointment) => (
-                        <div key={appointment.id} className="text-xs">
+                      {slotAppointments.map((appointment) => {
+                        const durationMins = getDurationMinutes(appointment);
+                        // 64px = 60 min; scala proporzionalmente, minimo 28px
+                        const cardHeight = Math.max(Math.round((durationMins / 60) * 64), 28);
+                        return (
+                        <div key={appointment.id} className="text-xs" style={{ height: `${cardHeight}px`, overflow: 'hidden' }}>
                           <AppointmentCardSmall 
                             appointment={appointment}
                             onUpdate={handleAppointmentUpdated}
@@ -238,7 +253,8 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                             view="week"
                           />
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ) : (
                     // Empty slot - show add button on hover
