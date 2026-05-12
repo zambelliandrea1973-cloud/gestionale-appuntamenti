@@ -7,6 +7,7 @@ import { Trash2, Pencil, X, Clock, User, Briefcase, Users, DoorOpen } from "luci
 import { AppointmentWithDetails } from "../../../shared/schema";
 import { Button } from "@/components/ui/button";
 import AppointmentForm from "./AppointmentForm";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 interface AppointmentCardSmallProps {
   appointment: AppointmentWithDetails;
@@ -309,10 +310,19 @@ export default function AppointmentCardSmall({
             className="relative"
             onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
           >
-            <AppointmentForm 
-              appointmentId={appointment.id} 
-              onClose={() => { setIsFormDialogOpen(false); if (onUpdate) onUpdate(); }} 
-            />
+            <ErrorBoundary
+              fallback={
+                <div className="bg-white rounded-lg shadow-lg p-6 w-[calc(100vw-16px)] sm:w-auto sm:min-w-[380px] flex flex-col gap-4 items-center">
+                  <p className="text-sm text-gray-600">Errore nel caricamento del form. Riprova.</p>
+                  <button className="px-4 py-2 bg-primary text-white rounded-md text-sm" onClick={() => setIsFormDialogOpen(false)}>Chiudi</button>
+                </div>
+              }
+            >
+              <AppointmentForm 
+                appointmentId={appointment.id} 
+                onClose={() => { setIsFormDialogOpen(false); if (onUpdate) onUpdate(); }} 
+              />
+            </ErrorBoundary>
           </div>
         </div>
       )}
