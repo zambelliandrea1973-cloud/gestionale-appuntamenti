@@ -732,6 +732,10 @@ export default function DayViewWithTimeSlots({
                 `}
                 data-slot-time={slotTime}
                 onClick={() => handleSlotClick(slotTime)}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  handleSlotClick(slotTime);
+                }}
               >
                 <div className="w-16 text-sm font-medium">
                   {showFullTime ? slotTime : <span className="text-xs text-gray-500">{slotTime.substring(3)}</span>}

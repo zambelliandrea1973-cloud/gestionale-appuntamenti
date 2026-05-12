@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -81,6 +81,9 @@ export default function MonthView({ selectedDate, services = [], collaborators =
     refetch();
   }, [selectedDate, refetch]);
   
+  // Guard temporale: evita che il click sintetico Android chiuda il form subito dopo l'apertura
+  const formOpenedAtRef = useRef(0);
+
   // Handle appointment update
   const handleAppointmentUpdated = () => {
     refetch();
@@ -98,6 +101,7 @@ export default function MonthView({ selectedDate, services = [], collaborators =
     }
     if (createAppointment) {
       setSelectedDayForAppointment(day);
+      formOpenedAtRef.current = Date.now();
       setIsAppointmentFormOpen(true);
     } else {
       onDateSelect(day);
@@ -160,7 +164,8 @@ export default function MonthView({ selectedDate, services = [], collaborators =
                 `}
                 onClick={(e) => handleDayClick(e, day)}
               >
-                <div className="flex justify-between items-start">
+                {/* Numero giorno centrato come l'intestazione, pulsante + in overlay a destra */}
+                <div className="relative flex justify-center items-center pt-0.5 pb-0.5">
                   <div
                     className={`
                       w-6 h-6 flex items-center justify-center rounded-full text-sm
@@ -175,7 +180,7 @@ export default function MonthView({ selectedDate, services = [], collaborators =
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-5 w-5 p-0 text-gray-400 hover:text-primary"
+                      className="absolute right-0 top-0 h-5 w-5 p-0 text-gray-400 hover:text-primary"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDayClick(e, day, true);
@@ -208,7 +213,13 @@ export default function MonthView({ selectedDate, services = [], collaborators =
       
       {/* Form dialog for new appointment - Custom modal implementation (popup) */}
       {isAppointmentFormOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          onClick={() => {
+            // Guard: ignora il click sintetico Android che arriva entro 300 ms dall'apertura
+            if (Date.now() - formOpenedAtRef.current > 300) setIsAppointmentFormOpen(false);
+          }}
+        >
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <AppointmentForm 
               onClose={() => {
@@ -227,6 +238,7 @@ export default function MonthView({ selectedDate, services = [], collaborators =
         <FloatingActionButton 
           onClick={() => {
             setSelectedDayForAppointment(selectedDate);
+            formOpenedAtRef.current = Date.now();
             setIsAppointmentFormOpen(true);
           }}
           text={t('calendar.selectNewAppointment', 'New appointment')}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AppointmentForm from "./AppointmentForm";
 import SaveDirectButton from "./SaveDirectButton";
@@ -118,12 +118,20 @@ export default function AppointmentModal({
     onClose();
   };
   
+  // Guard: ignora il click sul backdrop se arriva entro 300 ms dall'apertura.
+  // useLayoutEffect (non useEffect) garantisce che il ref sia settato PRIMA
+  // che il browser possa processare il click sintetico Android post-touch.
+  const openedAtRef = useRef<number>(0);
+  useLayoutEffect(() => {
+    if (isOpen) openedAtRef.current = Date.now();
+  }, [isOpen]);
+
   if (!isOpen) return null;
   
   return (
     <div 
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]"
-      onClick={onClose}
+      onClick={() => { if (Date.now() - openedAtRef.current > 300) onClose(); }}
     >
       <div 
         className="relative max-h-[90vh] overflow-auto bg-white rounded-lg"
