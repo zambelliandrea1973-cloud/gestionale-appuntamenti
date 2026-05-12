@@ -244,8 +244,8 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
               return (
                 <div 
                   key={`${timeIndex}-${dayIndex}`}
-                  className={`border-r border-b p-0.5 cursor-pointer hover:bg-blue-50 transition-all duration-200 relative group
-                    ${isExpanded ? 'min-h-[64px]' : hasAppointments ? '' : 'h-[64px] overflow-hidden'}`}
+                  className={`border-r border-b p-0.5 cursor-pointer hover:bg-blue-50 transition-all duration-200 relative group overflow-hidden min-w-0
+                    ${isExpanded ? 'min-h-[64px]' : hasAppointments ? '' : 'h-[64px]'}`}
                   style={cellMinHeight ? { minHeight: `${cellMinHeight}px` } : undefined}
                   onClick={(e) => handleTimeSlotClick(e, day, timeSlot, hasAppointments)}
                 >
