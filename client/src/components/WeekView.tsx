@@ -197,7 +197,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
       </div>
       
       {/* Time slots grid */}
-      <div className="grid overflow-y-auto max-h-[calc(100vh-350px)] min-h-[400px]" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
+      <div className="grid overflow-y-auto max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-310px)] md:max-h-[calc(100vh-350px)] min-h-[300px]" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
         {timeSlots.map((timeSlot, timeIndex) => (
           <div key={timeIndex} className="contents">
             {/* Time label — si espande automaticamente con la riga */}
