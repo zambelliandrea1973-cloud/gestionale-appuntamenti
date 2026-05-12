@@ -37,17 +37,30 @@ export default function AppointmentCardSmall({
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const popoverWidth = 244;
-    const popoverHeight = 190;
+    const popoverHeight = 200;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    const isMobileLayout = vw < 640;
 
-    let left = rect.right + 6;
-    if (left + popoverWidth > vw - 8) left = rect.left - popoverWidth - 6;
-    if (left < 8) left = 8;
+    let left: number;
+    let top: number;
 
-    let top = rect.top;
-    if (top + popoverHeight > vh - 8) top = vh - popoverHeight - 8;
-    if (top < 8) top = 8;
+    if (isMobileLayout) {
+      // Su mobile: posiziona sotto il card (centrato nella viewport)
+      left = Math.max(8, Math.min(vw - popoverWidth - 8, rect.left));
+      top = rect.bottom + 6;
+      // Se non c'è spazio sotto, metti sopra
+      if (top + popoverHeight > vh - 8) top = rect.top - popoverHeight - 6;
+      if (top < 8) top = 8;
+    } else {
+      // Su desktop: preferisce a destra, poi a sinistra
+      left = rect.right + 6;
+      if (left + popoverWidth > vw - 8) left = rect.left - popoverWidth - 6;
+      if (left < 8) left = 8;
+      top = rect.top;
+      if (top + popoverHeight > vh - 8) top = vh - popoverHeight - 8;
+      if (top < 8) top = 8;
+    }
 
     setPopoverPos({ top, left });
   }, []);
