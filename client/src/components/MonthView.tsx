@@ -11,6 +11,7 @@ import {
 } from "@/lib/utils/date";
 import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { FloatingActionButton } from "./FloatingActionButton";
 
 interface MonthViewProps {
@@ -222,13 +223,22 @@ export default function MonthView({ selectedDate, services = [], collaborators =
           }}
         >
           <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <AppointmentForm
-              appointmentId={editingAppointmentId}
-              onClose={() => {
-                setEditingAppointmentId(null);
-                handleAppointmentUpdated();
-              }}
-            />
+            <ErrorBoundary
+              fallback={
+                <div className="bg-white rounded-lg shadow-lg p-6 w-[calc(100vw-16px)] sm:w-auto sm:min-w-[380px] flex flex-col gap-4 items-center">
+                  <p className="text-sm text-gray-600">{t('appointmentForm.loadError', 'Error loading the form. Please try again.')}</p>
+                  <button className="px-4 py-2 bg-primary text-white rounded-md text-sm" onClick={() => setEditingAppointmentId(null)}>{t('common.close', 'Close')}</button>
+                </div>
+              }
+            >
+              <AppointmentForm
+                appointmentId={editingAppointmentId}
+                onClose={() => {
+                  setEditingAppointmentId(null);
+                  handleAppointmentUpdated();
+                }}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       )}

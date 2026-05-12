@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Сохранить напрямую",
     "directSaveNote": "Запись создана прямым сохранением",
-    "durationLabel": "Длительность: {{minutes}} мин"
+    "durationLabel": "Длительность: {{minutes}} мин",
+    "loadError": "Ошибка загрузки формы. Попробуйте снова."
   },
   "clientNotes": {
     "headerTitle": "Заметки клиента",

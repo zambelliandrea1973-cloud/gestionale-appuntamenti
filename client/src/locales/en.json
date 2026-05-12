@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Save Directly",
     "directSaveNote": "Appointment created with direct save",
-    "durationLabel": "Duration: {{minutes}} min"
+    "durationLabel": "Duration: {{minutes}} min",
+    "loadError": "Error loading the form. Please try again."
   },
   "clientNotes": {
     "headerTitle": "Client notes",

@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Enregistrer directement",
     "directSaveNote": "Rendez-vous créé via l'enregistrement direct",
-    "durationLabel": "Durée : {{minutes}} min"
+    "durationLabel": "Durée : {{minutes}} min",
+    "loadError": "Erreur lors du chargement du formulaire. Réessayez."
   },
   "clientNotes": {
     "headerTitle": "Notes du client",

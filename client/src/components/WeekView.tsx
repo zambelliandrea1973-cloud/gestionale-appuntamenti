@@ -17,6 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { addDays, getISOWeek } from "date-fns";
 
@@ -245,7 +246,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                         // 64px = 60 min; scala proporzionalmente, minimo 28px
                         const cardHeight = Math.max(Math.round((durationMins / 60) * 64), 28);
                         return (
-                        <div key={appointment.id} className="text-xs" style={{ height: `${cardHeight}px`, overflow: 'hidden' }}>
+                        <div key={appointment.id} className="text-xs" style={{ minHeight: `${cardHeight}px` }}>
                           <AppointmentCardSmall 
                             appointment={appointment}
                             onUpdate={handleAppointmentUpdated}
@@ -289,13 +290,22 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
           }}
         >
           <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <AppointmentForm
-              appointmentId={editingAppointmentId}
-              onClose={() => {
-                setEditingAppointmentId(null);
-                handleAppointmentUpdated();
-              }}
-            />
+            <ErrorBoundary
+              fallback={
+                <div className="bg-white rounded-lg shadow-lg p-6 w-[calc(100vw-16px)] sm:w-auto sm:min-w-[380px] flex flex-col gap-4 items-center">
+                  <p className="text-sm text-gray-600">{t('appointmentForm.loadError', 'Error loading the form. Please try again.')}</p>
+                  <button className="px-4 py-2 bg-primary text-white rounded-md text-sm" onClick={() => setEditingAppointmentId(null)}>{t('common.close', 'Close')}</button>
+                </div>
+              }
+            >
+              <AppointmentForm
+                appointmentId={editingAppointmentId}
+                onClose={() => {
+                  setEditingAppointmentId(null);
+                  handleAppointmentUpdated();
+                }}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       )}

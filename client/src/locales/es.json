@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Guardar directamente",
     "directSaveNote": "Cita creada con guardado directo",
-    "durationLabel": "Duración: {{minutes}} min"
+    "durationLabel": "Duración: {{minutes}} min",
+    "loadError": "Error al cargar el formulario. Inténtalo de nuevo."
   },
   "clientNotes": {
     "headerTitle": "Notas del cliente",

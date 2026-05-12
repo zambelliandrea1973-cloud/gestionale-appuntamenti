@@ -224,13 +224,14 @@ export default function AppointmentForm({
   // Fetch appointment if editing — usa l'endpoint singolo /api/appointments/:id
   // Il fetcher di default usa il PRIMO elemento del queryKey come URL,
   // quindi ['/api/appointments', id] chiamerebbe la lista intera invece del singolo.
-  const { data: appointment, isLoading: isLoadingAppointment } = useQuery<any>({
+  const { data: appointment, isLoading: isLoadingAppointment, isError: isAppointmentError } = useQuery<any>({
     queryKey: [`/api/appointments/${appointmentId}`],
     enabled: !!appointmentId,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
-    refetchOnReconnect: false
+    refetchOnReconnect: false,
+    retry: 2,
   });
 
   // Update form values when editing existing appointment
@@ -842,6 +843,16 @@ export default function AppointmentForm({
 
   // Loading state
   const isLoading = isLoadingClients || isLoadingServices || isLoadingCollaborators || isLoadingRooms || (appointmentId && isLoadingAppointment);
+
+  // Error state: API returned an error for the single-appointment fetch
+  if (appointmentId && isAppointmentError) {
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-6 w-[calc(100vw-16px)] sm:w-auto sm:min-w-[380px] flex flex-col gap-4 items-center">
+        <p className="text-sm text-gray-600">{t('appointmentForm.loadError', 'Error loading the form. Please try again.')}</p>
+        <Button variant="outline" onClick={onClose}>{t('common.close', 'Close')}</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 overflow-y-auto max-h-[calc(100vh-24px)] sm:max-h-[85vh] w-[calc(100vw-16px)] sm:w-auto min-[1200px]:max-w-[600px]">

@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Direct opslaan",
     "directSaveNote": "Afspraak aangemaakt met directe opslag",
-    "durationLabel": "Duur: {{minutes}} min"
+    "durationLabel": "Duur: {{minutes}} min",
+    "loadError": "Fout bij het laden van het formulier. Probeer het opnieuw."
   },
   "clientNotes": {
     "headerTitle": "Klantnotities",

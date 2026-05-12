@@ -1456,7 +1456,8 @@
     },
     "directSaveButton": "सीधे सहेजें",
     "directSaveNote": "अपॉइंटमेंट सीधे सहेजने के साथ बनाया गया",
-    "durationLabel": "अवधि: {{minutes}} मिनट"
+    "durationLabel": "अवधि: {{minutes}} मिनट",
+    "loadError": "फॉर्म लोड करने में त्रुटि। कृपया पुनः प्रयास करें।"
   },
   "clientNotes": {
     "headerTitle": "ग्राहक की टिप्पणियां",

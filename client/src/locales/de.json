@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Direkt speichern",
     "directSaveNote": "Termin per Direktspeicherung erstellt",
-    "durationLabel": "Dauer: {{minutes}} Min."
+    "durationLabel": "Dauer: {{minutes}} Min.",
+    "loadError": "Fehler beim Laden des Formulars. Bitte versuche es erneut."
   },
   "clientNotes": {
     "headerTitle": "Kundennotizen",

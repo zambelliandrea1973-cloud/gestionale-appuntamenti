@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Salva Direttamente",
     "directSaveNote": "Appuntamento creato con salvataggio diretto",
-    "durationLabel": "Durata: {{minutes}} min"
+    "durationLabel": "Durata: {{minutes}} min",
+    "loadError": "Errore nel caricamento del form. Riprova."
   },
   "clientNotes": {
     "headerTitle": "Note del cliente",

@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Salvează direct",
     "directSaveNote": "Programare creată prin salvare directă",
-    "durationLabel": "Durată: {{minutes}} min"
+    "durationLabel": "Durată: {{minutes}} min",
+    "loadError": "Eroare la încărcarea formularului. Încearcă din nou."
   },
   "clientNotes": {
     "headerTitle": "Note client",

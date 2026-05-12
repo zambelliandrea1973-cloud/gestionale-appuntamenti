@@ -3240,7 +3240,8 @@
     },
     "directSaveButton": "Lagre direkte",
     "directSaveNote": "Avtale opprettet med direkte lagring",
-    "durationLabel": "Varighet: {{minutes}} min"
+    "durationLabel": "Varighet: {{minutes}} min",
+    "loadError": "Feil ved lasting av skjema. Prøv igjen."
   },
   "clientNotes": {
     "headerTitle": "Kundenotater",
