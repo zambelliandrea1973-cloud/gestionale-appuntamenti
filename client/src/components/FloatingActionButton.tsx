@@ -131,6 +131,11 @@ export function FloatingActionButton({
   }, [clamp]);
 
   const onPointerUp = useCallback((e: React.PointerEvent) => {
+    // Prevent the browser from synthesising a click/mousedown/mouseup event
+    // after pointerup. Without this, on Android the synthesised click fires
+    // on whatever element is at that position *after* a React re-render —
+    // i.e. the modal backdrop — which would immediately close the modal.
+    e.preventDefault();
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
       longPressTimer.current = null;

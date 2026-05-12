@@ -1,0 +1,4167 @@
+:
+tempo di esecuzione
+17:06:10 [express] GET /api/mobile-sync 200 in 1158ms
+12/05/2026, 19:06:11:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:11:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:11:
+tempo di esecuzione
+17:06:11 [express] GET /api/license/has-business-access 304 in 902ms
+12/05/2026, 19:06:11:
+tempo di esecuzione
+17:06:11 [express] GET /api/clients 200 in 902ms
+12/05/2026, 19:06:11:
+tempo di esecuzione
+17:06:11 [express] GET /api/appointments 200 in 909ms
+12/05/2026, 19:06:11:
+tempo di esecuzione
+17:06:11 [express] GET /api/services 200 in 912ms
+12/05/2026, 19:06:11:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:11:
+tempo di esecuzione
+17:06:11 [express] GET /api/user-with-license 304 in 1129ms
+12/05/2026, 19:06:12:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:12:
+tempo di esecuzione
+17:06:12 [express] GET /api/mobile-sync 200 in 1386ms
+12/05/2026, 19:06:12:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:12:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:12:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:12:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:12:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:12:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:12:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:12:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:12:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:12:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:12:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:12:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:12:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:12:
+tempo di esecuzione
+17:06:12 [express] GET /api/tenant-context 200 in 464ms
+12/05/2026, 19:06:12:
+tempo di esecuzione
+17:06:12 [express] GET /api/license/application-title 304 in 454ms
+12/05/2026, 19:06:12:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:12:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:12:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:12:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/services 200 in 687ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/appointments 200 in 696ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/license/has-pro-access 304 in 696ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/license/license-info 304 in 697ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/clients 200 in 698ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:13:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/license/has-business-access 304 in 877ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/collaborators 304 in 881ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/booking-requests 304 in 886ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/user-with-license 304 in 925ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/appointments/date/2026-05-06 304 in 893ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/treatment-rooms 304 in 902ms
+12/05/2026, 19:06:13:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:13:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:13:
+tempo di esecuzione
+17:06:13 [express] GET /api/mobile-sync 200 in 1368ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:14:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:14:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:14:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:14:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:14:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:14:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:14:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:14:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/tenant-context 200 in 456ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/license/application-title 304 in 462ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/license/license-info 304 in 718ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/clients 200 in 695ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/appointments 200 in 699ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/services 200 in 696ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:14:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/license/has-pro-access 304 in 864ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/license/has-business-access 304 in 883ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/booking-requests 304 in 884ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/treatment-rooms 304 in 826ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/collaborators 304 in 831ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/appointments/date/2026-05-06 304 in 834ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+17:06:14 [express] GET /api/user-with-license 304 in 959ms
+12/05/2026, 19:06:14:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:15:
+tempo di esecuzione
+17:06:15 [express] GET /api/mobile-sync 200 in 1156ms
+12/05/2026, 19:06:15:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:15:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:15:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:15:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:15:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:15:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:15:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:15:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:15:
+tempo di esecuzione
+17:06:15 [express] GET /api/tenant-context 200 in 463ms
+12/05/2026, 19:06:15:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:15:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:15:
+tempo di esecuzione
+17:06:15 [express] GET /api/license/application-title 304 in 651ms
+12/05/2026, 19:06:15:
+tempo di esecuzione
+17:06:15 [express] GET /api/services 200 in 691ms
+12/05/2026, 19:06:15:
+tempo di esecuzione
+17:06:15 [express] GET /api/license/has-pro-access 304 in 692ms
+12/05/2026, 19:06:15:
+tempo di esecuzione
+17:06:15 [express] GET /api/license/license-info 304 in 694ms
+12/05/2026, 19:06:15:
+tempo di esecuzione
+17:06:15 [express] GET /api/treatment-rooms 304 in 693ms
+12/05/2026, 19:06:15:
+tempo di esecuzione
+17:06:15 [express] GET /api/license/has-business-access 304 in 696ms
+12/05/2026, 19:06:16:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:16:
+tempo di esecuzione
+17:06:16 [express] GET /api/appointments/date/2026-05-06 304 in 878ms
+12/05/2026, 19:06:16:
+tempo di esecuzione
+17:06:16 [express] GET /api/collaborators 304 in 891ms
+12/05/2026, 19:06:16:
+tempo di esecuzione
+17:06:16 [express] GET /api/appointments 200 in 902ms
+12/05/2026, 19:06:16:
+tempo di esecuzione
+17:06:16 [express] GET /api/booking-requests 304 in 907ms
+12/05/2026, 19:06:16:
+tempo di esecuzione
+17:06:16 [express] GET /api/clients 200 in 909ms
+12/05/2026, 19:06:16:
+tempo di esecuzione
+17:06:16 [express] GET /api/user-with-license 304 in 949ms
+12/05/2026, 19:06:16:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:16:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:16:
+tempo di esecuzione
+17:06:16 [express] GET /api/mobile-sync 200 in 1382ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:17:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:17:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:17:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:17:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:17:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:17:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/tenant-context 200 in 717ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/license/application-title 304 in 883ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/license/license-info 304 in 962ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/license/has-pro-access 304 in 1128ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/clients 200 in 1123ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/appointments 200 in 1122ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/services 200 in 1127ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/license/has-business-access 304 in 1132ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/booking-requests 304 in 1135ms
+12/05/2026, 19:06:17:
+tempo di esecuzione
+17:06:17 [express] GET /api/collaborators 304 in 1141ms
+12/05/2026, 19:06:18:
+tempo di esecuzione
+17:06:18 [express] GET /api/treatment-rooms 304 in 1145ms
+12/05/2026, 19:06:18:
+tempo di esecuzione
+17:06:18 [express] GET /api/appointments/date/2026-05-06 304 in 1146ms
+12/05/2026, 19:06:18:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:18:
+tempo di esecuzione
+17:06:18 [express] GET /api/user-with-license 304 in 1354ms
+12/05/2026, 19:06:18:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:18:
+tempo di esecuzione
+17:06:18 [express] GET /api/mobile-sync 200 in 1555ms
+12/05/2026, 19:06:18:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:18:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:18:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:18:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:18:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:18:
+tempo di esecuzione
+17:06:18 [express] GET /api/tenant-context 200 in 460ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/license/application-title 304 in 456ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:19:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:19:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:19:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:19:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:19:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:19:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:19:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:19:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:19:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:19:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:19:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/license/license-info 304 in 725ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/appointments 200 in 696ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/clients 200 in 698ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/services 200 in 699ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:19:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:19:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/appointments/date/2026-05-06 304 in 866ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/booking-requests 304 in 868ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/collaborators 304 in 874ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/treatment-rooms 304 in 906ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/license/has-pro-access 304 in 907ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/license/has-business-access 304 in 908ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/user-with-license 304 in 960ms
+12/05/2026, 19:06:19:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:19:
+tempo di esecuzione
+17:06:19 [express] GET /api/mobile-sync 200 in 1166ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:20:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:20:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:20:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:20:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:20:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/tenant-context 200 in 463ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/license/application-title 304 in 458ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:20:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/clients 200 in 716ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/license/license-info 304 in 693ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/license/has-business-access 304 in 695ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/license/has-pro-access 304 in 696ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:20:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/collaborators 304 in 881ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/booking-requests 304 in 882ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/services 200 in 894ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/appointments 200 in 895ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/appointments/date/2026-05-06 304 in 904ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/treatment-rooms 304 in 906ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+17:06:20 [express] GET /api/user-with-license 304 in 956ms
+12/05/2026, 19:06:20:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:21:
+tempo di esecuzione
+17:06:21 [express] GET /api/mobile-sync 200 in 1185ms
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:21:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:21:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:21:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:21:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:21:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:21:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:21:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+17:06:21 [express] GET /api/tenant-context 200 in 459ms
+12/05/2026, 19:06:21:
+tempo di esecuzione
+17:06:21 [express] GET /api/license/application-title 304 in 469ms
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:21:
+tempo di esecuzione
+17:06:21 [express] GET /api/license/license-info 304 in 696ms
+12/05/2026, 19:06:21:
+tempo di esecuzione
+17:06:21 [express] GET /api/services 200 in 699ms
+12/05/2026, 19:06:21:
+tempo di esecuzione
+17:06:21 [express] GET /api/license/has-pro-access 304 in 701ms
+12/05/2026, 19:06:21:
+tempo di esecuzione
+17:06:21 [express] GET /api/license/has-business-access 304 in 703ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/appointments 200 in 868ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/clients 200 in 880ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/booking-requests 304 in 905ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/collaborators 304 in 895ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/appointments/date/2026-05-06 304 in 875ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/treatment-rooms 304 in 886ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/user-with-license 304 in 976ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/mobile-sync 200 in 1161ms
+12/05/2026, 19:06:22:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:22:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:22:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:22:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:22:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:22:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:22:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:22:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:22:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:22:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:22:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:22:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:22:
+tempo di esecuzione
+17:06:22 [express] GET /api/tenant-context 200 in 466ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/license/application-title 304 in 462ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:23:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:23:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:23:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/clients 200 in 693ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/appointments 200 in 698ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/booking-requests 304 in 710ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/license/license-info 304 in 710ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:23:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:23:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:23:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/license/has-business-access 304 in 882ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/services 200 in 905ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/license/has-pro-access 304 in 909ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/collaborators 304 in 900ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/appointments/date/2026-05-06 304 in 906ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/treatment-rooms 304 in 915ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/user-with-license 304 in 935ms
+12/05/2026, 19:06:23:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:23:
+tempo di esecuzione
+17:06:23 [express] GET /api/mobile-sync 200 in 1171ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:24:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:24:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:24:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:24:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:24:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:24:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/tenant-context 200 in 465ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/license/application-title 304 in 459ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/services 200 in 689ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/appointments 200 in 694ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/license/license-info 304 in 692ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/license/has-business-access 304 in 695ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/clients 200 in 696ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/license/has-pro-access 304 in 870ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/appointments/date/2026-05-06 304 in 870ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/treatment-rooms 304 in 874ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/collaborators 304 in 879ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/booking-requests 304 in 885ms
+12/05/2026, 19:06:24:
+tempo di esecuzione
+17:06:24 [express] GET /api/user-with-license 304 in 926ms
+12/05/2026, 19:06:25:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:25:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:25:
+tempo di esecuzione
+17:06:25 [express] GET /api/mobile-sync 200 in 1365ms
+12/05/2026, 19:06:25:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:25:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:25:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:25:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:25:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:25:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:25:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:25:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:25:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:25:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:25:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:25:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:25:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/tenant-context 200 in 464ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/license/application-title 304 in 465ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:26:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:26:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:26:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/clients 200 in 700ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/appointments 200 in 706ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/services 200 in 697ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/license/license-info 304 in 710ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:26:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:26:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/license/has-pro-access 304 in 893ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/license/has-business-access 304 in 887ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/booking-requests 304 in 860ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/treatment-rooms 304 in 874ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/collaborators 304 in 875ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/appointments/date/2026-05-06 304 in 879ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/user-with-license 304 in 942ms
+12/05/2026, 19:06:26:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:26:
+tempo di esecuzione
+17:06:26 [express] GET /api/mobile-sync 200 in 1161ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:27:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:27:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:27:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:27:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:27:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:27:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/license/application-title 304 in 459ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/tenant-context 200 in 496ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/appointments 200 in 729ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/clients 200 in 731ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/license/license-info 304 in 737ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/license/has-business-access 304 in 744ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/license/has-pro-access 304 in 743ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/services 200 in 745ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/appointments/date/2026-05-06 304 in 891ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/collaborators 304 in 899ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/booking-requests 304 in 911ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/treatment-rooms 304 in 913ms
+12/05/2026, 19:06:27:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:27:
+tempo di esecuzione
+17:06:27 [express] GET /api/user-with-license 304 in 1132ms
+12/05/2026, 19:06:28:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:28:
+tempo di esecuzione
+17:06:28 [express] GET /api/mobile-sync 200 in 1392ms
+12/05/2026, 19:06:28:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:28:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:28:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:28:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:28:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:28:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:28:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:28:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:28:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:28:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:28:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:28:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:28:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:28:
+tempo di esecuzione
+17:06:28 [express] GET /api/tenant-context 200 in 463ms
+12/05/2026, 19:06:28:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:28:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:28:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:29:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/license/application-title 304 in 643ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/clients 200 in 704ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/appointments 200 in 706ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/license/license-info 304 in 697ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/license/has-pro-access 304 in 719ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:29:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:29:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/license/has-business-access 304 in 876ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/services 200 in 884ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/treatment-rooms 304 in 862ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/appointments/date/2026-05-06 304 in 871ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/booking-requests 304 in 889ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/collaborators 304 in 894ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/user-with-license 304 in 921ms
+12/05/2026, 19:06:29:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:29:
+tempo di esecuzione
+17:06:29 [express] GET /api/mobile-sync 200 in 1171ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:30:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/tenant-context 200 in 465ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/license/application-title 304 in 458ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:30:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:30:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:30:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:30:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:30:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/license/has-business-access 304 in 685ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/booking-requests 304 in 692ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/services 200 in 694ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/clients 200 in 695ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:30:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/license/license-info 304 in 898ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/license/has-pro-access 304 in 899ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/appointments 200 in 901ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/treatment-rooms 304 in 823ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/appointments/date/2026-05-06 304 in 829ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/collaborators 304 in 834ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/user-with-license 304 in 946ms
+12/05/2026, 19:06:30:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:30:
+tempo di esecuzione
+17:06:30 [express] GET /api/mobile-sync 200 in 1151ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:31:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:31:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:31:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:31:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:31:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/tenant-context 200 in 462ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/license/application-title 304 in 461ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:31:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/clients 200 in 686ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/appointments/date/2026-05-06 304 in 690ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/booking-requests 304 in 692ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/treatment-rooms 304 in 693ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:31:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/license/has-business-access 304 in 827ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/license/has-pro-access 304 in 828ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/services 200 in 829ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/appointments 200 in 900ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/license/license-info 304 in 902ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/collaborators 304 in 906ms
+12/05/2026, 19:06:31:
+tempo di esecuzione
+17:06:31 [express] GET /api/user-with-license 304 in 1010ms
+12/05/2026, 19:06:32:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:32:
+tempo di esecuzione
+17:06:32 [express] GET /api/mobile-sync 200 in 1250ms
+12/05/2026, 19:06:32:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:32:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:32:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:32:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:32:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:32:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:32:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:32:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:32:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:32:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:32:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:32:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:32:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:32:
+tempo di esecuzione
+17:06:32 [express] GET /api/tenant-context 200 in 467ms
+12/05/2026, 19:06:32:
+tempo di esecuzione
+17:06:32 [express] GET /api/license/application-title 304 in 466ms
+12/05/2026, 19:06:32:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:32:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:32:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:32:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:32:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/clients 200 in 685ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/license/license-info 304 in 701ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/services 200 in 697ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/license/has-business-access 304 in 700ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:33:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/appointments 200 in 883ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/license/has-pro-access 304 in 884ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/treatment-rooms 304 in 894ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/appointments/date/2026-05-06 304 in 900ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/user-with-license 304 in 964ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/collaborators 304 in 910ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/booking-requests 304 in 913ms
+12/05/2026, 19:06:33:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:33:
+tempo di esecuzione
+17:06:33 [express] GET /api/mobile-sync 200 in 1161ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:34:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:34:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/tenant-context 200 in 463ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:34:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:34:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:34:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:34:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/license/application-title 304 in 643ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/clients 200 in 698ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/appointments 200 in 700ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/services 200 in 709ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/license/license-info 304 in 702ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:34:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/collaborators 304 in 873ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/booking-requests 304 in 888ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/appointments/date/2026-05-06 304 in 889ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/treatment-rooms 304 in 897ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/license/has-business-access 304 in 906ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/license/has-pro-access 304 in 907ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/user-with-license 304 in 959ms
+12/05/2026, 19:06:34:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:34:
+tempo di esecuzione
+17:06:34 [express] GET /api/mobile-sync 200 in 1159ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:35:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:35:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:35:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:35:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:35:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:35:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/tenant-context 200 in 462ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/license/application-title 304 in 463ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:35:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/license/license-info 304 in 691ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/clients 200 in 699ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/treatment-rooms 304 in 694ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/license/has-pro-access 304 in 697ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:35:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/collaborators 304 in 874ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/booking-requests 304 in 875ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/services 200 in 891ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/appointments 200 in 892ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/license/has-business-access 304 in 903ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/appointments/date/2026-05-06 304 in 902ms
+12/05/2026, 19:06:35:
+tempo di esecuzione
+17:06:35 [express] GET /api/user-with-license 304 in 971ms
+12/05/2026, 19:06:36:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:36:
+tempo di esecuzione
+17:06:36 [express] GET /api/mobile-sync 200 in 1163ms
+12/05/2026, 19:06:36:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:36:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:36:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:36:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:36:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:36:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:36:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:36:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:36:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:36:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:36:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:36:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:36:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:36:
+tempo di esecuzione
+17:06:36 [express] GET /api/tenant-context 200 in 462ms
+12/05/2026, 19:06:36:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:36:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:36:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:36:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/license/application-title 304 in 668ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/clients 200 in 694ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/services 200 in 697ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/appointments 200 in 709ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/license/license-info 304 in 709ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:37:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:37:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/booking-requests 304 in 889ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/license/has-business-access 304 in 889ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/collaborators 304 in 864ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/license/has-pro-access 304 in 898ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/treatment-rooms 304 in 867ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/appointments/date/2026-05-06 304 in 876ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/user-with-license 304 in 935ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:37:
+tempo di esecuzione
+17:06:37 [express] GET /api/mobile-sync 200 in 1170ms
+12/05/2026, 19:06:37:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:38:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:38:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:38:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:38:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:38:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:38:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/tenant-context 200 in 455ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/license/application-title 304 in 453ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/license/license-info 304 in 691ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/appointments 200 in 690ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/services 200 in 693ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/license/has-business-access 304 in 692ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/license/has-pro-access 304 in 694ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/clients 200 in 864ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/treatment-rooms 304 in 862ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/collaborators 304 in 871ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/booking-requests 304 in 875ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/appointments/date/2026-05-06 304 in 879ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+17:06:38 [express] GET /api/user-with-license 304 in 963ms
+12/05/2026, 19:06:38:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:38:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:39:
+tempo di esecuzione
+17:06:39 [express] GET /api/mobile-sync 200 in 1346ms
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:39:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:39:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:39:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:39:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:39:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:39:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+17:06:39 [express] GET /api/tenant-context 200 in 457ms
+12/05/2026, 19:06:39:
+tempo di esecuzione
+17:06:39 [express] GET /api/license/application-title 304 in 455ms
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:39:
+tempo di esecuzione
+17:06:39 [express] GET /api/appointments 200 in 693ms
+12/05/2026, 19:06:39:
+tempo di esecuzione
+17:06:39 [express] GET /api/license/license-info 304 in 696ms
+12/05/2026, 19:06:39:
+tempo di esecuzione
+17:06:39 [express] GET /api/license/has-pro-access 304 in 697ms
+12/05/2026, 19:06:39:
+tempo di esecuzione
+17:06:39 [express] GET /api/services 200 in 700ms
+12/05/2026, 19:06:39:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:40:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:40:
+tempo di esecuzione
+17:06:40 [express] GET /api/license/has-business-access 304 in 891ms
+12/05/2026, 19:06:40:
+tempo di esecuzione
+17:06:40 [express] GET /api/treatment-rooms 304 in 808ms
+12/05/2026, 19:06:40:
+tempo di esecuzione
+17:06:40 [express] GET /api/clients 200 in 906ms
+12/05/2026, 19:06:40:
+tempo di esecuzione
+17:06:40 [express] GET /api/booking-requests 304 in 816ms
+12/05/2026, 19:06:40:
+tempo di esecuzione
+17:06:40 [express] GET /api/appointments/date/2026-05-06 304 in 820ms
+12/05/2026, 19:06:40:
+tempo di esecuzione
+17:06:40 [express] GET /api/collaborators 304 in 831ms
+12/05/2026, 19:06:40:
+tempo di esecuzione
+17:06:40 [express] GET /api/user-with-license 304 in 942ms
+12/05/2026, 19:06:40:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:40:
+tempo di esecuzione
+17:06:40 [express] GET /api/mobile-sync 200 in 1158ms
+12/05/2026, 19:06:40:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:41:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:41:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:41:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:41:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:41:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/tenant-context 200 in 466ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/license/application-title 304 in 460ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/booking-requests 304 in 692ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/treatment-rooms 304 in 693ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/collaborators 304 in 694ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/license/has-business-access 304 in 693ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/license/has-pro-access 304 in 697ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/clients 200 in 808ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/appointments 200 in 812ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/license/license-info 304 in 907ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/services 200 in 908ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/user-with-license 304 in 1012ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+17:06:41 [express] GET /api/appointments/date/2026-05-06 304 in 919ms
+12/05/2026, 19:06:41:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:41:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:42:
+tempo di esecuzione
+17:06:42 [express] GET /api/mobile-sync 200 in 1364ms
+12/05/2026, 19:06:42:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:42:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:42:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:42:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:42:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:42:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:42:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:42:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:42:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:42:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:42:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:42:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:42:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:42:
+tempo di esecuzione
+17:06:42 [express] GET /api/tenant-context 200 in 453ms
+12/05/2026, 19:06:42:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:42:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:42:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:42:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:42:
+tempo di esecuzione
+17:06:42 [express] GET /api/license/application-title 304 in 652ms
+12/05/2026, 19:06:42:
+tempo di esecuzione
+17:06:42 [express] GET /api/license/license-info 304 in 691ms
+12/05/2026, 19:06:42:
+tempo di esecuzione
+17:06:42 [express] GET /api/clients 200 in 691ms
+12/05/2026, 19:06:42:
+tempo di esecuzione
+17:06:42 [express] GET /api/appointments 200 in 708ms
+12/05/2026, 19:06:42:
+tempo di esecuzione
+17:06:42 [express] GET /api/services 200 in 708ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:43:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:43:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/license/has-pro-access 304 in 877ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/license/has-business-access 304 in 885ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/booking-requests 304 in 887ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/collaborators 304 in 892ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/appointments/date/2026-05-06 304 in 882ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/treatment-rooms 304 in 891ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/user-with-license 304 in 947ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/mobile-sync 200 in 1170ms
+12/05/2026, 19:06:43:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:43:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:43:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:43:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:43:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:43:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:43:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:43:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:43:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:43:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:43:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:43:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:43:
+tempo di esecuzione
+17:06:43 [express] GET /api/tenant-context 200 in 464ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/license/application-title 304 in 459ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:44:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:44:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:44:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:44:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/services 200 in 690ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/appointments 200 in 693ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/license/has-business-access 304 in 695ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/license/has-pro-access 304 in 699ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/booking-requests 304 in 710ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:44:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/clients 200 in 864ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/license/license-info 304 in 903ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/treatment-rooms 304 in 899ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/appointments/date/2026-05-06 304 in 901ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/collaborators 304 in 909ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/user-with-license 304 in 940ms
+12/05/2026, 19:06:44:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:44:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:44:
+tempo di esecuzione
+17:06:44 [express] GET /api/mobile-sync 200 in 1369ms
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:45:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:45:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:45:
+tempo di esecuzione
+17:06:45 [express] GET /api/tenant-context 200 in 460ms
+12/05/2026, 19:06:45:
+tempo di esecuzione
+17:06:45 [express] GET /api/license/application-title 304 in 462ms
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:45:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:45:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:45:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:45:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+17:06:45 [express] GET /api/license/license-info 304 in 702ms
+12/05/2026, 19:06:45:
+tempo di esecuzione
+17:06:45 [express] GET /api/appointments 200 in 691ms
+12/05/2026, 19:06:45:
+tempo di esecuzione
+17:06:45 [express] GET /api/clients 200 in 697ms
+12/05/2026, 19:06:45:
+tempo di esecuzione
+17:06:45 [express] GET /api/services 200 in 700ms
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:45:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/license/has-business-access 304 in 877ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/collaborators 304 in 879ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/treatment-rooms 304 in 881ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/license/has-pro-access 304 in 893ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/appointments/date/2026-05-06 304 in 901ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/booking-requests 304 in 903ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/user-with-license 304 in 961ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/mobile-sync 200 in 1163ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:46:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:46:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:46:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:46:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:46:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:46:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:46:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:46:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:46:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:46:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:46:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/tenant-context 200 in 463ms
+12/05/2026, 19:06:46:
+tempo di esecuzione
+17:06:46 [express] GET /api/license/application-title 304 in 455ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:47:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:47:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:47:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:47:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/license/has-business-access 304 in 690ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/license/has-pro-access 304 in 697ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/license/license-info 304 in 698ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/appointments 200 in 700ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/clients 200 in 708ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:47:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/appointments/date/2026-05-06 304 in 891ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/booking-requests 304 in 895ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/collaborators 304 in 900ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/treatment-rooms 304 in 901ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/services 200 in 912ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/user-with-license 304 in 928ms
+12/05/2026, 19:06:47:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:47:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:47:
+tempo di esecuzione
+17:06:47 [express] GET /api/mobile-sync 200 in 1365ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:48:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:48:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:48:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:48:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:48:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:48:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/tenant-context 200 in 464ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/license/application-title 304 in 636ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/treatment-rooms 304 in 691ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/collaborators 304 in 694ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/appointments 200 in 695ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/appointments/date/2026-05-06 304 in 697ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:48:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/booking-requests 304 in 862ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/license/has-pro-access 304 in 869ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/license/license-info 304 in 893ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/services 200 in 905ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/license/has-business-access 304 in 909ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/clients 200 in 920ms
+12/05/2026, 19:06:48:
+tempo di esecuzione
+17:06:48 [express] GET /api/user-with-license 304 in 965ms
+12/05/2026, 19:06:49:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:49:
+tempo di esecuzione
+17:06:49 [express] GET /api/mobile-sync 200 in 1165ms
+12/05/2026, 19:06:49:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:49:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:49:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:49:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:49:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:49:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:49:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:49:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:49:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:49:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:49:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:49:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:49:
+tempo di esecuzione
+17:06:49 [express] GET /api/tenant-context 200 in 462ms
+12/05/2026, 19:06:49:
+tempo di esecuzione
+17:06:49 [express] GET /api/license/application-title 304 in 463ms
+12/05/2026, 19:06:49:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:49:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:49:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:49:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/appointments 200 in 701ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/clients 200 in 718ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/license/has-pro-access 304 in 695ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/booking-requests 304 in 695ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:50:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:50:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:50:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/license/license-info 304 in 870ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/services 200 in 874ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/license/has-business-access 304 in 875ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/treatment-rooms 304 in 881ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/appointments/date/2026-05-06 304 in 887ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/collaborators 304 in 895ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/user-with-license 304 in 954ms
+12/05/2026, 19:06:50:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:50:
+tempo di esecuzione
+17:06:50 [express] GET /api/mobile-sync 200 in 1178ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:51:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:51:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:51:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:51:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:51:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:51:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/tenant-context 200 in 453ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/license/application-title 304 in 611ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/collaborators 304 in 694ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/services 200 in 695ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/license/has-business-access 304 in 696ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/license/has-pro-access 304 in 698ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:51:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/treatment-rooms 304 in 837ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/appointments/date/2026-05-06 304 in 845ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/license/license-info 304 in 901ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/booking-requests 304 in 902ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/appointments 200 in 912ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/clients 200 in 918ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/user-with-license 304 in 1004ms
+12/05/2026, 19:06:51:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:51:
+tempo di esecuzione
+17:06:51 [express] GET /api/mobile-sync 200 in 1181ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:52:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:52:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:52:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:52:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:52:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:52:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:52:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/tenant-context 200 in 465ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/license/application-title 304 in 464ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/clients 200 in 692ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/license/has-pro-access 304 in 694ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/appointments 200 in 694ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/license/license-info 304 in 718ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/services 200 in 720ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/treatment-rooms 304 in 874ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/license/has-business-access 304 in 886ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/booking-requests 304 in 881ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/collaborators 304 in 884ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/user-with-license 304 in 933ms
+12/05/2026, 19:06:52:
+tempo di esecuzione
+17:06:52 [express] GET /api/appointments/date/2026-05-06 304 in 893ms
+12/05/2026, 19:06:53:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:53:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:53:
+tempo di esecuzione
+17:06:53 [express] GET /api/mobile-sync 200 in 1355ms
+12/05/2026, 19:06:53:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:53:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:53:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:53:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:53:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:53:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:53:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:53:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:53:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:53:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:53:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:53:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:53:
+tempo di esecuzione
+17:06:53 [express] GET /api/tenant-context 200 in 462ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/license/application-title 304 in 461ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:54:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:54:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:54:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/services 200 in 686ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/appointments 200 in 693ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/clients 200 in 704ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/booking-requests 304 in 693ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:54:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:54:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:54:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/license/has-pro-access 304 in 875ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/license/has-business-access 304 in 883ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/license/license-info 304 in 884ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/appointments/date/2026-05-06 304 in 870ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/collaborators 304 in 874ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/treatment-rooms 304 in 884ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/user-with-license 304 in 936ms
+12/05/2026, 19:06:54:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:54:
+tempo di esecuzione
+17:06:54 [express] GET /api/mobile-sync 200 in 1172ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:55:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:55:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:55:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:55:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:55:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/tenant-context 200 in 464ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/license/application-title 304 in 454ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/services 200 in 690ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/license/license-info 304 in 693ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/clients 200 in 694ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/booking-requests 304 in 696ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:55:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/appointments 200 in 877ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/license/has-pro-access 304 in 903ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/license/has-business-access 304 in 903ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/collaborators 304 in 886ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/appointments/date/2026-05-06 304 in 893ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/user-with-license 304 in 924ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+17:06:55 [express] GET /api/treatment-rooms 304 in 900ms
+12/05/2026, 19:06:55:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:56:
+tempo di esecuzione
+17:06:56 [express] GET /api/mobile-sync 200 in 1153ms
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:56:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:56:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:56:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:56:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:56:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:56:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:56:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+17:06:56 [express] GET /api/tenant-context 200 in 463ms
+12/05/2026, 19:06:56:
+tempo di esecuzione
+17:06:56 [express] GET /api/license/application-title 304 in 457ms
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:56:
+tempo di esecuzione
+17:06:56 [express] GET /api/collaborators 304 in 686ms
+12/05/2026, 19:06:56:
+tempo di esecuzione
+17:06:56 [express] GET /api/license/has-business-access 304 in 693ms
+12/05/2026, 19:06:56:
+tempo di esecuzione
+17:06:56 [express] GET /api/services 200 in 695ms
+12/05/2026, 19:06:56:
+tempo di esecuzione
+17:06:56 [express] GET /api/license/has-pro-access 304 in 698ms
+12/05/2026, 19:06:56:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:57:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/appointments 200 in 886ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/license/license-info 304 in 901ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/appointments/date/2026-05-06 304 in 902ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/treatment-rooms 304 in 906ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/user-with-license 304 in 955ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/booking-requests 304 in 913ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/clients 200 in 920ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/mobile-sync 200 in 1157ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:57:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:57:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:57:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:57:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:57:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:57:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:57:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:57:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:57:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:57:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:57:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:57:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/tenant-context 200 in 464ms
+12/05/2026, 19:06:57:
+tempo di esecuzione
+17:06:57 [express] GET /api/license/application-title 304 in 462ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:58:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:58:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:58:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:58:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/license/has-pro-access 304 in 701ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/license/license-info 304 in 707ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/license/has-business-access 304 in 691ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/clients 200 in 694ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:58:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/services 200 in 886ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/appointments 200 in 887ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/booking-requests 304 in 895ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/treatment-rooms 304 in 869ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/collaborators 304 in 874ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/appointments/date/2026-05-06 304 in 881ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/user-with-license 304 in 936ms
+12/05/2026, 19:06:58:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:06:58:
+tempo di esecuzione
+17:06:58 [express] GET /api/mobile-sync 200 in 1168ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:06:59:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:06:59:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:06:59:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:06:59:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:06:59:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:06:59:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:06:59:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/tenant-context 200 in 458ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/license/application-title 304 in 461ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/services 200 in 693ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/clients 200 in 704ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/license/license-info 304 in 696ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/license/has-business-access 304 in 701ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:06:59:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/appointments 200 in 860ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/license/has-pro-access 304 in 878ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/collaborators 304 in 866ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/appointments/date/2026-05-06 304 in 872ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/booking-requests 304 in 883ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/treatment-rooms 304 in 890ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+17:06:59 [express] GET /api/user-with-license 304 in 978ms
+12/05/2026, 19:06:59:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:07:00:
+tempo di esecuzione
+17:07:00 [express] GET /api/mobile-sync 200 in 1168ms
+12/05/2026, 19:07:00:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:07:00:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:07:00:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:07:00:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:07:00:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:07:00:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:07:00:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:07:00:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+17:07:00 [express] GET /api/tenant-context 200 in 466ms
+12/05/2026, 19:07:00:
+tempo di esecuzione
+17:07:00 [express] GET /api/license/application-title 304 in 464ms
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+17:07:00 [express] GET /api/services 200 in 693ms
+12/05/2026, 19:07:00:
+tempo di esecuzione
+17:07:00 [express] GET /api/appointments 200 in 700ms
+12/05/2026, 19:07:00:
+tempo di esecuzione
+17:07:00 [express] GET /api/clients 200 in 701ms
+12/05/2026, 19:07:00:
+tempo di esecuzione
+17:07:00 [express] GET /api/license/has-pro-access 304 in 694ms
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:00:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:07:01:
+tempo di esecuzione
+17:07:01 [express] GET /api/license/license-info 304 in 894ms
+12/05/2026, 19:07:01:
+tempo di esecuzione
+17:07:01 [express] GET /api/license/has-business-access 304 in 896ms
+12/05/2026, 19:07:01:
+tempo di esecuzione
+17:07:01 [express] GET /api/treatment-rooms 304 in 878ms
+12/05/2026, 19:07:01:
+tempo di esecuzione
+17:07:01 [express] GET /api/appointments/date/2026-05-06 304 in 879ms
+12/05/2026, 19:07:01:
+tempo di esecuzione
+17:07:01 [express] GET /api/collaborators 304 in 880ms
+12/05/2026, 19:07:01:
+tempo di esecuzione
+17:07:01 [express] GET /api/user-with-license 304 in 920ms
+12/05/2026, 19:07:01:
+tempo di esecuzione
+17:07:01 [express] GET /api/booking-requests 304 in 890ms
+12/05/2026, 19:07:01:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:07:01:
+tempo di esecuzione
+17:07:01 [express] GET /api/mobile-sync 200 in 1157ms
+12/05/2026, 19:07:01:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:01:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:01:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:07:01:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:07:01:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:07:01:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:07:01:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:07:01:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:07:01:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:01:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:07:01:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:07:01:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:01:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/tenant-context 200 in 465ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/license/application-title 304 in 471ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:02:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:02:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:02:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:02:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/license/license-info 304 in 697ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/license/has-pro-access 304 in 699ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/services 200 in 701ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/license/has-business-access 304 in 702ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/clients 200 in 755ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/appointments 200 in 904ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/booking-requests 304 in 909ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/appointments/date/2026-05-06 304 in 858ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/collaborators 304 in 920ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/treatment-rooms 304 in 863ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/user-with-license 304 in 932ms
+12/05/2026, 19:07:02:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:07:02:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:07:02:
+tempo di esecuzione
+17:07:02 [express] GET /api/mobile-sync 200 in 1368ms
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:07:03:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:07:03:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:07:03:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:07:03:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:07:03:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:07:03:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:07:03:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+17:07:03 [express] GET /api/tenant-context 200 in 457ms
+12/05/2026, 19:07:03:
+tempo di esecuzione
+17:07:03 [express] GET /api/license/application-title 304 in 467ms
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+17:07:03 [express] GET /api/license/has-pro-access 304 in 699ms
+12/05/2026, 19:07:03:
+tempo di esecuzione
+17:07:03 [express] GET /api/appointments 200 in 697ms
+12/05/2026, 19:07:03:
+tempo di esecuzione
+17:07:03 [express] GET /api/license/license-info 304 in 707ms
+12/05/2026, 19:07:03:
+tempo di esecuzione
+17:07:03 [express] GET /api/clients 200 in 699ms
+12/05/2026, 19:07:03:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:07:03:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:04:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/services 200 in 866ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/license/has-business-access 304 in 883ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/collaborators 304 in 880ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/appointments/date/2026-05-06 304 in 890ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/booking-requests 304 in 892ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/user-with-license 304 in 961ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/treatment-rooms 304 in 906ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/mobile-sync 200 in 1167ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:07:04:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:07:04:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:07:04:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:04:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:07:04:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:07:04:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:07:04:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:07:04:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:07:04:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:07:04:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/tenant-context 200 in 464ms
+12/05/2026, 19:07:04:
+tempo di esecuzione
+17:07:04 [express] GET /api/license/application-title 304 in 456ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:05:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:05:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:07:05:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:07:05:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/clients 200 in 715ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/appointments 200 in 724ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/services 200 in 702ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/license/has-pro-access 304 in 699ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/collaborators 304 in 700ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:05:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:05:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:05:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/license/has-business-access 304 in 872ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/booking-requests 304 in 872ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/appointments/date/2026-05-06 304 in 865ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/license/license-info 304 in 904ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/treatment-rooms 304 in 884ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/user-with-license 304 in 1112ms
+12/05/2026, 19:07:05:
+tempo di esecuzione
+17:07:05 [express] GET /api/mobile-sync 200 in 1186ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:07:06:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:07:06:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:07:06:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:07:06:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:07:06:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/tenant-context 200 in 464ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/license/application-title 304 in 461ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Recupero delle impostazioni per l'utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/clients 200 in 702ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/license/has-business-access 304 in 694ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/appointments 200 in 694ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/license/license-info 304 in 695ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Trovata 1 licenza per l'utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+🔧 [/api/services] [mobile] Caricati 4 servizi da PostgreSQL per l'utente 99
+12/05/2026, 19:07:06:
+tempo di esecuzione
+Impostazioni trovate per l'utente 99: SÌ
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/license/has-pro-access 304 in 840ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/services 200 in 852ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/appointments/date/2026-05-06 304 in 872ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/booking-requests 304 in 895ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/collaborators 304 in 896ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/treatment-rooms 304 in 897ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+17:07:06 [express] GET /api/user-with-license 304 in 986ms
+12/05/2026, 19:07:06:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per l'utente 99: 1 client, 4 servizi
+12/05/2026, 19:07:07:
+tempo di esecuzione
+17:07:07 [express] GET /api/mobile-sync 200 in 1172ms
+12/05/2026, 19:07:07:
+tempo di esecuzione
+📱 [MOBILE-SYNC PG] Sincronizzazione forzata per ID utente:99, tipo:cliente
+12/05/2026, 19:07:07:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:07:
+tempo di esecuzione
+📱 [/api/appointments] [mobile] Mobile: true, UserAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537...
+12/05/2026, 19:07:07:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:07:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:07:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+12/05/2026, 19:07:07:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: f6kEOq1HRtmi-lwOLaDSHH-EZzu_hxdx
+12/05/2026, 19:07:07:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+12/05/2026, 19:07:07:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 99, tipo: cliente
+12/05/2026, 19:07:07:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+12/05/2026, 19:07:07:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+12/05/2026, 19:07:07:
+tempo di esecuzione
+Recupero delle licenze per l'ID utente 99
+12/05/2026, 19:07:07:
+tempo di esecuzione
+🔄 [mobile] Anti-cache applicato per i servizi mobili
