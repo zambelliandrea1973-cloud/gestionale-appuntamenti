@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -214,10 +214,13 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
           ))}
         </div>
 
-        {/* Time slots grid — same column template, no separate overflow */}
-        <div className="grid" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
+        {/* Time slots grid — same column template, no separate overflow.
+             gridAutoRows garantisce altezza minima uniforme per ogni riga oraria:
+             le righe vuote non collassano a 0 e i bordi restano allineati. */}
+        <div className="grid" style={{ gridTemplateColumns: '70px repeat(7, 1fr)', gridAutoRows: 'minmax(64px, auto)' }}>
         {timeSlots.map((timeSlot, timeIndex) => (
-          <div key={timeIndex} className="contents">
+          /* Fragment evita display:contents e problemi cross-browser Android */
+          <Fragment key={timeIndex}>
             {/* Time label — si espande automaticamente con la riga */}
             <div
               className="text-xs font-medium text-gray-500 bg-gray-50 border-r border-b p-2 sticky left-0 z-10 cursor-pointer select-none"
@@ -283,7 +286,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                 </div>
               );
             })}
-          </div>
+          </Fragment>
         ))}
         </div>{/* end time slots grid */}
       </div>{/* end scrollable container */}

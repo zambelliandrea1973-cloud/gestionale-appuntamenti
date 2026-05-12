@@ -1115,7 +1115,11 @@ export default function AppointmentForm({
                         
                         {/* Lista dei risultati filtrati */}
                         {isServiceDropdownOpen && (
-                          <div className="absolute top-full left-0 w-full max-h-48 overflow-y-auto z-10 bg-white border rounded-md shadow-lg mt-1">
+                          <div
+                            className="absolute top-full left-0 w-full max-h-48 overflow-y-auto z-10 bg-white border rounded-md shadow-lg mt-1"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onTouchStart={(e) => e.stopPropagation()}
+                          >
                             {services.length === 0 ? (
                               <div className="p-3 text-center">
                                 <p className="text-sm text-muted-foreground mb-2">
