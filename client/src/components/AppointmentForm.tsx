@@ -80,6 +80,17 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+// Helper: converte qualsiasi valore in un Date valido, con fallback a oggi.
+// Previene RangeError: Invalid time value in date-fns v3.
+function safeDate(d: any): Date {
+  if (d instanceof Date && !isNaN(d.getTime())) return d;
+  if (typeof d === 'string' && d) {
+    const parsed = new Date(d.includes('T') ? d : `${d}T00:00:00`);
+    if (!isNaN(parsed.getTime())) return parsed;
+  }
+  return new Date();
+}
+
 // Helper function to format date for API
 // Normalizza qualsiasi forma di data (Date | "yyyy-MM-dd" | ISO string) in
 // "yyyy-MM-dd" senza far esplodere date-fns v3 (che non accetta string in format()).
@@ -210,9 +221,11 @@ export default function AppointmentForm({
     }
   }, [collaborators, appointmentId]);
 
-  // Fetch appointment if editing
+  // Fetch appointment if editing — usa l'endpoint singolo /api/appointments/:id
+  // Il fetcher di default usa il PRIMO elemento del queryKey come URL,
+  // quindi ['/api/appointments', id] chiamerebbe la lista intera invece del singolo.
   const { data: appointment, isLoading: isLoadingAppointment } = useQuery<any>({
-    queryKey: ['/api/appointments', appointmentId],
+    queryKey: [`/api/appointments/${appointmentId}`],
     enabled: !!appointmentId,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
@@ -222,8 +235,13 @@ export default function AppointmentForm({
 
   // Update form values when editing existing appointment
   useEffect(() => {
-    if (appointment) {
-      const appointmentDate = new Date(appointment.date);
+    if (appointment && !Array.isArray(appointment)) {
+      // Forza interpretazione locale (non UTC) per evitare drift di fuso orario.
+      // "2026-05-12" → new Date("2026-05-12") = mezzanotte UTC → giorno sbagliato in UTC+2.
+      const rawDate = appointment.date ?? "";
+      const appointmentDate = rawDate
+        ? new Date(rawDate.includes('T') ? rawDate : `${rawDate}T00:00:00`)
+        : new Date();
       const startTime = (appointment.startTime ?? "09:00").substring(0, 5);
       
       form.reset({
@@ -1335,7 +1353,7 @@ export default function AppointmentForm({
                         onClick={() => setIsCalendarOpen(!isCalendarOpen)}
                       >
                         <Calendar className="mr-2 h-4 w-4" />
-                        {format(field.value, "PPP", { locale: getDateLocale(i18n.language) })}
+                        {format(safeDate(field.value), "PPP", { locale: getDateLocale(i18n.language) })}
                       </Button>
                       
                       {isCalendarOpen && (
@@ -1416,7 +1434,7 @@ export default function AppointmentForm({
                 <div className="p-3 bg-blue-50 rounded-md">
                   <p className="text-sm text-blue-700 font-medium">{t('appointmentForm.slotDetails.title')}</p>
                   <div className="flex justify-between mt-1">
-                    <span className="text-sm">{t('appointmentForm.slotDetails.dateLabel', { date: format(form.getValues().date, "PPP", { locale: getDateLocale(i18n.language) }) })}</span>
+                    <span className="text-sm">{t('appointmentForm.slotDetails.dateLabel', { date: format(safeDate(form.getValues().date), "PPP", { locale: getDateLocale(i18n.language) }) })}</span>
                     <span className="text-sm">{t('appointmentForm.slotDetails.timeLabel', { time: form.getValues().startTime })}</span>
                   </div>
                 </div>
