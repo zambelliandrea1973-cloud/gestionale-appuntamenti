@@ -229,24 +229,30 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
               const slotAppointments = getAppointmentsForTimeSlot(day, timeSlot);
               const isExpanded = expandedSlot === timeSlot;
               const hasAppointments = slotAppointments.length > 0;
+              // Calcola la durata massima tra tutti gli appuntamenti in questo slot
+              // per determinare l'altezza minima della CELLA (non del card).
+              // 64px = 60 min; minimo 64px per celle con appuntamenti.
+              const maxDurationMins = hasAppointments
+                ? Math.max(...slotAppointments.map(getDurationMinutes))
+                : 0;
+              const cellMinHeight = hasAppointments
+                ? Math.max(Math.round((maxDurationMins / 60) * 64), 64)
+                : undefined;
               
               return (
                 <div 
                   key={`${timeIndex}-${dayIndex}`}
                   className={`border-r border-b p-0.5 cursor-pointer hover:bg-blue-50 transition-all duration-200 relative group
-                    ${hasAppointments ? 'min-h-[64px]' : isExpanded ? 'min-h-[64px]' : 'h-[64px] overflow-hidden'}`}
+                    ${isExpanded ? 'min-h-[64px]' : hasAppointments ? '' : 'h-[64px] overflow-hidden'}`}
+                  style={cellMinHeight ? { minHeight: `${cellMinHeight}px` } : undefined}
                   onClick={(e) => handleTimeSlotClick(e, day, timeSlot, hasAppointments)}
                 >
                   {isLoading ? (
                     <Skeleton className="h-12 w-full" />
                   ) : hasAppointments ? (
                     <div className="space-y-1">
-                      {slotAppointments.map((appointment) => {
-                        const durationMins = getDurationMinutes(appointment);
-                        // 64px = 60 min; scala proporzionalmente, minimo 28px
-                        const cardHeight = Math.max(Math.round((durationMins / 60) * 64), 28);
-                        return (
-                        <div key={appointment.id} className="text-xs" style={{ minHeight: `${cardHeight}px` }}>
+                      {slotAppointments.map((appointment) => (
+                        <div key={appointment.id} className="text-xs">
                           <AppointmentCardSmall 
                             appointment={appointment}
                             onUpdate={handleAppointmentUpdated}
@@ -254,8 +260,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                             view="week"
                           />
                         </div>
-                        );
-                      })}
+                      ))}
                     </div>
                   ) : (
                     // Empty slot - show add button on hover
