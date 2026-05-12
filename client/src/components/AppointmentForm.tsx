@@ -224,7 +224,7 @@ export default function AppointmentForm({
   useEffect(() => {
     if (appointment) {
       const appointmentDate = new Date(appointment.date);
-      const startTime = appointment.startTime.substring(0, 5);
+      const startTime = (appointment.startTime ?? "09:00").substring(0, 5);
       
       form.reset({
         clientId: appointment.clientId,
@@ -631,7 +631,7 @@ export default function AppointmentForm({
             staffConflicts.push({
               appointment: apt,
               staffName: staff ? `${staff.firstName} ${staff.lastName}` : t('appointmentForm.fields.staff'),
-              time: `${apt.startTime.substring(0, 5)} - ${apt.endTime.substring(0, 5)}`
+              time: `${(apt.startTime ?? "").substring(0, 5)} - ${(apt.endTime ?? "").substring(0, 5)}`
             });
           }
           
@@ -641,7 +641,7 @@ export default function AppointmentForm({
             roomConflicts.push({
               appointment: apt,
               roomName: room ? room.name : t('appointmentForm.fields.room'),
-              time: `${apt.startTime.substring(0, 5)} - ${apt.endTime.substring(0, 5)}`
+              time: `${(apt.startTime ?? "").substring(0, 5)} - ${(apt.endTime ?? "").substring(0, 5)}`
             });
           }
         }
