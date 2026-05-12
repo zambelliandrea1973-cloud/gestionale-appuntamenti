@@ -58,9 +58,10 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
   const [selectedTimeForAppointment, setSelectedTimeForAppointment] = useState<string>("09:00");
   const [editingAppointmentId, setEditingAppointmentId] = useState<number | null>(null);
-  // Slot attualmente espanso (format "HH:00"); null = tutti collassati
-  const [expandedSlot, setExpandedSlot] = useState<string | null>(null);
   const timeSlots = generateTimeSlots();
+
+  // Pixel per ora — base del sistema proporzionale
+  const CELL_PX = 64;
   
   // Calcola i giorni della settimana basato su viewDate
   const weekDays = getWeekDays(viewDate);
@@ -112,29 +113,14 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
     }
   };
   
-  // Handle time slot click:
-  // - slot già espanso → collassa
-  // - slot con appuntamenti → espandi
-  // - slot vuoto → apri form nuovo appuntamento
-  const handleTimeSlotClick = (e: React.MouseEvent, day: Date, time: string, hasAppointments: boolean) => {
+  // Apre il form per un nuovo appuntamento quando si clicca su una cella vuota
+  const openNewAppointmentAt = (e: React.MouseEvent, day: Date, time: string) => {
     const target = e.target as HTMLElement;
-    if (target.closest('[data-appointment-card]') || target.closest('[data-appointment-icons]')) {
-      return;
-    }
-    if (expandedSlot === time) {
-      // Secondo click: collassa
-      setExpandedSlot(null);
-    } else if (hasAppointments) {
-      // Ha appuntamenti: espandi la riga
-      setExpandedSlot(time);
-    } else {
-      // Slot vuoto: apri form nuovo appuntamento
-      setExpandedSlot(null);
-      setSelectedDayForAppointment(day);
-      setSelectedTimeForAppointment(time);
-      formOpenedAtRef.current = Date.now();
-      setIsAppointmentFormOpen(true);
-    }
+    if (target.closest('[data-appointment-card]') || target.closest('[data-appointment-icons]')) return;
+    setSelectedDayForAppointment(day);
+    setSelectedTimeForAppointment(time);
+    formOpenedAtRef.current = Date.now();
+    setIsAppointmentFormOpen(true);
   };
   
   // Get appointments for a specific day and time slot
@@ -221,67 +207,70 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
         {timeSlots.map((timeSlot, timeIndex) => (
           /* Fragment evita display:contents e problemi cross-browser Android */
           <Fragment key={timeIndex}>
-            {/* Time label — si espande automaticamente con la riga */}
+            {/* Time label */}
             <div
-              className="text-xs font-medium text-gray-500 bg-gray-50 border-r border-b p-2 sticky left-0 z-10 cursor-pointer select-none"
-              onClick={() => setExpandedSlot(expandedSlot === timeSlot ? null : timeSlot)}
+              className="text-xs font-medium text-gray-500 bg-gray-50 border-r border-b p-2 sticky left-0 z-10 select-none"
             >
               {timeSlot}
             </div>
             
-            {/* Day cells for this time slot */}
+            {/* Day cells — layout proporzionale al tempo:
+                 • ogni cella = 1 ora = CELL_PX pixel (minimo garantito da gridAutoRows)
+                 • i card sono posizionati in assoluto con top proporzionale ai minuti
+                   di inizio e height proporzionale alla durata
+                 • più appuntamenti nello stesso slot sono impilati verticalmente
+                   senza sovrapposizioni (collision-aware stacking)
+                 • la cella cresce se la somma supera CELL_PX */}
             {weekDays.map((day, dayIndex) => {
               const slotAppointments = getAppointmentsForTimeSlot(day, timeSlot);
-              const isExpanded = expandedSlot === timeSlot;
-              const hasAppointments = slotAppointments.length > 0;
-              // Calcola la durata massima tra tutti gli appuntamenti in questo slot
-              // per determinare l'altezza minima della CELLA (non del card).
-              // 64px = 60 min; minimo 64px per celle con appuntamenti.
-              const maxDurationMins = hasAppointments
-                ? Math.max(...slotAppointments.map(getDurationMinutes))
-                : 0;
-              const cellMinHeight = hasAppointments
-                ? Math.max(Math.round((maxDurationMins / 60) * 64), 64)
-                : undefined;
-              
+
+              // Ordina per ora di inizio e calcola posizioni senza sovrapposizioni
+              const sorted = [...slotAppointments].sort((a, b) =>
+                (a.startTime || '').localeCompare(b.startTime || '')
+              );
+              let nextY = 0;
+              const positioned = sorted.map((apt) => {
+                const startMins = parseInt(apt.startTime?.split(':')[1] || '0');
+                const duration = getDurationMinutes(apt);
+                const idealTop = Math.round((startMins / 60) * CELL_PX);
+                const height = Math.max(Math.round((duration / 60) * CELL_PX), 14);
+                const top = Math.max(idealTop, nextY); // mai sovrapposto al precedente
+                nextY = top + height;
+                return { apt, top, height };
+              });
+
+              // Altezza minima della cella = max(CELL_PX, spazio occupato dagli appuntamenti)
+              const cellMinH = Math.max(CELL_PX, nextY);
+
               return (
-                <div 
+                <div
                   key={`${timeIndex}-${dayIndex}`}
-                  className={`border-r border-b p-0.5 cursor-pointer hover:bg-blue-50 transition-all duration-200 relative group overflow-hidden min-w-0
-                    ${isExpanded ? 'min-h-[64px]' : hasAppointments ? '' : 'h-[64px]'}`}
-                  style={cellMinHeight ? { minHeight: `${cellMinHeight}px` } : undefined}
-                  onClick={(e) => handleTimeSlotClick(e, day, timeSlot, hasAppointments)}
+                  className="border-r border-b cursor-pointer hover:bg-blue-50/30 transition-colors duration-150 relative group min-w-0"
+                  style={{ minHeight: `${cellMinH}px` }}
+                  onClick={(e) => openNewAppointmentAt(e, day, timeSlot)}
                 >
                   {isLoading ? (
-                    <Skeleton className="h-12 w-full" />
-                  ) : hasAppointments ? (
-                    <div className="space-y-1">
-                      {slotAppointments.map((appointment) => (
-                        <div key={appointment.id} className="text-xs">
-                          <AppointmentCardSmall 
-                            appointment={appointment}
-                            onUpdate={handleAppointmentUpdated}
-                            onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingAppointmentId(id); }}
-                            view="week"
-                          />
-                        </div>
-                      ))}
+                    <Skeleton className="absolute inset-1" />
+                  ) : positioned.length === 0 ? (
+                    /* Cella vuota: mostra "+" al hover */
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Plus className="h-4 w-4 text-gray-400" />
                     </div>
                   ) : (
-                    // Empty slot - show add button on hover
-                    <div className="flex items-center justify-center h-full opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="text-gray-400 hover:text-primary h-auto p-1"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTimeSlotClick(e, day, timeSlot, false);
-                        }}
+                    positioned.map(({ apt, top, height }) => (
+                      <div
+                        key={apt.id}
+                        className="absolute left-0 right-0 overflow-hidden"
+                        style={{ top: `${top}px`, height: `${height}px`, padding: '1px' }}
                       >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
+                        <AppointmentCardSmall
+                          appointment={apt}
+                          onUpdate={handleAppointmentUpdated}
+                          onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingAppointmentId(id); }}
+                          view="week"
+                        />
+                      </div>
+                    ))
                   )}
                 </div>
               );

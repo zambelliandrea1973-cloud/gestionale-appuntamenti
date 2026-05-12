@@ -133,7 +133,7 @@ export default function AppointmentCardSmall({
     <>
       <div 
         ref={cardRef}
-        className="relative group cursor-pointer"
+        className="relative group cursor-pointer h-full"
         data-appointment-card="true"
         style={{
           borderLeft: `2px solid ${getBorderColor()}`,

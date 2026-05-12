@@ -110,6 +110,14 @@ export default function MonthView({ selectedDate, services = [], collaborators =
     }
   };
   
+  // Durata in minuti di un appuntamento
+  const getDurationMinutes = (apt: any) => {
+    if (!apt.startTime || !apt.endTime) return 60;
+    const [sh, sm] = apt.startTime.split(':').map(Number);
+    const [eh, em] = apt.endTime.split(':').map(Number);
+    return Math.max((eh * 60 + em) - (sh * 60 + sm), 15);
+  };
+
   // Get appointments for a specific day
   const getAppointmentsForDay = (day: Date) => {
     const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
@@ -195,17 +203,25 @@ export default function MonthView({ selectedDate, services = [], collaborators =
                 </div>
                 
                 {isMonthDay && !isLoading && (
-                  <div className="mt-1 space-y-1 overflow-y-auto max-h-[80px]">
-                    {dayAppointments.map((appointment) => (
-                      <div key={appointment.id} className="mb-1">
-                        <AppointmentCardSmall 
-                          appointment={appointment}
-                          onUpdate={handleAppointmentUpdated}
-                          onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingAppointmentId(id); }}
-                          view="month"
-                        />
-                      </div>
-                    ))}
+                  /* Appuntamenti impilati verticalmente con altezza proporzionale alla durata.
+                     50px = 60 min; minimo 22px per leggibilità. Nessun max-h: la cella cresce. */
+                  <div className="mt-1 space-y-0.5">
+                    {[...dayAppointments]
+                      .sort((a, b) => (a.startTime || '').localeCompare(b.startTime || ''))
+                      .map((appointment) => {
+                        const duration = getDurationMinutes(appointment);
+                        const height = Math.max(Math.round((duration / 60) * 50), 22);
+                        return (
+                          <div key={appointment.id} style={{ height: `${height}px` }} className="overflow-hidden">
+                            <AppointmentCardSmall
+                              appointment={appointment}
+                              onUpdate={handleAppointmentUpdated}
+                              onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingAppointmentId(id); }}
+                              view="month"
+                            />
+                          </div>
+                        );
+                      })}
                   </div>
                 )}
               </div>
