@@ -66,8 +66,10 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   const weekDays = getWeekDays(viewDate);
   
   // Utilizziamo un metodo alternativo per formattare le date, per evitare problemi di fuso orario
-  const weekStart = getWeekStart(selectedDate);
-  const weekEnd = getWeekEnd(selectedDate);
+  // IMPORTANTE: usiamo viewDate (stato interno) e non selectedDate (prop) così quando
+  // l'utente naviga tra settimane la query recupera i dati della settimana visualizzata.
+  const weekStart = getWeekStart(viewDate);
+  const weekEnd = getWeekEnd(viewDate);
   
   const startDate = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
   const endDate = `${weekEnd.getFullYear()}-${String(weekEnd.getMonth() + 1).padStart(2, '0')}-${String(weekEnd.getDate()).padStart(2, '0')}`;
@@ -340,7 +342,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
       {!isAppointmentFormOpen && (
         <FloatingActionButton 
           onClick={() => {
-            setSelectedDayForAppointment(selectedDate);
+            setSelectedDayForAppointment(viewDate);
             setSelectedTimeForAppointment("09:00");
             formOpenedAtRef.current = Date.now();
             setIsAppointmentFormOpen(true);

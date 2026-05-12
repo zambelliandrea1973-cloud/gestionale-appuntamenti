@@ -137,7 +137,9 @@ export default function Calendar() {
         queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formatDateForApi(d)}`] });
       }
     }
-    queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+    queryClient.invalidateQueries({
+      predicate: (query) => String(query.queryKey[0]).startsWith('/api/appointments/range'),
+    });
   };
 
   const handleAppointmentSaved = async () => {
@@ -148,6 +150,10 @@ export default function Calendar() {
       const d = new Date(selectedDate); d.setDate(d.getDate()+i);
       await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formatDateForApi(d)}`] });
     }
+    // Invalida le query range usate da WeekView e MonthView
+    await queryClient.invalidateQueries({
+      predicate: (query) => String(query.queryKey[0]).startsWith('/api/appointments/range'),
+    });
     await new Promise(r => setTimeout(r, 100));
     await queryClient.refetchQueries({ queryKey: ['/api/appointments'], type: 'active' });
     if (view==='day') await queryClient.refetchQueries({ queryKey: [`/api/appointments/date/${ds}`], type: 'active' });
