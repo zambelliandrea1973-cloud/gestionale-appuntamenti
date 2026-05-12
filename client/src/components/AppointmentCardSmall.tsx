@@ -24,12 +24,14 @@ export default function AppointmentCardSmall({
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
-  // Popover (week view only)
+  // Popover
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
   const [popoverPos, setPopoverPos] = useState({ top: 0, left: 0 });
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Guard: prevents Android synthesized click from immediately closing the form
+  const formOpenedAtRef = useRef<number>(0);
 
   const showPopover = isHovered || isPinned;
 
@@ -245,7 +247,7 @@ export default function AppointmentCardSmall({
             <Button
               size="sm" variant="outline"
               className="flex-1 h-7 text-xs"
-              onClick={(e) => { e.stopPropagation(); setIsPinned(false); setIsHovered(false); setIsFormDialogOpen(true); }}
+              onClick={(e) => { e.stopPropagation(); setIsPinned(false); setIsHovered(false); formOpenedAtRef.current = Date.now(); setIsFormDialogOpen(true); }}
             >
               <Pencil className="h-3 w-3 mr-1" /> {t('common.edit', 'Modifica')}
             </Button>
@@ -301,7 +303,7 @@ export default function AppointmentCardSmall({
       {isFormDialogOpen && (
         <div 
           className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-[9999] overflow-y-auto"
-          onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsFormDialogOpen(false); }}
+          onClick={(e) => { e.stopPropagation(); e.preventDefault(); if (Date.now() - formOpenedAtRef.current > 300) setIsFormDialogOpen(false); }}
         >
           <div 
             className="relative"
