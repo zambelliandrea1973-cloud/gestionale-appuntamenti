@@ -31,7 +31,7 @@ export default function AppointmentCardSmall({
   const [popoverPos, setPopoverPos] = useState({ top: 0, left: 0 });
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const showPopover = view === "week" && (isHovered || isPinned);
+  const showPopover = isHovered || isPinned;
 
   const calcPosition = useCallback(() => {
     if (!cardRef.current) return;
@@ -55,21 +55,18 @@ export default function AppointmentCardSmall({
   }, []);
 
   const handleMouseEnter = () => {
-    if (view !== "week") return;
     if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
     calcPosition();
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    if (view !== "week") return;
     // Small delay so mouse can move into the popover itself
     hoverTimeout.current = setTimeout(() => setIsHovered(false), 120);
   };
 
   const handleCardClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (view !== "week") return;
     if (!isPinned) calcPosition();
     setIsPinned((p) => !p);
   };
