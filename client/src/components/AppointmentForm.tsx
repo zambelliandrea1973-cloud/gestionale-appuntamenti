@@ -548,13 +548,6 @@ export default function AppointmentForm({
       const response = await apiRequest(method, url, appointmentData);
       
       if (!response.ok) {
-        if (response.status === 409) {
-          // Sovrapposizione oraria rilevata dal backend: chiedi conferma invece di bloccare
-          setConflictDetails(null);
-          setPendingAppointmentData({ ...data, _forceCreate: true });
-          setConflictDialogOpen(true);
-          return; // Il finally chiamerà endSubmitting; handleConflictConfirm farà beginSubmitting
-        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
@@ -612,6 +605,13 @@ export default function AppointmentForm({
         onClose();
       }
     } catch (error: any) {
+      // Conflitto orario segnalato dal backend (409): mostra dialog di conferma invece di bloccare
+      if (error?.message?.includes('already exists at this time')) {
+        setConflictDetails(null);
+        setPendingAppointmentData({ ...data, _forceCreate: true });
+        setConflictDialogOpen(true);
+        return; // Il finally chiamerà endSubmitting; handleConflictConfirm farà beginSubmitting
+      }
       console.error("Save error:", error);
       toast({
         title: t('appointmentForm.errors.savingTitle'),
