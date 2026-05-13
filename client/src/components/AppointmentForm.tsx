@@ -132,6 +132,10 @@ export default function AppointmentForm({
   // Stati per controllare l'apertura dei selettori data/ora
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
+
+  // Posizione del popup calendario (trascinabile)
+  const [calendarPos, setCalendarPos] = useState({ x: 16, y: 170 });
+  const calendarDragRef = useRef({ active: false, startX: 0, startY: 0, originX: 0, originY: 0 });
   
   // Stato per la durata personalizzata dell'appuntamento (in minuti)
   const [customDuration, setCustomDuration] = useState<number | null>(null);
@@ -322,6 +326,25 @@ export default function AppointmentForm({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isCalendarOpen, isTimePickerOpen]);
+
+  // Handler per trascinare il popup calendario
+  const onCalendarDragStart = (e: React.TouchEvent | React.MouseEvent) => {
+    const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
+    calendarDragRef.current = { active: true, startX: clientX, startY: clientY, originX: calendarPos.x, originY: calendarPos.y };
+  };
+  const onCalendarDragMove = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!calendarDragRef.current.active) return;
+    const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
+    const maxX = Math.max(0, window.innerWidth - 320);
+    const maxY = Math.max(0, window.innerHeight - 420);
+    setCalendarPos({
+      x: Math.max(0, Math.min(maxX, calendarDragRef.current.originX + clientX - calendarDragRef.current.startX)),
+      y: Math.max(0, Math.min(maxY, calendarDragRef.current.originY + clientY - calendarDragRef.current.startY)),
+    });
+  };
+  const onCalendarDragEnd = () => { calendarDragRef.current.active = false; };
 
   // Create or update appointment mutation
   const mutation = useMutation({
@@ -1375,27 +1398,52 @@ export default function AppointmentForm({
                         type="button"
                         variant="outline"
                         className="w-full justify-start text-left font-normal"
-                        onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                        onClick={() => {
+                          if (!isCalendarOpen) {
+                            setCalendarPos({ x: 16, y: Math.max(60, Math.round(window.innerHeight * 0.18)) });
+                          }
+                          setIsCalendarOpen(!isCalendarOpen);
+                        }}
                       >
                         <Calendar className="mr-2 h-4 w-4" />
                         {format(safeDate(field.value), "PPP", { locale: getDateLocale(i18n.language) })}
                       </Button>
-                      
+
                       {isCalendarOpen && (
-                        <div className="p-3 bg-white border rounded-md shadow-md mt-1 absolute z-50 popover-content">
-                          <CalendarComponent
-                            mode="single"
-                            selected={field.value}
-                            onSelect={(date) => {
-                              if (date) {
-                                field.onChange(date);
-                                setShowDateTimeDetails(true);
-                                setIsCalendarOpen(false);
-                              }
-                            }}
-                            disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-                            initialFocus
-                          />
+                        <div
+                          className="popover-content fixed z-[9999] bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden"
+                          style={{ left: calendarPos.x, top: calendarPos.y, width: Math.min(320, window.innerWidth - 32) }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {/* Maniglia di trascinamento */}
+                          <div
+                            className="flex items-center justify-center gap-2 py-2.5 bg-gray-50 border-b border-gray-200 select-none"
+                            style={{ touchAction: 'none', cursor: 'grab' }}
+                            onTouchStart={onCalendarDragStart}
+                            onTouchMove={onCalendarDragMove}
+                            onTouchEnd={onCalendarDragEnd}
+                            onMouseDown={onCalendarDragStart}
+                            onMouseMove={onCalendarDragMove}
+                            onMouseUp={onCalendarDragEnd}
+                            onMouseLeave={onCalendarDragEnd}
+                          >
+                            <div className="w-10 h-1.5 bg-gray-300 rounded-full" />
+                          </div>
+                          <div className="p-3">
+                            <CalendarComponent
+                              mode="single"
+                              selected={field.value}
+                              onSelect={(date) => {
+                                if (date) {
+                                  field.onChange(date);
+                                  setShowDateTimeDetails(true);
+                                  setIsCalendarOpen(false);
+                                }
+                              }}
+                              disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                              initialFocus
+                            />
+                          </div>
                         </div>
                       )}
                     </FormItem>
