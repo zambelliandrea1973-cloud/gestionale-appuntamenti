@@ -234,7 +234,7 @@ router.post("/api/appointments", async (req, res) => {
             .where(conflictWhere)
             .limit(1);
           
-          if (conflicts.length > 0) {
+          if (conflicts.length > 0 && !req.body.force_create) {
             throw new Error('CONFLICT: An appointment already exists at this time for the same resource');
           }
         }

@@ -530,7 +530,8 @@ export default function AppointmentForm({
         endTime: endTime,
         notes: data.notes || "",
         reminderType: (data as any).reminderType || "",
-        status: "scheduled"
+        status: "scheduled",
+        force_create: !!(data as any)._forceCreate
       };
       
       console.log("Formatted data for DIRECT API:", appointmentData);
@@ -547,6 +548,13 @@ export default function AppointmentForm({
       const response = await apiRequest(method, url, appointmentData);
       
       if (!response.ok) {
+        if (response.status === 409) {
+          // Sovrapposizione oraria rilevata dal backend: chiedi conferma invece di bloccare
+          setConflictDetails(null);
+          setPendingAppointmentData({ ...data, _forceCreate: true });
+          setConflictDialogOpen(true);
+          return; // Il finally chiamerà endSubmitting; handleConflictConfirm farà beginSubmitting
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
@@ -622,10 +630,10 @@ export default function AppointmentForm({
     if (!pendingAppointmentData) return;
     
     console.log("✅ User confirmed to proceed despite conflicts");
-    // Marca questa chiusura come "proceed": onOpenChange NON deve sbloccare il submit,
-    // la lock resterà attiva fino al finally di saveAppointment.
     proceedingFromConflictRef.current = true;
     setConflictDialogOpen(false);
+    // Re-lock il guard: nel caso 409 endSubmitting era già stato chiamato dal finally
+    beginSubmitting();
     
     try {
       await saveAppointment(pendingAppointmentData);
