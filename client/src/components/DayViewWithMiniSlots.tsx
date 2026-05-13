@@ -651,7 +651,7 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
         onSave={handleAppointmentUpdated}
         defaultDate={selectedDate}
         defaultTime={selectedTimeSlot || "09:00"}
-        appointment={selectedAppointment as any}
+        appointmentId={selectedAppointment?.id ?? null}
       />
       
       {/* Dialog di conferma eliminazione */}
