@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentModal from "./AppointmentModal";
+import AppointmentCardSmall from "./AppointmentCardSmall";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { AppointmentWithDetails } from "../../../shared/schema";
@@ -50,29 +51,6 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [appointmentToDelete, setAppointmentToDelete] = useState<number | null>(null);
 
-  // ID appuntamento attualmente "selezionato" (mostra pulsanti modifica/elimina)
-  const [selectedAptId, setSelectedAptId] = useState<number | null>(null);
-
-  // Chiudi i pulsanti quando si tocca fuori dal card selezionato
-  useEffect(() => {
-    if (!selectedAptId) return;
-    const handleOutside = (e: Event) => {
-      const target = (e.type === 'touchstart'
-        ? (e as TouchEvent).changedTouches?.[0]?.target
-        : (e as MouseEvent).target) as Node | null;
-      if (!target) return;
-      const el = document.querySelector(`[data-apt-id="${selectedAptId}"]`);
-      if (el?.contains(target)) return;
-      setSelectedAptId(null);
-    };
-    document.addEventListener('mousedown', handleOutside);
-    document.addEventListener('touchstart', handleOutside, { passive: true });
-    return () => {
-      document.removeEventListener('mousedown', handleOutside);
-      document.removeEventListener('touchstart', handleOutside);
-    };
-  }, [selectedAptId]);
-  
   // Rileva se siamo su dispositivo mobile
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   
@@ -486,73 +464,19 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                 return (
                   <div
                     key={`appointment-${appointment.id}`}
-                    data-apt-id={appointment.id}
-                    className="absolute left-24 right-0 z-20 rounded-sm shadow-md px-3 py-1 cursor-pointer hover:brightness-95 group"
-                    style={{
-                      top: `${top}px`,
-                      height: `${height}px`,
-                      backgroundColor: appointment.service?.color ? `${appointment.service.color}25` : '#f3f3f3',
-                      borderLeft: `4px solid ${appointment.service?.color || '#9ca3af'}`,
-                      borderBottom: `1px solid ${appointment.service?.color || '#9ca3af'}`,
-                      borderRight: `1px solid ${appointment.service?.color || '#9ca3af'}`,
-                      borderTop: `1px solid ${appointment.service?.color || '#9ca3af'}`,
-                    }}
-                    onClick={() => {
-                      // Primo tap/click: mostra i pulsanti
-                      // Secondo tap/click sullo stesso card: apri modifica
-                      if (selectedAptId === appointment.id) {
+                    className="absolute left-24 right-0 z-20"
+                    style={{ top: `${top}px`, height: `${height}px` }}
+                  >
+                    <AppointmentCardSmall
+                      appointment={appointment}
+                      view="week"
+                      onEdit={(id) => {
                         setSelectedTimeSlot(appointment.startTime.substr(0, 5));
                         setSelectedAppointment(appointment);
                         setIsAppointmentFormOpen(true);
-                        setSelectedAptId(null);
-                      } else {
-                        setSelectedAptId(appointment.id);
-                      }
-                    }}
-                  >
-                    <div className="h-full flex flex-col justify-center">
-                      <div className="font-medium text-sm">
-                        {appointment.client?.firstName} {appointment.client?.lastName}
-                      </div>
-                      <div className="text-xs">
-                        {appointment.service?.name || ''} - {appointment.startTime.substr(0, 5)} - {appointment.endTime.substr(0, 5)}
-                      </div>
-
-                      {/* Pulsanti visibili solo dopo tap/click sul card (o hover su desktop) */}
-                      <div className={`absolute right-1 top-1 flex gap-1 transition-opacity duration-150
-                        ${selectedAptId === appointment.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                        <button
-                          className="bg-blue-500 text-white p-1 rounded-full hover:bg-blue-600 w-7 h-7 flex items-center justify-center"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedTimeSlot(appointment.startTime.substr(0, 5));
-                            setSelectedAppointment(appointment);
-                            setIsAppointmentFormOpen(true);
-                            setSelectedAptId(null);
-                          }}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                          </svg>
-                        </button>
-                        <button
-                          className="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 w-7 h-7 flex items-center justify-center"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedAptId(null);
-                            confirmDeleteAppointment(appointment.id);
-                          }}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="3 6 5 6 21 6"></polyline>
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
+                      }}
+                      onUpdate={handleAppointmentUpdated}
+                    />
                   </div>
                 );
               })}
