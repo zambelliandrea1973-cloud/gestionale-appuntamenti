@@ -15,6 +15,7 @@ import {
   Eye,
   PlayCircle,
 } from "lucide-react";
+import { SiGoogle, SiFacebook } from "react-icons/si";
 import { Toaster } from "@/components/ui/toaster";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { LanguageSelector } from "@/components/ui/language-selector";
@@ -274,6 +275,40 @@ export default function WelcomePage() {
                   {t("welcomePage.login", "Log in")}
                 </Button>
               </div>
+
+              {/* Social login divider */}
+              <div className="relative pt-1">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-muted-foreground/20" />
+                </div>
+                <div className="relative flex justify-center">
+                  <span className="bg-background px-3 text-xs text-muted-foreground">
+                    {t("welcomePage.orSocialLogin", "or sign in with")}
+                  </span>
+                </div>
+              </div>
+
+              {/* Google login */}
+              <Button
+                variant="outline"
+                className="w-full h-11 text-sm font-medium border border-gray-300 hover:bg-gray-50 gap-2"
+                onClick={() => { window.location.href = "/api/auth/google"; }}
+                data-testid="button-google-login"
+              >
+                <SiGoogle className="h-4 w-4 text-[#4285F4]" />
+                {t("welcomePage.googleLogin", "Continue with Google")}
+              </Button>
+
+              {/* Facebook login */}
+              <Button
+                variant="outline"
+                className="w-full h-11 text-sm font-medium border border-gray-300 hover:bg-gray-50 gap-2"
+                onClick={() => { window.location.href = "/api/auth/facebook"; }}
+                data-testid="button-facebook-login"
+              >
+                <SiFacebook className="h-4 w-4 text-[#1877F2]" />
+                {t("welcomePage.facebookLogin", "Continue with Facebook")}
+              </Button>
             </div>
           </section>
 

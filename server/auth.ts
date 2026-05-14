@@ -2,6 +2,8 @@
 import { logger } from './utils/logger';
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as FacebookStrategy } from "passport-facebook";
 import { Express } from "express";
 import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
@@ -651,6 +653,98 @@ export function setupAuth(app: Express) {
     }
     res.json(req.user);
   });
+
+  // ─── Social login helpers ────────────────────────────────────────────────
+  const socialCallbackBase = process.env.PRODUCTION_DOMAIN
+    ? `https://${process.env.PRODUCTION_DOMAIN}`
+    : process.env.REPL_SLUG
+      ? `https://wife-scheduler-zambelliandrea1.replit.app`
+      : 'http://localhost:5000';
+
+  // Find or create a user account from social profile data
+  async function findOrCreateSocialUser(email: string, firstName: string, lastName: string) {
+    let user = await storage.getUserByEmail(email);
+    if (!user) {
+      const randomPwd = await hashPassword(randomBytes(32).toString('hex'));
+      user = await storage.createUser({
+        username: email,
+        email,
+        password: randomPwd,
+        type: 'staff',
+        firstName: firstName || '',
+        lastName: lastName || '',
+      });
+      const { licenseService } = await import('./services/licenseService');
+      await licenseService.createTrialLicense(user.id);
+      console.log(`✅ [SOCIAL LOGIN] New account created for ${email} (id: ${user.id})`);
+    } else {
+      console.log(`✅ [SOCIAL LOGIN] Existing account found for ${email} (id: ${user.id})`);
+    }
+    return user;
+  }
+
+  // ─── Google OAuth Strategy ────────────────────────────────────────────────
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use('google-login', new GoogleStrategy({
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: `${socialCallbackBase}/api/auth/google/callback`,
+    }, async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails?.[0]?.value;
+        if (!email) return done(null, false, { message: 'No email from Google profile' });
+        const user = await findOrCreateSocialUser(
+          email,
+          profile.name?.givenName || '',
+          profile.name?.familyName || ''
+        );
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
+    }));
+
+    app.get('/api/auth/google', passport.authenticate('google-login', { scope: ['profile', 'email'] }));
+    app.get('/api/auth/google/callback',
+      passport.authenticate('google-login', { failureRedirect: '/?error=google-auth-failed' }),
+      (req, res) => { res.redirect('/dashboard'); }
+    );
+    console.log('✅ [AUTH] Google OAuth login configured');
+  } else {
+    console.warn('⚠️ [AUTH] Google OAuth login disabled (GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET missing)');
+  }
+
+  // ─── Facebook OAuth Strategy ──────────────────────────────────────────────
+  if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
+    passport.use('facebook-login', new FacebookStrategy({
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: `${socialCallbackBase}/api/auth/facebook/callback`,
+      profileFields: ['id', 'emails', 'name'],
+    }, async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails?.[0]?.value;
+        if (!email) return done(null, false, { message: 'No email from Facebook profile' });
+        const user = await findOrCreateSocialUser(
+          email,
+          profile.name?.givenName || '',
+          profile.name?.familyName || ''
+        );
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
+    }));
+
+    app.get('/api/auth/facebook', passport.authenticate('facebook-login', { scope: ['email'] }));
+    app.get('/api/auth/facebook/callback',
+      passport.authenticate('facebook-login', { failureRedirect: '/?error=facebook-auth-failed' }),
+      (req, res) => { res.redirect('/dashboard'); }
+    );
+    console.log('✅ [AUTH] Facebook OAuth login configured');
+  } else {
+    console.warn('⚠️ [AUTH] Facebook OAuth login disabled (FACEBOOK_APP_ID or FACEBOOK_APP_SECRET missing)');
+  }
 
   // Demo login — creates a shared read-only demo account on first call
   app.post("/api/auth/demo-login", async (req, res, next) => {

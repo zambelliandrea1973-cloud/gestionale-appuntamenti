@@ -31,7 +31,10 @@
     "benefit5": "Geen dataverzameling of spam",
     "demoButton": "Of probeer een demotour zonder registratie",
     "demoLoading": "Demo laden...",
-    "headerTitle": "Welkom bij"
+    "headerTitle": "Welkom bij",
+    "googleLogin": "Doorgaan met Google",
+    "facebookLogin": "Doorgaan met Facebook",
+    "orSocialLogin": "of aanmelden met"
   },
   "staffLoginPage": {
     "title": "Personeel Toegang",
@@ -6382,5 +6385,11 @@
       "login": "Inloggen",
       "copyright": "© {{year}} Castinox Srl · BTW IT01234567890"
     }
+  },
+  "demoExitPopup": {
+    "title": "Vond u wat u zag leuk?",
+    "subtitle": "Meld u gratis aan en start met uw echte gegevens. Geen creditcard.",
+    "cta": "Gratis account aanmaken",
+    "dismiss": "Doorgaan in demo"
   }
 }

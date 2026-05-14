@@ -75,6 +75,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import NotFound from "./pages/not-found";
 import { TimezoneDetector } from "./components/TimezoneDetector";
+import { DemoExitPopup } from "./components/DemoExitPopup";
 
 /**
  * Wrapper per le pagine client (con layout cliente)
@@ -189,6 +190,8 @@ function AppRoutes() {
   }, [user, isLoading, location, setLocation]);
 
   return (
+    <>
+    <DemoExitPopup />
     <Switch>
       {/* Landing page partnership - DEVE essere prima per essere accessibile pubblicamente */}
       <Route path="/partnership/bicom">
@@ -581,6 +584,7 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
     </Switch>
+    </>
   );
 }
 

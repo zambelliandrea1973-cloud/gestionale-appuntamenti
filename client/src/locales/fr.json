@@ -31,7 +31,10 @@
     "benefit5": "Aucune collecte de données ni spam",
     "demoButton": "Ou essayer une démo sans inscription",
     "demoLoading": "Chargement de la démo...",
-    "headerTitle": "Bienvenue sur"
+    "headerTitle": "Bienvenue sur",
+    "googleLogin": "Continuer avec Google",
+    "facebookLogin": "Continuer avec Facebook",
+    "orSocialLogin": "ou se connecter avec"
   },
   "staffLoginPage": {
     "title": "Accès Personnel",
@@ -6382,5 +6385,11 @@
       "login": "Se connecter",
       "copyright": "© {{year}} Castinox Srl · TVA IT01234567890"
     }
+  },
+  "demoExitPopup": {
+    "title": "Vous avez aimé ce que vous avez vu ?",
+    "subtitle": "Inscrivez-vous gratuitement et commencez avec vos données. Sans carte de crédit.",
+    "cta": "Créer un compte gratuit",
+    "dismiss": "Continuer en démo"
   }
 }

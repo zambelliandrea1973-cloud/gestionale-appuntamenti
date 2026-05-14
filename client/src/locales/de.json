@@ -31,7 +31,10 @@
     "benefit5": "Keine Datenerfassung oder Spam",
     "demoButton": "Oder Demo-Tour ohne Registrierung ausprobieren",
     "demoLoading": "Demo wird geladen...",
-    "headerTitle": "Willkommen bei"
+    "headerTitle": "Willkommen bei",
+    "googleLogin": "Mit Google fortfahren",
+    "facebookLogin": "Mit Facebook fortfahren",
+    "orSocialLogin": "oder anmelden mit"
   },
   "staffLoginPage": {
     "title": "Personal Zugang",
@@ -6382,5 +6385,11 @@
       "login": "Anmelden",
       "copyright": "© {{year}} Castinox Srl · USt-IdNr. IT01234567890"
     }
+  },
+  "demoExitPopup": {
+    "title": "Hat Ihnen gefallen, was Sie gesehen haben?",
+    "subtitle": "Kostenlos anmelden und mit Ihren echten Daten starten. Keine Kreditkarte.",
+    "cta": "Kostenloses Konto erstellen",
+    "dismiss": "Im Demo fortfahren"
   }
 }

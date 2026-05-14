@@ -31,7 +31,10 @@
     "benefit5": "Ingen datainnsamling eller spam",
     "demoButton": "Eller prøv en demo-omvisning uten registrering",
     "demoLoading": "Laster demo...",
-    "headerTitle": "Velkommen til"
+    "headerTitle": "Velkommen til",
+    "googleLogin": "Fortsett med Google",
+    "facebookLogin": "Fortsett med Facebook",
+    "orSocialLogin": "eller logg inn med"
   },
   "staffLoginPage": {
     "title": "Personell Tilgang",
@@ -6382,5 +6385,11 @@
       "login": "Logg inn",
       "copyright": "© {{year}} Castinox Srl · MVA IT01234567890"
     }
+  },
+  "demoExitPopup": {
+    "title": "Likte du det du så?",
+    "subtitle": "Registrer deg gratis og start med dine ekte data. Inget kredittkort.",
+    "cta": "Opprett gratis konto",
+    "dismiss": "Fortsett i demo"
   }
 }
