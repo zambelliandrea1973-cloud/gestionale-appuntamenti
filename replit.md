@@ -3,6 +3,23 @@
 ## Overview
 This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines medical practice operations. It provides comprehensive features for patient, appointment, and staff management, QR code access, billing, multi-language support, and a staff referral and commission system. The system enhances patient engagement and offers efficient administrative tools, serving as a multi-platform solution for modern medical practice management with a focus on business growth through PRO and BUSINESS plans.
 
+## ⏳ Da fare (appena possibile da desktop)
+
+### 1. Google Cloud Console — aggiungere redirect URI per il login social
+Il login con Google dà `redirect_uri_mismatch` perché il callback del login social non è ancora autorizzato.
+Vai su **console.cloud.google.com → API e servizi → Credenziali → OAuth 2.0 Client ID** e aggiungi:
+```
+https://wife-scheduler-zambelliandrea1.replit.app/api/auth/google/callback
+https://gestionale-appuntamenti.sliplane.app/api/auth/google/callback
+```
+(Il callback del Calendario Google `/api/google-auth/callback` è già autorizzato — questo è un URL diverso.)
+
+### 2. Facebook login — riattivare quando pronto
+Il pulsante Facebook è stato temporaneamente nascosto in `WelcomePage.tsx`.
+Per riattivarlo servono due variabili d'ambiente (`FACEBOOK_APP_ID` e `FACEBOOK_APP_SECRET`) da creare su **Meta for Developers**, poi de-commentare il pulsante e fare push.
+
+---
+
 ## User Preferences
 - Preferred communication style: Simple, everyday language
 - Development approach: Evaluate 2-3 alternatives before choosing the simplest, most robust solution
