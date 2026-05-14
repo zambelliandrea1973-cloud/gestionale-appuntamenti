@@ -276,7 +276,7 @@ export default function WelcomePage() {
                 </Button>
               </div>
 
-              {/* Social login divider */}
+              {/* Social login — temporaneamente nascosto finché i redirect URI non sono configurati in Google Cloud Console
               <div className="relative pt-1">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-muted-foreground/20" />
@@ -287,28 +287,17 @@ export default function WelcomePage() {
                   </span>
                 </div>
               </div>
-
-              {/* Google login */}
-              <Button
-                variant="outline"
-                className="w-full h-11 text-sm font-medium border border-gray-300 hover:bg-gray-50 gap-2"
-                onClick={() => { window.location.href = "/api/auth/google"; }}
-                data-testid="button-google-login"
-              >
+              <Button variant="outline" className="w-full h-11 text-sm font-medium border border-gray-300 hover:bg-gray-50 gap-2"
+                onClick={() => { window.location.href = "/api/auth/google"; }} data-testid="button-google-login">
                 <SiGoogle className="h-4 w-4 text-[#4285F4]" />
                 {t("welcomePage.googleLogin", "Continue with Google")}
               </Button>
-
-              {/* Facebook login — temporaneamente nascosto */}
-              {/* <Button
-                variant="outline"
-                className="w-full h-11 text-sm font-medium border border-gray-300 hover:bg-gray-50 gap-2"
-                onClick={() => { window.location.href = "/api/auth/facebook"; }}
-                data-testid="button-facebook-login"
-              >
+              <Button variant="outline" className="w-full h-11 text-sm font-medium border border-gray-300 hover:bg-gray-50 gap-2"
+                onClick={() => { window.location.href = "/api/auth/facebook"; }} data-testid="button-facebook-login">
                 <SiFacebook className="h-4 w-4 text-[#1877F2]" />
                 {t("welcomePage.facebookLogin", "Continue with Facebook")}
-              </Button> */}
+              </Button>
+              */}
             </div>
           </section>
 

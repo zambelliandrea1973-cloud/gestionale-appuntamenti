@@ -5,18 +5,20 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 
 ## ⏳ Da fare (appena possibile da desktop)
 
-### 1. Google Cloud Console — aggiungere redirect URI per il login social
-Il login con Google dà `redirect_uri_mismatch` perché il callback del login social non è ancora autorizzato.
-Vai su **console.cloud.google.com → API e servizi → Credenziali → OAuth 2.0 Client ID** e aggiungi:
-```
-https://wife-scheduler-zambelliandrea1.replit.app/api/auth/google/callback
-https://gestionale-appuntamenti.sliplane.app/api/auth/google/callback
-```
-(Il callback del Calendario Google `/api/google-auth/callback` è già autorizzato — questo è un URL diverso.)
+### 1. Riattivare i pulsanti social login (Google + Facebook)
+I pulsanti sono **nascosti** in `WelcomePage.tsx` (commentati) perché il login Google dà `redirect_uri_mismatch`.
+**Passaggi da fare da desktop:**
+- Vai su **console.cloud.google.com → API e servizi → Credenziali → OAuth 2.0 Client ID**
+- Aggiungi nella sezione "URI di reindirizzamento autorizzati":
+  ```
+  https://wife-scheduler-zambelliandrea1.replit.app/api/auth/google/callback
+  https://gestionale-appuntamenti.sliplane.app/api/auth/google/callback
+  ```
+- Poi dire all'agente: **"riattiva i pulsanti social login"** — li de-commenterà e farà push
 
-### 2. Facebook login — riattivare quando pronto
-Il pulsante Facebook è stato temporaneamente nascosto in `WelcomePage.tsx`.
-Per riattivarlo servono due variabili d'ambiente (`FACEBOOK_APP_ID` e `FACEBOOK_APP_SECRET`) da creare su **Meta for Developers**, poi de-commentare il pulsante e fare push.
+### 2. Facebook login — configurare quando pronto
+Servono due variabili d'ambiente da creare su **Meta for Developers**:
+`FACEBOOK_APP_ID` e `FACEBOOK_APP_SECRET` → poi dire all'agente di riattivarlo.
 
 ---
 
