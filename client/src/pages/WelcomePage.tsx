@@ -299,8 +299,8 @@ export default function WelcomePage() {
                 {t("welcomePage.googleLogin", "Continue with Google")}
               </Button>
 
-              {/* Facebook login */}
-              <Button
+              {/* Facebook login — temporaneamente nascosto */}
+              {/* <Button
                 variant="outline"
                 className="w-full h-11 text-sm font-medium border border-gray-300 hover:bg-gray-50 gap-2"
                 onClick={() => { window.location.href = "/api/auth/facebook"; }}
@@ -308,7 +308,7 @@ export default function WelcomePage() {
               >
                 <SiFacebook className="h-4 w-4 text-[#1877F2]" />
                 {t("welcomePage.facebookLogin", "Continue with Facebook")}
-              </Button>
+              </Button> */}
             </div>
           </section>
 

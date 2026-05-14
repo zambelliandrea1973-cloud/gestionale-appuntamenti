@@ -704,7 +704,7 @@ export function setupAuth(app: Express) {
       }
     }));
 
-    app.get('/api/auth/google', passport.authenticate('google-login', { scope: ['profile', 'email'] }));
+    app.get('/api/auth/google', passport.authenticate('google-login', { scope: ['profile', 'email'], prompt: 'select_account' }));
     app.get('/api/auth/google/callback',
       passport.authenticate('google-login', { failureRedirect: '/?error=google-auth-failed' }),
       (req, res) => { res.redirect('/dashboard'); }
