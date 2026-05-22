@@ -681,6 +681,7 @@
     "title": "Impostazioni",
     "general": "Generali",
     "appearance": "Aspetto",
+    "pos": "POS / Carta",
     "contacts": "Contatti & Orari",
     "contactsTitle": "Informazioni di Contatto",
     "contactsDesc": "Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
@@ -1485,6 +1486,45 @@
   },
   "contacts": {
     "accessOurContacts": "Accedi ai nostri contatti"
+  },
+  "pos": {
+    "settings": {
+      "title": "Pagamenti con terminale POS",
+      "desc": "Accetta carte e bancomat direttamente dai tuoi appuntamenti e fatture",
+      "active": "POS attivo",
+      "saved": "Impostazioni POS salvate",
+      "saveError": "Errore nel salvataggio",
+      "testOk": "Connessione SumUp riuscita!",
+      "testFail": "Connessione fallita",
+      "testFailDesc": "Verificare la API key",
+      "testOkBtn": "Connesso",
+      "testFailBtn": "Fallito",
+      "testBtn": "Testa connessione",
+      "testing": "Test in corso...",
+      "connected": "Account SumUp collegato",
+      "notConnected": "Account SumUp non ancora collegato",
+      "apiKey": "API Key SumUp",
+      "apiKeyPlaceholder": "Incolla qui la tua API key SumUp",
+      "apiKeyHint": "Trovala su",
+      "apiKeyHint2": "API Keys → Crea chiave",
+      "sumupDesc": "Inserisci la tua API key personale SumUp per collegare il terminale",
+      "moreProviders": "Prossimamente: Stripe Terminal, Square e altri provider"
+    },
+    "pay": {
+      "button": "Carta / Bancomat",
+      "title": "Pagamento con carta",
+      "amount": "Importo",
+      "anonymous": "Anonimo",
+      "creating": "Creazione pagamento...",
+      "instructions": "Il cliente può scansionare il QR code oppure aprire il link per pagare",
+      "openLink": "Apri link pagamento",
+      "waiting": "In attesa del pagamento...",
+      "success": "Pagamento ricevuto! ✅",
+      "paid": "Pagamento ricevuto!",
+      "failed": "Pagamento fallito",
+      "retry": "Riprova",
+      "error": "Errore nella creazione del pagamento"
+    }
   },
   "payments": {
     "title": "Amministrazione Pagamenti"

@@ -2351,7 +2351,8 @@
       "saving": "सहेज रहा है...",
       "save": "संपर्क जानकारी सहेजें",
       "invalidFormat": "अमान्य प्रारूप"
-    }
+    },
+    "pos": "[TODO:HI] POS / Card"
   },
   "notifications": {
     "clientDeleted": "ग्राहक हटाया गया",
@@ -6391,5 +6392,44 @@
     "subtitle": "मुफ्त में रजिस्टर करें और असली डेटा से शुरू करें। कोई क्रेडिट कार्ड नहीं।",
     "cta": "मुफ्त अकाउंट बनाएं",
     "dismiss": "डेमो में जारी रखें"
+  },
+  "pos": {
+    "settings": {
+      "title": "[TODO:HI] POS Terminal payments",
+      "desc": "[TODO:HI] Accept cards and bank transfers directly from your appointments and invoices",
+      "active": "[TODO:HI] POS active",
+      "saved": "[TODO:HI] POS settings saved",
+      "saveError": "[TODO:HI] Error saving settings",
+      "testOk": "[TODO:HI] SumUp connection successful!",
+      "testFail": "[TODO:HI] Connection failed",
+      "testFailDesc": "[TODO:HI] Please check your API key",
+      "testOkBtn": "[TODO:HI] Connected",
+      "testFailBtn": "[TODO:HI] Failed",
+      "testBtn": "[TODO:HI] Test connection",
+      "testing": "[TODO:HI] Testing...",
+      "connected": "[TODO:HI] SumUp account connected",
+      "notConnected": "[TODO:HI] SumUp account not yet connected",
+      "apiKey": "[TODO:HI] SumUp API Key",
+      "apiKeyPlaceholder": "[TODO:HI] Paste your SumUp API key here",
+      "apiKeyHint": "[TODO:HI] Find it at",
+      "apiKeyHint2": "[TODO:HI] API Keys → Create key",
+      "sumupDesc": "[TODO:HI] Enter your personal SumUp API key to connect the terminal",
+      "moreProviders": "[TODO:HI] Coming soon: Stripe Terminal, Square and other providers"
+    },
+    "pay": {
+      "button": "[TODO:HI] Card / Bank transfer",
+      "title": "[TODO:HI] Card payment",
+      "amount": "[TODO:HI] Amount",
+      "anonymous": "[TODO:HI] Anonymous",
+      "creating": "[TODO:HI] Creating payment...",
+      "instructions": "[TODO:HI] The customer can scan the QR code or open the link to pay",
+      "openLink": "[TODO:HI] Open payment link",
+      "waiting": "[TODO:HI] Waiting for payment...",
+      "success": "[TODO:HI] Payment received! ✅",
+      "paid": "[TODO:HI] Payment received!",
+      "failed": "[TODO:HI] Payment failed",
+      "retry": "[TODO:HI] Retry",
+      "error": "[TODO:HI] Error creating payment"
+    }
   }
 }

@@ -1877,6 +1877,50 @@ export const pushSubscriptionsRelations = relations(pushSubscriptions, ({ one })
   }),
 }));
 
+// ─── POS (Point of Sale) ─────────────────────────────────────────────────────
+
+export const posSettings = pgTable("pos_settings", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().unique(),
+  isEnabled: boolean("is_enabled").default(false),
+  provider: text("provider").default("sumup"), // sumup | stripe | square | ...
+  sumupApiKey: text("sumup_api_key"),           // encrypted
+  sumupMerchantCode: text("sumup_merchant_code"),
+  currency: text("currency").default("EUR"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertPosSettingsSchema = createInsertSchema(posSettings).omit({ id: true, createdAt: true, updatedAt: true });
+export type PosSettings = typeof posSettings.$inferSelect;
+export type InsertPosSettings = z.infer<typeof insertPosSettingsSchema>;
+
+export const posPayments = pgTable("pos_payments", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  invoiceId: integer("invoice_id"),
+  appointmentId: integer("appointment_id"),
+  clientId: integer("client_id"),
+  provider: text("provider").default("sumup"),
+  checkoutId: text("checkout_id"),
+  checkoutReference: text("checkout_reference"),
+  checkoutUrl: text("checkout_url"),
+  amount: integer("amount").notNull(), // in cents
+  currency: text("currency").default("EUR"),
+  status: text("status").default("pending"), // pending | paid | failed
+  isAnonymous: boolean("is_anonymous").default(false),
+  transactionId: text("transaction_id"),
+  paidAt: timestamp("paid_at"),
+  metadata: json("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertPosPaymentSchema = createInsertSchema(posPayments).omit({ id: true, createdAt: true });
+export type PosPayment = typeof posPayments.$inferSelect;
+export type InsertPosPayment = z.infer<typeof insertPosPaymentSchema>;
+
+// ─── File Uploads ──────────────────────────────────────────────────────────────
+
 export const fileUploads = pgTable("file_uploads", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),

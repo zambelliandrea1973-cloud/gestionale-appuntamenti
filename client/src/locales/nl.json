@@ -724,7 +724,8 @@
       "saving": "Opslaan...",
       "save": "Contactinformatie opslaan",
       "invalidFormat": "Ongeldig formaat"
-    }
+    },
+    "pos": "[TODO:NL] POS / Card"
   },
   "common": {
     "backToHome": "Terug naar Home",
@@ -6391,5 +6392,44 @@
     "subtitle": "Meld u gratis aan en start met uw echte gegevens. Geen creditcard.",
     "cta": "Gratis account aanmaken",
     "dismiss": "Doorgaan in demo"
+  },
+  "pos": {
+    "settings": {
+      "title": "[TODO:NL] POS Terminal payments",
+      "desc": "[TODO:NL] Accept cards and bank transfers directly from your appointments and invoices",
+      "active": "[TODO:NL] POS active",
+      "saved": "[TODO:NL] POS settings saved",
+      "saveError": "[TODO:NL] Error saving settings",
+      "testOk": "[TODO:NL] SumUp connection successful!",
+      "testFail": "[TODO:NL] Connection failed",
+      "testFailDesc": "[TODO:NL] Please check your API key",
+      "testOkBtn": "[TODO:NL] Connected",
+      "testFailBtn": "[TODO:NL] Failed",
+      "testBtn": "[TODO:NL] Test connection",
+      "testing": "[TODO:NL] Testing...",
+      "connected": "[TODO:NL] SumUp account connected",
+      "notConnected": "[TODO:NL] SumUp account not yet connected",
+      "apiKey": "[TODO:NL] SumUp API Key",
+      "apiKeyPlaceholder": "[TODO:NL] Paste your SumUp API key here",
+      "apiKeyHint": "[TODO:NL] Find it at",
+      "apiKeyHint2": "[TODO:NL] API Keys → Create key",
+      "sumupDesc": "[TODO:NL] Enter your personal SumUp API key to connect the terminal",
+      "moreProviders": "[TODO:NL] Coming soon: Stripe Terminal, Square and other providers"
+    },
+    "pay": {
+      "button": "[TODO:NL] Card / Bank transfer",
+      "title": "[TODO:NL] Card payment",
+      "amount": "[TODO:NL] Amount",
+      "anonymous": "[TODO:NL] Anonymous",
+      "creating": "[TODO:NL] Creating payment...",
+      "instructions": "[TODO:NL] The customer can scan the QR code or open the link to pay",
+      "openLink": "[TODO:NL] Open payment link",
+      "waiting": "[TODO:NL] Waiting for payment...",
+      "success": "[TODO:NL] Payment received! ✅",
+      "paid": "[TODO:NL] Payment received!",
+      "failed": "[TODO:NL] Payment failed",
+      "retry": "[TODO:NL] Retry",
+      "error": "[TODO:NL] Error creating payment"
+    }
   }
 }

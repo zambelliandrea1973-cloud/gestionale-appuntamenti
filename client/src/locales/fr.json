@@ -733,7 +733,8 @@
       "saving": "Enregistrement...",
       "save": "Enregistrer les informations de contact",
       "invalidFormat": "Format invalide"
-    }
+    },
+    "pos": "[TODO:FR] POS / Card"
   },
   "common": {
     "backToHome": "Retour à l'accueil",
@@ -6391,5 +6392,44 @@
     "subtitle": "Inscrivez-vous gratuitement et commencez avec vos données. Sans carte de crédit.",
     "cta": "Créer un compte gratuit",
     "dismiss": "Continuer en démo"
+  },
+  "pos": {
+    "settings": {
+      "title": "[TODO:FR] POS Terminal payments",
+      "desc": "[TODO:FR] Accept cards and bank transfers directly from your appointments and invoices",
+      "active": "[TODO:FR] POS active",
+      "saved": "[TODO:FR] POS settings saved",
+      "saveError": "[TODO:FR] Error saving settings",
+      "testOk": "[TODO:FR] SumUp connection successful!",
+      "testFail": "[TODO:FR] Connection failed",
+      "testFailDesc": "[TODO:FR] Please check your API key",
+      "testOkBtn": "[TODO:FR] Connected",
+      "testFailBtn": "[TODO:FR] Failed",
+      "testBtn": "[TODO:FR] Test connection",
+      "testing": "[TODO:FR] Testing...",
+      "connected": "[TODO:FR] SumUp account connected",
+      "notConnected": "[TODO:FR] SumUp account not yet connected",
+      "apiKey": "[TODO:FR] SumUp API Key",
+      "apiKeyPlaceholder": "[TODO:FR] Paste your SumUp API key here",
+      "apiKeyHint": "[TODO:FR] Find it at",
+      "apiKeyHint2": "[TODO:FR] API Keys → Create key",
+      "sumupDesc": "[TODO:FR] Enter your personal SumUp API key to connect the terminal",
+      "moreProviders": "[TODO:FR] Coming soon: Stripe Terminal, Square and other providers"
+    },
+    "pay": {
+      "button": "[TODO:FR] Card / Bank transfer",
+      "title": "[TODO:FR] Card payment",
+      "amount": "[TODO:FR] Amount",
+      "anonymous": "[TODO:FR] Anonymous",
+      "creating": "[TODO:FR] Creating payment...",
+      "instructions": "[TODO:FR] The customer can scan the QR code or open the link to pay",
+      "openLink": "[TODO:FR] Open payment link",
+      "waiting": "[TODO:FR] Waiting for payment...",
+      "success": "[TODO:FR] Payment received! ✅",
+      "paid": "[TODO:FR] Payment received!",
+      "failed": "[TODO:FR] Payment failed",
+      "retry": "[TODO:FR] Retry",
+      "error": "[TODO:FR] Error creating payment"
+    }
   }
 }

@@ -17,7 +17,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { queryClient } from "@/lib/queryClient";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock, CreditCard, Sparkles, Hash } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock, CreditCard, Sparkles, Hash, Store } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
@@ -29,10 +29,11 @@ import SubscriptionPlansAdmin from '@/components/SubscriptionPlansAdmin';
 import CurrencySelector from '@/components/CurrencySelector';
 import WorkingHoursEditor from '@/components/WorkingHoursEditor';
 import SubscriptionPlansPanel from '@/components/SubscriptionPlansPanel';
+import PosSettingsPanel from '@/components/pos/PosSettingsPanel';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
 
-const VALID_TABS = ['app', 'contacts', 'staff', 'integrations', 'appearance', 'security', 'subscription', 'admin'] as const;
+const VALID_TABS = ['app', 'contacts', 'staff', 'integrations', 'pos', 'appearance', 'security', 'subscription', 'admin'] as const;
 
 function resolveTabFromUrl(): string | null {
   const params = new URLSearchParams(window.location.search);
@@ -234,6 +235,10 @@ export default function Settings() {
           <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Mail className="mr-2 h-4 w-4" />
             <span>{t('settings.integrations', 'Email')}</span>
+          </TabsTrigger>
+          <TabsTrigger value="pos" className="flex items-center whitespace-nowrap">
+            <Store className="mr-2 h-4 w-4" />
+            <span>{t('settings.pos', 'POS / Carta')}</span>
           </TabsTrigger>
           <TabsTrigger value="appearance" className="flex items-center whitespace-nowrap">
             <Brush className="mr-2 h-4 w-4" />
@@ -447,6 +452,10 @@ export default function Settings() {
           </Card>
         </TabsContent>
         
+        <TabsContent value="pos">
+          <PosSettingsPanel />
+        </TabsContent>
+
         <TabsContent value="appearance">
           <div className="space-y-6">
             {(user?.type === 'staff' || user?.type === 'admin') && (

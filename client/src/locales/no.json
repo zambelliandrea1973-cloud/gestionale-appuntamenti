@@ -724,7 +724,8 @@
       "saving": "Lagrer...",
       "save": "Lagre kontaktinformasjon",
       "invalidFormat": "Ugyldig format"
-    }
+    },
+    "pos": "[TODO:NO] POS / Card"
   },
   "common": {
     "backToHome": "Tilbake til hjem",
@@ -6391,5 +6392,44 @@
     "subtitle": "Registrer deg gratis og start med dine ekte data. Inget kredittkort.",
     "cta": "Opprett gratis konto",
     "dismiss": "Fortsett i demo"
+  },
+  "pos": {
+    "settings": {
+      "title": "[TODO:NO] POS Terminal payments",
+      "desc": "[TODO:NO] Accept cards and bank transfers directly from your appointments and invoices",
+      "active": "[TODO:NO] POS active",
+      "saved": "[TODO:NO] POS settings saved",
+      "saveError": "[TODO:NO] Error saving settings",
+      "testOk": "[TODO:NO] SumUp connection successful!",
+      "testFail": "[TODO:NO] Connection failed",
+      "testFailDesc": "[TODO:NO] Please check your API key",
+      "testOkBtn": "[TODO:NO] Connected",
+      "testFailBtn": "[TODO:NO] Failed",
+      "testBtn": "[TODO:NO] Test connection",
+      "testing": "[TODO:NO] Testing...",
+      "connected": "[TODO:NO] SumUp account connected",
+      "notConnected": "[TODO:NO] SumUp account not yet connected",
+      "apiKey": "[TODO:NO] SumUp API Key",
+      "apiKeyPlaceholder": "[TODO:NO] Paste your SumUp API key here",
+      "apiKeyHint": "[TODO:NO] Find it at",
+      "apiKeyHint2": "[TODO:NO] API Keys → Create key",
+      "sumupDesc": "[TODO:NO] Enter your personal SumUp API key to connect the terminal",
+      "moreProviders": "[TODO:NO] Coming soon: Stripe Terminal, Square and other providers"
+    },
+    "pay": {
+      "button": "[TODO:NO] Card / Bank transfer",
+      "title": "[TODO:NO] Card payment",
+      "amount": "[TODO:NO] Amount",
+      "anonymous": "[TODO:NO] Anonymous",
+      "creating": "[TODO:NO] Creating payment...",
+      "instructions": "[TODO:NO] The customer can scan the QR code or open the link to pay",
+      "openLink": "[TODO:NO] Open payment link",
+      "waiting": "[TODO:NO] Waiting for payment...",
+      "success": "[TODO:NO] Payment received! ✅",
+      "paid": "[TODO:NO] Payment received!",
+      "failed": "[TODO:NO] Payment failed",
+      "retry": "[TODO:NO] Retry",
+      "error": "[TODO:NO] Error creating payment"
+    }
   }
 }

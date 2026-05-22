@@ -724,7 +724,8 @@
       "saving": "Se salvează...",
       "save": "Salvare informații de contact",
       "invalidFormat": "Format invalid"
-    }
+    },
+    "pos": "[TODO:RO] POS / Card"
   },
   "common": {
     "backToHome": "Înapoi la pagina principală",
@@ -6391,5 +6392,44 @@
     "subtitle": "Înregistrați-vă gratuit și începeți cu datele dvs. reale. Fără card de credit.",
     "cta": "Creați cont gratuit",
     "dismiss": "Continuați în demo"
+  },
+  "pos": {
+    "settings": {
+      "title": "[TODO:RO] POS Terminal payments",
+      "desc": "[TODO:RO] Accept cards and bank transfers directly from your appointments and invoices",
+      "active": "[TODO:RO] POS active",
+      "saved": "[TODO:RO] POS settings saved",
+      "saveError": "[TODO:RO] Error saving settings",
+      "testOk": "[TODO:RO] SumUp connection successful!",
+      "testFail": "[TODO:RO] Connection failed",
+      "testFailDesc": "[TODO:RO] Please check your API key",
+      "testOkBtn": "[TODO:RO] Connected",
+      "testFailBtn": "[TODO:RO] Failed",
+      "testBtn": "[TODO:RO] Test connection",
+      "testing": "[TODO:RO] Testing...",
+      "connected": "[TODO:RO] SumUp account connected",
+      "notConnected": "[TODO:RO] SumUp account not yet connected",
+      "apiKey": "[TODO:RO] SumUp API Key",
+      "apiKeyPlaceholder": "[TODO:RO] Paste your SumUp API key here",
+      "apiKeyHint": "[TODO:RO] Find it at",
+      "apiKeyHint2": "[TODO:RO] API Keys → Create key",
+      "sumupDesc": "[TODO:RO] Enter your personal SumUp API key to connect the terminal",
+      "moreProviders": "[TODO:RO] Coming soon: Stripe Terminal, Square and other providers"
+    },
+    "pay": {
+      "button": "[TODO:RO] Card / Bank transfer",
+      "title": "[TODO:RO] Card payment",
+      "amount": "[TODO:RO] Amount",
+      "anonymous": "[TODO:RO] Anonymous",
+      "creating": "[TODO:RO] Creating payment...",
+      "instructions": "[TODO:RO] The customer can scan the QR code or open the link to pay",
+      "openLink": "[TODO:RO] Open payment link",
+      "waiting": "[TODO:RO] Waiting for payment...",
+      "success": "[TODO:RO] Payment received! ✅",
+      "paid": "[TODO:RO] Payment received!",
+      "failed": "[TODO:RO] Payment failed",
+      "retry": "[TODO:RO] Retry",
+      "error": "[TODO:RO] Error creating payment"
+    }
   }
 }

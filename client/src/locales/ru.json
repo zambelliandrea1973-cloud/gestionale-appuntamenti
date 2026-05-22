@@ -733,7 +733,8 @@
       "saving": "Сохранение...",
       "save": "Сохранить контактную информацию",
       "invalidFormat": "Неверный формат"
-    }
+    },
+    "pos": "[TODO:RU] POS / Card"
   },
   "common": {
     "backToHome": "На главную",
@@ -6391,5 +6392,44 @@
     "subtitle": "Зарегистрируйтесь бесплатно и начните с реальными данными. Без карты.",
     "cta": "Создать бесплатный аккаунт",
     "dismiss": "Продолжить в демо"
+  },
+  "pos": {
+    "settings": {
+      "title": "[TODO:RU] POS Terminal payments",
+      "desc": "[TODO:RU] Accept cards and bank transfers directly from your appointments and invoices",
+      "active": "[TODO:RU] POS active",
+      "saved": "[TODO:RU] POS settings saved",
+      "saveError": "[TODO:RU] Error saving settings",
+      "testOk": "[TODO:RU] SumUp connection successful!",
+      "testFail": "[TODO:RU] Connection failed",
+      "testFailDesc": "[TODO:RU] Please check your API key",
+      "testOkBtn": "[TODO:RU] Connected",
+      "testFailBtn": "[TODO:RU] Failed",
+      "testBtn": "[TODO:RU] Test connection",
+      "testing": "[TODO:RU] Testing...",
+      "connected": "[TODO:RU] SumUp account connected",
+      "notConnected": "[TODO:RU] SumUp account not yet connected",
+      "apiKey": "[TODO:RU] SumUp API Key",
+      "apiKeyPlaceholder": "[TODO:RU] Paste your SumUp API key here",
+      "apiKeyHint": "[TODO:RU] Find it at",
+      "apiKeyHint2": "[TODO:RU] API Keys → Create key",
+      "sumupDesc": "[TODO:RU] Enter your personal SumUp API key to connect the terminal",
+      "moreProviders": "[TODO:RU] Coming soon: Stripe Terminal, Square and other providers"
+    },
+    "pay": {
+      "button": "[TODO:RU] Card / Bank transfer",
+      "title": "[TODO:RU] Card payment",
+      "amount": "[TODO:RU] Amount",
+      "anonymous": "[TODO:RU] Anonymous",
+      "creating": "[TODO:RU] Creating payment...",
+      "instructions": "[TODO:RU] The customer can scan the QR code or open the link to pay",
+      "openLink": "[TODO:RU] Open payment link",
+      "waiting": "[TODO:RU] Waiting for payment...",
+      "success": "[TODO:RU] Payment received! ✅",
+      "paid": "[TODO:RU] Payment received!",
+      "failed": "[TODO:RU] Payment failed",
+      "retry": "[TODO:RU] Retry",
+      "error": "[TODO:RU] Error creating payment"
+    }
   }
 }
