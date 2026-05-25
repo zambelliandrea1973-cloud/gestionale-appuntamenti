@@ -1490,15 +1490,15 @@ export class DatabaseStorage implements IStorage {
         .where(eq(appointments.userId, userId))
         .orderBy(appointments.date, appointments.startTime);
 
-      // Transform the result into the expected format
+      // Transform the result — keep appointments even if service was deleted (show placeholder)
       const formattedResult = result
-        .filter(row => row.client && row.service) // Filter only appointments with valid client and service
+        .filter(row => row.client) // Only require client; service may have been deleted
         .map(row => ({
           ...row.appointment,
           client: row.client!,
-          service: row.service!,
-          staff: row.staff || undefined, // Staff optional
-          room: row.room || undefined // Room optional
+          service: row.service ?? { id: row.appointment.serviceId, name: '—', duration: 60, price: '0', userId, color: '#888888', description: null },
+          staff: row.staff || undefined,
+          room: row.room || undefined
         }));
 
       logger.debug(`✅ NEW multi-tenant system: ${formattedResult.length} appointments for user ${userId} (with staff/room) - FULL SEPARATION`);
@@ -1569,15 +1569,15 @@ export class DatabaseStorage implements IStorage {
         ))
         .orderBy(appointments.startTime);
 
-      // Transform the result into the expected format
+      // Transform the result — keep appointments even if service was deleted (show placeholder)
       const formattedResult = result
-        .filter(row => row.client && row.service)
+        .filter(row => row.client)
         .map(row => ({
           ...row.appointment,
           client: row.client!,
-          service: row.service!,
-          staff: row.staff || undefined, // Staff optional
-          room: row.room || undefined // Room optional
+          service: row.service ?? { id: row.appointment.serviceId, name: '—', duration: 60, price: '0', userId, color: '#888888', description: null },
+          staff: row.staff || undefined,
+          room: row.room || undefined
         }));
 
       logger.debug(`✅ NEW multi-tenant system: ${formattedResult.length} appointments for date ${date} - user ${userId} (with staff/room) - FULL SEPARATION`);

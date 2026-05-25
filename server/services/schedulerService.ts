@@ -211,7 +211,6 @@ export function initializeSchedulers(): void {
   schedulerService.startPayoutScheduler();
   schedulerService.startCampaignCleanupScheduler();
   schedulerService.startTrialNotificationScheduler();
-  // ⏸️ Google sync managed on-demand when the calendar page is opened
-  // schedulerService.startGoogleCalendarImportScheduler();
+  schedulerService.startGoogleCalendarImportScheduler();
   if (process.env.LOG_SCHEDULER !== 'false') console.log('All schedulers initialized');
 }
