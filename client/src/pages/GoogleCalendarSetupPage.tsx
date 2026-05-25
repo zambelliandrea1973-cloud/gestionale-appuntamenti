@@ -78,12 +78,29 @@ export default function GoogleCalendarSetupPage() {
           const data = await response.json();
           if (data.authorized) {
             setIsGoogleAuthorized(true);
-            setIsSyncEnabled(data.calendarEnabled || false);
+            const syncEnabled = data.calendarEnabled || false;
+            setIsSyncEnabled(syncEnabled);
             if (data.email) {
               setEmail(data.email);
             }
             if (data.lastSyncAt) {
               setLastSyncAt(data.lastSyncAt);
+            }
+
+            // Sync automatica all'apertura della pagina se la sync è abilitata
+            if (syncEnabled) {
+              fetch('/api/google-calendar/sync-now', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+              }).then(res => res.json()).then(syncData => {
+                if (syncData.success) {
+                  setLastSyncAt(new Date().toISOString());
+                  if (syncData.details?.exported !== undefined) {
+                    setTotalSyncedEvents(prev => prev + (syncData.details.exported || 0));
+                  }
+                }
+              }).catch(() => {/* silent — non blocca il caricamento della pagina */});
             }
           }
         }

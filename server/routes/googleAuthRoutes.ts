@@ -9,6 +9,7 @@ import { storage } from '../storage';
 import { EncryptionService } from '../services/encryption';
 import { z } from 'zod';
 import { generateClientCode } from '../utils/clientCodeGenerator';
+import { syncBidirectional } from '../services/googleCalendarSync';
 
 // Validation schema for contact import
 const contactsImportSchema = z.object({
@@ -342,6 +343,12 @@ router.get('/callback', async (req, res) => {
         .where(eq(users.id, userId));
       
       console.log("✅ Google token saved in database for user:", userId);
+
+      // Sync bidirezionale immediata in background (fire-and-forget)
+      syncBidirectional(userId, 'Europe/Rome')
+        .then(r => console.log(`✅ [OAUTH] Initial bidirectional sync for user ${userId}: ${r.message}`))
+        .catch(e => console.error(`❌ [OAUTH] Initial bidirectional sync failed for user ${userId}:`, e));
+
     } catch (dbError) {
       console.error("❌ Error saving token to database:", dbError);
       // Continue anyway to show the success page
