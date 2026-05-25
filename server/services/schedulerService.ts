@@ -136,17 +136,18 @@ export const schedulerService = {
   },
   
   /**
-   * Start the automatic Google Calendar synchronisation service
-   * Check every 5 minutes for new events on Google Calendar and import them
+   * Start the automatic Google Calendar synchronisation service.
+   * Runs every hour; syncs only users whose last sync is >= 24 hours ago.
    */
   startGoogleCalendarImportScheduler(): void {
     const isVerbose = process.env.LOG_SCHEDULER !== 'false';
-    
-    // Cron job that runs every 5 minutes
-    cron.schedule('*/5 * * * *', async () => {
+    const SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+    // Cron job that runs every hour to pick up users due for their 24-hour sync
+    cron.schedule('0 * * * *', async () => {
       const now = new Date();
-      if (isVerbose) console.log('🔄 [GOOGLE IMPORT] Executing automatic import from Google Calendar:', now.toISOString());
-      
+      if (isVerbose) console.log('🔄 [GOOGLE IMPORT] Hourly check — syncing users overdue by 24h:', now.toISOString());
+
       try {
         // Find all users with Google Calendar enabled
         const usersWithGoogleCalendar = await db.select()
@@ -155,42 +156,60 @@ export const schedulerService = {
             eq(users.googleCalendarEnabled, true),
             isNotNull(users.googleAuthToken)
           ));
-        
+
         if (usersWithGoogleCalendar.length === 0) {
           if (isVerbose) console.log('📭 [GOOGLE IMPORT] No users with Google Calendar enabled');
           return;
         }
-        
+
+        // Keep only users whose last sync was >= 24 hours ago (or never synced)
+        const dueUsers = usersWithGoogleCalendar.filter(u => {
+          if (!u.lastGoogleSyncAt) return true;
+          return (now.getTime() - new Date(u.lastGoogleSyncAt).getTime()) >= SYNC_INTERVAL_MS;
+        });
+
+        if (dueUsers.length === 0) {
+          if (isVerbose) console.log('⏳ [GOOGLE IMPORT] All users synced within last 24h — nothing to do');
+          return;
+        }
+
+        if (isVerbose) console.log(`🔄 [GOOGLE IMPORT] ${dueUsers.length} user(s) due for 24h sync`);
+
         let totalImported = 0;
         let totalDeleted = 0;
         let totalErrors = 0;
-        
-        // Synchronize for each user: import new events AND detect deleted ones
-        for (const user of usersWithGoogleCalendar) {
+
+        for (const user of dueUsers) {
           try {
             // 1. Import new events from Google
             const importResult = await importGoogleCalendarEvents(user.id);
             totalImported += importResult.imported;
             totalErrors += importResult.errors.length;
-            
+
             if (importResult.imported > 0) {
-              logger.debug(`✅ [GOOGLE SYNC] user ${user.id}: imported ${importResult.imported} events from Google Calendar`);
+              logger.debug(`✅ [GOOGLE SYNC] user ${user.id}: imported ${importResult.imported} events`);
             }
-            
-            // 2. Detect events deleted from Google and remove from the scheduler
+
+            // 2. Detect events deleted from Google
             const deleteResult = await syncDeletedEvents(user.id);
             totalDeleted += deleteResult.deleted;
             totalErrors += deleteResult.errors.length;
-            
+
             if (deleteResult.deleted > 0) {
-              console.log(`🗑️ [GOOGLE SYNC] user ${user.id}: removed ${deleteResult.deleted} appointments (deleted from Google)`);
+              console.log(`🗑️ [GOOGLE SYNC] user ${user.id}: removed ${deleteResult.deleted} appointments`);
             }
+
+            // 3. Update lastGoogleSyncAt so the 24h window resets from now
+            await db.update(users)
+              .set({ lastGoogleSyncAt: now })
+              .where(eq(users.id, user.id));
+
           } catch (userError) {
             console.error(`⚠️ [GOOGLE SYNC] Error for user ${user.id}:`, userError);
             totalErrors++;
           }
         }
-        
+
         if (isVerbose || totalImported > 0 || totalDeleted > 0) {
           logger.debug(`🔄 [GOOGLE SYNC] completed: ${totalImported} imported, ${totalDeleted} deleted, ${totalErrors} errors`);
         }
@@ -198,8 +217,8 @@ export const schedulerService = {
         console.error('❌ [GOOGLE IMPORT] Error executing job:', error);
       }
     });
-    
-    console.log('🔄 Google Calendar import scheduler started successfully (every 5 minutes)');
+
+    console.log('🔄 Google Calendar import scheduler started successfully (every 24h per user)');
   },
 };
 
