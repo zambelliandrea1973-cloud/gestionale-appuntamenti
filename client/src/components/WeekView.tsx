@@ -31,10 +31,10 @@ interface WeekViewProps {
   onDateSelect?: (date: Date) => void;
 }
 
-// Generiamo gli slot orari dalle 08:00 alle 20:00
+// Generiamo gli slot orari dalle 08:00 alle 22:00 (allineati alla vista giornaliera)
 const generateTimeSlots = () => {
   const slots = [];
-  for (let i = 8; i < 20; i++) {
+  for (let i = 8; i <= 22; i++) {
     slots.push(`${String(i).padStart(2, '0')}:00`);
   }
   return slots;
