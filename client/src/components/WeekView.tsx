@@ -147,11 +147,8 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-medium">
-              Settimana {weekNumber} - {formatDate(weekDays[0])} to {formatDate(weekDays[6])}
+              Settimana {weekNumber} · {formatDate(weekDays[0])} – {formatDate(weekDays[6])}
             </h3>
-            <span className="inline-flex items-center justify-center bg-primary/10 text-primary font-semibold rounded-full h-6 w-12 text-xs">
-              #{weekNumber}
-            </span>
           </div>
           <div className="flex gap-1">
             <Button 

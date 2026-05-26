@@ -8,7 +8,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { formatMonthYear, formatDateForApi, getBrowserLocale } from "@/lib/utils/date";
+import { formatMonthYear, formatDateForApi, getBrowserLocale, getWeekStart, getWeekEnd } from "@/lib/utils/date";
+import { getISOWeek } from "date-fns";
 import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
 import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
@@ -176,8 +177,17 @@ export default function Calendar() {
           <div className="flex items-center space-x-2">
             <h2 className="text-2xl font-bold text-primary min-w-[200px]">
               {view === "month"
-                ? `${selectedDate.getDate()} ${formatMonthYear(selectedDate, i18n.language)}`
-                : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { month: 'long', year: 'numeric' })}`
+                ? formatMonthYear(selectedDate, i18n.language)
+                : view === "week"
+                  ? (() => {
+                      const ws = getWeekStart(selectedDate);
+                      const we = getWeekEnd(selectedDate);
+                      const wn = getISOWeek(selectedDate);
+                      const p = (d: Date) => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+                      const pe = (d: Date) => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+                      return `Sett. ${wn} · ${p(ws)} – ${pe(we)}`;
+                    })()
+                  : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { month: 'long', year: 'numeric' })}`
               }
             </h2>
             <div className="flex space-x-1 ml-2">
