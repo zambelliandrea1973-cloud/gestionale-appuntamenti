@@ -147,18 +147,14 @@ router.get("/api/appointments/range/:startDate/:endDate", async (req, res) => {
         userRangeAppointments = allAppointments.filter(apt => apt.userId === user.id);
       }
       
-      const beforeFilterCount = userRangeAppointments.length;
-      userRangeAppointments = userRangeAppointments.filter(apt => {
-        const importedValue = apt.importedFromGoogle as any;
-        const isImported = importedValue === true || importedValue === 'true' || importedValue === 't';
-        return !isImported;
-      });
-      logger.debug(`📊💻 [${deviceType}] appointments range ${startDate}-${endDate}: ${userRangeAppointments.length} from PostgreSQL (excluded ${beforeFilterCount - userRangeAppointments.length} imported from Google Calendar)`);
-      
+      logger.debug(`📊💻 [${deviceType}] appointments range ${startDate}-${endDate}: ${userRangeAppointments.length} from PostgreSQL`);
+
       const rangeAppointmentsWithDetails = userRangeAppointments.map(appointment => ({
-        ...appointment, 
+        ...appointment,
         client: appointment.client || { firstName: "Client", lastName: "Unknown", id: appointment.clientId },
-        service: appointment.service || { name: "Unknown service", id: appointment.serviceId, color: "#666666", price: 0 }
+        service: appointment.service || { name: "Unknown service", id: appointment.serviceId, color: "#666666", price: 0 },
+        importedFromGoogle: appointment.importedFromGoogle,
+        googleEventTitle: (appointment as any).googleEventTitle ?? null,
       }));
       
       console.log(`💰 [${deviceType}] PostgreSQL report: calculated revenue for ${rangeAppointmentsWithDetails.length} appointments`);

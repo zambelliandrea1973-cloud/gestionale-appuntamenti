@@ -1456,11 +1456,11 @@ export class DatabaseStorage implements IStorage {
         .orderBy(appointments.date, appointments.startTime);
 
       return rows
-        .filter(row => row.client && row.service)
+        .filter(row => row.client)
         .map(row => ({
           ...row.appointment,
           client: row.client!,
-          service: row.service!,
+          service: row.service ?? { id: row.appointment.serviceId, name: '—', duration: 60, price: '0', userId: row.appointment.userId, color: '#888888', description: null },
         }));
     } catch (error) {
       console.error("Error getting appointments by date range:", error);
