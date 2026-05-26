@@ -404,25 +404,24 @@ export default function MonthView({
         </div>
       </div>
 
-      {/* ── Day-of-week header ── */}
-      <div
-        className="grid border-b bg-gray-50 shrink-0"
-        style={{ gridTemplateColumns: "32px repeat(7, 1fr)" }}
-      >
-        <div className="border-r" />
-        {weekdays.map((d, i) => (
-          <div
-            key={i}
-            className={`text-center py-2 text-xs font-semibold uppercase tracking-wide border-r last:border-r-0
-              ${i >= 5 ? "text-blue-400" : "text-gray-500"}`}
-          >
-            {d}
-          </div>
-        ))}
-      </div>
-
-      {/* ── Calendar grid ── */}
+      {/* ── Calendar grid (header sticky inside scroll container) ── */}
       <div className="overflow-y-auto flex-1 min-h-0" style={{ maxHeight: "calc(100vh - 310px)" }}>
+        {/* Day-of-week header — sticky inside scroll so it shares the same width as the rows */}
+        <div
+          className="grid border-b bg-gray-50 sticky top-0 z-20"
+          style={{ gridTemplateColumns: "32px repeat(7, 1fr)" }}
+        >
+          <div className="border-r" />
+          {weekdays.map((d, i) => (
+            <div
+              key={i}
+              className={`text-center py-2 text-xs font-semibold uppercase tracking-wide border-r last:border-r-0
+                ${i >= 5 ? "text-blue-400" : "text-gray-500"}`}
+            >
+              {d}
+            </div>
+          ))}
+        </div>
         {calendar.map((week, wi) => (
           <div
             key={wi}
