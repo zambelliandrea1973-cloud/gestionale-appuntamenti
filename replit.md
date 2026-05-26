@@ -5,6 +5,24 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 
 ## ⏳ Da fare (appena possibile da desktop)
 
+### 0. Attivare il deploy automatico su Sliplane (GitHub Action)
+La GitHub Action `.github/workflows/deploy.yml` è già pronta: fa il build e triggera Sliplane ad ogni push su `main`. Mancano solo due **secrets** da configurare nel repository GitHub.
+
+**Passaggi da fare da desktop:**
+1. Vai su **GitHub → repository → Settings → Secrets and variables → Actions → New repository secret**
+2. Crea il secret `SLIPLANE_DEPLOY_HOOK_URL`:
+   - Vai su **Sliplane dashboard → servizio `gestionale-appuntamenti` → Settings → Deploy Hook**
+   - Copia l'URL del webhook (es. `https://sliplane.app/webhooks/deploy/xxx`) e incollalo come valore del secret
+3. Crea il secret `GITHUB_PERSONAL_ACCESS_TOKEN`:
+   - Usa lo stesso PAT già salvato nel secret Replit `GITHUB_PERSONAL_ACCESS_TOKEN` (token "Sliplane Deploy 1", scadenza 2027-04-28)
+   - Serve per registrare il deployment nella tab "Deployments" del repo GitHub
+
+**Verifica:**
+- Fai un push qualsiasi su `main` → vai su **GitHub → Actions** e controlla che il workflow "Deploy to Sliplane" parta e termini con successo
+- Il tab **Deployments** del repo mostrerà ogni deploy con stato (success/failure)
+
+---
+
 ### 1. Riattivare i pulsanti social login (Google + Facebook)
 I pulsanti sono **nascosti** in `WelcomePage.tsx` (commentati) perché il login Google dà `redirect_uri_mismatch`.
 **Passaggi da fare da desktop:**
