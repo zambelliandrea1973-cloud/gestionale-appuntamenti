@@ -387,9 +387,91 @@ export default function MonthView({
 
   const moreDayApts = moreDay ? getAptsForDay(moreDay) : [];
 
+  // Pre-build flat grid cells so JSX stays clean (avoids array-in-JSX syntax issues)
+  const gridCells: React.ReactNode[] = [];
+  calendar.forEach((week, wi) => {
+    const isLastWeek = wi === calendar.length - 1;
+    // Week number cell
+    gridCells.push(
+      <div
+        key={`wn-${wi}`}
+        className={`bg-gray-50 border-r flex items-start justify-center pt-2 ${!isLastWeek ? "border-b" : ""}`}
+      >
+        <span className="text-[10px] text-gray-400 font-medium">{getISOWeek(week[0])}</span>
+      </div>
+    );
+    // 7 day cells
+    week.forEach((day, di) => {
+      const inMonth = isCurrentMonth(day, viewDate);
+      const today = isToday(day);
+      const dayApts = getAptsForDay(day);
+      const visible = dayApts.slice(0, MAX_VISIBLE);
+      const overflow = dayApts.length - MAX_VISIBLE;
+      const isWeekend = di >= 5;
+      gridCells.push(
+        <div
+          key={`${wi}-${di}`}
+          className={[
+            "min-h-[90px] sm:min-h-[110px] p-1 cursor-pointer",
+            di < 6 ? "border-r" : "",
+            !isLastWeek ? "border-b" : "",
+            inMonth
+              ? isWeekend ? "bg-blue-50/30 hover:bg-blue-50/60" : "bg-white hover:bg-gray-50"
+              : "bg-gray-50/70",
+          ].join(" ")}
+          onClick={() => {
+            if (!inMonth) return;
+            setNewApptDay(day);
+            formOpenedAtRef.current = Date.now();
+          }}
+        >
+          <div className="flex items-center justify-between mb-0.5">
+            <div
+              className={[
+                "w-6 h-6 flex items-center justify-center rounded-full text-xs font-semibold select-none",
+                today ? "bg-blue-600 text-white"
+                  : inMonth ? (isWeekend ? "text-blue-500" : "text-gray-700")
+                  : "text-gray-300",
+              ].join(" ")}
+              onClick={(e) => { e.stopPropagation(); onDateSelect(day); }}
+              title={t("calendar.goToDay", "Vai al giorno")}
+            >
+              {day.getDate()}
+            </div>
+          </div>
+          {isLoading && inMonth ? (
+            <div className="space-y-0.5">
+              <Skeleton className="h-4 w-full rounded" />
+              <Skeleton className="h-4 w-3/4 rounded" />
+            </div>
+          ) : (
+            <div className="space-y-0.5" onClick={(e) => e.stopPropagation()}>
+              {visible.map((apt) => (
+                <EventChip
+                  key={apt.id}
+                  apt={apt}
+                  onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingId(id); }}
+                  onDeleted={handleRefresh}
+                />
+              ))}
+              {overflow > 0 && (
+                <button
+                  className="text-[10px] text-blue-600 hover:text-blue-800 font-medium pl-1 leading-tight"
+                  onClick={(e) => { e.stopPropagation(); setMoreDay(day); }}
+                >
+                  +{overflow} {t("calendar.moreEvents", "altri")}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    });
+  });
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6 flex flex-col">
-      {/* ── Header ── */}
+      {/* ── Month nav header ── */}
       <div className="bg-gray-100 px-4 py-3 border-b flex items-center justify-between shrink-0">
         <h3 className="text-lg font-medium capitalize">{monthLabel}</h3>
         <div className="flex gap-1">
@@ -404,118 +486,26 @@ export default function MonthView({
         </div>
       </div>
 
-      {/* ── Calendar grid (header sticky inside scroll container) ── */}
+      {/* ── Single CSS grid — header + all rows are siblings → perfect column alignment ── */}
       <div className="overflow-y-auto flex-1 min-h-0" style={{ maxHeight: "calc(100vh - 310px)" }}>
-        {/* Day-of-week header — sticky inside scroll so it shares the same width as the rows */}
-        <div
-          className="grid border-b bg-gray-50 sticky top-0 z-20"
-          style={{ gridTemplateColumns: "32px repeat(7, 1fr)" }}
-        >
-          <div className="border-r" />
+        <div className="grid" style={{ gridTemplateColumns: "32px repeat(7, 1fr)" }}>
+          {/* Sticky day-of-week header: 8 cells, same track as data rows */}
+          <div className="sticky top-0 z-20 bg-gray-50 border-r border-b" />
           {weekdays.map((d, i) => (
             <div
               key={i}
-              className={`text-center py-2 text-xs font-semibold uppercase tracking-wide border-r last:border-r-0
-                ${i >= 5 ? "text-blue-400" : "text-gray-500"}`}
+              className={[
+                "sticky top-0 z-20 bg-gray-50 border-b text-center py-2 text-xs font-semibold uppercase tracking-wide",
+                i < 6 ? "border-r" : "",
+                i >= 5 ? "text-blue-400" : "text-gray-500",
+              ].join(" ")}
             >
               {d}
             </div>
           ))}
+          {/* All week rows as flat siblings in the same grid */}
+          {gridCells}
         </div>
-        {calendar.map((week, wi) => (
-          <div
-            key={wi}
-            className="grid border-b last:border-b-0"
-            style={{ gridTemplateColumns: "32px repeat(7, 1fr)" }}
-          >
-            {/* Week number */}
-            <div className="border-r bg-gray-50 flex items-start justify-center pt-2">
-              <span className="text-[10px] text-gray-400 font-medium">
-                {getISOWeek(week[0])}
-              </span>
-            </div>
-
-            {/* Day cells */}
-            {week.map((day, di) => {
-              const inMonth = isCurrentMonth(day, viewDate);
-              const today = isToday(day);
-              const dayApts = getAptsForDay(day);
-              const visible = dayApts.slice(0, MAX_VISIBLE);
-              const overflow = dayApts.length - MAX_VISIBLE;
-              const isWeekend = di >= 5;
-
-              return (
-                <div
-                  key={di}
-                  className={`border-r last:border-r-0 min-h-[90px] sm:min-h-[110px] p-1 cursor-pointer
-                    ${inMonth
-                      ? isWeekend
-                        ? "bg-blue-50/30 hover:bg-blue-50/60"
-                        : "bg-white hover:bg-gray-50"
-                      : "bg-gray-50/70"
-                    }`}
-                  onClick={() => {
-                    if (!inMonth) return;
-                    setNewApptDay(day);
-                    formOpenedAtRef.current = Date.now();
-                  }}
-                >
-                  {/* Day number */}
-                  <div className="flex items-center justify-between mb-0.5">
-                    <div
-                      className={`
-                        w-6 h-6 flex items-center justify-center rounded-full text-xs font-semibold select-none
-                        ${today
-                          ? "bg-blue-600 text-white"
-                          : inMonth
-                            ? isWeekend ? "text-blue-500" : "text-gray-700"
-                            : "text-gray-300"
-                        }
-                      `}
-                      onClick={(e) => { e.stopPropagation(); onDateSelect(day); }}
-                      title={t("calendar.goToDay", "Vai al giorno")}
-                    >
-                      {day.getDate()}
-                    </div>
-                  </div>
-
-                  {/* Events */}
-                  {isLoading && inMonth ? (
-                    <div className="space-y-0.5">
-                      <Skeleton className="h-4 w-full rounded" />
-                      <Skeleton className="h-4 w-3/4 rounded" />
-                    </div>
-                  ) : (
-                    <div className="space-y-0.5" onClick={(e) => e.stopPropagation()}>
-                      {visible.map((apt) => (
-                        <EventChip
-                          key={apt.id}
-                          apt={apt}
-                          onEdit={(id) => {
-                            formOpenedAtRef.current = Date.now();
-                            setEditingId(id);
-                          }}
-                          onDeleted={handleRefresh}
-                        />
-                      ))}
-                      {overflow > 0 && (
-                        <button
-                          className="text-[10px] text-blue-600 hover:text-blue-800 font-medium pl-1 leading-tight"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setMoreDay(day);
-                          }}
-                        >
-                          +{overflow} {t("calendar.moreEvents", "altri")}
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        ))}
       </div>
 
       {/* ── More events popover ── */}
