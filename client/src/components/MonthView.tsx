@@ -121,7 +121,7 @@ function EventChip({
     };
   }, [open]);
 
-  const isGoogle = apt.isImported || apt.client?.firstName?.startsWith("📅");
+  const isGoogle = apt.importedFromGoogle || apt.isImported || apt.client?.firstName?.startsWith("📅");
 
   return (
     <>
