@@ -1,0 +1,2 @@
+- [Calendar range endpoint isolation](calendar-range-isolation.md) — getAppointmentsByDateRange had no user filter; fixed with INNER JOIN users WHERE role IN ('admin','staff')
+- [Onboarding demo data](onboarding-demo-data.md) — new registrations auto-get ~270 demo appointments via onboardingDemoService.ts; demo clients are Elena Greco, Marco Conti, Lucia Esposito, etc.
