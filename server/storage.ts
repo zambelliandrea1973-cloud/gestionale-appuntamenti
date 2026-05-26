@@ -1450,9 +1450,14 @@ export class DatabaseStorage implements IStorage {
           service: services,
         })
         .from(appointments)
+        .innerJoin(users, eq(appointments.userId, users.id))
         .leftJoin(clients, eq(appointments.clientId, clients.id))
         .leftJoin(services, eq(appointments.serviceId, services.id))
-        .where(and(gte(appointments.date, startDate), lte(appointments.date, endDate)))
+        .where(and(
+          gte(appointments.date, startDate),
+          lte(appointments.date, endDate),
+          inArray(users.role, ['admin', 'staff'])
+        ))
         .orderBy(appointments.date, appointments.startTime);
 
       return rows
