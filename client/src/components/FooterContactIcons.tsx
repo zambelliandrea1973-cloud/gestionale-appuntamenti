@@ -132,44 +132,69 @@ function Icon3DButton({
 }
 
 export default function FooterContactIcons({ ownerId }: FooterContactIconsProps) {
-  const [contactInfo, setContactInfo] = useState<ContactInfo>({});
-  const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
   const { user, isLoading: authLoading } = useUserWithLicense();
 
-  const loadContactData = async (userId: number) => {
+  // Inizializza subito da localStorage (dati sincroni, zero attesa)
+  const [contactInfo, setContactInfo] = useState<ContactInfo>(() => {
+    if (ownerId) return loadContactInfo(ownerId);
+    // Prova a trovare qualsiasi chiave contatti già in localStorage
     try {
-      const apiInfo = await loadContactInfoFromAPI(userId);
-      setContactInfo(apiInfo);
-    } catch (error) {
-      console.error('❌ Error loading contact information from API:', error);
-      setContactInfo(loadContactInfo(userId));
-    } finally {
-      setLoading(false);
-    }
-  };
+      const keys = Object.keys(localStorage).filter(k =>
+        k.startsWith('healthcare_app_contact_info_user_')
+      );
+      if (keys.length === 1) return JSON.parse(localStorage.getItem(keys[0]) || '{}');
+    } catch { /* noop */ }
+    return {};
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Aspetta che l'auth finisca prima di decidere
     if (authLoading) return;
-
     const targetUserId = ownerId || user?.id;
-    if (targetUserId) {
-      loadContactData(targetUserId);
-    } else {
-      // Auth completata ma nessun utente — nascondi
-      setLoading(false);
+    if (!targetUserId) { setLoading(false); return; }
+
+    // Prima mostra subito i dati locali (già impostati nello state iniziale o aggiornali)
+    const cached = loadContactInfo(targetUserId);
+    if (cached && Object.keys(cached).some(k => (cached as any)[k])) {
+      setContactInfo(cached);
+      setLoading(false); // mostra subito senza aspettare l'API
     }
 
+    // Verifica se un oggetto ha almeno un campo contatto valido
+    const hasContactFields = (info: any) =>
+      info && (info.email || info.phone1 || info.phone2 ||
+               info.website || info.facebook || info.instagram);
+
+    // Fallback all'endpoint per ownerId (non richiede sessione — funziona su mobile)
+    const tryPublicFallback = () =>
+      fetch(`/api/contact-info/${targetUserId}`)
+        .then(r => r.ok ? r.json() : {})
+        .then(pub => { if (hasContactFields(pub)) setContactInfo(pub); })
+        .catch(() => {});
+
+    // Prima prova l'API autenticata, poi fallback pubblico se serve
+    loadContactInfoFromAPI(targetUserId)
+      .then(apiInfo => {
+        if (hasContactFields(apiInfo)) {
+          setContactInfo(apiInfo);
+        } else {
+          return tryPublicFallback();
+        }
+      })
+      .catch(tryPublicFallback)
+      .finally(() => setLoading(false));
+
     const handleStorageChange = (e: StorageEvent) => {
-      const uid = ownerId || user?.id;
-      if (uid && e.key?.includes(`healthcare_app_contact_info_user_${uid}`)) loadContactData(uid);
+      if (e.key?.includes(`healthcare_app_contact_info_user_${targetUserId}`)) {
+        const fresh = loadContactInfo(targetUserId);
+        if (fresh) setContactInfo(fresh);
+      }
     };
     const handleContactInfoUpdated = (e: any) => {
-      const uid = ownerId || user?.id;
-      if (uid && e.detail?.userId === uid) {
+      if (e.detail?.userId === targetUserId) {
         if (e.detail.contactInfo) setContactInfo(e.detail.contactInfo);
-        else loadContactData(uid);
+        else loadContactInfoFromAPI(targetUserId).then(d => d && setContactInfo(d));
       }
     };
     window.addEventListener('storage', handleStorageChange);
