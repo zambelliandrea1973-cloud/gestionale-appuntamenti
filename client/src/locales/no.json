@@ -1458,7 +1458,7 @@
     "futureAppointmentsCount_other": "Du har {{count}} kommende avtaler"
   },
   "contacts": {
-    "accessOurContacts": "Tilgang til våre kontakter"
+    "accessOurContacts": "Tilgang til kontakter"
   },
   "appointment": {
     "confirmDelete": "Er du sikker på at du vil slette denne avtalen?",
