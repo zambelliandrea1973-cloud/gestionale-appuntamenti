@@ -1458,7 +1458,7 @@
     "futureAppointmentsCount_other": "Je hebt {{count}} aankomende afspraken"
   },
   "contacts": {
-    "accessOurContacts": "Toegang tot onze contacten"
+    "accessOurContacts": "Toegang tot contacten"
   },
   "appointment": {
     "confirmDelete": "Weet u zeker dat u deze afspraak wilt verwijderen?",
