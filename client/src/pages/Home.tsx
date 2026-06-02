@@ -115,18 +115,19 @@ function CompanyName() {
   if (loading) return null;
   if (!settings || !settings.enabled || !settings.name) return null;
   
+  const charCount = settings.name.length || 1;
   const nameStyle = {
-    fontSize: `${settings.fontSize}px`,
+    fontSize: `min(${settings.fontSize}px, calc(88vw / ${charCount} * 1.5))`,
     fontFamily: settings.fontFamily,
     fontStyle: settings.fontStyle,
     color: settings.color,
     marginTop: '8px',
     textAlign: 'center' as const,
+    whiteSpace: 'nowrap' as const,
     maxWidth: '90vw',
-    wordBreak: 'break-word' as const,
-    overflowWrap: 'anywhere' as const,
+    overflow: 'hidden' as const,
   };
-  return <div style={nameStyle} className="w-full px-4">{settings.name}</div>;
+  return <div style={nameStyle}>{settings.name}</div>;
 }
 
 function BetaBadge() {
