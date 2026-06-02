@@ -133,35 +133,40 @@ function Icon3DButton({
 
 export default function FooterContactIcons({ ownerId }: FooterContactIconsProps) {
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
+  const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
 
-  const loadContactData = async () => {
-    const targetUserId = ownerId || user?.id;
-    if (!targetUserId) return;
+  const loadContactData = async (userId: number) => {
     try {
-      const apiInfo = await loadContactInfoFromAPI(targetUserId);
-      console.log(`✅ Contact information loaded from API for user ${targetUserId}:`, apiInfo);
+      const apiInfo = await loadContactInfoFromAPI(userId);
       setContactInfo(apiInfo);
     } catch (error) {
       console.error('❌ Error loading contact information from API:', error);
-      setContactInfo(loadContactInfo(targetUserId));
+      setContactInfo(loadContactInfo(userId));
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     const targetUserId = ownerId || user?.id;
-    if (targetUserId) loadContactData();
+    if (targetUserId) {
+      loadContactData(targetUserId);
+    } else if (user !== undefined) {
+      // user è stato caricato ma non ha id (non loggato)
+      setLoading(false);
+    }
 
     const handleStorageChange = (e: StorageEvent) => {
       const uid = ownerId || user?.id;
-      if (e.key?.includes(`healthcare_app_contact_info_user_${uid}`)) loadContactData();
+      if (uid && e.key?.includes(`healthcare_app_contact_info_user_${uid}`)) loadContactData(uid);
     };
     const handleContactInfoUpdated = (e: any) => {
       const uid = ownerId || user?.id;
-      if (e.detail?.userId === uid) {
+      if (uid && e.detail?.userId === uid) {
         if (e.detail.contactInfo) setContactInfo(e.detail.contactInfo);
-        else loadContactData();
+        else loadContactData(uid);
       }
     };
     window.addEventListener('storage', handleStorageChange);
@@ -176,10 +181,23 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
     contactInfo.email || contactInfo.phone1 || contactInfo.phone2 ||
     contactInfo.website || contactInfo.facebook || contactInfo.instagram;
 
-  if (!hasAny) {
-    console.log('No contact information available');
-    return null;
+  // Mentre carica mostra uno skeleton placeholder per non far sparire lo spazio
+  if (loading) {
+    return (
+      <div className="rounded-2xl border-2 border-green-200 bg-white shadow-sm overflow-hidden animate-pulse">
+        <div className="py-2.5 px-4 bg-green-50 border-b border-green-100">
+          <div className="h-3 bg-green-100 rounded w-40 mx-auto" />
+        </div>
+        <div className="py-5 px-4 flex gap-4 justify-center">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="w-12 h-12 rounded-2xl bg-gray-100" />
+          ))}
+        </div>
+      </div>
+    );
   }
+
+  if (!hasAny) return null;
 
   const buttons: { key: string; href: string; tooltip: string }[] = [];
   if (contactInfo.email)
