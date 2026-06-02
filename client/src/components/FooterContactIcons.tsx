@@ -101,7 +101,7 @@ function Icon3DButton({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: 'none',
+            border: '1px solid rgba(0,0,0,0.18)',
             cursor: 'pointer',
             position: 'relative',
             overflow: 'hidden',
