@@ -196,8 +196,8 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
     buttons.push({ key: 'instagram', href: formatContactInfo('instagram', contactInfo.instagram), tooltip: `@${contactInfo.instagram?.replace('@', '')}` });
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
-      <div className="py-2.5 px-4 bg-gray-50 border-b border-gray-100 text-center">
+    <div className="rounded-2xl border-2 border-green-300 bg-white shadow-sm overflow-hidden">
+      <div className="py-2.5 px-4 bg-green-50 border-b border-green-200 text-center">
         <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
           {t('contacts.accessOurContacts', 'Accedi ai nostri contatti')}
         </p>
