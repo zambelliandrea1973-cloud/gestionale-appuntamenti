@@ -135,7 +135,7 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
-  const { user } = useUserWithLicense();
+  const { user, isLoading: authLoading } = useUserWithLicense();
 
   const loadContactData = async (userId: number) => {
     try {
@@ -150,11 +150,14 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
   };
 
   useEffect(() => {
+    // Aspetta che l'auth finisca prima di decidere
+    if (authLoading) return;
+
     const targetUserId = ownerId || user?.id;
     if (targetUserId) {
       loadContactData(targetUserId);
-    } else if (user !== undefined) {
-      // user è stato caricato ma non ha id (non loggato)
+    } else {
+      // Auth completata ma nessun utente — nascondi
       setLoading(false);
     }
 
@@ -175,7 +178,7 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('contactInfoUpdated', handleContactInfoUpdated);
     };
-  }, [user?.id, ownerId]);
+  }, [user?.id, ownerId, authLoading]);
 
   const hasAny =
     contactInfo.email || contactInfo.phone1 || contactInfo.phone2 ||
