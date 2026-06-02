@@ -239,17 +239,68 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
 
   const isIncompleteData = !client.phone || client.phone.trim() === '';
 
-  const pastelPalette = [
-    'bg-sky-50 border-sky-200',
-    'bg-violet-50 border-violet-200',
-    'bg-emerald-50 border-emerald-200',
-    'bg-rose-50 border-rose-200',
-    'bg-amber-50 border-amber-200',
-    'bg-teal-50 border-teal-200',
-    'bg-indigo-50 border-indigo-200',
-    'bg-fuchsia-50 border-fuchsia-200',
-  ];
-  const defaultCardColor = pastelPalette[client.id % pastelPalette.length];
+  function detectGender(name: string): 'female' | 'male' | 'unknown' {
+    const n = name.trim().split(/\s+/)[0].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const femaleNames = new Set([
+      'maria','anna','sara','laura','giulia','chiara','francesca','valentina','elena','sofia',
+      'alessia','martina','federica','silvia','roberta','claudia','monica','patrizia','cristina',
+      'daniela','barbara','giovanna','paola','lucia','rosa','angela','rita','teresa','carmela',
+      'grazia','loredana','antonella','simona','manuela','ilaria','serena','elisa','michela',
+      'stefania','cinzia','ornella','viviana','beatrice','irene','giada','alessandra','valeria',
+      'noemi','alice','emma','giorgia','aurora','viola','greta','asia','luna','camilla',
+      'eleonora','maddalena','rachele','rebecca','letizia','caterina','sabrina','mirella',
+      'luisa','carla','clara','nadia','tiziana','antonella','lorena','alberta','adele',
+      'ginevra','matilda','agata','agnese','alba','amelia','bianca','brenda','daria',
+      'debora','diana','donatella','doriana','edda','elisa','elvira','enrica','enza',
+      'erminia','eugenia','eva','fabiola','fernanda','fiamma','filomena','fiorella',
+      'floriana','franca','gabriella','gemma','gerarda','gianna','gina','ginetta',
+      'giuseppina','graziella','ida','immacolata','ines','irma','isabella','ivana',
+      'jessica','katia','lara','lavinia','lea','leonarda','letizia','lidia','liliana',
+      'lina','lisa','lorella','luana','luigina','maddalena','mara','marilena','marina',
+      'maristella','marita','marta','marzia','micaela','milena','miriam','moira',
+      'nadia','natalia','neve','nicoletta','nunzia','olga','oriana','pamela',
+      'piera','pierina','pina','prisca','raffaella','ramona','renata','ricca',
+      'romina','rosanna','rosaria','rossana','rossella','samanta','sandra','santina',
+      'serafina','silvana','simona','simonetta','sonia','susanna','tamara','tatiana',
+      'tonia','torilda','tosca','toscana','ursula','vanda','vanessa','vanna',
+      'veronica','vilma','virginia','vita','viviana','wanda','zaira','zara',
+    ]);
+    const maleNames = new Set([
+      'marco','luca','matteo','davide','federico','simone','stefano','roberto','paolo',
+      'giovanni','giuseppe','antonio','mario','luigi','angelo','franco','carlo','mario',
+      'claudio','massimo','fabio','daniele','dario','alex','alexander','emanuele','gabriele',
+      'filippo','riccardo','giacomo','lorenzo','edoardo','tommaso','pietro','aldo','alfredo',
+      'arnaldo','augusto','bernardino','biagio','camillo','cesare','cosimo','cristiano',
+      'damiano','dario','domenico','donato','elvio','emilio','enrico','enzo','ernesto',
+      'ettore','eugenio','ezio','ferruccio','flavio','fausto','fulvio','gennaro','giacinto',
+      'gianluca','gianfranco','gianni','gilberto','giorgio','giordano','giuliano','giuseppe',
+      'gottardo','guido','igor','ivan','jonathan','kevin','lamberto','leonardo','loris',
+      'luciano','luigi','manlio','manuel','maurizio','mauro','max','michele','mirco',
+      'mirko','natale','nicola','nino','olindo','orazio','osvaldo','ottavio','pasquale',
+      'patrizio','piergiorgio','piero','pino','primo','raffaele','raimondo','remo',
+      'renato','renzo','rocco','rodolfo','romolo','ronald','ronaldo','rosario','ruggero',
+      'salvatore','sandro','santo','saverio','sebastiano','sergio','silvano','silvio',
+      'tiziano','tonino','tullio','ubaldo','ugo','umberto','valentino','vincenzo',
+      'virgilio','vittorio','walter','william','xavier','yuri','zeno',
+    ]);
+    const ambiguousNames = new Set([
+      'andrea','nicola','sacha','alex','alexis','lex','pat','rene','remi',
+      'camille','claude','dominique','francois','jean','michel','noel','pascal',
+      'sam','toni','virginie','christian',
+    ]);
+    if (ambiguousNames.has(n)) return 'unknown';
+    if (femaleNames.has(n)) return 'female';
+    if (maleNames.has(n)) return 'male';
+    // heuristica finale: termina in -a → probabile femminile (escluse eccezioni già gestite)
+    if (n.endsWith('a')) return 'female';
+    return 'unknown';
+  }
+
+  const gender = detectGender(client.firstName || '');
+  const defaultCardColor =
+    gender === 'female' ? 'bg-fuchsia-50 border-fuchsia-200' :
+    gender === 'male'   ? 'bg-indigo-50 border-indigo-200' :
+                          'bg-emerald-50 border-emerald-200';
 
   return (
     <Card ref={cardRef} className={`h-full ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : isIncompleteData ? 'border-red-400 bg-red-50/30' : isOtherAccount ? 'border-orange-200 bg-orange-50/30' : defaultCardColor}`}>
