@@ -280,8 +280,8 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Cards grid — 1 col mobile · 2 col tablet · 3 col desktop (2×3 = symmetric) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* Cards grid — 2 col mobile · 2 col tablet · 3 col desktop (2×3 = symmetric) */}
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
         {CARDS.map((card) => {
           const Icon = card.icon;
           return (
@@ -294,24 +294,24 @@ export default function Home() {
               {/* Colored top accent bar */}
               <div className={`h-1.5 w-full ${card.accent} opacity-60`} />
 
-              <div className="p-5 flex flex-col flex-1">
+              <div className="p-3 sm:p-5 flex flex-col flex-1">
                 {/* Icon + title row */}
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0`}>
-                    <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                <div className="flex items-start gap-2 sm:gap-3 mb-2 sm:mb-3">
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0`}>
+                    <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${card.iconColor}`} />
                   </div>
                   <div>
-                    <h2 className="font-semibold text-gray-800 text-base leading-tight">
+                    <h2 className="font-semibold text-gray-800 text-sm sm:text-base leading-tight">
                       {t(card.titleKey, card.titleFallback)}
                     </h2>
-                    <p className={`text-xs ${card.iconColor} opacity-80 font-medium mt-0.5`}>
+                    <p className={`text-xs ${card.iconColor} opacity-80 font-medium mt-0.5 hidden sm:block`}>
                       {t(card.descKey, card.descFallback)}
                     </p>
                   </div>
                 </div>
 
-                {/* Description */}
-                <p className="text-gray-500 text-sm flex-1 leading-relaxed">
+                {/* Description — hidden on mobile, visible on sm+ */}
+                <p className="text-gray-500 text-sm flex-1 leading-relaxed hidden sm:block">
                   {t(card.subDescKey, card.subDescFallback)}
                 </p>
 
@@ -319,10 +319,10 @@ export default function Home() {
                 <button
                   data-testid={card.btnTestId}
                   onClick={(e) => { e.stopPropagation(); navigate(card.route); }}
-                  className={`mt-4 w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl border text-sm font-medium transition-colors ${card.btnColor}`}
+                  className={`mt-3 sm:mt-4 w-full flex items-center justify-center gap-1 sm:gap-2 py-1.5 sm:py-2 px-2 sm:px-4 rounded-xl border text-xs sm:text-sm font-medium transition-colors ${card.btnColor}`}
                 >
-                  {t(card.btnKey, card.btnFallback)}
-                  <ArrowRight className="w-4 h-4" />
+                  <span className="truncate">{t(card.btnKey, card.btnFallback)}</span>
+                  <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                 </button>
               </div>
             </div>
