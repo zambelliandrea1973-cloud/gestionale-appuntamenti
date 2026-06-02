@@ -28,6 +28,7 @@ export const clients = pgTable("clients", {
   emailBlocked: boolean("email_blocked").default(false),
   emailBlockedReason: text("email_blocked_reason"),
   isDemo: boolean("is_demo").default(false),
+  gender: text("gender"), // 'male' | 'female' | null
 }, (table) => ({
   userIdIdx: index("clients_user_id_idx").on(table.userId),
   ownerIdIdx: index("clients_owner_id_idx").on(table.ownerId),
