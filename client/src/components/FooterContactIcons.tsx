@@ -141,7 +141,6 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
     enabled: !!targetUserId && (!authLoading || !!ownerId),
     staleTime: 5 * 60 * 1000,
     retry: 2,
-    placeholderData: {},
   });
 
   const info = contactInfo ?? {};
