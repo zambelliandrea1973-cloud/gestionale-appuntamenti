@@ -2180,9 +2180,9 @@
     "emailInvalid": "Ongeldig e-mailadres",
     "prefixPlaceholder": "Pref.",
     "codePreview": "Deze cliënt ontvangt de code: {{code}}",
-    "gender": "[TODO:NL] Gender",
-    "genderMale": "[TODO:NL] Male",
-    "genderFemale": "[TODO:NL] Female"
+    "gender": "Geslacht",
+    "genderMale": "Man",
+    "genderFemale": "Vrouw"
   },
   "privacyConsent": {
     "consentRequired": "Toestemming vereist",
