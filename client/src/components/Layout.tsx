@@ -115,7 +115,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             </div>
             
             {/* Menu navigazione desktop/tablet — per piano, centrato, bordi uniformi */}
-            <div className="flex flex-col items-center w-full gap-1.5">
+            <div className="flex flex-col items-center w-full gap-2">
 
               {/* ── STAFF desktop ── */}
               {isStaff && (
@@ -123,29 +123,29 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 1: 5 voci principali */}
                   <div className="flex justify-center gap-2">
                     <Link href="/dashboard">
-                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Home className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.home')}</span>
                       </Button>
                     </Link>
                     <Link href="/calendar">
-                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <CalendarDays className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('calendar.title')}</span>
                       </Button>
                     </Link>
                     <Link href="/clients">
-                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Users className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('clients.title')}</span>
                       </Button>
                     </Link>
                     <Link href="/booking-requests">
-                      <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md relative">
+                      <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md relative">
                         {hasPendingRequests && !isActive("/booking-requests") ? <Bell className="h-3.5 w-3.5 flex-shrink-0 text-amber-300 animate-bounce" /> : <ClipboardList className="h-3.5 w-3.5 flex-shrink-0" />}
                         <span className="truncate">{t('navigation.requests')}</span>
                         {hasPendingRequests && !isActive("/booking-requests") && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center animate-pulse">{pendingCount}</span>}
                       </Button>
                     </Link>
                     <Link href="/whatsapp-center">
-                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <MessageSquare className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.notifications')}</span>
                       </Button>
                     </Link>
@@ -153,29 +153,29 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 2: 4 strumenti */}
                   <div className="flex justify-center gap-2">
                     <Link href="/referral">
-                      <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <CreditCard className="h-3.5 w-3.5 flex-shrink-0 text-blue-300" /><span className="truncate">{t('navigation.referral')}</span>
                       </Button>
                     </Link>
                     <Link href="/ai-chat">
-                      <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Sparkles className="h-3.5 w-3.5 flex-shrink-0 text-cyan-300" /><span className="truncate">{t('navigation.aiAssistant')}</span>
                       </Button>
                     </Link>
                     <Link href="/pro">
-                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Crown className="h-3.5 w-3.5 flex-shrink-0 text-amber-300" /><span className="truncate">PRO</span>
                       </Button>
                     </Link>
                     <Link href="/settings">
-                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <SettingsIcon className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('settings.title')}</span>
                       </Button>
                     </Link>
                   </div>
                   {/* Riga 3: lingua */}
                   <div className="flex justify-center gap-2">
-                    <div className="flex items-center justify-center border border-white/25 rounded-md h-8 px-2"><LanguageSelector /></div>
+                    <div className="flex items-center justify-center border border-white/25 rounded-md h-9 px-2"><LanguageSelector /></div>
                   </div>
                 </>
               )}
@@ -186,29 +186,29 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 1: 5 voci principali */}
                   <div className="flex justify-center gap-2">
                     <Link href="/dashboard">
-                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Home className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.home')}</span>
                       </Button>
                     </Link>
                     <Link href="/calendar">
-                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <CalendarDays className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('calendar.title')}</span>
                       </Button>
                     </Link>
                     <Link href="/clients">
-                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Users className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('clients.title')}</span>
                       </Button>
                     </Link>
                     <Link href="/booking-requests">
-                      <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md relative">
+                      <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md relative">
                         {hasPendingRequests && !isActive("/booking-requests") ? <Bell className="h-3.5 w-3.5 flex-shrink-0 text-amber-300 animate-bounce" /> : <ClipboardList className="h-3.5 w-3.5 flex-shrink-0" />}
                         <span className="truncate">{t('navigation.requests')}</span>
                         {hasPendingRequests && !isActive("/booking-requests") && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center animate-pulse">{pendingCount}</span>}
                       </Button>
                     </Link>
                     <Link href="/whatsapp-center">
-                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <MessageSquare className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.notifications')}</span>
                       </Button>
                     </Link>
@@ -216,24 +216,24 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 2: 3 strumenti PRO */}
                   <div className="flex justify-center gap-2">
                     <Link href="/ai-chat">
-                      <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Sparkles className="h-3.5 w-3.5 flex-shrink-0 text-cyan-300" /><span className="truncate">{t('navigation.aiAssistant')}</span>
                       </Button>
                     </Link>
                     <Link href="/pro">
-                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Crown className="h-3.5 w-3.5 flex-shrink-0 text-amber-300" /><span className="truncate">PRO</span>
                       </Button>
                     </Link>
                     <Link href="/settings">
-                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <SettingsIcon className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('settings.title')}</span>
                       </Button>
                     </Link>
                   </div>
                   {/* Riga 3: lingua */}
                   <div className="flex justify-center gap-2">
-                    <div className="flex items-center justify-center border border-white/25 rounded-md h-8 px-2"><LanguageSelector /></div>
+                    <div className="flex items-center justify-center border border-white/25 rounded-md h-9 px-2"><LanguageSelector /></div>
                   </div>
                 </>
               )}
@@ -244,22 +244,22 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 1: 4 voci principali */}
                   <div className="flex justify-center gap-2">
                     <Link href="/dashboard">
-                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Home className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.home')}</span>
                       </Button>
                     </Link>
                     <Link href="/calendar">
-                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <CalendarDays className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('calendar.title')}</span>
                       </Button>
                     </Link>
                     <Link href="/clients">
-                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Users className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('clients.title')}</span>
                       </Button>
                     </Link>
                     <Link href="/booking-requests">
-                      <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md relative">
+                      <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md relative">
                         {hasPendingRequests && !isActive("/booking-requests") ? <Bell className="h-3.5 w-3.5 flex-shrink-0 text-amber-300 animate-bounce" /> : <ClipboardList className="h-3.5 w-3.5 flex-shrink-0" />}
                         <span className="truncate">{t('navigation.requests')}</span>
                         {hasPendingRequests && !isActive("/booking-requests") && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center animate-pulse">{pendingCount}</span>}
@@ -269,17 +269,17 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 2: 3 strumenti */}
                   <div className="flex justify-center gap-2">
                     <Link href="/whatsapp-center">
-                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <MessageSquare className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.notifications')}</span>
                       </Button>
                     </Link>
                     <Link href="/ai-chat">
-                      <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Sparkles className="h-3.5 w-3.5 flex-shrink-0 text-cyan-300" /><span className="truncate">{t('navigation.aiAssistant')}</span>
                       </Button>
                     </Link>
                     <Link href="/pro">
-                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Crown className="h-3.5 w-3.5 flex-shrink-0 text-amber-300" /><span className="truncate">↑ PRO</span>
                       </Button>
                     </Link>
@@ -287,11 +287,11 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 3: impostazioni + lingua */}
                   <div className="flex justify-center gap-2">
                     <Link href="/settings">
-                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <SettingsIcon className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('settings.title')}</span>
                       </Button>
                     </Link>
-                    <div className="flex items-center justify-center border border-white/25 rounded-md h-8 px-2"><LanguageSelector /></div>
+                    <div className="flex items-center justify-center border border-white/25 rounded-md h-9 px-2"><LanguageSelector /></div>
                   </div>
                 </>
               )}
@@ -302,29 +302,29 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 1: 5 voci navigazione */}
                   <div className="flex justify-center gap-2">
                     <Link href="/dashboard">
-                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Home className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.home')}</span>
                       </Button>
                     </Link>
                     <Link href="/calendar">
-                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <CalendarDays className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('calendar.title')}</span>
                       </Button>
                     </Link>
                     <Link href="/clients">
-                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Users className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('clients.title')}</span>
                       </Button>
                     </Link>
                     <Link href="/booking-requests">
-                      <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md relative">
+                      <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md relative">
                         {hasPendingRequests && !isActive("/booking-requests") ? <Bell className="h-3.5 w-3.5 flex-shrink-0 text-amber-300 animate-bounce" /> : <ClipboardList className="h-3.5 w-3.5 flex-shrink-0" />}
                         <span className="truncate">{t('navigation.requests')}</span>
                         {hasPendingRequests && !isActive("/booking-requests") && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center animate-pulse">{pendingCount}</span>}
                       </Button>
                     </Link>
                     <Link href="/whatsapp-center">
-                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <MessageSquare className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.notifications')}</span>
                       </Button>
                     </Link>
@@ -332,27 +332,27 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 2: 5 strumenti admin */}
                   <div className="flex justify-center gap-2">
                     <Link href="/referral">
-                      <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <CreditCard className="h-3.5 w-3.5 flex-shrink-0 text-blue-300" /><span className="truncate">{t('navigation.referral')}</span>
                       </Button>
                     </Link>
                     <Link href="/ai-chat">
-                      <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Sparkles className="h-3.5 w-3.5 flex-shrink-0 text-cyan-300" /><span className="truncate">{t('navigation.aiAssistant')}</span>
                       </Button>
                     </Link>
                     <Link href="/pro">
-                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <Crown className="h-3.5 w-3.5 flex-shrink-0 text-amber-300" /><span className="truncate">PRO</span>
                       </Button>
                     </Link>
                     <Link href="/staff-management">
-                      <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <UserCog className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.staff')}</span>
                       </Button>
                     </Link>
                     <Link href="/payment-admin">
-                      <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <CreditCard className="h-3.5 w-3.5 flex-shrink-0 text-green-300" /><span className="truncate">{t('navigation.payments')}</span>
                       </Button>
                     </Link>
@@ -360,11 +360,11 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Riga 3: impostazioni + lingua */}
                   <div className="flex justify-center gap-2">
                     <Link href="/settings">
-                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-[108px] h-8 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
+                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-[120px] h-9 flex items-center justify-center gap-1.5 text-xs border border-white/25 rounded-md">
                         <SettingsIcon className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('settings.title')}</span>
                       </Button>
                     </Link>
-                    <div className="flex items-center justify-center border border-white/25 rounded-md h-8 px-2"><LanguageSelector /></div>
+                    <div className="flex items-center justify-center border border-white/25 rounded-md h-9 px-2"><LanguageSelector /></div>
                   </div>
                 </>
               )}
