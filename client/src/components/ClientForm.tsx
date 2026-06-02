@@ -193,8 +193,18 @@ export default function ClientForm({
           ? t('clientForm.clientUpdatedDesc') 
           : t('clientForm.clientCreatedDesc'),
       });
-      
-      // Invalidate queries to refresh data - forza refetch immediato
+
+      // Aggiorna immediatamente la cache con i dati già disponibili nella risposta
+      // (senza aspettare il refetch, così la card si aggiorna subito)
+      if (clientId && responseData) {
+        queryClient.setQueryData(['/api/clients'], (oldData: any[]) => {
+          if (!Array.isArray(oldData)) return oldData;
+          return oldData.map((c: any) => c.id === responseData.id ? responseData : c);
+        });
+        queryClient.setQueryData([`/api/clients/${clientId}`], responseData);
+      }
+
+      // Invalida e ricarica in background per sicurezza
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'], refetchType: 'all' });
       await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
       await queryClient.invalidateQueries({ queryKey: ['/api/clients/next-code'] });
