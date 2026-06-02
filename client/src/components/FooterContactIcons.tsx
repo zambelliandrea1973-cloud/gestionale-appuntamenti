@@ -9,7 +9,7 @@ interface FooterContactIconsProps {
   ownerId?: number;
 }
 
-// Stile 3D per ogni icona — gradienti diagonali profondi stile iOS app icon
+// Stile 3D per ogni icona — tutti i colori vividi e saturi, nessun tono scuro (come Instagram)
 const ICON_STYLES: Record<string, {
   gradient: string;
   shadow: string;
@@ -17,44 +17,44 @@ const ICON_STYLES: Record<string, {
   label: string;
 }> = {
   email: {
-    // Rosso Gmail: crimson scuro → rosso brillante → rosa-rosso
-    gradient: 'linear-gradient(135deg, #c0392b 0%, #e74c3c 45%, #ff6b6b 100%)',
-    shadow: '0 4px 0 #7b241c, 0 6px 16px rgba(192,57,43,0.45), inset 0 1px 0 rgba(255,255,255,0.2)',
+    // Rosa acceso → rosso fuoco → arancio caldo — vivido come iOS
+    gradient: 'linear-gradient(135deg, #ff416c 0%, #ff4b2b 60%, #ff7e44 100%)',
+    shadow: '0 4px 0 rgba(255,65,108,0.6), 0 6px 16px rgba(255,75,43,0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Mail className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Email',
   },
   phone1: {
-    // Verde WhatsApp: verde bosco → verde mela brillante
-    gradient: 'linear-gradient(135deg, #1a7a1a 0%, #25d366 55%, #75f0a0 100%)',
-    shadow: '0 4px 0 #0f4a0f, 0 6px 16px rgba(37,211,102,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
+    // Teal brillante → verde lime vivido — WhatsApp vibrancy
+    gradient: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+    shadow: '0 4px 0 rgba(17,153,142,0.6), 0 6px 16px rgba(56,239,125,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Phone className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Telefono',
   },
   phone2: {
-    // Verde acqua: teal scuro → verde-teal brillante → acqua chiara
-    gradient: 'linear-gradient(135deg, #0d9488 0%, #10b981 50%, #6ee7b7 100%)',
-    shadow: '0 4px 0 #065f46, 0 6px 16px rgba(16,185,129,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
+    // Verde menta vivido → ciano brillante
+    gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+    shadow: '0 4px 0 rgba(67,233,123,0.55), 0 6px 16px rgba(56,249,215,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Phone className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Cellulare',
   },
   website: {
-    // Blu Safari: blu navy → azzurro cielo → ciano
-    gradient: 'linear-gradient(135deg, #0c4a8a 0%, #2563eb 45%, #38bdf8 100%)',
-    shadow: '0 4px 0 #082355, 0 6px 16px rgba(37,99,235,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
+    // iOS Safari: blu elettrico → azzurro cielo brillante → ciano
+    gradient: 'linear-gradient(135deg, #007AFF 0%, #30b3ff 55%, #5ce0e6 100%)',
+    shadow: '0 4px 0 rgba(0,122,255,0.6), 0 6px 16px rgba(48,179,255,0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Globe className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Sito web',
   },
   facebook: {
-    // Blu Facebook: indaco → blu Facebook → azzurro
-    gradient: 'linear-gradient(135deg, #0a2d6e 0%, #1877F2 50%, #60a5fa 100%)',
-    shadow: '0 4px 0 #071a42, 0 6px 16px rgba(24,119,242,0.45), inset 0 1px 0 rgba(255,255,255,0.2)',
+    // Blu vivido → viola-blu elettrico (shift hue come Instagram)
+    gradient: 'linear-gradient(135deg, #4776e6 0%, #1877F2 40%, #8e54e9 100%)',
+    shadow: '0 4px 0 rgba(71,118,230,0.6), 0 6px 16px rgba(24,119,242,0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Facebook className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Facebook',
   },
   instagram: {
-    // Gradiente Instagram originale: viola → magenta → arancio → giallo
+    // Gradiente Instagram ufficiale: viola → magenta → rosso → arancio → giallo
     gradient: 'linear-gradient(135deg, #833ab4 0%, #c13584 30%, #e1306c 55%, #f77737 80%, #fcaf45 100%)',
-    shadow: '0 4px 0 #5b1f7a, 0 6px 16px rgba(193,53,132,0.45), inset 0 1px 0 rgba(255,255,255,0.2)',
+    shadow: '0 4px 0 rgba(131,58,180,0.6), 0 6px 16px rgba(193,53,132,0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Instagram className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Instagram',
   },
