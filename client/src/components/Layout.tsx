@@ -385,7 +385,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <div className="flex items-center gap-1 mt-0.5">
                     <UserLicenseBadge />
                     {userWithLicense?.username && (
-                      <span className="text-[10px] text-white/70 truncate">{userWithLicense.username}</span>
+                      <span
+                        className="text-white/70 whitespace-nowrap"
+                        style={{ fontSize: `min(10px, calc(55vw / ${userWithLicense.username.length || 1} * 1.5))` }}
+                      >{userWithLicense.username}</span>
                     )}
                   </div>
                   {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
