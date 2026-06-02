@@ -52,7 +52,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
   const { t } = useTranslation();
-  const { licenseInfo, appTitle } = useLicense();
+  const { licenseInfo, appTitle, hasProAccess, hasBusinessAccess } = useLicense();
   
   const { user: userWithLicense, isLoading: isUserLoading } = useUserWithLicense();
   const isAdmin = userWithLicense?.type === 'admin';
@@ -198,138 +198,309 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             </div>
           </div>
           
-          {/* Layout mobile - IDENTICO al desktop */}
-          <div className="flex md:hidden flex-col items-center w-full">
-            {/* Informazioni utente mobile - identiche al desktop */}
+          {/* Layout mobile */}
+          <div className="flex md:hidden flex-col w-full">
+            {/* Intestazione utente */}
             <div className="w-full mb-2">
-              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2">
-                <UserIcon className="h-6 w-6 flex-shrink-0" userId={userWithLicense?.id} />
-                <div className="w-full">
-                  <h1 className="text-xl font-medium">
+              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center gap-2">
+                <UserIcon className="h-7 w-7 flex-shrink-0" userId={userWithLicense?.id} />
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-base font-semibold leading-tight truncate">
                     {appTitle || t('app.title')}
                   </h1>
-                  <div className="text-sm flex items-center gap-1">
+                  <div className="flex items-center gap-1 mt-0.5">
                     <UserLicenseBadge />
+                    {userWithLicense?.username && (
+                      <span className="text-[10px] text-white/70 truncate">{userWithLicense.username}</span>
+                    )}
                   </div>
                   {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <div className="text-xs text-amber-300 flex items-center gap-1 whitespace-nowrap">
-                        <Clock className="h-3 w-3" />
-                        <span>
-                          {new Date(licenseInfo.expiresAt) > new Date() 
-                            ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} ${t('trial.days')}` 
-                            : t('trial.expired')}
-                        </span>
-                      </div>
-                      <div className="text-xs text-amber-200 flex items-center whitespace-nowrap">
-                        <Link href="/settings?tab=subscription" className="hover:text-amber-100 underline transition-colors">
-                          {t('trial.upgradeMessage', 'Discover premium plans')} →
-                        </Link>
-                      </div>
+                    <div className="text-[10px] text-amber-300 flex items-center gap-1 mt-0.5">
+                      <Clock className="h-3 w-3 flex-shrink-0" />
+                      <span>
+                        {new Date(licenseInfo.expiresAt) > new Date()
+                          ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} ${t('trial.days')}`
+                          : t('trial.expired')}
+                      </span>
+                      <Link href="/settings?tab=subscription" className="underline text-amber-200 ml-1">
+                        {t('trial.upgradeMessage', 'Scopri i piani')} →
+                      </Link>
                     </div>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Menu navigazione mobile - identico al desktop ma adattato */}
-            <div className="flex flex-col w-full items-center">
-              {/* Prima riga mobile */}
-              <div className="flex justify-center gap-x-1 mb-1 w-full flex-wrap">
-                <Link href="/dashboard">
-                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
-                    <Home className="h-3 w-3 mr-1" />
-                    <span>{t('navigation.home')}</span>
-                  </Button>
-                </Link>
-                <Link href="/calendar">
-                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
-                    <CalendarDays className="h-3 w-3 mr-1" />
-                    <span>{t('calendar.title')}</span>
-                  </Button>
-                </Link>
-                <Link href="/clients">
-                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
-                    <Users className="h-3 w-3 mr-1" />
-                    <span>{t('clients.title')}</span>
-                  </Button>
-                </Link>
-                <Link href="/booking-requests">
-                  <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs relative">
-                    {hasPendingRequests && !isActive("/booking-requests") ? (
-                      <Bell className="h-3 w-3 mr-1 text-amber-300 animate-bounce" />
-                    ) : (
-                      <ClipboardList className="h-3 w-3 mr-1" />
-                    )}
-                    <span>{t('navigation.requests')}</span>
-                    {hasPendingRequests && !isActive("/booking-requests") && (
-                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
-                        {pendingCount}
-                      </span>
-                    )}
-                  </Button>
-                </Link>
-                <Link href="/whatsapp-center">
-                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
-                    <MessageSquare className="h-3 w-3 mr-1" />
-                    <span>{t('navigation.notifications')}</span>
-                  </Button>
-                </Link>
-              </div>
-              
-              {/* Seconda riga mobile */}
-              <div className="flex justify-center gap-x-1 mb-1 w-full flex-wrap">
-                {(isAdmin || isStaff) && (
-                  <Link href="/referral">
-                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
-                      <CreditCard className="h-3 w-3 mr-1 text-blue-400" />
-                      <span>{t('navigation.referral')}</span>
+            {/* ── STAFF mobile nav ── */}
+            {isStaff && (
+              <div className="flex flex-col w-full gap-1">
+                {/* Riga 1: navigazione principale */}
+                <div className="grid grid-cols-4 gap-1 w-full">
+                  <Link href="/dashboard" className="contents">
+                    <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Home className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.home')}</span>
                     </Button>
                   </Link>
-                )}
-                <Link href="/ai-chat">
-                  <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[90px] text-xs">
-                    <Sparkles className="h-3 w-3 mr-1 text-cyan-400" />
-                    <span>{t('navigation.aiAssistant')}</span>
-                  </Button>
-                </Link>
-                <Link href="/pro">
-                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[60px] text-xs">
-                    <Crown className="h-3 w-3 mr-1 text-amber-400" />
-                    <span>PRO</span>
-                  </Button>
-                </Link>
-                
-                {isAdmin && (
-                  <>
-                    <Link href="/staff-management">
-                      <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
-                        <UserCog className="h-3 w-3 mr-1" />
-                        <span>{t('navigation.staff')}</span>
-                      </Button>
-                    </Link>
-                    <Link href="/payment-admin">
-                      <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
-                        <CreditCard className="h-3 w-3 mr-1 text-green-400" />
-                        <span>{t('navigation.payments')}</span>
-                      </Button>
-                    </Link>
-                  </>
-                )}
+                  <Link href="/calendar" className="contents">
+                    <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <CalendarDays className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('calendar.title')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/clients" className="contents">
+                    <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Users className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('clients.title')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/booking-requests" className="contents">
+                    <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px] relative">
+                      {hasPendingRequests && !isActive("/booking-requests")
+                        ? <Bell className="h-3.5 w-3.5 flex-shrink-0 text-amber-300 animate-bounce" />
+                        : <ClipboardList className="h-3.5 w-3.5 flex-shrink-0" />}
+                      <span className="truncate">{t('navigation.requests')}</span>
+                      {hasPendingRequests && !isActive("/booking-requests") && (
+                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center animate-pulse">{pendingCount}</span>
+                      )}
+                    </Button>
+                  </Link>
+                </div>
+                {/* Riga 2: strumenti */}
+                <div className="grid grid-cols-4 gap-1 w-full">
+                  <Link href="/whatsapp-center" className="contents">
+                    <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <MessageSquare className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.notifications')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/referral" className="contents">
+                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <CreditCard className="h-3.5 w-3.5 flex-shrink-0 text-blue-300" /><span className="truncate">{t('navigation.referral')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/ai-chat" className="contents">
+                    <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Sparkles className="h-3.5 w-3.5 flex-shrink-0 text-cyan-300" /><span className="truncate">{t('navigation.aiAssistant')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/pro" className="contents">
+                    <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Crown className="h-3.5 w-3.5 flex-shrink-0 text-amber-300" /><span className="truncate">PRO</span>
+                    </Button>
+                  </Link>
+                </div>
+                {/* Riga 3: impostazioni + azioni */}
+                <div className="grid grid-cols-3 gap-1 w-full">
+                  <Link href="/settings" className="contents">
+                    <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <SettingsIcon className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('settings.title')}</span>
+                    </Button>
+                  </Link>
+                  <div className="flex items-center justify-center"><LanguageSelector /></div>
+                  <LogoutButton variant="secondary" className="w-full text-[11px] h-8 px-0" iconPosition="right" />
+                </div>
               </div>
+            )}
 
-              {/* Terza riga mobile */}
-              <div className="flex justify-center gap-x-1 w-full flex-wrap">
-                <Link href="/settings">
-                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
-                    <SettingsIcon className="h-3 w-3 mr-1" />
-                    <span>{t('settings.title')}</span>
-                  </Button>
-                </Link>
-                <LanguageSelector />
-                <LogoutButton variant="secondary" className="text-xs h-8 px-2" iconPosition="right" />
+            {/* ── PRO / BUSINESS mobile nav (non-admin, non-staff) ── */}
+            {!isAdmin && !isStaff && hasProAccess && (
+              <div className="flex flex-col w-full gap-1">
+                {/* Riga 1: navigazione principale */}
+                <div className="grid grid-cols-4 gap-1 w-full">
+                  <Link href="/dashboard" className="contents">
+                    <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Home className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.home')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/calendar" className="contents">
+                    <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <CalendarDays className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('calendar.title')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/clients" className="contents">
+                    <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Users className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('clients.title')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/booking-requests" className="contents">
+                    <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px] relative">
+                      {hasPendingRequests && !isActive("/booking-requests")
+                        ? <Bell className="h-3.5 w-3.5 flex-shrink-0 text-amber-300 animate-bounce" />
+                        : <ClipboardList className="h-3.5 w-3.5 flex-shrink-0" />}
+                      <span className="truncate">{t('navigation.requests')}</span>
+                      {hasPendingRequests && !isActive("/booking-requests") && (
+                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center animate-pulse">{pendingCount}</span>
+                      )}
+                    </Button>
+                  </Link>
+                </div>
+                {/* Riga 2: strumenti PRO */}
+                <div className="grid grid-cols-3 gap-1 w-full">
+                  <Link href="/whatsapp-center" className="contents">
+                    <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <MessageSquare className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.notifications')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/ai-chat" className="contents">
+                    <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Sparkles className="h-3.5 w-3.5 flex-shrink-0 text-cyan-300" /><span className="truncate">{t('navigation.aiAssistant')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/pro" className="contents">
+                    <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Crown className="h-3.5 w-3.5 flex-shrink-0 text-amber-300" /><span className="truncate">PRO</span>
+                    </Button>
+                  </Link>
+                </div>
+                {/* Riga 3: impostazioni + azioni */}
+                <div className="grid grid-cols-3 gap-1 w-full">
+                  <Link href="/settings" className="contents">
+                    <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <SettingsIcon className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('settings.title')}</span>
+                    </Button>
+                  </Link>
+                  <div className="flex items-center justify-center"><LanguageSelector /></div>
+                  <LogoutButton variant="secondary" className="w-full text-[11px] h-8 px-0" iconPosition="right" />
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* ── BASE / TRIAL mobile nav (non-admin, non-staff, no pro access) ── */}
+            {!isAdmin && !isStaff && !hasProAccess && (
+              <div className="flex flex-col w-full gap-1">
+                {/* Riga 1: navigazione principale */}
+                <div className="grid grid-cols-4 gap-1 w-full">
+                  <Link href="/dashboard" className="contents">
+                    <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Home className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.home')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/calendar" className="contents">
+                    <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <CalendarDays className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('calendar.title')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/clients" className="contents">
+                    <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Users className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('clients.title')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/booking-requests" className="contents">
+                    <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px] relative">
+                      {hasPendingRequests && !isActive("/booking-requests")
+                        ? <Bell className="h-3.5 w-3.5 flex-shrink-0 text-amber-300 animate-bounce" />
+                        : <ClipboardList className="h-3.5 w-3.5 flex-shrink-0" />}
+                      <span className="truncate">{t('navigation.requests')}</span>
+                      {hasPendingRequests && !isActive("/booking-requests") && (
+                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center animate-pulse">{pendingCount}</span>
+                      )}
+                    </Button>
+                  </Link>
+                </div>
+                {/* Riga 2: strumenti base */}
+                <div className="grid grid-cols-3 gap-1 w-full">
+                  <Link href="/whatsapp-center" className="contents">
+                    <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <MessageSquare className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('navigation.notifications')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/ai-chat" className="contents">
+                    <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Sparkles className="h-3.5 w-3.5 flex-shrink-0 text-cyan-300" /><span className="truncate">{t('navigation.aiAssistant')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/pro" className="contents">
+                    <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <Crown className="h-3.5 w-3.5 flex-shrink-0 text-amber-300" /><span className="truncate">↑ PRO</span>
+                    </Button>
+                  </Link>
+                </div>
+                {/* Riga 3: impostazioni + azioni */}
+                <div className="grid grid-cols-3 gap-1 w-full">
+                  <Link href="/settings" className="contents">
+                    <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-full h-8 flex items-center justify-center gap-1 px-0 text-[11px]">
+                      <SettingsIcon className="h-3.5 w-3.5 flex-shrink-0" /><span className="truncate">{t('settings.title')}</span>
+                    </Button>
+                  </Link>
+                  <div className="flex items-center justify-center"><LanguageSelector /></div>
+                  <LogoutButton variant="secondary" className="w-full text-[11px] h-8 px-0" iconPosition="right" />
+                </div>
+              </div>
+            )}
+
+            {/* ── ADMIN mobile nav (invariato) ── */}
+            {isAdmin && (
+              <div className="flex flex-col w-full items-center gap-1">
+                <div className="flex justify-center gap-x-1 w-full flex-wrap">
+                  <Link href="/dashboard">
+                    <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
+                      <Home className="h-3 w-3 mr-1" /><span>{t('navigation.home')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/calendar">
+                    <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                      <CalendarDays className="h-3 w-3 mr-1" /><span>{t('calendar.title')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/clients">
+                    <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
+                      <Users className="h-3 w-3 mr-1" /><span>{t('clients.title')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/booking-requests">
+                    <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs relative">
+                      {hasPendingRequests && !isActive("/booking-requests") ? (
+                        <Bell className="h-3 w-3 mr-1 text-amber-300 animate-bounce" />
+                      ) : (
+                        <ClipboardList className="h-3 w-3 mr-1" />
+                      )}
+                      <span>{t('navigation.requests')}</span>
+                      {hasPendingRequests && !isActive("/booking-requests") && (
+                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center animate-pulse">{pendingCount}</span>
+                      )}
+                    </Button>
+                  </Link>
+                  <Link href="/whatsapp-center">
+                    <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                      <MessageSquare className="h-3 w-3 mr-1" /><span>{t('navigation.notifications')}</span>
+                    </Button>
+                  </Link>
+                </div>
+                <div className="flex justify-center gap-x-1 w-full flex-wrap">
+                  <Link href="/referral">
+                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
+                      <CreditCard className="h-3 w-3 mr-1 text-blue-400" /><span>{t('navigation.referral')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/ai-chat">
+                    <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[90px] text-xs">
+                      <Sparkles className="h-3 w-3 mr-1 text-cyan-400" /><span>{t('navigation.aiAssistant')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/pro">
+                    <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[60px] text-xs">
+                      <Crown className="h-3 w-3 mr-1 text-amber-400" /><span>PRO</span>
+                    </Button>
+                  </Link>
+                  <Link href="/staff-management">
+                    <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
+                      <UserCog className="h-3 w-3 mr-1" /><span>{t('navigation.staff')}</span>
+                    </Button>
+                  </Link>
+                  <Link href="/payment-admin">
+                    <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                      <CreditCard className="h-3 w-3 mr-1 text-green-400" /><span>{t('navigation.payments')}</span>
+                    </Button>
+                  </Link>
+                </div>
+                <div className="flex justify-center gap-x-1 w-full flex-wrap">
+                  <Link href="/settings">
+                    <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                      <SettingsIcon className="h-3 w-3 mr-1" /><span>{t('settings.title')}</span>
+                    </Button>
+                  </Link>
+                  <LanguageSelector />
+                  <LogoutButton variant="secondary" className="text-xs h-8 px-2" iconPosition="right" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </header>
