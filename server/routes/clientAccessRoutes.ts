@@ -433,7 +433,8 @@ router.get("/api/clients/:id", async (req, res) => {
     medicalNotes: clientFound.medicalNotes || '',
     allergies: clientFound.allergies || '',
     taxCode: clientFound.taxCode || '',
-    vatNumber: clientFound.vatNumber || ''
+    vatNumber: clientFound.vatNumber || '',
+    gender: clientFound.gender || null
   });
 });
 
