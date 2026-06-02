@@ -2147,6 +2147,9 @@
     "taxCode": "Personnummer",
     "vatNumber": "Org.nummer",
     "birthday": "Fødselsdato",
+    "gender": "Kjønn",
+    "genderMale": "Mann",
+    "genderFemale": "Kvinne",
     "frequentClient": "Fast kunde",
     "frequentClientDesc": "Kunden kommer regelmessig",
     "notes": "Notater",
@@ -2176,7 +2179,10 @@
     "phoneMinChars": "Telefonnummer må inneholde minst 6 sifre",
     "emailInvalid": "Ugyldig e-post",
     "prefixPlaceholder": "Forv.",
-    "codePreview": "Denne klienten vil motta koden: {{code}}"
+    "codePreview": "Denne klienten vil motta koden: {{code}}",
+    "gender": "[TODO:NO] Gender",
+    "genderMale": "[TODO:NO] Male",
+    "genderFemale": "[TODO:NO] Female"
   },
   "privacyConsent": {
     "consentRequired": "Samtykke påkrevd",
