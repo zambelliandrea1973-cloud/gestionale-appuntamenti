@@ -2180,9 +2180,9 @@
     "emailInvalid": "Ugyldig e-post",
     "prefixPlaceholder": "Forv.",
     "codePreview": "Denne klienten vil motta koden: {{code}}",
-    "gender": "[TODO:NO] Gender",
-    "genderMale": "[TODO:NO] Male",
-    "genderFemale": "[TODO:NO] Female"
+    "gender": "Kjønn",
+    "genderMale": "Mann",
+    "genderFemale": "Kvinne"
   },
   "privacyConsent": {
     "consentRequired": "Samtykke påkrevd",
