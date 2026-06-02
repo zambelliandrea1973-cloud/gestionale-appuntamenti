@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Mail, Phone, Globe, Facebook, Instagram } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useQuery } from '@tanstack/react-query';
 
 interface ContactInfo {
   businessName?: string;
@@ -12,19 +13,12 @@ interface ContactInfo {
   website?: string;
   facebook?: string;
   instagram?: string;
-  showEmail?: boolean;
-  showPhone?: boolean;
-  showPhone1?: boolean;
-  showWebsite?: boolean;
-  showFacebook?: boolean;
-  showInstagram?: boolean;
 }
 
 interface ClientFooterContactIconsProps {
   ownerId?: number;
 }
 
-// Stesse icone 3D di FooterContactIcons — gradienti vividi stile iOS
 const ICON_STYLES: Record<string, {
   gradient: string;
   shadow: string;
@@ -76,22 +70,12 @@ const ICON_STYLES: Record<string, {
 };
 
 function Icon3DButton({
-  gradient,
-  shadow,
-  icon,
-  label,
-  tooltip,
-  href,
+  gradient, shadow, icon, label, tooltip, href,
 }: {
-  gradient: string;
-  shadow: string;
-  icon: React.ReactNode;
-  label: string;
-  tooltip: string;
-  href: string;
+  gradient: string; shadow: string; icon: React.ReactNode;
+  label: string; tooltip: string; href: string;
 }) {
   const [pressed, setPressed] = useState(false);
-
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -104,117 +88,103 @@ function Icon3DButton({
           onTouchEnd={() => setPressed(false)}
           onClick={() => window.open(href, '_blank')}
           style={{
-            width: 52,
-            height: 52,
-            borderRadius: 14,
+            width: 52, height: 52, borderRadius: 14,
             background: gradient,
             boxShadow: pressed
               ? '0 1px 0 rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15)'
               : shadow,
             transform: pressed ? 'translateY(3px)' : 'translateY(0)',
             transition: 'box-shadow 0.1s ease, transform 0.1s ease',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: '1px solid rgba(0,0,0,0.18)',
-            cursor: 'pointer',
-            position: 'relative',
-            overflow: 'hidden',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            border: '1px solid rgba(0,0,0,0.18)', cursor: 'pointer',
+            position: 'relative', overflow: 'hidden',
           }}
         >
-          <span
-            aria-hidden
-            style={{
-              position: 'absolute',
-              top: 0, left: 0, right: 0,
-              height: '45%',
-              background: 'linear-gradient(to bottom, rgba(255,255,255,0.22), rgba(255,255,255,0))',
-              borderRadius: '14px 14px 50% 50%',
-              pointerEvents: 'none',
-            }}
-          />
+          <span aria-hidden style={{
+            position: 'absolute', top: 0, left: 0, right: 0, height: '45%',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.22), rgba(255,255,255,0))',
+            borderRadius: '14px 14px 50% 50%', pointerEvents: 'none',
+          }} />
           {icon}
         </button>
       </TooltipTrigger>
-      <TooltipContent>
-        <p>{tooltip}</p>
-      </TooltipContent>
+      <TooltipContent><p>{tooltip}</p></TooltipContent>
     </Tooltip>
   );
 }
 
 export default function ClientFooterContactIcons({ ownerId }: ClientFooterContactIconsProps) {
   const { t } = useTranslation();
-  const [contactInfo, setContactInfo] = useState<ContactInfo>({});
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const url = ownerId
-          ? `/api/public/contact-info?ownerId=${ownerId}`
-          : '/api/public/contact-info';
-        const response = await fetch(url, { headers: { 'Content-Type': 'application/json' } });
-        if (response.ok) {
-          const data = await response.json();
-          setContactInfo(data);
-          console.log('📞 [CLIENT FOOTER] Contact information loaded:', data);
-        }
-      } catch (error) {
-        console.error('❌ [CLIENT FOOTER] Error loading contacts:', error);
-      }
-    };
-    load();
-  }, [ownerId]);
+  const { data: contactInfo, isLoading } = useQuery<ContactInfo>({
+    queryKey: ['/api/contact-info', ownerId],
+    queryFn: async () => {
+      if (!ownerId) return {};
+      const res = await fetch(`/api/contact-info/${ownerId}`);
+      if (!res.ok) return {};
+      return res.json();
+    },
+    enabled: !!ownerId,
+    staleTime: 5 * 60 * 1000,
+    retry: 2,
+  });
 
+  const info = contactInfo ?? {};
   const hasAny =
-    (contactInfo.email && contactInfo.showEmail !== false) ||
-    (contactInfo.phone && contactInfo.showPhone !== false) ||
-    (contactInfo.phone1 && contactInfo.showPhone1 !== false) ||
-    contactInfo.phone2 ||
-    (contactInfo.website && contactInfo.showWebsite !== false) ||
-    (contactInfo.facebook && contactInfo.showFacebook !== false) ||
-    (contactInfo.instagram && contactInfo.showInstagram !== false);
+    info.email || info.phone || info.phone1 || info.phone2 ||
+    info.website || info.facebook || info.instagram;
+
+  if (isLoading) {
+    return (
+      <div className="mt-6 rounded-2xl border-2 border-green-200 bg-white shadow-sm overflow-hidden animate-pulse">
+        <div className="py-3 px-4 bg-green-50 border-b border-green-100">
+          <div className="h-4 bg-green-100 rounded w-40 mx-auto" />
+        </div>
+        <div className="py-5 px-4 flex gap-4 justify-center">
+          {[1, 2, 3, 4].map(i => <div key={i} className="w-12 h-12 rounded-2xl bg-gray-100" />)}
+        </div>
+      </div>
+    );
+  }
 
   if (!hasAny) return null;
 
   const buttons: { key: string; href: string; tooltip: string }[] = [];
-  if (contactInfo.email && contactInfo.showEmail !== false)
-    buttons.push({ key: 'email', href: `mailto:${contactInfo.email}`, tooltip: contactInfo.email! });
-  if (contactInfo.phone && contactInfo.showPhone !== false)
-    buttons.push({ key: 'phone', href: `tel:${contactInfo.phone}`, tooltip: contactInfo.phone! });
-  if (contactInfo.phone1 && contactInfo.showPhone1 !== false)
-    buttons.push({ key: 'phone1', href: `tel:${contactInfo.phone1}`, tooltip: contactInfo.phone1! });
-  if (contactInfo.phone2)
-    buttons.push({ key: 'phone2', href: `tel:${contactInfo.phone2}`, tooltip: contactInfo.phone2! });
-  if (contactInfo.website && contactInfo.showWebsite !== false)
+  if (info.email)
+    buttons.push({ key: 'email', href: `mailto:${info.email}`, tooltip: info.email! });
+  if (info.phone)
+    buttons.push({ key: 'phone', href: `tel:${info.phone}`, tooltip: info.phone! });
+  if (info.phone1)
+    buttons.push({ key: 'phone1', href: `tel:${info.phone1}`, tooltip: info.phone1! });
+  if (info.phone2)
+    buttons.push({ key: 'phone2', href: `tel:${info.phone2}`, tooltip: info.phone2! });
+  if (info.website)
     buttons.push({
       key: 'website',
-      href: contactInfo.website.startsWith('http') ? contactInfo.website : `https://${contactInfo.website}`,
-      tooltip: contactInfo.website!,
+      href: info.website.startsWith('http') ? info.website : `https://${info.website}`,
+      tooltip: info.website!,
     });
-  if (contactInfo.facebook && contactInfo.showFacebook !== false)
+  if (info.facebook)
     buttons.push({
       key: 'facebook',
-      href: contactInfo.facebook.startsWith('http') ? contactInfo.facebook : `https://facebook.com/${contactInfo.facebook}`,
+      href: info.facebook.startsWith('http') ? info.facebook : `https://facebook.com/${info.facebook}`,
       tooltip: 'Facebook',
     });
-  if (contactInfo.instagram && contactInfo.showInstagram !== false)
+  if (info.instagram)
     buttons.push({
       key: 'instagram',
-      href: `https://instagram.com/${contactInfo.instagram.replace('@', '')}`,
-      tooltip: `@${contactInfo.instagram.replace('@', '')}`,
+      href: `https://instagram.com/${info.instagram.replace('@', '')}`,
+      tooltip: `@${info.instagram.replace('@', '')}`,
     });
 
   return (
     <div className="mt-6 rounded-2xl border-2 border-green-300 bg-white shadow-sm overflow-hidden">
-      {/* Header con nome studio */}
       <div className="py-3 px-4 bg-green-50 border-b border-green-200 text-center">
         <h4 className="font-semibold text-gray-700 text-base">
-          {contactInfo.businessName || 'Studio Professionale'}
+          {info.businessName || t('contacts.accessOurContacts', 'Accedi ai nostri contatti')}
         </h4>
       </div>
 
-      {/* Icone 3D */}
       <div className="py-5 px-4 flex flex-wrap gap-4 justify-center">
         <TooltipProvider>
           {buttons.map(({ key, href, tooltip }) => {
@@ -234,61 +204,47 @@ export default function ClientFooterContactIcons({ ownerId }: ClientFooterContac
         </TooltipProvider>
       </div>
 
-      {/* Dettagli testo */}
       <div className="px-4 pb-4 text-center space-y-1.5 text-sm text-gray-600">
-        {contactInfo.email && contactInfo.showEmail !== false && (
+        {info.email && (
           <p>
             <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.emailLabel', 'Email:')}</span>{' '}
-            <a href={`mailto:${contactInfo.email}`} className="text-blue-600 hover:text-blue-800">
-              {contactInfo.email}
-            </a>
+            <a href={`mailto:${info.email}`} className="text-blue-600 hover:text-blue-800">{info.email}</a>
           </p>
         )}
-        {contactInfo.phone && contactInfo.showPhone !== false && (
+        {(info.phone || info.phone1) && (
           <p>
             <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.phoneLabel', 'Telefono:')}</span>{' '}
-            <a href={`tel:${contactInfo.phone}`} className="text-blue-600 hover:text-blue-800">
-              {contactInfo.phone}
+            <a href={`tel:${info.phone || info.phone1}`} className="text-blue-600 hover:text-blue-800">
+              {info.phone || info.phone1}
             </a>
           </p>
         )}
-        {contactInfo.phone1 && contactInfo.showPhone1 !== false && (
-          <p>
-            <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.cellularLabel', 'Cellulare:')}</span>{' '}
-            <a href={`tel:${contactInfo.phone1}`} className="text-blue-600 hover:text-blue-800">
-              {contactInfo.phone1}
-            </a>
-          </p>
-        )}
-        {contactInfo.website && contactInfo.showWebsite !== false && (
+        {info.website && (
           <p>
             <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.websiteLabel', 'Sito web:')}</span>{' '}
             <a
-              href={contactInfo.website.startsWith('http') ? contactInfo.website : `https://${contactInfo.website}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={info.website.startsWith('http') ? info.website : `https://${info.website}`}
+              target="_blank" rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800"
             >
-              {contactInfo.website}
+              {info.website}
             </a>
           </p>
         )}
-        {contactInfo.instagram && contactInfo.showInstagram !== false && (
+        {info.instagram && (
           <p>
             <span className="font-medium">Instagram:</span>{' '}
             <a
-              href={`https://instagram.com/${contactInfo.instagram.replace('@', '')}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`https://instagram.com/${info.instagram.replace('@', '')}`}
+              target="_blank" rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800"
             >
-              @{contactInfo.instagram.replace('@', '')}
+              @{info.instagram.replace('@', '')}
             </a>
           </p>
         )}
       </div>
 
-      {/* Footer legale */}
       <div className="px-4 pb-4 pt-2 border-t border-gray-100 text-xs text-gray-400 space-y-1 text-center">
         <p>
           <a href="/terms" target="_blank" className="hover:text-gray-600 underline">
