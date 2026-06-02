@@ -151,8 +151,8 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
   if (isLoading || (!hasAny && !targetUserId)) {
     return (
       <div className="rounded-2xl border-2 border-green-200 bg-white shadow-sm overflow-hidden animate-pulse">
-        <div className="py-2.5 px-4 bg-green-50 border-b border-green-100">
-          <div className="h-3 bg-green-100 rounded w-40 mx-auto" />
+        <div className="py-3 px-4 bg-green-50 border-b border-green-100">
+          <div className="h-4 bg-green-100 rounded w-40 mx-auto" />
         </div>
         <div className="py-5 px-4 flex gap-4 justify-center">
           {[1, 2, 3, 4].map(i => (
@@ -181,11 +181,12 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
 
   return (
     <div className="rounded-2xl border-2 border-green-300 bg-white shadow-sm overflow-hidden">
-      <div className="py-2.5 px-4 bg-green-50 border-b border-green-200 text-center">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-          {t('contacts.accessOurContacts', 'Accedi ai contatti')}
-        </p>
+      <div className="py-3 px-4 bg-green-50 border-b border-green-200 text-center">
+        <h4 className="font-semibold text-gray-700 text-base">
+          {info.businessName || t('contacts.accessOurContacts', 'Accedi ai contatti')}
+        </h4>
       </div>
+
       <div className="py-5 px-4 flex flex-wrap gap-4 justify-center">
         <TooltipProvider>
           {buttons.map(({ key, href, tooltip }) => {
@@ -203,6 +204,53 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
             );
           })}
         </TooltipProvider>
+      </div>
+
+      <div className="px-4 pb-4 text-center space-y-1.5 text-sm text-gray-600">
+        {info.email && (
+          <p>
+            <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.emailLabel', 'Email:')}</span>{' '}
+            <a href={`mailto:${info.email}`} className="text-blue-600 hover:text-blue-800 break-all">{info.email}</a>
+          </p>
+        )}
+        {info.phone1 && (
+          <p>
+            <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.phoneLabel', 'Telefono:')}</span>{' '}
+            <a href={`tel:${info.phone1}`} className="text-blue-600 hover:text-blue-800">{info.phone1}</a>
+          </p>
+        )}
+        {info.phone2 && (
+          <p>
+            <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.cellularLabel', 'Cellulare:')}</span>{' '}
+            <a href={`tel:${info.phone2}`} className="text-blue-600 hover:text-blue-800">{info.phone2}</a>
+          </p>
+        )}
+        {info.website && (
+          <p>
+            <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.websiteLabel', 'Sito web:')}</span>{' '}
+            <a
+              href={formatContactInfo('website', info.website)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 break-all"
+            >
+              {info.website}
+            </a>
+          </p>
+        )}
+        {info.instagram && (
+          <p>
+            <span className="font-medium">Instagram:</span>{' '}
+            <a
+              href={formatContactInfo('instagram', info.instagram)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800"
+            >
+              @{info.instagram.replace('@', '')}
+            </a>
+          </p>
+        )}
       </div>
     </div>
   );
