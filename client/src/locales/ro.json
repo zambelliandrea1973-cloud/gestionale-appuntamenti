@@ -2180,9 +2180,9 @@
     "emailInvalid": "Email invalid",
     "prefixPlaceholder": "Pref.",
     "codePreview": "Acest client va primi codul: {{code}}",
-    "gender": "[TODO:RO] Gender",
-    "genderMale": "[TODO:RO] Male",
-    "genderFemale": "[TODO:RO] Female"
+    "gender": "Gen",
+    "genderMale": "Bărbat",
+    "genderFemale": "Femeie"
   },
   "privacyConsent": {
     "consentRequired": "Consimțământ necesar",
