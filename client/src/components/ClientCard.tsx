@@ -239,8 +239,20 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
 
   const isIncompleteData = !client.phone || client.phone.trim() === '';
 
+  const pastelPalette = [
+    'bg-sky-50 border-sky-200',
+    'bg-violet-50 border-violet-200',
+    'bg-emerald-50 border-emerald-200',
+    'bg-rose-50 border-rose-200',
+    'bg-amber-50 border-amber-200',
+    'bg-teal-50 border-teal-200',
+    'bg-indigo-50 border-indigo-200',
+    'bg-fuchsia-50 border-fuchsia-200',
+  ];
+  const defaultCardColor = pastelPalette[client.id % pastelPalette.length];
+
   return (
-    <Card ref={cardRef} className={`h-full ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : isIncompleteData ? 'border-red-400 bg-red-50/30' : isOtherAccount ? 'border-orange-200 bg-orange-50/30' : ''}`}>
+    <Card ref={cardRef} className={`h-full ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : isIncompleteData ? 'border-red-400 bg-red-50/30' : isOtherAccount ? 'border-orange-200 bg-orange-50/30' : defaultCardColor}`}>
       {/* Notifica cliente eliminato alla fonte */}
       {isDeletedAtSource && (
         <div className="bg-red-100 px-3 py-2 text-xs text-red-800 font-medium border-b border-red-200 flex items-center justify-between">
