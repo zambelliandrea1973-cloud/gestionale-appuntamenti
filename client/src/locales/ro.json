@@ -2147,6 +2147,9 @@
     "taxCode": "Cod fiscal",
     "vatNumber": "CUI",
     "birthday": "Data nașterii",
+    "gender": "Gen",
+    "genderMale": "Bărbat",
+    "genderFemale": "Femeie",
     "frequentClient": "Client frecvent",
     "frequentClientDesc": "Clientul vine regulat",
     "notes": "Note",
@@ -2176,7 +2179,10 @@
     "phoneMinChars": "Numărul de telefon trebuie să conțină cel puțin 6 cifre",
     "emailInvalid": "Email invalid",
     "prefixPlaceholder": "Pref.",
-    "codePreview": "Acest client va primi codul: {{code}}"
+    "codePreview": "Acest client va primi codul: {{code}}",
+    "gender": "[TODO:RO] Gender",
+    "genderMale": "[TODO:RO] Male",
+    "genderFemale": "[TODO:RO] Female"
   },
   "privacyConsent": {
     "consentRequired": "Consimțământ necesar",
