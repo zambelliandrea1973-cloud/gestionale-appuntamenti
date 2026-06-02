@@ -2,6 +2,7 @@ import { apiRequest } from "./queryClient";
 
 // Definizione dell'interfaccia per i dati di contatto
 export interface ContactInfo {
+  businessName?: string;
   email?: string;
   phone1?: string;
   phone2?: string;
