@@ -183,7 +183,7 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
     <div className="rounded-2xl border-2 border-green-300 bg-white shadow-sm overflow-hidden">
       <div className="py-2.5 px-4 bg-green-50 border-b border-green-200 text-center">
         <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-          {t('contacts.accessOurContacts', 'Accedi ai nostri contatti')}
+          {t('contacts.accessOurContacts', 'Accedi ai contatti')}
         </p>
       </div>
       <div className="py-5 px-4 flex flex-wrap gap-4 justify-center">
