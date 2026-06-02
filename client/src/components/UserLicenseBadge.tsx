@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 // Sistema semplificato - UserLicenseBadge
-export default function UserLicenseBadge() {
+export default function UserLicenseBadge({ hideCode = false }: { hideCode?: boolean } = {}) {
   const { t } = useTranslation();
   const { data: user, isLoading } = useQuery({
     queryKey: ["/api/user-with-license"],
@@ -88,7 +88,7 @@ export default function UserLicenseBadge() {
           {user.username}
         </div>
       </div>
-      {(user.assignmentCode || user.professionistCode) && (
+      {!hideCode && (user.assignmentCode || user.professionistCode) && (
         <div className="text-xs text-amber-200 font-mono bg-black/20 px-2 py-1 rounded">
           {t('staffManagement.referralCodeBadge', { code: user.assignmentCode || user.professionistCode })}
         </div>
