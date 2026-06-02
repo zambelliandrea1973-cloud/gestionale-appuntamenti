@@ -2147,6 +2147,9 @@
     "taxCode": "ИНН",
     "vatNumber": "НДС номер",
     "birthday": "Дата рождения",
+    "gender": "Пол",
+    "genderMale": "Мужчина",
+    "genderFemale": "Женщина",
     "frequentClient": "Постоянный клиент",
     "frequentClientDesc": "Клиент посещает регулярно",
     "notes": "Заметки",
@@ -2176,7 +2179,10 @@
     "phoneMinChars": "Номер телефона должен содержать минимум 6 цифр",
     "emailInvalid": "Некорректный email",
     "prefixPlaceholder": "Преф.",
-    "codePreview": "Этот клиент получит код: {{code}}"
+    "codePreview": "Этот клиент получит код: {{code}}",
+    "gender": "[TODO:RU] Gender",
+    "genderMale": "[TODO:RU] Male",
+    "genderFemale": "[TODO:RU] Female"
   },
   "privacyConsent": {
     "consentRequired": "Требуется согласие",
