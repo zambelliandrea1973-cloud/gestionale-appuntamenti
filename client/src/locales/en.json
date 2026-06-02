@@ -1519,7 +1519,7 @@
     "futureAppointmentsCount_other": "You have {{count}} upcoming appointments"
   },
   "contacts": {
-    "accessOurContacts": "Access our contacts"
+    "accessOurContacts": "Access contacts"
   },
   "trial": {
     "days": "days",
