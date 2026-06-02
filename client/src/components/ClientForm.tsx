@@ -63,6 +63,7 @@ const formSchema = insertClientSchema.omit({ userId: true, ownerId: true }).exte
   lastName: z.string().min(2, "clientForm.lastNameMinChars"),
   phone: z.string().min(6, "clientForm.phoneMinChars"),
   email: z.string().email("clientForm.emailInvalid").or(z.literal("")),
+  gender: z.string().nullable().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -135,7 +136,8 @@ export default function ClientForm({
       medicalNotes: "",
       allergies: "",
       taxCode: "",
-      vatNumber: ""
+      vatNumber: "",
+      gender: null
     }
   });
   
@@ -223,7 +225,8 @@ export default function ClientForm({
           medicalNotes: "",
           allergies: "",
           taxCode: "",
-          vatNumber: ""
+          vatNumber: "",
+          gender: null
         });
         
         // Call onClientCreated with the new client ID
@@ -526,6 +529,44 @@ export default function ClientForm({
                   />
                 </div>
                 
+                {/* Sesso */}
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('clientForm.gender', 'Sesso')}</FormLabel>
+                      <FormControl>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => field.onChange(field.value === 'male' ? null : 'male')}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-sm font-medium transition-colors ${
+                              field.value === 'male'
+                                ? 'bg-indigo-100 border-indigo-400 text-indigo-700'
+                                : 'bg-white border-gray-200 text-gray-500 hover:bg-indigo-50'
+                            }`}
+                          >
+                            ♂ {t('clientForm.genderMale', 'Uomo')}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => field.onChange(field.value === 'female' ? null : 'female')}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-sm font-medium transition-colors ${
+                              field.value === 'female'
+                                ? 'bg-fuchsia-100 border-fuchsia-400 text-fuchsia-700'
+                                : 'bg-white border-gray-200 text-gray-500 hover:bg-fuchsia-50'
+                            }`}
+                          >
+                            ♀ {t('clientForm.genderFemale', 'Donna')}
+                          </button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
