@@ -2147,6 +2147,9 @@
     "taxCode": "BSN",
     "vatNumber": "BTW-nummer",
     "birthday": "Geboortedatum",
+    "gender": "Geslacht",
+    "genderMale": "Man",
+    "genderFemale": "Vrouw",
     "frequentClient": "Vaste klant",
     "frequentClientDesc": "De klant komt regelmatig",
     "notes": "Notities",
@@ -2176,7 +2179,10 @@
     "phoneMinChars": "Telefoonnummer moet minstens 6 cijfers bevatten",
     "emailInvalid": "Ongeldig e-mailadres",
     "prefixPlaceholder": "Pref.",
-    "codePreview": "Deze cliënt ontvangt de code: {{code}}"
+    "codePreview": "Deze cliënt ontvangt de code: {{code}}",
+    "gender": "[TODO:NL] Gender",
+    "genderMale": "[TODO:NL] Male",
+    "genderFemale": "[TODO:NL] Female"
   },
   "privacyConsent": {
     "consentRequired": "Toestemming vereist",
