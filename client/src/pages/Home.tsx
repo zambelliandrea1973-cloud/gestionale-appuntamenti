@@ -122,9 +122,11 @@ function CompanyName() {
     color: settings.color,
     marginTop: '8px',
     textAlign: 'center' as const,
-    maxWidth: '300px'
+    maxWidth: '90vw',
+    wordBreak: 'break-word' as const,
+    overflowWrap: 'anywhere' as const,
   };
-  return <div style={nameStyle}>{settings.name}</div>;
+  return <div style={nameStyle} className="w-full px-4">{settings.name}</div>;
 }
 
 function BetaBadge() {
