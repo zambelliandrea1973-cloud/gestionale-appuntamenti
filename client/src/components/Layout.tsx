@@ -378,7 +378,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             <div className="w-full mb-2">
               <div className="border border-white/30 rounded-xl p-3 bg-primary-dark/20 flex items-start gap-3">
                 {/* Icona grande — allineata in alto */}
-                <UserIcon className="h-14 w-14 flex-shrink-0 rounded-xl overflow-hidden" userId={userWithLicense?.id} />
+                <UserIcon className="h-11 w-11 flex-shrink-0 rounded-xl overflow-hidden" userId={userWithLicense?.id} />
 
                 {/* Colonna destra */}
                 <div className="min-w-0 flex-1 overflow-hidden">
