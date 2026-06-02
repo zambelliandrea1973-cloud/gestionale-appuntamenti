@@ -378,19 +378,21 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             <div className="w-full mb-2">
               <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center gap-2">
                 <UserIcon className="h-7 w-7 flex-shrink-0" userId={userWithLicense?.id} />
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1 overflow-hidden">
                   <h1 className="text-base font-semibold leading-tight truncate">
                     {appTitle || t('app.title')}
                   </h1>
-                  <div className="flex items-center gap-1 mt-0.5">
+                  <div className="flex items-center gap-1 mt-0.5 overflow-hidden">
                     <UserLicenseBadge />
-                    {userWithLicense?.username && (
-                      <span
-                        className="text-white/70 whitespace-nowrap"
-                        style={{ fontSize: `min(10px, calc(55vw / ${userWithLicense.username.length || 1} * 1.5))` }}
-                      >{userWithLicense.username}</span>
-                    )}
                   </div>
+                  {userWithLicense?.username && (
+                    <div className="overflow-hidden mt-0.5">
+                      <span
+                        className="text-white/70 whitespace-nowrap block"
+                        style={{ fontSize: `min(10px, calc(80vw / ${userWithLicense.username.length || 1} * 1.5))` }}
+                      >{userWithLicense.username}</span>
+                    </div>
+                  )}
                   {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
                     <div className="text-[10px] text-amber-300 flex items-center gap-1 mt-0.5">
                       <Clock className="h-3 w-3 flex-shrink-0" />
