@@ -162,6 +162,7 @@ router.get("/api/clients", async (req, res) => {
       emailBlocked: clients.emailBlocked,
       emailBlockedReason: clients.emailBlockedReason,
       isDemo: clients.isDemo,
+      gender: clients.gender,
       accessCount: sql<number>`COALESCE((SELECT COUNT(*) FROM client_accesses WHERE client_accesses.client_id = ${clients.id}), 0)`.as('accessCount'),
     })
       .from(clients)
