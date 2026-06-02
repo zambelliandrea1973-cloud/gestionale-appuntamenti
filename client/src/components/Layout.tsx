@@ -383,7 +383,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     {appTitle || t('app.title')}
                   </h1>
                   <div className="flex items-center gap-1 mt-0.5 overflow-hidden">
-                    <UserLicenseBadge />
+                    <UserLicenseBadge hideUsername />
                   </div>
                   {userWithLicense?.username && (
                     <div className="overflow-hidden mt-0.5">
