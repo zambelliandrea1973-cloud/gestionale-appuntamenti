@@ -1467,7 +1467,7 @@
     "futureAppointmentsCount_other": "Vous avez {{count}} rendez-vous à venir"
   },
   "contacts": {
-    "accessOurContacts": "Accéder à nos contacts"
+    "accessOurContacts": "Accéder aux contacts"
   },
   "appointment": {
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce rendez-vous ?",
