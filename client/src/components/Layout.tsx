@@ -83,7 +83,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           {/* Layout desktop - menu compatto a 3 righe centrato */}
           <div className="hidden md:flex flex-col items-center w-full">
             {/* Header con titolo app e badge utente */}
-            <div className="w-full flex items-center justify-between mb-2">
+            <div className="w-full max-w-[600px] flex items-center justify-between mb-2">
               <div className="flex items-center gap-2 flex-wrap">
                 <UserIcon className="h-5 w-5 flex-shrink-0" userId={userWithLicense?.id} />
                 <h1 className="text-lg font-medium whitespace-nowrap">{appTitle || t('app.title')}</h1>
