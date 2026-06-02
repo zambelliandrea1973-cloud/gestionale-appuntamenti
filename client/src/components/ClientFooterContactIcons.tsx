@@ -181,7 +181,7 @@ export default function ClientFooterContactIcons({ ownerId }: ClientFooterContac
     <div className="mt-6 rounded-2xl border-2 border-green-300 bg-white shadow-sm overflow-hidden">
       <div className="py-3 px-4 bg-green-50 border-b border-green-200 text-center">
         <h4 className="font-semibold text-gray-700 text-base">
-          {info.businessName || t('contacts.accessOurContacts', 'Accedi ai nostri contatti')}
+          {info.businessName || t('contacts.accessOurContacts', 'Accedi ai contatti')}
         </h4>
       </div>
 
