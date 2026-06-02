@@ -294,11 +294,12 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
     return 'unknown';
   }
 
-  const gender = detectGender(client.firstName || '');
+  // Priorità: campo gender salvato → rilevamento dal nome → verde
+  const resolvedGender = (client as any).gender || detectGender(client.firstName || '');
   const defaultCardColor =
-    gender === 'female' ? 'bg-fuchsia-50 border-fuchsia-200' :
-    gender === 'male'   ? 'bg-indigo-50 border-indigo-200' :
-                          'bg-emerald-50 border-emerald-200';
+    resolvedGender === 'female' ? 'bg-fuchsia-50 border-fuchsia-200' :
+    resolvedGender === 'male'   ? 'bg-indigo-50 border-indigo-200' :
+                                  'bg-emerald-50 border-emerald-200';
 
   return (
     <Card ref={cardRef} className={`h-full ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : isIncompleteData ? 'border-red-400 bg-red-50/30' : isOtherAccount ? 'border-orange-200 bg-orange-50/30' : defaultCardColor}`}>
