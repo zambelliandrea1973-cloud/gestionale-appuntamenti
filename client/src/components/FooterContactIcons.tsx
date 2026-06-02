@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Mail, Phone, Globe, Facebook, Instagram } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from 'react-i18next';
-import { ContactInfo, loadContactInfo, loadContactInfoFromAPI, formatContactInfo } from '@/lib/contactInfo';
+import { useQuery } from '@tanstack/react-query';
+import { ContactInfo, formatContactInfo } from '@/lib/contactInfo';
 import { useUserWithLicense } from '@/hooks/use-user-with-license';
 
 interface FooterContactIconsProps {
   ownerId?: number;
 }
 
-// Stile 3D per ogni icona — tutti i colori vividi e saturi, nessun tono scuro (come Instagram)
 const ICON_STYLES: Record<string, {
   gradient: string;
   shadow: string;
@@ -17,42 +17,36 @@ const ICON_STYLES: Record<string, {
   label: string;
 }> = {
   email: {
-    // Rosa acceso → rosso fuoco → arancio caldo — vivido come iOS
     gradient: 'linear-gradient(135deg, #ff416c 0%, #ff4b2b 60%, #ff7e44 100%)',
     shadow: '0 4px 0 rgba(255,65,108,0.6), 0 6px 16px rgba(255,75,43,0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Mail className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Email',
   },
   phone1: {
-    // Teal brillante → verde lime vivido — WhatsApp vibrancy
     gradient: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
     shadow: '0 4px 0 rgba(17,153,142,0.6), 0 6px 16px rgba(56,239,125,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Phone className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Telefono',
   },
   phone2: {
-    // Verde menta vivido → ciano brillante
     gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
     shadow: '0 4px 0 rgba(67,233,123,0.55), 0 6px 16px rgba(56,249,215,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Phone className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Cellulare',
   },
   website: {
-    // iOS Safari: blu elettrico → azzurro cielo brillante → ciano
     gradient: 'linear-gradient(135deg, #007AFF 0%, #30b3ff 55%, #5ce0e6 100%)',
     shadow: '0 4px 0 rgba(0,122,255,0.6), 0 6px 16px rgba(48,179,255,0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Globe className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Sito web',
   },
   facebook: {
-    // Blu vivido → viola-blu elettrico (shift hue come Instagram)
     gradient: 'linear-gradient(135deg, #4776e6 0%, #1877F2 40%, #8e54e9 100%)',
     shadow: '0 4px 0 rgba(71,118,230,0.6), 0 6px 16px rgba(24,119,242,0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Facebook className="w-5 h-5 text-white drop-shadow-sm" />,
     label: 'Facebook',
   },
   instagram: {
-    // Gradiente Instagram ufficiale: viola → magenta → rosso → arancio → giallo
     gradient: 'linear-gradient(135deg, #833ab4 0%, #c13584 30%, #e1306c 55%, #f77737 80%, #fcaf45 100%)',
     shadow: '0 4px 0 rgba(131,58,180,0.6), 0 6px 16px rgba(193,53,132,0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
     icon: <Instagram className="w-5 h-5 text-white drop-shadow-sm" />,
@@ -107,7 +101,6 @@ function Icon3DButton({
             overflow: 'hidden',
           }}
         >
-          {/* Gloss overlay — striscia chiara in cima */}
           <span
             aria-hidden
             style={{
@@ -135,82 +128,28 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
   const { t } = useTranslation();
   const { user, isLoading: authLoading } = useUserWithLicense();
 
-  // Inizializza subito da localStorage (dati sincroni, zero attesa)
-  const [contactInfo, setContactInfo] = useState<ContactInfo>(() => {
-    if (ownerId) return loadContactInfo(ownerId);
-    // Prova a trovare qualsiasi chiave contatti già in localStorage
-    try {
-      const keys = Object.keys(localStorage).filter(k =>
-        k.startsWith('healthcare_app_contact_info_user_')
-      );
-      if (keys.length === 1) return JSON.parse(localStorage.getItem(keys[0]) || '{}');
-    } catch { /* noop */ }
-    return {};
+  const targetUserId = ownerId ?? user?.id;
+
+  const { data: contactInfo, isLoading } = useQuery<ContactInfo>({
+    queryKey: ['/api/contact-info', targetUserId],
+    queryFn: async () => {
+      if (!targetUserId) return {};
+      const res = await fetch(`/api/contact-info/${targetUserId}`);
+      if (!res.ok) return {};
+      return res.json();
+    },
+    enabled: !!targetUserId && (!authLoading || !!ownerId),
+    staleTime: 5 * 60 * 1000,
+    retry: 2,
+    placeholderData: {},
   });
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (authLoading) return;
-    const targetUserId = ownerId || user?.id;
-    if (!targetUserId) { setLoading(false); return; }
-
-    // Prima mostra subito i dati locali (già impostati nello state iniziale o aggiornali)
-    const cached = loadContactInfo(targetUserId);
-    if (cached && Object.keys(cached).some(k => (cached as any)[k])) {
-      setContactInfo(cached);
-      setLoading(false); // mostra subito senza aspettare l'API
-    }
-
-    // Verifica se un oggetto ha almeno un campo contatto valido
-    const hasContactFields = (info: any) =>
-      info && (info.email || info.phone1 || info.phone2 ||
-               info.website || info.facebook || info.instagram);
-
-    // Fallback all'endpoint per ownerId (non richiede sessione — funziona su mobile)
-    const tryPublicFallback = () =>
-      fetch(`/api/contact-info/${targetUserId}`)
-        .then(r => r.ok ? r.json() : {})
-        .then(pub => { if (hasContactFields(pub)) setContactInfo(pub); })
-        .catch(() => {});
-
-    // Prima prova l'API autenticata, poi fallback pubblico se serve
-    loadContactInfoFromAPI(targetUserId)
-      .then(apiInfo => {
-        if (hasContactFields(apiInfo)) {
-          setContactInfo(apiInfo);
-        } else {
-          return tryPublicFallback();
-        }
-      })
-      .catch(tryPublicFallback)
-      .finally(() => setLoading(false));
-
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key?.includes(`healthcare_app_contact_info_user_${targetUserId}`)) {
-        const fresh = loadContactInfo(targetUserId);
-        if (fresh) setContactInfo(fresh);
-      }
-    };
-    const handleContactInfoUpdated = (e: any) => {
-      if (e.detail?.userId === targetUserId) {
-        if (e.detail.contactInfo) setContactInfo(e.detail.contactInfo);
-        else loadContactInfoFromAPI(targetUserId).then(d => d && setContactInfo(d));
-      }
-    };
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('contactInfoUpdated', handleContactInfoUpdated);
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('contactInfoUpdated', handleContactInfoUpdated);
-    };
-  }, [user?.id, ownerId, authLoading]);
-
+  const info = contactInfo ?? {};
   const hasAny =
-    contactInfo.email || contactInfo.phone1 || contactInfo.phone2 ||
-    contactInfo.website || contactInfo.facebook || contactInfo.instagram;
+    info.email || info.phone1 || info.phone2 ||
+    info.website || info.facebook || info.instagram;
 
-  // Mentre carica mostra uno skeleton placeholder per non far sparire lo spazio
-  if (loading) {
+  if (isLoading || (!hasAny && !targetUserId)) {
     return (
       <div className="rounded-2xl border-2 border-green-200 bg-white shadow-sm overflow-hidden animate-pulse">
         <div className="py-2.5 px-4 bg-green-50 border-b border-green-100">
@@ -228,18 +167,18 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
   if (!hasAny) return null;
 
   const buttons: { key: string; href: string; tooltip: string }[] = [];
-  if (contactInfo.email)
-    buttons.push({ key: 'email', href: `mailto:${contactInfo.email}`, tooltip: contactInfo.email! });
-  if (contactInfo.phone1)
-    buttons.push({ key: 'phone1', href: `tel:${contactInfo.phone1}`, tooltip: contactInfo.phone1! });
-  if (contactInfo.phone2)
-    buttons.push({ key: 'phone2', href: `tel:${contactInfo.phone2}`, tooltip: contactInfo.phone2! });
-  if (contactInfo.website)
-    buttons.push({ key: 'website', href: formatContactInfo('website', contactInfo.website), tooltip: contactInfo.website! });
-  if (contactInfo.facebook)
-    buttons.push({ key: 'facebook', href: formatContactInfo('facebook', contactInfo.facebook), tooltip: 'Facebook' });
-  if (contactInfo.instagram)
-    buttons.push({ key: 'instagram', href: formatContactInfo('instagram', contactInfo.instagram), tooltip: `@${contactInfo.instagram?.replace('@', '')}` });
+  if (info.email)
+    buttons.push({ key: 'email', href: `mailto:${info.email}`, tooltip: info.email! });
+  if (info.phone1)
+    buttons.push({ key: 'phone1', href: `tel:${info.phone1}`, tooltip: info.phone1! });
+  if (info.phone2)
+    buttons.push({ key: 'phone2', href: `tel:${info.phone2}`, tooltip: info.phone2! });
+  if (info.website)
+    buttons.push({ key: 'website', href: formatContactInfo('website', info.website), tooltip: info.website! });
+  if (info.facebook)
+    buttons.push({ key: 'facebook', href: formatContactInfo('facebook', info.facebook), tooltip: 'Facebook' });
+  if (info.instagram)
+    buttons.push({ key: 'instagram', href: formatContactInfo('instagram', info.instagram), tooltip: `@${info.instagram?.replace('@', '')}` });
 
   return (
     <div className="rounded-2xl border-2 border-green-300 bg-white shadow-sm overflow-hidden">

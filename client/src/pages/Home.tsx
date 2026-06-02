@@ -332,7 +332,7 @@ export default function Home() {
 
       {/* Footer contact icons */}
       <div className="mt-10">
-        <FooterContactIcons />
+        <FooterContactIcons ownerId={user?.id} />
       </div>
 
       {/* Legal footer */}
