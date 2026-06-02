@@ -8,16 +8,12 @@ import {
   BarChart,
   ArrowRight,
   FileText,
-  Calendar,
   Clock,
-  Grid,
   Flower,
-  ImageIcon,
   MessageSquare,
   BookOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { apiRequest } from "@/lib/queryClient";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
@@ -25,7 +21,6 @@ import FooterContactIcons from "@/components/FooterContactIcons";
 import OnboardingBanner from "@/components/OnboardingBanner";
 import ScrollDownHint from "@/components/ScrollDownHint";
 
-// Componente per l'icona dell'app - STESSA LOGICA NOME AZIENDALE
 function AppIcon() {
   const [iconUrl, setIconUrl] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -43,8 +38,6 @@ function AppIcon() {
           iconLength: data.icon?.length,
           url: data.icon?.substring(0, 50) + '...'
         });
-        
-        // STESSA LOGICA NOME AZIENDALE - usa direttamente l'icona dal server
         if (data.icon) {
           setIconUrl(data.icon);
           console.log('✅ HOME AppIcon: Icon set correctly');
@@ -57,14 +50,12 @@ function AppIcon() {
         setLoading(false);
       }
     };
-    
     fetchIconInfo();
   }, []);
   
   if (loading) {
     return <div className="w-full h-full flex items-center justify-center"><Clock className="w-8 h-8 animate-spin text-primary/50" /></div>;
   }
-  
   if (!iconUrl) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-muted">
@@ -72,17 +63,15 @@ function AppIcon() {
       </div>
     );
   }
-  
   return (
     <img 
       src={iconUrl}
       alt="Fleur de Vie" 
-      className="w-full h-full object-cover rounded-lg"
+      className="w-full h-full object-cover rounded-full"
     />
   );
 }
 
-// Componente per il nome aziendale
 function CompanyName() {
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
@@ -99,26 +88,20 @@ function CompanyName() {
   useEffect(() => {
     const fetchCompanyNameSettings = async () => {
       if (!user?.id) {
-        console.log("⏭️ FRONTEND CompanyName: User not available, skipping load");
         setLoading(false);
         return;
       }
-      
       try {
         setLoading(true);
         console.log(`🏢 FRONTEND CompanyName: Loading settings for user ${user.id}`);
         const response = await apiRequest("GET", "/api/company-name-settings");
         console.log(`🏢 FRONTEND CompanyName: API response status: ${response.status}`);
-        
         if (response.ok) {
           const data = await response.json();
           console.log(`✅ FRONTEND CompanyName: Settings loaded:`, data);
           setSettings(data);
         } else if (response.status === 404) {
-          console.log(`ℹ️ FRONTEND CompanyName: No settings found for user ${user.id}`);
           setSettings(null);
-        } else {
-          console.log(`❌ FRONTEND CompanyName: API error status ${response.status}`);
         }
       } catch (error) {
         console.error("❌ FRONTEND CompanyName: Error loading:", error);
@@ -126,62 +109,37 @@ function CompanyName() {
         setLoading(false);
       }
     };
-    
     fetchCompanyNameSettings();
   }, [user?.id]);
   
-  // Niente flash di "Caricamento nome..." durante il fetch: il banner di
-  // onboarding è già il prompt principale per impostare il nome aziendale.
-  if (loading) {
-    return null;
-  }
-
-  if (!settings || !settings.enabled || !settings.name) {
-    console.log("🏢 FRONTEND CompanyName: Non mostro nome - settings:", settings);
-    return null; // Non mostrare nulla se non c'è un nome aziendale o se è disabilitato
-  }
+  if (loading) return null;
+  if (!settings || !settings.enabled || !settings.name) return null;
   
-  // Stile dinamico per il nome aziendale
   const nameStyle = {
     fontSize: `${settings.fontSize}px`,
     fontFamily: settings.fontFamily,
     fontStyle: settings.fontStyle,
     color: settings.color,
-    marginTop: '12px',
+    marginTop: '8px',
     textAlign: 'center' as const,
     maxWidth: '300px'
   };
-  
   return <div style={nameStyle}>{settings.name}</div>;
 }
 
-// Componente Badge Beta
 function BetaBadge() {
   const [isBeta, setIsBeta] = useState(false);
-  const { t } = useTranslation();
   
   useEffect(() => {
-    // Utilizziamo la funzione di utilità per verificare se l'utente è un beta tester
-    import('@/lib/betaUtils').then(({ isBetaTester }) => {
-      setIsBeta(isBetaTester());
-    });
-    
-    // Ricontrolliamo se lo stato beta cambia
+    import('@/lib/betaUtils').then(({ isBetaTester }) => { setIsBeta(isBetaTester()); });
     const checkBetaStatus = () => {
-      import('@/lib/betaUtils').then(({ isBetaTester }) => {
-        setIsBeta(isBetaTester());
-      });
+      import('@/lib/betaUtils').then(({ isBetaTester }) => { setIsBeta(isBetaTester()); });
     };
-    
     window.addEventListener('storage', checkBetaStatus);
-    
-    return () => {
-      window.removeEventListener('storage', checkBetaStatus);
-    };
+    return () => window.removeEventListener('storage', checkBetaStatus);
   }, []);
   
   if (!isBeta) return null;
-  
   return (
     <div className="absolute top-2 right-2 animate-pulse">
       <Link href="/beta" className="inline-block">
@@ -192,6 +150,99 @@ function BetaBadge() {
     </div>
   );
 }
+
+const CARDS = [
+  {
+    key: "calendar",
+    titleKey: "calendar.title",
+    descKey: "calendar.description",
+    subDescKey: "calendar.subDescription",
+    btnKey: "calendar.goTo",
+    route: "/calendar",
+    icon: CalendarDays,
+    bg: "bg-blue-50",
+    iconBg: "bg-blue-100",
+    iconColor: "text-blue-500",
+    btnColor: "border-blue-200 text-blue-600 hover:bg-blue-50",
+    accent: "bg-blue-400",
+  },
+  {
+    key: "clients",
+    titleKey: "clients.title",
+    descKey: "clients.description",
+    subDescKey: "clients.subDescription",
+    btnKey: "clients.goTo",
+    route: "/clients",
+    icon: Users,
+    bg: "bg-violet-50",
+    iconBg: "bg-violet-100",
+    iconColor: "text-violet-500",
+    btnColor: "border-violet-200 text-violet-600 hover:bg-violet-50",
+    accent: "bg-violet-400",
+  },
+  {
+    key: "notifications",
+    titleKey: "whatsappNotifications.title",
+    descKey: "whatsappNotifications.description",
+    subDescKey: "whatsappNotifications.subDescription",
+    btnKey: "whatsappNotifications.goTo",
+    route: "/notifications",
+    icon: MessageSquare,
+    bg: "bg-emerald-50",
+    iconBg: "bg-emerald-100",
+    iconColor: "text-emerald-500",
+    btnColor: "border-emerald-200 text-emerald-600 hover:bg-emerald-50",
+    accent: "bg-emerald-400",
+  },
+  {
+    key: "invoices",
+    titleKey: "invoices.title",
+    descKey: "invoices.description",
+    subDescKey: "invoices.subDescription",
+    btnKey: "invoices.goTo",
+    route: "/invoices",
+    icon: FileText,
+    bg: "bg-orange-50",
+    iconBg: "bg-orange-100",
+    iconColor: "text-orange-500",
+    btnColor: "border-orange-200 text-orange-600 hover:bg-orange-50",
+    accent: "bg-orange-400",
+  },
+  {
+    key: "reports",
+    titleKey: "reports.title",
+    descKey: "reports.description",
+    subDescKey: "reports.subDescription",
+    btnKey: "reports.goTo",
+    route: "/reports",
+    icon: BarChart,
+    bg: "bg-pink-50",
+    iconBg: "bg-pink-100",
+    iconColor: "text-pink-500",
+    btnColor: "border-pink-200 text-pink-600 hover:bg-pink-50",
+    accent: "bg-pink-400",
+  },
+  {
+    key: "manual",
+    titleKey: "home.manual.title",
+    titleFallback: "Manuale",
+    descKey: "home.manual.description",
+    descFallback: "Guida completa all'uso",
+    subDescKey: "home.manual.content",
+    subDescFallback: "Consulta il manuale d'uso con screenshot e video tutorial per ogni funzionalità del gestionale",
+    btnKey: "home.manual.button",
+    btnFallback: "Vai al Manuale",
+    route: "/manuale",
+    icon: BookOpen,
+    bg: "bg-teal-50",
+    iconBg: "bg-teal-100",
+    iconColor: "text-teal-500",
+    btnColor: "border-teal-200 text-teal-600 hover:bg-teal-50",
+    accent: "bg-teal-400",
+    testId: "card-manual",
+    btnTestId: "button-go-to-manual",
+  },
+];
 
 export default function Home() {
   const [_, navigate] = useLocation();
@@ -212,223 +263,96 @@ export default function Home() {
       )}
       <ScrollDownHint />
       <BetaBadge />
-      <div className="text-center my-8">
-        <div className="flex flex-col items-center mb-6">
-          <div className="w-32 h-32 rounded-full shadow-lg bg-white border-4 border-primary/20 flex items-center justify-center overflow-hidden icon-rotate">
+
+      {/* Hero section */}
+      <div className="text-center py-8">
+        <div className="flex flex-col items-center mb-5">
+          <div className="w-28 h-28 rounded-full shadow-lg bg-white border-4 border-white ring-4 ring-primary/10 flex items-center justify-center overflow-hidden icon-rotate">
             <AppIcon />
           </div>
           <CompanyName />
         </div>
-        <h1 className="text-3xl font-bold mb-2">
+        <h1 className="text-3xl font-bold mb-2 text-gray-800">
           {t('app.welcome')}
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-gray-400 text-sm">
           {t('app.description')}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div>
-          <Card className="h-full card-hover flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <CalendarDays className="mr-2 h-5 w-5 text-primary" />
-                {t('calendar.title')}
-              </CardTitle>
-              <CardDescription>
-                {t('calendar.description')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <p className="flex-1">
-                {t('calendar.subDescription')}
-              </p>
-              <div className="mt-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full btn-with-icon" 
-                  onClick={() => navigate("/calendar")}
-                >
-                  {t('calendar.goTo')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+      {/* Cards grid — 1 col mobile · 2 col tablet · 3 col desktop (2×3 = symmetric) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {CARDS.map((card) => {
+          const Icon = card.icon;
+          return (
+            <div
+              key={card.key}
+              data-testid={card.testId}
+              className={`rounded-2xl overflow-hidden shadow-sm border border-white/80 ${card.bg} flex flex-col transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer`}
+              onClick={() => navigate(card.route)}
+            >
+              {/* Colored top accent bar */}
+              <div className={`h-1.5 w-full ${card.accent} opacity-60`} />
 
-        <div>
-          <Card className="h-full card-hover flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Users className="mr-2 h-5 w-5 text-primary" />
-                {t('clients.title')}
-              </CardTitle>
-              <CardDescription>
-                {t('clients.description')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <p className="flex-1">
-                {t('clients.subDescription')}
-              </p>
-              <div className="mt-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full btn-with-icon" 
-                  onClick={() => navigate("/clients")}
-                >
-                  {t('clients.goTo')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              <div className="p-5 flex flex-col flex-1">
+                {/* Icon + title row */}
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`w-10 h-10 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0`}>
+                    <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                  </div>
+                  <div>
+                    <h2 className="font-semibold text-gray-800 text-base leading-tight">
+                      {t(card.titleKey, card.titleFallback)}
+                    </h2>
+                    <p className={`text-xs ${card.iconColor} opacity-80 font-medium mt-0.5`}>
+                      {t(card.descKey, card.descFallback)}
+                    </p>
+                  </div>
+                </div>
 
-        <div>
-          <Card className="h-full card-hover flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <MessageSquare className="mr-2 h-5 w-5 text-primary" />
-                {t('whatsappNotifications.title')}
-              </CardTitle>
-              <CardDescription>
-                {t('whatsappNotifications.description')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <p className="flex-1">
-                {t('whatsappNotifications.subDescription')}
-              </p>
-              <div className="mt-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full btn-with-icon" 
-                  onClick={() => navigate("/notifications")}
-                >
-                  {t('whatsappNotifications.goTo')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+                {/* Description */}
+                <p className="text-gray-500 text-sm flex-1 leading-relaxed">
+                  {t(card.subDescKey, card.subDescFallback)}
+                </p>
 
-        <div>
-          <Card className="h-full card-hover flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <FileText className="mr-2 h-5 w-5 text-primary" />
-                {t('invoices.title')}
-              </CardTitle>
-              <CardDescription>
-                {t('invoices.description')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <p className="flex-1">
-                {t('invoices.subDescription')}
-              </p>
-              <div className="mt-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full btn-with-icon" 
-                  onClick={() => navigate("/invoices")}
+                {/* CTA button */}
+                <button
+                  data-testid={card.btnTestId}
+                  onClick={(e) => { e.stopPropagation(); navigate(card.route); }}
+                  className={`mt-4 w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl border text-sm font-medium transition-colors ${card.btnColor}`}
                 >
-                  {t('invoices.goTo')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                  {t(card.btnKey, card.btnFallback)}
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div>
-          <Card className="h-full card-hover flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <BarChart className="mr-2 h-5 w-5 text-primary" />
-                {t('reports.title')}
-              </CardTitle>
-              <CardDescription>
-                {t('reports.description')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <p className="flex-1">
-                {t('reports.subDescription')}
-              </p>
-              <div className="mt-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full btn-with-icon" 
-                  onClick={() => navigate("/reports")}
-                >
-                  {t('reports.goTo')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div>
-          <Card className="h-full card-hover flex flex-col" data-testid="card-manual">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <BookOpen className="mr-2 h-5 w-5 text-blue-500" />
-                {t('home.manual.title', 'Manual')}
-              </CardTitle>
-              <CardDescription>
-                {t('home.manual.description', 'Complete usage guide')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <p className="flex-1">
-                {t('home.manual.content', 'Browse the user manual with screenshots and video tutorials for every feature of the platform')}
-              </p>
-              <div className="mt-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full btn-with-icon" 
-                  onClick={() => navigate("/manuale")}
-                  data-testid="button-go-to-manual"
-                >
-                  {t('home.manual.button', 'Go to Manual')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Sezione icone contatti social */}
-      <div className="mt-12">
+      {/* Footer contact icons */}
+      <div className="mt-10">
         <FooterContactIcons />
       </div>
 
-      {/* Sezione informazioni legali */}
-      <div className="mt-8 pt-6 border-t border-border">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-muted-foreground">
+      {/* Legal footer */}
+      <div className="mt-6 pt-6 border-t border-gray-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-400">
           <div>
-            <h3 className="font-semibold text-foreground mb-2">{t('homeFooter.systemInfo')}</h3>
+            <h3 className="font-semibold text-gray-600 mb-2">{t('homeFooter.systemInfo')}</h3>
             <p>{t('homeFooter.appVersion')}</p>
             <p>{t('homeFooter.copyright')}</p>
             <p>{t('homeFooter.allRightsReserved')}</p>
           </div>
           <div>
-            <h3 className="font-semibold text-foreground mb-2">{t('homeFooter.privacySecurity')}</h3>
+            <h3 className="font-semibold text-gray-600 mb-2">{t('homeFooter.privacySecurity')}</h3>
             <p>{t('homeFooter.technicalSupport')} zambelli.andrea.1973@gmail.com</p>
             <Link to="/privacy">
-              <button 
-                className="text-primary hover:underline mt-1 block"
-              >
+              <button className="text-primary hover:underline mt-1 block">
                 {t('homeFooter.privacyPolicy')}
               </button>
             </Link>
-            <button 
+            <button
               className="text-primary hover:underline mt-1"
               onClick={() => navigate('/terms')}
             >
