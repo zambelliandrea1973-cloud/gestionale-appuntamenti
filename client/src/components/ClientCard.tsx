@@ -291,8 +291,6 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
     if (ambiguousNames.has(n)) return 'unknown';
     if (femaleNames.has(n)) return 'female';
     if (maleNames.has(n)) return 'male';
-    // heuristica finale: termina in -a → probabile femminile (escluse eccezioni già gestite)
-    if (n.endsWith('a')) return 'female';
     return 'unknown';
   }
 
