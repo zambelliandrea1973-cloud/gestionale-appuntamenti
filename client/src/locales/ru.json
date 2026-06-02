@@ -2180,9 +2180,9 @@
     "emailInvalid": "Некорректный email",
     "prefixPlaceholder": "Преф.",
     "codePreview": "Этот клиент получит код: {{code}}",
-    "gender": "[TODO:RU] Gender",
-    "genderMale": "[TODO:RU] Male",
-    "genderFemale": "[TODO:RU] Female"
+    "gender": "Пол",
+    "genderMale": "Мужчина",
+    "genderFemale": "Женщина"
   },
   "privacyConsent": {
     "consentRequired": "Требуется согласие",
