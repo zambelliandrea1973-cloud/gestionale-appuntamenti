@@ -85,12 +85,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             {/* Header con titolo app e badge utente — 3 colonne: titolo | badge centrato | esci */}
             <div className="w-full grid grid-cols-3 items-center mb-2">
               {/* Sinistra: icona + titolo + codice sotto */}
-              <div className="flex items-center gap-2 min-w-0">
-                <UserIcon className="h-5 w-5 flex-shrink-0" userId={userWithLicense?.id} />
+              <div className="flex items-center gap-3 min-w-0">
+                <UserIcon className="h-8 w-8 flex-shrink-0" userId={userWithLicense?.id} />
                 <div className="flex flex-col min-w-0">
-                  <h1 className="text-lg font-medium whitespace-nowrap leading-tight">{appTitle || t('app.title')}</h1>
+                  <h1 className="text-2xl font-bold whitespace-nowrap leading-tight">{appTitle || t('app.title')}</h1>
                   {(userWithLicense?.assignmentCode || userWithLicense?.professionistCode) && (
-                    <span className="text-[10px] text-amber-200 font-mono leading-tight">
+                    <span className="text-sm text-amber-200 font-mono leading-tight">
                       {t('staffManagement.referralCodeBadge', { code: userWithLicense.assignmentCode || userWithLicense.professionistCode })}
                     </span>
                   )}
