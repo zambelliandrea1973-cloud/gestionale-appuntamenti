@@ -88,9 +88,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               <div className="flex items-center gap-3 min-w-0">
                 <UserIcon className="h-8 w-8 flex-shrink-0" userId={userWithLicense?.id} />
                 <div className="flex flex-col min-w-0">
-                  <h1 className="text-2xl font-bold whitespace-nowrap leading-tight">{appTitle || t('app.title')}</h1>
+                  <h1 className="text-3xl font-bold whitespace-nowrap leading-tight">{appTitle || t('app.title')}</h1>
                   {(userWithLicense?.assignmentCode || userWithLicense?.professionistCode) && (
-                    <span className="text-sm text-amber-200 font-mono leading-tight">
+                    <span className="text-lg text-amber-200 font-mono leading-tight">
                       {t('staffManagement.referralCodeBadge', { code: userWithLicense.assignmentCode || userWithLicense.professionistCode })}
                     </span>
                   )}
