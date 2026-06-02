@@ -82,11 +82,15 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           
           {/* Layout desktop - menu compatto a 3 righe centrato */}
           <div className="hidden md:flex flex-col items-center w-full">
-            {/* Header con titolo app e badge utente */}
-            <div className="w-full max-w-[600px] flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2 flex-wrap">
+            {/* Header con titolo app e badge utente — 3 colonne: titolo | badge centrato | esci */}
+            <div className="w-full grid grid-cols-3 items-center mb-2">
+              {/* Sinistra: icona + titolo */}
+              <div className="flex items-center gap-2 min-w-0">
                 <UserIcon className="h-5 w-5 flex-shrink-0" userId={userWithLicense?.id} />
                 <h1 className="text-lg font-medium whitespace-nowrap">{appTitle || t('app.title')}</h1>
+              </div>
+              {/* Centro: badge piano + eventuale trial */}
+              <div className="flex flex-col items-center gap-0.5">
                 <UserLicenseBadge />
                 {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
                   <span className="text-xs text-amber-300 flex items-center gap-1">
@@ -97,7 +101,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </span>
                 )}
               </div>
-              <LogoutButton variant="secondary" className="h-8 px-3 flex-shrink-0" iconPosition="right" />
+              {/* Destra: pulsante esci */}
+              <div className="flex justify-end">
+                <LogoutButton variant="secondary" className="h-8 px-3 flex-shrink-0" iconPosition="right" />
+              </div>
             </div>
             
             {/* Menu navigazione desktop/tablet — per piano, centrato, bordi uniformi */}
