@@ -84,14 +84,21 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           <div className="hidden md:flex flex-col items-center w-full">
             {/* Header con titolo app e badge utente — 3 colonne: titolo | badge centrato | esci */}
             <div className="w-full grid grid-cols-3 items-center mb-2">
-              {/* Sinistra: icona + titolo */}
+              {/* Sinistra: icona + titolo + codice sotto */}
               <div className="flex items-center gap-2 min-w-0">
                 <UserIcon className="h-5 w-5 flex-shrink-0" userId={userWithLicense?.id} />
-                <h1 className="text-lg font-medium whitespace-nowrap">{appTitle || t('app.title')}</h1>
+                <div className="flex flex-col min-w-0">
+                  <h1 className="text-lg font-medium whitespace-nowrap leading-tight">{appTitle || t('app.title')}</h1>
+                  {(userWithLicense?.assignmentCode || userWithLicense?.professionistCode) && (
+                    <span className="text-[10px] text-amber-200 font-mono leading-tight">
+                      {t('staffManagement.referralCodeBadge', { code: userWithLicense.assignmentCode || userWithLicense.professionistCode })}
+                    </span>
+                  )}
+                </div>
               </div>
               {/* Centro: badge piano + eventuale trial */}
               <div className="flex flex-col items-center gap-0.5">
-                <UserLicenseBadge />
+                <UserLicenseBadge hideCode={true} />
                 {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
                   <span className="text-xs text-amber-300 flex items-center gap-1">
                     <Clock className="h-3 w-3" />
