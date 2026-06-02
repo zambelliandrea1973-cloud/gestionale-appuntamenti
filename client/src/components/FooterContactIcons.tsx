@@ -1,210 +1,148 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, Globe, Facebook, Instagram } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from 'react-i18next';
 import { ContactInfo, loadContactInfo, loadContactInfoFromAPI, formatContactInfo } from '@/lib/contactInfo';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { useUserWithLicense } from '@/hooks/use-user-with-license';
 
 interface FooterContactIconsProps {
-  ownerId?: number; // ID del proprietario (professionista) per mostrare i suoi contatti
+  ownerId?: number;
 }
+
+// Colori e stili per ogni tipo di contatto — stile "app icon" iOS
+const ICON_STYLES: Record<string, { bg: string; icon: React.ReactNode; label: string }> = {
+  email: {
+    bg: 'bg-red-500',
+    icon: <Mail className="w-5 h-5 text-white" />,
+    label: 'Email',
+  },
+  phone1: {
+    bg: 'bg-green-500',
+    icon: <Phone className="w-5 h-5 text-white" />,
+    label: 'Telefono',
+  },
+  phone2: {
+    bg: 'bg-green-400',
+    icon: <Phone className="w-5 h-5 text-white" />,
+    label: 'Cellulare',
+  },
+  website: {
+    bg: 'bg-blue-500',
+    icon: <Globe className="w-5 h-5 text-white" />,
+    label: 'Sito web',
+  },
+  facebook: {
+    bg: 'bg-[#1877F2]',
+    icon: <Facebook className="w-5 h-5 text-white" />,
+    label: 'Facebook',
+  },
+  instagram: {
+    bg: 'bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400',
+    icon: <Instagram className="w-5 h-5 text-white" />,
+    label: 'Instagram',
+  },
+};
 
 export default function FooterContactIcons({ ownerId }: FooterContactIconsProps) {
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
 
-  // Funzione per caricare le informazioni di contatto con separazione utente
   const loadContactData = async () => {
     const targetUserId = ownerId || user?.id;
     if (!targetUserId) return;
-    
-    // IMPORTANTE: NON caricare da localStorage per evitare contaminazione cross-utente
-    // Carica SEMPRE dall'API per garantire dati freschi dell'utente corrente
     try {
       const apiInfo = await loadContactInfoFromAPI(targetUserId);
       console.log(`✅ Contact information loaded from API for user ${targetUserId}:`, apiInfo);
       setContactInfo(apiInfo);
     } catch (error) {
-      console.error("❌ Error loading contact information from API:", error);
-      // Solo in caso di errore API, usa localStorage come fallback
+      console.error('❌ Error loading contact information from API:', error);
       const savedInfo = loadContactInfo(targetUserId);
       setContactInfo(savedInfo);
     }
   };
 
-  // Carica le informazioni all'avvio e quando cambia l'utente
   useEffect(() => {
     const targetUserId = ownerId || user?.id;
-    if (targetUserId) {
-      loadContactData();
-    }
-    
-    // Aggiungi un event listener per aggiornare i contatti quando vengono salvati
+    if (targetUserId) loadContactData();
+
     const handleStorageChange = (e: StorageEvent) => {
       const targetUserId = ownerId || user?.id;
-      // Ricarica solo se è cambiato il localStorage per questo utente specifico
       if (e.key && e.key.includes(`healthcare_app_contact_info_user_${targetUserId}`)) {
         loadContactData();
       }
     };
-    
-    window.addEventListener('storage', handleStorageChange);
-    
-    // Ascolta l'evento personalizzato dall'editor di contatti
     const handleContactInfoUpdated = (e: any) => {
-      console.log("contactInfoUpdated event received:", e.detail);
       const targetUserId = ownerId || user?.id;
-      // Verifica che l'evento sia per l'utente corrente
       if (e.detail && e.detail.userId === targetUserId) {
-        if (e.detail.contactInfo) {
-          setContactInfo(e.detail.contactInfo);
-        } else {
-          loadContactData();
-        }
+        if (e.detail.contactInfo) setContactInfo(e.detail.contactInfo);
+        else loadContactData();
       }
     };
-    
+    window.addEventListener('storage', handleStorageChange);
     window.addEventListener('contactInfoUpdated', handleContactInfoUpdated);
-    
-    // Cleanup
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('contactInfoUpdated', handleContactInfoUpdated);
     };
   }, [user?.id, ownerId]);
 
-  // RIDONDANZA ELIMINATA: Il componente già ascolta eventi storage e personalizzati
-  // per gli aggiornamenti, non serve polling ogni 5 secondi che spreca risorse
+  const hasAny =
+    contactInfo.email || contactInfo.phone1 || contactInfo.phone2 ||
+    contactInfo.website || contactInfo.facebook || contactInfo.instagram;
 
-  if (!contactInfo.email && !contactInfo.phone1 && !contactInfo.phone2 && 
-      !contactInfo.website && !contactInfo.facebook && !contactInfo.instagram) {
-    console.log("No contact information available");
-    return null; // Non mostrare nulla se non ci sono informazioni di contatto
+  if (!hasAny) {
+    console.log('No contact information available');
+    return null;
   }
 
+  const buttons: { key: string; href: string; tooltip: string }[] = [];
+  if (contactInfo.email)
+    buttons.push({ key: 'email', href: `mailto:${contactInfo.email}`, tooltip: contactInfo.email! });
+  if (contactInfo.phone1)
+    buttons.push({ key: 'phone1', href: `tel:${contactInfo.phone1}`, tooltip: contactInfo.phone1! });
+  if (contactInfo.phone2)
+    buttons.push({ key: 'phone2', href: `tel:${contactInfo.phone2}`, tooltip: contactInfo.phone2! });
+  if (contactInfo.website)
+    buttons.push({ key: 'website', href: formatContactInfo('website', contactInfo.website), tooltip: contactInfo.website! });
+  if (contactInfo.facebook)
+    buttons.push({ key: 'facebook', href: formatContactInfo('facebook', contactInfo.facebook), tooltip: 'Facebook' });
+  if (contactInfo.instagram)
+    buttons.push({ key: 'instagram', href: formatContactInfo('instagram', contactInfo.instagram), tooltip: `@${contactInfo.instagram?.replace('@', '')}` });
+
   return (
-    <Card className="border-2 border-primary/40 shadow-md bg-white/95 backdrop-blur-sm hover:shadow-lg transition-all">
-      <CardHeader className="py-2 px-4 bg-primary/15 border-b border-primary/30">
-        <h3 className="text-sm font-semibold text-primary text-center animate-pulse-slow">
-          {t('contacts.accessOurContacts', 'Access our contacts')}
-        </h3>
-      </CardHeader>
-      <CardContent className="p-3">
-        <div className="flex flex-row flex-wrap gap-3 justify-center">
-          <TooltipProvider>
-            {contactInfo.email && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
-                    onClick={() => window.open(`mailto:${contactInfo.email}`, '_blank')}
-                  >
-                    <Mail className="h-5 w-5 text-blue-600" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{contactInfo.email}</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
+    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+      {/* Header */}
+      <div className="py-2.5 px-4 bg-gray-50 border-b border-gray-100 text-center">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          {t('contacts.accessOurContacts', 'Accedi ai nostri contatti')}
+        </p>
+      </div>
 
-            {contactInfo.phone1 && (
-              <Tooltip>
+      {/* Icons row */}
+      <div className="py-4 px-4 flex flex-wrap gap-3 justify-center">
+        <TooltipProvider>
+          {buttons.map(({ key, href, tooltip }) => {
+            const style = ICON_STYLES[key];
+            return (
+              <Tooltip key={key}>
                 <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
-                    onClick={() => window.open(`tel:${contactInfo.phone1}`, '_blank')}
+                  <button
+                    onClick={() => window.open(href, '_blank')}
+                    className={`w-12 h-12 rounded-2xl ${style.bg} flex items-center justify-center shadow-sm hover:opacity-90 hover:scale-105 transition-all duration-150 active:scale-95`}
+                    aria-label={style.label}
                   >
-                    <Phone className="h-5 w-5 text-blue-600" />
-                  </Button>
+                    {style.icon}
+                  </button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{contactInfo.phone1}</p>
+                  <p>{tooltip}</p>
                 </TooltipContent>
               </Tooltip>
-            )}
-
-            {contactInfo.phone2 && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
-                    onClick={() => window.open(`tel:${contactInfo.phone2}`, '_blank')}
-                  >
-                    <Phone className="h-5 w-5 text-blue-600" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{contactInfo.phone2}</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
-
-            {contactInfo.website && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
-                    onClick={() => window.open(formatContactInfo('website', contactInfo.website), '_blank')}
-                  >
-                    <Globe className="h-5 w-5 text-blue-600" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{contactInfo.website}</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
-
-            {contactInfo.facebook && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
-                    onClick={() => window.open(formatContactInfo('facebook', contactInfo.facebook), '_blank')}
-                  >
-                    <Facebook className="h-5 w-5 text-blue-600" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Facebook</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
-
-            {contactInfo.instagram && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
-                    onClick={() => window.open(formatContactInfo('instagram', contactInfo.instagram), '_blank')}
-                  >
-                    <Instagram className="h-5 w-5 text-blue-600" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Instagram</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
-          </TooltipProvider>
-        </div>
-      </CardContent>
-    </Card>
+            );
+          })}
+        </TooltipProvider>
+      </div>
+    </div>
   );
 }
