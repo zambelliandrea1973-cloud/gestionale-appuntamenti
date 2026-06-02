@@ -374,27 +374,64 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           
           {/* Layout mobile */}
           <div className="flex md:hidden flex-col w-full">
-            {/* Intestazione utente */}
+            {/* Intestazione utente — mobile (layout disegnato) */}
             <div className="w-full mb-2">
-              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center gap-2">
-                <UserIcon className="h-7 w-7 flex-shrink-0" userId={userWithLicense?.id} />
+              <div className="border border-white/30 rounded-xl p-3 bg-primary-dark/20 flex items-start gap-3">
+                {/* Icona grande — allineata in alto */}
+                <UserIcon className="h-14 w-14 flex-shrink-0 rounded-xl overflow-hidden" userId={userWithLicense?.id} />
+
+                {/* Colonna destra */}
                 <div className="min-w-0 flex-1 overflow-hidden">
-                  <h1 className="text-base font-semibold leading-tight truncate">
+                  {/* Titolo grande */}
+                  <h1 className="text-xl font-bold leading-tight">
                     {appTitle || t('app.title')}
                   </h1>
-                  <div className="flex items-center gap-1 mt-0.5 overflow-hidden">
-                    <UserLicenseBadge hideUsername />
-                  </div>
+
+                  {/* Riga badge + ruolo + codice */}
+                  {userWithLicense && (
+                    <div className="flex items-center gap-1.5 mt-1 overflow-hidden flex-wrap">
+                      <span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold flex-shrink-0 ${
+                        (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'passepartout' ? 'bg-red-500 text-white' :
+                        (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'pro' ? 'bg-amber-500 text-white' :
+                        (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'base' ? 'bg-blue-500 text-white' :
+                        (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'business' ? 'bg-purple-500 text-white' :
+                        (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'staff_free' ? 'bg-green-500 text-white' :
+                        (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'trial' ? 'bg-white/20 text-white' :
+                        'bg-gray-500 text-white'
+                      }`}>
+                        {(userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'passepartout' ? 'Passepartout' :
+                         (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'pro' ? 'Pro' :
+                         (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'base' ? 'Base' :
+                         (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'business' ? 'Business' :
+                         (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'staff_free' ? 'Staff' :
+                         (userWithLicense.licenseType || userWithLicense.licenseInfo?.type) === 'trial' ? 'Trial' : 'Standard'}
+                      </span>
+                      <span className="text-xs text-white/80 flex-shrink-0">
+                        {userWithLicense.type === 'admin' ? 'Admin' :
+                         userWithLicense.type === 'staff' ? 'Staff' :
+                         t('i18nFinale.userLicenseBadge.customer', 'Cliente')}
+                      </span>
+                      {(userWithLicense.assignmentCode || userWithLicense.professionistCode) && (
+                        <span className="text-[10px] font-mono border border-white/40 rounded px-1.5 py-0.5 text-amber-200 flex-shrink-0">
+                          {t('staffManagement.referralCodeBadge', { code: userWithLicense.assignmentCode || userWithLicense.professionistCode })}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Email scalata — mai fuori dal bordo */}
                   {userWithLicense?.username && (
-                    <div className="overflow-hidden mt-0.5">
+                    <div className="overflow-hidden mt-1">
                       <span
                         className="text-white/70 whitespace-nowrap block"
-                        style={{ fontSize: `min(10px, calc(80vw / ${userWithLicense.username.length || 1} * 1.5))` }}
+                        style={{ fontSize: `min(11px, calc(72vw / ${userWithLicense.username.length || 1} * 1.5))` }}
                       >{userWithLicense.username}</span>
                     </div>
                   )}
+
+                  {/* Trial countdown */}
                   {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                    <div className="text-[10px] text-amber-300 flex items-center gap-1 mt-0.5">
+                    <div className="text-[10px] text-amber-300 flex items-center gap-1 mt-1">
                       <Clock className="h-3 w-3 flex-shrink-0" />
                       <span>
                         {new Date(licenseInfo.expiresAt) > new Date()
