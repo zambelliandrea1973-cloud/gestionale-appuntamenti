@@ -1480,7 +1480,9 @@
     "aiAssistant": "Asistent AI",
     "staff": "Personal",
     "payments": "Plăți",
-    "requests": "Cereri"
+    "requests": "Cereri",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "trial": {
     "days": "zile",
@@ -2179,10 +2181,7 @@
     "phoneMinChars": "Numărul de telefon trebuie să conțină cel puțin 6 cifre",
     "emailInvalid": "Email invalid",
     "prefixPlaceholder": "Pref.",
-    "codePreview": "Acest client va primi codul: {{code}}",
-    "gender": "Gen",
-    "genderMale": "Bărbat",
-    "genderFemale": "Femeie"
+    "codePreview": "Acest client va primi codul: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Consimțământ necesar",
@@ -3042,6 +3041,10 @@
     "passwordSavedDesc": "Parola este salvată și pregătită pentru trimiterea emailurilor. Nu este necesară reintroducerea la fiecare repornire.",
     "emailTemplate": "Șablon Email",
     "resetDefault": "Resetează la implicit",
+    "defaults": {
+      "subject": "Reminder programare {{data}}",
+      "template": "Stimate/ă {{nome}} {{cognome}},\n\nacesta este un memento pentru programarea dumneavoastră pentru {{servizio}} în data de {{data}} la ora {{ora}}.\n\nPentru modificări sau anulări, vă rugăm să ne contactați.\n\nCu stimă,\nStudio Profesional"
+    },
     "autoRemindersTitle": "Memento-uri automate pentru clienți:",
     "autoRemindersDesc": "Sistemul va trimite automat un email de memento cu 24 de ore înainte de programare, folosind acest șablon. Puteți personaliza mesajul, dar variabilele precum <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> vor fi înlocuite automat cu informațiile reale — nu le modificați.",
     "subjectLabel": "Subiect Email",
@@ -3692,6 +3695,8 @@
       "passwordRequired": "Parolă *",
       "role": "Rol",
       "roleStaff": "Personal - Angajat cu acces PRO",
+      "roleEvStaff": "Staff EV - Acces PRO + Secțiunea EV",
+      "roleEvAdmin": "Admin Secundar EV - Portal Furnizor",
       "roleAdmin": "Admin - Acces complet",
       "roleUser": "Customer PRO - Profesionist abonat"
     },
@@ -3774,6 +3779,8 @@
     "actions": "Acțiuni",
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "Staff EV",
     "staffBadge": "Personal",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
