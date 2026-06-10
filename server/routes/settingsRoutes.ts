@@ -450,6 +450,7 @@ router.get("/api/user-with-license", async (req, res) => {
       username: user.username,
       email: user.email,
       type: user.type,
+      role: user.role,
       isDemo: user.username === '__demo__',
       firstName: firstName,
       lastName: lastName,
