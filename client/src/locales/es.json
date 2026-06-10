@@ -314,7 +314,9 @@
     "aiAssistant": "Asistente IA",
     "staff": "Personal",
     "payments": "Pagos",
-    "requests": "Solicitudes"
+    "requests": "Solicitudes",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "language": {
     "it": "Italiano",
@@ -3039,6 +3041,10 @@
     "passwordSavedDesc": "La contraseña ya está guardada y lista para enviar emails. No es necesario reintroducirla cada vez.",
     "emailTemplate": "Plantilla de Email",
     "resetDefault": "Restablecer predeterminado",
+    "defaults": {
+      "subject": "Recordatorio de cita {{data}}",
+      "template": "Estimado/a {{nome}} {{cognome}},\n\neste es un recordatorio de su cita para {{servizio}} el {{data}} a las {{ora}}.\n\nPara cambios o cancelaciones, por favor contáctenos.\n\nSaludos cordiales,\nEstudio Profesional"
+    },
     "autoRemindersTitle": "Recordatorios automáticos a los clientes:",
     "autoRemindersDesc": "El sistema enviará automáticamente un email de recordatorio 24 horas antes de la cita, usando esta plantilla. Puedes personalizar el mensaje pero las variables como <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> se sustituirán automáticamente con los datos reales del cliente y la cita; no las modifiques.",
     "subjectLabel": "Asunto del Email",
@@ -3689,6 +3695,8 @@
       "passwordRequired": "Contraseña *",
       "role": "Rol",
       "roleStaff": "Personal - Empleado con acceso PRO",
+      "roleEvStaff": "Staff EV - Acceso PRO + Sección EV",
+      "roleEvAdmin": "Admin Secundario EV - Portal Proveedor",
       "roleAdmin": "Admin - Acceso completo",
       "roleUser": "Customer PRO - Profesional suscrito"
     },
@@ -3771,6 +3779,8 @@
     "actions": "Acciones",
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "Staff EV",
     "staffBadge": "Personal",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
