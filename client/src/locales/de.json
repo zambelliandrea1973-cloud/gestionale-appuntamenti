@@ -314,7 +314,9 @@
     "aiAssistant": "KI-Assistent",
     "staff": "Personal",
     "payments": "Zahlungen",
-    "requests": "Anfragen"
+    "requests": "Anfragen",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "language": {
     "it": "Italienisch",
@@ -3039,6 +3041,10 @@
     "passwordSavedDesc": "Das Passwort ist gespeichert und bereit für den E-Mail-Versand. Keine erneute Eingabe bei jedem Neustart nötig.",
     "emailTemplate": "E-Mail-Vorlage",
     "resetDefault": "Auf Standard zurücksetzen",
+    "defaults": {
+      "subject": "Terminerinnerung {{data}}",
+      "template": "Sehr geehrte/r {{nome}} {{cognome}},\n\ndies ist eine Erinnerung an Ihren Termin für {{servizio}} am {{data}} um {{ora}}.\n\nFür Änderungen oder Absagen kontaktieren Sie uns bitte.\n\nMit freundlichen Grüßen,\nProfessionelles Studio"
+    },
     "autoRemindersTitle": "Automatische Kundenerinnerungen:",
     "autoRemindersDesc": "Das System sendet automatisch eine Erinnerungs-E-Mail 24 Stunden vor dem Termin mit dieser Vorlage. Du kannst die Nachricht anpassen, aber Variablen wie <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> werden automatisch durch echte Kunden- und Termindaten ersetzt — daher nicht ändern.",
     "subjectLabel": "E-Mail-Betreff",
@@ -3689,6 +3695,8 @@
       "passwordRequired": "Passwort *",
       "role": "Rolle",
       "roleStaff": "Mitarbeiter - Angestellter mit PRO-Zugang",
+      "roleEvStaff": "Staff EV - PRO-Zugang + EV-Bereich",
+      "roleEvAdmin": "EV Zweiter Admin - Lieferantenportal",
       "roleAdmin": "Admin - Vollzugriff",
       "roleUser": "Customer PRO - Abonnierter Profi"
     },
@@ -3771,6 +3779,8 @@
     "actions": "Aktionen",
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "EV Mitarbeiter",
     "staffBadge": "Mitarbeiter",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
