@@ -462,7 +462,7 @@ router.get('/ev-orders', requireProAccess, async (req, res) => {
     const user = req.user!;
     const dbUser = await storage.getUser(user.id);
     let orders;
-    if (dbUser?.type === 'admin') {
+    if (dbUser?.type === 'admin' || dbUser?.role === 'ev_admin') {
       orders = await inventoryJsonStorage.getEvOrders();
     } else {
       orders = await inventoryJsonStorage.getEvOrdersByProfessional(user.id);
