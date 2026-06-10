@@ -26,6 +26,7 @@ import paymentRoutes from './routes/paymentRoutes';
 import paymentMethodRoutes from './routes/paymentMethodRoutes';
 import posRoutes from './routes/posRoutes';
 import setupBankingRoutes from './routes/bankingRoutes';
+import setupStaffRoutes from './routes/staffRoutes';
 import promotionRoutes from './routes/promotionRoutes';
 import manualRoutes from './routes/manualRoutes';
 import emailBounceRoutes from './routes/emailBounceRoutes';
@@ -433,6 +434,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/payments', paymentMethodRoutes);
   app.use('/api/pos', posRoutes);
   setupBankingRoutes(app);
+  setupStaffRoutes(app);
   app.use(promotionRoutes); // Public promotions (no prefix because already in /api)
   app.use(manualRoutes); // Manual management with media upload (already in /api)
 
