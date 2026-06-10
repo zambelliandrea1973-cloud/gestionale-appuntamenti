@@ -1480,7 +1480,9 @@
     "aiAssistant": "AI-assistent",
     "staff": "Personale",
     "payments": "Betalinger",
-    "requests": "Forespørsler"
+    "requests": "Forespørsler",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "trial": {
     "days": "dager",
@@ -2179,10 +2181,7 @@
     "phoneMinChars": "Telefonnummer må inneholde minst 6 sifre",
     "emailInvalid": "Ugyldig e-post",
     "prefixPlaceholder": "Forv.",
-    "codePreview": "Denne klienten vil motta koden: {{code}}",
-    "gender": "Kjønn",
-    "genderMale": "Mann",
-    "genderFemale": "Kvinne"
+    "codePreview": "Denne klienten vil motta koden: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Samtykke påkrevd",
@@ -3042,6 +3041,10 @@
     "passwordSavedDesc": "Passordet er lagret og klart for sending av e-post. Ikke nødvendig å skrive det inn igjen ved hver omstart.",
     "emailTemplate": "E-postmal",
     "resetDefault": "Tilbakestill til standard",
+    "defaults": {
+      "subject": "Avtalepåminnelse {{data}}",
+      "template": "Kjære {{nome}} {{cognome}},\n\ndette er en påminnelse om din avtale for {{servizio}} den {{data}} kl. {{ora}}.\n\nFor endringer eller avlysninger, vennligst kontakt oss.\n\nMed vennlig hilsen,\nProfesjonell Studio"
+    },
     "autoRemindersTitle": "Automatiske kundepåminnelser:",
     "autoRemindersDesc": "Systemet sender automatisk en påminnelses-e-post 24 timer før avtalen, med denne malen. Du kan tilpasse meldingen, men variabler som <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> erstattes automatisk med ekte kunde- og avtaleinformasjon — ikke endre dem.",
     "subjectLabel": "E-postemne",
@@ -3692,6 +3695,8 @@
       "passwordRequired": "Passord *",
       "role": "Rolle",
       "roleStaff": "Ansatt - Medarbeider med PRO-tilgang",
+      "roleEvStaff": "Staff EV - PRO-tilgang + EV-seksjon",
+      "roleEvAdmin": "EV Sekundær Admin - Leverandørportal",
       "roleAdmin": "Admin - Full tilgang",
       "roleUser": "Customer PRO - Abonnert profesjonell"
     },
@@ -3774,6 +3779,8 @@
     "actions": "Handlinger",
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "EV Ansatt",
     "staffBadge": "Ansatt",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
