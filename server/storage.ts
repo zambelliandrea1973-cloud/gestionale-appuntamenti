@@ -2563,7 +2563,9 @@ export class DatabaseStorage implements IStorage {
         .where(
           or(
             eq(users.role, "staff"),
-            eq(users.role, "admin")
+            eq(users.role, "admin"),
+            eq(users.role, "ev_staff"),
+            eq(users.role, "ev_admin")
           )
         )
         .orderBy(asc(users.id));
