@@ -1,11 +1,14 @@
 // @ts-nocheck
 import express from 'express';
 import { storage } from './storage';
+import { inventoryJsonStorage } from './inventory-json-storage';
 import { insertProductCategorySchema, insertProductSchema, insertStockMovementSchema, insertProductSaleSchema } from '../shared/schema';
 import { licenseService } from './services/licenseService';
 import { z } from 'zod';
 import multer from 'multer';
 import { fileStorageService } from './services/fileStorageService';
+import Stripe from 'stripe';
+import { sendSystemEmail } from './services/systemEmailService';
 
 const router = express.Router();
 
@@ -425,6 +428,445 @@ router.get('/products/:id/sales', requireProAccess, async (req, res) => {
   } catch (error) {
     console.error('Error fetching product sales history:', error);
     res.status(500).json({ error: 'Error retrieving product sales history' });
+  }
+});
+
+// ─── EV Cosmetics Orders ──────────────────────────────────────────────────────
+
+// Submit a new order (professional → EV Cosmetics)
+router.post('/ev-orders', requireProAccess, async (req, res) => {
+  try {
+    const user = req.user!;
+    const { items, totalQty, totalPublic, totalPro, saving, notes } = req.body;
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: 'Order must contain at least one item' });
+    }
+    const dbUser = await storage.getUser(user.id);
+    const order = await inventoryJsonStorage.createEvOrder({
+      professionalId: user.id,
+      professionalName: dbUser?.username || `User ${user.id}`,
+      professionalEmail: dbUser?.email || dbUser?.username || '',
+      items, totalQty, totalPublic, totalPro, saving, notes,
+    });
+    console.log(`📦 [EV-ORDERS] New order ${order.id} from user ${user.id} — ${totalQty}pz €${totalPro}`);
+    res.status(201).json(order);
+  } catch (error) {
+    console.error('Error creating EV order:', error);
+    res.status(500).json({ error: 'Error submitting order' });
+  }
+});
+
+// List all orders (admin sees all; professional sees own)
+router.get('/ev-orders', requireProAccess, async (req, res) => {
+  try {
+    const user = req.user!;
+    const dbUser = await storage.getUser(user.id);
+    let orders;
+    if (dbUser?.type === 'admin') {
+      orders = await inventoryJsonStorage.getEvOrders();
+    } else {
+      orders = await inventoryJsonStorage.getEvOrdersByProfessional(user.id);
+    }
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching EV orders:', error);
+    res.status(500).json({ error: 'Error retrieving orders' });
+  }
+});
+
+// Confirm order + auto-load stock into professional's warehouse (admin only)
+router.patch('/ev-orders/:id/confirm', requireProAccess, async (req, res) => {
+  try {
+    const adminUser = req.user!;
+    const dbAdmin = await storage.getUser(adminUser.id);
+    if (dbAdmin?.type !== 'admin' && dbAdmin?.role !== 'ev_admin') {
+      return res.status(403).json({ error: 'Only admin or ev_admin can confirm orders' });
+    }
+    const orderId = req.params.id;
+    const orders = await inventoryJsonStorage.getEvOrders();
+    const order = orders.find((o: any) => o.id === orderId);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+    if (order.status !== 'pending') {
+      return res.status(400).json({ error: 'Order is already processed' });
+    }
+
+    // Load stock for each item into the professional's warehouse
+    const professionalId = order.professionalId;
+    for (const item of order.items) {
+      const product = await inventoryJsonStorage.findOrCreateEvProduct(professionalId, {
+        code: item.code, name: item.name, format: item.format, unitPrice: item.unitPrice,
+      });
+      await inventoryJsonStorage.createStockMovement({
+        userId: professionalId,
+        productId: product.id,
+        movementType: 'IN',
+        quantity: item.qty,
+        unitPrice: Math.round(item.proPrice * 100),
+        totalValue: Math.round(item.proPrice * item.qty * 100),
+        reason: `Ordine EV Cosmetics ${orderId}`,
+        reference: orderId,
+        staffMember: dbAdmin?.username || 'Admin EV',
+        notes: `Confermato il ${new Date().toLocaleDateString('it-IT')}`,
+      });
+    }
+
+    const updated = await inventoryJsonStorage.updateEvOrder(orderId, {
+      status: 'confirmed',
+      stockLoaded: true,
+      confirmedAt: new Date().toISOString(),
+      confirmedBy: adminUser.id,
+    });
+    console.log(`✅ [EV-ORDERS] Order ${orderId} confirmed — stock loaded for user ${professionalId}`);
+    res.json(updated);
+  } catch (error) {
+    console.error('Error confirming EV order:', error);
+    res.status(500).json({ error: 'Error confirming order' });
+  }
+});
+
+// Reject order (admin only)
+router.patch('/ev-orders/:id/reject', requireProAccess, async (req, res) => {
+  try {
+    const adminUser = req.user!;
+    const dbAdmin = await storage.getUser(adminUser.id);
+    if (dbAdmin?.type !== 'admin' && dbAdmin?.role !== 'ev_admin') {
+      return res.status(403).json({ error: 'Only admin or ev_admin can reject orders' });
+    }
+    const orderId = req.params.id;
+    const updated = await inventoryJsonStorage.updateEvOrder(orderId, {
+      status: 'rejected',
+      rejectedAt: new Date().toISOString(),
+      rejectedBy: adminUser.id,
+      rejectionReason: req.body.reason || '',
+    });
+    if (!updated) return res.status(404).json({ error: 'Order not found' });
+    res.json(updated);
+  } catch (error) {
+    console.error('Error rejecting EV order:', error);
+    res.status(500).json({ error: 'Error rejecting order' });
+  }
+});
+
+// Mark order as shipped — admin or ev_admin — sends email to professional
+router.patch('/ev-orders/:id/ship', requireProAccess, async (req, res) => {
+  try {
+    const adminUser = req.user!;
+    const dbAdmin = await storage.getUser(adminUser.id);
+    if (dbAdmin?.type !== 'admin' && dbAdmin?.role !== 'ev_admin') {
+      return res.status(403).json({ error: 'Only admin or ev_admin can update shipping' });
+    }
+    const orderId = req.params.id;
+    const { trackingCode = '', trackingUrl = '', notes = '' } = req.body;
+    const updated = await inventoryJsonStorage.updateEvOrder(orderId, {
+      status: 'shipped',
+      shippedAt: new Date().toISOString(),
+      trackingCode,
+      trackingUrl,
+      shippingNotes: notes,
+    });
+    if (!updated) return res.status(404).json({ error: 'Order not found' });
+
+    // Send email notification to professional
+    if (updated.professionalEmail) {
+      const trackingHtml = trackingCode
+        ? `<p>📦 Codice spedizione: <strong>${trackingCode}</strong></p>${trackingUrl ? `<p><a href="${trackingUrl}">Traccia il pacco</a></p>` : ''}`
+        : '';
+      const notesHtml = notes ? `<p>Note: ${notes}</p>` : '';
+      await sendSystemEmail(
+        updated.professionalEmail,
+        `EV Cosmetics — Ordine ${orderId} spedito! 🚚`,
+        `<div style="font-family:sans-serif;max-width:500px;margin:auto">
+          <div style="background:linear-gradient(135deg,#7b52d3,#9b72f3);padding:24px;border-radius:12px 12px 0 0">
+            <h2 style="color:white;margin:0">EV Cosmetics — Ordine Spedito!</h2>
+          </div>
+          <div style="background:#fafafa;padding:24px;border-radius:0 0 12px 12px;border:1px solid #e5e7eb">
+            <p>Il tuo ordine <strong>${orderId}</strong> è stato spedito.</p>
+            ${trackingHtml}
+            ${notesHtml}
+            <p style="color:#6b7280;font-size:13px">Importo: <strong>€${(updated.totalPro||0).toFixed(2)}</strong> · ${updated.totalQty} pz</p>
+            <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0"/>
+            <p style="color:#9ca3af;font-size:12px">EV Cosmetics · Gestionale Professionisti</p>
+          </div>
+        </div>`
+      );
+    }
+    console.log(`🚚 [EV-ORDERS] Order ${orderId} shipped by user ${adminUser.id}`);
+    res.json(updated);
+  } catch (error) {
+    console.error('Error shipping EV order:', error);
+    res.status(500).json({ error: 'Error updating shipping status' });
+  }
+});
+
+// ─── EV Payment Status (all EV users) ────────────────────────────────────
+
+// GET /api/inventory/ev-payment-status — returns whether payments are configured (no sensitive data)
+router.get('/ev-payment-status', requireProAccess, async (req, res) => {
+  try {
+    const settings = await inventoryJsonStorage.getEvSettings();
+    const hasStripe = !!(settings.stripeSecretKey && !settings.stripeSecretKey.startsWith('***') && settings.stripeSecretKey.length > 10);
+    const hasIban = !!(settings.ibanEv && settings.ibanEv.trim().length > 4);
+    const active = hasStripe || hasIban;
+    const mode = hasStripe ? 'stripe' : hasIban ? 'transfer' : 'none';
+    res.json({ active, mode });
+  } catch (error) {
+    res.json({ active: false, mode: 'none' });
+  }
+});
+
+// ─── EV Settings (admin only) ─────────────────────────────────────────────
+
+// GET /api/inventory/ev-settings — returns EV config (Stripe key masked, commission %)
+router.get('/ev-settings', requireProAccess, async (req, res) => {
+  try {
+    const user = req.user!;
+    const dbUser = await storage.getUser(user.id);
+    if (dbUser?.type !== 'admin' && dbUser?.role !== 'ev_admin') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const settings = await inventoryJsonStorage.getEvSettings();
+    // Mask secret key
+    const masked = { ...settings };
+    if (masked.stripeSecretKey) masked.stripeSecretKey = '***' + masked.stripeSecretKey.slice(-4);
+    res.json(masked);
+  } catch (error) {
+    console.error('Error getting EV settings:', error);
+    res.status(500).json({ error: 'Error loading settings' });
+  }
+});
+
+// PATCH /api/inventory/ev-settings — update EV config (admin only)
+router.patch('/ev-settings', requireProAccess, async (req, res) => {
+  try {
+    const user = req.user!;
+    const dbUser = await storage.getUser(user.id);
+    if (dbUser?.type !== 'admin') {
+      return res.status(403).json({ error: 'Only main admin can update EV settings' });
+    }
+    // Don't overwrite secret key if masked value submitted
+    const body = { ...req.body };
+    if (body.stripeSecretKey && body.stripeSecretKey.startsWith('***')) {
+      delete body.stripeSecretKey;
+    }
+    const updated = await inventoryJsonStorage.saveEvSettings(body);
+    const masked = { ...updated };
+    if (masked.stripeSecretKey) masked.stripeSecretKey = '***' + masked.stripeSecretKey.slice(-4);
+    res.json(masked);
+  } catch (error) {
+    console.error('Error saving EV settings:', error);
+    res.status(500).json({ error: 'Error saving settings' });
+  }
+});
+
+// ─── EV Stripe Checkout ───────────────────────────────────────────────────
+
+// POST /api/inventory/ev-orders/create-checkout — create Stripe session for EV order
+router.post('/ev-orders/create-checkout', requireProAccess, async (req, res) => {
+  try {
+    const user = req.user!;
+    const dbUser = await storage.getUser(user.id);
+    const { items, totalQty, totalPublic, totalPro, saving, notes } = req.body;
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: 'Order must contain at least one item' });
+    }
+
+    const settings = await inventoryJsonStorage.getEvSettings();
+
+    // Build base URL
+    let baseUrl: string;
+    if (process.env.PRODUCTION_DOMAIN) {
+      baseUrl = `https://${process.env.PRODUCTION_DOMAIN}`;
+    } else {
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+      baseUrl = `${protocol}://${req.get('host')}`;
+    }
+
+    // Create the pending order first
+    const order = await inventoryJsonStorage.createEvOrder({
+      professionalId: user.id,
+      professionalName: dbUser?.username || `User ${user.id}`,
+      professionalEmail: dbUser?.email || dbUser?.username || '',
+      items, totalQty, totalPublic, totalPro, saving, notes,
+      paymentMethod: 'stripe',
+      paymentStatus: 'pending',
+    });
+
+    // If EV Stripe key configured → create Stripe session
+    if (settings.stripeSecretKey && !settings.stripeSecretKey.startsWith('***')) {
+      const stripe = new Stripe(settings.stripeSecretKey, { apiVersion: '2023-10-16' });
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'payment',
+        line_items: items.map((item: any) => ({
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: `${item.name} — ${item.format}`,
+              description: `Sconto professionisti: –${item.discountPct}%`,
+            },
+            unit_amount: Math.round(item.proPrice * 100),
+          },
+          quantity: item.qty,
+        })),
+        metadata: { orderId: order.id, professionalId: String(user.id) },
+        success_url: `${baseUrl}/ev-cosmetics/payment-success?order_id=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${baseUrl}/ev-cosmetics/shop?order_cancelled=${order.id}`,
+      });
+
+      // Save Stripe session ID to order
+      await inventoryJsonStorage.updateEvOrder(order.id, { stripeSessionId: session.id });
+
+      console.log(`💳 [EV-CHECKOUT] Stripe session ${session.id} for order ${order.id}`);
+      return res.json({ success: true, mode: 'stripe', url: session.url, orderId: order.id });
+    }
+
+    // Fallback: transfer / manual — just return the order with IBAN info
+    console.log(`🏦 [EV-CHECKOUT] Manual transfer for order ${order.id}`);
+    return res.json({
+      success: true,
+      mode: 'transfer',
+      orderId: order.id,
+      iban: settings.ibanEv || '',
+      ibanHolder: settings.ibanHolder || 'EV Cosmetics',
+      bankName: settings.bankName || '',
+      amount: totalPro,
+      reference: order.id,
+    });
+
+  } catch (error) {
+    console.error('Error creating EV checkout:', error);
+    res.status(500).json({ error: 'Error creating checkout' });
+  }
+});
+
+// POST /api/inventory/ev-orders/verify-payment — called from success page
+router.post('/ev-orders/verify-payment', requireProAccess, async (req, res) => {
+  try {
+    const { orderId, sessionId } = req.body;
+    if (!orderId) return res.status(400).json({ error: 'orderId required' });
+
+    const orders = await inventoryJsonStorage.getEvOrders();
+    const order = orders.find((o: any) => o.id === orderId);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+
+    // Verify with Stripe if session provided
+    if (sessionId) {
+      const settings = await inventoryJsonStorage.getEvSettings();
+      if (settings.stripeSecretKey && !settings.stripeSecretKey.startsWith('***')) {
+        const stripe = new Stripe(settings.stripeSecretKey, { apiVersion: '2023-10-16' });
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+        if (session.payment_status === 'paid') {
+          const updated = await inventoryJsonStorage.updateEvOrder(orderId, {
+            paymentStatus: 'paid',
+            paymentMethod: 'stripe',
+            stripePaymentIntentId: session.payment_intent,
+            paidAt: new Date().toISOString(),
+          });
+          console.log(`✅ [EV-PAYMENT] Order ${orderId} paid via Stripe`);
+          return res.json({ success: true, paid: true, order: updated });
+        }
+      }
+    }
+
+    res.json({ success: true, paid: order.paymentStatus === 'paid', order });
+  } catch (error) {
+    console.error('Error verifying EV payment:', error);
+    res.status(500).json({ error: 'Error verifying payment' });
+  }
+});
+
+// ─── EV Reports (admin only) ──────────────────────────────────────────────
+
+router.get('/ev-reports', requireProAccess, async (req, res) => {
+  try {
+    const user = req.user!;
+    const dbUser = await storage.getUser(user.id);
+    if (dbUser?.type !== 'admin' && dbUser?.role !== 'ev_admin') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const period = (req.query.period as string) || 'month';
+    const validPeriods = ['day', 'week', 'month', 'year'];
+    const safePeriod = validPeriods.includes(period) ? period as any : 'month';
+    const reports = await inventoryJsonStorage.getEvReports(safePeriod);
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.json(reports);
+  } catch (error) {
+    console.error('Error getting EV reports:', error);
+    res.status(500).json({ error: 'Error loading reports' });
+  }
+});
+
+// ─── EV Custom Catalog Products ──────────────────────────────────────────────
+
+// GET /api/inventory/ev-catalog — returns all custom catalog products
+router.get('/ev-catalog', requireProAccess, async (req, res) => {
+  try {
+    const products = await inventoryJsonStorage.getEvCatalogProducts();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Error loading catalog' });
+  }
+});
+
+// POST /api/inventory/ev-catalog — add or update a product (with optional base64 image)
+router.post('/ev-catalog', requireProAccess, async (req, res) => {
+  try {
+    const user = req.user!;
+    const dbUser = await storage.getUser(user.id);
+    if (dbUser?.type !== 'admin' && dbUser?.role !== 'ev_admin') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const product = await inventoryJsonStorage.addEvCatalogProduct(req.body);
+    res.json(product);
+  } catch (error) {
+    console.error('Error adding catalog product:', error);
+    res.status(500).json({ error: 'Error saving product' });
+  }
+});
+
+// POST /api/inventory/ev-catalog/:code/image — upload product image
+router.post('/ev-catalog/:code/image', requireProAccess, uploadProductImage.single('image'), async (req, res) => {
+  try {
+    const user = req.user!;
+    const dbUser = await storage.getUser(user.id);
+    if (dbUser?.type !== 'admin' && dbUser?.role !== 'ev_admin') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    const code = req.params.code;
+    const result = await fileStorageService.saveFile(user.id, 'ev-catalog', {
+      buffer: req.file.buffer,
+      originalname: req.file.originalname,
+      mimetype: req.file.mimetype,
+      size: req.file.size,
+    });
+    // Update the product's img field
+    const products = await inventoryJsonStorage.getEvCatalogProducts();
+    const existing = products.find((p: any) => p.code === code);
+    if (existing) {
+      await inventoryJsonStorage.addEvCatalogProduct({ ...existing, img: result.url });
+    }
+    res.json({ url: result.url });
+  } catch (error) {
+    console.error('Error uploading catalog image:', error);
+    res.status(500).json({ error: 'Error uploading image' });
+  }
+});
+
+// DELETE /api/inventory/ev-catalog/:code — remove a custom product
+router.delete('/ev-catalog/:code', requireProAccess, async (req, res) => {
+  try {
+    const user = req.user!;
+    const dbUser = await storage.getUser(user.id);
+    if (dbUser?.type !== 'admin' && dbUser?.role !== 'ev_admin') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const ok = await inventoryJsonStorage.deleteEvCatalogProduct(req.params.code);
+    if (!ok) return res.status(404).json({ error: 'Product not found' });
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting product' });
   }
 });
 
