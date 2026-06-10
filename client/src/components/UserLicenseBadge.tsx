@@ -28,6 +28,7 @@ export default function UserLicenseBadge({ hideCode = false, hideUsername = fals
       case 'business':
         return 'bg-purple-500 text-white';
       case 'staff_free':
+      case 'staff_free_10years':
         return 'bg-green-500 text-white';
       case 'passepartout':
         return 'bg-red-500 text-white font-bold';
@@ -48,6 +49,7 @@ export default function UserLicenseBadge({ hideCode = false, hideUsername = fals
       case 'base':
         return 'Base';
       case 'staff_free':
+      case 'staff_free_10years':
         return 'Staff';
       case 'passepartout':
         return 'Passepartout';
