@@ -314,7 +314,9 @@
     "aiAssistant": "Ассистент ИИ",
     "staff": "Персонал",
     "payments": "Платежи",
-    "requests": "Заявки"
+    "requests": "Заявки",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "language": {
     "it": "Итальянский",
@@ -2179,10 +2181,7 @@
     "phoneMinChars": "Номер телефона должен содержать минимум 6 цифр",
     "emailInvalid": "Некорректный email",
     "prefixPlaceholder": "Преф.",
-    "codePreview": "Этот клиент получит код: {{code}}",
-    "gender": "Пол",
-    "genderMale": "Мужчина",
-    "genderFemale": "Женщина"
+    "codePreview": "Этот клиент получит код: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Требуется согласие",
@@ -3042,6 +3041,10 @@
     "passwordSavedDesc": "Пароль сохранён и готов к отправке email. Не нужно вводить его заново при каждом перезапуске.",
     "emailTemplate": "Шаблон email",
     "resetDefault": "Сбросить к умолчанию",
+    "defaults": {
+      "subject": "Напоминание о записи {{data}}",
+      "template": "Уважаемый/ая {{nome}} {{cognome}},\n\nнапоминаем о вашей записи — {{servizio}} {{data}} в {{ora}}.\n\nДля изменений или отмены записи свяжитесь с нами.\n\nС уважением,\nПрофессиональная студия"
+    },
     "autoRemindersTitle": "Автоматические напоминания клиентам:",
     "autoRemindersDesc": "Система автоматически отправит напоминание за 24 часа до встречи по этому шаблону. Вы можете изменить текст, но переменные <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> будут заменены реальными данными клиента и встречи — не изменяйте их.",
     "subjectLabel": "Тема email",
@@ -3692,6 +3695,8 @@
       "passwordRequired": "Пароль *",
       "role": "Роль",
       "roleStaff": "Сотрудник - работник с PRO-доступом",
+      "roleEvStaff": "Staff EV - PRO-доступ + раздел EV",
+      "roleEvAdmin": "Вторичный Admin EV - Портал поставщика",
       "roleAdmin": "Админ - полный доступ",
       "roleUser": "Customer PRO - подписанный специалист"
     },
@@ -3774,6 +3779,8 @@
     "actions": "Действия",
     "adminBadge": "Админ",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "EV Сотрудник",
     "staffBadge": "Сотрудник",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
