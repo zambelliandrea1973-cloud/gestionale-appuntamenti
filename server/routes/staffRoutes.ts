@@ -3,6 +3,9 @@ import { storage } from "../storage";
 import { hashPassword } from "../auth";
 import { isAdmin } from "../auth";
 import { loadStorageData } from "../utils/jsonStorage";
+import { db } from "../db";
+import { users, userSettings } from "../../shared/schema";
+import { or, like, sql, eq } from "drizzle-orm";
 
 /**
  * Configure routes for staff user management
@@ -72,6 +75,77 @@ export default function setupStaffRoutes(app: Express) {
     }
   });
 
+  // Search users by partial username or email (admin only)
+  app.get("/api/staff/search", isAdmin, async (req: Request, res: Response) => {
+    try {
+      const q = (req.query.q as string || "").trim().toLowerCase();
+      if (!q || q.length < 2) return res.json([]);
+
+      const term = `%${q}%`;
+
+      // Search users by username, email OR business name (from userSettings)
+      const results = await db.select({
+        id: users.id,
+        username: users.username,
+        email: users.email,
+        role: users.role,
+        type: users.type,
+        businessName: userSettings.businessName,
+      })
+      .from(users)
+      .leftJoin(userSettings, eq(userSettings.userId, users.id))
+      .where(
+        or(
+          like(sql`LOWER(${users.username})`, term),
+          like(sql`LOWER(COALESCE(${users.email}, ''))`, term),
+          like(sql`LOWER(COALESCE(${userSettings.businessName}, ''))`, term)
+        )
+      )
+      .limit(10);
+
+      res.json(results);
+    } catch (error) {
+      console.error("Error searching users:", error);
+      res.status(500).json({ message: "Search error" });
+    }
+  });
+
+  // Promote an existing user to a new role (admin only, no password needed)
+  app.post("/api/staff/promote/:id", isAdmin, async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const { role } = req.body;
+
+      if (isNaN(userId)) return res.status(400).json({ message: "Invalid user ID" });
+      if (!['staff', 'admin', 'user', 'ev_admin', 'ev_staff'].includes(role)) {
+        return res.status(400).json({ message: "Invalid role" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const updateData: any = { role };
+      if (role === 'user') updateData.type = 'customer';
+      else if (role === 'ev_admin' || role === 'ev_staff') updateData.type = 'staff';
+      else updateData.type = role;
+
+      // Generate assignmentCode if promoting to staff/ev_admin/ev_staff and missing
+      if ((role === 'staff' || role === 'ev_admin' || role === 'ev_staff') && !user.assignmentCode) {
+        const prefix = (user.username || '').replace(/[^a-zA-Z0-9]/g, '').substring(0, 3).toUpperCase().padEnd(3, 'X');
+        updateData.assignmentCode = `${prefix}${String(userId).padStart(4, '0')}`;
+      }
+
+      const updated = await storage.updateUser(userId, updateData);
+      if (!updated) return res.status(500).json({ message: "Unable to promote user" });
+
+      const { password: _, ...safe } = updated;
+      res.json(safe);
+    } catch (error) {
+      console.error("Error promoting user:", error);
+      res.status(500).json({ message: "An error occurred" });
+    }
+  });
+
   // Create a new staff user (admin only)
   app.post("/api/staff/register", isAdmin, async (req: Request, res: Response) => {
     try {
@@ -101,6 +175,12 @@ export default function setupStaffRoutes(app: Express) {
       } else if (role === 'user' || role === 'customer') {
         userRole = 'user';
         userType = 'customer';
+      } else if (role === 'ev_admin') {
+        userRole = 'ev_admin';
+        userType = 'staff';
+      } else if (role === 'ev_staff') {
+        userRole = 'ev_staff';
+        userType = 'staff';
       } else {
         userRole = 'staff';
         userType = 'staff';
@@ -173,20 +253,23 @@ export default function setupStaffRoutes(app: Express) {
       }
       
       // Update the role if provided (only admin can modify roles)
-      if (role !== undefined && (role === 'admin' || role === 'staff' || role === 'user')) {
+      if (role !== undefined && (role === 'admin' || role === 'staff' || role === 'user' || role === 'ev_admin' || role === 'ev_staff')) {
         updateData.role = role;
         
         // if the role is 'user', also change the type to 'customer'
         if (role === 'user') {
           updateData.type = 'customer';
+        } else if (role === 'ev_admin' || role === 'ev_staff') {
+          // ev_admin and ev_staff are stored with type 'staff'
+          updateData.type = 'staff';
         } else {
           // Staff and Admin have type equal to role
           updateData.type = role;
         }
 
-        // If promoted to staff and the user does not yet have an assignmentCode,
+        // If promoted to staff/ev_admin/ev_staff and the user does not yet have an assignmentCode,
         // generate one automatically (required for client visibility)
-        if (role === 'staff' && !user.assignmentCode) {
+        if ((role === 'staff' || role === 'ev_admin' || role === 'ev_staff') && !user.assignmentCode) {
           const alphanumUsername = (user.username || '').replace(/[^a-zA-Z0-9]/g, '');
           const prefix = alphanumUsername.substring(0, 3).toUpperCase().padEnd(3, 'X');
           const paddedId = String(userId).padStart(4, '0');
