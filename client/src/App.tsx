@@ -74,6 +74,9 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import NotFound from "./pages/not-found";
+import EVAdminPage from "./pages/EVAdminPage";
+import EVWarehousePage from "./pages/EVWarehousePage";
+import EVPaymentSuccessPage from "./pages/EVPaymentSuccessPage";
 import { TimezoneDetector } from "./components/TimezoneDetector";
 import { DemoExitPopup } from "./components/DemoExitPopup";
 
@@ -385,6 +388,21 @@ function AppRoutes() {
       <Route path="/inventory">
         <StaffPageWrapper>
           <Inventory />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/ev-cosmetics/admin">
+        <StaffPageWrapper>
+          <EVAdminPage />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/ev-cosmetics/shop">
+        <StaffPageWrapper>
+          <EVWarehousePage />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/ev-cosmetics/payment-success">
+        <StaffPageWrapper>
+          <EVPaymentSuccessPage />
         </StaffPageWrapper>
       </Route>
       <Route path="/packages">
