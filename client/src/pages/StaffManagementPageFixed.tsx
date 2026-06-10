@@ -31,8 +31,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Users, Search, UserPlus, CreditCard, Banknote, MoreVertical, Trash2, Edit } from "lucide-react";
-import { useState } from "react";
+import { Users, Search, UserPlus, CreditCard, Banknote, MoreVertical, Trash2, Edit, UserCheck, ArrowRight, X } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import AuthorizedRoute from "@/components/AuthorizedRoute";
 import { useToast } from "@/hooks/use-toast";
@@ -64,6 +64,30 @@ export default function StaffManagementPageFixed() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isBankingDialogOpen, setIsBankingDialogOpen] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState<StaffUser | null>(null);
+
+  // Modalità dialog: "search" (cerca esistente) o "create" (crea nuovo)
+  const [createMode, setCreateMode] = useState<"search" | "create">("search");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [promoteRole, setPromoteRole] = useState("staff");
+  const [selectedUser, setSelectedUser] = useState<any | null>(null);
+
+  // Debounce ricerca
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(searchTerm), 300);
+    return () => clearTimeout(t);
+  }, [searchTerm]);
+
+  // Risultati ricerca utenti esistenti
+  const { data: searchResults = [] } = useQuery({
+    queryKey: ['/api/staff/search', debouncedSearch],
+    queryFn: async () => {
+      if (debouncedSearch.length < 2) return [];
+      const res = await apiRequest('GET', `/api/staff/search?q=${encodeURIComponent(debouncedSearch)}`);
+      return res.json();
+    },
+    enabled: debouncedSearch.length >= 2,
+  });
   
   // Form state per nuovo staff
   const [newStaff, setNewStaff] = useState({
@@ -92,6 +116,39 @@ export default function StaffManagementPageFixed() {
   const { data: staffUsers = [], isLoading, error } = useQuery({
     queryKey: ['/api/staff/users'],
   });
+
+  // Mutation per promuovere utente esistente (senza password)
+  const promoteMutation = useMutation({
+    mutationFn: async ({ userId, role }: { userId: number; role: string }) => {
+      const res = await apiRequest('POST', `/api/staff/promote/${userId}`, { role });
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
+      toast({
+        title: t('staffManagement.toast.updated.title'),
+        description: `${data.username} promosso a ${data.role}`,
+      });
+      setIsCreateDialogOpen(false);
+      resetCreateDialog();
+    },
+    onError: (error: any) => {
+      toast({
+        title: t("common.error"),
+        description: error.message || t('staffManagement.errors.edit'),
+        variant: "destructive",
+      });
+    }
+  });
+
+  const resetCreateDialog = () => {
+    setCreateMode("search");
+    setSearchTerm("");
+    setDebouncedSearch("");
+    setSelectedUser(null);
+    setPromoteRole("staff");
+    setNewStaff({ username: "", password: "", email: "", role: "staff" });
+  };
 
   // Mutation per creare nuovo staff
   const createStaffMutation = useMutation({
@@ -322,93 +379,220 @@ export default function StaffManagementPageFixed() {
           </div>
           <div className="flex items-center gap-3">
             {/* Dialog per creare nuovo staff */}
-            <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+            <Dialog open={isCreateDialogOpen} onOpenChange={(open) => { setIsCreateDialogOpen(open); if (!open) resetCreateDialog(); }}>
               <DialogTrigger asChild>
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                   <UserPlus className="h-4 w-4 mr-2" />
                   {t('staffManagement.addStaff')}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="min-[1200px]:max-w-[500px]">
+              <DialogContent className="min-[1200px]:max-w-[520px]">
                 <DialogHeader>
                   <DialogTitle>{t('staffManagement.createNew')}</DialogTitle>
-                  <DialogDescription>
-                    {t('staffManagement.createDescription')}
-                  </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="username">{t('staffManagement.fields.usernameRequired')}</Label>
-                    <Input
-                      id="username"
-                      data-testid="input-staff-username"
-                      placeholder={t('staffManagement.usernameInputPlaceholder')}
-                      value={newStaff.username}
-                      onChange={(e) => setNewStaff({ ...newStaff, username: e.target.value })}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">{t('staffManagement.fields.emailLabel')}</Label>
-                    <Input
-                      id="email"
-                      data-testid="input-staff-email"
-                      type="email"
-                      placeholder={t('staffManagement.emailInputPlaceholder')}
-                      value={newStaff.email}
-                      onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="password">{t('staffManagement.fields.passwordRequired')}</Label>
-                    <Input
-                      id="password"
-                      data-testid="input-staff-password"
-                      type="password"
-                      placeholder="••••••••"
-                      value={newStaff.password}
-                      onChange={(e) => setNewStaff({ ...newStaff, password: e.target.value })}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="role">{t('staffManagement.fields.role')}</Label>
-                    <select
-                      id="role"
-                      data-testid="select-staff-role"
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-                      value={newStaff.role}
-                      onChange={(e) => setNewStaff({ ...newStaff, role: e.target.value })}
-                    >
-                      <option value="staff">{t('staffManagement.fields.roleStaff')}</option>
-                      <option value="admin">{t('staffManagement.fields.roleAdmin')}</option>
-                      <option value="user">{t('staffManagement.fields.roleUser')}</option>
-                    </select>
-                  </div>
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-2">
-                    <p className="text-sm text-blue-800">
-                      <Trans
-                        i18nKey="staffManagement.proAccessNote"
-                        components={[<strong />]}
-                      />
-                    </p>
-                  </div>
+
+                {/* Tab switcher */}
+                <div className="flex rounded-lg border border-gray-200 overflow-hidden mb-2">
+                  <button
+                    onClick={() => setCreateMode("search")}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium transition-colors ${createMode === "search" ? "bg-blue-600 text-white" : "bg-white text-gray-600 hover:bg-gray-50"}`}
+                  >
+                    <Search className="h-4 w-4" />
+                    Cerca utente esistente
+                  </button>
+                  <button
+                    onClick={() => setCreateMode("create")}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium transition-colors ${createMode === "create" ? "bg-blue-600 text-white" : "bg-white text-gray-600 hover:bg-gray-50"}`}
+                  >
+                    <UserPlus className="h-4 w-4" />
+                    Crea nuovo account
+                  </button>
                 </div>
-                <DialogFooter>
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsCreateDialogOpen(false)}
-                    disabled={createStaffMutation.isPending}
-                    data-testid="button-cancel-create-staff"
-                  >
-                    {t('staffManagement.cancelButton')}
-                  </Button>
-                  <Button
-                    onClick={handleCreateStaff}
-                    disabled={createStaffMutation.isPending}
-                    data-testid="button-confirm-create-staff"
-                  >
-                    {createStaffMutation.isPending ? t('staffManagement.creating') : t('staffManagement.createButton')}
-                  </Button>
-                </DialogFooter>
+
+                {/* MODALITÀ RICERCA */}
+                {createMode === "search" && (
+                  <div className="space-y-3">
+                    <p className="text-xs text-gray-500">Cerca per username o email (anche parziale). Non serve la password.</p>
+
+                    {/* Campo ricerca */}
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                      <Input
+                        className="pl-9 pr-9"
+                        placeholder="es. mario@studio.it, Studio Max, mar…"
+                        value={searchTerm}
+                        onChange={(e) => { setSearchTerm(e.target.value); setSelectedUser(null); }}
+                        autoFocus
+                      />
+                      {searchTerm && (
+                        <button onClick={() => { setSearchTerm(""); setSelectedUser(null); }} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                          <X className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Risultati ricerca */}
+                    {debouncedSearch.length >= 2 && !selectedUser && (
+                      <div className="border rounded-lg overflow-hidden">
+                        {(searchResults as any[]).length === 0 ? (
+                          <div className="px-4 py-6 text-center text-sm text-gray-400">
+                            <span>Nessun professionista trovato per "<strong>{debouncedSearch}</strong>"</span>
+                            <p className="mt-2 text-xs text-blue-600 cursor-pointer underline" onClick={() => { setCreateMode("create"); setNewStaff(s => ({ ...s, username: debouncedSearch, email: debouncedSearch.includes('@') ? debouncedSearch : '' })); }}>
+                              → Crea un nuovo account con questo nome
+                            </p>
+                          </div>
+                        ) : (
+                          (searchResults as any[]).map((u: any) => {
+                            const initials = (u.username || '?').substring(0, 2).toUpperCase();
+                            return (
+                              <button
+                                key={u.id}
+                                onClick={() => setSelectedUser(u)}
+                                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 border-b last:border-0 text-left transition-colors"
+                              >
+                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                  <span className="text-xs font-bold text-blue-700">{initials}</span>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="font-medium text-sm text-gray-900 truncate">{u.username}</div>
+                                  {u.businessName && <div className="text-xs text-gray-500 truncate">{u.businessName}</div>}
+                                  {u.email && u.email !== u.username && <div className="text-xs text-gray-400 truncate">{u.email}</div>}
+                                </div>
+                                <Badge variant="secondary" className={
+                                  u.role === 'admin' ? 'bg-purple-100 text-purple-700 text-xs' :
+                                  u.role === 'ev_admin' ? 'bg-violet-100 text-violet-700 text-xs' :
+                                  u.role === 'ev_staff' ? 'bg-teal-100 text-teal-700 text-xs' :
+                                  u.role === 'user' ? 'bg-green-100 text-green-700 text-xs' :
+                                  'bg-blue-100 text-blue-700 text-xs'
+                                }>{u.role === 'ev_staff' ? 'Staff EV' : u.role === 'ev_admin' ? 'Admin EV' : u.role}</Badge>
+                                <ArrowRight className="h-4 w-4 text-gray-300 flex-shrink-0" />
+                              </button>
+                            );
+                          })
+                        )}
+                      </div>
+                    )}
+
+                    {/* Utente selezionato → scelta ruolo */}
+                    {selectedUser && (
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                          <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs font-bold text-white">{(selectedUser.username || "?").substring(0, 2).toUpperCase()}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-semibold text-sm text-gray-900">{selectedUser.username}</div>
+                            {selectedUser.email && <div className="text-xs text-gray-500">{selectedUser.email}</div>}
+                          </div>
+                          <button onClick={() => setSelectedUser(null)} className="text-gray-400 hover:text-gray-600">
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                        <div className="space-y-1">
+                          <Label>Ruolo da assegnare</Label>
+                          <select
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={promoteRole}
+                            onChange={(e) => setPromoteRole(e.target.value)}
+                          >
+                            <option value="staff">{t('staffManagement.fields.roleStaff')}</option>
+                            <option value="ev_staff">{t('staffManagement.fields.roleEvStaff')}</option>
+                            <option value="ev_admin">{t('staffManagement.fields.roleEvAdmin')}</option>
+                            <option value="admin">{t('staffManagement.fields.roleAdmin')}</option>
+                          </select>
+                        </div>
+                        <Button
+                          className="w-full bg-blue-600 hover:bg-blue-700"
+                          onClick={() => promoteMutation.mutate({ userId: selectedUser.id, role: promoteRole })}
+                          disabled={promoteMutation.isPending}
+                        >
+                          <UserCheck className="h-4 w-4 mr-2" />
+                          {promoteMutation.isPending ? "Salvataggio..." : `Promuovi ${selectedUser.username}`}
+                        </Button>
+                      </div>
+                    )}
+
+                    {!debouncedSearch && !selectedUser && (
+                      <p className="text-center text-sm text-gray-400 py-4">
+                        Inizia a digitare username o email dell'utente da aggiungere
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* MODALITÀ CREA NUOVO */}
+                {createMode === "create" && (
+                  <div className="grid gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="username">{t('staffManagement.fields.usernameRequired')}</Label>
+                      <Input
+                        id="username"
+                        data-testid="input-staff-username"
+                        placeholder={t('staffManagement.usernameInputPlaceholder')}
+                        value={newStaff.username}
+                        onChange={(e) => setNewStaff({ ...newStaff, username: e.target.value })}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="email">{t('staffManagement.fields.emailLabel')}</Label>
+                      <Input
+                        id="email"
+                        data-testid="input-staff-email"
+                        type="email"
+                        placeholder={t('staffManagement.emailInputPlaceholder')}
+                        value={newStaff.email}
+                        onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="password">{t('staffManagement.fields.passwordRequired')}</Label>
+                      <Input
+                        id="password"
+                        data-testid="input-staff-password"
+                        type="password"
+                        placeholder="••••••••"
+                        value={newStaff.password}
+                        onChange={(e) => setNewStaff({ ...newStaff, password: e.target.value })}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="role">{t('staffManagement.fields.role')}</Label>
+                      <select
+                        id="role"
+                        data-testid="select-staff-role"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+                        value={newStaff.role}
+                        onChange={(e) => setNewStaff({ ...newStaff, role: e.target.value })}
+                      >
+                        <option value="staff">{t('staffManagement.fields.roleStaff')}</option>
+                        <option value="ev_staff">{t('staffManagement.fields.roleEvStaff')}</option>
+                        <option value="ev_admin">{t('staffManagement.fields.roleEvAdmin')}</option>
+                        <option value="admin">{t('staffManagement.fields.roleAdmin')}</option>
+                      </select>
+                    </div>
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <p className="text-sm text-blue-800">
+                        <Trans i18nKey="staffManagement.proAccessNote" components={[<strong />]} />
+                      </p>
+                    </div>
+                    <DialogFooter className="mt-0">
+                      <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)} disabled={createStaffMutation.isPending} data-testid="button-cancel-create-staff">
+                        {t('staffManagement.cancelButton')}
+                      </Button>
+                      <Button onClick={handleCreateStaff} disabled={createStaffMutation.isPending} data-testid="button-confirm-create-staff">
+                        {createStaffMutation.isPending ? t('staffManagement.creating') : t('staffManagement.createButton')}
+                      </Button>
+                    </DialogFooter>
+                  </div>
+                )}
+
+                {createMode === "search" && (
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                      {t('staffManagement.cancelButton')}
+                    </Button>
+                  </DialogFooter>
+                )}
               </DialogContent>
             </Dialog>
             
@@ -446,9 +630,15 @@ export default function StaffManagementPageFixed() {
                     <Badge variant="secondary" className={
                       user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
                       user.role === 'user' ? 'bg-green-100 text-green-700' :
+                      user.role === 'ev_admin' ? 'bg-violet-100 text-violet-700' :
+                      user.role === 'ev_staff' ? 'bg-teal-100 text-teal-700' :
                       'bg-blue-100 text-blue-700'
                     }>
-                      {user.role === 'admin' ? t('staffManagement.adminBadge') : user.role === 'user' ? t('staffManagement.customerProBadge') : t('staffManagement.staffBadge')}
+                      {user.role === 'admin' ? t('staffManagement.adminBadge') :
+                       user.role === 'user' ? t('staffManagement.customerProBadge') :
+                       user.role === 'ev_admin' ? t('staffManagement.evAdminBadge') :
+                       user.role === 'ev_staff' ? t('staffManagement.evStaffBadge', 'Staff EV') :
+                       t('staffManagement.staffBadge')}
                     </Badge>
                     
                     {/* Menu dropdown azioni */}
@@ -593,8 +783,9 @@ export default function StaffManagementPageFixed() {
                 onChange={(e) => setEditStaff({ ...editStaff, role: e.target.value })}
               >
                 <option value="staff">{t('staffManagement.fields.roleStaff')}</option>
+                <option value="ev_staff">{t('staffManagement.fields.roleEvStaff')}</option>
+                <option value="ev_admin">{t('staffManagement.fields.roleEvAdmin')}</option>
                 <option value="admin">{t('staffManagement.fields.roleAdmin')}</option>
-                <option value="user">{t('staffManagement.fields.roleUser')}</option>
               </select>
               <p className="text-xs text-muted-foreground">
                 {t('staffManagement.roleHint')}
