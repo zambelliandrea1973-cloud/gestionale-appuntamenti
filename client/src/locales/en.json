@@ -327,7 +327,9 @@
     "aiAssistant": "AI Assistant",
     "staff": "Staff",
     "payments": "Payments",
-    "requests": "Requests"
+    "requests": "Requests",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "language": {
     "it": "Italian",
@@ -3078,6 +3080,10 @@
     "passwordSavedDesc": "The password is stored and ready for sending emails. No need to re-enter it at every restart.",
     "emailTemplate": "Email Template",
     "resetDefault": "Reset to default",
+    "defaults": {
+      "subject": "Appointment reminder {{data}}",
+      "template": "Dear {{nome}} {{cognome}},\n\nthis is a reminder for your appointment for {{servizio}} on {{data}} at {{ora}}.\n\nFor changes or cancellations, please contact us.\n\nBest regards,\nProfessional Studio"
+    },
     "autoRemindersTitle": "Automatic client reminders:",
     "autoRemindersDesc": "The system will automatically send a reminder email 24 hours before the appointment, using this template. You can customize the message but variables like <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> will be auto-replaced with real client and appointment info, so don't modify them.",
     "subjectLabel": "Email Subject",
@@ -3728,6 +3734,8 @@
       "passwordRequired": "Password *",
       "role": "Role",
       "roleStaff": "Staff - Employee with PRO access",
+      "roleEvStaff": "Staff EV - PRO access + EV Section",
+      "roleEvAdmin": "EV Secondary Admin - Supplier Portal",
       "roleAdmin": "Admin - Full access",
       "roleUser": "Customer PRO - Subscribed professional"
     },
@@ -3810,6 +3818,8 @@
     "actions": "Actions",
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "EV Staff",
     "staffBadge": "Staff",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
