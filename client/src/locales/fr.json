@@ -314,7 +314,9 @@
     "aiAssistant": "Assistant IA",
     "staff": "Personnel",
     "payments": "Paiements",
-    "requests": "Demandes"
+    "requests": "Demandes",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "language": {
     "it": "Italien",
@@ -3039,6 +3041,10 @@
     "passwordSavedDesc": "Le mot de passe est enregistré et prêt pour l'envoi d'emails. Pas besoin de le ressaisir à chaque redémarrage.",
     "emailTemplate": "Modèle d'email",
     "resetDefault": "Réinitialiser par défaut",
+    "defaults": {
+      "subject": "Rappel de rendez-vous {{data}}",
+      "template": "Cher/Chère {{nome}} {{cognome}},\n\nceci est un rappel pour votre rendez-vous pour {{servizio}} le {{data}} à {{ora}}.\n\nPour toute modification ou annulation, veuillez nous contacter.\n\nCordialement,\nStudio Professionnel"
+    },
     "autoRemindersTitle": "Rappels automatiques aux clients :",
     "autoRemindersDesc": "Le système enverra automatiquement un email de rappel 24 heures avant le rendez-vous en utilisant ce modèle. Vous pouvez personnaliser le message mais les variables comme <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> seront remplacées automatiquement par les vraies informations du client et du rendez-vous ; ne les modifiez pas.",
     "subjectLabel": "Objet de l'email",
@@ -3689,6 +3695,8 @@
       "passwordRequired": "Mot de passe *",
       "role": "Rôle",
       "roleStaff": "Membre - Employé avec accès PRO",
+      "roleEvStaff": "Staff EV - Accès PRO + Section EV",
+      "roleEvAdmin": "Admin Secondaire EV - Portail Fournisseur",
       "roleAdmin": "Admin - Accès complet",
       "roleUser": "Customer PRO - Professionnel abonné"
     },
@@ -3771,6 +3779,8 @@
     "actions": "Actions",
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "Staff EV",
     "staffBadge": "Membre",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
