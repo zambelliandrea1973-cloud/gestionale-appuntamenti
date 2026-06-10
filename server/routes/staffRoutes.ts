@@ -4,8 +4,53 @@ import { hashPassword } from "../auth";
 import { isAdmin } from "../auth";
 import { loadStorageData } from "../utils/jsonStorage";
 import { db } from "../db";
-import { users, userSettings } from "../../shared/schema";
-import { or, like, sql, eq } from "drizzle-orm";
+import { users, userSettings, licenses } from "../../shared/schema";
+import { or, like, sql, eq, and } from "drizzle-orm";
+
+const STAFF_ROLES = ['staff', 'ev_staff', 'ev_admin', 'admin'];
+
+/** Garantisce che l'utente abbia una licenza staff_free attiva (crea se mancante). */
+async function ensureStaffFreeLicense(userId: number): Promise<void> {
+  try {
+    const existing = await db.select()
+      .from(licenses)
+      .where(and(
+        eq(licenses.userId, userId),
+        eq(licenses.isActive, true)
+      ))
+      .limit(1);
+
+    if (existing.length === 0) {
+      const expiresAt = new Date();
+      expiresAt.setFullYear(expiresAt.getFullYear() + 10);
+      const prefix = String(userId).padStart(6, '0');
+      await db.insert(licenses).values({
+        code: `SFREE-${prefix}`,
+        type: 'staff_free',
+        isActive: true,
+        userId,
+        activatedAt: new Date(),
+        expiresAt,
+      });
+    }
+  } catch (err) {
+    console.error(`[ensureStaffFreeLicense] Error for userId ${userId}:`, err);
+  }
+}
+
+/** Disattiva le licenze staff quando l'utente viene declassato a user/customer. */
+async function revokeStaffLicense(userId: number): Promise<void> {
+  try {
+    await db.update(licenses)
+      .set({ isActive: false })
+      .where(and(
+        eq(licenses.userId, userId),
+        eq(licenses.isActive, true)
+      ));
+  } catch (err) {
+    console.error(`[revokeStaffLicense] Error for userId ${userId}:`, err);
+  }
+}
 
 /**
  * Configure routes for staff user management
@@ -138,6 +183,13 @@ export default function setupStaffRoutes(app: Express) {
       const updated = await storage.updateUser(userId, updateData);
       if (!updated) return res.status(500).json({ message: "Unable to promote user" });
 
+      // Gestione licenza automatica
+      if (STAFF_ROLES.includes(role)) {
+        await ensureStaffFreeLicense(userId);
+      } else if (role === 'user') {
+        await revokeStaffLicense(userId);
+      }
+
       const { password: _, ...safe } = updated;
       res.json(safe);
     } catch (error) {
@@ -197,7 +249,12 @@ export default function setupStaffRoutes(app: Express) {
       });
       
       console.log(`new user staff created: ${username} (${email || 'no email'}) with role ${userRole}`);
-      
+
+      // Licenza automatica per nuovi staff/ev_staff/ev_admin/admin
+      if (STAFF_ROLES.includes(userRole)) {
+        await ensureStaffFreeLicense(newUser.id);
+      }
+
       // Return the new user (without the password)
       const { password: _, ...userWithoutPassword } = newUser;
       res.status(201).json(userWithoutPassword);
@@ -284,7 +341,16 @@ export default function setupStaffRoutes(app: Express) {
       
       // Update the user
       const updatedUser = await storage.updateUser(userId, updateData);
-      
+
+      // Gestione licenza automatica al cambio di ruolo
+      if (role !== undefined) {
+        if (STAFF_ROLES.includes(role)) {
+          await ensureStaffFreeLicense(userId);
+        } else if (role === 'user') {
+          await revokeStaffLicense(userId);
+        }
+      }
+
       if (updatedUser) {
         // Remove the password from the response
         const { password: _, ...userWithoutPassword } = updatedUser;
