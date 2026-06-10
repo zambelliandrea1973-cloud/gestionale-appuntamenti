@@ -327,7 +327,9 @@
     "aiAssistant": "Assistente AI",
     "staff": "Staff",
     "payments": "Pagamenti",
-    "requests": "Richieste"
+    "requests": "Richieste",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "language": {
     "it": "Italiano",
@@ -3078,6 +3080,10 @@
     "passwordSavedDesc": "La password è già memorizzata e pronta per l'invio di email. Non è necessario reinserirla ad ogni riavvio.",
     "emailTemplate": "Template Email",
     "resetDefault": "Ripristina predefinito",
+    "defaults": {
+      "subject": "Promemoria appuntamento {{data}}",
+      "template": "Gentile {{nome}} {{cognome}},\n\nti ricordiamo del tuo appuntamento per {{servizio}} il {{data}} alle {{ora}}.\n\nPer modifiche o cancellazioni, contattaci.\n\nCordiali saluti,\nStudio Professionale"
+    },
     "autoRemindersTitle": "Promemoria automatici ai clienti:",
     "autoRemindersDesc": "Il sistema invierà automaticamente un'email di promemoria 24 ore prima dell'appuntamento, utilizzando questo template. Puoi personalizzare il messaggio inserendo testi personalizzati, ma le variabili come <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> sono dati che verranno sostituiti in automatico con le informazioni reali del cliente e dell'appuntamento, quindi consigliamo di non modificarli.",
     "subjectLabel": "Oggetto Email",
@@ -3766,6 +3772,8 @@
       "passwordRequired": "Password *",
       "role": "Ruolo",
       "roleStaff": "Staff - Dipendente con accesso PRO",
+      "roleEvStaff": "Staff EV - Accesso PRO + Sezione EV",
+      "roleEvAdmin": "Admin Secondario EV - Portale Fornitore",
       "roleAdmin": "Admin - Accesso completo",
       "roleUser": "Customer PRO - Professionista abbonato"
     },
@@ -3848,6 +3856,8 @@
     "actions": "Azioni",
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "Staff EV",
     "staffBadge": "Staff",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
