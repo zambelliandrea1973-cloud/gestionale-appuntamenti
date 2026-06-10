@@ -1480,7 +1480,9 @@
     "aiAssistant": "AI-assistent",
     "staff": "Personeel",
     "payments": "Betalingen",
-    "requests": "Aanvragen"
+    "requests": "Aanvragen",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "trial": {
     "days": "dagen",
@@ -2179,10 +2181,7 @@
     "phoneMinChars": "Telefoonnummer moet minstens 6 cijfers bevatten",
     "emailInvalid": "Ongeldig e-mailadres",
     "prefixPlaceholder": "Pref.",
-    "codePreview": "Deze cliënt ontvangt de code: {{code}}",
-    "gender": "Geslacht",
-    "genderMale": "Man",
-    "genderFemale": "Vrouw"
+    "codePreview": "Deze cliënt ontvangt de code: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Toestemming vereist",
@@ -3042,6 +3041,10 @@
     "passwordSavedDesc": "Het wachtwoord is opgeslagen en klaar voor e-mailverzending. Geen herinvoer bij elke herstart nodig.",
     "emailTemplate": "E-mailsjabloon",
     "resetDefault": "Standaard herstellen",
+    "defaults": {
+      "subject": "Afspraakherinnering {{data}}",
+      "template": "Beste {{nome}} {{cognome}},\n\ndit is een herinnering voor uw afspraak voor {{servizio}} op {{data}} om {{ora}}.\n\nVoor wijzigingen of annuleringen, neem contact met ons op.\n\nMet vriendelijke groet,\nProfessionele Studio"
+    },
     "autoRemindersTitle": "Automatische klantherinneringen:",
     "autoRemindersDesc": "Het systeem verzendt automatisch een herinneringsmail 24 uur voor de afspraak met deze sjabloon. Je kunt het bericht aanpassen, maar variabelen als <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> worden automatisch vervangen door echte klant- en afspraakgegevens — wijzig ze niet.",
     "subjectLabel": "E-mailonderwerp",
@@ -3692,6 +3695,8 @@
       "passwordRequired": "Wachtwoord *",
       "role": "Rol",
       "roleStaff": "Personeel - Medewerker met PRO-toegang",
+      "roleEvStaff": "Staff EV - PRO-toegang + EV-sectie",
+      "roleEvAdmin": "EV Tweede Admin - Leveranciersportaal",
       "roleAdmin": "Admin - Volledige toegang",
       "roleUser": "Customer PRO - Geabonneerd professional"
     },
@@ -3774,6 +3779,8 @@
     "actions": "Acties",
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
+    "evAdminBadge": "EV Admin",
+    "evStaffBadge": "EV Personeel",
     "staffBadge": "Personeel",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
