@@ -1456,7 +1456,7 @@ export class DatabaseStorage implements IStorage {
         .where(and(
           gte(appointments.date, startDate),
           lte(appointments.date, endDate),
-          inArray(users.role, ['admin', 'staff'])
+          inArray(users.role, ['admin', 'staff', 'ev_staff', 'ev_admin'])
         ))
         .orderBy(appointments.date, appointments.startTime);
 
