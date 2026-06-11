@@ -1,10 +1,11 @@
 // @ts-nocheck
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 import { ShoppingCart, Plus, Minus, X, ChevronDown, Tag, Package, Info, Search, CheckCircle2, AlertTriangle, Clock, ChevronRight, FlaskConical, CreditCard, Building2 } from "lucide-react";
 
 const F = "https://cdn.shopify.com/s/files/1/0657/6259/0955/files/";
@@ -155,6 +156,7 @@ function TierBar({qty}:{qty:number}){
 
 export default function EVWarehousePage() {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const { user } = useUserWithLicense();
   const [cart,setCart] = useState<Record<string,CartEntry>>({});
   const [fmts,setFmts] = useState<Record<string,string>>(Object.fromEntries(CATALOG.map(p=>[p.code,p.formats[0]])));
@@ -166,6 +168,19 @@ export default function EVWarehousePage() {
   const [confirmedOrder,setConfirmedOrder] = useState<{id:string;totalPro:number;totalQty:number;mode?:string;iban?:string;ibanHolder?:string;bankName?:string;reference?:string}|null>(null);
   const [showHistory,setShowHistory] = useState(false);
   const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cancelledId = params.get('order_cancelled');
+    if (cancelledId) {
+      toast({
+        title: 'Pagamento annullato',
+        description: `Ordine ${cancelledId} non completato. Puoi riprovare dal carrello.`,
+        variant: 'destructive',
+      });
+      window.history.replaceState({}, '', '/ev-cosmetics/shop');
+    }
+  }, []);
 
   const userRole = (user as any)?.role;
   const hasAccess = userRole === 'ev_staff' || userRole === 'ev_admin' || (user as any)?.type === 'admin';
