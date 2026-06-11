@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'wouter';
 import { useAuth } from '@/hooks/use-auth';
 import { useLicense, LicenseType } from '@/hooks/use-license';
+import { useUserWithLicense } from '@/hooks/use-user-with-license';
 import {
   CalendarRange,
   Users,
@@ -21,6 +22,7 @@ export default function SubscribePage() {
   const [, setLocation] = useLocation();
   const { isAuthenticated, isLoading } = useAuth();
   const { licenseInfo } = useLicense();
+  const { user: userWithLicense, isLoading: userLoading } = useUserWithLicense();
 
   const isTrialExpired =
     typeof window !== 'undefined' &&
@@ -39,6 +41,19 @@ export default function SubscribePage() {
       setLocation('/');
     }
   }, [isAuthenticated, isLoading, setLocation, toast]);
+
+  useEffect(() => {
+    if (!isLoading && !userLoading && isAuthenticated && userWithLicense) {
+      const type = userWithLicense.type;
+      const role = (userWithLicense as any).role;
+      const isStaffOrAdmin =
+        type === 'staff' || type === 'admin' ||
+        role === 'staff' || role === 'admin' || role === 'ev_staff' || role === 'ev_admin';
+      if (isStaffOrAdmin) {
+        setLocation('/dashboard');
+      }
+    }
+  }, [isAuthenticated, isLoading, userLoading, userWithLicense, setLocation]);
 
   const keyFeatures = [
     {
