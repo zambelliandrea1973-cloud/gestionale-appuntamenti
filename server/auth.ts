@@ -179,16 +179,28 @@ export function setupAuth(app: Express) {
 
   // Serialize the user with a format that allows us to recognize if it is staff or client
   passport.serializeUser((user: any, done) => {
-    // User serialization - debug logs removed for performance
-    
-    const userType = user.type;
+    let userType = user.type;
     const userId = user.id;
-    
+
+    // Normalize type before serialization to avoid deserialization failures
+    // after role promotions or when type has an unexpected value like 'user'
+    const userRole = user.role;
+    if (userRole === 'admin' || userType === 'admin') {
+      userType = 'admin';
+    } else if (
+      userRole === 'ev_admin' || userRole === 'ev_staff' ||
+      userRole === 'staff' || userType === 'staff'
+    ) {
+      userType = 'staff';
+    } else if (userType === 'user' || userRole === 'user') {
+      userType = 'customer';
+    }
+
     if (!userType || !userId) {
       console.error('Serialization error: type or ID missing', { userType, userId, user });
       return done(new Error('User type or ID missing during serialization'));
     }
-    
+
     // Format: "type:id" for correct deserialization
     done(null, `${userType}:${userId}`);
   });
@@ -214,19 +226,27 @@ export function setupAuth(app: Express) {
       
       const id = parseInt(idStr, 10);
 
-      if (type === "staff" || type === "admin" || type === "customer") {
+      // Handle all staff/admin/customer/user types (includes legacy 'user' type)
+      if (type === "staff" || type === "admin" || type === "customer" || type === "user") {
         const user = await storage.getUser(id);
         if (!user) return done(null, false);
-        
-        // FIX: Keep the original type if present
+
+        // Always normalize type based on role to handle promotions without re-login
         let userType = user.type;
-        if (!userType || userType === 'undefined') {
-          userType = user.role === 'admin' ? 'admin' : (type === 'customer' ? 'customer' : 'staff');
-          console.log(`User type not defined for ID ${id}, set to ${userType} based on serialized type`);
-        } else {
-          // User type maintained - debug log removed for performance
+        const userRole = user.role;
+
+        if (userRole === 'admin' || userType === 'admin') {
+          userType = 'admin';
+        } else if (
+          userRole === 'ev_admin' || userRole === 'ev_staff' ||
+          userRole === 'staff' || userType === 'staff'
+        ) {
+          userType = 'staff';
+        } else if (userType === 'user' || !userType || userType === 'undefined') {
+          // Legacy 'user' type → normalize to customer
+          userType = 'customer';
         }
-        
+
         return done(null, { ...user, type: userType });
       } else if (type === "client") {
         const clientAccount = await storage.getClientAccount(id);
