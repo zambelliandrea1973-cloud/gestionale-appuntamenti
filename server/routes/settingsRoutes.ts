@@ -423,7 +423,7 @@ router.get("/api/user-with-license", async (req, res) => {
       licenseType = 'staff_free_10years';
       expiresAt = new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000);
       daysLeft = 3650;
-    } else if (user.type === 'customer') {
+    } else if (user.type === 'customer' || user.type === 'user') {
       try {
         const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
         const activeLicense = userLicenses.find((lic: any) => lic.isActive);
