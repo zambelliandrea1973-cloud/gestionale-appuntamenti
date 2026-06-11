@@ -66,13 +66,14 @@ router.get('/has-pro-access', async (req, res) => {
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
       
-      // Admin and staff always have PRO access (full automatic access)
-      if (user.type === 'admin' || user.type === 'staff') {
+      // Admin, staff, ev_admin, ev_staff always have PRO access
+      const staffRoles = ['staff', 'ev_staff', 'ev_admin', 'admin'];
+      if (user.type === 'admin' || user.type === 'staff' || staffRoles.includes(user.role)) {
         return res.json(true);
       }
-      
+
       // Customers with Pro, Business, Passepartout or ACTIVE TRIAL license have PRO access
-      if (user.type === 'customer' && user.id) {
+      if ((user.type === 'customer' || user.type === 'user') && user.id) {
         const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
         if (licenseInfo.isActive && (
             licenseInfo.type === LicenseType.PRO || 
@@ -100,13 +101,14 @@ router.get('/has-business-access', async (req, res) => {
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
       
-      // Admin and staff always have Business access (full automatic access)
-      if (user.type === 'admin' || user.type === 'staff') {
+      // Admin, staff, ev_admin, ev_staff always have Business access
+      const staffRolesB = ['staff', 'ev_staff', 'ev_admin', 'admin'];
+      if (user.type === 'admin' || user.type === 'staff' || staffRolesB.includes(user.role)) {
         return res.json(true);
       }
-      
+
       // Customers with Business, Passepartout or ACTIVE TRIAL license have Business access
-      if (user.type === 'customer' && user.id) {
+      if ((user.type === 'customer' || user.type === 'user') && user.id) {
         const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
         if (licenseInfo.isActive && (
             licenseInfo.type === LicenseType.BUSINESS || 
