@@ -27,18 +27,20 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
     const userRole = user.role;
 
 
-    // Admin and passepartout always have access
+    // Admin always has access
     if (userType === 'admin' || userRole === 'admin') {
       return next();
     }
 
-    // Staff always have access (they have 10-year license)
-    if (userType === 'staff') {
+    // Staff and all staff-role variants always have access (10-year license)
+    // This covers: staff, ev_staff, ev_admin — all stored with type='staff'
+    const staffRoles = ['staff', 'ev_staff', 'ev_admin'];
+    if (userType === 'staff' || staffRoles.includes(userRole)) {
       return next();
     }
 
-    // For customer users, check the license status
-    if (userType === 'customer') {
+    // For customer users (including legacy type='user'), check the license status
+    if (userType === 'customer' || userType === 'user') {
       // Get info license of the user
       const licenseInfo = await licenseService.getCurrentLicenseInfo(userId);
       
