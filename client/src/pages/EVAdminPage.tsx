@@ -58,14 +58,6 @@ const DEFAULT_TIERS: DiscountTier[] = [
   { label:"20+ pz", min:20, pct:30 },
 ];
 
-const PROFESSIONALS = [
-  {id:1, name:"Busnari Silvia",  code:"BUS1422", email:"busnari.silvia@libero.it",  orders:12, revenue:1340},
-  {id:2, name:"Faverio Elisa",   code:"FAV0892", email:"elisa.faverio@gmail.com",   orders:8,  revenue:890},
-  {id:3, name:"Pizzolato Bruna", code:"PIZ2231", email:"bruna.pizzolato@yahoo.it",  orders:5,  revenue:560},
-  {id:4, name:"Zambelli Andrea", code:"ZAM1973", email:"andrea@zambelli.it",        orders:18, revenue:2100},
-  {id:5, name:"Rossini Carla",   code:"ROS3344", email:"c.rossini@studio.it",       orders:3,  revenue:290},
-];
-
 
 type StaffRole = "reception"|"estetista"|"massaggiatore";
 type StaffMember = { id:number; name:string; email:string; phone:string; role:StaffRole; avatar:string; active:boolean; isSecondaryAdmin:boolean; adminSince?:string };
@@ -125,10 +117,8 @@ export default function EVAdminPage() {
   const [catFilter, setCatFilter] = useState("Tutti");
   const [confirmRevoke, setConfirmRevoke] = useState<number|null>(null);
   const [justChanged, setJustChanged] = useState<number|null>(null);
-  const [customDiscounts, setCustomDiscounts] = useState<Record<number,number[]>>(
-    Object.fromEntries(PROFESSIONALS.map(p=>[p.id,DEFAULT_TIERS.map(t=>t.pct)]))
-  );
-  const [selectedPro, setSelectedPro] = useState(PROFESSIONALS[0].id);
+  const [customDiscounts, setCustomDiscounts] = useState<Record<number,number[]>>({});
+  const [selectedPro, setSelectedPro] = useState(0);
 
   // Carica utenti reali dal DB
   const { data: realUsers = [] } = useQuery({ queryKey: ['/api/staff/users'] });
@@ -335,6 +325,21 @@ export default function EVAdminPage() {
   const secondaryAdmins = allStaff.filter((u: any) => u.role === 'ev_admin');
   const evStaffMembers = allStaff.filter((u: any) => u.role === 'ev_staff');
   const regularStaff = allStaff.filter((u: any) => u.role !== 'ev_admin' && u.role !== 'ev_staff');
+
+  // Professionisti reali: utenti ev_staff + ev_admin con dati ordini calcolati live
+  const professionals = (realUsers as any[])
+    .filter((u: any) => u.role === 'ev_staff' || u.role === 'ev_admin')
+    .map((u: any) => {
+      const uOrders = (evOrders as any[]).filter((o: any) => o.professionalId === u.id);
+      return {
+        id: u.id,
+        name: u.firstName && u.lastName ? `${u.firstName} ${u.lastName}` : u.username,
+        code: u.assignmentCode || ((u.username || '').substring(0,3).toUpperCase() + String(u.id).padStart(4,'0')),
+        email: u.email || '',
+        orders: uOrders.length,
+        revenue: uOrders.filter((o: any) => o.status !== 'rejected').reduce((s: number, o: any) => s + (o.totalPro || 0), 0),
+      };
+    });
 
   const totalRevenue = (evOrders as any[]).filter((o:any)=>o.status!=='rejected').reduce((s:number,o:any)=>s+(o.totalPro||0),0);
   const allProducts = [...PRODUCTS, ...(customCatalogProducts as any[])];
@@ -700,8 +705,9 @@ export default function EVAdminPage() {
                 <div>
                   <div className="text-[10px] font-semibold text-gray-500 mb-2 tracking-widest px-1">PROFESSIONISTI</div>
                   <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                    {PROFESSIONALS.map(pro=>(
-                      <button key={pro.id} onClick={()=>setSelectedPro(pro.id)} className={`w-full flex items-center gap-2.5 px-3.5 py-3 border-b border-gray-50 last:border-0 hover:bg-gray-50 text-left ${selectedPro===pro.id?"bg-violet-50 border-l-2 border-l-violet-500":""}`}>
+                    {professionals.length===0&&<div className="text-center py-4 text-xs text-gray-400">Nessun professionista abilitato</div>}
+                    {professionals.map(pro=>(
+                      <button key={pro.id} onClick={()=>setSelectedPro(pro.id)} className={`w-full flex items-center gap-2.5 px-3.5 py-3 border-b border-gray-50 last:border-0 hover:bg-gray-50 text-left ${(selectedPro===pro.id||(selectedPro===0&&professionals[0]?.id===pro.id))?"bg-violet-50 border-l-2 border-l-violet-500":""}`}>
                         <Av initials={pro.name.split(" ").map((w:string)=>w[0]).join("").substring(0,2)} size={28}/>
                         <div className="flex-1 min-w-0">
                           <div className="text-[11px] font-semibold text-gray-900 truncate">{pro.name}</div>
@@ -716,7 +722,8 @@ export default function EVAdminPage() {
                 </div>
                 <div className="col-span-2">
                   {(()=>{
-                    const pro=PROFESSIONALS.find(p=>p.id===selectedPro)!;
+                    const pro=professionals.find(p=>p.id===(selectedPro||professionals[0]?.id))||professionals[0];
+                    if (!pro) return <div className="text-center text-sm text-gray-400 py-8">Seleziona un professionista</div>;
                     return(
                       <div>
                         <div className="flex items-center gap-2.5 mb-3">
@@ -1063,20 +1070,32 @@ export default function EVAdminPage() {
           {/* PROFESSIONISTI */}
           {tab==="professionisti"&&!isSecondary&&(
             <div>
-              <h2 className="font-semibold text-gray-900 mb-3">Account Professionisti</h2>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-semibold text-gray-900">Account Professionisti ({professionals.length})</h2>
+                <span className="text-xs text-gray-400">Dati in tempo reale</span>
+              </div>
+              {professionals.length===0&&(
+                <div className="text-center py-10 text-gray-400">
+                  <UserCog className="w-10 h-10 mx-auto mb-2 opacity-30"/>
+                  <div className="text-sm">Nessun professionista abilitato.</div>
+                  <div className="text-xs mt-1">Vai a <strong>Gestione Admin</strong> per assegnare l'accesso EV Shop.</div>
+                </div>
+              )}
               <div className="space-y-2">
-                {PROFESSIONALS.map(pro=>(
+                {professionals.map(pro=>(
                   <div key={pro.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-center gap-3">
                     <Av initials={pro.name.split(" ").map((w:string)=>w[0]).join("").substring(0,2)}/>
                     <div className="flex-1">
                       <div className="font-semibold text-sm">{pro.name}</div>
-                      <div className="text-xs text-gray-400">{pro.email} · {pro.code}</div>
+                      <div className="text-xs text-gray-400 flex items-center gap-2">
+                        {pro.email&&<span className="flex items-center gap-0.5"><Mail className="w-2.5 h-2.5"/>{pro.email}</span>}
+                        <span className="font-mono">{pro.code}</span>
+                      </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-bold">€{pro.revenue}</div>
+                      <div className="text-sm font-bold text-emerald-700">€{pro.revenue.toFixed(2)}</div>
                       <div className="text-[10px] text-gray-400">{pro.orders} ordini</div>
                     </div>
-                    <button className="text-xs text-violet-600 border border-violet-200 rounded-lg px-2.5 py-1.5 hover:bg-violet-50 flex items-center gap-1"><Eye className="w-3 h-3"/>Profilo</button>
                   </div>
                 ))}
               </div>
