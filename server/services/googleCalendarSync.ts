@@ -56,8 +56,19 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     }
 
     const googleAuthToken = user[0].googleAuthToken;
-    const decryptedTokenStr = EncryptionService.decryptToken(googleAuthToken);
-    const tokens = JSON.parse(decryptedTokenStr);
+    
+    // Decrypt token with explicit error for key mismatch diagnosis
+    let tokens: any;
+    try {
+      const decryptedTokenStr = EncryptionService.decryptToken(googleAuthToken);
+      tokens = JSON.parse(decryptedTokenStr);
+      console.log(`🔓 [IMPORT] Token decrypted OK for user ${userId}`);
+    } catch (decryptErr) {
+      const msg = `Errore decriptazione token Google (chiave ENCRYPTION_KEY non corrisponde?) — riautorizzare Google Calendar da Impostazioni: ${String(decryptErr)}`;
+      console.error(`❌ [IMPORT] ${msg}`);
+      result.errors.push(msg);
+      return result;
+    }
     
     const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
@@ -66,17 +77,27 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     const oneYearAhead = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
     
+    console.log(`🔍 [IMPORT] User ${userId} | timeMin: ${thirtyDaysAgo.toISOString()} | timeMax: ${oneYearAhead.toISOString()}`);
     
-    // NEW: Get ALL user calendars (primary + secondary)
-    const calendarListResponse = await calendar.calendarList.list();
+    // Get ALL user calendars (primary + secondary)
+    let calendarListResponse: any;
+    try {
+      calendarListResponse = await calendar.calendarList.list();
+    } catch (calListErr: any) {
+      const msg = `Errore lettura lista calendari Google: ${String(calListErr?.message || calListErr)}`;
+      console.error(`❌ [IMPORT] ${msg}`);
+      result.errors.push(msg);
+      return result;
+    }
     const allCalendars = calendarListResponse.data.items || [];
     
     // Filter only calendars with read access (owner, writer, reader)
-    const accessibleCalendars = allCalendars.filter(cal => 
+    const accessibleCalendars = allCalendars.filter((cal: any) => 
       cal.id && cal.accessRole && ['owner', 'writer', 'reader'].includes(cal.accessRole)
     );
     
-    console.log(`📅 [IMPORT] Found ${allCalendars.length} total calendars, ${accessibleCalendars.length} accessible`);
+    console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} accessibili`);
+    allCalendars.forEach((cal: any) => console.log(`   📆 "${cal.summary}" (${cal.id}) accessRole=${cal.accessRole}`));
     
     // ========== INCREMENTAL SYNCHRONIZATION WITH SYNC TOKEN ==========
     // Load saved syncToken for this user
@@ -243,19 +264,19 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       }
     }
     
-    // Log type di sync eseguita
+    // Log sync type and event count — always visible in production logs
     if (isIncrementalSync) {
-      logger.debug(`⚡ [IMPORT] Incremental sync completed: ${allEvents.length} changes to process`);
+      console.log(`⚡ [IMPORT] User ${userId}: sync incrementale — ${allEvents.length} modifiche da processare`);
     } else {
-      logger.debug(`📋 [IMPORT] Full sync completed: ${allEvents.length} events to process`);
+      console.log(`📋 [IMPORT] User ${userId}: full sync — ${allEvents.length} eventi trovati in totale`);
     }
 
     if (allEvents.length === 0) {
-      console.log(`📭 [IMPORT] No events found in calendars`);
+      console.log(`📭 [IMPORT] User ${userId}: nessun evento trovato nei calendari (controllare accessRole e timeRange)`);
       return result;
     }
 
-    logger.debug(`📋 [IMPORT] Found ${allEvents.length} total events to process`);
+    console.log(`📋 [IMPORT] User ${userId}: inizio elaborazione ${allEvents.length} eventi`);
 
     // ========== OPTIMIZATION: IN-MEMORY DATA PRELOAD ==========
     const preloadStart = Date.now();
