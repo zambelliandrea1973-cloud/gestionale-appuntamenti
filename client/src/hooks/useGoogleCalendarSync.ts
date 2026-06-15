@@ -40,13 +40,22 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
       const imported = data.details?.imported || 0;
       const deleted = data.details?.deleted || 0;
       const exported = data.details?.exported || 0;
+      const errors: string[] = data.details?.errors || [];
       
       if (showToast) {
-        toast({
-          title: t("common.success", "✅ Sync completed"),
-          description: t('google.syncDetails', '📥 Imported: {{imported}} | 📤 Exported: {{exported}} | 🗑️ Deleted: {{deleted}}', { imported, exported, deleted }),
-          variant: "default",
-        });
+        if (errors.length > 0) {
+          toast({
+            title: t('common.error', '❌ Errore sincronizzazione'),
+            description: errors[0],
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: t("common.success", "✅ Sync completed"),
+            description: t('google.syncDetails', '📥 Imported: {{imported}} | 📤 Exported: {{exported}} | 🗑️ Deleted: {{deleted}}', { imported, exported, deleted }),
+            variant: "default",
+          });
+        }
       }
       
       queryClient.invalidateQueries({ 
