@@ -69,6 +69,11 @@ function createCalendarClient(tokens: any, userId?: number) {
   
   if (userId) {
     oauth2Client.on('tokens', async (newTokens) => {
+      // Only auto-save on production — prevent Replit dev from overwriting the shared DB
+      if (!process.env.PRODUCTION_DOMAIN) {
+        logger.debug(`🔄 [AUTO-SYNC] Token refreshed for user ${userId} (auto-save skipped on dev)`);
+        return;
+      }
       try {
         const merged = { ...tokens, ...newTokens };
         const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
