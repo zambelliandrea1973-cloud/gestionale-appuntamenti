@@ -40,6 +40,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
       const imported = data.details?.imported || 0;
       const deleted = data.details?.deleted || 0;
       const exported = data.details?.exported || 0;
+      const found = data.details?.found ?? null;
       const errors: string[] = data.details?.errors || [];
       
       if (showToast) {
@@ -50,9 +51,10 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
             variant: "destructive",
           });
         } else {
+          const foundInfo = found !== null ? ` (trovati nel calendario: ${found})` : '';
           toast({
-            title: t("common.success", "✅ Sync completed"),
-            description: t('google.syncDetails', '📥 Imported: {{imported}} | 📤 Exported: {{exported}} | 🗑️ Deleted: {{deleted}}', { imported, exported, deleted }),
+            title: t("common.success", "✅ Sync completato"),
+            description: `📥 Importati: ${imported} | 📤 Esportati: ${exported} | 🗑️ Eliminati: ${deleted}${foundInfo}`,
             variant: "default",
           });
         }
