@@ -44,8 +44,8 @@ interface SyncConflict {
  * @param userId - ID of the user
  * @param timeZone - User timezone (e.g. 'Europe/Rome', 'Australia/Sydney')
  */
-export async function importGoogleCalendarEvents(userId: number, timeZone: string = 'Europe/Rome'): Promise<{ imported: number; conflicts: SyncConflict[]; errors: string[] }> {
-  const result = { imported: 0, conflicts: [] as SyncConflict[], errors: [] as string[] };
+export async function importGoogleCalendarEvents(userId: number, timeZone: string = 'Europe/Rome'): Promise<{ imported: number; found: number; conflicts: SyncConflict[]; errors: string[] }> {
+  const result = { imported: 0, found: 0, conflicts: [] as SyncConflict[], errors: [] as string[] };
   
   try {
     // Get the token OAuth of the user
@@ -270,6 +270,8 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     } else {
       console.log(`📋 [IMPORT] User ${userId}: full sync — ${allEvents.length} eventi trovati in totale`);
     }
+
+    result.found = allEvents.length;
 
     if (allEvents.length === 0) {
       console.log(`📭 [IMPORT] User ${userId}: nessun evento trovato nei calendari (controllare accessRole e timeRange)`);
@@ -659,6 +661,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
   const details = {
     exported: 0,
     imported: 0,
+    found: 0,
     errors: [] as string[]
   };
 
@@ -668,6 +671,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
     try {
       const importResult = await importGoogleCalendarEvents(userId, timeZone);
       details.imported = importResult.imported;
+      details.found = importResult.found;
       if (importResult.errors.length > 0) {
         details.errors.push(...importResult.errors);
       }
