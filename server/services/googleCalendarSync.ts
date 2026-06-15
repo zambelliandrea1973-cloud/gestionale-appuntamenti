@@ -18,6 +18,11 @@ function createOAuth2ClientWithAutoSave(userId: number, tokens: any) {
   oauth2Client.setCredentials(tokens);
   
   oauth2Client.on('tokens', async (newTokens) => {
+    // Only auto-save on production — prevent Replit dev from overwriting the shared DB
+    if (!process.env.PRODUCTION_DOMAIN) {
+      logger.debug(`🔄 [OAUTH] Token refreshed for user ${userId} (auto-save skipped on dev)`);
+      return;
+    }
     try {
       const merged = { ...tokens, ...newTokens };
       const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
@@ -29,6 +34,23 @@ function createOAuth2ClientWithAutoSave(userId: number, tokens: any) {
   });
   
   return oauth2Client;
+}
+
+/**
+ * Disable Google Calendar for a user when the OAuth token is invalid.
+ * Clears the token and sync tokens so the UI shows "Disconnected" and the user can reconnect.
+ */
+async function disableGoogleCalendarOnInvalidGrant(userId: number): Promise<void> {
+  try {
+    await db.update(users)
+      .set({ googleCalendarEnabled: false, googleAuthToken: null })
+      .where(eq(users.id, userId));
+    await db.delete(googleCalendarSyncTokens)
+      .where(eq(googleCalendarSyncTokens.userId, userId));
+    console.warn(`⚠️ [SYNC] Google Calendar disabled for user ${userId} — token cleared. Reconnect from Settings → Google Calendar`);
+  } catch (dbErr) {
+    console.error(`❌ [SYNC] Error disabling Google Calendar for user ${userId}:`, dbErr);
+  }
 }
 
 interface SyncConflict {
@@ -674,6 +696,16 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       details.found = importResult.found;
       if (importResult.errors.length > 0) {
         details.errors.push(...importResult.errors);
+        // Check if any error is an OAuth invalid_grant — the error is returned (not thrown)
+        // so we must check here, not in the catch block below
+        const hasOAuthError = importResult.errors.some(e =>
+          e.includes('invalid_grant') || e.includes('Token has been expired') || e.includes('Token has been revoked')
+        );
+        if (hasOAuthError) {
+          await disableGoogleCalendarOnInvalidGrant(userId);
+          details.errors.push('Google Calendar disabilitato automaticamente — riconnettersi da Impostazioni → Google Calendar');
+          return { success: false, message: 'Token OAuth scaduto — Google Calendar disabilitato. Riconnettersi da Impostazioni → Google Calendar', details };
+        }
       }
     } catch (importError: any) {
       const errMsg = String(importError);
@@ -681,9 +713,9 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       details.errors.push(`Error importing: ${errMsg}`);
       
       if (errMsg.includes('invalid_grant') || errMsg.includes('Token has been expired') || errMsg.includes('Token has been revoked')) {
-        console.warn(`⚠️ [SYNC] OAuth token expired/revoked for user ${userId} - sync KEPT ACTIVE, will retry next cycle. Re-authorize from settings if persists.`);
-        details.errors.push(`Token OAuth scaduto - riautorizzare da Impostazioni → Google Calendar`);
-        return { success: false, message: `Token OAuth scaduto per utente ${userId} - sincronizzazione mantenuta attiva, riprovare da Impostazioni`, details };
+        await disableGoogleCalendarOnInvalidGrant(userId);
+        details.errors.push('Google Calendar disabilitato automaticamente — riconnettersi da Impostazioni → Google Calendar');
+        return { success: false, message: 'Token OAuth scaduto — Google Calendar disabilitato. Riconnettersi da Impostazioni → Google Calendar', details };
       }
     }
 
@@ -857,8 +889,8 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         details.errors.push(`Error exporting appointment ${appointment.id}: ${errorMsg}`);
         
         if (errorMsg.includes('invalid_grant') || errorMsg.includes('Token has been expired') || errorMsg.includes('Token has been revoked')) {
-          console.warn(`⚠️ [SYNC] OAuth token expired/revoked for user ${userId} - sync KEPT ACTIVE, will retry next cycle.`);
-          details.errors.push(`Token OAuth scaduto - riautorizzare da Impostazioni → Google Calendar`);
+          await disableGoogleCalendarOnInvalidGrant(userId);
+          details.errors.push('Google Calendar disabilitato automaticamente — riconnettersi da Impostazioni → Google Calendar');
           break;
         }
       }
