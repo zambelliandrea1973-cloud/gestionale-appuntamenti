@@ -145,6 +145,12 @@ export const schedulerService = {
 
     // Cron job that runs every hour to pick up users due for their 24-hour sync
     cron.schedule('0 * * * *', async () => {
+      // Only run on production (Sliplane) — skip on Replit dev to avoid
+      // interfering with the shared DB (token overwrites, encryption key mismatch)
+      if (!process.env.PRODUCTION_DOMAIN) {
+        logger.debug('⏭️ [GOOGLE IMPORT] Skipping scheduler on dev environment');
+        return;
+      }
       const now = new Date();
       if (isVerbose) console.log('🔄 [GOOGLE IMPORT] Hourly check — syncing users overdue by 24h:', now.toISOString());
 
