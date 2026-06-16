@@ -896,8 +896,8 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             }
           });
           
-          // Mark appointment as synchronized
-          await db.update(appointments).set({ synced: true }).where(eq(appointments.id, appointment.id));
+          // Mark appointment as synchronized AND save googleEventId so import won't re-create it
+          await db.update(appointments).set({ synced: true, googleEventId }).where(eq(appointments.id, appointment.id));
           
           details.exported++;
         }
