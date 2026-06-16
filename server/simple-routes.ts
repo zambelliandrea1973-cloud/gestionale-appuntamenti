@@ -610,12 +610,14 @@ export function registerSimpleRoutes(app: Express): Server {
       const result = await Promise.race([syncBidirectional(userId, timeZone), timeoutPromise]);
       
       res.json(result);
-    } catch (error) {
-      console.error('❌ [SYNC-NOW] Error:', error);
+    } catch (error: any) {
+      console.error('❌ [SYNC-NOW] Fatal error (uncaught outside syncBidirectional):', error?.message || error);
+      console.error('❌ [SYNC-NOW] Stack:', error?.stack);
+      const errMsg = error?.message || String(error);
       res.status(500).json({ 
         success: false, 
         message: 'Error during synchronization',
-        details: { imported: 0, exported: 0, errors: [String(error)] }
+        details: { imported: 0, exported: 0, errors: [errMsg] }
       });
     }
   });
