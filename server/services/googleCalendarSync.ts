@@ -1184,8 +1184,134 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
   }
 }
 
+/**
+ * Register Google Calendar push notification watches for all writable calendars of a user.
+ * When an event changes in Google Calendar, Google calls POST /api/google-calendar/webhook
+ * with the channelId → we run an incremental sync for that specific user only.
+ * Only runs on production (requires a public HTTPS URL).
+ */
+export async function registerCalendarWatches(userId: number): Promise<void> {
+  if (!process.env.PRODUCTION_DOMAIN) {
+    logger.debug(`⏭️ [WATCH] Skipping watch registration on dev for user ${userId}`);
+    return;
+  }
+
+  const userRows = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+  const user = userRows[0];
+  if (!user?.googleAuthToken || !user.googleCalendarEnabled) return;
+
+  let tokens: any;
+  try {
+    tokens = JSON.parse(EncryptionService.decryptToken(user.googleAuthToken));
+  } catch {
+    console.error(`❌ [WATCH] Cannot decrypt token for user ${userId}`);
+    return;
+  }
+
+  const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
+  const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+
+  let calendarList: any[];
+  try {
+    const res = await calendar.calendarList.list();
+    calendarList = (res.data.items || []).filter(
+      (cal: any) => cal.id && ['owner', 'writer'].includes(cal.accessRole || '')
+    );
+  } catch (err) {
+    console.error(`❌ [WATCH] Cannot list calendars for user ${userId}:`, err);
+    return;
+  }
+
+  const webhookUrl = `https://${process.env.PRODUCTION_DOMAIN}/api/google-calendar/webhook`;
+  // 6 days — Google max is 7, we leave 1 day margin for renewal
+  const expirationMs = Date.now() + 6 * 24 * 60 * 60 * 1000;
+
+  for (const cal of calendarList) {
+    if (!cal.id) continue;
+    try {
+      // Stop existing watch first (ignore errors if already expired)
+      const existingRows = await db.select()
+        .from(googleCalendarSyncTokens)
+        .where(and(
+          eq(googleCalendarSyncTokens.userId, userId),
+          eq(googleCalendarSyncTokens.calendarId, cal.id)
+        ))
+        .limit(1);
+      const existing = existingRows[0];
+
+      if (existing?.channelId && existing?.resourceId) {
+        try {
+          await calendar.channels.stop({
+            requestBody: { id: existing.channelId, resourceId: existing.resourceId }
+          });
+        } catch { /* already expired or unknown — safe to ignore */ }
+      }
+
+      // channelId: max 64 chars, only alphanumeric + hyphen
+      const safeCalId = cal.id.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 28);
+      const channelId = `u${userId}-${safeCalId}-${Date.now()}`.substring(0, 64);
+
+      const watchRes = await calendar.events.watch({
+        calendarId: cal.id,
+        requestBody: {
+          id: channelId,
+          type: 'web_hook',
+          address: webhookUrl,
+          expiration: expirationMs.toString(),
+        },
+      });
+
+      // Save channelId + resourceId so the webhook handler can look up this user
+      await db.update(googleCalendarSyncTokens)
+        .set({
+          channelId,
+          resourceId: watchRes.data.resourceId || null,
+          watchExpiresAt: new Date(expirationMs),
+          updatedAt: new Date(),
+        })
+        .where(and(
+          eq(googleCalendarSyncTokens.userId, userId),
+          eq(googleCalendarSyncTokens.calendarId, cal.id)
+        ));
+
+      console.log(`✅ [WATCH] Registered for user ${userId}, calendar "${cal.summary}" — expires in 6 days`);
+    } catch (err: any) {
+      console.error(`❌ [WATCH] Failed for user ${userId}, calendar ${cal.id}:`, err?.message || err);
+    }
+  }
+}
+
+/**
+ * Called when Google sends a push notification to /api/google-calendar/webhook.
+ * Finds the user from the channelId and runs an incremental sync for that user only.
+ * Works independently of who is currently logged in.
+ */
+export async function handleWebhookIncrementalSync(channelId: string): Promise<void> {
+  const rows = await db.select()
+    .from(googleCalendarSyncTokens)
+    .where(eq(googleCalendarSyncTokens.channelId, channelId))
+    .limit(1);
+
+  if (!rows.length) {
+    console.warn(`⚠️ [WEBHOOK] Unknown channelId: ${channelId}`);
+    return;
+  }
+
+  const { userId, calendarId } = rows[0];
+  console.log(`📬 [WEBHOOK] Notification → user ${userId}, calendar ${calendarId} — running incremental sync`);
+
+  try {
+    const result = await importGoogleCalendarEvents(userId, 'Europe/Rome');
+    console.log(`✅ [WEBHOOK] Sync user ${userId}: imported=${result.imported}, errors=${result.errors.length}`);
+  } catch (err) {
+    console.error(`❌ [WEBHOOK] Sync error for user ${userId}:`, err);
+  }
+}
+
 export const googleCalendarSync = {
   importGoogleCalendarEvents,
   syncBidirectional,
-  syncDeletedEvents
+  syncDeletedEvents,
+  registerCalendarWatches,
+  handleWebhookIncrementalSync,
 };
