@@ -600,10 +600,14 @@ export function registerSimpleRoutes(app: Express): Server {
       }
       
       const userId = (req.user as any).id;
-      const timeZone = req.body?.timeZone || 'Europe/Rome'; // Detect timezone from client or use default
+      const timeZone = req.body?.timeZone || 'Europe/Rome';
       
-      // Call the actual bidirectional sync function
-      const result = await syncBidirectional(userId, timeZone);
+      // Timeout: if syncBidirectional hangs (Google API unresponsive), fail fast after 40s
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Timeout: Google Calendar API non risponde dopo 40 secondi')), 40_000)
+      );
+      
+      const result = await Promise.race([syncBidirectional(userId, timeZone), timeoutPromise]);
       
       res.json(result);
     } catch (error) {
@@ -627,7 +631,10 @@ export function registerSimpleRoutes(app: Express): Server {
       const userId = (req.user as any).id;
       const timeZone = req.body?.timeZone || 'Europe/Rome';
       
-      const result = await syncBidirectional(userId, timeZone);
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Timeout: Google Calendar API non risponde dopo 40 secondi')), 40_000)
+      );
+      const result = await Promise.race([syncBidirectional(userId, timeZone), timeoutPromise]);
       res.json(result);
     } catch (error) {
       console.error('❌ [SYNC] Error:', error);
