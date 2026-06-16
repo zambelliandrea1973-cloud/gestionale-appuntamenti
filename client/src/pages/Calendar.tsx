@@ -58,11 +58,18 @@ export default function Calendar() {
         if (!statusRes.ok || cancelled) return;
         const status = await statusRes.json();
         if (!status.authorized || !status.calendarEnabled || cancelled) return;
-        const syncRes = await fetch('/api/google-calendar/sync-now', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
-        });
-        if (syncRes.ok && !cancelled) {
-          queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 40_000);
+        try {
+          const syncRes = await fetch('/api/google-calendar/sync-now', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            credentials: 'include', signal: controller.signal,
+          });
+          if (syncRes.ok && !cancelled) {
+            queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+          }
+        } finally {
+          clearTimeout(timeoutId);
         }
       } catch {}
     };
