@@ -63,7 +63,7 @@ import { notificationService } from './services/notificationService';
 
 // Import Google Calendar service for sync
 import { addAppointmentToGoogleCalendar } from './services/googleCalendarService';
-import { syncBidirectional } from './services/googleCalendarSync';
+import { syncBidirectional, handleWebhookIncrementalSync } from './services/googleCalendarSync';
 import { google } from 'googleapis';
 
 // Import storage for new collaborators and rooms functionality
@@ -588,6 +588,25 @@ export function registerSimpleRoutes(app: Express): Server {
       console.error(`🔧 [DEBUG-CALENDARS] Error:`, error);
       res.status(500).json({ error: String(error) });
     }
+  });
+
+  // ── Google Calendar Push Notification webhook ─────────────────────────────
+  // Google calls this endpoint (no session cookie) whenever a calendar event changes.
+  // We respond 200 immediately, then run an incremental sync for that user in background.
+  app.post('/api/google-calendar/webhook', async (req, res) => {
+    const channelId = req.headers['x-goog-channel-id'] as string | undefined;
+    const resourceState = req.headers['x-goog-resource-state'] as string | undefined;
+
+    // Always ack immediately — Google requires a fast 200
+    res.status(200).send('OK');
+
+    // 'sync' is the initial handshake notification — no calendar data changed yet
+    if (!channelId || resourceState === 'sync') return;
+
+    // Run incremental sync for the specific user identified by channelId (background)
+    handleWebhookIncrementalSync(channelId).catch(err =>
+      console.error(`❌ [WEBHOOK] Unhandled error for channelId=${channelId}:`, err)
+    );
   });
 
   // Endpoint for manual Google Calendar synchronization
