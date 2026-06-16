@@ -15,7 +15,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
   return useMutation({
     mutationFn: async () => {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 130_000);
+      const timeoutId = setTimeout(() => controller.abort(), 200_000);
       let response: Response;
       try {
         response = await fetch('/api/google-calendar/sync-now', {
