@@ -113,27 +113,16 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     }
     const allCalendars = calendarListResponse.data.items || [];
     
-    // Include owner, writer AND reader calendars — the user may create events in
-    // any calendar they can see. Exclude only system/auto-generated calendars
-    // (holidays, contacts, birthdays) that contain thousands of irrelevant events.
-    const EXCLUDED_CALENDAR_IDS = [
-      '#contacts@group.v.calendar.google.com',
-      '#holidays@group.v.calendar.google.com',
-    ];
-    const EXCLUDED_SUMMARY_PATTERNS = [
-      /festiv/i, /holiday/i, /compleann/i, /birthday/i, /contatt/i, /contact/i
-    ];
-    const accessibleCalendars = allCalendars.filter((cal: any) => {
-      if (!cal.id || !cal.accessRole) return false;
-      if (!['owner', 'writer', 'reader'].includes(cal.accessRole)) return false;
-      // Skip known system calendars by ID
-      if (EXCLUDED_CALENDAR_IDS.some(ex => cal.id.includes(ex))) return false;
-      // Skip obvious holiday/birthday calendars by name
-      if (cal.summary && EXCLUDED_SUMMARY_PATTERNS.some(re => re.test(cal.summary))) return false;
-      return true;
-    });
+    // Import from ALL calendars the user can see — primary, secondary, shared, etc.
+    // The only exclusion is 'freeBusyReader': that role doesn't expose event details,
+    // the API returns only busy/free slots so there is nothing to import.
+    // Everything else (owner, writer, reader) is included so the professional's
+    // schedule is fully aligned regardless of which calendar an event was saved to.
+    const accessibleCalendars = allCalendars.filter((cal: any) =>
+      cal.id && cal.accessRole && cal.accessRole !== 'freeBusyReader'
+    );
 
-    console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} da sincronizzare (owner/writer/reader)`);
+    console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} da sincronizzare (tutti tranne freeBusyReader)`);
     allCalendars.forEach((cal: any) => console.log(`   📆 "${cal.summary}" (${cal.id}) accessRole=${cal.accessRole}`));
     
     // ========== INCREMENTAL SYNCHRONIZATION WITH SYNC TOKEN ==========
