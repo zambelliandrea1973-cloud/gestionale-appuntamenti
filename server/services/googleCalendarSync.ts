@@ -567,11 +567,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           eventEndTime       = endParts[1].substring(0, 5);
         }
 
+        // slotKey defined here so it is in scope for the cache update after insert
+        const slotKey = `${eventDate}|${eventStartTime}`;
+
         // Slot conflict check — skip for all-day events (they sit at 00:00 and
         // never clash with regular appointments; multiple all-day events on the
         // same day are fine because they share googleEventId uniqueness)
         if (!isAllDay) {
-          const slotKey = `${eventDate}|${eventStartTime}`;
           if (appointmentsByDateSlot.has(slotKey) && appointmentsByDateSlot.get(slotKey)!.length > 0) {
             const conflict = appointmentsByDateSlot.get(slotKey)![0];
             console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — slot ${eventDate} ${eventStartTime} già occupato da appuntamento ID ${conflict.id} (cliente ${conflict.clientId})`);
