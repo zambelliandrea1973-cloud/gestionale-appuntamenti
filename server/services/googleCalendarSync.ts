@@ -113,12 +113,14 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     }
     const allCalendars = calendarListResponse.data.items || [];
     
-    // Filter only calendars with read access (owner, writer, reader)
+    // Filter only calendars where the user is owner or writer — skip read-only
+    // calendars like "Festività in Italia", "Compleanni", "Contatti" (reader/freeBusyReader)
+    // which can have hundreds of irrelevant events and slow down the sync dramatically.
     const accessibleCalendars = allCalendars.filter((cal: any) => 
-      cal.id && cal.accessRole && ['owner', 'writer', 'reader'].includes(cal.accessRole)
+      cal.id && cal.accessRole && ['owner', 'writer'].includes(cal.accessRole)
     );
     
-    console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} accessibili`);
+    console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} da sincronizzare (owner/writer)`);
     allCalendars.forEach((cal: any) => console.log(`   📆 "${cal.summary}" (${cal.id}) accessRole=${cal.accessRole}`));
     
     // ========== INCREMENTAL SYNCHRONIZATION WITH SYNC TOKEN ==========
