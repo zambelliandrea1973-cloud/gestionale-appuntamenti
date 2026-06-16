@@ -461,7 +461,10 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         continue;
       }
       
-      if (!googleEvent.start?.dateTime) continue;
+      if (!googleEvent.start?.dateTime) {
+        console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — evento tutto-il-giorno (no dateTime), ignorato`);
+        continue;
+      }
       
       try {
         // O(1) lookup instead of DB query
@@ -471,10 +474,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           const linkedAppointment = appointmentsById.get(existingTracking.appointmentId);
           
           if (!linkedAppointment) {
-            // Orphan tracking entry - delete it
+            // Orphan tracking entry - delete it and re-import below
+            console.log(`🔄 [IMPORT] ${eventInfo} — tracking orfano (appuntamento ID ${existingTracking.appointmentId} non trovato), lo cancello e re-importo`);
             await db.delete(googleCalendarEvents)
               .where(eq(googleCalendarEvents.id, existingTracking.id));
             trackingByGoogleId.delete(googleEvent.id);
+            // Do NOT continue — fall through to re-import
           } else {
             // Update if needed
             const googleStartDateTime = googleEvent.start.dateTime;
@@ -502,10 +507,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
               
               if (hasConflict) {
                 result.errors.push(`Time conflict: ${newDate} ${newStartTime}`);
+                console.log(`⚠️ [IMPORT CONFLICT] ${eventInfo} — conflitto slot ${newDate} ${newStartTime}`);
                 await db.update(googleCalendarEvents)
                   .set({ syncStatus: 'conflict', updatedAt: new Date() })
                   .where(eq(googleCalendarEvents.id, existingTracking.id));
               } else {
+                console.log(`📝 [IMPORT UPDATE] ${eventInfo} — orario aggiornato a ${newDate} ${newStartTime}`);
                 await db.update(appointments)
                   .set({ date: newDate, startTime: newStartTime, endTime: newEndTime })
                   .where(eq(appointments.id, linkedAppointment.id));
@@ -516,13 +523,19 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
                 
                 result.imported++;
               }
+            } else {
+              console.log(`✅ [IMPORT OK] ${eventInfo} — già in sync (${linkedAppointment.date} ${linkedAppointment.startTime}), nessuna modifica`);
             }
             continue;
           }
         }
         
         // Check duplicato per googleEventId (O(1))
-        if (appointmentsByGoogleId.has(googleEvent.id)) continue;
+        if (appointmentsByGoogleId.has(googleEvent.id)) {
+          const dup = appointmentsByGoogleId.get(googleEvent.id);
+          console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — googleEventId già presente nell'appuntamento ID ${dup?.id} (${dup?.date} ${dup?.startTime})`);
+          continue;
+        }
         
         // Convert datetime
         const googleStartDateTime = googleEvent.start.dateTime;
@@ -541,8 +554,11 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         // Duplicate check per slot (O(1))
         const slotKey = `${eventDate}|${eventStartTime}`;
         if (appointmentsByDateSlot.has(slotKey) && appointmentsByDateSlot.get(slotKey)!.length > 0) {
+          const conflict = appointmentsByDateSlot.get(slotKey)![0];
+          console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — slot ${eventDate} ${eventStartTime} già occupato da appuntamento ID ${conflict.id} (cliente ${conflict.clientId})`);
           continue;
         }
+        console.log(`➕ [IMPORT NEW] ${eventInfo} — ${eventDate} ${eventStartTime}–${eventEndTime}`);
         
         // USE A SINGLE CLIENT PLACEHOLDER FOR ALL GOOGLE EVENTS
         // We do not create fake clients for each event - we use a single placeholder
