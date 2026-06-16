@@ -461,11 +461,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         continue;
       }
       
-      if (!googleEvent.start?.dateTime) {
-        console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — evento tutto-il-giorno (no dateTime), ignorato`);
+      // All-day events: no dateTime but have a date → import with synthetic 00:00-01:00 time
+      const isAllDay = !googleEvent.start?.dateTime && !!googleEvent.start?.date;
+      if (!googleEvent.start?.dateTime && !googleEvent.start?.date) {
+        console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — evento senza data né ora, ignorato`);
         continue;
       }
-      
+
       try {
         // O(1) lookup instead of DB query
         const existingTracking = trackingByGoogleId.get(googleEvent.id);
@@ -481,8 +483,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             trackingByGoogleId.delete(googleEvent.id);
             // Do NOT continue — fall through to re-import
           } else {
-            // Update if needed
-            const googleStartDateTime = googleEvent.start.dateTime;
+            if (isAllDay) {
+              // All-day event already imported — no time to update, just mark synced
+              console.log(`✅ [IMPORT OK] ${eventInfo} — evento tutto-il-giorno già in sync (${linkedAppointment.date}), nessuna modifica`);
+              continue;
+            }
+            // Update if needed (timed events only)
+            const googleStartDateTime = googleEvent.start.dateTime!;
             const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
             
             const startDateObj = new Date(googleStartDateTime);
@@ -536,29 +543,42 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — googleEventId già presente nell'appuntamento ID ${dup?.id} (${dup?.date} ${dup?.startTime})`);
           continue;
         }
-        
-        // Convert datetime
-        const googleStartDateTime = googleEvent.start.dateTime;
-        const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
-        
-        const startDateObj = new Date(googleStartDateTime);
-        const endDateObj = new Date(googleEndDateTime);
-        
-        const startParts = userFormatter.format(startDateObj).split(' ');
-        const endParts = userFormatter.format(endDateObj).split(' ');
-        
-        const eventDate = startParts[0];
-        const eventStartTime = startParts[1].substring(0, 5);
-        const eventEndTime = endParts[1].substring(0, 5);
-        
-        // Duplicate check per slot (O(1))
-        const slotKey = `${eventDate}|${eventStartTime}`;
-        if (appointmentsByDateSlot.has(slotKey) && appointmentsByDateSlot.get(slotKey)!.length > 0) {
-          const conflict = appointmentsByDateSlot.get(slotKey)![0];
-          console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — slot ${eventDate} ${eventStartTime} già occupato da appuntamento ID ${conflict.id} (cliente ${conflict.clientId})`);
-          continue;
+
+        // ── Extract date and time (timed events and all-day events) ──────────
+        let eventDate: string;
+        let eventStartTime: string;
+        let eventEndTime: string;
+
+        if (isAllDay) {
+          // All-day event: use the date directly, synthetic 00:00-01:00 so it
+          // appears at the top of the day and never conflicts with business-hour slots
+          eventDate = googleEvent.start.date!;
+          eventStartTime = '00:00';
+          eventEndTime   = '01:00';
+        } else {
+          const googleStartDateTime = googleEvent.start.dateTime!;
+          const googleEndDateTime   = googleEvent.end?.dateTime || googleStartDateTime;
+          const startDateObj = new Date(googleStartDateTime);
+          const endDateObj   = new Date(googleEndDateTime);
+          const startParts   = userFormatter.format(startDateObj).split(' ');
+          const endParts     = userFormatter.format(endDateObj).split(' ');
+          eventDate          = startParts[0];
+          eventStartTime     = startParts[1].substring(0, 5);
+          eventEndTime       = endParts[1].substring(0, 5);
         }
-        console.log(`➕ [IMPORT NEW] ${eventInfo} — ${eventDate} ${eventStartTime}–${eventEndTime}`);
+
+        // Slot conflict check — skip for all-day events (they sit at 00:00 and
+        // never clash with regular appointments; multiple all-day events on the
+        // same day are fine because they share googleEventId uniqueness)
+        if (!isAllDay) {
+          const slotKey = `${eventDate}|${eventStartTime}`;
+          if (appointmentsByDateSlot.has(slotKey) && appointmentsByDateSlot.get(slotKey)!.length > 0) {
+            const conflict = appointmentsByDateSlot.get(slotKey)![0];
+            console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — slot ${eventDate} ${eventStartTime} già occupato da appuntamento ID ${conflict.id} (cliente ${conflict.clientId})`);
+            continue;
+          }
+        }
+        console.log(`➕ [IMPORT NEW] ${eventInfo}${isAllDay ? ' ☀️ (tutto il giorno)' : ''} — ${eventDate} ${eventStartTime}–${eventEndTime}`);
         
         // USE A SINGLE CLIENT PLACEHOLDER FOR ALL GOOGLE EVENTS
         // We do not create fake clients for each event - we use a single placeholder
@@ -633,7 +653,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           startTime: eventStartTime,
           endTime: eventEndTime,
           status: 'confirmed' as const,
-          notes: `📅 ${eventTitle}${googleEvent.description ? '\n' + googleEvent.description : ''}`,
+          notes: `📅 ${eventTitle}${isAllDay ? ' ☀️' : ''}${googleEvent.description ? '\n' + googleEvent.description : ''}`,
           importedFromGoogle: true,
           googleEventId: googleEvent.id,
           googleOrganizerSelf: isOrganizerSelf,
