@@ -226,6 +226,53 @@ export const schedulerService = {
 
     console.log('🔄 Google Calendar import scheduler started successfully (every 24h per user)');
   },
+
+  /**
+   * Renew Google Calendar push notification watch channels before they expire (max 7 days).
+   * Runs daily at 05:00; renews any channel expiring within the next 2 days.
+   * Only runs on production (requires public HTTPS URL).
+   */
+  startWatchRenewalScheduler(): void {
+    const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+    cron.schedule('0 0 5 * * *', async () => {
+      if (!process.env.PRODUCTION_DOMAIN) return;
+      const now = new Date();
+      if (isVerbose) console.log('🔔 [WATCH RENEWAL] Checking expiring Google Calendar watches:', now.toISOString());
+
+      try {
+        const { registerCalendarWatches } = await import('./googleCalendarSync');
+        const { googleCalendarSyncTokens } = await import('../../shared/schema');
+        const { lt, isNotNull } = await import('drizzle-orm');
+
+        // Find channels expiring within 2 days
+        const twoDaysFromNow = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+        const expiring = await db.select({ userId: googleCalendarSyncTokens.userId })
+          .from(googleCalendarSyncTokens)
+          .where(and(
+            isNotNull(googleCalendarSyncTokens.channelId),
+            lt(googleCalendarSyncTokens.watchExpiresAt, twoDaysFromNow)
+          ));
+
+        // Unique user IDs
+        const userIds = [...new Set(expiring.map(r => r.userId))];
+        if (userIds.length === 0) {
+          if (isVerbose) console.log('✅ [WATCH RENEWAL] No channels expiring soon');
+          return;
+        }
+
+        if (isVerbose) console.log(`🔔 [WATCH RENEWAL] Renewing watches for ${userIds.length} user(s)`);
+        for (const uid of userIds) {
+          await registerCalendarWatches(uid).catch(e =>
+            console.error(`❌ [WATCH RENEWAL] Failed for user ${uid}:`, e)
+          );
+        }
+        if (isVerbose) console.log(`✅ [WATCH RENEWAL] Done`);
+      } catch (error) {
+        console.error('❌ [WATCH RENEWAL] Error:', error);
+      }
+    });
+    if (isVerbose) console.log('🔔 Watch renewal scheduler started (daily at 05:00)');
+  },
 };
 
 /**
@@ -237,5 +284,6 @@ export function initializeSchedulers(): void {
   schedulerService.startCampaignCleanupScheduler();
   schedulerService.startTrialNotificationScheduler();
   schedulerService.startGoogleCalendarImportScheduler();
+  schedulerService.startWatchRenewalScheduler();
   if (process.env.LOG_SCHEDULER !== 'false') console.log('All schedulers initialized');
 }
