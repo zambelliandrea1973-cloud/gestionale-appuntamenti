@@ -624,6 +624,9 @@ export const googleCalendarSyncTokens = pgTable("google_calendar_sync_tokens", {
   lastFullSyncAt: timestamp("last_full_sync_at"), // Ultima sync completa
   lastIncrementalSyncAt: timestamp("last_incremental_sync_at"), // Ultima sync incrementale
   eventCount: integer("event_count").default(0), // Numero eventi sincronizzati
+  channelId: text("channel_id"),       // Google push notification channel ID
+  resourceId: text("resource_id"),     // Google push notification resource ID
+  watchExpiresAt: timestamp("watch_expires_at"), // When the watch channel expires
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
