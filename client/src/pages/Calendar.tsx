@@ -59,7 +59,7 @@ export default function Calendar() {
         const status = await statusRes.json();
         if (!status.authorized || !status.calendarEnabled || cancelled) return;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 40_000);
+        const timeoutId = setTimeout(() => controller.abort(), 130_000);
         try {
           const syncRes = await fetch('/api/google-calendar/sync-now', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
