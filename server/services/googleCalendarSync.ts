@@ -113,14 +113,27 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     }
     const allCalendars = calendarListResponse.data.items || [];
     
-    // Filter only calendars where the user is owner or writer — skip read-only
-    // calendars like "Festività in Italia", "Compleanni", "Contatti" (reader/freeBusyReader)
-    // which can have hundreds of irrelevant events and slow down the sync dramatically.
-    const accessibleCalendars = allCalendars.filter((cal: any) => 
-      cal.id && cal.accessRole && ['owner', 'writer'].includes(cal.accessRole)
-    );
-    
-    console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} da sincronizzare (owner/writer)`);
+    // Include owner, writer AND reader calendars — the user may create events in
+    // any calendar they can see. Exclude only system/auto-generated calendars
+    // (holidays, contacts, birthdays) that contain thousands of irrelevant events.
+    const EXCLUDED_CALENDAR_IDS = [
+      '#contacts@group.v.calendar.google.com',
+      '#holidays@group.v.calendar.google.com',
+    ];
+    const EXCLUDED_SUMMARY_PATTERNS = [
+      /festiv/i, /holiday/i, /compleann/i, /birthday/i, /contatt/i, /contact/i
+    ];
+    const accessibleCalendars = allCalendars.filter((cal: any) => {
+      if (!cal.id || !cal.accessRole) return false;
+      if (!['owner', 'writer', 'reader'].includes(cal.accessRole)) return false;
+      // Skip known system calendars by ID
+      if (EXCLUDED_CALENDAR_IDS.some(ex => cal.id.includes(ex))) return false;
+      // Skip obvious holiday/birthday calendars by name
+      if (cal.summary && EXCLUDED_SUMMARY_PATTERNS.some(re => re.test(cal.summary))) return false;
+      return true;
+    });
+
+    console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} da sincronizzare (owner/writer/reader)`);
     allCalendars.forEach((cal: any) => console.log(`   📆 "${cal.summary}" (${cal.id}) accessRole=${cal.accessRole}`));
     
     // ========== INCREMENTAL SYNCHRONIZATION WITH SYNC TOKEN ==========
