@@ -349,6 +349,13 @@ router.get('/callback', async (req, res) => {
         .then(r => console.log(`✅ [OAUTH] Initial bidirectional sync for user ${userId}: ${r.message}`))
         .catch(e => console.error(`❌ [OAUTH] Initial bidirectional sync failed for user ${userId}:`, e));
 
+      // Register push notification watches so Google calls us when events change (production only)
+      import('../services/googleCalendarSync').then(({ registerCalendarWatches }) => {
+        registerCalendarWatches(userId)
+          .then(() => console.log(`✅ [OAUTH] Watch channels registered for user ${userId}`))
+          .catch(e => console.error(`❌ [OAUTH] Watch registration failed for user ${userId}:`, e));
+      });
+
     } catch (dbError) {
       console.error("❌ Error saving token to database:", dbError);
       // Continue anyway to show the success page
