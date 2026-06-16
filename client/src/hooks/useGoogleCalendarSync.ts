@@ -14,14 +14,25 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
 
   return useMutation({
     mutationFn: async () => {
-      const response = await fetch('/api/google-calendar/sync-now', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-        },
-        credentials: 'include',
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 45_000);
+      let response: Response;
+      try {
+        response = await fetch('/api/google-calendar/sync-now', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+          },
+          credentials: 'include',
+          signal: controller.signal,
+        });
+      } catch (err: any) {
+        if (err?.name === 'AbortError') throw new Error('Timeout — sincronizzazione troppo lenta, riprova');
+        throw err;
+      } finally {
+        clearTimeout(timeoutId);
+      }
       
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
