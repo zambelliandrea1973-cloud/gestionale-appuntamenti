@@ -137,15 +137,12 @@ router.get("/api/appointments/range/:startDate/:endDate", async (req, res) => {
       // 🔄 USE POSTGRESQL: Load appointments from shared database
       const allAppointments = await storage.getAppointmentsByDateRange(startDate, endDate);
       
-      // Filter by user (admin sees all, staff sees only their own)
-      let userRangeAppointments;
-      if (user.type === 'admin') {
-        console.log(`👑 [${deviceType}] Admin - Full access to all appointments for report`);
-        userRangeAppointments = allAppointments;
-      } else {
-        console.log(`👩‍⚕️ [${deviceType}] Staff - Filter for own appointments`);
-        userRangeAppointments = allAppointments.filter(apt => apt.userId === user.id);
-      }
+      // Always filter by userId — each account sees only its own appointments.
+      // Admin of account X sees X's appointments (including all their collaborators,
+      // whose appointments are stored with userId=X). Other accounts (e.g. Pizzolato)
+      // are completely separate and must never be visible here.
+      const userRangeAppointments = allAppointments.filter(apt => apt.userId === user.id);
+      logger.debug(`👤 [${deviceType}] Range filter: user ${user.id} (${user.type}) → ${userRangeAppointments.length} appointments`);
       
       logger.debug(`📊💻 [${deviceType}] appointments range ${startDate}-${endDate}: ${userRangeAppointments.length} from PostgreSQL`);
 
