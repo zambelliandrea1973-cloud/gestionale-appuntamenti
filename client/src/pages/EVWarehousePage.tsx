@@ -205,7 +205,14 @@ export default function EVWarehousePage() {
     refetchInterval: 60000,
   });
 
-  // Carica commissioni guadagnate come sponsor (solo se sono sponsor di qualcuno)
+  // Carica i link sponsor dove sono il SPONSOR (sempre, per mostrare il bottone)
+  const { data: mySponsorLinks = [] } = useQuery({
+    queryKey: ['/api/inventory/ev-my-sponsor-links'],
+    enabled: hasAccess,
+    refetchInterval: 60000,
+  });
+
+  // Carica commissioni guadagnate come sponsor
   const { data: myCommissions = [] } = useQuery({
     queryKey: ['/api/inventory/ev-commissions'],
     enabled: hasAccess && showMyComm,
@@ -358,177 +365,182 @@ export default function EVWarehousePage() {
             </div>
 
             <div className="overflow-y-auto flex-1 px-4 py-4 space-y-3">
-              {(myCommissions as any[]).length===0&&(
-                <div className="text-center py-12">
-                  <div className="text-5xl mb-3">🤝</div>
-                  <div className="text-sm font-bold text-gray-600">Nessuna commissione ancora</div>
-                  <div className="text-[10px] text-gray-400 mt-2 max-w-xs mx-auto leading-relaxed">Le commissioni vengono generate automaticamente quando i tuoi sponsorizzati acquistano prodotti EV Cosmetics.</div>
-                </div>
-              )}
-              {(myCommissions as any[]).length>0&&(()=>{
-                const commList = myCommissions as any[];
+              {(()=>{
+                const links = mySponsorLinks as any[];
+                const commList = (myCommissions as any[]).filter((c:any)=>c.status!=='cancelled');
                 const totalPending = commList.filter((c:any)=>c.status==='pending').reduce((s:number,c:any)=>s+(c.commissionAmount||0),0);
                 const totalPaid = commList.filter((c:any)=>c.status==='paid').reduce((s:number,c:any)=>s+(c.commissionAmount||0),0);
                 const totalAll = totalPending + totalPaid;
                 const paidPct = totalAll > 0 ? Math.round((totalPaid / totalAll) * 100) : 0;
+
+                // Indice commissioni per sponsoredId
+                const commBySponsored: Record<number,{paid:number;pending:number;orders:number;lastDate:string}> = {};
+                commList.forEach((c:any)=>{
+                  const sid = c.sponsoredId;
+                  if(!commBySponsored[sid]) commBySponsored[sid]={paid:0,pending:0,orders:0,lastDate:c.createdAt||''};
+                  if(c.status==='paid') commBySponsored[sid].paid += (c.commissionAmount||0);
+                  else commBySponsored[sid].pending += (c.commissionAmount||0);
+                  commBySponsored[sid].orders++;
+                  if((c.createdAt||'')>commBySponsored[sid].lastDate) commBySponsored[sid].lastDate=c.createdAt||'';
+                });
+
+                const AVATAR_GRADIENTS = [
+                  'from-violet-500 to-purple-600',
+                  'from-pink-500 to-rose-600',
+                  'from-blue-500 to-indigo-600',
+                  'from-teal-500 to-emerald-600',
+                  'from-amber-500 to-orange-600',
+                  'from-cyan-500 to-blue-600',
+                ];
+
                 return (
                   <div className="space-y-3">
-                    {/* KPI cards */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="rounded-2xl overflow-hidden border border-amber-100 shadow-sm">
-                        <div className="bg-gradient-to-br from-amber-400 to-orange-500 px-3 pt-2.5 pb-1.5">
-                          <div className="text-[9px] text-amber-100 uppercase tracking-wide font-medium">In arrivo</div>
-                          <div className="text-xl font-black text-white">€{totalPending.toFixed(2)}</div>
-                        </div>
-                        <div className="bg-white px-3 py-1.5">
-                          <div className="text-[9px] text-amber-600 font-semibold">Entro fine mese prossimo</div>
-                        </div>
-                      </div>
-                      <div className="rounded-2xl overflow-hidden border border-emerald-100 shadow-sm">
-                        <div className="bg-gradient-to-br from-emerald-400 to-teal-500 px-3 pt-2.5 pb-1.5">
-                          <div className="text-[9px] text-emerald-100 uppercase tracking-wide font-medium">Già ricevute</div>
-                          <div className="text-xl font-black text-white">€{totalPaid.toFixed(2)}</div>
-                        </div>
-                        <div className="bg-white px-3 py-1.5">
-                          <div className="text-[9px] text-emerald-600 font-semibold">{commList.filter((c:any)=>c.status==='paid').length} pagamenti ricevuti</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Progress bar pagato/totale */}
+                    {/* KPI cards — solo se ci sono commissioni */}
                     {totalAll > 0 && (
-                      <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
-                        <div className="flex justify-between text-[9px] text-gray-500 mb-1.5">
-                          <span>Saldato {paidPct}%</span>
-                          <span className="font-bold text-gray-700">Totale maturato €{totalAll.toFixed(2)}</span>
+                      <>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="rounded-2xl overflow-hidden border border-amber-100 shadow-sm">
+                            <div className="bg-gradient-to-br from-amber-400 to-orange-500 px-3 pt-2.5 pb-1.5">
+                              <div className="text-[9px] text-amber-100 uppercase tracking-wide font-medium">In arrivo</div>
+                              <div className="text-xl font-black text-white">€{totalPending.toFixed(2)}</div>
+                            </div>
+                            <div className="bg-white px-3 py-1.5">
+                              <div className="text-[9px] text-amber-600 font-semibold">Entro fine mese prossimo</div>
+                            </div>
+                          </div>
+                          <div className="rounded-2xl overflow-hidden border border-emerald-100 shadow-sm">
+                            <div className="bg-gradient-to-br from-emerald-400 to-teal-500 px-3 pt-2.5 pb-1.5">
+                              <div className="text-[9px] text-emerald-100 uppercase tracking-wide font-medium">Già ricevute</div>
+                              <div className="text-xl font-black text-white">€{totalPaid.toFixed(2)}</div>
+                            </div>
+                            <div className="bg-white px-3 py-1.5">
+                              <div className="text-[9px] text-emerald-600 font-semibold">{commList.filter((c:any)=>c.status==='paid').length} pagamenti ricevuti</div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full transition-all" style={{width:`${paidPct}%`}}/>
+                        <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                          <div className="flex justify-between text-[9px] text-gray-500 mb-1.5">
+                            <span>Saldato {paidPct}%</span>
+                            <span className="font-bold text-gray-700">Totale maturato €{totalAll.toFixed(2)}</span>
+                          </div>
+                          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full transition-all" style={{width:`${paidPct}%`}}/>
+                          </div>
                         </div>
-                      </div>
+                      </>
                     )}
 
-                    {/* ── CARD PER SPONSORIZZATO ── */}
-                    {(()=>{
-                      // Raggruppa per sponsorizzato
-                      const bySponsored: Record<string,{name:string;pct:number;paid:number;pending:number;orders:number;lastDate:string}> = {};
-                      commList.forEach((c:any)=>{
-                        const key = c.sponsoredName||'Sconosciuto';
-                        if(!bySponsored[key]) bySponsored[key]={name:key,pct:c.commissionPct||0,paid:0,pending:0,orders:0,lastDate:c.createdAt||''};
-                        if(c.status==='paid') bySponsored[key].paid += (c.commissionAmount||0);
-                        else if(c.status==='pending') bySponsored[key].pending += (c.commissionAmount||0);
-                        bySponsored[key].orders++;
-                        if(c.createdAt>bySponsored[key].lastDate) bySponsored[key].lastDate=c.createdAt;
-                      });
-                      const sponsoredList = Object.values(bySponsored).sort((a,b)=>(b.paid+b.pending)-(a.paid+a.pending));
-                      const AVATAR_GRADIENTS = [
-                        'from-violet-500 to-purple-600',
-                        'from-pink-500 to-rose-600',
-                        'from-blue-500 to-indigo-600',
-                        'from-teal-500 to-emerald-600',
-                        'from-amber-500 to-orange-600',
-                        'from-cyan-500 to-blue-600',
-                      ];
-                      return (
-                        <div>
-                          <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-violet-400 inline-block"/>
-                            I tuoi sponsorizzati ({sponsoredList.length})
-                          </div>
-                          <div className="space-y-3">
-                            {sponsoredList.map((s,idx)=>{
-                              const initials = s.name.split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2)||'?';
-                              const grad = AVATAR_GRADIENTS[idx % AVATAR_GRADIENTS.length];
-                              const total = s.paid + s.pending;
-                              const paidPct2 = total>0 ? Math.round((s.paid/total)*100) : 0;
-                              return (
-                                <div key={s.name} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                                  {/* Card header */}
-                                  <div className="flex items-center gap-3 px-4 pt-4 pb-3">
-                                    {/* Avatar grande */}
-                                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center text-white font-black text-base flex-shrink-0 shadow-sm`}>
-                                      {initials}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                      <div className="flex items-center gap-2">
-                                        <span className="text-sm font-bold text-gray-900 truncate">{s.name}</span>
-                                        <span className="text-[9px] font-bold bg-violet-50 text-violet-600 border border-violet-100 px-1.5 py-0.5 rounded-full flex-shrink-0">{s.pct}%</span>
-                                      </div>
-                                      <div className="text-[10px] text-gray-400 mt-0.5">{s.orders} {s.orders===1?'ordine':'ordini'} · ultimo {new Date(s.lastDate).toLocaleDateString('it-IT',{day:'2-digit',month:'short'})}</div>
-                                    </div>
-                                    {/* Totale a destra */}
-                                    <div className="text-right flex-shrink-0">
-                                      <div className="text-lg font-black text-gray-900">€{total.toFixed(2)}</div>
-                                      <div className="text-[9px] text-gray-400">maturato</div>
-                                    </div>
+                    {/* ── CARD PER OGNI SPONSORIZZATO (dai link approvati) ── */}
+                    <div>
+                      <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-violet-400 inline-block"/>
+                        I tuoi sponsorizzati ({links.length})
+                      </div>
+                      {links.length === 0 && (
+                        <div className="text-center py-8">
+                          <div className="text-4xl mb-2">🤝</div>
+                          <div className="text-sm font-bold text-gray-600">Nessuno sponsorizzato ancora</div>
+                          <div className="text-[10px] text-gray-400 mt-1 max-w-xs mx-auto">Chiedi all'admin di aggiungerti come sponsor di un professionista.</div>
+                        </div>
+                      )}
+                      <div className="space-y-3">
+                        {links.map((link:any, idx:number)=>{
+                          const initials = (link.sponsoredName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2)||'?';
+                          const grad = AVATAR_GRADIENTS[idx % AVATAR_GRADIENTS.length];
+                          const cd = commBySponsored[link.sponsoredId] || {paid:0,pending:0,orders:0,lastDate:''};
+                          const total = cd.paid + cd.pending;
+                          const pp = total>0 ? Math.round((cd.paid/total)*100) : 0;
+                          const hasOrders = cd.orders > 0;
+                          return (
+                            <div key={link.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                              <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+                                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center text-white font-black text-base flex-shrink-0 shadow-sm`}>
+                                  {initials}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-bold text-gray-900 truncate">{link.sponsoredName}</span>
+                                    <span className="text-[9px] font-bold bg-violet-50 text-violet-600 border border-violet-100 px-1.5 py-0.5 rounded-full flex-shrink-0">{link.commissionPct}%</span>
                                   </div>
-                                  {/* Footer con barra paid/pending */}
-                                  <div className="px-4 pb-3">
+                                  <div className="text-[10px] text-gray-400 mt-0.5">
+                                    {hasOrders ? `${cd.orders} ${cd.orders===1?'ordine':'ordini'} · ultimo ${new Date(cd.lastDate).toLocaleDateString('it-IT',{day:'2-digit',month:'short'})}` : 'Nessun ordine ancora'}
+                                  </div>
+                                </div>
+                                <div className="text-right flex-shrink-0">
+                                  <div className={`text-lg font-black ${hasOrders?'text-gray-900':'text-gray-300'}`}>€{total.toFixed(2)}</div>
+                                  <div className="text-[9px] text-gray-400">maturato</div>
+                                </div>
+                              </div>
+                              <div className="px-4 pb-3">
+                                {hasOrders ? (
+                                  <>
                                     <div className="flex items-center gap-3 mb-1.5">
                                       <div className="flex-1 flex items-center gap-1.5">
                                         <div className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"/>
                                         <span className="text-[9px] text-gray-500">Pagato</span>
-                                        <span className="text-[10px] font-bold text-emerald-600 ml-auto">€{s.paid.toFixed(2)}</span>
+                                        <span className="text-[10px] font-bold text-emerald-600 ml-auto">€{cd.paid.toFixed(2)}</span>
                                       </div>
                                       <div className="flex-1 flex items-center gap-1.5">
                                         <div className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0"/>
                                         <span className="text-[9px] text-gray-500">In arrivo</span>
-                                        <span className="text-[10px] font-bold text-amber-600 ml-auto">€{s.pending.toFixed(2)}</span>
+                                        <span className="text-[10px] font-bold text-amber-600 ml-auto">€{cd.pending.toFixed(2)}</span>
                                       </div>
                                     </div>
                                     {total>0&&(
                                       <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full" style={{width:`${paidPct2}%`}}/>
+                                        <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full" style={{width:`${pp}%`}}/>
                                       </div>
                                     )}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      );
-                    })()}
-
-                    {/* Separatore */}
-                    <div className="flex items-center gap-2 py-1">
-                      <div className="flex-1 h-px bg-gray-100"/>
-                      <span className="text-[9px] text-gray-400 font-medium uppercase tracking-wide">Dettaglio ordini</span>
-                      <div className="flex-1 h-px bg-gray-100"/>
-                    </div>
-
-                    {/* Lista commissioni dettaglio */}
-                    <div className="space-y-2">
-                      {commList.filter((c:any)=>c.status!=='cancelled').map((c:any)=>{
-                        const sponsoredInitials = (c.sponsoredName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
-                        return (
-                          <div key={c.id} className="bg-white border border-gray-100 rounded-2xl p-3 shadow-sm">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white text-xs font-black flex-shrink-0">{sponsoredInitials}</div>
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-1.5 flex-wrap">
-                                  <span className="text-xs font-semibold text-gray-800 truncate">{c.sponsoredName}</span>
-                                </div>
-                                <div className="text-[10px] text-gray-400 mt-0.5">
-                                  <span className="font-mono bg-gray-50 px-1 rounded">{String(c.orderId).slice(-8)}</span>
-                                  {' · '}€{(c.orderAmount||0).toFixed(2)}
-                                  {' · '}{new Date(c.createdAt).toLocaleDateString('it-IT',{day:'2-digit',month:'short'})}
-                                </div>
-                                {c.status==='paid'&&c.paidAt&&(
-                                  <div className="text-[9px] text-emerald-600 font-medium mt-0.5">✓ {new Date(c.paidAt).toLocaleDateString('it-IT')}{c.paymentNotes?` — ${c.paymentNotes}`:''}</div>
+                                  </>
+                                ) : (
+                                  <div className="text-[10px] text-gray-400 italic">In attesa del primo acquisto</div>
                                 )}
                               </div>
-                              <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                                <div className="text-sm font-black text-emerald-600">€{(c.commissionAmount||0).toFixed(2)}</div>
-                                <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${c.status==='paid'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}`}>
-                                  {c.status==='paid'?'✓ Pagata':'⏳ In att.'}
-                                </span>
-                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
+
+                    {/* Separatore + dettaglio ordini solo se ci sono commissioni */}
+                    {commList.length > 0 && (
+                      <>
+                        <div className="flex items-center gap-2 py-1">
+                          <div className="flex-1 h-px bg-gray-100"/>
+                          <span className="text-[9px] text-gray-400 font-medium uppercase tracking-wide">Dettaglio ordini</span>
+                          <div className="flex-1 h-px bg-gray-100"/>
+                        </div>
+                        <div className="space-y-2">
+                          {commList.map((c:any)=>{
+                            const si = (c.sponsoredName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
+                            return (
+                              <div key={c.id} className="bg-white border border-gray-100 rounded-2xl p-3 shadow-sm">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white text-xs font-black flex-shrink-0">{si}</div>
+                                  <div className="flex-1 min-w-0">
+                                    <span className="text-xs font-semibold text-gray-800 truncate block">{c.sponsoredName}</span>
+                                    <div className="text-[10px] text-gray-400 mt-0.5">
+                                      <span className="font-mono bg-gray-50 px-1 rounded">{String(c.orderId).slice(-8)}</span>
+                                      {' · '}€{(c.orderAmount||0).toFixed(2)}
+                                      {' · '}{new Date(c.createdAt).toLocaleDateString('it-IT',{day:'2-digit',month:'short'})}
+                                    </div>
+                                    {c.status==='paid'&&c.paidAt&&(
+                                      <div className="text-[9px] text-emerald-600 font-medium mt-0.5">✓ {new Date(c.paidAt).toLocaleDateString('it-IT')}{c.paymentNotes?` — ${c.paymentNotes}`:''}</div>
+                                    )}
+                                  </div>
+                                  <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                                    <div className="text-sm font-black text-emerald-600">€{(c.commissionAmount||0).toFixed(2)}</div>
+                                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${c.status==='paid'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}`}>
+                                      {c.status==='paid'?'✓ Pagata':'⏳ In att.'}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
                   </div>
                 );
               })()}
@@ -558,11 +570,18 @@ export default function EVWarehousePage() {
             </span>
           )}
         </button>
-        <button onClick={()=>{setShowMyComm(v=>!v);}}
-          className="relative flex items-center gap-1 bg-gray-50 border border-gray-200 rounded-xl px-2 py-1.5 text-[10px] hover:bg-gray-100 flex-shrink-0">
-          <TrendingUp className="w-3 h-3 text-emerald-600"/>
-          <span className="font-semibold text-gray-700 hidden sm:inline">Commissioni</span>
-        </button>
+        {(mySponsorLinks as any[]).length>0&&(
+          <button onClick={()=>{setShowMyComm(v=>!v);}}
+            className="relative flex items-center gap-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl px-2.5 py-1.5 text-[10px] font-bold flex-shrink-0 shadow-sm">
+            <TrendingUp className="w-3 h-3"/>
+            <span>{(mySponsorLinks as any[]).length} spon.</span>
+            {(myCommissions as any[]).filter((c:any)=>c.status==='pending').length>0&&(
+              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-amber-400 text-gray-900 text-[8px] rounded-full flex items-center justify-center font-black">
+                {(myCommissions as any[]).filter((c:any)=>c.status==='pending').length}
+              </span>
+            )}
+          </button>
+        )}
         <button onClick={()=>setShowTiers(v=>!v)}
           className="flex items-center gap-1.5 bg-gray-50 border border-gray-200 rounded-xl px-2.5 py-1.5 text-[10px] hover:bg-gray-100 flex-shrink-0">
           <Tag className="w-3 h-3 text-violet-600"/><span className="font-semibold text-gray-700">Sconti</span>
