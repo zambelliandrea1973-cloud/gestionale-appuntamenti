@@ -981,22 +981,19 @@ router.post('/ev-sponsor-links', requireProAccess, async (req, res) => {
     if (!sponsorId || !sponsoredId || commissionPct === undefined) {
       return res.status(400).json({ error: 'sponsorId, sponsoredId, commissionPct required' });
     }
-    // Prevent self-sponsorship
     if (sponsorId === sponsoredId) {
       return res.status(400).json({ error: 'A user cannot sponsor themselves' });
     }
-    // Check if sponsored already has an active sponsor
     const existing = await inventoryJsonStorage.getEvSponsorLinkBySponsoredId(Number(sponsoredId));
     if (existing) {
       return res.status(409).json({ error: 'This user already has an active sponsor' });
     }
-    // Fetch user details
     const [sponsorUser, sponsoredUser] = await Promise.all([
       storage.getUser(Number(sponsorId)),
       storage.getUser(Number(sponsoredId)),
     ]);
     if (!sponsorUser || !sponsoredUser) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'User not found', sponsorFound: !!sponsorUser, sponsoredFound: !!sponsoredUser });
     }
     const sponsorName = sponsorUser.firstName && sponsorUser.lastName
       ? `${sponsorUser.firstName} ${sponsorUser.lastName}`
@@ -1017,9 +1014,9 @@ router.post('/ev-sponsor-links', requireProAccess, async (req, res) => {
     });
     console.log(`🤝 [EV-SPONSOR] Link created: ${sponsorName} → ${sponsoredName} @ ${commissionPct}%`);
     res.status(201).json(link);
-  } catch (error) {
-    console.error('Error creating EV sponsor link:', error);
-    res.status(500).json({ error: 'Error creating sponsor link' });
+  } catch (error: any) {
+    console.error('❌ [EV-SPONSOR-POST] Error:', error?.message || error);
+    res.status(500).json({ error: 'Error creating sponsor link', detail: error?.message });
   }
 });
 
