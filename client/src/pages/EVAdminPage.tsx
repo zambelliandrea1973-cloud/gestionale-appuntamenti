@@ -155,10 +155,26 @@ export default function EVAdminPage() {
     queryKey: ['/api/inventory/ev-catalog'],
   });
 
+  // Carica sponsor links e commissioni EV
+  const { data: sponsorLinks = [], refetch: refetchSponsorLinks } = useQuery({
+    queryKey: ['/api/inventory/ev-sponsor-links'],
+    enabled: tab === 'commissioni',
+  });
+  const { data: evCommissions = [], refetch: refetchCommissions } = useQuery({
+    queryKey: ['/api/inventory/ev-commissions'],
+    enabled: tab === 'commissioni',
+    refetchInterval: tab === 'commissioni' ? 15000 : false,
+  });
+
   // Stato locale impostazioni
   const [settingsForm, setSettingsForm] = useState<any>(null);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [shipModal, setShipModal] = useState<{orderId:string;trackingCode:string;trackingUrl:string;notes:string}|null>(null);
+  const [commSubTab, setCommSubTab] = useState<'sponsor'|'commissioni'>('commissioni');
+  const [sponsorModal, setSponsorModal] = useState<{sponsorId:string;sponsoredId:string;pct:string;notes:string}|null>(null);
+  const [editLinkModal, setEditLinkModal] = useState<{id:number;pct:string;active:boolean;notes:string}|null>(null);
+  const [payNotesModal, setPayNotesModal] = useState<{id:number;notes:string}|null>(null);
+  const [payMonthModal, setPayMonthModal] = useState<{month:string;notes:string}|null>(null);
 
   // Stato form aggiunta prodotto
   const EMPTY_PROD = {code:'',name:'',desc:'',cat:'Spray',zone:'Viso e Corpo',color:'#7b52d3',minPrice:'',maxPrice:'',img:''};
@@ -240,6 +256,34 @@ export default function EVAdminPage() {
       queryClient.invalidateQueries({ queryKey: ['/api/inventory/ev-orders'] });
       setShipModal(null);
     },
+  });
+
+  // Mutations: EV Sponsor Links
+  const createSponsorLinkMutation = useMutation({
+    mutationFn: async (data:any) => { const r = await apiRequest('POST', '/api/inventory/ev-sponsor-links', data); return r.json(); },
+    onSuccess: () => { queryClient.invalidateQueries({queryKey:['/api/inventory/ev-sponsor-links']}); setSponsorModal(null); },
+  });
+  const updateSponsorLinkMutation = useMutation({
+    mutationFn: async ({id,...d}:any) => { const r = await apiRequest('PATCH', `/api/inventory/ev-sponsor-links/${id}`, d); return r.json(); },
+    onSuccess: () => { queryClient.invalidateQueries({queryKey:['/api/inventory/ev-sponsor-links']}); setEditLinkModal(null); },
+  });
+  const deleteSponsorLinkMutation = useMutation({
+    mutationFn: async (id:number) => { const r = await apiRequest('DELETE', `/api/inventory/ev-sponsor-links/${id}`); return r.json(); },
+    onSuccess: () => queryClient.invalidateQueries({queryKey:['/api/inventory/ev-sponsor-links']}),
+  });
+
+  // Mutations: EV Commissions
+  const payCommissionMutation = useMutation({
+    mutationFn: async ({id,notes}:{id:number;notes:string}) => { const r = await apiRequest('PATCH', `/api/inventory/ev-commissions/${id}/pay`, {paymentNotes:notes}); return r.json(); },
+    onSuccess: () => { queryClient.invalidateQueries({queryKey:['/api/inventory/ev-commissions']}); setPayNotesModal(null); },
+  });
+  const cancelCommissionMutation = useMutation({
+    mutationFn: async (id:number) => { const r = await apiRequest('PATCH', `/api/inventory/ev-commissions/${id}/cancel`); return r.json(); },
+    onSuccess: () => queryClient.invalidateQueries({queryKey:['/api/inventory/ev-commissions']}),
+  });
+  const payMonthlyMutation = useMutation({
+    mutationFn: async ({month,notes}:{month:string;notes:string}) => { const r = await apiRequest('POST', '/api/inventory/ev-commissions/pay-monthly', {month,paymentNotes:notes}); return r.json(); },
+    onSuccess: () => { queryClient.invalidateQueries({queryKey:['/api/inventory/ev-commissions']}); setPayMonthModal(null); },
   });
 
   // Mutation: conferma ordine + carica magazzino
@@ -513,23 +557,31 @@ export default function EVAdminPage() {
         </div>
 
         {/* Main */}
-        <div className="flex-1 p-5 overflow-auto">
+        <div className="flex-1 p-3 sm:p-5 overflow-auto">
           {/* Stats */}
-          <div className={`grid gap-3 mb-5 ${isSecondary?"grid-cols-2":"grid-cols-4"}`}>
-            {[
-              {label:"Prodotti",value:PRODUCTS.length,icon:Package,c:"violet"},
-              {label:"Ordini",value:(evOrders as any[]).length+(pendingOrdersCount>0?` (${pendingOrdersCount} in att.)`:""),icon:ShoppingCart,c:"blue"},
-              ...(!isSecondary?[
-                {label:"Fatturato",value:`€${totalRevenue}`,icon:BarChart2,c:"emerald"},
-                {label:"Admin EV",value:secondaryAdmins.length,icon:Users,c:"amber"},
-              ]:[]),
-            ].map(({label,value,icon:Icon,c})=>(
-              <div key={label} className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
-                <div className={`w-7 h-7 rounded-lg bg-${c}-50 flex items-center justify-center mb-2`}><Icon className={`w-3.5 h-3.5 text-${c}-500`}/></div>
-                <div className="text-xl font-bold text-gray-900">{value}</div>
-                <div className="text-xs text-gray-500">{label}</div>
+          <div className={`grid gap-3 mb-5 ${isSecondary?"grid-cols-2":"grid-cols-2 sm:grid-cols-4"}`}>
+            <div className="bg-white rounded-xl border border-gray-100 p-3 shadow-sm">
+              <div className="w-7 h-7 rounded-lg bg-violet-50 flex items-center justify-center mb-2"><Package className="w-3.5 h-3.5 text-violet-500"/></div>
+              <div className="text-xl font-bold text-gray-900">{allProducts.length}</div>
+              <div className="text-xs text-gray-500">Prodotti</div>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-100 p-3 shadow-sm">
+              <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center mb-2"><ShoppingCart className="w-3.5 h-3.5 text-blue-500"/></div>
+              <div className="text-xl font-bold text-gray-900">{(evOrders as any[]).length}</div>
+              <div className="text-xs text-gray-500">Ordini{pendingOrdersCount>0&&<span className="ml-1 text-[9px] font-bold bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full">{pendingOrdersCount} in att.</span>}</div>
+            </div>
+            {!isSecondary&&<>
+              <div className="bg-white rounded-xl border border-gray-100 p-3 shadow-sm">
+                <div className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center mb-2"><BarChart2 className="w-3.5 h-3.5 text-emerald-500"/></div>
+                <div className="text-xl font-bold text-gray-900">€{totalRevenue.toFixed(0)}</div>
+                <div className="text-xs text-gray-500">Fatturato</div>
               </div>
-            ))}
+              <div className="bg-white rounded-xl border border-gray-100 p-3 shadow-sm">
+                <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center mb-2"><Users className="w-3.5 h-3.5 text-amber-500"/></div>
+                <div className="text-xl font-bold text-gray-900">{secondaryAdmins.length}</div>
+                <div className="text-xs text-gray-500">Admin EV</div>
+              </div>
+            </>}
           </div>
 
           {/* GESTIONE ADMIN */}
@@ -1082,22 +1134,26 @@ export default function EVAdminPage() {
                 </div>
               )}
               <div className="space-y-2">
-                {professionals.map(pro=>(
-                  <div key={pro.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-center gap-3">
-                    <Av initials={pro.name.split(" ").map((w:string)=>w[0]).join("").substring(0,2)}/>
-                    <div className="flex-1">
-                      <div className="font-semibold text-sm">{pro.name}</div>
-                      <div className="text-xs text-gray-400 flex items-center gap-2">
-                        {pro.email&&<span className="flex items-center gap-0.5"><Mail className="w-2.5 h-2.5"/>{pro.email}</span>}
-                        <span className="font-mono">{pro.code}</span>
+                {professionals.map(pro=>{
+                  const initials = pro.name.split(" ").map((w:string)=>w[0]).join("").substring(0,2);
+                  const showEmail = pro.email && pro.email !== pro.name;
+                  return (
+                    <div key={pro.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-3 flex items-center gap-3">
+                      <Av initials={initials}/>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-sm text-gray-900 truncate">{pro.name}</div>
+                        <div className="text-[10px] text-gray-400 flex items-center gap-1.5 flex-wrap">
+                          {showEmail&&<span className="flex items-center gap-0.5 truncate max-w-[160px]"><Mail className="w-2.5 h-2.5 flex-shrink-0"/><span className="truncate">{pro.email}</span></span>}
+                          <span className="font-mono bg-gray-50 px-1 rounded flex-shrink-0">{pro.code}</span>
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className="text-sm font-bold text-emerald-700">€{pro.revenue.toFixed(2)}</div>
+                        <div className="text-[10px] text-gray-400">{pro.orders} ordini</div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-bold text-emerald-700">€{pro.revenue.toFixed(2)}</div>
-                      <div className="text-[10px] text-gray-400">{pro.orders} ordini</div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -1312,21 +1368,40 @@ export default function EVAdminPage() {
                   </div>
                   {/* Commissione piattaforma */}
                   <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Percent className="w-4 h-4 text-emerald-500"/>
-                      <div className="font-semibold text-sm text-gray-900">Commissione Piattaforma</div>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <Percent className="w-4 h-4 text-emerald-500"/>
+                        <div className="font-semibold text-sm text-gray-900">Commissione Piattaforma</div>
+                      </div>
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <span className="text-xs text-gray-500">{((settingsForm as any)?.platformCommissionEnabled ?? (evSettings as any)?.platformCommissionEnabled) ? 'Attiva' : 'Disattiva'}</span>
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            className="sr-only"
+                            defaultChecked={(evSettings as any)?.platformCommissionEnabled ?? false}
+                            onChange={e=>setSettingsForm((f:any)=>({...(f||evSettings||{}),platformCommissionEnabled:e.target.checked}))}
+                          />
+                          <div className={`w-10 h-5 rounded-full transition-colors ${((settingsForm as any)?.platformCommissionEnabled ?? (evSettings as any)?.platformCommissionEnabled) ? 'bg-emerald-500' : 'bg-gray-300'}`}/>
+                          <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${((settingsForm as any)?.platformCommissionEnabled ?? (evSettings as any)?.platformCommissionEnabled) ? 'translate-x-5' : ''}`}/>
+                        </div>
+                      </label>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 mb-2">
                       <input
-                        type="number"
-                        min={0} max={50} step={0.5}
+                        type="range"
+                        min={0} max={30} step={0.5}
                         defaultValue={(evSettings as any)?.platformCommissionPct||0}
                         onChange={e=>setSettingsForm((f:any)=>({...(f||evSettings||{}),platformCommissionPct:+e.target.value}))}
-                        className="w-20 text-sm border border-gray-200 rounded-lg px-3 py-2 font-bold text-center focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                        className="flex-1 accent-emerald-500"
                       />
-                      <span className="text-sm text-gray-600">% su ogni ordine EV</span>
+                      <div className="w-14 text-center font-bold text-emerald-700 text-sm border border-emerald-200 rounded-lg py-1">
+                        {(settingsForm as any)?.platformCommissionPct ?? (evSettings as any)?.platformCommissionPct ?? 0}%
+                      </div>
                     </div>
-                    <p className="text-[10px] text-gray-400 mt-2">Quota trattenuta dalla piattaforma su ogni ordine confermato.</p>
+                    <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-3 py-2 text-xs text-emerald-800">
+                      💡 Quando attiva, ogni ordine EV confermato da qualsiasi staff genera automaticamente una commissione intestata a te (admin). È il corrispettivo per l'uso gratuito della piattaforma.
+                    </div>
                   </div>
                   {/* Notifiche email */}
                   <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
@@ -1364,39 +1439,410 @@ export default function EVAdminPage() {
             </div>
           )}
 
-          {/* COMMISSIONI */}
+          {/* COMMISSIONI SPONSOR */}
           {tab==="commissioni"&&!isSecondary&&(
             <div>
-              <h2 className="font-semibold text-gray-900 mb-3">Commissioni Piattaforma</h2>
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
-                  <div className="text-xs text-gray-500 mb-1">Commissioni giugno 2026</div>
-                  <div className="text-2xl font-bold text-emerald-600">€{(totalRevenue*commRate/100).toFixed(2)}</div>
-                  <div className="text-xs text-gray-400">su €{totalRevenue} · {commRate}%</div>
-                </div>
-                <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
-                  <div className="text-xs text-gray-500 mb-1">Percentuale attiva</div>
-                  <div className="text-2xl font-bold text-violet-600">{commRate}%</div>
-                  <input type="range" min={1} max={5} step={0.5} value={commRate} onChange={e=>setCommRate(+e.target.value)} className="w-full accent-violet-600 mt-2"/>
-                </div>
-              </div>
-              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-                {(evOrders as any[]).filter((o:any)=>o.status!=='rejected'&&o.status!=='pending').length===0&&(
-                  <div className="text-center py-6 text-gray-400 text-xs">Nessun ordine confermato ancora.</div>
-                )}
-                {(evOrders as any[]).filter((o:any)=>o.status!=='rejected'&&o.status!=='pending').map((o:any)=>(
-                  <div key={o.id} className="flex items-center justify-between py-2.5 border-b border-gray-50 last:border-0">
-                    <div>
-                      <div className="text-sm font-medium">{o.professionalName||o.professionalEmail}</div>
-                      <div className="text-xs text-gray-400">{o.id} · {new Date(o.createdAt).toLocaleDateString('it-IT')}</div>
+              {/* Modali */}
+              {sponsorModal&&(
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                  <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+                    <div className="bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5 text-white"/>
+                      <span className="font-bold text-white">Nuovo Link Sponsor</span>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-bold text-emerald-600">+€{((o.totalPro||0)*commRate/100).toFixed(2)}</div>
-                      <div className="text-xs text-gray-400">{commRate}% di €{(o.totalPro||0).toFixed(2)}</div>
+                    <div className="p-5 space-y-3">
+                      <div>
+                        <label className="text-xs font-medium text-gray-700 block mb-1">Sponsor (chi guadagna la commissione)</label>
+                        <select value={sponsorModal.sponsorId} onChange={e=>setSponsorModal(m=>m?{...m,sponsorId:e.target.value}:m)}
+                          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-300">
+                          <option value="">Seleziona sponsor…</option>
+                          {(realUsers as any[]).filter((u:any)=>u.role==='ev_staff'||u.role==='ev_admin'||u.type==='admin').map((u:any)=>(
+                            <option key={u.id} value={u.id}>{u.firstName&&u.lastName?`${u.firstName} ${u.lastName}`:u.username} ({u.email||u.username})</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-gray-700 block mb-1">Sponsorizzato (chi acquista e genera la commissione)</label>
+                        <select value={sponsorModal.sponsoredId} onChange={e=>setSponsorModal(m=>m?{...m,sponsoredId:e.target.value}:m)}
+                          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-300">
+                          <option value="">Seleziona sponsorizzato…</option>
+                          {(realUsers as any[]).filter((u:any)=>(u.role==='ev_staff'||u.role==='ev_admin')&&String(u.id)!==sponsorModal.sponsorId).map((u:any)=>(
+                            <option key={u.id} value={u.id}>{u.firstName&&u.lastName?`${u.firstName} ${u.lastName}`:u.username} ({u.email||u.username})</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-gray-700 block mb-1">Percentuale commissione (%)</label>
+                        <div className="flex items-center gap-3">
+                          <input type="range" min={1} max={30} step={0.5} value={+sponsorModal.pct||5}
+                            onChange={e=>setSponsorModal(m=>m?{...m,pct:e.target.value}:m)}
+                            className="flex-1 accent-violet-600"/>
+                          <div className="w-14 text-center font-bold text-violet-700 text-sm border border-violet-200 rounded-lg py-1">{sponsorModal.pct||5}%</div>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-gray-700 block mb-1">Note interne <span className="text-gray-400">(opzionale)</span></label>
+                        <input type="text" value={sponsorModal.notes} onChange={e=>setSponsorModal(m=>m?{...m,notes:e.target.value}:m)}
+                          placeholder="es. Accordo firmato il 01/01/2026"
+                          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-300"/>
+                      </div>
+                      <div className="bg-blue-50 border border-blue-200 rounded-xl px-3 py-2 text-xs text-blue-700">
+                        💡 La commissione viene generata automaticamente ad ogni ordine dello sponsorizzato e accumulata per il pagamento mensile.
+                      </div>
+                      <div className="flex gap-2 pt-1">
+                        <button onClick={()=>setSponsorModal(null)} className="flex-1 border border-gray-200 text-gray-600 text-sm font-medium py-2 rounded-xl hover:bg-gray-50">Annulla</button>
+                        <button
+                          onClick={()=>createSponsorLinkMutation.mutate({sponsorId:+sponsorModal.sponsorId,sponsoredId:+sponsorModal.sponsoredId,commissionPct:+sponsorModal.pct||5,notes:sponsorModal.notes})}
+                          disabled={!sponsorModal.sponsorId||!sponsorModal.sponsoredId||createSponsorLinkMutation.isPending}
+                          className="flex-1 bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold py-2 rounded-xl disabled:opacity-50">
+                          {createSponsorLinkMutation.isPending?'Salvataggio…':'Crea link'}
+                        </button>
+                      </div>
+                      {(createSponsorLinkMutation.error as any)&&<div className="text-xs text-red-500 text-center">{(createSponsorLinkMutation.error as any)?.message||'Errore'}</div>}
                     </div>
                   </div>
-                ))}
+                </div>
+              )}
+              {editLinkModal&&(
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                  <div className="bg-white rounded-2xl shadow-2xl max-w-xs w-full overflow-hidden">
+                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-4"><span className="font-bold text-white">Modifica Link Sponsor</span></div>
+                    <div className="p-5 space-y-3">
+                      <div>
+                        <label className="text-xs font-medium text-gray-700 block mb-1">Percentuale commissione (%)</label>
+                        <div className="flex items-center gap-3">
+                          <input type="range" min={1} max={30} step={0.5} value={+editLinkModal.pct||5}
+                            onChange={e=>setEditLinkModal(m=>m?{...m,pct:e.target.value}:m)} className="flex-1 accent-amber-500"/>
+                          <div className="w-14 text-center font-bold text-amber-700 text-sm border border-amber-200 rounded-lg py-1">{editLinkModal.pct||5}%</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" id="linkActive" checked={editLinkModal.active} onChange={e=>setEditLinkModal(m=>m?{...m,active:e.target.checked}:m)} className="accent-violet-600"/>
+                        <label htmlFor="linkActive" className="text-xs text-gray-700">Link attivo</label>
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-gray-700 block mb-1">Note</label>
+                        <input type="text" value={editLinkModal.notes} onChange={e=>setEditLinkModal(m=>m?{...m,notes:e.target.value}:m)}
+                          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300"/>
+                      </div>
+                      <div className="flex gap-2 pt-1">
+                        <button onClick={()=>setEditLinkModal(null)} className="flex-1 border border-gray-200 text-gray-600 text-sm font-medium py-2 rounded-xl hover:bg-gray-50">Annulla</button>
+                        <button onClick={()=>updateSponsorLinkMutation.mutate({id:editLinkModal.id,commissionPct:+editLinkModal.pct,active:editLinkModal.active,notes:editLinkModal.notes})}
+                          disabled={updateSponsorLinkMutation.isPending}
+                          className="flex-1 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold py-2 rounded-xl disabled:opacity-50">
+                          {updateSponsorLinkMutation.isPending?'Salvataggio…':'Salva'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {payNotesModal&&(
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                  <div className="bg-white rounded-2xl shadow-2xl max-w-xs w-full overflow-hidden">
+                    <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-4"><span className="font-bold text-white">Segna come pagata</span></div>
+                    <div className="p-5 space-y-3">
+                      <div>
+                        <label className="text-xs font-medium text-gray-700 block mb-1">Note pagamento <span className="text-gray-400">(opzionale)</span></label>
+                        <input type="text" value={payNotesModal.notes} onChange={e=>setPayNotesModal(m=>m?{...m,notes:e.target.value}:m)}
+                          placeholder="es. Bonifico del 30/06 — rif. EV-COMM-001"
+                          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300"/>
+                      </div>
+                      <div className="flex gap-2 pt-1">
+                        <button onClick={()=>setPayNotesModal(null)} className="flex-1 border border-gray-200 text-gray-600 text-sm font-medium py-2 rounded-xl hover:bg-gray-50">Annulla</button>
+                        <button onClick={()=>payCommissionMutation.mutate({id:payNotesModal.id,notes:payNotesModal.notes})}
+                          disabled={payCommissionMutation.isPending}
+                          className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold py-2 rounded-xl disabled:opacity-50">
+                          {payCommissionMutation.isPending?'Salvataggio…':'Conferma pagamento'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {payMonthModal&&(
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                  <div className="bg-white rounded-2xl shadow-2xl max-w-xs w-full overflow-hidden">
+                    <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-4">
+                      <span className="font-bold text-white">Paga tutte le commissioni</span>
+                      <p className="text-emerald-200 text-xs mt-1">Mese: <span className="font-mono font-bold">{payMonthModal.month}</span></p>
+                    </div>
+                    <div className="p-5 space-y-3">
+                      <div className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-xs text-amber-800">
+                        ⚠️ Questa azione segnerà come pagate tutte le commissioni in sospeso per il mese selezionato. Verifica di aver effettuato i bonifici prima di procedere.
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-gray-700 block mb-1">Note pagamento batch</label>
+                        <input type="text" value={payMonthModal.notes} onChange={e=>setPayMonthModal(m=>m?{...m,notes:e.target.value}:m)}
+                          placeholder="es. Pagamenti di luglio 2026 effettuati"
+                          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300"/>
+                      </div>
+                      <div className="flex gap-2 pt-1">
+                        <button onClick={()=>setPayMonthModal(null)} className="flex-1 border border-gray-200 text-gray-600 text-sm font-medium py-2 rounded-xl hover:bg-gray-50">Annulla</button>
+                        <button onClick={()=>payMonthlyMutation.mutate({month:payMonthModal.month,notes:payMonthModal.notes})}
+                          disabled={payMonthlyMutation.isPending}
+                          className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold py-2 rounded-xl disabled:opacity-50">
+                          {payMonthlyMutation.isPending?'Salvataggio…':'Conferma pagamento batch'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Header + sub-tab */}
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="font-bold text-gray-900 flex items-center gap-2">
+                    <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 text-white text-sm">💰</span>
+                    Commissioni EV
+                  </h2>
+                  <p className="text-[10px] text-gray-400 mt-0.5 ml-9">Sponsor individuali + quota piattaforma</p>
+                </div>
+                <div className="flex bg-gray-100 rounded-xl p-0.5 gap-0.5">
+                  <button onClick={()=>setCommSubTab('commissioni')} className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${commSubTab==='commissioni'?'bg-white text-violet-700 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>
+                    📊 Commissioni
+                  </button>
+                  <button onClick={()=>setCommSubTab('sponsor')} className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${commSubTab==='sponsor'?'bg-white text-violet-700 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>
+                    🔗 Link Sponsor
+                  </button>
+                </div>
               </div>
+
+              {/* ── SUB-TAB: COMMISSIONI ── */}
+              {commSubTab==='commissioni'&&(()=>{
+                const commList = evCommissions as any[];
+                const pending = commList.filter((c:any)=>c.status==='pending');
+                const paid = commList.filter((c:any)=>c.status==='paid');
+                const totalPending = pending.reduce((s:number,c:any)=>s+(c.commissionAmount||0),0);
+                const totalPaid = paid.reduce((s:number,c:any)=>s+(c.commissionAmount||0),0);
+                // Group pending by month for batch pay
+                const pendingMonths = [...new Set(pending.map((c:any)=>c.month))].sort().reverse() as string[];
+                return (
+                  <div>
+                    {/* KPI cards */}
+                    <div className="grid grid-cols-3 gap-3 mb-4">
+                      <div className="rounded-2xl overflow-hidden shadow-sm border border-amber-100">
+                        <div className="bg-gradient-to-br from-amber-400 to-orange-500 px-4 pt-3 pb-2">
+                          <div className="text-[10px] text-amber-100 font-medium mb-0.5 uppercase tracking-wide">Da pagare</div>
+                          <div className="text-2xl font-black text-white">€{totalPending.toFixed(2)}</div>
+                        </div>
+                        <div className="bg-white px-4 py-2">
+                          <div className="text-[10px] text-amber-600 font-semibold">{pending.length} commissioni in sospeso</div>
+                        </div>
+                      </div>
+                      <div className="rounded-2xl overflow-hidden shadow-sm border border-emerald-100">
+                        <div className="bg-gradient-to-br from-emerald-400 to-teal-500 px-4 pt-3 pb-2">
+                          <div className="text-[10px] text-emerald-100 font-medium mb-0.5 uppercase tracking-wide">Già pagate</div>
+                          <div className="text-2xl font-black text-white">€{totalPaid.toFixed(2)}</div>
+                        </div>
+                        <div className="bg-white px-4 py-2">
+                          <div className="text-[10px] text-emerald-600 font-semibold">{paid.length} commissioni saldate</div>
+                        </div>
+                      </div>
+                      <div className="rounded-2xl overflow-hidden shadow-sm border border-violet-100">
+                        <div className="bg-gradient-to-br from-violet-500 to-purple-600 px-4 pt-3 pb-2">
+                          <div className="text-[10px] text-violet-200 font-medium mb-0.5 uppercase tracking-wide">Link attivi</div>
+                          <div className="text-2xl font-black text-white">{(sponsorLinks as any[]).filter((l:any)=>l.active).length}</div>
+                        </div>
+                        <div className="bg-white px-4 py-2">
+                          <div className="text-[10px] text-violet-600 font-semibold">relazioni sponsor</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Batch pay per mese */}
+                    {pendingMonths.length>0&&(
+                      <div className="rounded-2xl border border-amber-200 overflow-hidden mb-4">
+                        <div className="bg-gradient-to-r from-amber-500 to-orange-400 px-4 py-2.5 flex items-center gap-2">
+                          <CreditCard className="w-4 h-4 text-white"/>
+                          <span className="text-xs font-bold text-white uppercase tracking-wide">Pagamenti mensili da effettuare</span>
+                        </div>
+                        <div className="bg-amber-50 divide-y divide-amber-100">
+                          {pendingMonths.map((month:string)=>{
+                            const mComms = pending.filter((c:any)=>c.month===month);
+                            const mTotal = mComms.reduce((s:number,c:any)=>s+(c.commissionAmount||0),0);
+                            const [yr,mn] = month.split('-');
+                            const monthLabel = new Date(+yr,+mn-1,1).toLocaleDateString('it-IT',{month:'long',year:'numeric'});
+                            const sponsors = [...new Set(mComms.map((c:any)=>c.sponsorName))];
+                            return (
+                              <div key={month} className="flex items-center justify-between px-4 py-3 bg-white hover:bg-amber-50/50 transition-colors">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-lg flex-shrink-0">📅</div>
+                                  <div>
+                                    <div className="text-sm font-bold text-gray-800 capitalize">{monthLabel}</div>
+                                    <div className="text-[10px] text-gray-500">{mComms.length} commissioni · {sponsors.slice(0,2).join(', ')}{sponsors.length>2?` +${sponsors.length-2}`:''}</div>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <div className="text-right">
+                                    <div className="text-base font-black text-amber-700">€{mTotal.toFixed(2)}</div>
+                                    <div className="text-[9px] text-amber-500">da versare</div>
+                                  </div>
+                                  <button onClick={()=>setPayMonthModal({month,notes:''})}
+                                    className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-sm whitespace-nowrap">
+                                    ✓ Paga tutto
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Lista commissioni */}
+                    <div className="rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div className="bg-gradient-to-r from-gray-50 to-white px-4 py-2.5 border-b border-gray-100 flex items-center justify-between">
+                        <span className="text-xs font-bold text-gray-700 flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-violet-400 inline-block"/>Storico commissioni
+                        </span>
+                        <button onClick={()=>refetchCommissions()} className="text-[10px] text-violet-600 hover:text-violet-800 flex items-center gap-1 font-medium"><RefreshCw className="w-3 h-3"/>Aggiorna</button>
+                      </div>
+                      {commList.length===0&&(
+                        <div className="text-center py-10 bg-white">
+                          <div className="text-3xl mb-2">💸</div>
+                          <div className="text-sm font-semibold text-gray-500">Nessuna commissione ancora</div>
+                          <div className="text-[10px] text-gray-400 mt-1 max-w-xs mx-auto">Le commissioni vengono generate automaticamente quando uno sponsorizzato fa un ordine confermato.</div>
+                        </div>
+                      )}
+                      <div className="divide-y divide-gray-50 bg-white">
+                        {commList.map((c:any)=>{
+                          const isPlatform = c.commissionType==='platform';
+                          const initials = (c.sponsorName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
+                          return (
+                            <div key={c.id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50/60 transition-colors group">
+                              {/* Avatar + tipo */}
+                              <div className="flex-shrink-0 relative">
+                                <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black text-white shadow-sm ${isPlatform?'bg-gradient-to-br from-emerald-500 to-teal-600':'bg-gradient-to-br from-violet-500 to-purple-600'}`}>
+                                  {isPlatform?'🏛️':initials}
+                                </div>
+                                <div className={`absolute -bottom-0.5 -right-0.5 text-[8px] px-1 py-0 rounded-full font-black border border-white ${isPlatform?'bg-emerald-500 text-white':'bg-violet-500 text-white'}`}>
+                                  {isPlatform?'P':'S'}
+                                </div>
+                              </div>
+                              {/* Dettagli */}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  <span className="text-xs font-bold text-gray-900 truncate">{c.sponsorName}</span>
+                                  {isPlatform
+                                    ? <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200">🏛️ Piattaforma</span>
+                                    : <><span className="text-[10px] text-gray-300">→</span><span className="text-xs font-medium text-violet-700 truncate">{c.sponsoredName}</span></>
+                                  }
+                                </div>
+                                <div className="text-[10px] text-gray-400 mt-0.5">
+                                  <span className="font-mono bg-gray-50 px-1 rounded">{String(c.orderId).slice(-8)}</span>
+                                  {' · '}{c.commissionPct}% di €{(c.orderAmount||0).toFixed(2)}
+                                  {' · '}{new Date(c.createdAt).toLocaleDateString('it-IT',{day:'2-digit',month:'short'})}
+                                </div>
+                                {c.status==='paid'&&c.paidAt&&(
+                                  <div className="text-[10px] text-emerald-600 mt-0.5 font-medium">✓ Pagata {new Date(c.paidAt).toLocaleDateString('it-IT')}{c.paymentNotes?` — ${c.paymentNotes}`:''}</div>
+                                )}
+                                {c.sponsorIban&&c.status==='pending'&&(
+                                  <div className="text-[10px] text-gray-400 font-mono mt-0.5 truncate">IBAN: {c.sponsorIban}</div>
+                                )}
+                              </div>
+                              {/* Importo + azioni */}
+                              <div className="flex flex-col items-end gap-1.5 ml-2 flex-shrink-0">
+                                <div className="text-base font-black text-emerald-600">€{(c.commissionAmount||0).toFixed(2)}</div>
+                                <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${c.status==='paid'?'bg-emerald-100 text-emerald-700':c.status==='pending'?'bg-amber-100 text-amber-700':'bg-gray-100 text-gray-400'}`}>
+                                  {c.status==='paid'?'✓ Pagata':c.status==='pending'?'⏳ Sospeso':'✕ Annullata'}
+                                </span>
+                                {c.status==='pending'&&(
+                                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button onClick={()=>setPayNotesModal({id:c.id,notes:''})} className="text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded-lg">Paga</button>
+                                    <button onClick={()=>cancelCommissionMutation.mutate(c.id)} className="text-[9px] bg-red-100 hover:bg-red-200 text-red-600 font-bold px-2 py-0.5 rounded-lg">✕</button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* ── SUB-TAB: LINK SPONSOR ── */}
+              {commSubTab==='sponsor'&&(
+                <div>
+                  {/* Spiegazione + nuovo link */}
+                  <div className="bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-100 rounded-2xl p-4 mb-4 flex items-start justify-between gap-3">
+                    <div>
+                      <div className="text-xs font-bold text-violet-800 mb-0.5">🔗 Come funzionano i Link Sponsor</div>
+                      <div className="text-[10px] text-violet-600 leading-relaxed">Quando uno <span className="font-bold">Sponsor</span> porta una persona a vendere EV, guadagna una commissione automatica su ogni ordine del suo <span className="font-bold">Sponsorizzato</span>.</div>
+                    </div>
+                    <button onClick={()=>setSponsorModal({sponsorId:'',sponsoredId:'',pct:'5',notes:''})}
+                      className="flex-shrink-0 flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-sm">
+                      <PlusCircle className="w-3.5 h-3.5"/>Nuovo link
+                    </button>
+                  </div>
+
+                  {(sponsorLinks as any[]).length===0&&(
+                    <div className="text-center py-12 bg-white rounded-2xl border border-gray-100">
+                      <div className="text-4xl mb-3">🤝</div>
+                      <div className="text-sm font-bold text-gray-600">Nessun link sponsor ancora</div>
+                      <div className="text-[10px] text-gray-400 mt-1 max-w-xs mx-auto">Clicca "Nuovo link" per collegare uno sponsor al suo sponsorizzato e iniziare a tracciare le commissioni automatiche.</div>
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    {(sponsorLinks as any[]).map((l:any)=>{
+                      const sponsorInitials = (l.sponsorName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
+                      const sponsoredInitials = (l.sponsoredName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
+                      return (
+                        <div key={l.id} className={`bg-white rounded-2xl border shadow-sm p-4 transition-all ${l.active?'border-violet-100':'border-gray-100 opacity-60'}`}>
+                          {/* Relation row */}
+                          <div className="flex items-center gap-3 mb-3">
+                            {/* Sponsor chip */}
+                            <div className="flex items-center gap-2 bg-violet-50 border border-violet-100 rounded-xl px-3 py-2 flex-1 min-w-0">
+                              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-black flex-shrink-0">{sponsorInitials}</div>
+                              <div className="min-w-0">
+                                <div className="text-xs font-bold text-gray-900 truncate">{l.sponsorName}</div>
+                                <div className="text-[9px] text-violet-500 font-medium">SPONSOR</div>
+                              </div>
+                            </div>
+                            {/* Arrow + % */}
+                            <div className="flex flex-col items-center flex-shrink-0">
+                              <div className="text-base font-black text-violet-600">{l.commissionPct}%</div>
+                              <div className="text-gray-300 text-lg">→</div>
+                            </div>
+                            {/* Sponsorizzato chip */}
+                            <div className="flex items-center gap-2 bg-gray-50 border border-gray-100 rounded-xl px-3 py-2 flex-1 min-w-0">
+                              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white text-xs font-black flex-shrink-0">{sponsoredInitials}</div>
+                              <div className="min-w-0">
+                                <div className="text-xs font-bold text-gray-900 truncate">{l.sponsoredName}</div>
+                                <div className="text-[9px] text-gray-400 font-medium truncate">{l.sponsoredEmail}</div>
+                              </div>
+                            </div>
+                          </div>
+                          {/* Footer row */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${l.active?'bg-emerald-100 text-emerald-700':'bg-gray-100 text-gray-500'}`}>
+                                {l.active?'● Attivo':'○ Inattivo'}
+                              </span>
+                              {l.sponsorIban&&<span className="text-[9px] text-gray-400 font-mono">IBAN ✓</span>}
+                              {l.notes&&<span className="text-[9px] text-gray-400 italic truncate max-w-[120px]">{l.notes}</span>}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <button onClick={()=>setEditLinkModal({id:l.id,pct:String(l.commissionPct),active:l.active,notes:l.notes||''})}
+                                className="flex items-center gap-1 text-[10px] font-semibold text-violet-600 hover:text-violet-800 px-2 py-1 rounded-lg hover:bg-violet-50 transition-colors">
+                                <Sliders className="w-3 h-3"/>Modifica
+                              </button>
+                              <button onClick={()=>{if(confirm(`Eliminare il link sponsor ${l.sponsorName} → ${l.sponsoredName}?`))deleteSponsorLinkMutation.mutate(l.id)}}
+                                className="flex items-center gap-1 text-[10px] font-semibold text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition-colors">
+                                <Trash2 className="w-3 h-3"/>Elimina
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
