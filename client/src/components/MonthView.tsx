@@ -412,7 +412,10 @@ export default function MonthView({
         <div
           key={`${wi}-${di}`}
           className={[
-            "min-h-[90px] sm:min-h-[110px] p-1 cursor-pointer",
+            /* ── MOBILE: altezza fissa identica per tutte le celle, overflow clip ── */
+            /* ── DESKTOP: altezza minima, cresce liberamente con il contenuto       ── */
+            "h-[72px] sm:min-h-[110px] sm:h-auto overflow-hidden sm:overflow-visible",
+            "p-1 cursor-pointer",
             di < 6 ? "border-r" : "",
             !isLastWeek ? "border-b" : "",
             inMonth
@@ -421,8 +424,13 @@ export default function MonthView({
           ].join(" ")}
           onClick={() => {
             if (!inMonth) return;
-            setNewApptDay(day);
-            formOpenedAtRef.current = Date.now();
+            /* Su mobile: se ci sono eventi apre il popover del giorno, altrimenti nuovo appuntamento */
+            if (dayApts.length > 0 && window.innerWidth < 640) {
+              setMoreDay(day);
+            } else {
+              setNewApptDay(day);
+              formOpenedAtRef.current = Date.now();
+            }
           }}
         >
           <div className="flex items-center justify-between mb-0.5">
@@ -438,31 +446,56 @@ export default function MonthView({
             >
               {day.getDate()}
             </div>
+            {/* Contatore eventi — solo mobile, solo se ci sono eventi */}
+            {dayApts.length > 0 && (
+              <span className="sm:hidden text-[9px] font-bold text-blue-600 bg-blue-50 rounded-full px-1 leading-tight">
+                {dayApts.length}
+              </span>
+            )}
           </div>
+
+          {/* ── MOBILE: punti colorati compatti (altezza fissa garantita) ── */}
           {isLoading && inMonth ? (
-            <div className="space-y-0.5">
-              <Skeleton className="h-4 w-full rounded" />
-              <Skeleton className="h-4 w-3/4 rounded" />
+            <div className="flex gap-0.5 flex-wrap sm:hidden">
+              <div className="w-2 h-2 rounded-full bg-gray-200 animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-gray-200 animate-pulse" />
             </div>
           ) : (
-            <div className="space-y-0.5" onClick={(e) => e.stopPropagation()}>
-              {visible.map((apt) => (
-                <EventChip
-                  key={apt.id}
-                  apt={apt}
-                  onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingId(id); }}
-                  onDeleted={handleRefresh}
-                />
-              ))}
-              {overflow > 0 && (
-                <button
-                  className="text-[10px] text-blue-600 hover:text-blue-800 font-medium pl-1 leading-tight"
-                  onClick={(e) => { e.stopPropagation(); setMoreDay(day); }}
-                >
-                  +{overflow} {t("calendar.moreEvents", "altri")}
-                </button>
-              )}
-            </div>
+            <>
+              <div className="flex gap-0.5 flex-wrap sm:hidden" onClick={(e) => e.stopPropagation()}>
+                {dayApts.slice(0, 5).map((apt) => (
+                  <div
+                    key={apt.id}
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: getEventColor(apt) }}
+                    title={`${apt.startTime?.substring(0, 5)} ${apt.client?.firstName ?? ""}`}
+                  />
+                ))}
+                {dayApts.length > 5 && (
+                  <span className="text-[8px] text-gray-400 leading-tight">+{dayApts.length - 5}</span>
+                )}
+              </div>
+
+              {/* ── DESKTOP: chip completi come prima ── */}
+              <div className="space-y-0.5 hidden sm:block" onClick={(e) => e.stopPropagation()}>
+                {visible.map((apt) => (
+                  <EventChip
+                    key={apt.id}
+                    apt={apt}
+                    onEdit={(id) => { formOpenedAtRef.current = Date.now(); setEditingId(id); }}
+                    onDeleted={handleRefresh}
+                  />
+                ))}
+                {overflow > 0 && (
+                  <button
+                    className="text-[10px] text-blue-600 hover:text-blue-800 font-medium pl-1 leading-tight"
+                    onClick={(e) => { e.stopPropagation(); setMoreDay(day); }}
+                  >
+                    +{overflow} {t("calendar.moreEvents", "altri")}
+                  </button>
+                )}
+              </div>
+            </>
           )}
         </div>
       );
