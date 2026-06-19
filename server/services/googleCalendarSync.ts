@@ -1,7 +1,7 @@
 import { logger } from '../utils/logger';
 import { db } from '../db';
-import { users, appointments, googleCalendarEvents, clients, services, googleCalendarSyncTokens } from '../../shared/schema';
-import { eq, and, gte, lt } from 'drizzle-orm';
+import { users, appointments, googleCalendarEvents, clients, services, googleCalendarSyncTokens, googleAccounts, staff } from '../../shared/schema';
+import { eq, and, gte, lt, sql } from 'drizzle-orm';
 import { storage } from '../storage';
 import { calendar_v3, google } from 'googleapis';
 import { addAppointmentToGoogleCalendar, updateAppointmentInGoogleCalendar, deleteAppointmentFromGoogleCalendar } from './googleCalendarService';
@@ -37,6 +37,54 @@ function createOAuth2ClientWithAutoSave(userId: number, tokens: any) {
 }
 
 /**
+ * OAuth client for a SECONDARY Google account. Refreshed tokens are saved back to the
+ * google_accounts row (NOT to users.googleAuthToken), so the primary account's token is never corrupted.
+ */
+function createOAuth2ClientForGoogleAccount(googleAccountId: number, userId: number, tokens: any) {
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.PRODUCTION_DOMAIN
+      ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+      : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+  );
+  oauth2Client.setCredentials(tokens);
+
+  oauth2Client.on('tokens', async (newTokens) => {
+    if (!process.env.PRODUCTION_DOMAIN) {
+      logger.debug(`🔄 [OAUTH] Token refreshed for google_account ${googleAccountId} (auto-save skipped on dev)`);
+      return;
+    }
+    try {
+      const merged = { ...tokens, ...newTokens };
+      const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
+      await db.update(googleAccounts).set({ authToken: encrypted }).where(and(eq(googleAccounts.id, googleAccountId), eq(googleAccounts.userId, userId)));
+      logger.debug(`🔄 [OAUTH] Token refreshed and saved for google_account ${googleAccountId}`);
+    } catch (err) {
+      console.error(`❌ [OAUTH] Error saving refreshed token for google_account ${googleAccountId}:`, err);
+    }
+  });
+
+  return oauth2Client;
+}
+
+/**
+ * Extract the real Google email from an OAuth token bundle (id_token JWT payload).
+ * Falls back to the provided fallback email when the id_token is missing/unparseable.
+ */
+export function extractGoogleEmail(tokens: any, fallback: string | null = null): string | null {
+  if (tokens?.id_token) {
+    try {
+      const payload = JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString());
+      if (payload?.email) return payload.email as string;
+    } catch {
+      // ignore — fall through to fallback
+    }
+  }
+  return fallback;
+}
+
+/**
  * Disable Google Calendar for a user when the OAuth token is invalid.
  * Clears the token and sync tokens so the UI shows "Disconnected" and the user can reconnect.
  */
@@ -66,8 +114,9 @@ interface SyncConflict {
  * @param userId - ID of the user
  * @param timeZone - User timezone (e.g. 'Europe/Rome', 'Australia/Sydney')
  */
-export async function importGoogleCalendarEvents(userId: number, timeZone: string = 'Europe/Rome', forceFullSync: boolean = false): Promise<{ imported: number; found: number; conflicts: SyncConflict[]; errors: string[] }> {
+export async function importGoogleCalendarEvents(userId: number, timeZone: string = 'Europe/Rome', forceFullSync: boolean = false, account?: { id: number; email: string }): Promise<{ imported: number; found: number; conflicts: SyncConflict[]; errors: string[] }> {
   const result = { imported: 0, found: 0, conflicts: [] as SyncConflict[], errors: [] as string[] };
+  const isSecondary = !!account;
   
   try {
     // If forceFullSync, delete all syncTokens for this user so the next sync is a full fetch
@@ -80,29 +129,51 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       }
     }
 
-    // Get the token OAuth of the user
+    // Get the token OAuth of the user (primary) — still needed for organizer detection / fallback email
     const user = await db.select().from(users).where(eq(users.id, userId));
-    if (!user.length || !user[0].googleAuthToken || !user[0].googleCalendarEnabled) {
-      result.errors.push('Google Calendar is not enabled for this user');
+    if (!user.length) {
+      result.errors.push('User not found');
       return result;
     }
 
-    const googleAuthToken = user[0].googleAuthToken;
+    // Resolve which OAuth token to use: primary (users.googleAuthToken) or secondary (google_accounts.authToken)
+    let encryptedToken: string | null;
+    if (isSecondary) {
+      const [acc] = await db.select().from(googleAccounts).where(and(eq(googleAccounts.id, account!.id), eq(googleAccounts.userId, userId)));
+      if (!acc || !acc.authToken || !acc.enabled) {
+        result.errors.push(`Secondary Google account ${account!.email} not connected or disabled`);
+        return result;
+      }
+      encryptedToken = acc.authToken;
+    } else {
+      if (!user[0].googleAuthToken || !user[0].googleCalendarEnabled) {
+        result.errors.push('Google Calendar is not enabled for this user');
+        return result;
+      }
+      encryptedToken = user[0].googleAuthToken;
+    }
     
     // Decrypt token with explicit error for key mismatch diagnosis
     let tokens: any;
     try {
-      const decryptedTokenStr = EncryptionService.decryptToken(googleAuthToken);
+      const decryptedTokenStr = EncryptionService.decryptToken(encryptedToken!);
       tokens = JSON.parse(decryptedTokenStr);
-      console.log(`🔓 [IMPORT] Token decrypted OK for user ${userId}`);
+      console.log(`🔓 [IMPORT] Token decrypted OK for ${isSecondary ? `google_account ${account!.id} (${account!.email})` : `user ${userId}`}`);
     } catch (decryptErr) {
       const msg = `Errore decriptazione token Google (chiave ENCRYPTION_KEY non corrisponde?) — riautorizzare Google Calendar da Impostazioni: ${String(decryptErr)}`;
       console.error(`❌ [IMPORT] ${msg}`);
       result.errors.push(msg);
       return result;
     }
+
+    // Email tag for imported appointments (which Google account this came from)
+    const sourceGoogleEmail = isSecondary
+      ? account!.email
+      : extractGoogleEmail(tokens, user[0].email || null);
     
-    const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
+    const oauth2Client = isSecondary
+      ? createOAuth2ClientForGoogleAccount(account!.id, userId, tokens)
+      : createOAuth2ClientWithAutoSave(userId, tokens);
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     
     // Time range: 30 days in the past + 365 days in the future
@@ -432,6 +503,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     // Process each Google event (now with O(1) lookup instead of DB query)
     for (const googleEvent of allEvents) {
       if (!googleEvent.id) continue;
+
+      // Per tutti gli account (primario e secondari): salta gli eventi che noi stessi abbiamo inviato
+      // dal gestionale — riconoscibili dalla firma invisibile extendedProperties.private.source=gestionale.
+      // Questo impedisce che un appuntamento del gestionale diventi grigio per ri-importazione.
+      if (googleEvent.extendedProperties?.private?.source === 'gestionale') {
+        continue;
+      }
       
       const eventInfo = `"${googleEvent.summary || 'Senza titolo'}"`;
       
@@ -582,10 +660,24 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         // slotKey defined here so it is in scope for the cache update after insert
         const slotKey = `${eventDate}|${eventStartTime}`;
 
-        // NOTE: slot conflict check removed — we import ALL events regardless of overlap.
-        // Concurrent events (e.g. two Google events at the same time) are both imported
-        // so the user can always see their complete schedule.
-        console.log(`➕ [IMPORT] Slot ${slotKey} — importo senza check conflitto`);
+        // Check duplicato per slot: se esiste già un appuntamento importato da Google
+        // allo stesso slot ma senza googleEventId (import precedente fallito a metà),
+        // aggiorna il googleEventId invece di creare un duplicato.
+        const slotExisting = appointmentsByDateSlot.get(slotKey) || [];
+        const orphanImport = slotExisting.find(
+          (a) => (a.importedFromGoogle === true || (a.importedFromGoogle as any) === 'true') && !a.googleEventId
+        );
+        if (orphanImport) {
+          await db.update(appointments)
+            .set({ googleEventId: googleEvent.id })
+            .where(eq(appointments.id, orphanImport.id));
+          appointmentsByGoogleId.set(googleEvent.id, orphanImport);
+          console.log(`🔗 [IMPORT MERGE] ${eventInfo} — googleEventId salvato su appuntamento orfano ID ${orphanImport.id}`);
+          result.updated++;
+          continue;
+        }
+
+        console.log(`➕ [IMPORT] Slot ${slotKey} — importo nuovo evento`);
         console.log(`➕ [IMPORT NEW] ${eventInfo}${isAllDay ? ' ☀️ (tutto il giorno)' : ''} — ${eventDate} ${eventStartTime}–${eventEndTime}`);
         
         // USE A SINGLE CLIENT PLACEHOLDER FOR ALL GOOGLE EVENTS
@@ -665,7 +757,8 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           importedFromGoogle: true,
           googleEventId: googleEvent.id,
           googleOrganizerSelf: isOrganizerSelf,
-          googleEventTitle: eventTitle // Save the original title for display
+          googleEventTitle: eventTitle, // Save the original title for display
+          sourceGoogleEmail // Which Google account imported this event (for colored band)
         };
         
         const newAppointment = await db.insert(appointments).values(newAppointmentData).returning();
@@ -709,8 +802,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       }
     }
 
-    // Update lastGoogleSyncAt
-    await db.update(users).set({ lastGoogleSyncAt: new Date() }).where(eq(users.id, userId));
+    // Update lastSyncAt — on the right place (primary user vs secondary account)
+    if (isSecondary) {
+      await db.update(googleAccounts).set({ lastSyncAt: new Date() }).where(and(eq(googleAccounts.id, account!.id), eq(googleAccounts.userId, userId)));
+    } else {
+      await db.update(users).set({ lastGoogleSyncAt: new Date() }).where(eq(users.id, userId));
+    }
     
     return result;
   } catch (error) {
@@ -725,6 +822,188 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
  * @param userId - ID of the user
  * @param timeZone - User timezone (e.g. 'Europe/Rome', 'Australia/Sydney')
  */
+/**
+ * Export gestionale appointments assigned to a specific staff member to their
+ * secondary Google Calendar account. Uses extendedProperties to track pushed events
+ * and avoid re-import duplicates. Runs as part of the bidirectional sync (step 2b).
+ */
+async function syncSecondaryAccountExport(
+  userId: number,
+  acc: typeof googleAccounts.$inferSelect,
+  timeZone: string
+): Promise<{ exported: number; updated: number; deleted: number; errors: string[] }> {
+  const result = { exported: 0, updated: 0, deleted: 0, errors: [] as string[] };
+
+  // 1. Find matching staff member by email (case-insensitive)
+  const matchingStaff = await db.select()
+    .from(staff)
+    .where(and(
+      eq(staff.userId, userId),
+      sql`LOWER(${staff.email}) = LOWER(${acc.email})`
+    ))
+    .limit(1);
+
+  if (!matchingStaff.length) {
+    console.log(`⏭️ [SEC EXPORT] Nessuno staff con email ${acc.email} nella pratica ${userId} — skip`);
+    return result;
+  }
+
+  const staffMember = matchingStaff[0];
+  console.log(`🔄 [SEC EXPORT] Inizio export per ${acc.email} (staff ID ${staffMember.id})`);
+
+  // 2. Resolve OAuth token for this secondary account
+  const [accRow] = await db.select()
+    .from(googleAccounts)
+    .where(and(eq(googleAccounts.id, acc.id), eq(googleAccounts.userId, userId)));
+
+  if (!accRow?.authToken || !accRow?.enabled) {
+    result.errors.push(`Account secondario ${acc.email} non connesso o disabilitato`);
+    return result;
+  }
+
+  let tokens: any;
+  try {
+    tokens = JSON.parse(EncryptionService.decryptToken(accRow.authToken));
+  } catch (err) {
+    result.errors.push(`Errore decriptazione token ${acc.email}: ${String(err)}`);
+    return result;
+  }
+
+  const oauth2Client = createOAuth2ClientForGoogleAccount(acc.id, userId, tokens);
+  const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+
+  // 3. Get appointments assigned to this staff member (exclude events imported from Google)
+  const allStaffAppts = await db.select()
+    .from(appointments)
+    .where(and(
+      eq(appointments.userId, userId),
+      eq(appointments.staffId, staffMember.id)
+    ));
+
+  const exportableAppts = allStaffAppts.filter(a => {
+    const imp = (a as any).importedFromGoogle;
+    return !(imp === true || String(imp) === 't' || String(imp) === 'true');
+  });
+
+  console.log(`📋 [SEC EXPORT] ${acc.email}: ${exportableAppts.length} appuntamenti da sincronizzare`);
+
+  // 4. List existing gestionale events already pushed to their calendar
+  const existingGestEventMap = new Map<string, string>(); // appointmentId → googleEventId
+  try {
+    const oneYearAhead = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+    const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
+    let pageToken: string | undefined;
+    do {
+      const listRes: any = await calendar.events.list({
+        calendarId: 'primary',
+        privateExtendedProperty: 'source=gestionale',
+        timeMin: sixtyDaysAgo.toISOString(),
+        timeMax: oneYearAhead.toISOString(),
+        showDeleted: false,
+        singleEvents: true,
+        maxResults: 2500,
+        ...(pageToken ? { pageToken } : {})
+      });
+      for (const ev of (listRes.data.items || [])) {
+        const apptId = ev.extendedProperties?.private?.appointmentId;
+        if (apptId && ev.id) existingGestEventMap.set(apptId, ev.id);
+      }
+      pageToken = listRes.data.nextPageToken;
+    } while (pageToken);
+    console.log(`📋 [SEC EXPORT] ${acc.email}: ${existingGestEventMap.size} eventi gestionale già nel calendario`);
+  } catch (listErr: any) {
+    result.errors.push(`Errore lista eventi ${acc.email}: ${String(listErr?.message || listErr)}`);
+    return result;
+  }
+
+  // 5. Timezone offset helper
+  const getTimezoneOffset = (date: Date, tz: string): number => {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false, timeZone: tz
+    });
+    const parts = formatter.formatToParts(date);
+    const m = Object.fromEntries(parts.filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
+    const local = new Date(+m.year, +m.month - 1, +m.day, +m.hour, +m.minute, +m.second);
+    return (local.getTime() - date.getTime()) / (1000 * 60);
+  };
+
+  // 6. Insert or update each appointment in the secondary calendar
+  const processedApptIds = new Set<string>();
+  for (const appt of exportableAppts) {
+    try {
+      const apptIdStr = String(appt.id);
+      processedApptIds.add(apptIdStr);
+
+      const clientData = await db.select().from(clients).where(eq(clients.id, appt.clientId)).limit(1);
+      if (!clientData.length) continue;
+      const clientRec = clientData[0];
+      const serviceData = appt.serviceId
+        ? await db.select().from(services).where(eq(services.id, appt.serviceId)).limit(1)
+        : [];
+      const serviceRec = serviceData.length ? serviceData[0] : null;
+
+      const startTime = appt.startTime.length === 5 ? `${appt.startTime}:00` : appt.startTime;
+      const endTime = appt.endTime.length === 5 ? `${appt.endTime}:00` : appt.endTime;
+      const refDate = new Date(`${appt.date}T12:00:00`);
+      const offset = getTimezoneOffset(refDate, timeZone);
+      const utcStart = new Date(new Date(`${appt.date}T${startTime}`).getTime() - offset * 60 * 1000);
+      const utcEnd = new Date(new Date(`${appt.date}T${endTime}`).getTime() - offset * 60 * 1000);
+
+      const summary = serviceRec
+        ? `${clientRec.firstName} ${clientRec.lastName} - ${serviceRec.name}`
+        : `Appuntamento con ${clientRec.firstName} ${clientRec.lastName}`;
+      const description = appt.notes
+        ? `Note: ${appt.notes}\nCliente: ${clientRec.firstName} ${clientRec.lastName}\nTel: ${clientRec.phone || 'N/A'}`
+        : `Cliente: ${clientRec.firstName} ${clientRec.lastName}\nTel: ${clientRec.phone || 'N/A'}`;
+
+      const requestBody = {
+        summary,
+        description,
+        start: { dateTime: utcStart.toISOString() },
+        end: { dateTime: utcEnd.toISOString() },
+        reminders: { useDefault: false, overrides: [{ method: 'popup' as const, minutes: 30 }] },
+        extendedProperties: {
+          private: { source: 'gestionale', appointmentId: apptIdStr }
+        }
+      };
+
+      const existingEventId = existingGestEventMap.get(apptIdStr);
+      if (existingEventId) {
+        await calendar.events.update({ calendarId: 'primary', eventId: existingEventId, requestBody });
+        result.updated++;
+      } else {
+        await calendar.events.insert({ calendarId: 'primary', requestBody });
+        result.exported++;
+      }
+    } catch (apptErr: any) {
+      const code = apptErr?.code || apptErr?.response?.status;
+      if (code !== 404 && code !== 410) {
+        result.errors.push(`[${acc.email}] appt ${appt.id}: ${String(apptErr?.message || apptErr)}`);
+      }
+    }
+  }
+
+  // 7. Delete from secondary calendar any events for appointments no longer assigned to this staff
+  for (const [apptIdStr, eventId] of existingGestEventMap) {
+    if (!processedApptIds.has(apptIdStr)) {
+      try {
+        await calendar.events.delete({ calendarId: 'primary', eventId });
+        result.deleted++;
+      } catch (delErr: any) {
+        const code = delErr?.code || delErr?.response?.status;
+        if (code !== 404 && code !== 410) {
+          result.errors.push(`[${acc.email}] delete event ${eventId}: ${String(delErr?.message || delErr)}`);
+        }
+      }
+    }
+  }
+
+  console.log(`✅ [SEC EXPORT] ${acc.email}: exported=${result.exported}, updated=${result.updated}, deleted=${result.deleted}, errors=${result.errors.length}`);
+  return result;
+}
+
 export async function syncBidirectional(userId: number, timeZone: string = 'Europe/Rome', forceFullSync: boolean = false): Promise<{ success: boolean; message: string; details: any }> {
   const details = {
     exported: 0,
@@ -763,6 +1042,30 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         details.errors.push('Google Calendar disabilitato automaticamente — riconnettersi da Impostazioni → Google Calendar');
         return { success: false, message: 'Token OAuth scaduto — Google Calendar disabilitato. Riconnettersi da Impostazioni → Google Calendar', details };
       }
+    }
+
+    // 1b. IMPORT events from each SECONDARY Google account (import-only; export stays on primary
+    // to avoid duplicating gestionale appointments across multiple Google calendars)
+    try {
+      const secondaryAccounts = await db.select()
+        .from(googleAccounts)
+        .where(and(eq(googleAccounts.userId, userId), eq(googleAccounts.enabled, true)));
+
+      for (const acc of secondaryAccounts) {
+        try {
+          const accResult = await importGoogleCalendarEvents(userId, timeZone, forceFullSync, { id: acc.id, email: acc.email });
+          details.imported += accResult.imported;
+          details.found += accResult.found;
+          if (accResult.errors.length > 0) {
+            details.errors.push(...accResult.errors.map(e => `[${acc.email}] ${e}`));
+          }
+        } catch (accErr) {
+          console.error(`❌ [SYNC] Error importing secondary account ${acc.email}:`, accErr);
+          details.errors.push(`[${acc.email}] ${String(accErr)}`);
+        }
+      }
+    } catch (secErr) {
+      console.error(`❌ [SYNC] Error loading secondary Google accounts:`, secErr);
     }
 
     // 2. EXPORT new appointments to Google
@@ -899,6 +1202,9 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
                 { method: 'popup', minutes: 30 },
               ],
             },
+            extendedProperties: {
+              private: { source: 'gestionale', appointmentId: String(appointment.id) }
+            }
           }
         });
         
@@ -940,6 +1246,25 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           break;
         }
       }
+    }
+
+    // 2b. EXPORT to secondary accounts (bidirectional — ogni operatore vede i propri appuntamenti)
+    try {
+      const secondaryAccounts = await db.select()
+        .from(googleAccounts)
+        .where(and(eq(googleAccounts.userId, userId), eq(googleAccounts.enabled, true)));
+
+      for (const acc of secondaryAccounts) {
+        try {
+          const secResult = await syncSecondaryAccountExport(userId, acc, timeZone);
+          details.exported += secResult.exported;
+          if (secResult.errors.length > 0) details.errors.push(...secResult.errors);
+        } catch (secErr) {
+          console.error(`❌ [SYNC] Errore export secondario per ${acc.email}:`, secErr);
+        }
+      }
+    } catch (secExportErr) {
+      console.error(`❌ [SYNC] Errore caricamento account secondari per export:`, secExportErr);
     }
 
     // 3. FIRST detect events deleted from Google (to avoid recreation loops)
@@ -1076,6 +1401,9 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
               description,
               start: { dateTime: startDateTimeStr, timeZone: 'UTC' },
               end: { dateTime: endDateTimeStr, timeZone: 'UTC' },
+              extendedProperties: {
+                private: { source: 'gestionale', appointmentId: String(appt.id) }
+              }
             }
           });
           
