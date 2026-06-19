@@ -3,8 +3,8 @@ import { Router } from 'express';
 import { google } from 'googleapis';
 import { isAuthenticated } from '../auth';
 import { db } from '../db';
-import { users, clients, googleAccounts, appointments } from '../../shared/schema';
-import { eq, and } from 'drizzle-orm';
+import { users, clients, googleAccounts, appointments, googleCalendarEvents } from '../../shared/schema';
+import { eq, and, inArray, sql } from 'drizzle-orm';
 import { storage } from '../storage';
 import { EncryptionService } from '../services/encryption';
 import { z } from 'zod';
@@ -438,30 +438,102 @@ router.get('/callback', async (req, res) => {
           }
         }
       } else {
-        // ===== PRIMARY ACCOUNT (existing behavior) =====
-        await db.update(users)
-          .set({
-            googleAuthToken: encryptedCalendarToken,
-            googleCalendarEnabled: true,
-            googleCalendarId: 'primary',
-            lastGoogleSyncAt: new Date()
-          })
-          .where(eq(users.id, userId));
-        
-        console.log("✅ Google token saved in database for user:", userId);
+        // ===== PRIMARY ACCOUNT =====
+        // SAFEGUARD: se esiste già un account primario con email DIVERSA,
+        // salva il nuovo come SECONDARIO invece di sovrascrivere il primario.
+        // Questo previene la sostituzione accidentale dell'account principale.
+        const { extractGoogleEmail } = await import('../services/googleCalendarSync');
+        const newEmail = extractGoogleEmail(tokens, null);
 
-        // Sync bidirezionale immediata in background (fire-and-forget)
-        syncBidirectional(userId, 'Europe/Rome')
+        const [existingUser] = await db
+          .select({ googleAuthToken: users.googleAuthToken, email: users.email })
+          .from(users)
+          .where(eq(users.id, userId!));
+
+        const existingPrimaryEmail = existingUser?.googleAuthToken
+          ? (() => {
+              try {
+                return extractGoogleEmail(
+                  JSON.parse(EncryptionService.decryptToken(existingUser.googleAuthToken)),
+                  existingUser.email || null
+                );
+              } catch { return null; }
+            })()
+          : null;
+
+        const isDifferentEmail =
+          existingPrimaryEmail &&
+          newEmail &&
+          existingPrimaryEmail.toLowerCase() !== newEmail.toLowerCase();
+
+        if (isDifferentEmail) {
+          // ── Salva come secondario (non sovrascrivere il primario) ────────
+          console.warn(`🛡️ [OAUTH SAFEGUARD] Primario già impostato come ${existingPrimaryEmail} → salvo ${newEmail} come secondario`);
+          const PALETTE = ['#3b82f6', '#f97316', '#8b5cf6', '#ec4899', '#14b8a6', '#eab308', '#ef4444'];
+          const existingSecondary = await db.select().from(googleAccounts).where(eq(googleAccounts.userId, userId!));
+          const usedColors = new Set(existingSecondary.map((a) => a.color));
+          const nextColor = PALETTE.find((c) => !usedColors.has(c)) || PALETTE[existingSecondary.length % PALETTE.length];
+
+          const alreadyLinked = existingSecondary.find(
+            (a) => a.email.toLowerCase() === (newEmail ?? '').toLowerCase()
+          );
+          if (alreadyLinked) {
+            await db
+              .update(googleAccounts)
+              .set({ authToken: encryptedCalendarToken, enabled: true })
+              .where(eq(googleAccounts.id, alreadyLinked.id));
+            addAccountOutcome = 'reauth';
+          } else {
+            await db.insert(googleAccounts).values({
+              userId: userId!,
+              email: newEmail!,
+              authToken: encryptedCalendarToken,
+              color: nextColor,
+              enabled: true,
+            });
+            addAccountOutcome = 'added';
+          }
+          addAccountEmail = newEmail;
+          isAddAccount = true; // usa il messaggio di successo secondario nella risposta HTML
+
+          // Import immediato del secondario
+          const [acc] = await db
+            .select()
+            .from(googleAccounts)
+            .where(and(eq(googleAccounts.userId, userId!), eq(googleAccounts.email, newEmail!)));
+          if (acc) {
+            import('../services/googleCalendarSync').then(({ importGoogleCalendarEvents }) => {
+              importGoogleCalendarEvents(userId!, 'Europe/Rome', true, { id: acc.id, email: acc.email })
+                .then((r) => console.log(`✅ [SAFEGUARD] Import secondario ${acc.email}: ${r.imported} eventi`))
+                .catch((e) => console.error(`❌ [SAFEGUARD] Import fallito per ${acc.email}:`, e));
+            });
+          }
+        } else {
+          // Nessun primario esistente (o stessa email → re-auth) → salva come primario
+          await db.update(users)
+            .set({
+              googleAuthToken: encryptedCalendarToken,
+              googleCalendarEnabled: true,
+              googleCalendarId: 'primary',
+              lastGoogleSyncAt: new Date()
+            })
+            .where(eq(users.id, userId));
+          
+          console.log("✅ Google token saved in database for user:", userId);
+
+          // Sync bidirezionale immediata in background (fire-and-forget)
+          syncBidirectional(userId, 'Europe/Rome')
           .then(r => console.log(`✅ [OAUTH] Initial bidirectional sync for user ${userId}: ${r.message}`))
           .catch(e => console.error(`❌ [OAUTH] Initial bidirectional sync failed for user ${userId}:`, e));
 
-        // Register push notification watches so Google calls us when events change (production only)
-        import('../services/googleCalendarSync').then(({ registerCalendarWatches }) => {
-          registerCalendarWatches(userId!)
-            .then(() => console.log(`✅ [OAUTH] Watch channels registered for user ${userId}`))
-            .catch(e => console.error(`❌ [OAUTH] Watch registration failed for user ${userId}:`, e));
-        });
-      }
+          // Register push notification watches so Google calls us when events change (production only)
+          import('../services/googleCalendarSync').then(({ registerCalendarWatches }) => {
+            registerCalendarWatches(userId!)
+              .then(() => console.log(`✅ [OAUTH] Watch channels registered for user ${userId}`))
+              .catch(e => console.error(`❌ [OAUTH] Watch registration failed for user ${userId}:`, e));
+          });
+        } // end isDifferentEmail else
+      } // end PRIMARY ACCOUNT else
 
     } catch (dbError) {
       console.error("❌ Error saving token to database:", dbError);
@@ -2066,6 +2138,84 @@ router.patch('/accounts/:id', isAuthenticated, async (req, res) => {
   } catch (error) {
     console.error('Error updating google account:', error);
     res.status(500).json({ error: 'Errore nell\'aggiornamento dell\'account' });
+  }
+});
+
+// DELETE /api/google-auth/primary — scollega l'account Google primario e rimuove i suoi eventi importati
+router.delete('/primary', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req.user as any).id;
+
+    // Recupera email primario dal token per sapere quali eventi rimuovere
+    const [userData] = await db
+      .select({ googleAuthToken: users.googleAuthToken, email: users.email })
+      .from(users)
+      .where(eq(users.id, userId));
+
+    let primaryEmail: string | null = null;
+    if (userData?.googleAuthToken) {
+      try {
+        const { extractGoogleEmail } = await import('../services/googleCalendarSync');
+        primaryEmail = extractGoogleEmail(
+          JSON.parse(EncryptionService.decryptToken(userData.googleAuthToken)),
+          userData.email || null
+        );
+      } catch {}
+    }
+
+    // Rimuove gli eventi importati da questo account primario
+    let removedEvents = 0;
+    if (primaryEmail) {
+      // Prima elimina i mapping google_calendar_events degli appuntamenti da rimuovere
+      const apptIds = await db
+        .select({ id: appointments.id })
+        .from(appointments)
+        .where(and(
+          eq(appointments.userId, userId),
+          eq(appointments.importedFromGoogle, true),
+          eq(appointments.sourceGoogleEmail, primaryEmail)
+        ));
+      if (apptIds.length > 0) {
+        const ids = apptIds.map((a) => a.id);
+        await db.delete(googleCalendarEvents).where(inArray(googleCalendarEvents.appointmentId, ids));
+      }
+
+      const deleted = await db.delete(appointments)
+        .where(and(
+          eq(appointments.userId, userId),
+          eq(appointments.importedFromGoogle, true),
+          eq(appointments.sourceGoogleEmail, primaryEmail)
+        ))
+        .returning({ id: appointments.id });
+      removedEvents = deleted.length;
+    }
+
+    // Rimuove anche i mapping google_calendar_events rimasti (export records)
+    const remainingApptIds = await db
+      .select({ id: appointments.id })
+      .from(appointments)
+      .where(eq(appointments.userId, userId));
+    const remainingIds = new Set(remainingApptIds.map((a) => a.id));
+    // Pulisce i mapping orfani (appointment eliminati)
+    await db.delete(googleCalendarEvents).where(
+      sql`appointment_id NOT IN (SELECT id FROM appointments WHERE user_id = ${userId})`
+    );
+
+    // Azzera il token primario e disabilita la sincronizzazione
+    await db.update(users)
+      .set({
+        googleAuthToken: null,
+        googleCalendarEnabled: false,
+        googleCalendarId: null,
+        lastGoogleSyncAt: null,
+      })
+      .where(eq(users.id, userId));
+
+    console.log(`✅ Primary Google account unlinked for user ${userId} (${primaryEmail}, removed ${removedEvents} imported events)`);
+    res.json({ success: true, removedEvents });
+  } catch (error) {
+    console.error('Error deleting primary google account:', error);
+    res.status(500).json({ error: 'Errore nella rimozione dell\'account principale' });
   }
 });
 
