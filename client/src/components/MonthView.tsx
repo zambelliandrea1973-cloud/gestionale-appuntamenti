@@ -68,10 +68,10 @@ function EventChip({
 
   const { getImportedColors } = useGoogleAccountColors();
   const importedColors = getImportedColors(apt);
-  // Eventi importati da Google → chip grigio con banda colorata a sinistra (account di provenienza)
+  // Google events → gray chip with colored left band; local events → solid service color
   const color = importedColors ? importedColors.band : getEventColor(apt);
-  const bg = importedColors ? importedColors.bg : hexToRgba(color, 0.15);
-  const textColor = importedColors ? "#334155" : color;
+  const bg = importedColors ? importedColors.bg : color;
+  const textColor = importedColors ? "#334155" : "#ffffff";
 
   const endTime = (() => {
     if (!apt.startTime || !apt.service?.duration) return null;
@@ -465,8 +465,9 @@ export default function MonthView({
                 {visible.map((apt) => {
                   const imp = getImportedColors(apt);
                   const color = imp ? imp.band : getEventColor(apt);
-                  const bg = imp ? imp.bg : hexToRgba(color, 0.15);
-                  const textCol = imp ? "#334155" : color;
+                  const bg = imp ? imp.bg : color;
+                  const textCol = imp ? "#334155" : "#ffffff";
+                  const borderStyle = imp ? `3px solid ${color}` : "none";
                   const isGoogle = apt.importedFromGoogle || apt.isImported || apt.client?.firstName?.startsWith("📅");
                   const label = isGoogle
                     ? (apt.notes?.substring(0, 16) ?? apt.service?.name ?? "Google")
@@ -475,7 +476,7 @@ export default function MonthView({
                     <div
                       key={apt.id}
                       className="w-full rounded px-1 py-0.5 text-[10px] cursor-pointer truncate leading-snug"
-                      style={{ backgroundColor: bg, borderLeft: `3px solid ${color}`, color: textCol }}
+                      style={{ backgroundColor: bg, borderLeft: borderStyle, color: textCol }}
                       onClick={(e) => { e.stopPropagation(); setMoreDay(day); }}
                       title={`${apt.startTime?.substring(0, 5)} · ${apt.client?.firstName ?? ""} ${apt.client?.lastName ?? ""}`}
                     >
