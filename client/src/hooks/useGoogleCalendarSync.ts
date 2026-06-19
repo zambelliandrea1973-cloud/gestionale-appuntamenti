@@ -37,7 +37,14 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
       
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Session expired. Please log in again.');
+        // Server returned HTML (502/503 during restart, or session issue)
+        if (response.status === 502 || response.status === 503) {
+          throw new Error('Server momentaneamente non disponibile. Riprova tra qualche secondo.');
+        }
+        if (response.status === 401 || response.status === 403) {
+          throw new Error('Sessione scaduta. Ricarica la pagina e accedi di nuovo.');
+        }
+        throw new Error(`Risposta inattesa dal server (${response.status}). Riprova.`);
       }
       
       const data = await response.json();
