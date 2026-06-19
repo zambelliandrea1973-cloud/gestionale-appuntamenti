@@ -173,6 +173,8 @@ export default function EVAdminPage() {
   const [commSubTab, setCommSubTab] = useState<'sponsor'|'commissioni'>('commissioni');
   const [sponsorModal, setSponsorModal] = useState<{sponsorId:string;sponsoredId:string;pct:string;notes:string}|null>(null);
   const [editLinkModal, setEditLinkModal] = useState<{id:number;pct:string;active:boolean;notes:string}|null>(null);
+  const [sponsorSearch, setSponsorSearch] = useState('');
+  const [collapsedSponsors, setCollapsedSponsors] = useState<Set<number>>(new Set());
   const [payNotesModal, setPayNotesModal] = useState<{id:number;notes:string}|null>(null);
   const [payMonthModal, setPayMonthModal] = useState<{month:string;notes:string}|null>(null);
 
@@ -1765,84 +1767,143 @@ export default function EVAdminPage() {
               })()}
 
               {/* ── SUB-TAB: LINK SPONSOR ── */}
-              {commSubTab==='sponsor'&&(
-                <div>
-                  {/* Spiegazione + nuovo link */}
-                  <div className="bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-100 rounded-2xl p-4 mb-4 flex items-start justify-between gap-3">
-                    <div>
-                      <div className="text-xs font-bold text-violet-800 mb-0.5">🔗 Come funzionano i Link Sponsor</div>
-                      <div className="text-[10px] text-violet-600 leading-relaxed">Quando uno <span className="font-bold">Sponsor</span> porta una persona a vendere EV, guadagna una commissione automatica su ogni ordine del suo <span className="font-bold">Sponsorizzato</span>.</div>
+              {commSubTab==='sponsor'&&(()=>{
+                // Raggruppa per sponsor, filtrato dalla ricerca
+                const q = sponsorSearch.toLowerCase().trim();
+                const filtered = (sponsorLinks as any[]).filter((l:any)=>
+                  !q ||
+                  (l.sponsorName||'').toLowerCase().includes(q) ||
+                  (l.sponsorEmail||'').toLowerCase().includes(q) ||
+                  (l.sponsoredName||'').toLowerCase().includes(q) ||
+                  (l.sponsoredEmail||'').toLowerCase().includes(q)
+                );
+                // Mappa sponsorId → {meta, links[]}
+                const grouped = new Map<number,{sponsorId:number;sponsorName:string;sponsorEmail:string;sponsorIban:string;links:any[]}>();
+                filtered.forEach((l:any)=>{
+                  if(!grouped.has(l.sponsorId)){
+                    grouped.set(l.sponsorId,{sponsorId:l.sponsorId,sponsorName:l.sponsorName||String(l.sponsorId),sponsorEmail:l.sponsorEmail||'',sponsorIban:l.sponsorIban||'',links:[]});
+                  }
+                  grouped.get(l.sponsorId)!.links.push(l);
+                });
+                const groups = Array.from(grouped.values()).sort((a,b)=>a.sponsorName.localeCompare(b.sponsorName));
+                const toggleCollapse = (id:number)=>setCollapsedSponsors(prev=>{const s=new Set(prev);s.has(id)?s.delete(id):s.add(id);return s;});
+                return (
+                  <div>
+                    {/* Header: spiegazione + nuovo link */}
+                    <div className="bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-100 rounded-2xl p-4 mb-4 flex items-start justify-between gap-3">
+                      <div>
+                        <div className="text-xs font-bold text-violet-800 mb-0.5">🔗 Come funzionano i Link Sponsor</div>
+                        <div className="text-[10px] text-violet-600 leading-relaxed">Quando uno <span className="font-bold">Sponsor</span> porta una persona a vendere EV, guadagna una commissione automatica su ogni ordine del suo <span className="font-bold">Sponsorizzato</span>.</div>
+                      </div>
+                      <button onClick={()=>setSponsorModal({sponsorId:'',sponsoredId:'',pct:'5',notes:''})}
+                        className="flex-shrink-0 flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-sm">
+                        <PlusCircle className="w-3.5 h-3.5"/>Nuovo link
+                      </button>
                     </div>
-                    <button onClick={()=>setSponsorModal({sponsorId:'',sponsoredId:'',pct:'5',notes:''})}
-                      className="flex-shrink-0 flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-sm">
-                      <PlusCircle className="w-3.5 h-3.5"/>Nuovo link
-                    </button>
-                  </div>
 
-                  {(sponsorLinks as any[]).length===0&&(
-                    <div className="text-center py-12 bg-white rounded-2xl border border-gray-100">
-                      <div className="text-4xl mb-3">🤝</div>
-                      <div className="text-sm font-bold text-gray-600">Nessun link sponsor ancora</div>
-                      <div className="text-[10px] text-gray-400 mt-1 max-w-xs mx-auto">Clicca "Nuovo link" per collegare uno sponsor al suo sponsorizzato e iniziare a tracciare le commissioni automatiche.</div>
+                    {/* Barra di ricerca */}
+                    {(sponsorLinks as any[]).length > 0 && (
+                      <div className="mb-4 relative">
+                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <input
+                          type="text"
+                          placeholder="Cerca per nome sponsor o sponsorizzato…"
+                          value={sponsorSearch}
+                          onChange={e=>setSponsorSearch(e.target.value)}
+                          className="w-full pl-8 pr-8 py-2 text-xs border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-300 bg-white"
+                        />
+                        {sponsorSearch&&(
+                          <button onClick={()=>setSponsorSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm leading-none">✕</button>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Empty state */}
+                    {(sponsorLinks as any[]).length===0&&(
+                      <div className="text-center py-12 bg-white rounded-2xl border border-gray-100">
+                        <div className="text-4xl mb-3">🤝</div>
+                        <div className="text-sm font-bold text-gray-600">Nessun link sponsor ancora</div>
+                        <div className="text-[10px] text-gray-400 mt-1 max-w-xs mx-auto">Clicca "Nuovo link" per collegare uno sponsor al suo sponsorizzato e iniziare a tracciare le commissioni automatiche.</div>
+                      </div>
+                    )}
+                    {(sponsorLinks as any[]).length>0 && groups.length===0&&(
+                      <div className="text-center py-8 text-gray-400 text-xs">Nessun risultato per "{sponsorSearch}"</div>
+                    )}
+
+                    {/* Gruppi per sponsor */}
+                    <div className="space-y-4">
+                      {groups.map(g=>{
+                        const initials = g.sponsorName.split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
+                        const activeCount = g.links.filter((l:any)=>l.active).length;
+                        const isOpen = !collapsedSponsors.has(g.sponsorId);
+                        return (
+                          <div key={g.sponsorId} className="bg-white rounded-2xl border border-violet-100 shadow-sm overflow-hidden">
+                            {/* Header gruppo — clicca per espandere/collassare */}
+                            <button
+                              onClick={()=>toggleCollapse(g.sponsorId)}
+                              className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-violet-50 to-purple-50 hover:from-violet-100 hover:to-purple-100 transition-colors text-left"
+                            >
+                              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-black flex-shrink-0">{initials}</div>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-sm font-bold text-gray-900 truncate">{g.sponsorName}</div>
+                                <div className="text-[10px] text-violet-500 truncate">{g.sponsorEmail}</div>
+                              </div>
+                              <div className="flex items-center gap-2 flex-shrink-0">
+                                <span className="text-[10px] font-bold bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">
+                                  {activeCount}/{g.links.length} attivi
+                                </span>
+                                {g.sponsorIban&&<span className="text-[9px] text-gray-400 font-mono hidden sm:inline">IBAN ✓</span>}
+                                <svg className={`w-4 h-4 text-gray-400 transition-transform ${isOpen?'rotate-180':''}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+                              </div>
+                            </button>
+
+                            {/* Lista sponsorizzati */}
+                            {isOpen&&(
+                              <div className="divide-y divide-gray-50">
+                                {g.links.map((l:any)=>{
+                                  const sInitials = (l.sponsoredName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
+                                  return (
+                                    <div key={l.id} className={`px-4 py-3 flex items-center gap-3 transition-opacity ${l.active?'':'opacity-50'}`}>
+                                      {/* Freccia indentata */}
+                                      <div className="text-gray-300 text-base flex-shrink-0 pl-1">↳</div>
+                                      {/* Avatar sponsorizzato */}
+                                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white text-xs font-black flex-shrink-0">{sInitials}</div>
+                                      {/* Info sponsorizzato */}
+                                      <div className="flex-1 min-w-0">
+                                        <div className="text-xs font-bold text-gray-900 truncate">{l.sponsoredName}</div>
+                                        <div className="text-[9px] text-gray-400 truncate">{l.sponsoredEmail}</div>
+                                      </div>
+                                      {/* % + stato */}
+                                      <div className="flex items-center gap-2 flex-shrink-0">
+                                        <span className="text-sm font-black text-violet-600">{l.commissionPct}%</span>
+                                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${l.active?'bg-emerald-100 text-emerald-700':'bg-gray-100 text-gray-500'}`}>
+                                          {l.active?'Attivo':'Off'}
+                                        </span>
+                                      </div>
+                                      {/* Azioni */}
+                                      <div className="flex items-center gap-0.5 flex-shrink-0">
+                                        <button onClick={()=>setEditLinkModal({id:l.id,pct:String(l.commissionPct),active:l.active,notes:l.notes||''})}
+                                          className="flex items-center gap-1 text-[10px] font-semibold text-violet-600 hover:text-violet-800 px-2 py-1 rounded-lg hover:bg-violet-50 transition-colors">
+                                          <Sliders className="w-3 h-3"/>
+                                          <span className="hidden sm:inline">Modifica</span>
+                                        </button>
+                                        <button onClick={()=>{if(confirm(`Eliminare il link ${l.sponsorName} → ${l.sponsoredName}?`))deleteSponsorLinkMutation.mutate(l.id)}}
+                                          className="flex items-center gap-1 text-[10px] font-semibold text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition-colors">
+                                          <Trash2 className="w-3 h-3"/>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
-                  )}
-
-                  <div className="space-y-3">
-                    {(sponsorLinks as any[]).map((l:any)=>{
-                      const sponsorInitials = (l.sponsorName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
-                      const sponsoredInitials = (l.sponsoredName||'?').split(' ').map((w:string)=>w[0]).join('').toUpperCase().slice(0,2);
-                      return (
-                        <div key={l.id} className={`bg-white rounded-2xl border shadow-sm p-4 transition-all ${l.active?'border-violet-100':'border-gray-100 opacity-60'}`}>
-                          {/* Relation row */}
-                          <div className="flex items-center gap-3 mb-3">
-                            {/* Sponsor chip */}
-                            <div className="flex items-center gap-2 bg-violet-50 border border-violet-100 rounded-xl px-3 py-2 flex-1 min-w-0">
-                              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-black flex-shrink-0">{sponsorInitials}</div>
-                              <div className="min-w-0">
-                                <div className="text-xs font-bold text-gray-900 truncate">{l.sponsorName}</div>
-                                <div className="text-[9px] text-violet-500 font-medium">SPONSOR</div>
-                              </div>
-                            </div>
-                            {/* Arrow + % */}
-                            <div className="flex flex-col items-center flex-shrink-0">
-                              <div className="text-base font-black text-violet-600">{l.commissionPct}%</div>
-                              <div className="text-gray-300 text-lg">→</div>
-                            </div>
-                            {/* Sponsorizzato chip */}
-                            <div className="flex items-center gap-2 bg-gray-50 border border-gray-100 rounded-xl px-3 py-2 flex-1 min-w-0">
-                              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white text-xs font-black flex-shrink-0">{sponsoredInitials}</div>
-                              <div className="min-w-0">
-                                <div className="text-xs font-bold text-gray-900 truncate">{l.sponsoredName}</div>
-                                <div className="text-[9px] text-gray-400 font-medium truncate">{l.sponsoredEmail}</div>
-                              </div>
-                            </div>
-                          </div>
-                          {/* Footer row */}
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${l.active?'bg-emerald-100 text-emerald-700':'bg-gray-100 text-gray-500'}`}>
-                                {l.active?'● Attivo':'○ Inattivo'}
-                              </span>
-                              {l.sponsorIban&&<span className="text-[9px] text-gray-400 font-mono">IBAN ✓</span>}
-                              {l.notes&&<span className="text-[9px] text-gray-400 italic truncate max-w-[120px]">{l.notes}</span>}
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <button onClick={()=>setEditLinkModal({id:l.id,pct:String(l.commissionPct),active:l.active,notes:l.notes||''})}
-                                className="flex items-center gap-1 text-[10px] font-semibold text-violet-600 hover:text-violet-800 px-2 py-1 rounded-lg hover:bg-violet-50 transition-colors">
-                                <Sliders className="w-3 h-3"/>Modifica
-                              </button>
-                              <button onClick={()=>{if(confirm(`Eliminare il link sponsor ${l.sponsorName} → ${l.sponsoredName}?`))deleteSponsorLinkMutation.mutate(l.id)}}
-                                className="flex items-center gap-1 text-[10px] font-semibold text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition-colors">
-                                <Trash2 className="w-3 h-3"/>Elimina
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
                   </div>
-                </div>
-              )}
+                );
+              })()}
             </div>
           )}
         </div>
