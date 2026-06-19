@@ -620,13 +620,14 @@ export function registerSimpleRoutes(app: Express): Server {
       
       const userId = (req.user as any).id;
       const timeZone = req.body?.timeZone || 'Europe/Rome';
+      const forceFullSync = req.body?.forceFullSync === true;
       
       // Timeout: if syncBidirectional hangs (Google API unresponsive), fail fast after 180s
       const timeoutPromise = new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error('Timeout: Google Calendar API non risponde dopo 180 secondi')), 180_000)
       );
       
-      const result = await Promise.race([syncBidirectional(userId, timeZone), timeoutPromise]);
+      const result = await Promise.race([syncBidirectional(userId, timeZone, forceFullSync), timeoutPromise]);
       
       res.json(result);
     } catch (error: any) {
