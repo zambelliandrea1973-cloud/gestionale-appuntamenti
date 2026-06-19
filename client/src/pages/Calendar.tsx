@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import { formatMonthYear, formatDateForApi, getBrowserLocale, getWeekStart, getWeekEnd } from "@/lib/utils/date";
 import { getISOWeek } from "date-fns";
 import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
@@ -24,6 +25,7 @@ const getStaffColor = (id: number) => STAFF_PALETTE[Math.abs(id) % STAFF_PALETTE
 export default function Calendar() {
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<"day" | "week" | "month">("day");
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,11 +66,28 @@ export default function Calendar() {
         const timeoutId = setTimeout(() => controller.abort(), 130_000);
         try {
           const syncRes = await fetch('/api/google-calendar/sync-now', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            credentials: 'include', signal: controller.signal,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({}),
+            credentials: 'include',
+            signal: controller.signal,
           });
-          if (syncRes.ok && !cancelled) {
-            await queryClient.refetchQueries({ queryKey: ["/api/appointments"] });
+          if (!cancelled) {
+            // Non-blocking: invalidate and refetch in background
+            queryClient.invalidateQueries({ queryKey: ["/api/appointments"], refetchType: 'all' });
+            if (syncRes.ok) {
+              try {
+                const data = await syncRes.json();
+                const imported = data.details?.imported || 0;
+                const exported = data.details?.exported || 0;
+                const errors: string[] = data.details?.errors || [];
+                if (errors.length > 0) {
+                  toast({ title: '⚠️ Sync Google', description: errors[0], variant: 'destructive' });
+                } else if (imported > 0 || exported > 0) {
+                  toast({ title: '✅ Sync Google completato', description: `📥 ${imported} importati · 📤 ${exported} esportati` });
+                }
+              } catch {}
+            }
           }
         } finally {
           clearTimeout(timeoutId);
@@ -80,7 +99,7 @@ export default function Calendar() {
     };
     autoSync();
     return () => { cancelled = true; };
-  }, [queryClient]);
+  }, [queryClient, toast]);
 
   // Fuso orario
   useEffect(() => {
