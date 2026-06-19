@@ -3,13 +3,13 @@ import { Router } from 'express';
 import { google } from 'googleapis';
 import { isAuthenticated } from '../auth';
 import { db } from '../db';
-import { users, clients } from '../../shared/schema';
-import { eq } from 'drizzle-orm';
+import { users, clients, googleAccounts, appointments } from '../../shared/schema';
+import { eq, and } from 'drizzle-orm';
 import { storage } from '../storage';
 import { EncryptionService } from '../services/encryption';
 import { z } from 'zod';
 import { generateClientCode } from '../utils/clientCodeGenerator';
-import { syncBidirectional } from '../services/googleCalendarSync';
+import { syncBidirectional, extractGoogleEmail } from '../services/googleCalendarSync';
 
 // Validation schema for contact import
 const contactsImportSchema = z.object({
@@ -151,7 +151,7 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
 });
 
 // Start the authorization process
-router.get('/start', (req, res) => {
+router.get('/start', async (req, res) => {
   try {
     // Verify that the user is authenticated
     const userId = (req as any).session?.passport?.user;
@@ -160,7 +160,19 @@ router.get('/start', (req, res) => {
       return res.status(401).json({ success: false, error: 'User not authenticated' });
     }
     
-    console.log("Google OAuth start for user:", userId);
+    // mode=addAccount → collega un account Google SECONDARIO (salvato in google_accounts)
+    const isAddAccount = req.query.mode === 'addAccount';
+    console.log("Google OAuth start for user:", userId, isAddAccount ? "(ADD SECONDARY ACCOUNT)" : "(primary)");
+
+    // Salva il flag in sessione come BACKUP nel caso il `state` si corrompa nel round-trip OAuth
+    if (isAddAccount) {
+      (req as any).session.pendingAddGoogleAccount = { userId, ts: Date.now() };
+      await new Promise<void>((resolve) => (req as any).session.save(() => resolve()));
+      console.log(`🔒 [OAUTH] Session backup saved for addAccount (user ${userId})`);
+    } else {
+      // Pulizia preventiva: se c'era un vecchio backup pendente, rimuovilo
+      delete (req as any).session.pendingAddGoogleAccount;
+    }
     
     // Get the request domain to support dev webviews
     const requestHost = req.get('host');
@@ -170,15 +182,19 @@ router.get('/start', (req, res) => {
     console.log("Request Host:", requestHost);
     console.log("Dynamic redirect URI:", dynamicRedirectUri);
     
+    // For secondary accounts we need the email scope (openid+email) to identify which account was connected
+    const effectiveScopes = isAddAccount ? [...SCOPES, 'openid', 'email'] : SCOPES;
+    
     // Build the authentication URL manually
     const clientId = encodeURIComponent(process.env.GOOGLE_CLIENT_ID as string);
     const encodedRedirectUri = encodeURIComponent(dynamicRedirectUri);
-    const encodedScopes = encodeURIComponent(SCOPES.join(' '));
+    const encodedScopes = encodeURIComponent(effectiveScopes.join(' '));
     
     // State contains the userId AND the redirectUri for the callback
     const state = Buffer.from(JSON.stringify({ 
       userId, 
-      redirectUri: dynamicRedirectUri 
+      redirectUri: dynamicRedirectUri,
+      addAccount: isAddAccount
     })).toString('base64');
     
     // Required parameters in the correct order
@@ -188,7 +204,7 @@ router.get('/start', (req, res) => {
       `response_type=code`,
       `scope=${encodedScopes}`,
       `access_type=offline`,
-      `prompt=consent`,
+      `prompt=${encodeURIComponent('select_account consent')}`,
       `state=${encodeURIComponent(state)}`
     ];
     
@@ -265,6 +281,7 @@ router.get('/callback', async (req, res) => {
   // Retrieve userId and redirectUri from the state
   let userId: number | null = null;
   let stateRedirectUri: string = redirectUri; // Fallback to default
+  let isAddAccount = false; // true → collega un account Google secondario
   
   if (state) {
     try {
@@ -276,6 +293,10 @@ router.get('/callback', async (req, res) => {
         stateRedirectUri = stateData.redirectUri;
         console.log("Redirect URI retrieved from state:", stateRedirectUri);
       }
+      
+      // Detect secondary-account flow
+      isAddAccount = stateData.addAccount === true;
+      console.log(`🔍 [OAUTH CB] state.addAccount=${stateData.addAccount} → isAddAccount=${isAddAccount}`);
       
       // The userId can be a string like "admin:3" or a number
       const rawUserId = stateData.userId;
@@ -301,6 +322,24 @@ router.get('/callback', async (req, res) => {
     }
   }
   
+  // FALLBACK SESSIONE: se il state non ha addAccount=true ma c'è un flag di sessione valido
+  // (es: state corrotto nel round-trip OAuth su alcuni proxy/iframe), recupera l'intento dalla sessione
+  const sessionPending = (req as any).session?.pendingAddGoogleAccount;
+  if (!isAddAccount && sessionPending && typeof sessionPending === 'object') {
+    const pendingAge = Date.now() - (sessionPending.ts || 0);
+    if (pendingAge < 10 * 60 * 1000) { // max 10 minuti
+      isAddAccount = true;
+      // Se userId non è stato estratto dallo state, usa quello della sessione
+      if (!userId && sessionPending.userId) userId = Number(sessionPending.userId);
+      console.log(`♻️ [OAUTH CB] addAccount recuperato da sessione (age: ${Math.round(pendingAge/1000)}s, userId: ${userId})`);
+    }
+  }
+  // Pulisci sempre il flag di sessione dopo l'uso
+  if (sessionPending) {
+    delete (req as any).session.pendingAddGoogleAccount;
+    (req as any).session.save(() => {});
+  }
+
   if (!userId || isNaN(userId)) {
     console.error("ERROR: UserId not found or invalid in state");
     lastCallbackError = {
@@ -312,6 +351,8 @@ router.get('/callback', async (req, res) => {
   }
   
   try {
+    let addAccountOutcome: 'added' | 'duplicate-primary' | 'reauth' | null = null;
+    let addAccountEmail: string | null = null;
     console.log("Exchanging authorization code for user:", userId);
     console.log("Redirect URI for token exchange:", stateRedirectUri);
     
@@ -329,32 +370,98 @@ router.get('/callback', async (req, res) => {
     
     oauth2Client.setCredentials(tokens);
     
-    // SAVE TOKENS IN THE USER DATABASE (encrypted)
+    // SAVE TOKENS IN THE DATABASE (encrypted) — primary user OR secondary google_account
     try {
       const tokenJson = JSON.stringify(tokens);
       const encryptedCalendarToken = EncryptionService.encrypt(tokenJson);
-      await db.update(users)
-        .set({
-          googleAuthToken: encryptedCalendarToken,
-          googleCalendarEnabled: true,
-          googleCalendarId: 'primary',
-          lastGoogleSyncAt: new Date()
-        })
-        .where(eq(users.id, userId));
-      
-      console.log("✅ Google token saved in database for user:", userId);
 
-      // Sync bidirezionale immediata in background (fire-and-forget)
-      syncBidirectional(userId, 'Europe/Rome')
-        .then(r => console.log(`✅ [OAUTH] Initial bidirectional sync for user ${userId}: ${r.message}`))
-        .catch(e => console.error(`❌ [OAUTH] Initial bidirectional sync failed for user ${userId}:`, e));
+      if (isAddAccount) {
+        // ===== SECONDARY ACCOUNT =====
+        // Extract the connected account's email from the id_token JWT
+        const { extractGoogleEmail } = await import('../services/googleCalendarSync');
+        const secondaryEmail = extractGoogleEmail(tokens, null);
 
-      // Register push notification watches so Google calls us when events change (production only)
-      import('../services/googleCalendarSync').then(({ registerCalendarWatches }) => {
-        registerCalendarWatches(userId)
-          .then(() => console.log(`✅ [OAUTH] Watch channels registered for user ${userId}`))
-          .catch(e => console.error(`❌ [OAUTH] Watch registration failed for user ${userId}:`, e));
-      });
+        if (!secondaryEmail) {
+          console.error("❌ [OAUTH] Could not determine secondary account email from token");
+          return res.status(400).send('Impossibile determinare l\'email dell\'account Google. Riprova autorizzando i permessi email.');
+        }
+
+        // Prevent linking the same email as the primary account
+        const [primaryUser] = await db.select({ email: users.email, googleAuthToken: users.googleAuthToken })
+          .from(users).where(eq(users.id, userId));
+        const primaryGoogleEmail = primaryUser?.googleAuthToken
+          ? extractGoogleEmail(JSON.parse(EncryptionService.decryptToken(primaryUser.googleAuthToken)), primaryUser.email || null)
+          : primaryUser?.email || null;
+
+        if (primaryGoogleEmail && secondaryEmail.toLowerCase() === primaryGoogleEmail.toLowerCase()) {
+          console.warn(`⚠️ [OAUTH] Secondary email ${secondaryEmail} equals primary — skipping`);
+          addAccountOutcome = 'duplicate-primary';
+          addAccountEmail = secondaryEmail;
+        } else {
+          // Color palette for secondary accounts — pick the first unused color
+          const PALETTE = ['#3b82f6', '#f97316', '#8b5cf6', '#ec4899', '#14b8a6', '#eab308', '#ef4444'];
+          const existing = await db.select().from(googleAccounts).where(eq(googleAccounts.userId, userId));
+          const usedColors = new Set(existing.map(a => a.color));
+          const nextColor = PALETTE.find(c => !usedColors.has(c)) || PALETTE[existing.length % PALETTE.length];
+
+          const alreadyLinked = existing.find(a => a.email.toLowerCase() === secondaryEmail.toLowerCase());
+          if (alreadyLinked) {
+            // Re-authorization of an existing secondary account → refresh its token + re-enable
+            await db.update(googleAccounts)
+              .set({ authToken: encryptedCalendarToken, enabled: true })
+              .where(eq(googleAccounts.id, alreadyLinked.id));
+            console.log(`✅ [OAUTH] Secondary Google account re-authorized: ${secondaryEmail}`);
+            addAccountOutcome = 'reauth';
+            addAccountEmail = secondaryEmail;
+          } else {
+            await db.insert(googleAccounts).values({
+              userId,
+              email: secondaryEmail,
+              authToken: encryptedCalendarToken,
+              color: nextColor,
+              enabled: true
+            });
+            console.log(`✅ [OAUTH] Secondary Google account linked: ${secondaryEmail} (color ${nextColor})`);
+            addAccountOutcome = 'added';
+            addAccountEmail = secondaryEmail;
+          }
+
+          // Immediate import for this secondary account (fire-and-forget)
+          const [acc] = await db.select().from(googleAccounts)
+            .where(and(eq(googleAccounts.userId, userId), eq(googleAccounts.email, secondaryEmail)));
+          if (acc) {
+            import('../services/googleCalendarSync').then(({ importGoogleCalendarEvents }) => {
+              importGoogleCalendarEvents(userId!, 'Europe/Rome', true, { id: acc.id, email: acc.email })
+                .then(r => console.log(`✅ [OAUTH] Initial import for secondary ${acc.email}: ${r.imported} eventi`))
+                .catch(e => console.error(`❌ [OAUTH] Initial import failed for secondary ${acc.email}:`, e));
+            });
+          }
+        }
+      } else {
+        // ===== PRIMARY ACCOUNT (existing behavior) =====
+        await db.update(users)
+          .set({
+            googleAuthToken: encryptedCalendarToken,
+            googleCalendarEnabled: true,
+            googleCalendarId: 'primary',
+            lastGoogleSyncAt: new Date()
+          })
+          .where(eq(users.id, userId));
+        
+        console.log("✅ Google token saved in database for user:", userId);
+
+        // Sync bidirezionale immediata in background (fire-and-forget)
+        syncBidirectional(userId, 'Europe/Rome')
+          .then(r => console.log(`✅ [OAUTH] Initial bidirectional sync for user ${userId}: ${r.message}`))
+          .catch(e => console.error(`❌ [OAUTH] Initial bidirectional sync failed for user ${userId}:`, e));
+
+        // Register push notification watches so Google calls us when events change (production only)
+        import('../services/googleCalendarSync').then(({ registerCalendarWatches }) => {
+          registerCalendarWatches(userId!)
+            .then(() => console.log(`✅ [OAUTH] Watch channels registered for user ${userId}`))
+            .catch(e => console.error(`❌ [OAUTH] Watch registration failed for user ${userId}:`, e));
+        });
+      }
 
     } catch (dbError) {
       console.error("❌ Error saving token to database:", dbError);
@@ -368,6 +475,23 @@ router.get('/callback', async (req, res) => {
     };
     
     // Close the popup window if it was opened as a popup
+    let popupTitle = '✅ Autorizzazione completata!';
+    let popupMsg = 'L\'account Google è stato autorizzato correttamente.';
+    let popupColor = '#4CAF50';
+    const closeDelayMs = isAddAccount ? 6000 : 2000;
+    if (isAddAccount) {
+      if (addAccountOutcome === 'duplicate-primary') {
+        popupTitle = '⚠️ Account già collegato';
+        popupMsg = `${addAccountEmail} è già il tuo account principale: non serve aggiungerlo. Per importare un secondo calendario scegli un account Google DIVERSO dalla finestra di Google.`;
+        popupColor = '#f59e0b';
+      } else if (addAccountOutcome === 'added') {
+        popupTitle = '✅ Account aggiunto';
+        popupMsg = `${addAccountEmail} è stato collegato come account secondario. I suoi appuntamenti verranno importati con il colore assegnato.`;
+      } else if (addAccountOutcome === 'reauth') {
+        popupTitle = '✅ Account riautorizzato';
+        popupMsg = `${addAccountEmail} è stato riconnesso correttamente.`;
+      }
+    }
     res.send(`
       <html>
         <head>
@@ -401,7 +525,7 @@ router.get('/callback', async (req, res) => {
               // Close the window after 2 seconds to give the message time to be processed
               setTimeout(function() {
                 window.close();
-              }, 2000);
+              }, ${closeDelayMs});
             }
           </script>
           <style>
@@ -431,9 +555,9 @@ router.get('/callback', async (req, res) => {
         </head>
         <body>
           <div class="card">
-            <h1>✅ Authorization complete!</h1>
-            <p>The Google account has been authorized successfully.</p>
-            <p>This window will close automatically in a few seconds...</p>
+            <h1 style="color: ${popupColor}">${popupTitle}</h1>
+            <p>${popupMsg}</p>
+            <p>Questa finestra si chiuderà automaticamente tra qualche secondo...</p>
           </div>
         </body>
       </html>
@@ -1841,6 +1965,137 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
       success: false, 
       error: 'Error importing contacts' 
     });
+  }
+});
+
+// ============================================================
+// GESTIONE ACCOUNT GOOGLE MULTIPLI (account primario + secondari)
+// ============================================================
+
+// GET /api/google-auth/accounts — elenco account collegati (primario + secondari)
+router.get('/accounts', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req.user as any).id;
+
+    const [user] = await db.select({
+      email: users.email,
+      googleAuthToken: users.googleAuthToken,
+      googleCalendarEnabled: users.googleCalendarEnabled,
+      googleAccountColor: users.googleAccountColor,
+      lastGoogleSyncAt: users.lastGoogleSyncAt,
+    }).from(users).where(eq(users.id, userId));
+
+    // Email reale dell'account Google primario (dal token), fallback all'email utente
+    let primaryGoogleEmail: string | null = user?.email || null;
+    if (user?.googleAuthToken) {
+      try {
+        const tokens = JSON.parse(EncryptionService.decryptToken(user.googleAuthToken));
+        primaryGoogleEmail = extractGoogleEmail(tokens, user.email || null);
+      } catch { /* keep fallback */ }
+    }
+
+    const secondary = await db.select({
+      id: googleAccounts.id,
+      email: googleAccounts.email,
+      color: googleAccounts.color,
+      enabled: googleAccounts.enabled,
+      lastSyncAt: googleAccounts.lastSyncAt,
+    }).from(googleAccounts).where(eq(googleAccounts.userId, userId));
+
+    res.json({
+      primary: {
+        email: primaryGoogleEmail,
+        color: user?.googleAccountColor || '#4a7c59',
+        connected: !!user?.googleAuthToken && !!user?.googleCalendarEnabled,
+        lastSyncAt: user?.lastGoogleSyncAt || null,
+      },
+      secondary,
+    });
+  } catch (error) {
+    console.error('Error listing google accounts:', error);
+    res.status(500).json({ error: 'Errore nel recupero degli account Google' });
+  }
+});
+
+// PATCH /api/google-auth/accounts/primary — aggiorna il colore dell'account primario
+router.patch('/accounts/primary', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req.user as any).id;
+    const color = String(req.body?.color || '').trim();
+    if (!/^#[0-9a-fA-F]{6}$/.test(color)) {
+      return res.status(400).json({ error: 'Colore non valido (formato #RRGGBB)' });
+    }
+    await db.update(users).set({ googleAccountColor: color }).where(eq(users.id, userId));
+    res.json({ success: true, color });
+  } catch (error) {
+    console.error('Error updating primary color:', error);
+    res.status(500).json({ error: 'Errore nell\'aggiornamento del colore' });
+  }
+});
+
+// PATCH /api/google-auth/accounts/:id — aggiorna colore e/o stato di un account secondario
+router.patch('/accounts/:id', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req.user as any).id;
+    const accountId = parseInt(req.params.id, 10);
+    if (Number.isNaN(accountId)) return res.status(400).json({ error: 'ID non valido' });
+
+    // Verifica proprietà (multi-tenant)
+    const [acc] = await db.select().from(googleAccounts)
+      .where(and(eq(googleAccounts.id, accountId), eq(googleAccounts.userId, userId)));
+    if (!acc) return res.status(404).json({ error: 'Account non trovato' });
+
+    const updates: { color?: string; enabled?: boolean } = {};
+    if (req.body?.color !== undefined) {
+      const color = String(req.body.color).trim();
+      if (!/^#[0-9a-fA-F]{6}$/.test(color)) {
+        return res.status(400).json({ error: 'Colore non valido (formato #RRGGBB)' });
+      }
+      updates.color = color;
+    }
+    if (req.body?.enabled !== undefined) {
+      updates.enabled = !!req.body.enabled;
+    }
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ error: 'Nessun campo da aggiornare' });
+    }
+
+    await db.update(googleAccounts).set(updates)
+      .where(and(eq(googleAccounts.id, accountId), eq(googleAccounts.userId, userId)));
+    res.json({ success: true, ...updates });
+  } catch (error) {
+    console.error('Error updating google account:', error);
+    res.status(500).json({ error: 'Errore nell\'aggiornamento dell\'account' });
+  }
+});
+
+// DELETE /api/google-auth/accounts/:id — scollega un account secondario + rimuove i suoi eventi importati
+router.delete('/accounts/:id', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req.user as any).id;
+    const accountId = parseInt(req.params.id, 10);
+    if (Number.isNaN(accountId)) return res.status(400).json({ error: 'ID non valido' });
+
+    const [acc] = await db.select().from(googleAccounts)
+      .where(and(eq(googleAccounts.id, accountId), eq(googleAccounts.userId, userId)));
+    if (!acc) return res.status(404).json({ error: 'Account non trovato' });
+
+    // Rimuove gli eventi importati da questo account (sono read-only, provenienti da Google)
+    const deleted = await db.delete(appointments)
+      .where(and(
+        eq(appointments.userId, userId),
+        eq(appointments.importedFromGoogle, true),
+        eq(appointments.sourceGoogleEmail, acc.email)
+      )).returning({ id: appointments.id });
+
+    await db.delete(googleAccounts)
+      .where(and(eq(googleAccounts.id, accountId), eq(googleAccounts.userId, userId)));
+
+    console.log(`✅ Secondary Google account unlinked: ${acc.email} (removed ${deleted.length} imported events)`);
+    res.json({ success: true, removedEvents: deleted.length });
+  } catch (error) {
+    console.error('Error deleting google account:', error);
+    res.status(500).json({ error: 'Errore nella rimozione dell\'account' });
   }
 });
 
