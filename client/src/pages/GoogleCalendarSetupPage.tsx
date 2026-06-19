@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,7 +25,11 @@ import {
   FileSpreadsheet,
   ChevronDown,
   ChevronUp,
-  Info
+  Info,
+  Plus,
+  Trash2,
+  Palette,
+  Loader2
 } from "lucide-react";
 import { useLicense } from '@/hooks/use-license';
 
@@ -69,11 +74,146 @@ export default function GoogleCalendarSetupPage() {
   const [isImportingCsv, setIsImportingCsv] = useState(false);
   const [csvImportResult, setCsvImportResult] = useState<{ success: boolean; message: string } | null>(null);
   const [showCsvInstructions, setShowCsvInstructions] = useState(false);
-  
+
+  // ===== GESTIONE ACCOUNT GOOGLE MULTIPLI =====
+  interface SecondaryGoogleAccount {
+    id: number;
+    email: string;
+    color: string;
+    enabled: boolean;
+    lastSyncAt: string | null;
+  }
+  interface GoogleAccountsResponse {
+    primary: { email: string | null; color: string; connected: boolean; lastSyncAt: string | null };
+    secondary: SecondaryGoogleAccount[];
+  }
+  const [isAddingAccount, setIsAddingAccount] = useState(false);
+
+  const { data: accountsData, isLoading: accountsLoading } = useQuery<GoogleAccountsResponse>({
+    queryKey: ['/api/google-auth/accounts'],
+    // Sempre attiva quando l'utente ha accesso PRO e l'app è pronta (non dipendere da isGoogleAuthorized
+    // per evitare la dipendenza circolare: /status fallisce → isGoogleAuthorized=false → accounts mai
+    // fetchato → utente vede setup form anche se il token è presente nel DB)
+    enabled: hasProAccess && !isLoading,
+  });
+
+  // Fallback: se /status ha restituito authorized:false ma /accounts conferma connected:true,
+  // aggiorna isGoogleAuthorized di conseguenza (es: token presente ma sessione non riconosciuta da /status)
+  useEffect(() => {
+    if (accountsData?.primary?.connected && !isGoogleAuthorized) {
+      setIsGoogleAuthorized(true);
+      // connected:true ↔ googleCalendarEnabled:true, quindi la sync è attiva
+      setIsSyncEnabled(true);
+      if (accountsData.primary.email && !email) {
+        setEmail(accountsData.primary.email);
+      }
+      if (accountsData.primary.lastSyncAt && !lastSyncAt) {
+        setLastSyncAt(accountsData.primary.lastSyncAt);
+      }
+      setIsCheckingStatus(false);
+    }
+  }, [accountsData, isGoogleAuthorized]);
+
+  const updatePrimaryColorMutation = useMutation({
+    mutationFn: async (color: string) => {
+      const res = await apiRequest('PATCH', '/api/google-auth/accounts/primary', { color });
+      return res.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['/api/google-auth/accounts'] }),
+  });
+
+  const updateSecondaryMutation = useMutation({
+    mutationFn: async ({ id, color, enabled }: { id: number; color?: string; enabled?: boolean }) => {
+      const res = await apiRequest('PATCH', `/api/google-auth/accounts/${id}`, { color, enabled });
+      return res.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['/api/google-auth/accounts'] }),
+  });
+
+  const deleteSecondaryMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await apiRequest('DELETE', `/api/google-auth/accounts/${id}`);
+      return res.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/google-auth/accounts'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      toast({
+        title: t('googleCalendar.accounts.removed', 'Account scollegato'),
+        description: t('googleCalendar.accounts.removedDesc', '{{count}} eventi importati rimossi', { count: data?.removedEvents ?? 0 }),
+      });
+    },
+    onError: () => toast({
+      title: t('common.error'),
+      description: t('googleCalendar.accounts.removeError', 'Errore nella rimozione dell\'account'),
+      variant: 'destructive',
+    }),
+  });
+
+  const handleAddGoogleAccount = async () => {
+    setIsAddingAccount(true);
+    try {
+      const response = await fetch('/api/google-auth/start?mode=addAccount');
+      if (!response.ok) throw new Error('start failed');
+      const data = await response.json();
+      if (!data.authUrl) throw new Error('no authUrl');
+
+      const authWindow = window.open(data.authUrl, 'googleAddAccountWindow', 'width=800,height=600');
+      if (!authWindow) throw new Error(t('googleCalendar.errors.popupBlocked'));
+
+      const doRefresh = () => {
+        setIsAddingAccount(false);
+        queryClient.invalidateQueries({ queryKey: ['/api/google-auth/accounts'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      };
+
+      // Dichiaro prima le variabili per evitare dipendenze circolari nei closure
+      let checkClosed: ReturnType<typeof setInterval>;
+      let onMessage: (event: MessageEvent) => void;
+
+      const cleanup = () => {
+        clearInterval(checkClosed);
+        window.removeEventListener('message', onMessage);
+      };
+
+      // Listener postMessage: il popup invia 'google-auth-success' all'opener al completamento
+      onMessage = (event: MessageEvent) => {
+        if (event.data === 'google-auth-success') {
+          cleanup();
+          doRefresh();
+        }
+      };
+      window.addEventListener('message', onMessage);
+
+      // Fallback polling: controlla anche la chiusura manuale della finestra
+      checkClosed = setInterval(() => {
+        if (authWindow.closed) {
+          cleanup();
+          doRefresh();
+        }
+      }, 1000);
+
+      // Timeout di sicurezza 5 minuti
+      setTimeout(() => {
+        cleanup();
+        setIsAddingAccount(false);
+        queryClient.invalidateQueries({ queryKey: ['/api/google-auth/accounts'] });
+      }, 300000);
+    } catch (error) {
+      console.error('Add account error:', error);
+      setIsAddingAccount(false);
+      toast({
+        title: t('common.error'),
+        description: error instanceof Error ? error.message : t('googleCalendar.errors.authError'),
+        variant: 'destructive',
+      });
+    }
+  };
+
   useEffect(() => {
     const checkGoogleAuthStatus = async () => {
       try {
-        const response = await fetch('/api/google-auth/status');
+        const response = await fetch('/api/google-auth/status', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
           if (data.authorized) {
@@ -201,10 +341,10 @@ export default function GoogleCalendarSetupPage() {
     try {
       // Prima revoca il token esistente per forzare nuovi scope
       console.log("🔄 Revoking existing token before reconnecting...");
-      await fetch('/api/google-auth/revoke', { method: 'POST' });
+      await fetch('/api/google-auth/revoke', { method: 'POST', credentials: 'include' });
       
       // Poi avvia la nuova autorizzazione
-      const response = await fetch('/api/google-auth/start');
+      const response = await fetch('/api/google-auth/start', { credentials: 'include' });
       if (response.ok) {
         const data = await response.json();
         if (data.authUrl) {
@@ -727,14 +867,28 @@ export default function GoogleCalendarSetupPage() {
                   )}
                 </Button>
               ) : (
-                <div className="bg-green-50 dark:bg-green-950 p-4 rounded-lg border border-green-200 dark:border-green-800 flex items-start gap-3">
-                  <Check className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-green-900 dark:text-green-100">{t('googleCalendar.setup.connectedSuccess')}</p>
-                    <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                      {email} {t('googleCalendar.setup.connectedEmail').replace('{{email}}', '')}
-                    </p>
+                <div className="space-y-3">
+                  <div className="bg-green-50 dark:bg-green-950 p-4 rounded-lg border border-green-200 dark:border-green-800 flex items-start gap-3">
+                    <Check className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-green-900 dark:text-green-100">{t('googleCalendar.setup.connectedSuccess')}</p>
+                      <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                        {email} {t('googleCalendar.setup.connectedEmail').replace('{{email}}', '')}
+                      </p>
+                    </div>
                   </div>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                      if (window.confirm(t('googleCalendar.setup.changeAccountConfirm', "Vuoi disconnettere l'account attuale e collegarne un altro? Nella finestra di Google potrai scegliere l'account da usare."))) {
+                        handleReconnectGoogle();
+                      }
+                    }}
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    {t('googleCalendar.setup.changeAccountButton', 'Disconnetti e cambia account')}
+                  </Button>
                 </div>
               )}
 
@@ -834,6 +988,127 @@ export default function GoogleCalendarSetupPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* === SEZIONE ACCOUNT GOOGLE MULTIPLI === */}
+      {isGoogleAuthorized && (
+        <Card className="mt-6">
+          <CardHeader className="bg-gradient-to-r from-indigo-500/10 to-indigo-400/5 border-b">
+            <div className="flex items-start justify-between">
+              <div>
+                <CardTitle className="flex items-center text-xl gap-2">
+                  <Palette className="h-5 w-5 text-indigo-600" />
+                  {t('googleCalendar.accounts.cardTitle', 'Account Google e colori')}
+                </CardTitle>
+                <CardDescription className="mt-2">
+                  {t('googleCalendar.accounts.cardDesc', 'Collega più account Google. Ogni account ha un colore: gli eventi importati appaiono come schede grigie con una banda colorata a sinistra che indica la provenienza.')}
+                </CardDescription>
+              </div>
+              <div className="px-3 py-1 bg-indigo-600 text-white rounded-full text-xs font-semibold">
+                PRO
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="pt-6">
+            {accountsLoading ? (
+              <div className="flex items-center justify-center py-8 text-muted-foreground">
+                <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                {t('common.loading', 'Caricamento...')}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {/* Account primario */}
+                <div className="flex items-center gap-3 p-3 rounded-lg border bg-card">
+                  <label className="relative flex-shrink-0 cursor-pointer" title={t('googleCalendar.accounts.changeColor', 'Cambia colore')}>
+                    <span
+                      className="block w-6 h-6 rounded-full border-2 border-white shadow ring-1 ring-black/10"
+                      style={{ backgroundColor: accountsData?.primary.color || '#4a7c59' }}
+                    />
+                    <input
+                      type="color"
+                      className="absolute inset-0 w-6 h-6 opacity-0 cursor-pointer"
+                      value={accountsData?.primary.color || '#4a7c59'}
+                      onChange={(e) => updatePrimaryColorMutation.mutate(e.target.value)}
+                    />
+                  </label>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium truncate">
+                      {accountsData?.primary.email || email || t('googleCalendar.accounts.primaryLabel', 'Account principale')}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {t('googleCalendar.accounts.primaryBadge', 'Account principale (sincronizzazione bidirezionale)')}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Account secondari */}
+                {accountsData?.secondary.map((acc) => (
+                  <div key={acc.id} className="flex items-center gap-3 p-3 rounded-lg border bg-card">
+                    <label className="relative flex-shrink-0 cursor-pointer" title={t('googleCalendar.accounts.changeColor', 'Cambia colore')}>
+                      <span
+                        className="block w-6 h-6 rounded-full border-2 border-white shadow ring-1 ring-black/10"
+                        style={{ backgroundColor: acc.color }}
+                      />
+                      <input
+                        type="color"
+                        className="absolute inset-0 w-6 h-6 opacity-0 cursor-pointer"
+                        value={acc.color}
+                        onChange={(e) => updateSecondaryMutation.mutate({ id: acc.id, color: e.target.value })}
+                      />
+                    </label>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">{acc.email}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {acc.enabled
+                          ? t('googleCalendar.accounts.importActive', 'Importazione attiva')
+                          : t('googleCalendar.accounts.importPaused', 'Importazione in pausa')}
+                      </p>
+                    </div>
+                    <Switch
+                      checked={acc.enabled}
+                      onCheckedChange={(checked) => updateSecondaryMutation.mutate({ id: acc.id, enabled: checked })}
+                      disabled={updateSecondaryMutation.isPending}
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                      onClick={() => {
+                        if (window.confirm(t('googleCalendar.accounts.confirmRemove', 'Scollegare questo account? Gli eventi importati da questo account verranno rimossi dal calendario.'))) {
+                          deleteSecondaryMutation.mutate(acc.id);
+                        }
+                      }}
+                      disabled={deleteSecondaryMutation.isPending}
+                      title={t('googleCalendar.accounts.remove', 'Scollega account')}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+
+                {/* Pulsante aggiungi account */}
+                <Button
+                  variant="outline"
+                  className="w-full mt-2"
+                  onClick={handleAddGoogleAccount}
+                  disabled={isAddingAccount}
+                >
+                  {isAddingAccount ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      {t('googleCalendar.accounts.connecting', 'Connessione in corso...')}
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="h-4 w-4 mr-2" />
+                      {t('googleCalendar.accounts.addButton', 'Aggiungi account Google')}
+                    </>
+                  )}
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* === SEZIONE SINCRONIZZAZIONE CONTATTI === */}
       {isGoogleAuthorized && (
