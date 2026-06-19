@@ -68,7 +68,7 @@ export default function Calendar() {
           const syncRes = await fetch('/api/google-calendar/sync-now', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({}),
+            body: JSON.stringify({ forceFullSync: true }),
             credentials: 'include',
             signal: controller.signal,
           });
