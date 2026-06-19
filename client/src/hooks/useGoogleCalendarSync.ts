@@ -26,6 +26,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
           },
           credentials: 'include',
           signal: controller.signal,
+          body: JSON.stringify({ forceFullSync: true }),
         });
       } catch (err: any) {
         if (err?.name === 'AbortError') throw new Error('Timeout — sincronizzazione troppo lenta, riprova');
