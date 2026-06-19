@@ -66,10 +66,20 @@ interface SyncConflict {
  * @param userId - ID of the user
  * @param timeZone - User timezone (e.g. 'Europe/Rome', 'Australia/Sydney')
  */
-export async function importGoogleCalendarEvents(userId: number, timeZone: string = 'Europe/Rome'): Promise<{ imported: number; found: number; conflicts: SyncConflict[]; errors: string[] }> {
+export async function importGoogleCalendarEvents(userId: number, timeZone: string = 'Europe/Rome', forceFullSync: boolean = false): Promise<{ imported: number; found: number; conflicts: SyncConflict[]; errors: string[] }> {
   const result = { imported: 0, found: 0, conflicts: [] as SyncConflict[], errors: [] as string[] };
   
   try {
+    // If forceFullSync, delete all syncTokens for this user so the next sync is a full fetch
+    if (forceFullSync) {
+      try {
+        await db.delete(googleCalendarSyncTokens).where(eq(googleCalendarSyncTokens.userId, userId));
+        console.log(`🔄 [IMPORT] forceFullSync=true: syncTokens cancellati per user ${userId} — verrà eseguito full sync`);
+      } catch (err) {
+        console.warn(`⚠️ [IMPORT] Errore cancellazione syncTokens:`, err);
+      }
+    }
+
     // Get the token OAuth of the user
     const user = await db.select().from(users).where(eq(users.id, userId));
     if (!user.length || !user[0].googleAuthToken || !user[0].googleCalendarEnabled) {
@@ -721,7 +731,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
  * @param userId - ID of the user
  * @param timeZone - User timezone (e.g. 'Europe/Rome', 'Australia/Sydney')
  */
-export async function syncBidirectional(userId: number, timeZone: string = 'Europe/Rome'): Promise<{ success: boolean; message: string; details: any }> {
+export async function syncBidirectional(userId: number, timeZone: string = 'Europe/Rome', forceFullSync: boolean = false): Promise<{ success: boolean; message: string; details: any }> {
   const details = {
     exported: 0,
     imported: 0,
@@ -733,7 +743,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
     
     // 1. IMPORT events from Google Calendar
     try {
-      const importResult = await importGoogleCalendarEvents(userId, timeZone);
+      const importResult = await importGoogleCalendarEvents(userId, timeZone, forceFullSync);
       details.imported = importResult.imported;
       details.found = importResult.found;
       if (importResult.errors.length > 0) {
