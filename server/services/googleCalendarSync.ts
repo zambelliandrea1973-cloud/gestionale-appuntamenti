@@ -634,6 +634,56 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           continue;
         }
 
+        // ── Gestionale-origin: salta/ripristina eventi esportati da noi ─────
+        // Gli eventi esportati da questo gestionale portano:
+        //   extendedProperties.private.source = 'gestionale'
+        //   extendedProperties.private.appointmentId = '<id>'
+        //   extendedProperties.private.svcId = '<serviceId>'
+        //   extendedProperties.private.cliId = '<clientId>'
+        // E/O una firma testuale '#gestionale {"id":X,"svcId":Y,"cliId":Z}' nella description.
+        {
+          const extPvt = (googleEvent as any).extendedProperties?.private;
+          const isGestOrigin = extPvt?.source === 'gestionale';
+          let gesSig: { id?: number; svcId?: number; cliId?: number } | null = null;
+          const gesMatch = (googleEvent.description || '').match(/#gestionale (\{[^}]+\})/);
+          if (gesMatch) { try { gesSig = JSON.parse(gesMatch[1]); } catch {} }
+
+          if (isGestOrigin || gesSig) {
+            const origApptId = isGestOrigin && extPvt?.appointmentId
+              ? Number(extPvt.appointmentId)
+              : (gesSig?.id ?? null);
+
+            if (origApptId) {
+              const [orig] = await db
+                .select({ id: appointments.id, googleEventId: appointments.googleEventId })
+                .from(appointments)
+                .where(and(eq(appointments.id, origApptId), eq(appointments.userId, userId)))
+                .limit(1);
+
+              if (orig) {
+                // Originale presente → collega googleEventId se mancante, poi salta
+                if (!orig.googleEventId && googleEvent.id) {
+                  await db.update(appointments)
+                    .set({ googleEventId: googleEvent.id, synced: true })
+                    .where(eq(appointments.id, origApptId));
+                }
+                console.log(`⏭️ [IMPORT SKIP GES] ${eventInfo} — evento gestionale (ID ${origApptId}) già presente, skip`);
+                continue;
+              }
+
+              // Originale eliminato → ripristina come appuntamento nativo
+              const restoreSvcId = gesSig?.svcId || (extPvt?.svcId ? Number(extPvt.svcId) : null);
+              const restoreCliId = gesSig?.cliId || (extPvt?.cliId ? Number(extPvt.cliId) : null);
+              console.log(`🔄 [IMPORT RESTORE GES] ${eventInfo} — originale ID ${origApptId} non trovato, ripristino come nativo (svcId=${restoreSvcId} cliId=${restoreCliId})`);
+              (googleEvent as any).__gesRestore = { svcId: restoreSvcId, cliId: restoreCliId };
+            } else {
+              // Firma gestionale senza ID → salta (evento esportato prima del sistema firma)
+              console.log(`⏭️ [IMPORT SKIP GES] ${eventInfo} — evento gestionale senza ID, skip`);
+              continue;
+            }
+          }
+        }
+
         // ── Extract date and time (timed events and all-day events) ──────────
         let eventDate: string;
         let eventStartTime: string;
@@ -735,8 +785,29 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         if (!clientId) continue;
 
         const eventTitle = googleEvent.summary || 'Google Event';
-        const serviceId = reminderServiceId!;
-        
+        let serviceId = reminderServiceId!;
+
+        // ── Gestionale-restore: usa servizio/cliente originali ───────────────
+        const gesRestore = (googleEvent as any).__gesRestore as { svcId: number | null; cliId: number | null } | undefined;
+        let isRestoredNative = false;
+        if (gesRestore) {
+          if (gesRestore.cliId) {
+            const [cliCheck] = await db
+              .select({ id: clients.id })
+              .from(clients)
+              .where(and(eq(clients.id, gesRestore.cliId), eq(clients.userId, userId)))
+              .limit(1);
+            if (cliCheck) clientId = cliCheck.id;
+          }
+          if (gesRestore.svcId) {
+            const [svcCheck] = await db
+              .select({ id: services.id })
+              .from(services)
+              .where(and(eq(services.id, gesRestore.svcId), eq(services.userId, userId)))
+              .limit(1);
+            if (svcCheck) { serviceId = svcCheck.id; isRestoredNative = true; }
+          }
+        }
 
         // Determine if we are the organizer of the event
         // If the organizer is different from our account, we are invited
@@ -753,12 +824,15 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           startTime: eventStartTime,
           endTime: eventEndTime,
           status: 'confirmed' as const,
-          notes: `📅 ${eventTitle}${isAllDay ? ' ☀️' : ''}${googleEvent.description ? '\n' + googleEvent.description : ''}`,
-          importedFromGoogle: true,
+          notes: isRestoredNative
+            ? `${eventTitle}`
+            : `📅 ${eventTitle}${isAllDay ? ' ☀️' : ''}${googleEvent.description ? '\n' + googleEvent.description : ''}`,
+          importedFromGoogle: !isRestoredNative,
+          synced: isRestoredNative,
           googleEventId: googleEvent.id,
           googleOrganizerSelf: isOrganizerSelf,
-          googleEventTitle: eventTitle, // Save the original title for display
-          sourceGoogleEmail // Which Google account imported this event (for colored band)
+          googleEventTitle: eventTitle,
+          sourceGoogleEmail
         };
         
         const newAppointment = await db.insert(appointments).values(newAppointmentData).returning();
@@ -954,9 +1028,11 @@ async function syncSecondaryAccountExport(
       const summary = serviceRec
         ? `${clientRec.firstName} ${clientRec.lastName} - ${serviceRec.name}`
         : `Appuntamento con ${clientRec.firstName} ${clientRec.lastName}`;
-      const description = appt.notes
+      const _gesSig1 = `#gestionale ${JSON.stringify({ id: appt.id, svcId: appt.serviceId || 0, cliId: appt.clientId || 0 })}`;
+      const description = (appt.notes
         ? `Note: ${appt.notes}\nCliente: ${clientRec.firstName} ${clientRec.lastName}\nTel: ${clientRec.phone || 'N/A'}`
-        : `Cliente: ${clientRec.firstName} ${clientRec.lastName}\nTel: ${clientRec.phone || 'N/A'}`;
+        : `Cliente: ${clientRec.firstName} ${clientRec.lastName}\nTel: ${clientRec.phone || 'N/A'}`)
+        + `\n\n${_gesSig1}`;
 
       const requestBody = {
         summary,
@@ -965,7 +1041,12 @@ async function syncSecondaryAccountExport(
         end: { dateTime: utcEnd.toISOString() },
         reminders: { useDefault: false, overrides: [{ method: 'popup' as const, minutes: 30 }] },
         extendedProperties: {
-          private: { source: 'gestionale', appointmentId: apptIdStr }
+          private: {
+            source: 'gestionale',
+            appointmentId: apptIdStr,
+            svcId: String(appt.serviceId || 0),
+            cliId: String(appt.clientId || 0)
+          }
         }
       };
 
@@ -1181,9 +1262,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           ? `${client.firstName} ${client.lastName} - ${service.name}`
           : `Appointment with ${client.firstName} ${client.lastName}`;
         
-        const description = appointment.notes 
+        const _gesSig2 = `#gestionale ${JSON.stringify({ id: appointment.id, svcId: appointment.serviceId || 0, cliId: appointment.clientId || 0 })}`;
+        const description = (appointment.notes 
           ? `Note: ${appointment.notes}\nClient: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
-          : `Client: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`;
+          : `Client: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`)
+          + `\n\n${_gesSig2}`;
         
         // Use the user's calendarId, fallback to 'primary' if configured
         const targetCalendarId = user[0].googleCalendarId || 'primary';
@@ -1203,7 +1286,12 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
               ],
             },
             extendedProperties: {
-              private: { source: 'gestionale', appointmentId: String(appointment.id) }
+              private: {
+                source: 'gestionale',
+                appointmentId: String(appointment.id),
+                svcId: String(appointment.serviceId || 0),
+                cliId: String(appointment.clientId || 0)
+              }
             }
           }
         });
@@ -1378,9 +1466,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
               : `Appointment with ${client.firstName} ${client.lastName}`;
           }
           
-          const description = appt.notes 
+          const _gesSig3 = `#gestionale ${JSON.stringify({ id: appt.id, svcId: appt.serviceId || 0, cliId: appt.clientId || 0 })}`;
+          const description = (appt.notes 
             ? `Note: ${appt.notes}\nClient: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
-            : `Client: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`;
+            : `Client: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`)
+            + `\n\n${_gesSig3}`;
           
           // Update event on Google
           const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
@@ -1402,7 +1492,12 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
               start: { dateTime: startDateTimeStr, timeZone: 'UTC' },
               end: { dateTime: endDateTimeStr, timeZone: 'UTC' },
               extendedProperties: {
-                private: { source: 'gestionale', appointmentId: String(appt.id) }
+                private: {
+                  source: 'gestionale',
+                  appointmentId: String(appt.id),
+                  svcId: String(appt.serviceId || 0),
+                  cliId: String(appt.clientId || 0)
+                }
               }
             }
           });
