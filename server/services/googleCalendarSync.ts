@@ -582,16 +582,10 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         // slotKey defined here so it is in scope for the cache update after insert
         const slotKey = `${eventDate}|${eventStartTime}`;
 
-        // Slot conflict check — skip for all-day events (they sit at 00:00 and
-        // never clash with regular appointments; multiple all-day events on the
-        // same day are fine because they share googleEventId uniqueness)
-        if (!isAllDay) {
-          if (appointmentsByDateSlot.has(slotKey) && appointmentsByDateSlot.get(slotKey)!.length > 0) {
-            const conflict = appointmentsByDateSlot.get(slotKey)![0];
-            console.log(`⏭️ [IMPORT SKIP] ${eventInfo} — slot ${eventDate} ${eventStartTime} già occupato da appuntamento ID ${conflict.id} (cliente ${conflict.clientId})`);
-            continue;
-          }
-        }
+        // NOTE: slot conflict check removed — we import ALL events regardless of overlap.
+        // Concurrent events (e.g. two Google events at the same time) are both imported
+        // so the user can always see their complete schedule.
+        console.log(`➕ [IMPORT] Slot ${slotKey} — importo senza check conflitto`);
         console.log(`➕ [IMPORT NEW] ${eventInfo}${isAllDay ? ' ☀️ (tutto il giorno)' : ''} — ${eventDate} ${eventStartTime}–${eventEndTime}`);
         
         // USE A SINGLE CLIENT PLACEHOLDER FOR ALL GOOGLE EVENTS
