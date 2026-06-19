@@ -31,6 +31,7 @@ export default function Calendar() {
     timezone: string; offset: number; name: string;
   } | null>(null);
   const clockRef = useRef<HTMLSpanElement>(null);
+  const [isAutoSyncing, setIsAutoSyncing] = useState(false);
 
   // ── Modalità calendario ────────────────────────────────────────────────────
   const [calendarMode, setCalendarMode] = useState<'global'|'filter'|'columns'>(() => {
@@ -58,6 +59,7 @@ export default function Calendar() {
         if (!statusRes.ok || cancelled) return;
         const status = await statusRes.json();
         if (!status.authorized || !status.calendarEnabled || cancelled) return;
+        if (!cancelled) setIsAutoSyncing(true);
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 130_000);
         try {
@@ -66,12 +68,15 @@ export default function Calendar() {
             credentials: 'include', signal: controller.signal,
           });
           if (syncRes.ok && !cancelled) {
-            queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+            await queryClient.refetchQueries({ queryKey: ["/api/appointments"] });
           }
         } finally {
           clearTimeout(timeoutId);
+          if (!cancelled) setIsAutoSyncing(false);
         }
-      } catch {}
+      } catch {
+        if (!cancelled) setIsAutoSyncing(false);
+      }
     };
     autoSync();
     return () => { cancelled = true; };
@@ -303,6 +308,15 @@ export default function Calendar() {
 
           {/* Google sync + data */}
           <div className="w-full sm:w-auto flex gap-2 items-center">
+            {isAutoSyncing && (
+              <div className="flex items-center gap-1.5 text-xs text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1.5 rounded-lg animate-pulse">
+                <svg className="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"/>
+                </svg>
+                <span className="hidden sm:inline font-medium">Sync Google…</span>
+              </div>
+            )}
             <SyncGoogleButton size="sm" variant="outline" showLabel={true} />
             <div className="text-sm text-gray-500 hidden sm:block text-right">
               {view==="day" ? (
