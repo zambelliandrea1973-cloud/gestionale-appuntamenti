@@ -9,6 +9,7 @@ import { isToday, isCurrentMonth } from "@/lib/utils/date";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useGoogleAccountColors } from "@/hooks/use-google-account-colors";
 import AppointmentForm from "./AppointmentForm";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { FloatingActionButton } from "./FloatingActionButton";
@@ -65,8 +66,12 @@ function EventChip({
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const color = getEventColor(apt);
-  const bg = hexToRgba(color, 0.15);
+  const { getImportedColors } = useGoogleAccountColors();
+  const importedColors = getImportedColors(apt);
+  // Eventi importati da Google → chip grigio con banda colorata a sinistra (account di provenienza)
+  const color = importedColors ? importedColors.band : getEventColor(apt);
+  const bg = importedColors ? importedColors.bg : hexToRgba(color, 0.15);
+  const textColor = importedColors ? "#334155" : color;
 
   const endTime = (() => {
     if (!apt.startTime || !apt.service?.duration) return null;
@@ -128,7 +133,7 @@ function EventChip({
       <div
         ref={chipRef}
         className="w-full rounded px-1.5 py-0.5 text-xs cursor-pointer truncate select-none leading-snug"
-        style={{ backgroundColor: bg, borderLeft: `3px solid ${color}`, color }}
+        style={{ backgroundColor: bg, borderLeft: `3px solid ${color}`, color: textColor }}
         onClick={(e) => {
           e.stopPropagation();
           calcPos();
@@ -314,6 +319,7 @@ export default function MonthView({
   onDateSelect,
 }: MonthViewProps) {
   const { t } = useTranslation();
+  const { getImportedColors } = useGoogleAccountColors();
   const [viewDate, setViewDate] = useState(selectedDate);
   const [calendar, setCalendar] = useState<Date[][]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -412,9 +418,7 @@ export default function MonthView({
         <div
           key={`${wi}-${di}`}
           className={[
-            /* ── MOBILE: altezza fissa identica per tutte le celle, overflow clip ── */
-            /* ── DESKTOP: altezza minima, cresce liberamente con il contenuto       ── */
-            "h-[72px] sm:min-h-[110px] sm:h-auto overflow-hidden sm:overflow-visible",
+            "min-h-[72px] sm:min-h-[110px] h-auto",
             "p-1 cursor-pointer",
             di < 6 ? "border-r" : "",
             !isLastWeek ? "border-b" : "",
@@ -424,7 +428,6 @@ export default function MonthView({
           ].join(" ")}
           onClick={() => {
             if (!inMonth) return;
-            /* Su mobile: se ci sono eventi apre il popover del giorno, altrimenti nuovo appuntamento */
             if (dayApts.length > 0 && window.innerWidth < 640) {
               setMoreDay(day);
             } else {
@@ -433,7 +436,8 @@ export default function MonthView({
             }
           }}
         >
-          <div className="flex items-center justify-between mb-0.5">
+          {/* Numero del giorno */}
+          <div className="flex items-center justify-start mb-0.5">
             <div
               className={[
                 "w-6 h-6 flex items-center justify-center rounded-full text-xs font-semibold select-none",
@@ -446,37 +450,52 @@ export default function MonthView({
             >
               {day.getDate()}
             </div>
-            {/* Contatore eventi — solo mobile, solo se ci sono eventi */}
-            {dayApts.length > 0 && (
-              <span className="sm:hidden text-[9px] font-bold text-blue-600 bg-blue-50 rounded-full px-1 leading-tight">
-                {dayApts.length}
-              </span>
-            )}
           </div>
 
-          {/* ── MOBILE: punti colorati compatti (altezza fissa garantita) ── */}
+          {/* ── CHIP EVENTI ── */}
           {isLoading && inMonth ? (
-            <div className="flex gap-0.5 flex-wrap sm:hidden">
-              <div className="w-2 h-2 rounded-full bg-gray-200 animate-pulse" />
-              <div className="w-2 h-2 rounded-full bg-gray-200 animate-pulse" />
+            <div className="space-y-0.5">
+              <div className="w-full h-3.5 rounded bg-gray-200 animate-pulse" />
+              <div className="w-3/4 h-3.5 rounded bg-gray-200 animate-pulse" />
             </div>
           ) : (
             <>
-              <div className="flex gap-0.5 flex-wrap sm:hidden" onClick={(e) => e.stopPropagation()}>
-                {dayApts.slice(0, 5).map((apt) => (
-                  <div
-                    key={apt.id}
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: getEventColor(apt) }}
-                    title={`${apt.startTime?.substring(0, 5)} ${apt.client?.firstName ?? ""}`}
-                  />
-                ))}
-                {dayApts.length > 5 && (
-                  <span className="text-[8px] text-gray-400 leading-tight">+{dayApts.length - 5}</span>
+              {/* MOBILE: chip colorati con nome → tap apre il popover del giorno */}
+              <div className="space-y-0.5 sm:hidden" onClick={(e) => e.stopPropagation()}>
+                {visible.map((apt) => {
+                  const imp = getImportedColors(apt);
+                  const color = imp ? imp.band : getEventColor(apt);
+                  const bg = imp ? imp.bg : hexToRgba(color, 0.15);
+                  const textCol = imp ? "#334155" : color;
+                  const isGoogle = apt.importedFromGoogle || apt.isImported || apt.client?.firstName?.startsWith("📅");
+                  const label = isGoogle
+                    ? (apt.notes?.substring(0, 16) ?? apt.service?.name ?? "Google")
+                    : `${apt.client?.firstName ?? ""} ${(apt.client?.lastName ?? "").charAt(0)}.`;
+                  return (
+                    <div
+                      key={apt.id}
+                      className="w-full rounded px-1 py-0.5 text-[10px] cursor-pointer truncate leading-snug"
+                      style={{ backgroundColor: bg, borderLeft: `3px solid ${color}`, color: textCol }}
+                      onClick={(e) => { e.stopPropagation(); setMoreDay(day); }}
+                      title={`${apt.startTime?.substring(0, 5)} · ${apt.client?.firstName ?? ""} ${apt.client?.lastName ?? ""}`}
+                    >
+                      <span className="font-semibold">{apt.startTime?.substring(0, 5)}</span>
+                      {" "}
+                      <span className="font-medium">{label}</span>
+                    </div>
+                  );
+                })}
+                {overflow > 0 && (
+                  <button
+                    className="text-[10px] text-blue-600 font-medium pl-1 leading-tight"
+                    onClick={(e) => { e.stopPropagation(); setMoreDay(day); }}
+                  >
+                    +{overflow} {t("calendar.moreEvents", "altri")}
+                  </button>
                 )}
               </div>
 
-              {/* ── DESKTOP: chip completi come prima ── */}
+              {/* DESKTOP: EventChip completi con popover modifica/elimina */}
               <div className="space-y-0.5 hidden sm:block" onClick={(e) => e.stopPropagation()}>
                 {visible.map((apt) => (
                   <EventChip
