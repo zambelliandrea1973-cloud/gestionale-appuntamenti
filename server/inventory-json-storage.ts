@@ -742,6 +742,187 @@ export class InventoryJsonStorage {
       return false;
     }
   }
+
+  // ─── EV Sponsor Links ─────────────────────────────────────────────────────
+
+  async getEvSponsorLinks(): Promise<any[]> {
+    try {
+      const data = loadStorageData();
+      return (data.evSponsorLinks || []).sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } catch (error) {
+      console.error('Error getting EV sponsor links:', error);
+      return [];
+    }
+  }
+
+  async createEvSponsorLink(link: {
+    sponsorId: number; sponsorName: string; sponsorEmail: string; sponsorIban?: string;
+    sponsoredId: number; sponsoredName: string; sponsoredEmail: string;
+    commissionPct: number; notes?: string;
+  }): Promise<any> {
+    try {
+      const data = loadStorageData();
+      if (!data.evSponsorLinks) data.evSponsorLinks = [];
+      if (!data.evSponsorLinkNextId) data.evSponsorLinkNextId = 1;
+      const id = data.evSponsorLinkNextId;
+      data.evSponsorLinkNextId = id + 1;
+      const newLink = { ...link, id, active: true, createdAt: new Date().toISOString() };
+      data.evSponsorLinks.push(newLink);
+      saveStorageData(data);
+      return newLink;
+    } catch (error) {
+      console.error('Error creating EV sponsor link:', error);
+      throw error;
+    }
+  }
+
+  async updateEvSponsorLink(id: number, updates: Partial<any>): Promise<any | null> {
+    try {
+      const data = loadStorageData();
+      if (!data.evSponsorLinks) return null;
+      const idx = data.evSponsorLinks.findIndex((l: any) => l.id === id);
+      if (idx === -1) return null;
+      data.evSponsorLinks[idx] = { ...data.evSponsorLinks[idx], ...updates, updatedAt: new Date().toISOString() };
+      saveStorageData(data);
+      return data.evSponsorLinks[idx];
+    } catch (error) {
+      console.error('Error updating EV sponsor link:', error);
+      throw error;
+    }
+  }
+
+  async deleteEvSponsorLink(id: number): Promise<boolean> {
+    try {
+      const data = loadStorageData();
+      if (!data.evSponsorLinks) return false;
+      const before = data.evSponsorLinks.length;
+      data.evSponsorLinks = data.evSponsorLinks.filter((l: any) => l.id !== id);
+      saveStorageData(data);
+      return (data.evSponsorLinks.length < before);
+    } catch (error) {
+      console.error('Error deleting EV sponsor link:', error);
+      return false;
+    }
+  }
+
+  async getEvSponsorLinkBySponsoredId(sponsoredId: number): Promise<any | null> {
+    try {
+      const data = loadStorageData();
+      const links = data.evSponsorLinks || [];
+      return links.find((l: any) => l.sponsoredId === sponsoredId && l.active) || null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  // ─── EV Commissions ───────────────────────────────────────────────────────
+
+  async createEvCommission(commission: {
+    orderId: string; month: string;
+    sponsorId: number; sponsorName: string; sponsorIban: string;
+    sponsoredId: number; sponsoredName: string;
+    orderAmount: number; commissionPct: number; commissionAmount: number;
+  }): Promise<any | null> {
+    try {
+      const data = loadStorageData();
+      if (!data.evCommissions) data.evCommissions = [];
+      // Idempotency: skip if a non-cancelled commission for the same order+sponsor already exists
+      const existing = data.evCommissions.find(
+        (c: any) => c.orderId === commission.orderId && c.sponsorId === commission.sponsorId && c.status !== 'cancelled'
+      );
+      if (existing) {
+        console.log(`[EV-COMM] Commission for order ${commission.orderId} already exists (id=${existing.id}) — skipping duplicate`);
+        return null;
+      }
+      if (!data.evCommissionNextId) data.evCommissionNextId = 1;
+      const id = data.evCommissionNextId;
+      data.evCommissionNextId = id + 1;
+      const newC = { ...commission, id, status: 'pending', createdAt: new Date().toISOString() };
+      data.evCommissions.push(newC);
+      saveStorageData(data);
+      return newC;
+    } catch (error) {
+      console.error('Error creating EV commission:', error);
+      throw error;
+    }
+  }
+
+  async getEvCommissions(): Promise<any[]> {
+    try {
+      const data = loadStorageData();
+      return (data.evCommissions || []).sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async getEvCommissionsBySponsorId(sponsorId: number): Promise<any[]> {
+    try {
+      const data = loadStorageData();
+      return (data.evCommissions || [])
+        .filter((c: any) => c.sponsorId === sponsorId)
+        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async updateEvCommission(id: number, updates: Partial<any>): Promise<any | null> {
+    try {
+      const data = loadStorageData();
+      if (!data.evCommissions) return null;
+      const idx = data.evCommissions.findIndex((c: any) => c.id === id);
+      if (idx === -1) return null;
+      data.evCommissions[idx] = { ...data.evCommissions[idx], ...updates };
+      saveStorageData(data);
+      return data.evCommissions[idx];
+    } catch (error) {
+      console.error('Error updating EV commission:', error);
+      throw error;
+    }
+  }
+
+  async cancelEvCommissionsByOrderId(orderId: string): Promise<number> {
+    try {
+      const data = loadStorageData();
+      if (!data.evCommissions) return 0;
+      let count = 0;
+      data.evCommissions = data.evCommissions.map((c: any) => {
+        if (c.orderId === orderId && c.status === 'pending') {
+          count++;
+          return { ...c, status: 'cancelled', cancelledAt: new Date().toISOString(), cancelReason: 'order_rejected' };
+        }
+        return c;
+      });
+      if (count > 0) saveStorageData(data);
+      return count;
+    } catch (error) {
+      console.error('Error cancelling commissions for order:', error);
+      return 0;
+    }
+  }
+
+  async payMonthlyCommissions(month: string, paidBy: number, paymentNotes: string): Promise<{ count: number; total: number }> {
+    try {
+      const data = loadStorageData();
+      if (!data.evCommissions) return { count: 0, total: 0 };
+      let count = 0; let total = 0;
+      const now = new Date().toISOString();
+      data.evCommissions = data.evCommissions.map((c: any) => {
+        if (c.month === month && c.status === 'pending') {
+          count++;
+          total += c.commissionAmount || 0;
+          return { ...c, status: 'paid', paidAt: now, paidBy, paymentNotes };
+        }
+        return c;
+      });
+      saveStorageData(data);
+      return { count, total };
+    } catch (error) {
+      console.error('Error paying monthly commissions:', error);
+      return { count: 0, total: 0 };
+    }
+  }
 }
 
 export const inventoryJsonStorage = new InventoryJsonStorage();
