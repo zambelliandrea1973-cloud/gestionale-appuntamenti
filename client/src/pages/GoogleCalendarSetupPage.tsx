@@ -130,6 +130,27 @@ export default function GoogleCalendarSetupPage() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['/api/google-auth/accounts'] }),
   });
 
+  const deletePrimaryMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest('DELETE', '/api/google-auth/primary');
+      return res.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/google-auth/accounts'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/user'] });
+      toast({
+        title: t('googleCalendar.accounts.primaryRemoved', 'Account principale scollegato'),
+        description: t('googleCalendar.accounts.removedDesc', '{{count}} eventi importati rimossi', { count: data?.removedEvents ?? 0 }),
+      });
+    },
+    onError: () => toast({
+      title: t('common.error'),
+      description: t('googleCalendar.accounts.removeError', 'Errore nella rimozione dell\'account'),
+      variant: 'destructive',
+    }),
+  });
+
   const deleteSecondaryMutation = useMutation({
     mutationFn: async (id: number) => {
       const res = await apiRequest('DELETE', `/api/google-auth/accounts/${id}`);
@@ -1038,6 +1059,23 @@ export default function GoogleCalendarSetupPage() {
                       {t('googleCalendar.accounts.primaryBadge', 'Account principale (sincronizzazione bidirezionale)')}
                     </p>
                   </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50 flex-shrink-0"
+                    onClick={() => {
+                      if (window.confirm(t('googleCalendar.accounts.confirmRemovePrimary', 'Scollegare l\'account principale? La sincronizzazione verrà disattivata e gli eventi importati da questo account verranno rimossi.'))) {
+                        deletePrimaryMutation.mutate();
+                      }
+                    }}
+                    disabled={deletePrimaryMutation.isPending}
+                    title={t('googleCalendar.accounts.removePrimary', 'Scollega account principale')}
+                  >
+                    {deletePrimaryMutation.isPending
+                      ? <Loader2 className="h-4 w-4 animate-spin" />
+                      : <Trash2 className="h-4 w-4" />
+                    }
+                  </Button>
                 </div>
 
                 {/* Account secondari */}
