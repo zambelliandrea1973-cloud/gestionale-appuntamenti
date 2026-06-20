@@ -11,6 +11,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      sliplane_hook_url:
+        description: 'Sliplane deploy hook URL (overrides secret)'
+        required: false
+        default: ''
 
 jobs:
   build-and-deploy:
@@ -71,8 +76,12 @@ jobs:
       - name: Trigger Sliplane deploy
         id: deploy
         run: |
+          HOOK="${{ github.event.inputs.sliplane_hook_url }}"
+          if [ -z "$HOOK" ]; then
+            HOOK="${{ secrets.SLIPLANE_DEPLOY_HOOK_URL }}"
+          fi
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X POST "${{ secrets.SLIPLANE_DEPLOY_HOOK_URL }}")
+            -X POST "$HOOK")
           echo "status=$HTTP_STATUS" >> "$GITHUB_OUTPUT"
           if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
             echo "Deploy hook returned HTTP $HTTP_STATUS — treating as failure."
