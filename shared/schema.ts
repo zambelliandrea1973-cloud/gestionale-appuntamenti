@@ -140,6 +140,7 @@ export const appointments = pgTable("appointments", {
   googleEventId: text("google_event_id"),
   googleOrganizerSelf: boolean("google_organizer_self").default(true),
   googleEventTitle: text("google_event_title"),
+  sourceGoogleEmail: text("source_google_email"), // Quale account Google ha importato questo evento
   createdAt: timestamp("created_at").defaultNow(),
 }, (table) => ({
   userIdIdx: index("appointments_user_id_idx").on(table.userId),
@@ -486,6 +487,7 @@ export const users = pgTable("users", {
   googleCalendarEnabled: boolean("google_calendar_enabled").default(false), // Sincronizzazione Google Calendar abilitata
   googleCalendarId: text("google_calendar_id"), // ID del calendario Google (default "primary")
   lastGoogleSyncAt: timestamp("last_google_sync_at"), // Ultima sincronizzazione con Google Calendar
+  googleAccountColor: text("google_account_color").default("#4a7c59"), // Colore banda account Google primario nel calendario
   termsAcceptedAt: timestamp("terms_accepted_at"), // Data e ora accettazione Termini di Servizio
   hideWelcomeGuide: boolean("hide_welcome_guide").default(false),
   createdAt: timestamp("created_at").defaultNow(),
@@ -1947,3 +1949,27 @@ export const insertFileUploadSchema = createInsertSchema(fileUploads).omit({
 
 export type FileUpload = typeof fileUploads.$inferSelect;
 export type InsertFileUpload = z.infer<typeof insertFileUploadSchema>;
+
+// Account Google aggiuntivi per la sincronizzazione multi-account del calendario.
+// L'account primario resta in users.googleAuthToken; questa tabella contiene quelli secondari.
+export const googleAccounts = pgTable("google_accounts", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  email: text("email").notNull(),
+  authToken: text("auth_token"), // Token OAuth Google (encrypted)
+  color: text("color").notNull().default("#3b82f6"), // Colore banda nel calendario
+  enabled: boolean("enabled").default(true), // Sincronizzazione attiva per questo account
+  lastSyncAt: timestamp("last_sync_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  userIdIdx: index("google_accounts_user_id_idx").on(table.userId),
+  userEmailIdx: index("google_accounts_user_email_idx").on(table.userId, table.email),
+}));
+
+export const insertGoogleAccountSchema = createInsertSchema(googleAccounts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type GoogleAccount = typeof googleAccounts.$inferSelect;
+export type InsertGoogleAccount = z.infer<typeof insertGoogleAccountSchema>;
