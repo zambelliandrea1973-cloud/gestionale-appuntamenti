@@ -68,10 +68,11 @@ function EventChip({
 
   const { getImportedColors } = useGoogleAccountColors();
   const importedColors = getImportedColors(apt);
-  // Google events → gray chip with colored left band; local events → solid service color
+  // isServiceMatch=true → chip solido (nativo o importato con match servizio)
+  // isServiceMatch=false → grigio + banda account Google
   const color = importedColors ? importedColors.band : getEventColor(apt);
   const bg = importedColors ? importedColors.bg : color;
-  const textColor = importedColors ? "#334155" : "#ffffff";
+  const textColor = (importedColors && !importedColors.isServiceMatch) ? "#334155" : "#ffffff";
 
   const endTime = (() => {
     if (!apt.startTime || !apt.service?.duration) return null;
@@ -127,13 +128,15 @@ function EventChip({
   }, [open]);
 
   const isGoogle = apt.importedFromGoogle || apt.isImported || apt.client?.firstName?.startsWith("📅");
+  // Chip solido (nativo o importato con match servizio) → nessun bordo sinistro
+  const chipBorderLeft = (importedColors && !importedColors.isServiceMatch) ? `3px solid ${color}` : "none";
 
   return (
     <>
       <div
         ref={chipRef}
         className="w-full rounded px-1.5 py-0.5 text-xs cursor-pointer truncate select-none leading-snug"
-        style={{ backgroundColor: bg, borderLeft: `3px solid ${color}`, color: textColor }}
+        style={{ backgroundColor: bg, borderLeft: chipBorderLeft, color: textColor }}
         onClick={(e) => {
           e.stopPropagation();
           calcPos();
@@ -319,7 +322,7 @@ export default function MonthView({
   onDateSelect,
 }: MonthViewProps) {
   const { t } = useTranslation();
-  const { getImportedColors } = useGoogleAccountColors();
+  const { getImportedColors } = useGoogleAccountColors(services);
   const [viewDate, setViewDate] = useState(selectedDate);
   const [calendar, setCalendar] = useState<Date[][]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -466,11 +469,13 @@ export default function MonthView({
                   const imp = getImportedColors(apt);
                   const color = imp ? imp.band : getEventColor(apt);
                   const bg = imp ? imp.bg : color;
-                  const textCol = imp ? "#334155" : "#ffffff";
-                  const borderStyle = imp ? `3px solid ${color}` : "none";
+                  // isServiceMatch → chip solido bianco; grigio → testo scuro
+                  const textCol = (imp && !imp.isServiceMatch) ? "#334155" : "#ffffff";
+                  // Banda sinistra solo per eventi grigi (Step B)
+                  const borderStyle = (imp && !imp.isServiceMatch) ? `3px solid ${color}` : "none";
                   const isGoogle = apt.importedFromGoogle || apt.isImported || apt.client?.firstName?.startsWith("📅");
                   const label = isGoogle
-                    ? (apt.notes?.substring(0, 16) ?? apt.service?.name ?? "Google")
+                    ? (apt.googleEventTitle?.substring(0, 16) ?? apt.notes?.substring(0, 16) ?? apt.service?.name ?? "Google")
                     : `${apt.client?.firstName ?? ""} ${(apt.client?.lastName ?? "").charAt(0)}.`;
                   return (
                     <div
