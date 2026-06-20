@@ -69,9 +69,9 @@ function EventChip({
   const { getImportedColors } = useGoogleAccountColors();
   const importedColors = getImportedColors(apt);
   // isServiceMatch=true → chip solido (nativo o importato con match servizio)
-  // isServiceMatch=false → grigio + banda account Google
+  // isServiceMatch=false → grigio #f1f5f9 + banda account Google
   const color = importedColors ? importedColors.band : getEventColor(apt);
-  const bg = importedColors ? importedColors.bg : color;
+  const bg = importedColors ? importedColors.bgSolid : color;
   const textColor = (importedColors && !importedColors.isServiceMatch) ? "#334155" : "#ffffff";
 
   const endTime = (() => {
@@ -468,7 +468,7 @@ export default function MonthView({
                 {visible.map((apt) => {
                   const imp = getImportedColors(apt);
                   const color = imp ? imp.band : getEventColor(apt);
-                  const bg = imp ? imp.bg : color;
+                  const bg = imp ? imp.bgSolid : color;
                   // isServiceMatch → chip solido bianco; grigio → testo scuro
                   const textCol = (imp && !imp.isServiceMatch) ? "#334155" : "#ffffff";
                   // Banda sinistra solo per eventi grigi (Step B)
