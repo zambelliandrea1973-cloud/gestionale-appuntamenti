@@ -54,6 +54,7 @@ export default function AppointmentModal({
     toast({
       title: t('common.success'),
       description: t('appointmentForm.toast.savedAndCalendarUpdated'),
+      duration: 3500,
     });
   };
   
