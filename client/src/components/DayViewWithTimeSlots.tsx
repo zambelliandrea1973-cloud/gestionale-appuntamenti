@@ -652,26 +652,29 @@ export default function DayViewWithTimeSlots({
       <div ref={calendarBodyRef} className="relative grid grid-cols-1 gap-0 mt-4">
         {timeSlots.map((slotTime, index) => {
           const showFullTime = slotTime.endsWith('00');
-          const hourSeparator = showFullTime && index > 0;
+          const isHourMark = showFullTime && index > 0;
           
           return (
-            <div key={slotTime}>
-              {hourSeparator && <div className="h-[1px] bg-gray-300 w-full mb-1" />}
-              
-              <div 
-                className="flex items-center h-10 border-t border-gray-200 px-2 py-1 cursor-pointer hover:bg-blue-50 group"
-                data-slot-time={slotTime}
-                onClick={() => handleSlotClick(slotTime)}
-                onTouchEnd={(e) => {
-                  e.preventDefault();
-                  handleSlotClick(slotTime);
-                }}
-              >
-                <div className="w-16 text-sm font-medium group-hover:text-blue-600 transition-colors">
-                  {showFullTime ? slotTime : <span className="text-xs text-gray-500">{slotTime.substring(3)}</span>}
-                </div>
-                <div className="flex-grow relative" />
+            <div
+              key={slotTime}
+              className={`flex items-center h-10 px-2 py-1 cursor-pointer hover:bg-blue-50 group ${
+                isHourMark
+                  ? 'border-t-2 border-gray-400'
+                  : showFullTime
+                    ? 'border-t-2 border-gray-400'
+                    : 'border-t border-gray-100'
+              }`}
+              data-slot-time={slotTime}
+              onClick={() => handleSlotClick(slotTime)}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                handleSlotClick(slotTime);
+              }}
+            >
+              <div className="w-16 text-sm font-medium group-hover:text-blue-600 transition-colors">
+                {showFullTime ? slotTime : <span className="text-xs text-gray-500">{slotTime.substring(3)}</span>}
               </div>
+              <div className="flex-grow relative" />
             </div>
           );
         })}
@@ -939,15 +942,12 @@ export default function DayViewWithTimeSlots({
                     <h3 className="text-lg font-bold">{t('google.calendarEvent', 'Google Calendar Event')}</h3>
                   </div>
                   <p className="mb-4 text-gray-600">
-                    {t('google.cannotDeleteImported', 'This event was imported from Google Calendar and cannot be deleted from the app. To delete it, go directly to Google Calendar.')}
+                    {t('google.cannotDeleteImported', 'Questo evento è stato importato da Google Calendar. Per eliminarlo, accedi direttamente a Google Calendar.')}
                   </p>
                   <div className="flex justify-end">
                     <Button 
                       variant="outline" 
-                      onClick={() => {
-                        setShowDeleteConfirm(false);
-                        setAppointmentToDelete(null);
-                      }}
+                      onClick={() => { setShowDeleteConfirm(false); setAppointmentToDelete(null); }}
                     >
                       {t('i18nFinale.dayViewWithTimeSlots.closeTitle')}
                     </Button>
@@ -960,10 +960,7 @@ export default function DayViewWithTimeSlots({
                   <div className="flex justify-end gap-2">
                     <Button 
                       variant="outline" 
-                      onClick={() => {
-                        setShowDeleteConfirm(false);
-                        setAppointmentToDelete(null);
-                      }}
+                      onClick={() => { setShowDeleteConfirm(false); setAppointmentToDelete(null); }}
                     >
                       {t("common.cancel")}
                     </Button>
