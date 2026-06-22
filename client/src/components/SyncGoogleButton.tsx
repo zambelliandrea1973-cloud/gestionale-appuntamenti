@@ -7,31 +7,40 @@ interface SyncGoogleButtonProps {
   size?: "sm" | "lg" | "default" | "icon";
   variant?: "default" | "outline" | "ghost";
   showLabel?: boolean;
+  isExternalLoading?: boolean;
 }
 
 export function SyncGoogleButton({ 
   size = "sm", 
   variant = "outline",
-  showLabel = true 
+  showLabel = true,
+  isExternalLoading = false,
 }: SyncGoogleButtonProps) {
   const mutation = useSyncGoogleCalendar();
   const { t } = useTranslation();
 
+  const isBusy = isExternalLoading || mutation.isPending;
+
   return (
     <Button
-      onClick={() => mutation.mutate()}
-      disabled={mutation.isPending}
+      onClick={() => { if (!isBusy) mutation.mutate(); }}
+      disabled={isBusy}
       variant={variant}
       size={size}
       className="gap-2"
       data-testid="button-sync-google-calendar"
+      title={isBusy ? t('calendar.syncInProgress', 'Sincronizzazione in corso…') : t('calendar.syncGoogle', 'Sincronizza Google')}
     >
-      {mutation.isPending ? (
+      {isBusy ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
         <RefreshCw className="h-4 w-4" />
       )}
-      {showLabel && t('calendar.syncGoogle', 'Sincronizza Google')}
+      {showLabel && (
+        isBusy
+          ? <span>{t('calendar.syncInProgress', 'Sync…')}</span>
+          : <span>{t('calendar.syncGoogle', 'Sincronizza Google')}</span>
+      )}
     </Button>
   );
 }
