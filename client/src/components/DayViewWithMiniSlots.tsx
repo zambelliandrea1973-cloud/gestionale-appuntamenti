@@ -86,9 +86,8 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     handleAppointmentUpdated();
   };
 
-  // Apre il form direttamente allo slot cliccato (se libero)
+  // Apre il form direttamente allo slot cliccato
   const openFormAtSlot = (timeSlot: string) => {
-    if (isSlotOccupied(timeSlot)) return;
     setSelectedAppointment(null);
     setSelectedTimeSlot(timeSlot);
     setIsAppointmentFormOpen(true);
@@ -96,8 +95,7 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
 
   // Apre il form cliccando sull'intestazione ora (usa il primo slot dell'ora)
   const openFormAtHour = (hour: string) => {
-    const firstSlot = `${hour}:00`;
-    openFormAtSlot(firstSlot);
+    openFormAtSlot(`${hour}:00`);
   };
 
   const isSlotOccupied = (slot: string): boolean => {
@@ -198,41 +196,18 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                 <div className="flex-grow">
                   <div className="divide-y divide-gray-200">
                     {hourGroup.slots.map((timeSlot) => {
-                      const isOccupied = isSlotOccupied(timeSlot);
-                      const occupyingAppointment = findAppointmentSpanningSlot(timeSlot);
-
-                      if (occupyingAppointment) {
-                        return (
-                          <div
-                            key={timeSlot}
-                            className="min-h-12 px-3 py-2 flex items-center"
-                            style={{ display: 'none' }}
-                          />
-                        );
-                      }
-
                       return (
                         <div
                           key={timeSlot}
-                          className={cn(
-                            "min-h-12 px-3 py-2 flex items-center relative select-none",
-                            isOccupied
-                              ? "bg-gray-50 cursor-default"
-                              : "cursor-pointer hover:bg-blue-50 group"
-                          )}
+                          className="min-h-12 px-3 py-2 flex items-center relative select-none cursor-pointer hover:bg-blue-50 group"
                           onClick={() => openFormAtSlot(timeSlot)}
                         >
-                          <span className={cn(
-                            "text-sm transition-colors",
-                            isOccupied ? "text-gray-400 line-through" : "text-gray-500 group-hover:text-blue-600"
-                          )}>
+                          <span className="text-sm text-gray-500 group-hover:text-blue-600 transition-colors">
                             {timeSlot}
                           </span>
-                          {!isOccupied && (
-                            <span className="ml-2 text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                              + {t('calendar.newAppointment', 'nuovo')}
-                            </span>
-                          )}
+                          <span className="ml-2 text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            + {t('calendar.newAppointment', 'nuovo')}
+                          </span>
                         </div>
                       );
                     })}
