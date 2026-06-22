@@ -26,7 +26,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
           },
           credentials: 'include',
           signal: controller.signal,
-          body: JSON.stringify({ forceFullSync: true }),
+          body: JSON.stringify({ forceFullSync: false }),
         });
       } catch (err: any) {
         if (err?.name === 'AbortError') throw new Error('Timeout — sincronizzazione troppo lenta, riprova');
@@ -59,6 +59,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
     },
     onSuccess: (data: any) => {
       const imported = data.details?.imported || 0;
+      const updated = data.details?.updated || 0;
       const deleted = data.details?.deleted || 0;
       const exported = data.details?.exported || 0;
       const found = data.details?.found ?? null;
@@ -72,10 +73,16 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
             variant: "destructive",
           });
         } else {
-          const foundInfo = found !== null ? ` (trovati nel calendario: ${found})` : '';
+          const foundInfo = found !== null ? ` (trovati: ${found})` : '';
+          const parts: string[] = [];
+          if (imported > 0) parts.push(`📥 Nuovi: ${imported}`);
+          if (updated > 0) parts.push(`📝 Aggiornati: ${updated}`);
+          if (exported > 0) parts.push(`📤 Esportati: ${exported}`);
+          if (deleted > 0) parts.push(`🗑️ Eliminati: ${deleted}`);
+          if (parts.length === 0) parts.push('✓ Nessuna modifica');
           toast({
             title: t("common.success", "✅ Sync completato"),
-            description: `📥 Importati: ${imported} | 📤 Esportati: ${exported} | 🗑️ Eliminati: ${deleted}${foundInfo}`,
+            description: parts.join(' | ') + foundInfo,
             variant: "default",
           });
         }
