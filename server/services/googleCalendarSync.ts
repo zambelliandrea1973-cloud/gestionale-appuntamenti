@@ -335,6 +335,35 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           
           console.log(`   ✓ ${calendarEventCount} events loaded`);
           
+          // Google does NOT return nextSyncToken when singleEvents=true.
+          // Paginate through the calendar WITHOUT singleEvents to get the final
+          // nextSyncToken (it only appears on the last page of results).
+          // maxResults=2500 minimises API round-trips (≤1 call for most users).
+          if (!newSyncToken) {
+            try {
+              let tokenPageToken: string | undefined = undefined;
+              let finalSyncToken: string | undefined = undefined;
+              do {
+                const tokenResp = await calendar.events.list({
+                  calendarId: cal.id,
+                  maxResults: 2500,
+                  showDeleted: true,
+                  pageToken: tokenPageToken
+                });
+                finalSyncToken = tokenResp.data.nextSyncToken || finalSyncToken;
+                tokenPageToken = tokenResp.data.nextPageToken || undefined;
+              } while (tokenPageToken);
+              newSyncToken = finalSyncToken;
+              if (newSyncToken) {
+                console.log(`   🔖 [IMPORT] syncToken salvato per "${cal.summary}"`);
+              } else {
+                console.warn(`   ⚠️ [IMPORT] Google non ha restituito nextSyncToken per "${cal.summary}"`);
+              }
+            } catch (tokenFetchErr) {
+              console.warn(`⚠️ [IMPORT] Impossibile ottenere syncToken per "${cal.summary}":`, tokenFetchErr);
+            }
+          }
+          
         } catch (calError) {
           console.error(`❌ [IMPORT] Error full sync ${cal.summary}:`, calError);
           result.errors.push(`Error reading calendar ${cal.summary}: ${String(calError)}`);
@@ -418,10 +447,10 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     );
     // Map: id -> appointment
     const appointmentsById = new Map(allUserAppointments.map(a => [a.id, a]));
-    // Map: "date|startTime" -> appointment[]
+    // Map: "date|HH:MM" -> appointment[]  (normalizzato a 5 char per evitare mismatch HH:MM:SS vs HH:MM)
     const appointmentsByDateSlot = new Map<string, typeof allUserAppointments>();
     for (const appt of allUserAppointments) {
-      const key = `${appt.date}|${appt.startTime}`;
+      const key = `${appt.date}|${(appt.startTime || '').substring(0, 5)}`;
       if (!appointmentsByDateSlot.has(key)) {
         appointmentsByDateSlot.set(key, []);
       }
@@ -508,6 +537,9 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       // dal gestionale — riconoscibili dalla firma invisibile extendedProperties.private.source=gestionale.
       // Questo impedisce che un appuntamento del gestionale diventi grigio per ri-importazione.
       if (googleEvent.extendedProperties?.private?.source === 'gestionale') {
+        const eventInfoEarly = `"${googleEvent.summary || 'Senza titolo'}"`;
+        const extPvtEarly = googleEvent.extendedProperties?.private as any;
+        console.log(`⏭️ [IMPORT SKIP GES-EARLY] ${eventInfoEarly} — source=gestionale, apptId=${extPvtEarly?.appointmentId||'n/a'}, data=${googleEvent.start?.dateTime||googleEvent.start?.date||'?'}`);
         continue;
       }
       
@@ -603,8 +635,9 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
               const hasConflict = existingAtSlot.some(a => a.id !== linkedAppointment.id);
               
               if (hasConflict) {
-                result.errors.push(`Time conflict: ${newDate} ${newStartTime}`);
-                console.log(`⚠️ [IMPORT CONFLICT] ${eventInfo} — conflitto slot ${newDate} ${newStartTime}`);
+                // Un conflitto di orario è informativo, non un errore critico: non va nel banner rosso
+                result.conflicts.push({ type: 'time_conflict', googleEventId: googleEvent.id, date: newDate, time: newStartTime });
+                console.log(`⚠️ [IMPORT CONFLICT] ${eventInfo} — conflitto slot ${newDate} ${newStartTime} (registrato come conflitto, non errore)`);
                 await db.update(googleCalendarEvents)
                   .set({ syncStatus: 'conflict', updatedAt: new Date() })
                   .where(eq(googleCalendarEvents.id, existingTracking.id));
@@ -618,7 +651,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
                   .set({ lastSyncAt: new Date(), updatedAt: new Date() })
                   .where(eq(googleCalendarEvents.id, existingTracking.id));
                 
-                result.imported++;
+                result.updated++;
               }
             } else {
               console.log(`✅ [IMPORT OK] ${eventInfo} — già in sync (${linkedAppointment.date} ${linkedAppointment.startTime}), nessuna modifica`);
@@ -725,6 +758,53 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           console.log(`🔗 [IMPORT MERGE] ${eventInfo} — googleEventId salvato su appuntamento orfano ID ${orphanImport.id}`);
           result.updated++;
           continue;
+        }
+
+        // ── Dedup per appuntamento nativo già sincronizzato ────────────────────
+        // Se esiste un appuntamento NON importato (nativo) allo stesso slot con
+        // synced=true o googleEventId impostato, è quasi certamente l'evento che
+        // abbiamo esportato noi stessi → collegalo e salta l'import.
+        {
+          const syncedNative = slotExisting.find(a => !a.importedFromGoogle && (a.synced === true || !!a.googleEventId));
+          if (syncedNative) {
+            if (!syncedNative.googleEventId) {
+              await db.update(appointments)
+                .set({ googleEventId: googleEvent.id, synced: true })
+                .where(eq(appointments.id, syncedNative.id));
+              appointmentsByGoogleId.set(googleEvent.id, syncedNative);
+            }
+            console.log(`⏭️ [IMPORT SKIP SYNCED] ${eventInfo} — appuntamento nativo sincroni zzato (ID ${syncedNative.id}) già presente al slot ${slotKey}, skip re-import`);
+            result.updated++;
+            continue;
+          }
+        }
+
+        // ── Dedup per orario+titolo: evita doppioni se esiste già un appuntamento
+        // nativo (non importato da Google) allo stesso slot con lo stesso titolo/note.
+        // Copre il caso in cui l'evento esportato non abbia i metadati gestionale.
+        {
+          const googleSummary = (googleEvent.summary || '').trim().toLowerCase();
+          if (googleSummary && slotExisting.length > 0) {
+            const titleDup = slotExisting.find(a => {
+              if (a.importedFromGoogle) return false; // salta quelli già importati
+              const aptNotes = (a.notes || '').trim().toLowerCase();
+              // Match esatto o contenimento (es. "silvia massaggio" vs "silvia b. - massaggio")
+              return aptNotes === googleSummary ||
+                     aptNotes.includes(googleSummary) ||
+                     googleSummary.includes(aptNotes.substring(0, Math.min(aptNotes.length, 20)));
+            });
+            if (titleDup) {
+              // Collega il googleEventId all'appuntamento nativo e salta l'import
+              if (!titleDup.googleEventId) {
+                await db.update(appointments)
+                  .set({ googleEventId: googleEvent.id, synced: true })
+                  .where(eq(appointments.id, titleDup.id));
+                appointmentsByGoogleId.set(googleEvent.id, titleDup);
+              }
+              console.log(`⏭️ [IMPORT SKIP TITLE] ${eventInfo} — doppione per orario+titolo, collegato ad appuntamento nativo ID ${titleDup.id}`);
+              continue;
+            }
+          }
         }
 
         console.log(`➕ [IMPORT] Slot ${slotKey} — importo nuovo evento`);
@@ -1089,16 +1169,28 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
   const details = {
     exported: 0,
     imported: 0,
+    updated: 0,
     found: 0,
     errors: [] as string[]
   };
 
   try {
-    
+
+    // 0. AUTO-DEDUP — rimuove silenziosamente gli appuntamenti importati che
+    //    sono duplicati di nativi già sincronizzati (criterio sicuro: synced=true).
+    //    Gira prima dell'import per non creare nuovi duplicati durante questo ciclo.
+    try {
+      await cleanupDuplicateAppointments(userId);
+    } catch (dedupErr) {
+      // Non blocca il sync principale
+      console.warn(`⚠️ [DEDUP] Errore auto-pulizia (non bloccante):`, dedupErr);
+    }
+
     // 1. IMPORT events from Google Calendar
     try {
       const importResult = await importGoogleCalendarEvents(userId, timeZone, forceFullSync);
       details.imported = importResult.imported;
+      details.updated = importResult.updated;
       details.found = importResult.found;
       if (importResult.errors.length > 0) {
         details.errors.push(...importResult.errors);
@@ -1136,6 +1228,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         try {
           const accResult = await importGoogleCalendarEvents(userId, timeZone, forceFullSync, { id: acc.id, email: acc.email });
           details.imported += accResult.imported;
+          details.updated += accResult.updated;
           details.found += accResult.found;
           if (accResult.errors.length > 0) {
             details.errors.push(...accResult.errors.map(e => `[${acc.email}] ${e}`));
@@ -1759,10 +1852,171 @@ export async function handleWebhookIncrementalSync(channelId: string): Promise<v
   }
 }
 
+/**
+ * Normalizza il testo note per il confronto dedup:
+ * - rimuove la firma #gestionale {...} che autoGoogleSync aggiunge in fondo
+ * - collassa spazi/newline, lowercase
+ * Usato per confrontare native.notes con imported.notes
+ */
+function normalizeNotesForDedup(notes: string | null | undefined): string {
+  return (notes || '')
+    .replace(/#gestionale\s*\{[^}]*\}/gs, '') // strip firma JSON gestionale
+    .replace(/Appuntamento\s*#\d+/gi, '')      // strip "Appuntamento #ID" (summary esportato)
+    .replace(/\n+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+/**
+ * cleanupDuplicateAppointments
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Rimuove automaticamente gli appuntamenti "importedFromGoogle=true" che sono
+ * duplicati certi di un appuntamento nativo ("importedFromGoogle=false").
+ *
+ * TUTTI E TRE i criteri devono corrispondere per eliminare:
+ *   1. Stessa data
+ *   2. Stessa ora di inizio (HH:MM)
+ *   3. Stesso testo note/commento (dopo normalizzazione: strip firma #gestionale,
+ *      collasso spazi, lowercase) — se il testo differisce l'appuntamento viene conservato
+ *
+ * CRITERIO DI SICUREZZA AGGIUNTIVO:
+ *   4. Il nativo deve avere synced=true (significa che noi lo avevamo esportato su
+ *      Google → l'importato è il riflesso del nostro export, non un evento esterno).
+ *
+ * Se uno qualsiasi dei criteri 1-4 non è soddisfatto → nessuna eliminazione.
+ */
+export async function cleanupDuplicateAppointments(
+  userId: number
+): Promise<{ removed: number; linked: number; errors: string[] }> {
+  const result = { removed: 0, linked: 0, errors: [] as string[] };
+
+  try {
+    const allAppts = await db
+      .select()
+      .from(appointments)
+      .where(eq(appointments.userId, userId));
+
+    // Raggruppa per slot "data|HH:MM"
+    const bySlot = new Map<string, typeof allAppts>();
+    for (const a of allAppts) {
+      const key = `${a.date}|${(a.startTime || '').substring(0, 5)}`;
+      if (!bySlot.has(key)) bySlot.set(key, []);
+      bySlot.get(key)!.push(a);
+    }
+
+    for (const [slot, group] of bySlot) {
+      if (group.length < 2) continue;
+
+      const natives  = group.filter(a => !a.importedFromGoogle);
+      const imported = group.filter(a =>  a.importedFromGoogle);
+
+      // ── CASO A: nativo + importato ────────────────────────────────────────────
+      if (natives.length > 0 && imported.length > 0) {
+        for (const dup of imported) {
+          const dupNotes = normalizeNotesForDedup(dup.notes);
+
+          const matchingNative = natives.find(n => {
+            if (!n.synced) return false;
+            return normalizeNotesForDedup(n.notes) === dupNotes;
+          });
+
+          if (!matchingNative) continue;
+
+          try {
+            await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.appointmentId, dup.id));
+            await db.delete(appointments).where(and(eq(appointments.id, dup.id), eq(appointments.userId, userId)));
+            console.log(`🗑️ [DEDUP-A] Rimosso importato ID ${dup.id} al slot ${slot} — duplicato del nativo ID ${matchingNative.id}`);
+            result.removed++;
+
+            if (!matchingNative.googleEventId && dup.googleEventId) {
+              await db.update(appointments).set({ googleEventId: dup.googleEventId }).where(eq(appointments.id, matchingNative.id));
+              console.log(`🔗 [DEDUP-A] Collegato googleEventId ${dup.googleEventId} al nativo ID ${matchingNative.id}`);
+              result.linked++;
+            }
+          } catch (err) {
+            result.errors.push(`Errore rimozione duplicato ${dup.id}: ${String(err)}`);
+          }
+        }
+      }
+
+      // ── CASO B: importato + importato (stesso googleEventId o stesso titolo/note) ─
+      // Accade quando lo stesso evento Google viene importato due volte.
+      // Teniamo quello col googleEventId impostato (o l'ID più basso), rimuoviamo il resto.
+      if (natives.length === 0 && imported.length >= 2) {
+        // Raggruppa per googleEventId (se uguale → stesso evento Google importato N volte)
+        const byGoogleId = new Map<string, typeof imported>();
+        const noGoogleId: typeof imported = [];
+
+        for (const a of imported) {
+          if (a.googleEventId) {
+            if (!byGoogleId.has(a.googleEventId)) byGoogleId.set(a.googleEventId, []);
+            byGoogleId.get(a.googleEventId)!.push(a);
+          } else {
+            noGoogleId.push(a);
+          }
+        }
+
+        // Rimuovi i duplicati con stesso googleEventId (tieni il più vecchio = ID minore)
+        for (const [gid, dupes] of byGoogleId) {
+          if (dupes.length < 2) continue;
+          const sorted = [...dupes].sort((a, b) => a.id - b.id);
+          const keep = sorted[0];
+          for (const dup of sorted.slice(1)) {
+            try {
+              await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.appointmentId, dup.id));
+              await db.delete(appointments).where(and(eq(appointments.id, dup.id), eq(appointments.userId, userId)));
+              console.log(`🗑️ [DEDUP-B] Rimosso importato ID ${dup.id} al slot ${slot} — stesso googleEventId ${gid} del ID ${keep.id}`);
+              result.removed++;
+            } catch (err) {
+              result.errors.push(`Errore rimozione duplicato B ${dup.id}: ${String(err)}`);
+            }
+          }
+        }
+
+        // Rimuovi importati senza googleEventId con stesse note normalizzate
+        // (stesso evento importato prima che il googleEventId venisse salvato)
+        if (noGoogleId.length >= 2) {
+          const grouped = new Map<string, typeof noGoogleId>();
+          for (const a of noGoogleId) {
+            const key = `${normalizeNotesForDedup(a.notes)}|${a.serviceType || ''}`;
+            if (!grouped.has(key)) grouped.set(key, []);
+            grouped.get(key)!.push(a);
+          }
+          for (const [, dupes] of grouped) {
+            if (dupes.length < 2) continue;
+            const keep = [...dupes].sort((a, b) => a.id - b.id)[0];
+            for (const dup of dupes.filter(d => d.id !== keep.id)) {
+              try {
+                await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.appointmentId, dup.id));
+                await db.delete(appointments).where(and(eq(appointments.id, dup.id), eq(appointments.userId, userId)));
+                console.log(`🗑️ [DEDUP-B2] Rimosso importato senza gid ID ${dup.id} al slot ${slot} — note identiche a ID ${keep.id}`);
+                result.removed++;
+              } catch (err) {
+                result.errors.push(`Errore rimozione duplicato B2 ${dup.id}: ${String(err)}`);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (result.removed > 0) {
+      console.log(`✅ [DEDUP] Auto-pulizia completata: rimossi ${result.removed}, collegati ${result.linked}`);
+    }
+  } catch (err) {
+    result.errors.push(`Errore generale cleanup: ${String(err)}`);
+    console.error('❌ [DEDUP] Errore durante la pulizia automatica:', err);
+  }
+
+  return result;
+}
+
 export const googleCalendarSync = {
   importGoogleCalendarEvents,
   syncBidirectional,
   syncDeletedEvents,
   registerCalendarWatches,
   handleWebhookIncrementalSync,
+  cleanupDuplicateAppointments,
 };
