@@ -627,22 +627,23 @@ export default function AppointmentForm({
 
   // Funzione per gestire la conferma dopo rilevamento conflitti
   const handleConflictConfirm = async () => {
-    if (!pendingAppointmentData) return;
+    // Cattura i dati subito (prima che React state venga azzerato dall'onOpenChange)
+    const dataToSave = pendingAppointmentData;
+    if (!dataToSave) return;
     
     console.log("✅ User confirmed to proceed despite conflicts");
-    proceedingFromConflictRef.current = true;
     setConflictDialogOpen(false);
-    // Re-lock il guard: nel caso 409 endSubmitting era già stato chiamato dal finally
-    beginSubmitting();
-    
-    try {
-      await saveAppointment(pendingAppointmentData);
-    } catch (error) {
-      console.error("Failed to save after conflict confirmation");
-    }
-    
     setPendingAppointmentData(null);
     setConflictDetails(null);
+    
+    try {
+      // _forceCreate: true fa sì che saveAppointment mandi force_create=true al backend
+      await saveAppointment({ ...dataToSave, _forceCreate: true } as any);
+    } catch (error) {
+      console.error("Failed to save after conflict confirmation");
+    } finally {
+      endSubmitting();
+    }
   };
 
   // Funzione per controllare conflitti di orario
@@ -1717,6 +1718,7 @@ export default function AppointmentForm({
               {t('common.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction 
+              onPointerDown={() => { proceedingFromConflictRef.current = true; }}
               onClick={handleConflictConfirm}
               className="bg-orange-600 hover:bg-orange-700"
             >
