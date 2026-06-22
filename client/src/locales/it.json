@@ -370,6 +370,7 @@
     "addAppointment": "Nuovo Appuntamento",
     "selectTimeNewAppointment": "Seleziona orario nuovo appuntamento",
     "confirmAndAssociateClient": "Conferma e associa cliente",
+    "clickSlotToCreate": "Clicca uno slot per aggiungere un appuntamento",
     "today": "Oggi",
     "searchResults": "Risultati della ricerca",
     "noAppointmentsFound": "Nessun appuntamento trovato per",
@@ -968,6 +969,22 @@
     "defaultSignature": "Con i migliori saluti,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Account Google e colori",
+      "cardDesc": "Collega più account Google. Ogni account ha un colore: gli eventi importati appaiono come schede grigie con una banda colorata a sinistra che indica la provenienza.",
+      "changeColor": "Cambia colore",
+      "primaryLabel": "Account principale",
+      "primaryBadge": "Account principale (sincronizzazione bidirezionale)",
+      "importActive": "Importazione attiva",
+      "importPaused": "Importazione in pausa",
+      "remove": "Scollega account",
+      "confirmRemove": "Scollegare questo account? Gli eventi importati da questo account verranno rimossi dal calendario.",
+      "addButton": "Aggiungi account Google",
+      "connecting": "Connessione in corso...",
+      "removed": "Account scollegato",
+      "removedDesc": "{{count}} eventi importati rimossi",
+      "removeError": "Errore nella rimozione dell'account"
+    },
     "errors": {
       "emailRequired": "Inserisci l'email di Google che vuoi sincronizzare",
       "popupBlocked": "Il popup è stato bloccato. Disabilita il blocco popup per questo sito.",
@@ -1009,6 +1026,8 @@
       "backToDashboard": "Torna alla Dashboard",
       "reconnectNeeded": "Riconnessione necessaria",
       "reconnectDesc": "Per accedere ai contatti è necessario riconnettere il tuo account Google con i nuovi permessi.",
+      "changeAccountButton": "Disconnetti e cambia account",
+      "changeAccountConfirm": "Vuoi disconnettere l'account attuale e collegarne un altro? Nella finestra di Google potrai scegliere l'account da usare.",
       "reconnectButton": "Riconnetti Google",
       "loadingContacts": "Caricamento contatti...",
       "loadContacts": "Carica contatti da Google",
