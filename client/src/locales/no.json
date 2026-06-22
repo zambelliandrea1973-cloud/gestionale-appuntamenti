@@ -362,7 +362,8 @@
     "noAssigned": "Ikke tildelt",
     "noCollaboratorsForColumns": "Legg til samarbeidspartnere i innstillinger for å bruke kolonnevisning.",
     "noCollaboratorsForFilter": "Legg til samarbeidspartnere eller rom i innstillinger for å bruke filteret.",
-    "columnsOnlyInDayView": "Kolonnevisning er bare tilgjengelig i dagsvisning."
+    "columnsOnlyInDayView": "Kolonnevisning er bare tilgjengelig i dagsvisning.",
+    "syncInProgress": "Synkroniserer…"
   },
   "clients": {
     "title": "Kunder",
@@ -725,7 +726,7 @@
       "save": "Lagre kontaktinformasjon",
       "invalidFormat": "Ugyldig format"
     },
-    "pos": "[TODO:NO] POS / Card"
+    "pos": "POS / Kort"
   },
   "common": {
     "backToHome": "Tilbake til hjem",
@@ -939,6 +940,22 @@
     "defaultSignature": "Med vennlig hilsen,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Google-kontoer og farger",
+      "cardDesc": "Koble til flere Google-kontoer. Hver konto har en farge: importerte hendelser vises som grå kort med et farget felt til venstre som viser kilden.",
+      "changeColor": "Endre farge",
+      "primaryLabel": "Hovedkonto",
+      "primaryBadge": "Hovedkonto (toveis synkronisering)",
+      "importActive": "Import aktiv",
+      "importPaused": "Import satt på pause",
+      "remove": "Koble fra konto",
+      "confirmRemove": "Koble fra denne kontoen? Hendelser importert fra denne kontoen vil bli fjernet fra kalenderen.",
+      "addButton": "Legg til Google-konto",
+      "connecting": "Kobler til...",
+      "removed": "Konto frakoblet",
+      "removedDesc": "{{count}} importerte hendelser fjernet",
+      "removeError": "Feil ved fjerning av kontoen"
+    },
     "errors": {
       "emailRequired": "Skriv inn Google-e-posten du vil synkronisere",
       "popupBlocked": "Popup-vinduet ble blokkert. Deaktiver popup-blokkeren for dette nettstedet.",
@@ -980,6 +997,8 @@
       "backToDashboard": "Tilbake til Dashboard",
       "reconnectNeeded": "Gjentilkobling påkrevd",
       "reconnectDesc": "For å få tilgang til kontakter må du koble til Google-kontoen din på nytt med de nye tillatelsene.",
+      "changeAccountButton": "Koble fra og bytt konto",
+      "changeAccountConfirm": "Vil du koble fra gjeldende konto og koble til en annen? Du kan velge Google-kontoen i neste vindu.",
       "reconnectButton": "Koble til Google på nytt",
       "loadingContacts": "Laster kontakter...",
       "loadContacts": "Last kontakter fra Google",
@@ -3042,8 +3061,8 @@
     "emailTemplate": "E-postmal",
     "resetDefault": "Tilbakestill til standard",
     "defaults": {
-      "subject": "Avtalepåminnelse {{data}}",
-      "template": "Kjære {{nome}} {{cognome}},\n\ndette er en påminnelse om din avtale for {{servizio}} den {{data}} kl. {{ora}}.\n\nFor endringer eller avlysninger, vennligst kontakt oss.\n\nMed vennlig hilsen,\nProfesjonell Studio"
+      "subject": "Påminnelse om avtale {{data}}",
+      "template": "Kjære {{nome}} {{cognome}},\n\nDette er en påminnelse om din {{servizio}}-avtale {{data}} kl. {{ora}}.\n\nKontakt oss ved endringer eller avbestilling.\n\nMed vennlig hilsen,\nStudioet"
     },
     "autoRemindersTitle": "Automatiske kundepåminnelser:",
     "autoRemindersDesc": "Systemet sender automatisk en påminnelses-e-post 24 timer før avtalen, med denne malen. Du kan tilpasse meldingen, men variabler som <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> erstattes automatisk med ekte kunde- og avtaleinformasjon — ikke endre dem.",
@@ -3065,10 +3084,6 @@
       "step1": "1. Aktiver først «totrinnsbekreftelse» fra",
       "step2": "2. Generer deretter et «app-passord» fra",
       "step3": "3. Kopier og lim inn det genererte passordet i feltet «Passord / App-nøkkel» ovenfor"
-    },
-    "defaults": {
-      "subject": "Påminnelse om avtale {{data}}",
-      "template": "Kjære {{nome}} {{cognome}},\n\nDette er en påminnelse om din {{servizio}}-avtale {{data}} kl. {{ora}}.\n\nKontakt oss ved endringer eller avbestilling.\n\nMed vennlig hilsen,\nStudioet"
     },
     "redirecting": "Omdirigerer til e-postinnstillinger..."
   },
@@ -6408,41 +6423,41 @@
   },
   "pos": {
     "settings": {
-      "title": "[TODO:NO] POS Terminal payments",
-      "desc": "[TODO:NO] Accept cards and bank transfers directly from your appointments and invoices",
-      "active": "[TODO:NO] POS active",
-      "saved": "[TODO:NO] POS settings saved",
-      "saveError": "[TODO:NO] Error saving settings",
-      "testOk": "[TODO:NO] SumUp connection successful!",
-      "testFail": "[TODO:NO] Connection failed",
-      "testFailDesc": "[TODO:NO] Please check your API key",
-      "testOkBtn": "[TODO:NO] Connected",
-      "testFailBtn": "[TODO:NO] Failed",
-      "testBtn": "[TODO:NO] Test connection",
-      "testing": "[TODO:NO] Testing...",
-      "connected": "[TODO:NO] SumUp account connected",
-      "notConnected": "[TODO:NO] SumUp account not yet connected",
-      "apiKey": "[TODO:NO] SumUp API Key",
-      "apiKeyPlaceholder": "[TODO:NO] Paste your SumUp API key here",
-      "apiKeyHint": "[TODO:NO] Find it at",
-      "apiKeyHint2": "[TODO:NO] API Keys → Create key",
-      "sumupDesc": "[TODO:NO] Enter your personal SumUp API key to connect the terminal",
-      "moreProviders": "[TODO:NO] Coming soon: Stripe Terminal, Square and other providers"
+      "title": "POS-terminalbetalinger",
+      "desc": "Godta kort og overføringer direkte fra dine avtaler og fakturaer",
+      "active": "POS aktiv",
+      "saved": "POS-innstillinger lagret",
+      "saveError": "Feil ved lagring",
+      "testOk": "SumUp-tilkobling vellykket!",
+      "testFail": "Tilkobling mislyktes",
+      "testFailDesc": "Kontroller API-nøkkelen din",
+      "testOkBtn": "Tilkoblet",
+      "testFailBtn": "Mislyktes",
+      "testBtn": "Test tilkobling",
+      "testing": "Tester...",
+      "connected": "SumUp-konto tilkoblet",
+      "notConnected": "SumUp-konto ikke tilkoblet ennå",
+      "apiKey": "SumUp API-nøkkel",
+      "apiKeyPlaceholder": "Lim inn SumUp API-nøkkelen din her",
+      "apiKeyHint": "Finn den på",
+      "apiKeyHint2": "API-nøkler → Opprett nøkkel",
+      "sumupDesc": "Skriv inn din personlige SumUp API-nøkkel for å koble til terminalen",
+      "moreProviders": "Kommer snart: Stripe Terminal, Square og andre leverandører"
     },
     "pay": {
-      "button": "[TODO:NO] Card / Bank transfer",
-      "title": "[TODO:NO] Card payment",
-      "amount": "[TODO:NO] Amount",
-      "anonymous": "[TODO:NO] Anonymous",
-      "creating": "[TODO:NO] Creating payment...",
-      "instructions": "[TODO:NO] The customer can scan the QR code or open the link to pay",
-      "openLink": "[TODO:NO] Open payment link",
-      "waiting": "[TODO:NO] Waiting for payment...",
-      "success": "[TODO:NO] Payment received! ✅",
-      "paid": "[TODO:NO] Payment received!",
-      "failed": "[TODO:NO] Payment failed",
-      "retry": "[TODO:NO] Retry",
-      "error": "[TODO:NO] Error creating payment"
+      "button": "Kort / Bankoverføring",
+      "title": "Kortbetaling",
+      "amount": "Beløp",
+      "anonymous": "Anonym",
+      "creating": "Oppretter betaling...",
+      "instructions": "Kunden kan skanne QR-koden eller åpne lenken for å betale",
+      "openLink": "Åpne betalingslenke",
+      "waiting": "Venter på betaling...",
+      "success": "Betaling mottatt! ✅",
+      "paid": "Betaling mottatt!",
+      "failed": "Betaling mislyktes",
+      "retry": "Prøv igjen",
+      "error": "Feil ved oppretting av betaling"
     }
   }
 }
