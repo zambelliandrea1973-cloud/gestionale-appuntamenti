@@ -34,6 +34,7 @@ export default function Calendar() {
   } | null>(null);
   const clockRef = useRef<HTMLSpanElement>(null);
   const [isAutoSyncing, setIsAutoSyncing] = useState(false);
+  const [googleEnabled, setGoogleEnabled] = useState(false);
 
   // ── Modalità calendario ────────────────────────────────────────────────────
   const [calendarMode, setCalendarMode] = useState<'global'|'filter'|'columns'>(() => {
@@ -61,6 +62,7 @@ export default function Calendar() {
         if (!statusRes.ok || cancelled) return;
         const status = await statusRes.json();
         if (!status.authorized || !status.calendarEnabled || cancelled) return;
+        if (!cancelled) setGoogleEnabled(true);
         if (!cancelled) setIsAutoSyncing(true);
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 130_000);
@@ -100,6 +102,24 @@ export default function Calendar() {
     autoSync();
     return () => { cancelled = true; };
   }, [queryClient, toast]);
+
+  // ── Auto-refresh silenzioso ogni 60s quando Google Calendar è attivo ────────
+  // Dopo che il webhook riceve una notifica da Google e importa nuovi eventi,
+  // il frontend si aggiorna automaticamente entro max 60 secondi senza intervento utente.
+  useEffect(() => {
+    if (!googleEnabled) return;
+    const interval = setInterval(() => {
+      queryClient.invalidateQueries({ queryKey: ['/api/appointments'], refetchType: 'active' });
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          const key = String(query.queryKey[0]);
+          return key.startsWith('/api/appointments/date/') || key.startsWith('/api/appointments/range');
+        },
+        refetchType: 'active',
+      });
+    }, 60_000);
+    return () => clearInterval(interval);
+  }, [googleEnabled, queryClient]);
 
   // Fuso orario
   useEffect(() => {
