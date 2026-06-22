@@ -833,7 +833,9 @@ export default function DayViewWithTimeSlots({
                 <div className={`flex ${isExpanded ? 'flex-row' : 'flex-col sm:flex-row'} justify-between items-start ${isExpanded ? 'items-center' : 'sm:items-center'}`}>
                   <div className="text-[10px] sm:text-xs font-medium flex flex-col" style={{ color: importedColors ? '#475569' : (appointment.service?.color || '#4299e1') }}>
                     <span>{appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}</span>
-                    <span className={`text-gray-600 ${isExpanded ? '' : 'truncate'}`}>{appointment.service?.name}</span>
+                    {!appointment.importedFromGoogle && !appointment.client?.firstName?.startsWith("📅") && appointment.service?.name && (
+                      <span className={`text-gray-600 ${isExpanded ? '' : 'truncate'}`}>{appointment.service.name}</span>
+                    )}
                     
                     {/* Informazioni professionista e stanza */}
                     <div className="flex flex-col gap-0.5 mt-1">
