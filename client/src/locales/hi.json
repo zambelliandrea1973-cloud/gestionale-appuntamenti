@@ -327,7 +327,9 @@
     "aiAssistant": "AI सहायक",
     "staff": "स्टाफ",
     "payments": "भुगतान",
-    "requests": "अनुरोध"
+    "requests": "अनुरोध",
+    "evAdmin": "EV Admin",
+    "evShop": "EV Shop"
   },
   "language": {
     "it": "इतालवी",
@@ -389,7 +391,8 @@
     "noAssigned": "असाइन नहीं",
     "noCollaboratorsForColumns": "कॉलम दृश्य के लिए सेटिंग्स में सहयोगी जोड़ें।",
     "noCollaboratorsForFilter": "फ़िल्टर के लिए सेटिंग्स में सहयोगी या कमरे जोड़ें।",
-    "columnsOnlyInDayView": "कॉलम दृश्य केवल दिन दृश्य में उपलब्ध है।"
+    "columnsOnlyInDayView": "कॉलम दृश्य केवल दिन दृश्य में उपलब्ध है।",
+    "syncInProgress": "सिंक हो रहा है…"
   },
   "clients": {
     "title": "ग्राहक",
@@ -1319,7 +1322,10 @@
     "phoneMinChars": "फोन नंबर में कम से कम 6 अंक होने चाहिए",
     "emailInvalid": "अमान्य ईमेल",
     "prefixPlaceholder": "प्रीफ़िक्स",
-    "codePreview": "इस ग्राहक को कोड मिलेगा: {{code}}"
+    "codePreview": "इस ग्राहक को कोड मिलेगा: {{code}}",
+    "gender": "[TODO:HI] Gender",
+    "genderMale": "[TODO:HI] Male",
+    "genderFemale": "[TODO:HI] Female"
   },
   "privacyConsent": {
     "consentRequired": "सहमति आवश्यक",
@@ -2525,6 +2531,22 @@
     "defaultSignature": "सादर,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Google खाते और रंग",
+      "cardDesc": "कई Google खाते कनेक्ट करें. हर खाते का एक रंग होता है: आयात किए गए इवेंट भूरे कार्ड के रूप में दिखते हैं जिनके बाईं ओर एक रंगीन पट्टी स्रोत दर्शाती है.",
+      "changeColor": "रंग बदलें",
+      "primaryLabel": "मुख्य खाता",
+      "primaryBadge": "मुख्य खाता (दोतरफा सिंक)",
+      "importActive": "आयात सक्रिय",
+      "importPaused": "आयात रोका गया",
+      "remove": "खाता अलग करें",
+      "confirmRemove": "इस खाते को अलग करें? इस खाते से आयात किए गए इवेंट कैलेंडर से हटा दिए जाएंगे.",
+      "addButton": "Google खाता जोड़ें",
+      "connecting": "कनेक्ट हो रहा है...",
+      "removed": "खाता अलग किया गया",
+      "removedDesc": "{{count}} आयातित इवेंट हटाए गए",
+      "removeError": "खाता हटाने में त्रुटि"
+    },
     "errors": {
       "emailRequired": "सिंक्रोनाइज़ करने के लिए Google ईमेल दर्ज करें",
       "popupBlocked": "पॉपअप ब्लॉक हो गया। इस साइट के लिए पॉपअप ब्लॉकर अक्षम करें।",
@@ -2566,6 +2588,8 @@
       "backToDashboard": "डैशबोर्ड पर वापस",
       "reconnectNeeded": "पुनः कनेक्शन आवश्यक",
       "reconnectDesc": "संपर्कों के लिए नई अनुमतियों के साथ Google खाता पुनः कनेक्ट करें।",
+      "changeAccountButton": "डिस्कनेक्ट करें और खाता बदलें",
+      "changeAccountConfirm": "क्या आप मौजूदा खाता डिस्कनेक्ट करके दूसरा जोड़ना चाहते हैं? आप अगली विंडो में Google खाता चुन सकते हैं।",
       "reconnectButton": "Google पुनः कनेक्ट करें",
       "loadingContacts": "संपर्क लोड हो रहे हैं...",
       "loadContacts": "Google से संपर्क लोड करें",
@@ -4456,7 +4480,9 @@
       "role": "भूमिका",
       "roleStaff": "Staff - PRO पहुंच वाला कर्मचारी",
       "roleAdmin": "एडमिन - Accesso completo",
-      "roleUser": "Customer PRO - Professionista abbonato"
+      "roleUser": "Customer PRO - Professionista abbonato",
+      "roleEvAdmin": "EV सेकेंडरी एडमिन - सप्लायर पोर्टल",
+      "roleEvStaff": "Staff EV - PRO पहुंच + EV अनुभाग"
     },
     "proAccessNote": "✅ <0>स्वचालित PRO पहुंच:</0> सभी स्टाफ को बिना भुगतान और बिना समाप्ति के पूर्ण PRO पहुंच है",
     "creating": "बना रहा है...",
@@ -4552,7 +4578,9 @@
     "administrator": "प्रशासक",
     "referralCodeBadge": "कोड: {{code}}",
     "detailsTitle": "विवरण Staff: {{username}}",
-    "detailsDescription": "जानकारी complete e storico commissioni"
+    "detailsDescription": "जानकारी complete e storico commissioni",
+    "evAdminBadge": "EV एडमिन",
+    "evStaffBadge": "EV स्टाफ"
   },
   "passwordChange": {
     "title": "पासवर्ड बदलें",
