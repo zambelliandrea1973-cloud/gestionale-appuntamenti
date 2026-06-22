@@ -213,22 +213,21 @@ router.post("/api/appointments", async (req, res) => {
             resourceConditions.push(eq(appointments.staffId, appointmentData.staffId));
           }
           
-          let conflictWhere;
-          if (resourceConditions.length > 1) {
-            conflictWhere = and(...timeOverlap, or(...resourceConditions));
-          } else if (resourceConditions.length === 1) {
-            conflictWhere = and(...timeOverlap, resourceConditions[0]);
-          } else {
-            conflictWhere = and(...timeOverlap);
-          }
-          
-          const conflicts = await tx.select({ id: appointments.id })
-            .from(appointments)
-            .where(conflictWhere)
-            .limit(1);
-          
-          if (conflicts.length > 0 && !req.body.force_create) {
-            throw new Error('CONFLICT: An appointment already exists at this time for the same resource');
+          // Controlla conflitti solo se c'è almeno una risorsa specifica (staff o stanza).
+          // Se nessuna risorsa è assegnata, non esistono conflitti da rilevare.
+          if (resourceConditions.length > 0) {
+            const conflictWhere = resourceConditions.length > 1
+              ? and(...timeOverlap, or(...resourceConditions))
+              : and(...timeOverlap, resourceConditions[0]);
+
+            const conflicts = await tx.select({ id: appointments.id })
+              .from(appointments)
+              .where(conflictWhere)
+              .limit(1);
+
+            if (conflicts.length > 0 && !req.body.force_create) {
+              throw new Error('CONFLICT: An appointment already exists at this time for the same resource');
+            }
           }
         }
         
