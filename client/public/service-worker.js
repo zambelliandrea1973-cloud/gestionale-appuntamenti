@@ -1,67 +1,44 @@
-const CACHE_NAME = 'gestionale-appuntamenti-v3';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json'
-];
+// Service Worker - VERSIONE 10 - NUKE ALL CACHES
+// Build: 2026-06-22 - Force complete cache purge
+const CACHE_NAME = 'gestionale-appuntamenti-v10-nuke';
 
-self.addEventListener('install', event => {
+self.addEventListener('install', function(event) {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache).catch(err => console.log('Cache add failed:', err));
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(cacheNames.map(function(cacheName) {
+        return caches.delete(cacheName);
+      }));
     })
   );
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener('activate', function(event) {
   event.waitUntil(
-    Promise.all([
-      caches.keys().then(cacheNames => {
-        return Promise.all(
-          cacheNames.map(cacheName => {
-            if (cacheName !== CACHE_NAME) {
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      }),
-      self.clients.claim()
-    ])
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(cacheNames.map(function(cacheName) {
+        return caches.delete(cacheName);
+      }));
+    }).then(function() {
+      return self.clients.claim();
+    })
   );
 });
 
-self.addEventListener('message', event => {
+// NON intercettare NULLA - tutto passa direttamente alla rete
+self.addEventListener('fetch', function(event) {
+  return;
+});
+
+self.addEventListener('message', function(event) {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-});
-
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') {
-    return;
+  if (event.data && event.data.type === 'CLEAR_ALL_CACHES') {
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(cacheNames.map(function(cacheName) {
+        return caches.delete(cacheName);
+      }));
+    });
   }
-
-  const url = new URL(event.request.url);
-
-  if (url.pathname.startsWith('/api/')) {
-    return;
-  }
-
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request).then(response => {
-        if (!response || response.status !== 200 || response.type === 'error') {
-          return response;
-        }
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache);
-        });
-        return response;
-      });
-    }).catch(() => {
-      return caches.match('/index.html');
-    })
-  );
 });
