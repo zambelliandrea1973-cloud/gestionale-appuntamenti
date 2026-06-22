@@ -109,17 +109,20 @@ function ReportsContent() {
   useEffect(() => {
     if (appointments.length === 0 || isLoadingAppointments || isLoadingServices) return;
     
+    // 🚫 Escludi eventi importati da Google Calendar: non hanno servizio/prezzo nel gestionale
+    const nativeAppointments = appointments.filter((a: any) => !a.importedFromGoogle);
+    
     // 🗓️ Genera buckets di tempo per il tipo di report selezionato
     const buckets = buildPeriodBuckets(reportType, selectedDate, i18n.language);
     
     // 📈 Aggrega dati usando la logica condivisa (stessa che funziona per annuale)
-    const aggregatedReportData = aggregateAppointments(buckets, appointments, services);
+    const aggregatedReportData = aggregateAppointments(buckets, nativeAppointments, services);
     
     setAggregatedData(aggregatedReportData);
     
     // 🎯 Aggregazione per tipo di servizio (usa la stessa logica di calcolo revenue)
-    const serviceAggregation = services.map(service => {
-      const serviceAppointments = appointments.filter(a => a.serviceId === service.id);
+    const serviceAggregation = services.map((service: any) => {
+      const serviceAppointments = nativeAppointments.filter((a: any) => a.serviceId === service.id);
       
       return {
         name: service.name,
@@ -127,7 +130,7 @@ function ReportsContent() {
         revenue: calculateRevenue(serviceAppointments, services),
         color: service.color || "#3f51b5"
       };
-    }).filter(s => s.count > 0);
+    }).filter((s: any) => s.count > 0);
     
     setServiceData(serviceAggregation);
     
