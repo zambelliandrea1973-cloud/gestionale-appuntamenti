@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useGoogleAccountColors } from "@/hooks/use-google-account-colors";
 import AppointmentModal from "./AppointmentModal";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { AppointmentWithDetails, Service, Client } from "../types/api";
@@ -43,10 +44,10 @@ export default function DayViewWithTimeSlots({
 }: DayViewWithTimeSlotsProps) {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const { getImportedColors } = useGoogleAccountColors();
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<number | null>(null);
-  const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
-  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<string>("09:00");
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
   const [selectedClient, setSelectedClient] = useState<{id: number, name: string} | null>(null);
   const [selectedService, setSelectedService] = useState<{id: number, name: string, duration: number} | null>(null);
@@ -250,11 +251,6 @@ export default function DayViewWithTimeSlots({
     });
   };
 
-  // Controlla se uno slot è selezionato
-  const isSlotSelected = (slotTime: string): boolean => {
-    return selectedSlots.includes(slotTime);
-  };
-
   // Ottieni l'elemento DOM di uno slot orario in base all'orario
   const getSlotElement = (slotTime: string): HTMLElement | null => {
     // Trova l'elemento DOM che corrisponde allo slot orario specificato
@@ -400,79 +396,23 @@ export default function DayViewWithTimeSlots({
     },
   });
 
-  // Gestione della selezione di uno slot
+  // Click su slot → apre direttamente il form con quell'orario
   const handleSlotClick = (slotTime: string) => {
-    if (!isSelectionMode) return;
-    
-    // Rimuovere il controllo che impedisce di selezionare slot occupati
-    // per consentire la sovrapposizione di appuntamenti dal calendario
-    // if (isSlotOccupied(slotTime)) return;
-
-    // Aggiorna la lista degli slot selezionati
-    setSelectedSlots(prev => {
-      if (prev.includes(slotTime)) {
-        return prev.filter(slot => slot !== slotTime);
-      } else {
-        return [...prev, slotTime].sort();
-      }
-    });
-  };
-
-  // Avvia la modalità di selezione
-  const startSelectionMode = () => {
-    setIsSelectionMode(true);
-    setSelectedSlots([]);
-  };
-
-  // Completa la modalità di selezione e apri il modal per creare l'appuntamento
-  const completeSelection = () => {
-    if (selectedSlots.length === 0) {
-      toast({
-        title: t("appointment.noSlotsSelected"),
-        description: t("appointment.pleaseSelectSlots"),
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Ordina gli slot selezionati
-    const sortedSlots = [...selectedSlots].sort();
-    
-    // Calcola l'ora di inizio e fine dell'appuntamento
-    const startTime = sortedSlots[0];
-    const lastSlotTime = sortedSlots[sortedSlots.length - 1];
-    
-    // Calcola l'ora di fine aggiungendo 15 minuti all'ultimo slot
-    const endTimeDate = new Date(selectedDate);
-    const [hours, minutes] = lastSlotTime.split(':').map(Number);
-    endTimeDate.setHours(hours, minutes + 15, 0, 0);
-    const endTime = formatTime(endTimeDate);
-
-    // Apri il modal dell'appuntamento (nuovo appuntamento, senza ID)
-    setIsAppointmentModalOpen(true);
+    setSelectedTime(slotTime);
     setSelectedAppointmentId(null);
-  };
-
-  // Cancella la selezione
-  const cancelSelection = () => {
-    setIsSelectionMode(false);
-    setSelectedSlots([]);
+    setIsAppointmentModalOpen(true);
   };
 
   // Gestisce la chiusura del modal dell'appuntamento
   const handleModalClose = () => {
     setIsAppointmentModalOpen(false);
     setSelectedAppointmentId(null);
-    setIsSelectionMode(false);
-    setSelectedSlots([]);
   };
 
   // Gestisce il completamento dell'appuntamento
   const handleAppointmentSaved = () => {
     setIsAppointmentModalOpen(false);
     setSelectedAppointmentId(null);
-    setIsSelectionMode(false);
-    setSelectedSlots([]);
     onAppointmentUpdated();
   };
 
@@ -590,7 +530,9 @@ export default function DayViewWithTimeSlots({
                       const top = calcColTop(appt);
                       const height = calcColHeight(appt);
                       const { widthPct, leftPct } = getColOverlap(appt, colAppts);
-                      const svcColor = appt.service?.color || '#4299e1';
+                      const importedColors = getImportedColors(appt);
+                      const svcColor = importedColors ? importedColors.band : (appt.service?.color || '#4299e1');
+                      const cardBg = importedColors ? importedColors.bgSolid : `${svcColor}18`;
                       return (
                         <div
                           key={appt.id}
@@ -601,7 +543,7 @@ export default function DayViewWithTimeSlots({
                             left: `${leftPct}%`,
                             width: `${widthPct}%`,
                             borderLeft: `5px solid ${svcColor}`,
-                            backgroundColor: `${svcColor}18`,
+                            backgroundColor: cardBg,
                             border: `1px solid ${svcColor}40`,
                             borderLeftWidth: 5,
                             borderLeftColor: svcColor,
@@ -709,14 +651,7 @@ export default function DayViewWithTimeSlots({
       {/* Griglia degli slot orari */}
       <div ref={calendarBodyRef} className="relative grid grid-cols-1 gap-0 mt-4">
         {timeSlots.map((slotTime, index) => {
-          const occupied = isSlotOccupied(slotTime);
-          const isStart = isAppointmentStart(slotTime);
-          const appointment = isStart ? getAppointmentAtTime(slotTime) : null;
-          const selected = isSlotSelected(slotTime);
-          
-          // Mostra l'ora completa solo agli inizi di ogni ora
           const showFullTime = slotTime.endsWith('00');
-          // Mostra una linea di separazione più marcata tra le ore
           const hourSeparator = showFullTime && index > 0;
           
           return (
@@ -724,12 +659,7 @@ export default function DayViewWithTimeSlots({
               {hourSeparator && <div className="h-[1px] bg-gray-300 w-full mb-1" />}
               
               <div 
-                className={`
-                  flex items-center h-10 border-t border-gray-200 px-2 py-1 
-                  ${occupied ? 'opacity-70' : ''} cursor-pointer hover:bg-gray-50
-                  ${selected ? 'bg-blue-100 border-blue-300' : ''}
-                  ${isSelectionMode ? 'hover:bg-blue-50' : ''}
-                `}
+                className="flex items-center h-10 border-t border-gray-200 px-2 py-1 cursor-pointer hover:bg-blue-50 group"
                 data-slot-time={slotTime}
                 onClick={() => handleSlotClick(slotTime)}
                 onTouchEnd={(e) => {
@@ -737,24 +667,10 @@ export default function DayViewWithTimeSlots({
                   handleSlotClick(slotTime);
                 }}
               >
-                <div className="w-16 text-sm font-medium">
+                <div className="w-16 text-sm font-medium group-hover:text-blue-600 transition-colors">
                   {showFullTime ? slotTime : <span className="text-xs text-gray-500">{slotTime.substring(3)}</span>}
                 </div>
-                
-                <div className="flex-grow relative">
-                  {selected && (
-                    <div className="absolute inset-0 bg-blue-200 border-2 border-blue-400 rounded-md flex items-center justify-center">
-                      <span className="text-blue-800 font-semibold text-xs">{t('i18nFinale.dayView.selectedBadge')}</span>
-                    </div>
-                  )}
-                  {!selected && isSelectionMode && (
-                    <div className={`h-full w-full ${occupied ? 'bg-orange-50/50' : 'bg-gray-50'} hover:bg-blue-50 rounded border border-dashed ${occupied ? 'border-orange-300' : 'border-gray-300'}`}>
-                      <div className="flex items-center justify-center h-full">
-                        <span className="text-gray-400 text-xs">{t('i18nFinale.dayView.clickToSelect')}</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <div className="flex-grow relative" />
               </div>
             </div>
           );
@@ -805,6 +721,9 @@ export default function DayViewWithTimeSlots({
             }
           }
           
+          const importedColors = getImportedColors(appointment);
+          const evColor = importedColors ? importedColors.band : (appointment.service?.color || '#4299e1');
+          const evOuterBg = importedColors ? importedColors.bgSolid : '#ffffff';
           return (
             <div 
               key={appointment.id}
@@ -812,11 +731,11 @@ export default function DayViewWithTimeSlots({
               style={{
                 ...styles,
                 ...expandedStyles,
-                border: `1px solid ${appointment.service?.color || '#4299e1'}`,
-                borderLeft: `12px solid ${appointment.service?.color || '#4299e1'}`,
-                boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}60`,
+                border: `1px solid ${evColor}`,
+                borderLeft: `12px solid ${evColor}`,
+                boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${evColor}60`,
                 transition: 'width 0.2s ease-in-out, left 0.2s ease-in-out',
-                backgroundColor: '#ffffff'
+                backgroundColor: evOuterBg
               }}
               // Su desktop usiamo hover (mouse enter/leave)
               onMouseEnter={() => {
@@ -865,7 +784,7 @@ export default function DayViewWithTimeSlots({
                 style={{
                   backgroundColor: isExpanded 
                     ? '#ffffff' // Sfondo completamente bianco quando espanso
-                    : `${appointment.service?.color || '#4299e1'}10`, // Sfondo trasparente quando normale
+                    : (importedColors ? importedColors.bg : `${appointment.service?.color || '#4299e1'}10`), // Sfondo trasparente quando normale
                 }}
               >
                 {/* Pulsante di chiusura X visibile solo quando l'appuntamento è espanso */}
@@ -909,7 +828,7 @@ export default function DayViewWithTimeSlots({
                 </div>
                 
                 <div className={`flex ${isExpanded ? 'flex-row' : 'flex-col sm:flex-row'} justify-between items-start ${isExpanded ? 'items-center' : 'sm:items-center'}`}>
-                  <div className="text-[10px] sm:text-xs font-medium flex flex-col" style={{ color: appointment.service?.color || '#4299e1' }}>
+                  <div className="text-[10px] sm:text-xs font-medium flex flex-col" style={{ color: importedColors ? '#475569' : (appointment.service?.color || '#4299e1') }}>
                     <span>{appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}</span>
                     <span className={`text-gray-600 ${isExpanded ? '' : 'truncate'}`}>{appointment.service?.name}</span>
                     
@@ -998,26 +917,10 @@ export default function DayViewWithTimeSlots({
         onClose={handleModalClose}
         onSave={handleAppointmentSaved}
         defaultDate={selectedDate}
-        defaultTime={selectedSlots[0] || "09:00"}
+        defaultTime={selectedTime}
         appointmentId={selectedAppointmentId}
-        selectedSlots={selectedSlots}
+        selectedSlots={[]}
       />
-
-      {/* Pulsanti flottanti per la gestione della selezione */}
-      {isSelectionMode ? (
-        <FloatingActionButton 
-          onClick={completeSelection} 
-          text={t('calendar.confirmAndAssociateClient')}
-          storageKey="fab-confirm-position"
-          onCancel={cancelSelection}
-        />
-      ) : (
-        <FloatingActionButton 
-          onClick={startSelectionMode} 
-          text={t('calendar.selectTimeNewAppointment')}
-          storageKey="fab-select-position"
-        />
-      )}
       
       {/* Dialog di conferma eliminazione */}
       {showDeleteConfirm && (() => {
