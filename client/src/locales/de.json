@@ -373,7 +373,8 @@
     "noAssigned": "Nicht zugewiesen",
     "noCollaboratorsForColumns": "Füge Mitarbeiter in den Einstellungen hinzu, um die Spaltenansicht zu nutzen.",
     "noCollaboratorsForFilter": "Füge Mitarbeiter oder Räume in den Einstellungen hinzu, um den Filter zu nutzen.",
-    "columnsOnlyInDayView": "Die Spaltenansicht ist nur in der Tagesansicht verfügbar."
+    "columnsOnlyInDayView": "Die Spaltenansicht ist nur in der Tagesansicht verfügbar.",
+    "syncInProgress": "Synchronisierung…"
   },
   "clients": {
     "title": "Kunden",
@@ -736,7 +737,7 @@
       "save": "Kontaktinformationen speichern",
       "invalidFormat": "Ungültiges Format"
     },
-    "pos": "[TODO:DE] POS / Card"
+    "pos": "POS / Karte"
   },
   "common": {
     "backToHome": "Zurück zur Startseite",
@@ -950,6 +951,22 @@
     "defaultSignature": "Mit freundlichen Grüßen,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Google-Konten & Farben",
+      "cardDesc": "Verbinden Sie mehrere Google-Konten. Jedes Konto hat eine Farbe: Importierte Termine erscheinen als graue Karten mit einem farbigen linken Balken, der die Quelle anzeigt.",
+      "changeColor": "Farbe ändern",
+      "primaryLabel": "Hauptkonto",
+      "primaryBadge": "Hauptkonto (bidirektionale Synchronisierung)",
+      "importActive": "Import aktiv",
+      "importPaused": "Import pausiert",
+      "remove": "Konto trennen",
+      "confirmRemove": "Dieses Konto trennen? Die von diesem Konto importierten Termine werden aus dem Kalender entfernt.",
+      "addButton": "Google-Konto hinzufügen",
+      "connecting": "Verbindung wird hergestellt...",
+      "removed": "Konto getrennt",
+      "removedDesc": "{{count}} importierte Termine entfernt",
+      "removeError": "Fehler beim Entfernen des Kontos"
+    },
     "errors": {
       "emailRequired": "Geben Sie die Google-E-Mail ein, die Sie synchronisieren möchten",
       "popupBlocked": "Das Popup wurde blockiert. Deaktivieren Sie den Popup-Blocker für diese Website.",
@@ -991,6 +1008,8 @@
       "backToDashboard": "Zurück zum Dashboard",
       "reconnectNeeded": "Erneutes Verbinden erforderlich",
       "reconnectDesc": "Um auf Kontakte zuzugreifen, musst du dein Google-Konto mit den neuen Berechtigungen erneut verbinden.",
+      "changeAccountButton": "Trennen und Konto wechseln",
+      "changeAccountConfirm": "Möchten Sie das aktuelle Konto trennen und ein anderes verknüpfen? Im nächsten Fenster können Sie das Google-Konto auswählen.",
       "reconnectButton": "Google erneut verbinden",
       "loadingContacts": "Kontakte werden geladen...",
       "loadContacts": "Kontakte von Google laden",
@@ -3042,8 +3061,8 @@
     "emailTemplate": "E-Mail-Vorlage",
     "resetDefault": "Auf Standard zurücksetzen",
     "defaults": {
-      "subject": "Terminerinnerung {{data}}",
-      "template": "Sehr geehrte/r {{nome}} {{cognome}},\n\ndies ist eine Erinnerung an Ihren Termin für {{servizio}} am {{data}} um {{ora}}.\n\nFür Änderungen oder Absagen kontaktieren Sie uns bitte.\n\nMit freundlichen Grüßen,\nProfessionelles Studio"
+      "subject": "Terminerinnerung vom {{data}}",
+      "template": "Sehr geehrte/r {{nome}} {{cognome}},\n\nDies ist eine Erinnerung an Ihren Termin für {{servizio}} am {{data}} um {{ora}}.\n\nBei Änderungen oder Stornierungen kontaktieren Sie uns bitte.\n\nMit freundlichen Grüßen,\nIhr Studio"
     },
     "autoRemindersTitle": "Automatische Kundenerinnerungen:",
     "autoRemindersDesc": "Das System sendet automatisch eine Erinnerungs-E-Mail 24 Stunden vor dem Termin mit dieser Vorlage. Du kannst die Nachricht anpassen, aber Variablen wie <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> werden automatisch durch echte Kunden- und Termindaten ersetzt — daher nicht ändern.",
@@ -3065,10 +3084,6 @@
       "step1": "1. Aktivieren Sie zuerst die „Bestätigung in zwei Schritten“ unter",
       "step2": "2. Erstellen Sie dann ein „App-Passwort“ unter",
       "step3": "3. Kopieren Sie das erzeugte Passwort in das Feld „Passwort / App-Schlüssel“ oben"
-    },
-    "defaults": {
-      "subject": "Terminerinnerung vom {{data}}",
-      "template": "Sehr geehrte/r {{nome}} {{cognome}},\n\nDies ist eine Erinnerung an Ihren Termin für {{servizio}} am {{data}} um {{ora}}.\n\nBei Änderungen oder Stornierungen kontaktieren Sie uns bitte.\n\nMit freundlichen Grüßen,\nIhr Studio"
     },
     "redirecting": "Weiterleitung zu den E-Mail-Einstellungen..."
   },
@@ -6408,41 +6423,41 @@
   },
   "pos": {
     "settings": {
-      "title": "[TODO:DE] POS Terminal payments",
-      "desc": "[TODO:DE] Accept cards and bank transfers directly from your appointments and invoices",
-      "active": "[TODO:DE] POS active",
-      "saved": "[TODO:DE] POS settings saved",
-      "saveError": "[TODO:DE] Error saving settings",
-      "testOk": "[TODO:DE] SumUp connection successful!",
-      "testFail": "[TODO:DE] Connection failed",
-      "testFailDesc": "[TODO:DE] Please check your API key",
-      "testOkBtn": "[TODO:DE] Connected",
-      "testFailBtn": "[TODO:DE] Failed",
-      "testBtn": "[TODO:DE] Test connection",
-      "testing": "[TODO:DE] Testing...",
-      "connected": "[TODO:DE] SumUp account connected",
-      "notConnected": "[TODO:DE] SumUp account not yet connected",
-      "apiKey": "[TODO:DE] SumUp API Key",
-      "apiKeyPlaceholder": "[TODO:DE] Paste your SumUp API key here",
-      "apiKeyHint": "[TODO:DE] Find it at",
-      "apiKeyHint2": "[TODO:DE] API Keys → Create key",
-      "sumupDesc": "[TODO:DE] Enter your personal SumUp API key to connect the terminal",
-      "moreProviders": "[TODO:DE] Coming soon: Stripe Terminal, Square and other providers"
+      "title": "POS-Terminal-Zahlungen",
+      "desc": "Akzeptieren Sie Karten und Überweisungen direkt aus Ihren Terminen und Rechnungen",
+      "active": "POS aktiv",
+      "saved": "POS-Einstellungen gespeichert",
+      "saveError": "Fehler beim Speichern",
+      "testOk": "SumUp-Verbindung erfolgreich!",
+      "testFail": "Verbindung fehlgeschlagen",
+      "testFailDesc": "Bitte überprüfen Sie Ihren API-Schlüssel",
+      "testOkBtn": "Verbunden",
+      "testFailBtn": "Fehlgeschlagen",
+      "testBtn": "Verbindung testen",
+      "testing": "Testen...",
+      "connected": "SumUp-Konto verbunden",
+      "notConnected": "SumUp-Konto noch nicht verbunden",
+      "apiKey": "SumUp API-Schlüssel",
+      "apiKeyPlaceholder": "Fügen Sie hier Ihren SumUp API-Schlüssel ein",
+      "apiKeyHint": "Finden Sie ihn auf",
+      "apiKeyHint2": "API-Schlüssel → Schlüssel erstellen",
+      "sumupDesc": "Geben Sie Ihren persönlichen SumUp API-Schlüssel ein, um das Terminal zu verbinden",
+      "moreProviders": "Demnächst: Stripe Terminal, Square und andere Anbieter"
     },
     "pay": {
-      "button": "[TODO:DE] Card / Bank transfer",
-      "title": "[TODO:DE] Card payment",
-      "amount": "[TODO:DE] Amount",
-      "anonymous": "[TODO:DE] Anonymous",
-      "creating": "[TODO:DE] Creating payment...",
-      "instructions": "[TODO:DE] The customer can scan the QR code or open the link to pay",
-      "openLink": "[TODO:DE] Open payment link",
-      "waiting": "[TODO:DE] Waiting for payment...",
-      "success": "[TODO:DE] Payment received! ✅",
-      "paid": "[TODO:DE] Payment received!",
-      "failed": "[TODO:DE] Payment failed",
-      "retry": "[TODO:DE] Retry",
-      "error": "[TODO:DE] Error creating payment"
+      "button": "Karte / Banküberweisung",
+      "title": "Kartenzahlung",
+      "amount": "Betrag",
+      "anonymous": "Anonym",
+      "creating": "Zahlung wird erstellt...",
+      "instructions": "Der Kunde kann den QR-Code scannen oder den Link öffnen, um zu bezahlen",
+      "openLink": "Zahlungslink öffnen",
+      "waiting": "Warte auf Zahlung...",
+      "success": "Zahlung erhalten! ✅",
+      "paid": "Zahlung erhalten!",
+      "failed": "Zahlung fehlgeschlagen",
+      "retry": "Erneut versuchen",
+      "error": "Fehler beim Erstellen der Zahlung"
     }
   }
 }
