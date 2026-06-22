@@ -193,7 +193,7 @@ function EventChip({
                 </span>
               </div>
             )}
-            {apt.service && (
+            {apt.service && !isGoogle && (
               <div className="flex items-center gap-2">
                 <Briefcase className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                 <span className="truncate">{apt.service.name}</span>
