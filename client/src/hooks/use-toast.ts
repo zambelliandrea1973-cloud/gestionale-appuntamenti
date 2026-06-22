@@ -161,6 +161,10 @@ function toast({ ...props }: Toast) {
     },
   })
 
+  if (props.duration && props.duration > 0) {
+    setTimeout(dismiss, props.duration)
+  }
+
   return {
     id: id,
     dismiss,
