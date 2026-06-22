@@ -362,7 +362,8 @@
     "noAssigned": "Niet toegewezen",
     "noCollaboratorsForColumns": "Voeg medewerkers toe in instellingen om de kolomweergave te gebruiken.",
     "noCollaboratorsForFilter": "Voeg medewerkers of kamers toe in instellingen om het filter te gebruiken.",
-    "columnsOnlyInDayView": "De kolomweergave is alleen beschikbaar in de dagweergave."
+    "columnsOnlyInDayView": "De kolomweergave is alleen beschikbaar in de dagweergave.",
+    "syncInProgress": "Synchroniseren…"
   },
   "clients": {
     "title": "Klanten",
@@ -725,7 +726,7 @@
       "save": "Contactinformatie opslaan",
       "invalidFormat": "Ongeldig formaat"
     },
-    "pos": "[TODO:NL] POS / Card"
+    "pos": "POS / Kaart"
   },
   "common": {
     "backToHome": "Terug naar Home",
@@ -939,6 +940,22 @@
     "defaultSignature": "Met vriendelijke groet,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Google-accounts en kleuren",
+      "cardDesc": "Verbind meerdere Google-accounts. Elk account heeft een kleur: geïmporteerde afspraken verschijnen als grijze kaarten met een gekleurde linkerband die de herkomst aangeeft.",
+      "changeColor": "Kleur wijzigen",
+      "primaryLabel": "Hoofdaccount",
+      "primaryBadge": "Hoofdaccount (bidirectionele synchronisatie)",
+      "importActive": "Import actief",
+      "importPaused": "Import gepauzeerd",
+      "remove": "Account ontkoppelen",
+      "confirmRemove": "Dit account ontkoppelen? Afspraken die van dit account zijn geïmporteerd, worden uit de agenda verwijderd.",
+      "addButton": "Google-account toevoegen",
+      "connecting": "Verbinden...",
+      "removed": "Account ontkoppeld",
+      "removedDesc": "{{count}} geïmporteerde afspraken verwijderd",
+      "removeError": "Fout bij het verwijderen van het account"
+    },
     "errors": {
       "emailRequired": "Voer de Google-e-mail in die u wilt synchroniseren",
       "popupBlocked": "De popup is geblokkeerd. Schakel de popup-blocker uit voor deze site.",
@@ -980,6 +997,8 @@
       "backToDashboard": "Terug naar Dashboard",
       "reconnectNeeded": "Opnieuw verbinden vereist",
       "reconnectDesc": "Om toegang te krijgen tot contacten moet je je Google-account opnieuw verbinden met de nieuwe machtigingen.",
+      "changeAccountButton": "Loskoppelen en account wijzigen",
+      "changeAccountConfirm": "Wil je het huidige account loskoppelen en een ander koppelen? Je kunt het Google-account in het volgende venster kiezen.",
       "reconnectButton": "Google opnieuw verbinden",
       "loadingContacts": "Contacten laden...",
       "loadContacts": "Contacten laden vanuit Google",
@@ -3042,8 +3061,8 @@
     "emailTemplate": "E-mailsjabloon",
     "resetDefault": "Standaard herstellen",
     "defaults": {
-      "subject": "Afspraakherinnering {{data}}",
-      "template": "Beste {{nome}} {{cognome}},\n\ndit is een herinnering voor uw afspraak voor {{servizio}} op {{data}} om {{ora}}.\n\nVoor wijzigingen of annuleringen, neem contact met ons op.\n\nMet vriendelijke groet,\nProfessionele Studio"
+      "subject": "Afspraakherinnering van {{data}}",
+      "template": "Beste {{nome}} {{cognome}},\n\nDit is een herinnering voor je {{servizio}}-afspraak op {{data}} om {{ora}}.\n\nNeem contact met ons op voor wijzigingen of annuleringen.\n\nMet vriendelijke groet,\nDe Studio"
     },
     "autoRemindersTitle": "Automatische klantherinneringen:",
     "autoRemindersDesc": "Het systeem verzendt automatisch een herinneringsmail 24 uur voor de afspraak met deze sjabloon. Je kunt het bericht aanpassen, maar variabelen als <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> worden automatisch vervangen door echte klant- en afspraakgegevens — wijzig ze niet.",
@@ -3065,10 +3084,6 @@
       "step1": "1. Schakel eerst \"Verificatie in 2 stappen\" in op",
       "step2": "2. Genereer vervolgens een \"app-wachtwoord\" op",
       "step3": "3. Kopieer en plak het gegenereerde wachtwoord in het veld \"Wachtwoord / App-sleutel\" hierboven"
-    },
-    "defaults": {
-      "subject": "Afspraakherinnering van {{data}}",
-      "template": "Beste {{nome}} {{cognome}},\n\nDit is een herinnering voor je {{servizio}}-afspraak op {{data}} om {{ora}}.\n\nNeem contact met ons op voor wijzigingen of annuleringen.\n\nMet vriendelijke groet,\nDe Studio"
     },
     "redirecting": "Doorsturen naar e-mailinstellingen..."
   },
@@ -6408,41 +6423,41 @@
   },
   "pos": {
     "settings": {
-      "title": "[TODO:NL] POS Terminal payments",
-      "desc": "[TODO:NL] Accept cards and bank transfers directly from your appointments and invoices",
-      "active": "[TODO:NL] POS active",
-      "saved": "[TODO:NL] POS settings saved",
-      "saveError": "[TODO:NL] Error saving settings",
-      "testOk": "[TODO:NL] SumUp connection successful!",
-      "testFail": "[TODO:NL] Connection failed",
-      "testFailDesc": "[TODO:NL] Please check your API key",
-      "testOkBtn": "[TODO:NL] Connected",
-      "testFailBtn": "[TODO:NL] Failed",
-      "testBtn": "[TODO:NL] Test connection",
-      "testing": "[TODO:NL] Testing...",
-      "connected": "[TODO:NL] SumUp account connected",
-      "notConnected": "[TODO:NL] SumUp account not yet connected",
-      "apiKey": "[TODO:NL] SumUp API Key",
-      "apiKeyPlaceholder": "[TODO:NL] Paste your SumUp API key here",
-      "apiKeyHint": "[TODO:NL] Find it at",
-      "apiKeyHint2": "[TODO:NL] API Keys → Create key",
-      "sumupDesc": "[TODO:NL] Enter your personal SumUp API key to connect the terminal",
-      "moreProviders": "[TODO:NL] Coming soon: Stripe Terminal, Square and other providers"
+      "title": "POS-terminalbetalingen",
+      "desc": "Accepteer kaarten en overboekingen rechtstreeks vanuit uw afspraken en facturen",
+      "active": "POS actief",
+      "saved": "POS-instellingen opgeslagen",
+      "saveError": "Fout bij opslaan",
+      "testOk": "SumUp-verbinding geslaagd!",
+      "testFail": "Verbinding mislukt",
+      "testFailDesc": "Controleer uw API-sleutel",
+      "testOkBtn": "Verbonden",
+      "testFailBtn": "Mislukt",
+      "testBtn": "Verbinding testen",
+      "testing": "Testen...",
+      "connected": "SumUp-account verbonden",
+      "notConnected": "SumUp-account nog niet verbonden",
+      "apiKey": "SumUp API-sleutel",
+      "apiKeyPlaceholder": "Plak hier uw SumUp API-sleutel",
+      "apiKeyHint": "Vind het op",
+      "apiKeyHint2": "API-sleutels → Sleutel aanmaken",
+      "sumupDesc": "Voer uw persoonlijke SumUp API-sleutel in om de terminal te verbinden",
+      "moreProviders": "Binnenkort: Stripe Terminal, Square en andere aanbieders"
     },
     "pay": {
-      "button": "[TODO:NL] Card / Bank transfer",
-      "title": "[TODO:NL] Card payment",
-      "amount": "[TODO:NL] Amount",
-      "anonymous": "[TODO:NL] Anonymous",
-      "creating": "[TODO:NL] Creating payment...",
-      "instructions": "[TODO:NL] The customer can scan the QR code or open the link to pay",
-      "openLink": "[TODO:NL] Open payment link",
-      "waiting": "[TODO:NL] Waiting for payment...",
-      "success": "[TODO:NL] Payment received! ✅",
-      "paid": "[TODO:NL] Payment received!",
-      "failed": "[TODO:NL] Payment failed",
-      "retry": "[TODO:NL] Retry",
-      "error": "[TODO:NL] Error creating payment"
+      "button": "Kaart / Overboeking",
+      "title": "Betaling per kaart",
+      "amount": "Bedrag",
+      "anonymous": "Anoniem",
+      "creating": "Betaling aanmaken...",
+      "instructions": "De klant kan de QR-code scannen of de link openen om te betalen",
+      "openLink": "Betalingslink openen",
+      "waiting": "Wachten op betaling...",
+      "success": "Betaling ontvangen! ✅",
+      "paid": "Betaling ontvangen!",
+      "failed": "Betaling mislukt",
+      "retry": "Opnieuw proberen",
+      "error": "Fout bij aanmaken betaling"
     }
   }
 }
