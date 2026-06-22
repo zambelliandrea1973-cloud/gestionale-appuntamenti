@@ -386,7 +386,8 @@
     "noAssigned": "Unassigned",
     "noCollaboratorsForColumns": "Add collaborators in settings to use the column view.",
     "noCollaboratorsForFilter": "Add collaborators or rooms in settings to use the filter.",
-    "columnsOnlyInDayView": "Column view is only available in Day view."
+    "columnsOnlyInDayView": "Column view is only available in Day view.",
+    "syncInProgress": "Syncing…"
   },
   "clients": {
     "title": "Clients",
@@ -1002,6 +1003,22 @@
     "defaultSignature": "Best regards,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Google accounts & colors",
+      "cardDesc": "Connect multiple Google accounts. Each account has a color: imported events appear as grey cards with a colored left band indicating their source.",
+      "changeColor": "Change color",
+      "primaryLabel": "Main account",
+      "primaryBadge": "Main account (two-way sync)",
+      "importActive": "Import active",
+      "importPaused": "Import paused",
+      "remove": "Unlink account",
+      "confirmRemove": "Unlink this account? Events imported from this account will be removed from the calendar.",
+      "addButton": "Add Google account",
+      "connecting": "Connecting...",
+      "removed": "Account unlinked",
+      "removedDesc": "{{count}} imported events removed",
+      "removeError": "Error removing the account"
+    },
     "errors": {
       "emailRequired": "Enter the Google email you want to sync",
       "popupBlocked": "The popup was blocked. Disable popup blocker for this site.",
@@ -1043,6 +1060,8 @@
       "backToDashboard": "Back to Dashboard",
       "reconnectNeeded": "Reconnection required",
       "reconnectDesc": "To access contacts, you need to reconnect your Google account with the new permissions.",
+      "changeAccountButton": "Disconnect and change account",
+      "changeAccountConfirm": "Do you want to disconnect the current account and link a different one? You can choose the Google account in the next window.",
       "reconnectButton": "Reconnect Google",
       "loadingContacts": "Loading contacts...",
       "loadContacts": "Load contacts from Google",
@@ -3081,8 +3100,8 @@
     "emailTemplate": "Email Template",
     "resetDefault": "Reset to default",
     "defaults": {
-      "subject": "Appointment reminder {{data}}",
-      "template": "Dear {{nome}} {{cognome}},\n\nthis is a reminder for your appointment for {{servizio}} on {{data}} at {{ora}}.\n\nFor changes or cancellations, please contact us.\n\nBest regards,\nProfessional Studio"
+      "subject": "Appointment reminder for {{data}}",
+      "template": "Dear {{nome}} {{cognome}},\n\nThis is a reminder for your {{servizio}} appointment scheduled on {{data}} at {{ora}}.\n\nFor any changes or cancellations, please contact us.\n\nBest regards,\nThe Studio"
     },
     "autoRemindersTitle": "Automatic client reminders:",
     "autoRemindersDesc": "The system will automatically send a reminder email 24 hours before the appointment, using this template. You can customize the message but variables like <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> will be auto-replaced with real client and appointment info, so don't modify them.",
@@ -3104,10 +3123,6 @@
       "step1": "1. First enable \"2-Step Verification\" at",
       "step2": "2. Then generate an \"App Password\" at",
       "step3": "3. Copy and paste the generated password into the \"Password / App Key\" field above"
-    },
-    "defaults": {
-      "subject": "Appointment reminder for {{data}}",
-      "template": "Dear {{nome}} {{cognome}},\n\nThis is a reminder for your {{servizio}} appointment scheduled on {{data}} at {{ora}}.\n\nFor any changes or cancellations, please contact us.\n\nBest regards,\nThe Studio"
     },
     "redirecting": "Redirecting to email settings..."
   },
