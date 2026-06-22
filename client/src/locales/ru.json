@@ -373,7 +373,8 @@
     "noAssigned": "Не назначено",
     "noCollaboratorsForColumns": "Добавьте сотрудников в настройках, чтобы использовать вид по колонкам.",
     "noCollaboratorsForFilter": "Добавьте сотрудников или кабинеты в настройках для использования фильтра.",
-    "columnsOnlyInDayView": "Вид по колонкам доступен только в режиме День."
+    "columnsOnlyInDayView": "Вид по колонкам доступен только в режиме День.",
+    "syncInProgress": "Синхронизация…"
   },
   "clients": {
     "title": "Клиенты",
@@ -736,7 +737,7 @@
       "save": "Сохранить контактную информацию",
       "invalidFormat": "Неверный формат"
     },
-    "pos": "[TODO:RU] POS / Card"
+    "pos": "POS / Карта"
   },
   "common": {
     "backToHome": "На главную",
@@ -950,6 +951,22 @@
     "defaultSignature": "С уважением,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Аккаунты Google и цвета",
+      "cardDesc": "Подключайте несколько аккаунтов Google. У каждого аккаунта свой цвет: импортированные события отображаются серыми карточками с цветной полосой слева, указывающей источник.",
+      "changeColor": "Изменить цвет",
+      "primaryLabel": "Основной аккаунт",
+      "primaryBadge": "Основной аккаунт (двусторонняя синхронизация)",
+      "importActive": "Импорт активен",
+      "importPaused": "Импорт приостановлен",
+      "remove": "Отключить аккаунт",
+      "confirmRemove": "Отключить этот аккаунт? События, импортированные из этого аккаунта, будут удалены из календаря.",
+      "addButton": "Добавить аккаунт Google",
+      "connecting": "Подключение...",
+      "removed": "Аккаунт отключён",
+      "removedDesc": "Удалено импортированных событий: {{count}}",
+      "removeError": "Ошибка при удалении аккаунта"
+    },
     "errors": {
       "emailRequired": "Введите email Google, который хотите синхронизировать",
       "popupBlocked": "Всплывающее окно заблокировано. Отключите блокировку всплывающих окон для этого сайта.",
@@ -991,6 +1008,8 @@
       "backToDashboard": "Вернуться к Dashboard",
       "reconnectNeeded": "Требуется повторное подключение",
       "reconnectDesc": "Для доступа к контактам необходимо переподключить аккаунт Google с новыми разрешениями.",
+      "changeAccountButton": "Отключить и сменить аккаунт",
+      "changeAccountConfirm": "Отключить текущий аккаунт и подключить другой? Вы сможете выбрать аккаунт Google в следующем окне.",
       "reconnectButton": "Переподключить Google",
       "loadingContacts": "Загрузка контактов...",
       "loadContacts": "Загрузить контакты из Google",
@@ -3042,8 +3061,8 @@
     "emailTemplate": "Шаблон email",
     "resetDefault": "Сбросить к умолчанию",
     "defaults": {
-      "subject": "Напоминание о записи {{data}}",
-      "template": "Уважаемый/ая {{nome}} {{cognome}},\n\nнапоминаем о вашей записи — {{servizio}} {{data}} в {{ora}}.\n\nДля изменений или отмены записи свяжитесь с нами.\n\nС уважением,\nПрофессиональная студия"
+      "subject": "Напоминание о записи на {{data}}",
+      "template": "Уважаемый(ая) {{nome}} {{cognome}}!\n\nНапоминаем о вашей записи на {{servizio}} на {{data}} в {{ora}}.\n\nПо вопросам изменения или отмены свяжитесь с нами.\n\nС уважением,\nСтудия"
     },
     "autoRemindersTitle": "Автоматические напоминания клиентам:",
     "autoRemindersDesc": "Система автоматически отправит напоминание за 24 часа до встречи по этому шаблону. Вы можете изменить текст, но переменные <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> будут заменены реальными данными клиента и встречи — не изменяйте их.",
@@ -3065,10 +3084,6 @@
       "step1": "1. Сначала включите «двухэтапную аутентификацию» на",
       "step2": "2. Затем создайте «пароль приложения» на",
       "step3": "3. Скопируйте и вставьте сгенерированный пароль в поле «Пароль / App-ключ» выше"
-    },
-    "defaults": {
-      "subject": "Напоминание о записи на {{data}}",
-      "template": "Уважаемый(ая) {{nome}} {{cognome}}!\n\nНапоминаем о вашей записи на {{servizio}} на {{data}} в {{ora}}.\n\nПо вопросам изменения или отмены свяжитесь с нами.\n\nС уважением,\nСтудия"
     },
     "redirecting": "Перенаправление к настройкам email..."
   },
@@ -6408,41 +6423,41 @@
   },
   "pos": {
     "settings": {
-      "title": "[TODO:RU] POS Terminal payments",
-      "desc": "[TODO:RU] Accept cards and bank transfers directly from your appointments and invoices",
-      "active": "[TODO:RU] POS active",
-      "saved": "[TODO:RU] POS settings saved",
-      "saveError": "[TODO:RU] Error saving settings",
-      "testOk": "[TODO:RU] SumUp connection successful!",
-      "testFail": "[TODO:RU] Connection failed",
-      "testFailDesc": "[TODO:RU] Please check your API key",
-      "testOkBtn": "[TODO:RU] Connected",
-      "testFailBtn": "[TODO:RU] Failed",
-      "testBtn": "[TODO:RU] Test connection",
-      "testing": "[TODO:RU] Testing...",
-      "connected": "[TODO:RU] SumUp account connected",
-      "notConnected": "[TODO:RU] SumUp account not yet connected",
-      "apiKey": "[TODO:RU] SumUp API Key",
-      "apiKeyPlaceholder": "[TODO:RU] Paste your SumUp API key here",
-      "apiKeyHint": "[TODO:RU] Find it at",
-      "apiKeyHint2": "[TODO:RU] API Keys → Create key",
-      "sumupDesc": "[TODO:RU] Enter your personal SumUp API key to connect the terminal",
-      "moreProviders": "[TODO:RU] Coming soon: Stripe Terminal, Square and other providers"
+      "title": "Платежи через POS-терминал",
+      "desc": "Принимайте карты и переводы прямо из своих записей и счетов",
+      "active": "POS активен",
+      "saved": "Настройки POS сохранены",
+      "saveError": "Ошибка сохранения",
+      "testOk": "Подключение SumUp успешно!",
+      "testFail": "Ошибка подключения",
+      "testFailDesc": "Проверьте ваш API-ключ",
+      "testOkBtn": "Подключено",
+      "testFailBtn": "Ошибка",
+      "testBtn": "Проверить подключение",
+      "testing": "Тестирование...",
+      "connected": "Аккаунт SumUp подключён",
+      "notConnected": "Аккаунт SumUp ещё не подключён",
+      "apiKey": "API-ключ SumUp",
+      "apiKeyPlaceholder": "Вставьте сюда ваш API-ключ SumUp",
+      "apiKeyHint": "Найдите его на",
+      "apiKeyHint2": "API Keys → Создать ключ",
+      "sumupDesc": "Введите ваш личный API-ключ SumUp для подключения терминала",
+      "moreProviders": "Скоро: Stripe Terminal, Square и другие провайдеры"
     },
     "pay": {
-      "button": "[TODO:RU] Card / Bank transfer",
-      "title": "[TODO:RU] Card payment",
-      "amount": "[TODO:RU] Amount",
-      "anonymous": "[TODO:RU] Anonymous",
-      "creating": "[TODO:RU] Creating payment...",
-      "instructions": "[TODO:RU] The customer can scan the QR code or open the link to pay",
-      "openLink": "[TODO:RU] Open payment link",
-      "waiting": "[TODO:RU] Waiting for payment...",
-      "success": "[TODO:RU] Payment received! ✅",
-      "paid": "[TODO:RU] Payment received!",
-      "failed": "[TODO:RU] Payment failed",
-      "retry": "[TODO:RU] Retry",
-      "error": "[TODO:RU] Error creating payment"
+      "button": "Карта / Перевод",
+      "title": "Оплата картой",
+      "amount": "Сумма",
+      "anonymous": "Аноним",
+      "creating": "Создание платежа...",
+      "instructions": "Клиент может отсканировать QR-код или открыть ссылку для оплаты",
+      "openLink": "Открыть ссылку оплаты",
+      "waiting": "Ожидание платежа...",
+      "success": "Платёж получен! ✅",
+      "paid": "Платёж получен!",
+      "failed": "Платёж не прошёл",
+      "retry": "Повторить",
+      "error": "Ошибка создания платежа"
     }
   }
 }
