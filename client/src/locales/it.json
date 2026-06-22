@@ -370,7 +370,6 @@
     "addAppointment": "Nuovo Appuntamento",
     "selectTimeNewAppointment": "Seleziona orario nuovo appuntamento",
     "confirmAndAssociateClient": "Conferma e associa cliente",
-    "clickSlotToCreate": "Clicca uno slot per aggiungere un appuntamento",
     "today": "Oggi",
     "searchResults": "Risultati della ricerca",
     "noAppointmentsFound": "Nessun appuntamento trovato per",
@@ -392,7 +391,8 @@
     "noAssigned": "Non assegnato",
     "noCollaboratorsForColumns": "Aggiungi collaboratori nelle impostazioni per usare la vista colonne.",
     "noCollaboratorsForFilter": "Aggiungi collaboratori o stanze nelle impostazioni per usare il filtro.",
-    "columnsOnlyInDayView": "La vista colonne è disponibile solo nella visualizzazione Giorno."
+    "columnsOnlyInDayView": "La vista colonne è disponibile solo nella visualizzazione Giorno.",
+    "syncInProgress": "Sincronizzazione in corso…"
   },
   "clients": {
     "title": "Clienti",
@@ -3100,8 +3100,8 @@
     "emailTemplate": "Template Email",
     "resetDefault": "Ripristina predefinito",
     "defaults": {
-      "subject": "Promemoria appuntamento {{data}}",
-      "template": "Gentile {{nome}} {{cognome}},\n\nti ricordiamo del tuo appuntamento per {{servizio}} il {{data}} alle {{ora}}.\n\nPer modifiche o cancellazioni, contattaci.\n\nCordiali saluti,\nStudio Professionale"
+      "subject": "Promemoria appuntamento del {{data}}",
+      "template": "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale"
     },
     "autoRemindersTitle": "Promemoria automatici ai clienti:",
     "autoRemindersDesc": "Il sistema invierà automaticamente un'email di promemoria 24 ore prima dell'appuntamento, utilizzando questo template. Puoi personalizzare il messaggio inserendo testi personalizzati, ma le variabili come <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> sono dati che verranno sostituiti in automatico con le informazioni reali del cliente e dell'appuntamento, quindi consigliamo di non modificarli.",
@@ -3123,10 +3123,6 @@
       "step1": "1. Prima attiva la \"Verifica in due passaggi\" da",
       "step2": "2. Poi genera una \"Password per le app\" da",
       "step3": "3. Copia e incolla la password generata nel campo \"Password / Chiave App\" qui sopra"
-    },
-    "defaults": {
-      "subject": "Promemoria appuntamento del {{data}}",
-      "template": "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale"
     },
     "redirecting": "Reindirizzamento alle impostazioni email..."
   },
