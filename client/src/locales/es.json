@@ -373,7 +373,8 @@
     "noAssigned": "Sin asignar",
     "noCollaboratorsForColumns": "Añade colaboradores en ajustes para usar la vista de columnas.",
     "noCollaboratorsForFilter": "Añade colaboradores o salas en ajustes para usar el filtro.",
-    "columnsOnlyInDayView": "La vista de columnas solo está disponible en la vista Día."
+    "columnsOnlyInDayView": "La vista de columnas solo está disponible en la vista Día.",
+    "syncInProgress": "Sincronizando…"
   },
   "clients": {
     "title": "Clientes",
@@ -736,7 +737,7 @@
       "save": "Guardar información de contacto",
       "invalidFormat": "Formato no válido"
     },
-    "pos": "[TODO:ES] POS / Card"
+    "pos": "POS / Tarjeta"
   },
   "common": {
     "backToHome": "Volver al inicio",
@@ -950,6 +951,22 @@
     "defaultSignature": "Saludos cordiales,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Cuentas de Google y colores",
+      "cardDesc": "Conecta varias cuentas de Google. Cada cuenta tiene un color: los eventos importados aparecen como tarjetas grises con una banda de color a la izquierda que indica su procedencia.",
+      "changeColor": "Cambiar color",
+      "primaryLabel": "Cuenta principal",
+      "primaryBadge": "Cuenta principal (sincronización bidireccional)",
+      "importActive": "Importación activa",
+      "importPaused": "Importación en pausa",
+      "remove": "Desvincular cuenta",
+      "confirmRemove": "¿Desvincular esta cuenta? Los eventos importados desde esta cuenta se eliminarán del calendario.",
+      "addButton": "Añadir cuenta de Google",
+      "connecting": "Conectando...",
+      "removed": "Cuenta desvinculada",
+      "removedDesc": "{{count}} eventos importados eliminados",
+      "removeError": "Error al eliminar la cuenta"
+    },
     "errors": {
       "emailRequired": "Ingresa el email de Google que deseas sincronizar",
       "popupBlocked": "El popup fue bloqueado. Desactiva el bloqueador de popups para este sitio.",
@@ -991,6 +1008,8 @@
       "backToDashboard": "Volver al Dashboard",
       "reconnectNeeded": "Se necesita reconexión",
       "reconnectDesc": "Para acceder a los contactos debes volver a conectar tu cuenta de Google con los nuevos permisos.",
+      "changeAccountButton": "Desconectar y cambiar de cuenta",
+      "changeAccountConfirm": "¿Quieres desconectar la cuenta actual y vincular otra? Podrás elegir la cuenta de Google en la siguiente ventana.",
       "reconnectButton": "Reconectar Google",
       "loadingContacts": "Cargando contactos...",
       "loadContacts": "Cargar contactos desde Google",
@@ -3042,8 +3061,8 @@
     "emailTemplate": "Plantilla de Email",
     "resetDefault": "Restablecer predeterminado",
     "defaults": {
-      "subject": "Recordatorio de cita {{data}}",
-      "template": "Estimado/a {{nome}} {{cognome}},\n\neste es un recordatorio de su cita para {{servizio}} el {{data}} a las {{ora}}.\n\nPara cambios o cancelaciones, por favor contáctenos.\n\nSaludos cordiales,\nEstudio Profesional"
+      "subject": "Recordatorio de cita del {{data}}",
+      "template": "Estimado/a {{nome}} {{cognome}}:\n\nEste es un recordatorio de su cita de {{servizio}} prevista para el día {{data}} a las {{ora}}.\n\nPara cualquier cambio o cancelación, póngase en contacto con nosotros.\n\nUn cordial saludo,\nEstudio Profesional"
     },
     "autoRemindersTitle": "Recordatorios automáticos a los clientes:",
     "autoRemindersDesc": "El sistema enviará automáticamente un email de recordatorio 24 horas antes de la cita, usando esta plantilla. Puedes personalizar el mensaje pero las variables como <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> se sustituirán automáticamente con los datos reales del cliente y la cita; no las modifiques.",
@@ -3065,10 +3084,6 @@
       "step1": "1. Activa primero la \"Verificación en 2 pasos\" desde",
       "step2": "2. Después genera una \"Contraseña de aplicación\" desde",
       "step3": "3. Copia y pega la contraseña generada en el campo \"Contraseña / Clave de App\" de arriba"
-    },
-    "defaults": {
-      "subject": "Recordatorio de cita del {{data}}",
-      "template": "Estimado/a {{nome}} {{cognome}}:\n\nEste es un recordatorio de su cita de {{servizio}} prevista para el día {{data}} a las {{ora}}.\n\nPara cualquier cambio o cancelación, póngase en contacto con nosotros.\n\nUn cordial saludo,\nEstudio Profesional"
     },
     "redirecting": "Redirigiendo a la configuración de correo..."
   },
@@ -6408,41 +6423,41 @@
   },
   "pos": {
     "settings": {
-      "title": "[TODO:ES] POS Terminal payments",
-      "desc": "[TODO:ES] Accept cards and bank transfers directly from your appointments and invoices",
-      "active": "[TODO:ES] POS active",
-      "saved": "[TODO:ES] POS settings saved",
-      "saveError": "[TODO:ES] Error saving settings",
-      "testOk": "[TODO:ES] SumUp connection successful!",
-      "testFail": "[TODO:ES] Connection failed",
-      "testFailDesc": "[TODO:ES] Please check your API key",
-      "testOkBtn": "[TODO:ES] Connected",
-      "testFailBtn": "[TODO:ES] Failed",
-      "testBtn": "[TODO:ES] Test connection",
-      "testing": "[TODO:ES] Testing...",
-      "connected": "[TODO:ES] SumUp account connected",
-      "notConnected": "[TODO:ES] SumUp account not yet connected",
-      "apiKey": "[TODO:ES] SumUp API Key",
-      "apiKeyPlaceholder": "[TODO:ES] Paste your SumUp API key here",
-      "apiKeyHint": "[TODO:ES] Find it at",
-      "apiKeyHint2": "[TODO:ES] API Keys → Create key",
-      "sumupDesc": "[TODO:ES] Enter your personal SumUp API key to connect the terminal",
-      "moreProviders": "[TODO:ES] Coming soon: Stripe Terminal, Square and other providers"
+      "title": "Pagos con terminal POS",
+      "desc": "Acepta tarjetas y transferencias directamente desde tus citas y facturas",
+      "active": "POS activo",
+      "saved": "Configuración POS guardada",
+      "saveError": "Error al guardar",
+      "testOk": "¡Conexión SumUp exitosa!",
+      "testFail": "Conexión fallida",
+      "testFailDesc": "Por favor, verifica tu clave API",
+      "testOkBtn": "Conectado",
+      "testFailBtn": "Fallido",
+      "testBtn": "Probar conexión",
+      "testing": "Probando...",
+      "connected": "Cuenta SumUp conectada",
+      "notConnected": "Cuenta SumUp aún no conectada",
+      "apiKey": "Clave API SumUp",
+      "apiKeyPlaceholder": "Pega aquí tu clave API de SumUp",
+      "apiKeyHint": "Encuéntrala en",
+      "apiKeyHint2": "API Keys → Crear clave",
+      "sumupDesc": "Ingresa tu clave API personal de SumUp para conectar el terminal",
+      "moreProviders": "Próximamente: Stripe Terminal, Square y otros proveedores"
     },
     "pay": {
-      "button": "[TODO:ES] Card / Bank transfer",
-      "title": "[TODO:ES] Card payment",
-      "amount": "[TODO:ES] Amount",
-      "anonymous": "[TODO:ES] Anonymous",
-      "creating": "[TODO:ES] Creating payment...",
-      "instructions": "[TODO:ES] The customer can scan the QR code or open the link to pay",
-      "openLink": "[TODO:ES] Open payment link",
-      "waiting": "[TODO:ES] Waiting for payment...",
-      "success": "[TODO:ES] Payment received! ✅",
-      "paid": "[TODO:ES] Payment received!",
-      "failed": "[TODO:ES] Payment failed",
-      "retry": "[TODO:ES] Retry",
-      "error": "[TODO:ES] Error creating payment"
+      "button": "Tarjeta / Transferencia",
+      "title": "Pago con tarjeta",
+      "amount": "Importe",
+      "anonymous": "Anónimo",
+      "creating": "Creando pago...",
+      "instructions": "El cliente puede escanear el código QR o abrir el enlace para pagar",
+      "openLink": "Abrir enlace de pago",
+      "waiting": "Esperando el pago...",
+      "success": "¡Pago recibido! ✅",
+      "paid": "¡Pago recibido!",
+      "failed": "Pago fallido",
+      "retry": "Reintentar",
+      "error": "Error al crear el pago"
     }
   }
 }
