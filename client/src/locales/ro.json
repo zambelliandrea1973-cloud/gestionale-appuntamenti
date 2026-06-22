@@ -362,7 +362,8 @@
     "noAssigned": "Neatribuit",
     "noCollaboratorsForColumns": "Adaugă colaboratori în setări pentru a folosi vizualizarea pe coloane.",
     "noCollaboratorsForFilter": "Adaugă colaboratori sau camere în setări pentru a folosi filtrul.",
-    "columnsOnlyInDayView": "Vizualizarea pe coloane este disponibilă doar în modul Zi."
+    "columnsOnlyInDayView": "Vizualizarea pe coloane este disponibilă doar în modul Zi.",
+    "syncInProgress": "Sincronizare…"
   },
   "clients": {
     "title": "Clienți",
@@ -725,7 +726,7 @@
       "save": "Salvare informații de contact",
       "invalidFormat": "Format invalid"
     },
-    "pos": "[TODO:RO] POS / Card"
+    "pos": "POS / Carduri"
   },
   "common": {
     "backToHome": "Înapoi la pagina principală",
@@ -939,6 +940,22 @@
     "defaultSignature": "Cu stimă,"
   },
   "googleCalendar": {
+    "accounts": {
+      "cardTitle": "Conturi Google și culori",
+      "cardDesc": "Conectează mai multe conturi Google. Fiecare cont are o culoare: evenimentele importate apar ca fișe gri cu o bandă colorată în stânga care indică proveniența.",
+      "changeColor": "Schimbă culoarea",
+      "primaryLabel": "Cont principal",
+      "primaryBadge": "Cont principal (sincronizare bidirecțională)",
+      "importActive": "Import activ",
+      "importPaused": "Import în pauză",
+      "remove": "Deconectează contul",
+      "confirmRemove": "Deconectezi acest cont? Evenimentele importate din acest cont vor fi eliminate din calendar.",
+      "addButton": "Adaugă cont Google",
+      "connecting": "Se conectează...",
+      "removed": "Cont deconectat",
+      "removedDesc": "{{count}} evenimente importate eliminate",
+      "removeError": "Eroare la eliminarea contului"
+    },
     "errors": {
       "emailRequired": "Introduceți email-ul Google pe care doriți să îl sincronizați",
       "popupBlocked": "Popup-ul a fost blocat. Dezactivați blocarea popup-urilor pentru acest site.",
@@ -980,6 +997,8 @@
       "backToDashboard": "Înapoi la Dashboard",
       "reconnectNeeded": "Este necesară reconectarea",
       "reconnectDesc": "Pentru a accesa contactele trebuie să reconectezi contul Google cu noile permisiuni.",
+      "changeAccountButton": "Deconectează și schimbă contul",
+      "changeAccountConfirm": "Vrei să deconectezi contul curent și să conectezi altul? Vei putea alege contul Google în fereastra următoare.",
       "reconnectButton": "Reconectează Google",
       "loadingContacts": "Se încarcă contactele...",
       "loadContacts": "Încarcă contactele din Google",
@@ -3042,8 +3061,8 @@
     "emailTemplate": "Șablon Email",
     "resetDefault": "Resetează la implicit",
     "defaults": {
-      "subject": "Reminder programare {{data}}",
-      "template": "Stimate/ă {{nome}} {{cognome}},\n\nacesta este un memento pentru programarea dumneavoastră pentru {{servizio}} în data de {{data}} la ora {{ora}}.\n\nPentru modificări sau anulări, vă rugăm să ne contactați.\n\nCu stimă,\nStudio Profesional"
+      "subject": "Memento programare din {{data}}",
+      "template": "Stimate/Stimată {{nome}} {{cognome}},\n\nAceasta este o notificare pentru programarea dvs. de {{servizio}} din {{data}}, ora {{ora}}.\n\nPentru orice modificare sau anulare, vă rugăm să ne contactați.\n\nCu stimă,\nStudioul"
     },
     "autoRemindersTitle": "Memento-uri automate pentru clienți:",
     "autoRemindersDesc": "Sistemul va trimite automat un email de memento cu 24 de ore înainte de programare, folosind acest șablon. Puteți personaliza mesajul, dar variabilele precum <code>{{nome}}</code>, <code>{{cognome}}</code>, <code>{{data}}</code>, <code>{{ora}}</code>, <code>{{servizio}}</code> vor fi înlocuite automat cu informațiile reale — nu le modificați.",
@@ -3065,10 +3084,6 @@
       "step1": "1. Activați mai întâi „Verificarea în 2 pași” de la",
       "step2": "2. Apoi generați o „Parolă de aplicație” de la",
       "step3": "3. Copiați și lipiți parola generată în câmpul „Parolă / Cheie aplicație” de mai sus"
-    },
-    "defaults": {
-      "subject": "Memento programare din {{data}}",
-      "template": "Stimate/Stimată {{nome}} {{cognome}},\n\nAceasta este o notificare pentru programarea dvs. de {{servizio}} din {{data}}, ora {{ora}}.\n\nPentru orice modificare sau anulare, vă rugăm să ne contactați.\n\nCu stimă,\nStudioul"
     },
     "redirecting": "Redirecționare către setările de e-mail..."
   },
@@ -6408,41 +6423,41 @@
   },
   "pos": {
     "settings": {
-      "title": "[TODO:RO] POS Terminal payments",
-      "desc": "[TODO:RO] Accept cards and bank transfers directly from your appointments and invoices",
-      "active": "[TODO:RO] POS active",
-      "saved": "[TODO:RO] POS settings saved",
-      "saveError": "[TODO:RO] Error saving settings",
-      "testOk": "[TODO:RO] SumUp connection successful!",
-      "testFail": "[TODO:RO] Connection failed",
-      "testFailDesc": "[TODO:RO] Please check your API key",
-      "testOkBtn": "[TODO:RO] Connected",
-      "testFailBtn": "[TODO:RO] Failed",
-      "testBtn": "[TODO:RO] Test connection",
-      "testing": "[TODO:RO] Testing...",
-      "connected": "[TODO:RO] SumUp account connected",
-      "notConnected": "[TODO:RO] SumUp account not yet connected",
-      "apiKey": "[TODO:RO] SumUp API Key",
-      "apiKeyPlaceholder": "[TODO:RO] Paste your SumUp API key here",
-      "apiKeyHint": "[TODO:RO] Find it at",
-      "apiKeyHint2": "[TODO:RO] API Keys → Create key",
-      "sumupDesc": "[TODO:RO] Enter your personal SumUp API key to connect the terminal",
-      "moreProviders": "[TODO:RO] Coming soon: Stripe Terminal, Square and other providers"
+      "title": "Plăți cu terminal POS",
+      "desc": "Acceptați carduri și transferuri direct din programările și facturile dvs.",
+      "active": "POS activ",
+      "saved": "Setări POS salvate",
+      "saveError": "Eroare la salvare",
+      "testOk": "Conexiunea SumUp a reușit!",
+      "testFail": "Conexiune eșuată",
+      "testFailDesc": "Verificați cheia API",
+      "testOkBtn": "Conectat",
+      "testFailBtn": "Eșuat",
+      "testBtn": "Testați conexiunea",
+      "testing": "Se testează...",
+      "connected": "Cont SumUp conectat",
+      "notConnected": "Cont SumUp neconectat încă",
+      "apiKey": "Cheie API SumUp",
+      "apiKeyPlaceholder": "Lipiți cheia API SumUp aici",
+      "apiKeyHint": "Găsiți-o pe",
+      "apiKeyHint2": "API Keys → Creați cheie",
+      "sumupDesc": "Introduceți cheia API personală SumUp pentru a conecta terminalul",
+      "moreProviders": "În curând: Stripe Terminal, Square și alți furnizori"
     },
     "pay": {
-      "button": "[TODO:RO] Card / Bank transfer",
-      "title": "[TODO:RO] Card payment",
-      "amount": "[TODO:RO] Amount",
-      "anonymous": "[TODO:RO] Anonymous",
-      "creating": "[TODO:RO] Creating payment...",
-      "instructions": "[TODO:RO] The customer can scan the QR code or open the link to pay",
-      "openLink": "[TODO:RO] Open payment link",
-      "waiting": "[TODO:RO] Waiting for payment...",
-      "success": "[TODO:RO] Payment received! ✅",
-      "paid": "[TODO:RO] Payment received!",
-      "failed": "[TODO:RO] Payment failed",
-      "retry": "[TODO:RO] Retry",
-      "error": "[TODO:RO] Error creating payment"
+      "button": "Card / Transfer bancar",
+      "title": "Plată cu card",
+      "amount": "Sumă",
+      "anonymous": "Anonim",
+      "creating": "Se creează plata...",
+      "instructions": "Clientul poate scana codul QR sau deschide linkul pentru a plăti",
+      "openLink": "Deschideți linkul de plată",
+      "waiting": "Se așteaptă plata...",
+      "success": "Plată primită! ✅",
+      "paid": "Plată primită!",
+      "failed": "Plată eșuată",
+      "retry": "Reîncercați",
+      "error": "Eroare la crearea plății"
     }
   }
 }
