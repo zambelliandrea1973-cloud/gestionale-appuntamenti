@@ -724,11 +724,14 @@ export function setupAuth(app: Express) {
       }
     }));
 
-    app.get('/api/auth/google', passport.authenticate('google-login', { scope: ['profile', 'email'], prompt: 'select_account' }));
-    app.get('/api/auth/google/callback',
-      passport.authenticate('google-login', { failureRedirect: '/?error=google-auth-failed' }),
-      (req, res) => { res.redirect('/dashboard'); }
-    );
+    const googleAuthMiddleware = passport.authenticate('google-login', { scope: ['profile', 'email'], prompt: 'select_account' });
+    const googleCallbackMiddleware = passport.authenticate('google-login', { failureRedirect: '/?error=google-auth-failed' });
+    const googleCallbackDone = (req: any, res: any) => { res.redirect('/dashboard'); };
+
+    app.get('/api/auth/google', googleAuthMiddleware);
+    app.get('/auth/google', googleAuthMiddleware);
+    app.get('/api/auth/google/callback', googleCallbackMiddleware, googleCallbackDone);
+    app.get('/auth/google/callback', googleCallbackMiddleware, googleCallbackDone);
     console.log('✅ [AUTH] Google OAuth login configured');
   } else {
     console.warn('⚠️ [AUTH] Google OAuth login disabled (GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET missing)');
