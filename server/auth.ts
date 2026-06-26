@@ -680,6 +680,7 @@ export function setupAuth(app: Express) {
     : process.env.REPL_SLUG
       ? `https://wife-scheduler-zambelliandrea1.replit.app`
       : 'http://localhost:5000';
+  console.log(`🔑 [AUTH] socialCallbackBase="${socialCallbackBase}" (PRODUCTION_DOMAIN=${process.env.PRODUCTION_DOMAIN || 'NOT SET'}, REPL_SLUG=${process.env.REPL_SLUG || 'NOT SET'})`);
 
   // Find or create a user account from social profile data
   async function findOrCreateSocialUser(email: string, firstName: string, lastName: string) {
