@@ -706,10 +706,14 @@ export function setupAuth(app: Express) {
 
   // ─── Google OAuth Strategy ────────────────────────────────────────────────
   if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    // Relative callbackURL + proxy:true → passport builds the full URL from
+    // X-Forwarded-Host / X-Forwarded-Proto set by the reverse proxy (Sliplane/Replit).
+    // This avoids any PRODUCTION_DOMAIN mismatch and works on every domain automatically.
     passport.use('google-login', new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${socialCallbackBase}/api/auth/google/callback`,
+      callbackURL: '/api/auth/google/callback',
+      proxy: true,
     }, async (accessToken, refreshToken, profile, done) => {
       try {
         const email = profile.emails?.[0]?.value;
@@ -733,7 +737,25 @@ export function setupAuth(app: Express) {
     app.get('/auth/google', googleAuthMiddleware);
     app.get('/api/auth/google/callback', googleCallbackMiddleware, googleCallbackDone);
     app.get('/auth/google/callback', googleCallbackMiddleware, googleCallbackDone);
-    console.log('✅ [AUTH] Google OAuth login configured');
+
+    // Diagnostic endpoint — shows what callbackURL passport would build for THIS request
+    app.get('/api/auth/google/debug-url', (req: any, res: any) => {
+      const proto = req.headers['x-forwarded-proto'] || req.protocol;
+      const host  = req.headers['x-forwarded-host']  || req.headers['host'];
+      const builtCallback = `${proto}://${host}/api/auth/google/callback`;
+      res.json({
+        builtCallback,
+        socialCallbackBase,
+        'x-forwarded-proto': req.headers['x-forwarded-proto'] || null,
+        'x-forwarded-host':  req.headers['x-forwarded-host']  || null,
+        protocol: req.protocol,
+        host: req.headers['host'],
+        PRODUCTION_DOMAIN: process.env.PRODUCTION_DOMAIN || null,
+        REPL_SLUG: process.env.REPL_SLUG || null,
+      });
+    });
+
+    console.log('✅ [AUTH] Google OAuth login configured (proxy mode, relative callbackURL=/api/auth/google/callback)');
   } else {
     console.warn('⚠️ [AUTH] Google OAuth login disabled (GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET missing)');
   }
