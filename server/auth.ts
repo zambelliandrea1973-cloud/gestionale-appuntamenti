@@ -738,13 +738,25 @@ export function setupAuth(app: Express) {
     app.get('/api/auth/google/callback', googleCallbackMiddleware, googleCallbackDone);
     app.get('/auth/google/callback', googleCallbackMiddleware, googleCallbackDone);
 
-    // Diagnostic endpoint — shows what callbackURL passport would build for THIS request
+    // Diagnostic endpoint — shows exact OAuth params sent to Google for THIS request
     app.get('/api/auth/google/debug-url', (req: any, res: any) => {
       const proto = req.headers['x-forwarded-proto'] || req.protocol;
       const host  = req.headers['x-forwarded-host']  || req.headers['host'];
       const builtCallback = `${proto}://${host}/api/auth/google/callback`;
+      const clientId = process.env.GOOGLE_CLIENT_ID || 'MISSING';
+      // Build the exact Google OAuth URL to verify redirect_uri and client_id
+      const oauthParams = new URLSearchParams({
+        response_type: 'code',
+        redirect_uri: builtCallback,
+        scope: 'profile email',
+        client_id: clientId,
+        prompt: 'select_account',
+      });
+      const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?${oauthParams.toString()}`;
       res.json({
         builtCallback,
+        clientIdPrefix: clientId.slice(0, 30) + '...',
+        googleAuthURL,
         socialCallbackBase,
         'x-forwarded-proto': req.headers['x-forwarded-proto'] || null,
         'x-forwarded-host':  req.headers['x-forwarded-host']  || null,
