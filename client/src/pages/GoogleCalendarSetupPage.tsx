@@ -250,21 +250,8 @@ export default function GoogleCalendarSetupPage() {
               setLastSyncAt(data.lastSyncAt);
             }
 
-            // Sync automatica all'apertura della pagina se la sync è abilitata
-            if (syncEnabled) {
-              fetch('/api/google-calendar/sync-now', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-              }).then(res => res.json()).then(syncData => {
-                if (syncData.success) {
-                  setLastSyncAt(new Date().toISOString());
-                  if (syncData.details?.exported !== undefined) {
-                    setTotalSyncedEvents(prev => prev + (syncData.details.exported || 0));
-                  }
-                }
-              }).catch(() => {/* silent — non blocca il caricamento della pagina */});
-            }
+            // Sync rimossa dall'apertura automatica: la sync parte solo manualmente
+            // o via scheduler (ogni 24h) — evita importazioni indesiderate al caricamento
           } else if (!data.disabledByUser) {
             // Disconnesso NON per scelta dell'utente → prova ripristino automatico
             setIsAutoRestoring(true);
