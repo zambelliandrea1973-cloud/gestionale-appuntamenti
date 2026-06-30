@@ -5183,6 +5183,10 @@
       "deleteAccount": "Șterge cont",
       "empty": "Nu s-au găsit licențe"
     },
+    "gmail": {
+      "connected": "Gmail conectat",
+      "disabledByUser": "Gmail dezactivat de utilizator"
+    },
     "banking": {
       "alert": "Aceste date sunt folosite pentru a procesa automat plățile comisioanelor de recomandare către personal. Toate datele sunt criptate și stocate în siguranță.",
       "title": "Date bancare admin",
