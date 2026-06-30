@@ -50,14 +50,9 @@ export default function ProFeaturesPage() {
         if (rd?.success && rd?.method === 'silent') {
           // Token ancora nel DB → riabilita e aggiorna la card
           queryClient.invalidateQueries({ queryKey: ['/api/google-auth/status'] });
-        } else if (rd?.reason === 'needs_oauth') {
-          // Token sparito → redirect main window a Google OAuth
-          fetch('/api/google-auth/start?returnTo=/pro-features', { credentials: 'include' })
-            .then(r2 => r2.ok ? r2.json() : null)
-            .then(authData => {
-              if (authData?.authUrl) window.location.href = authData.authUrl;
-            });
         }
+        // needs_oauth: nessun redirect automatico — l'utente clicca sulla card
+        // per andare a /google-calendar e riconnettere manualmente
       })
       .catch(() => { /* silent */ });
   }, [hasPROAccess, isLoadingGoogleStatus, googleAuthStatus]);
