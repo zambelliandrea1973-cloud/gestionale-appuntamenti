@@ -42,7 +42,11 @@ import {
   Loader2,
   Activity,
   Trash2,
-  MoreHorizontal
+  MoreHorizontal,
+  Mail,
+  MailCheck,
+  MailX,
+  MailMinus
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { triggerRefreshAfterSave } from "@/lib/autoRefresh";
@@ -750,6 +754,29 @@ export default function PaymentAdmin() {
                                   </div>
                                 </div>
                               </div>
+                              
+                              {/* Badge Gmail / Google Calendar */}
+                              {license.user && (() => {
+                                const gs = license.gmailStatus;
+                                if (!gs || gs === 'not_connected') return null;
+                                if (gs === 'connected') {
+                                  return (
+                                    <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+                                      <MailCheck className="h-3.5 w-3.5" />
+                                      {t('paymentAdmin.gmail.connected', 'Gmail connessa')}
+                                    </div>
+                                  );
+                                }
+                                if (gs === 'disabled_by_user') {
+                                  return (
+                                    <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200">
+                                      <MailMinus className="h-3.5 w-3.5" />
+                                      {t('paymentAdmin.gmail.disabledByUser', 'Gmail disattivata dall\'utente')}
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              })()}
                               
                               <Separator className="my-3" />
                               
