@@ -5183,6 +5183,10 @@
       "deleteAccount": "Supprimer le compte",
       "empty": "Aucune licence trouvée"
     },
+    "gmail": {
+      "connected": "Gmail connecté",
+      "disabledByUser": "Gmail désactivé par l'utilisateur"
+    },
     "banking": {
       "alert": "Ces données sont utilisées pour traiter automatiquement les paiements de commissions de parrainage au personnel. Toutes les données sont chiffrées et stockées en toute sécurité.",
       "title": "Données bancaires admin",
