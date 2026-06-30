@@ -5222,6 +5222,10 @@
       "deleteAccount": "Elimina account",
       "empty": "Nessuna licenza trovata"
     },
+    "gmail": {
+      "connected": "Gmail connessa",
+      "disabledByUser": "Gmail disattivata dall'utente"
+    },
     "banking": {
       "alert": "Questi dati vengono utilizzati per elaborare automaticamente i pagamenti delle commissioni referral allo staff. Tutti i dati sono crittografati e conservati in sicurezza.",
       "title": "Dati Bancari Admin",
