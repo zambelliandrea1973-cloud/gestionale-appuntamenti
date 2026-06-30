@@ -41,11 +41,45 @@ export default function GoogleCalendarSimpleSetup() {
   const [isSaving, setIsSaving] = useState(false);
   const [showAdvancedHelp, setShowAdvancedHelp] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isLoadingStatus, setIsLoadingStatus] = useState(true);
+  const [needsReauth, setNeedsReauth] = useState(false);
 
-  // Per ora, l'autorizzazione viene gestita dal flusso OAuth
-  // Inizialmente l'utente non è autorizzato
+  // Carica stato reale + auto-restore silenzioso se la sync è stata interrotta (non dall'utente)
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const r = await fetch('/api/google-auth/status', { credentials: 'include' });
+        if (!r.ok) return;
+        const data = await r.json();
+        if (data.authorized) {
+          setIsGoogleAuthorized(true);
+          setIsSyncEnabled(!!data.calendarEnabled);
+        } else if (!data.disabledByUser) {
+          // Disconnesso per bug/aggiornamento → prova ripristino silenzioso
+          const restore = await fetch('/api/google-auth/auto-restore', { method: 'POST', credentials: 'include' });
+          if (restore.ok) {
+            const rd = await restore.json();
+            if (rd.success && rd.method === 'silent') {
+              // Token ancora nel DB → riabilitato senza alcuna azione utente
+              setIsGoogleAuthorized(true);
+              setIsSyncEnabled(true);
+            } else if (rd.reason === 'needs_oauth') {
+              // Token sparito → mostra solo il mini-banner di riconnessione
+              setNeedsReauth(true);
+            }
+          }
+        }
+      } catch { /* silent */ }
+      finally { setIsLoadingStatus(false); }
+    };
+    init();
+  }, []);
 
-  // Funzione per avviare l'autorizzazione Google
+  // Auto-avvio OAuth quando il token è sparito ma non per scelta utente
+  useEffect(() => {
+    if (needsReauth) startGoogleAuth();
+  }, [needsReauth]);
+
   const startGoogleAuth = async () => {
     setIsAuthenticating(true);
     
@@ -297,7 +331,12 @@ export default function GoogleCalendarSimpleSetup() {
             </div>
           </div>
           
-          {isGoogleAuthorized ? (
+          {isLoadingStatus ? (
+            <div className="flex items-center justify-center py-8 text-muted-foreground">
+              <RefreshCw className="h-5 w-5 animate-spin mr-2" />
+              <span className="text-sm">{t('common.loading', 'Loading...')}</span>
+            </div>
+          ) : isGoogleAuthorized ? (
             <div className="space-y-6">
               <div className="flex items-center justify-between p-4 rounded-lg border bg-secondary/10">
                 <div className="flex items-center">
