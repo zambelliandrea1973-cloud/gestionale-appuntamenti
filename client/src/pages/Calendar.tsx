@@ -53,7 +53,9 @@ export default function Calendar() {
     setActiveFilter(prev => (prev?.type === type && prev?.id === id) ? null : { type, id });
   };
 
-  // ── Auto-sync Google Calendar ──────────────────────────────────────────────
+  // ── Auto-sync silenzioso all'apertura del calendario ─────────────────────────
+  // Allinea gli appuntamenti con Google Calendar senza mostrare errori all'utente.
+  // Errori OAuth (token scaduto, ecc.) vengono gestiti silenziosamente.
   useEffect(() => {
     let cancelled = false;
     const autoSync = async () => {
@@ -67,30 +69,19 @@ export default function Calendar() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 130_000);
         try {
-          const syncRes = await fetch('/api/google-calendar/sync-now', {
+          await fetch('/api/google-calendar/sync-now', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ forceFullSync: false }),
             credentials: 'include',
             signal: controller.signal,
           });
+          // Aggiorna gli appuntamenti silenziosamente dopo la sync
           if (!cancelled) {
-            // Non-blocking: invalidate and refetch in background
             queryClient.invalidateQueries({ queryKey: ["/api/appointments"], refetchType: 'all' });
-            if (syncRes.ok) {
-              try {
-                const data = await syncRes.json();
-                const imported = data.details?.imported || 0;
-                const exported = data.details?.exported || 0;
-                const errors: string[] = data.details?.errors || [];
-                if (errors.length > 0) {
-                  toast({ title: '⚠️ Sync Google', description: errors[0], variant: 'destructive' });
-                } else if (imported > 0 || exported > 0) {
-                  toast({ title: '✅ Sync Google completato', description: `📥 ${imported} importati · 📤 ${exported} esportati` });
-                }
-              } catch {}
-            }
           }
+        } catch {
+          // Errori silenziosi — non mostrano toast all'utente
         } finally {
           clearTimeout(timeoutId);
           if (!cancelled) setIsAutoSyncing(false);
@@ -101,7 +92,7 @@ export default function Calendar() {
     };
     autoSync();
     return () => { cancelled = true; };
-  }, [queryClient, toast]);
+  }, [queryClient]);
 
   // ── Auto-refresh silenzioso ogni 60s quando Google Calendar è attivo ────────
   // Dopo che il webhook riceve una notifica da Google e importa nuovi eventi,
