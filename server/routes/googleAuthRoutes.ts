@@ -790,7 +790,9 @@ router.post('/auto-restore', async (req, res) => {
     const [user] = await db.select({
       googleAuthToken: users.googleAuthToken,
       googleCalendarEnabled: users.googleCalendarEnabled,
-      googleCalendarDisabledByUser: users.googleCalendarDisabledByUser
+      googleCalendarDisabledByUser: users.googleCalendarDisabledByUser,
+      googleNeedsReauth: users.googleNeedsReauth,
+      googleCalendarEmail: users.googleCalendarEmail,
     }).from(users).where(eq(users.id, userId)).limit(1);
 
     if (!user) return res.status(404).json({ success: false, error: 'User not found' });
@@ -800,8 +802,38 @@ router.post('/auto-restore', async (req, res) => {
       return res.json({ success: false, reason: 'disabled_by_user' });
     }
 
-    // Token presente → riabilita silenziosamente senza OAuth
+    // Token presente → gestione in base a needsReauth
     if (user.googleAuthToken) {
+      const needsReauth = (user as any).googleNeedsReauth ?? false;
+
+      if (needsReauth) {
+        // Token segnato come scaduto: testa se è ancora valido con una chiamata reale
+        // (a volte invalid_grant è transitorio o il token è stato silenziosamente rinnovato)
+        try {
+          const tokenStr = EncryptionService.decryptToken(user.googleAuthToken);
+          const tokens = JSON.parse(tokenStr);
+          const testClient = new google.auth.OAuth2(
+            process.env.GOOGLE_CLIENT_ID,
+            process.env.GOOGLE_CLIENT_SECRET
+          );
+          testClient.setCredentials(tokens);
+          const cal = google.calendar({ version: 'v3', auth: testClient });
+          await cal.calendarList.list({ maxResults: 1 });
+          // Token ancora valido → ripristino silenzioso
+          await db.update(users)
+            .set({ googleCalendarEnabled: true, googleNeedsReauth: false } as any)
+            .where(eq(users.id, userId));
+          logger.info(`✅ [AUTO-RESTORE] Token ancora valido per user ${userId} — sync ripristinata silenziosamente`);
+          return res.json({ success: true, method: 'silent' });
+        } catch (testErr: any) {
+          const msg = String(testErr?.message || testErr);
+          logger.warn(`⚠️ [AUTO-RESTORE] Token test fallito per user ${userId}: ${msg}`);
+          // Token davvero invalido → serve re-autenticazione OAuth
+          return res.json({ success: false, reason: 'needs_oauth' });
+        }
+      }
+
+      // Token non marcato come scaduto → riabilita silenziosamente
       await db.update(users)
         .set({ googleCalendarEnabled: true })
         .where(eq(users.id, userId));
