@@ -64,7 +64,10 @@ let isDatabaseAvailable = true;
 // Check database connection at startup
 async function checkDatabaseAvailability(): Promise<boolean> {
   try {
-    await db.select().from(users).limit(1);
+    // Raw SQL — non usa Drizzle per evitare fallimenti su colonne mancanti
+    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, connectionTimeoutMillis: 5000 });
+    await pool.query('SELECT 1');
+    await pool.end();
     isDatabaseAvailable = true;
     console.log('✅ PostgreSQL database is available');
     return true;
@@ -107,6 +110,8 @@ export async function ensureSessionTable(): Promise<void> {
       await pool.query(`
         CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "user_sessions" ("expire");
       `);
+      // Colonne aggiunte in sessioni successive — safe con IF NOT EXISTS
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_disabled_by_user boolean DEFAULT false;`);
       await pool.end();
       console.log('✅ Table user_sessions verified/created successfully');
       return;
