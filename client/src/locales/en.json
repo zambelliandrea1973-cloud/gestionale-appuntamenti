@@ -5222,6 +5222,10 @@
       "deleteAccount": "Delete account",
       "empty": "No licenses found"
     },
+    "gmail": {
+      "connected": "Gmail connected",
+      "disabledByUser": "Gmail disabled by user"
+    },
     "banking": {
       "alert": "This data is used to automatically process referral commission payments to staff. All data is encrypted and stored securely.",
       "title": "Admin Banking Data",
