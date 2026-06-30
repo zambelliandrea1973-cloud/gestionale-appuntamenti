@@ -90,14 +90,37 @@ export function extractGoogleEmail(tokens: any, fallback: string | null = null):
  */
 async function disableGoogleCalendarOnInvalidGrant(userId: number): Promise<void> {
   try {
+    // Preserve the connected email before modifying the record
+    const [userRecord] = await db.select({
+      googleAuthToken: users.googleAuthToken,
+      googleCalendarEmail: users.googleCalendarEmail,
+    }).from(users).where(eq(users.id, userId)).limit(1);
+
+    let emailToPreserve: string | null = (userRecord as any)?.googleCalendarEmail || null;
+    if (!emailToPreserve && userRecord?.googleAuthToken) {
+      try {
+        const tokenStr = EncryptionService.decryptToken(userRecord.googleAuthToken);
+        const tokens = JSON.parse(tokenStr);
+        if (tokens.id_token) {
+          const payload = JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString());
+          emailToPreserve = payload.email || null;
+        }
+      } catch {}
+    }
+
     await db.update(users)
-      .set({ googleCalendarEnabled: false, googleAuthToken: null })
+      .set({
+        googleCalendarEnabled: false,
+        googleNeedsReauth: true,
+        googleCalendarEmail: emailToPreserve,
+        // googleAuthToken intentionally NOT cleared — keep it so UI can show email and re-auth can succeed
+      } as any)
       .where(eq(users.id, userId));
     await db.delete(googleCalendarSyncTokens)
       .where(eq(googleCalendarSyncTokens.userId, userId));
-    console.warn(`⚠️ [SYNC] Google Calendar disabled for user ${userId} — token cleared. Reconnect from Settings → Google Calendar`);
+    console.warn(`⚠️ [SYNC] Google Calendar marked needs_reauth for user ${userId} — email: ${emailToPreserve}. User must re-authorize from Settings → Google Calendar`);
   } catch (dbErr) {
-    console.error(`❌ [SYNC] Error disabling Google Calendar for user ${userId}:`, dbErr);
+    console.error(`❌ [SYNC] Error marking needs_reauth for user ${userId}:`, dbErr);
   }
 }
 
