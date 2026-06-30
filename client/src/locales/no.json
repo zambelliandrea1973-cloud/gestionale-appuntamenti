@@ -5183,6 +5183,10 @@
       "deleteAccount": "Slett konto",
       "empty": "Ingen lisenser funnet"
     },
+    "gmail": {
+      "connected": "Gmail tilkoblet",
+      "disabledByUser": "Gmail deaktivert av bruker"
+    },
     "banking": {
       "alert": "Disse dataene brukes til automatisk å behandle henvisningsprovisjoner til ansatte. Alle data er kryptert og lagres sikkert.",
       "title": "Bankdata for administrator",
