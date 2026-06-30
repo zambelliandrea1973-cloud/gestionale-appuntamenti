@@ -236,6 +236,10 @@ router.get('/staff-users', async (req, res) => {
       type: users.type,
       role: users.role,
       createdAt: users.createdAt,
+      googleCalendarEnabled: users.googleCalendarEnabled,
+      googleNeedsReauth: users.googleNeedsReauth,
+      googleCalendarEmail: users.googleCalendarEmail,
+      googleCalendarDisabledByUser: users.googleCalendarDisabledByUser,
     })
     .from(users)
     .where(ne(users.role, 'admin'))
