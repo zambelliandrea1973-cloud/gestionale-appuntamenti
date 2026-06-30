@@ -250,13 +250,37 @@ export default function GoogleCalendarSetupPage() {
             if (data.lastSyncAt) {
               setLastSyncAt(data.lastSyncAt);
             }
-          } else if (data.needsReauth) {
-            // Token scaduto (invalid_grant) — l'email è preservata nel DB.
-            // Mostra banner "riconnettiti" con email precompilata senza auto-redirect.
-            setNeedsReauth(true);
-            if (data.email) {
-              setEmail(data.email);
+          } else if (data.needsReauth && !data.disabledByUser) {
+            // Token tecnico scaduto (invalid_grant) — prova ripristino silenzioso prima
+            // di chiedere qualsiasi cosa all'utente. Se il token è ancora valido
+            // (es. errore transitorio), la sync torna attiva senza intervento umano.
+            setIsAutoRestoring(true);
+            try {
+              const restoreRes = await fetch('/api/google-auth/auto-restore', {
+                method: 'POST',
+                credentials: 'include',
+              });
+              const restoreData = await restoreRes.json();
+              if (restoreData.success && restoreData.method === 'silent') {
+                // Token ancora valido → sync ripristinata, nessun banner
+                setIsGoogleAuthorized(true);
+                setIsSyncEnabled(true);
+                if (data.email) setEmail(data.email);
+              } else {
+                // Token davvero scaduto → mostra stato discreto con email precompilata
+                // Nessun toast, nessun redirect automatico — l'utente sceglie quando riconnettersi
+                setNeedsReauth(true);
+                if (data.email) setEmail(data.email);
+              }
+            } catch {
+              // Errore di rete → mostra stato discreto, nessun toast
+              setNeedsReauth(true);
+              if (data.email) setEmail(data.email);
+            } finally {
+              setIsAutoRestoring(false);
             }
+          } else if (data.needsReauth && data.disabledByUser) {
+            // L'utente aveva disattivato volontariamente → rispetta la scelta, non fare nulla
           } else if (!data.disabledByUser) {
             // Disconnesso NON per scelta dell'utente → prova ripristino automatico
             setIsAutoRestoring(true);
