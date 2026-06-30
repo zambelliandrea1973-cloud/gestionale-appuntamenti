@@ -5183,6 +5183,10 @@
       "deleteAccount": "Konto löschen",
       "empty": "Keine Lizenzen gefunden"
     },
+    "gmail": {
+      "connected": "Gmail verbunden",
+      "disabledByUser": "Gmail vom Benutzer deaktiviert"
+    },
     "banking": {
       "alert": "Diese Daten werden verwendet, um Empfehlungsprovisionen automatisch an die Mitarbeiter auszuzahlen. Alle Daten sind verschlüsselt und sicher gespeichert.",
       "title": "Admin-Bankdaten",
