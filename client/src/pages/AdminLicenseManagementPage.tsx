@@ -56,6 +56,10 @@ interface StaffUser {
   username: string;
   type: string;
   role: string;
+  googleCalendarEnabled?: boolean;
+  googleNeedsReauth?: boolean;
+  googleCalendarEmail?: string | null;
+  googleCalendarDisabledByUser?: boolean;
 }
 
 interface License {
@@ -480,12 +484,22 @@ export default function AdminLicenseManagementPage() {
                       <TableHead>{t('adminLicense.col.user')}</TableHead>
                       <TableHead>{t('adminLicense.col.type')}</TableHead>
                       <TableHead>{t('adminLicense.col.status')}</TableHead>
+                      <TableHead>Google Cal</TableHead>
                       <TableHead>{t('adminLicense.col.expiry')}</TableHead>
                       <TableHead className="text-right">{t('adminLicense.col.actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {licenses.map((license) => (
+                    {licenses.map((license) => {
+                      const su: StaffUser | undefined = staffUsers?.find((u: StaffUser) => u.id === license.license.userId);
+                      const gCalStatus = (() => {
+                        if (!su) return null;
+                        if (su.googleCalendarEnabled && !su.googleNeedsReauth) return 'active';
+                        if (su.googleNeedsReauth) return 'expired';
+                        if (su.googleCalendarDisabledByUser || (!su.googleCalendarEnabled && su.googleCalendarEmail)) return 'disabled';
+                        return 'never';
+                      })();
+                      return (
                       <TableRow key={license.license.id}>
                         <TableCell>
                           <div className="font-medium">{license.username}</div>
@@ -508,6 +522,29 @@ export default function AdminLicenseManagementPage() {
                             )}
                             {license.license.isActive ? t('adminLicense.status.active') : t('adminLicense.status.revoked')}
                           </Badge>
+                        </TableCell>
+                        <TableCell>
+                          {gCalStatus === 'active' && (
+                            <span title={su?.googleCalendarEmail || ''} className="inline-flex items-center gap-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded px-1.5 py-0.5">
+                              <Check className="h-3 w-3" /> Attiva
+                            </span>
+                          )}
+                          {gCalStatus === 'expired' && (
+                            <span title={su?.googleCalendarEmail || ''} className="inline-flex items-center gap-1 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded px-1.5 py-0.5">
+                              ⚠ Scaduta
+                            </span>
+                          )}
+                          {gCalStatus === 'disabled' && (
+                            <span title={su?.googleCalendarEmail || ''} className="inline-flex items-center gap-1 text-xs font-medium text-gray-500 bg-gray-50 border border-gray-200 rounded px-1.5 py-0.5">
+                              <X className="h-3 w-3" /> Off
+                            </span>
+                          )}
+                          {gCalStatus === 'never' && (
+                            <span className="text-xs text-muted-foreground">—</span>
+                          )}
+                          {gCalStatus === null && (
+                            <span className="text-xs text-muted-foreground">—</span>
+                          )}
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center">
@@ -555,7 +592,8 @@ export default function AdminLicenseManagementPage() {
                           </DropdownMenu>
                         </TableCell>
                       </TableRow>
-                    ))}
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </div>
