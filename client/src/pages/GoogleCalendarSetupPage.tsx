@@ -267,17 +267,10 @@ export default function GoogleCalendarSetupPage() {
                 setIsGoogleAuthorized(true);
                 setIsSyncEnabled(true);
               } else if (restoreData.reason === 'needs_oauth') {
-                // Token sparito → redirect FINESTRA PRINCIPALE a Google OAuth
-                // (i popup auto-triggered vengono bloccati dal browser)
-                const authRes = await fetch('/api/google-auth/start?returnTo=/google-calendar', { credentials: 'include' });
-                if (authRes.ok) {
-                  const authData = await authRes.json();
-                  if (authData.authUrl) {
-                    window.location.href = authData.authUrl;
-                    return; // la pagina si sta redirigendo, stop
-                  }
-                }
-                setNeedsReauth(true); // fallback: mostra il form
+                // Token sparito → mostra banner "Riconnetti" senza redirect automatico.
+                // Il professionista deve cliccare esplicitamente il pulsante (evita redirect
+                // indesiderati quando l'admin gestisce account staff altrui).
+                setNeedsReauth(true);
               }
               // se reason === 'disabled_by_user': mostra il form normalmente
             } catch (e) {
