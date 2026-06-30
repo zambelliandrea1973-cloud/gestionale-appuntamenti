@@ -5183,6 +5183,10 @@
       "deleteAccount": "Account verwijderen",
       "empty": "Geen licenties gevonden"
     },
+    "gmail": {
+      "connected": "Gmail verbonden",
+      "disabledByUser": "Gmail uitgeschakeld door gebruiker"
+    },
     "banking": {
       "alert": "Deze gegevens worden gebruikt om automatisch verwijzingscommissies aan medewerkers uit te betalen. Alle gegevens zijn versleuteld en veilig opgeslagen.",
       "title": "Bankgegevens beheerder",
