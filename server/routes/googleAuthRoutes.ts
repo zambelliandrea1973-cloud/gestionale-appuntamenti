@@ -192,10 +192,13 @@ router.get('/start', async (req, res) => {
     const encodedScopes = encodeURIComponent(effectiveScopes.join(' '));
     
     // State contains the userId AND the redirectUri for the callback
+    // returnTo: pagina a cui tornare dopo auth via redirect (non popup)
+    const returnTo = (req.query.returnTo as string) || null;
     const state = Buffer.from(JSON.stringify({ 
       userId, 
       redirectUri: dynamicRedirectUri,
-      addAccount: isAddAccount
+      addAccount: isAddAccount,
+      ...(returnTo ? { returnTo } : {})
     })).toString('base64');
     
     // Required parameters in the correct order
@@ -283,6 +286,7 @@ router.get('/callback', async (req, res) => {
   let userId: number | null = null;
   let stateRedirectUri: string = redirectUri; // Fallback to default
   let isAddAccount = false; // true → collega un account Google secondario
+  let callbackReturnTo = '/google-calendar'; // pagina a cui tornare dopo auth via redirect (non popup)
   
   if (state) {
     try {
@@ -298,6 +302,9 @@ router.get('/callback', async (req, res) => {
       // Detect secondary-account flow
       isAddAccount = stateData.addAccount === true;
       console.log(`🔍 [OAUTH CB] state.addAccount=${stateData.addAccount} → isAddAccount=${isAddAccount}`);
+      
+      // Pagina di ritorno per il flusso redirect (non popup)
+      if (stateData.returnTo) callbackReturnTo = stateData.returnTo;
       
       // The userId can be a string like "admin:3" or a number
       const rawUserId = stateData.userId;
@@ -592,8 +599,8 @@ router.get('/callback', async (req, res) => {
                   }
                 }, 500);
               } else {
-                // If there is an opener window, redirect to the settings page
-                window.location.href = '/settings';
+                // Redirect main window: torna alla pagina di origine (returnTo dallo state)
+                window.location.href = '${callbackReturnTo}';
               }
               
               // Close the window after 2 seconds to give the message time to be processed
