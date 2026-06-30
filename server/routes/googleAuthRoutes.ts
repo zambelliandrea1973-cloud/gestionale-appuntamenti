@@ -716,40 +716,27 @@ router.get('/status', async (req, res) => {
       if (user && user.googleAuthToken) {
         console.log("✅ [GOOGLE AUTH STATUS] token found in database for user", userId);
         
-        // Also restore authInfo in memory for backwards compatibility
-        const decryptedTokenStr = EncryptionService.decryptToken(user.googleAuthToken);
-        const tokens = JSON.parse(decryptedTokenStr);
-        authInfo = {
-          authorized: true,
-          tokens
-        };
-        
-        // Reset the credentials on the OAuth client
-        oauth2Client.setCredentials(tokens);
-        
-        // Extract email from JWT token (id_token contains the real email)
+        // Estrai email senza rischiare eccezioni di decryption
+        // (la decryption completa avviene solo quando serve davvero il token per le API)
         let googleEmail: string | null = null;
-        
-        // First try to extract the email from the JWT token
-        if (tokens.id_token) {
-          try {
+        try {
+          const decryptedTokenStr = EncryptionService.decryptToken(user.googleAuthToken);
+          const tokens = JSON.parse(decryptedTokenStr);
+          authInfo = { authorized: true, tokens };
+          oauth2Client.setCredentials(tokens);
+          if (tokens.id_token) {
             const payload = JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString());
             googleEmail = payload.email;
-            console.log("✅ [GOOGLE AUTH STATUS] Email extracted from token:", googleEmail);
-          } catch (e) {
-            console.log("⚠️ [GOOGLE AUTH STATUS] Unable to extract email from token");
           }
+        } catch (decryptErr) {
+          console.warn("⚠️ [GOOGLE AUTH STATUS] Token decrypt failed (key mismatch?) — still marking authorized=true since token exists");
         }
         
-        // Fallback: use googleCalendarId only if it is "primary"
+        // Fallback email
         if (!googleEmail && user.googleCalendarId && user.googleCalendarId !== 'primary') {
           googleEmail = user.googleCalendarId;
         }
-        
-        // Last fallback: email of the user
-        if (!googleEmail) {
-          googleEmail = user.email;
-        }
+        if (!googleEmail) googleEmail = user.email;
         
         return res.json({ 
           success: true, 
@@ -785,8 +772,11 @@ router.get('/status', async (req, res) => {
 // Riabilita silenziosamente la sync se il token è ancora presente nel DB
 // (disconnessione causata da bug/aggiornamento, non dall'utente)
 router.post('/auto-restore', async (req, res) => {
-  const userId = (req as any).session?.passport?.user;
-  if (!userId) return res.status(401).json({ success: false, error: 'Not authenticated' });
+  // Usa req.user (deserializzato da Passport) — più robusto di session?.passport?.user
+  if (!req.isAuthenticated() || !req.user) {
+    return res.status(401).json({ success: false, error: 'Not authenticated' });
+  }
+  const userId = (req.user as any).id;
 
   try {
     const [user] = await db.select({
