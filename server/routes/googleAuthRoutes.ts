@@ -710,7 +710,9 @@ router.get('/status', async (req, res) => {
         googleAuthToken: users.googleAuthToken,
         googleCalendarEnabled: users.googleCalendarEnabled,
         googleCalendarId: users.googleCalendarId,
-        googleCalendarDisabledByUser: users.googleCalendarDisabledByUser
+        googleCalendarDisabledByUser: users.googleCalendarDisabledByUser,
+        googleNeedsReauth: users.googleNeedsReauth,
+        googleCalendarEmail: users.googleCalendarEmail,
       }).from(users).where(eq(users.id, userId)).limit(1);
       
       if (user && user.googleAuthToken) {
@@ -718,7 +720,7 @@ router.get('/status', async (req, res) => {
         
         // Estrai email senza rischiare eccezioni di decryption
         // (la decryption completa avviene solo quando serve davvero il token per le API)
-        let googleEmail: string | null = null;
+        let googleEmail: string | null = (user as any).googleCalendarEmail || null;
         try {
           const decryptedTokenStr = EncryptionService.decryptToken(user.googleAuthToken);
           const tokens = JSON.parse(decryptedTokenStr);
@@ -726,7 +728,7 @@ router.get('/status', async (req, res) => {
           oauth2Client.setCredentials(tokens);
           if (tokens.id_token) {
             const payload = JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString());
-            googleEmail = payload.email;
+            googleEmail = payload.email || googleEmail;
           }
         } catch (decryptErr) {
           console.warn("⚠️ [GOOGLE AUTH STATUS] Token decrypt failed (key mismatch?) — still marking authorized=true since token exists");
@@ -738,20 +740,26 @@ router.get('/status', async (req, res) => {
         }
         if (!googleEmail) googleEmail = user.email;
         
+        const needsReauth = (user as any).googleNeedsReauth ?? false;
         return res.json({ 
           success: true, 
           authorized: true,
           calendarEnabled: user.googleCalendarEnabled,
           disabledByUser: user.googleCalendarDisabledByUser ?? false,
+          needsReauth,
           email: googleEmail
         });
       }
       console.log("⚠️ [GOOGLE AUTH STATUS] No token in database for user", userId);
-      // Return disabledByUser even when no token, so frontend can decide auto-restore
+      // Even without token, preserve email and needsReauth so the UI can show "reconnect" state
+      const preservedEmail = (user as any)?.googleCalendarEmail || null;
+      const needsReauth = (user as any)?.googleNeedsReauth ?? false;
       return res.json({
         success: true,
         authorized: false,
-        disabledByUser: user?.googleCalendarDisabledByUser ?? false
+        disabledByUser: user?.googleCalendarDisabledByUser ?? false,
+        needsReauth,
+        email: preservedEmail,
       });
     } catch (error) {
       console.error("❌ [GOOGLE AUTH STATUS] Error reading database:", error);
