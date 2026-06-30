@@ -488,6 +488,7 @@ export const users = pgTable("users", {
   googleCalendarId: text("google_calendar_id"), // ID del calendario Google (default "primary")
   lastGoogleSyncAt: timestamp("last_google_sync_at"), // Ultima sincronizzazione con Google Calendar
   googleAccountColor: text("google_account_color").default("#4a7c59"), // Colore banda account Google primario nel calendario
+  googleCalendarDisabledByUser: boolean("google_calendar_disabled_by_user").default(false), // true se l'utente ha disconnesso volontariamente
   termsAcceptedAt: timestamp("terms_accepted_at"), // Data e ora accettazione Termini di Servizio
   hideWelcomeGuide: boolean("hide_welcome_guide").default(false),
   createdAt: timestamp("created_at").defaultNow(),
