@@ -1432,6 +1432,16 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
         }
       }
       
+      // Gmail/Google Calendar status
+      let gmailStatus: 'connected' | 'disabled_by_user' | 'not_connected' = 'not_connected';
+      if (user) {
+        if (user.googleCalendarEnabled && user.googleAuthToken) {
+          gmailStatus = 'connected';
+        } else if (user.googleCalendarDisabledByUser) {
+          gmailStatus = 'disabled_by_user';
+        }
+      }
+
       const unifiedUser = user ? {
         id: user.id,
         username: user.username,
@@ -1455,6 +1465,7 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
       return {
         ...license,
         user: unifiedUser,
+        gmailStatus,
         accessToday: access.today,
         accessWeek: access.week,
         accessTotal: access.total,
