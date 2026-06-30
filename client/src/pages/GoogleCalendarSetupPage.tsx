@@ -47,6 +47,8 @@ export default function GoogleCalendarSetupPage() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSyncResult, setLastSyncResult] = useState<{ success: boolean; message: string } | null>(null);
   const [isCheckingStatus, setIsCheckingStatus] = useState(true);
+  const [isAutoRestoring, setIsAutoRestoring] = useState(false);
+  const [needsReauth, setNeedsReauth] = useState(false);
   const [lastSyncAt, setLastSyncAt] = useState<string | null>(null);
   const [totalSyncedEvents, setTotalSyncedEvents] = useState<number>(0);
   
@@ -263,6 +265,31 @@ export default function GoogleCalendarSetupPage() {
                 }
               }).catch(() => {/* silent — non blocca il caricamento della pagina */});
             }
+          } else if (!data.disabledByUser) {
+            // Disconnesso NON per scelta dell'utente → prova ripristino automatico
+            setIsAutoRestoring(true);
+            try {
+              const restoreRes = await fetch('/api/google-auth/auto-restore', {
+                method: 'POST',
+                credentials: 'include',
+              });
+              const restoreData = await restoreRes.json();
+
+              if (restoreData.success && restoreData.method === 'silent') {
+                // Token ancora nel DB → riabilitato silenziosamente, nessuna azione utente
+                setIsGoogleAuthorized(true);
+                setIsSyncEnabled(true);
+              } else if (restoreData.reason === 'needs_oauth') {
+                // Token sparito (es. invalid_grant) → Google richiede nuovo consenso.
+                // Non mostriamo il form di setup: mostriamo solo un banner con tasto "Riconnetti".
+                setNeedsReauth(true);
+              }
+              // se reason === 'disabled_by_user': mostra il form normalmente
+            } catch (e) {
+              console.error('[AUTO-RESTORE] Error:', e);
+            } finally {
+              setIsAutoRestoring(false);
+            }
           }
         }
         
@@ -291,8 +318,13 @@ export default function GoogleCalendarSetupPage() {
     }
   }, [hasProAccess, isLoading]);
 
-  const startGoogleAuth = async () => {
-    if (!email.trim()) {
+  // Auto-avvio OAuth quando il token è sparito ma non per scelta utente
+  useEffect(() => {
+    if (needsReauth) startGoogleAuth(true);
+  }, [needsReauth]);
+
+  const startGoogleAuth = async (skipEmailCheck = false) => {
+    if (!skipEmailCheck && !email.trim()) {
       toast({
         title: t('googleCalendar.errors.emailRequired'),
         description: t('googleCalendar.errors.emailRequired'),
@@ -783,6 +815,8 @@ export default function GoogleCalendarSetupPage() {
       </div>
     );
   }
+
+  // needsReauth=true → startGoogleAuth() parte automaticamente via useEffect → nessun blocco UI
 
   return (
     <div className="container py-8 max-w-2xl">
