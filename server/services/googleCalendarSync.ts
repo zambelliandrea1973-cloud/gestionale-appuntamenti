@@ -194,13 +194,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     }
     const allCalendars = calendarListResponse.data.items || [];
     
-    // Import from ALL calendars the user can see — primary, secondary, shared, etc.
-    // The only exclusion is 'freeBusyReader': that role doesn't expose event details,
-    // the API returns only busy/free slots so there is nothing to import.
-    // Everything else (owner, writer, reader) is included so the professional's
-    // schedule is fully aligned regardless of which calendar an event was saved to.
+    // Importa SOLO dai calendari di PROPRIETÀ dell'utente (accessRole === 'owner').
+    // Questo esclude calendari condivisi da altri utenti (accessRole 'reader'/'writer')
+    // che appartengono ad altri account Google — evita cross-contaminazione tra account.
+    // Calendari 'freeBusyReader' esclusi comunque (non espongono dettagli eventi).
     const accessibleCalendars = allCalendars.filter((cal: any) =>
-      cal.id && cal.accessRole && cal.accessRole !== 'freeBusyReader'
+      cal.id && cal.accessRole === 'owner'
     );
 
     console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} da sincronizzare (tutti tranne freeBusyReader)`);
