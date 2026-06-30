@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
 import { useLicense } from '@/hooks/use-license';
 import ProFeatureNavbar from '@/components/ProFeatureNavbar';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 /**
  * Pagina delle funzionalità PRO
@@ -19,6 +19,7 @@ import { useQuery } from '@tanstack/react-query';
 export default function ProFeaturesPage() {
   const { t } = useTranslation();
   const { hasProAccess, isLoading } = useLicense();
+  const queryClient = useQueryClient();
   
   // Utilizziamo l'hook useLicense per verificare se l'utente ha accesso PRO
   const hasPROAccess = !isLoading && hasProAccess;
@@ -28,13 +29,41 @@ export default function ProFeaturesPage() {
     authorized: boolean;
     email?: string;
     calendarEnabled?: boolean;
+    disabledByUser?: boolean;
   }>({
     queryKey: ['/api/google-auth/status'],
     enabled: hasPROAccess,
-    staleTime: 30000 // Cache per 30 secondi
+    staleTime: 30000
   });
   
-  const isGoogleConnected = googleAuthStatus?.authorized && googleAuthStatus?.calendarEnabled;
+  // Auto-restore silenzioso: se il professionista non ha disconnesso volontariamente,
+  // riabilita in automatico la connessione Google Calendar senza alcuna azione utente
+  useEffect(() => {
+    if (!hasPROAccess || isLoadingGoogleStatus) return;
+    if (googleAuthStatus?.authorized) return; // già connesso
+    if (googleAuthStatus?.disabledByUser) return; // scelta volontaria, rispettiamo
+    
+    // Disconnesso per bug/aggiornamento → ripristino silenzioso
+    fetch('/api/google-auth/auto-restore', { method: 'POST', credentials: 'include' })
+      .then(r => r.ok ? r.json() : null)
+      .then(rd => {
+        if (rd?.success && rd?.method === 'silent') {
+          // Token ancora nel DB → riabilita e aggiorna la card
+          queryClient.invalidateQueries({ queryKey: ['/api/google-auth/status'] });
+        } else if (rd?.reason === 'needs_oauth') {
+          // Token sparito → redirect main window a Google OAuth
+          fetch('/api/google-auth/start?returnTo=/pro-features', { credentials: 'include' })
+            .then(r2 => r2.ok ? r2.json() : null)
+            .then(authData => {
+              if (authData?.authUrl) window.location.href = authData.authUrl;
+            });
+        }
+      })
+      .catch(() => { /* silent */ });
+  }, [hasPROAccess, isLoadingGoogleStatus, googleAuthStatus]);
+  
+  // Connesso = token presente nel DB (authorized=true), indipendentemente da calendarEnabled
+  const isGoogleConnected = googleAuthStatus?.authorized === true;
   
   // Reindirizza direttamente alla pagina di abbonamento
   const handleUpgradeClick = () => {
