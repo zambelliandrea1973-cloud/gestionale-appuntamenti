@@ -132,16 +132,17 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
       }
     }
     
-    // Delete the token from the database
+    // Delete the token from the database and flag as user-initiated disconnect
     await db.update(users)
       .set({ 
         googleAuthToken: null,
         googleCalendarEnabled: false,
-        googleCalendarId: null
+        googleCalendarId: null,
+        googleCalendarDisabledByUser: true
       })
       .where(eq(users.id, userId));
     
-    logger.debug(`✅ [REVOKE] Token deleted from database for user ${userId}`);
+    logger.debug(`✅ [REVOKE] Token deleted from database for user ${userId} (user-initiated)`);
     
     res.json({ success: true, message: 'Token revoked successfully' });
   } catch (error) {
@@ -515,7 +516,8 @@ router.get('/callback', async (req, res) => {
               googleAuthToken: encryptedCalendarToken,
               googleCalendarEnabled: true,
               googleCalendarId: 'primary',
-              lastGoogleSyncAt: new Date()
+              lastGoogleSyncAt: new Date(),
+              googleCalendarDisabledByUser: false
             })
             .where(eq(users.id, userId));
           
@@ -700,7 +702,8 @@ router.get('/status', async (req, res) => {
         email: users.email,
         googleAuthToken: users.googleAuthToken,
         googleCalendarEnabled: users.googleCalendarEnabled,
-        googleCalendarId: users.googleCalendarId
+        googleCalendarId: users.googleCalendarId,
+        googleCalendarDisabledByUser: users.googleCalendarDisabledByUser
       }).from(users).where(eq(users.id, userId)).limit(1);
       
       if (user && user.googleAuthToken) {
@@ -745,10 +748,17 @@ router.get('/status', async (req, res) => {
           success: true, 
           authorized: true,
           calendarEnabled: user.googleCalendarEnabled,
+          disabledByUser: user.googleCalendarDisabledByUser ?? false,
           email: googleEmail
         });
       }
       console.log("⚠️ [GOOGLE AUTH STATUS] No token in database for user", userId);
+      // Return disabledByUser even when no token, so frontend can decide auto-restore
+      return res.json({
+        success: true,
+        authorized: false,
+        disabledByUser: user?.googleCalendarDisabledByUser ?? false
+      });
     } catch (error) {
       console.error("❌ [GOOGLE AUTH STATUS] Error reading database:", error);
     }
@@ -756,13 +766,50 @@ router.get('/status', async (req, res) => {
     console.log("⚠️ [GOOGLE AUTH STATUS] User not authenticated");
   }
   
-  // If there is a token in the database for this user, they are NOT authorized
-  // (the old fallback used a global variable that caused security bugs)
   console.log("🔐 [GOOGLE AUTH STATUS] No token found, user unauthorized");
   res.json({ 
     success: true, 
-    authorized: false 
+    authorized: false,
+    disabledByUser: false
   });
+});
+
+// POST /api/google-auth/auto-restore
+// Riabilita silenziosamente la sync se il token è ancora presente nel DB
+// (disconnessione causata da bug/aggiornamento, non dall'utente)
+router.post('/auto-restore', async (req, res) => {
+  const userId = (req as any).session?.passport?.user;
+  if (!userId) return res.status(401).json({ success: false, error: 'Not authenticated' });
+
+  try {
+    const [user] = await db.select({
+      googleAuthToken: users.googleAuthToken,
+      googleCalendarEnabled: users.googleCalendarEnabled,
+      googleCalendarDisabledByUser: users.googleCalendarDisabledByUser
+    }).from(users).where(eq(users.id, userId)).limit(1);
+
+    if (!user) return res.status(404).json({ success: false, error: 'User not found' });
+
+    // Se l'utente ha disattivato volontariamente, non ripristinare mai
+    if (user.googleCalendarDisabledByUser) {
+      return res.json({ success: false, reason: 'disabled_by_user' });
+    }
+
+    // Token presente → riabilita silenziosamente senza OAuth
+    if (user.googleAuthToken) {
+      await db.update(users)
+        .set({ googleCalendarEnabled: true })
+        .where(eq(users.id, userId));
+      logger.debug(`✅ [AUTO-RESTORE] Google Calendar silently re-enabled for user ${userId}`);
+      return res.json({ success: true, method: 'silent' });
+    }
+
+    // Token sparito → serve nuovo OAuth
+    return res.json({ success: false, reason: 'needs_oauth' });
+  } catch (error) {
+    console.error('❌ [AUTO-RESTORE] Error:', error);
+    return res.status(500).json({ success: false, error: 'Internal error' });
+  }
 });
 
 // Endpoint for testing Google OAuth configuration
