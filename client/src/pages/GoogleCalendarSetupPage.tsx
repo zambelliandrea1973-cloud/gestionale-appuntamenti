@@ -280,9 +280,17 @@ export default function GoogleCalendarSetupPage() {
                 setIsGoogleAuthorized(true);
                 setIsSyncEnabled(true);
               } else if (restoreData.reason === 'needs_oauth') {
-                // Token sparito (es. invalid_grant) → Google richiede nuovo consenso.
-                // Non mostriamo il form di setup: mostriamo solo un banner con tasto "Riconnetti".
-                setNeedsReauth(true);
+                // Token sparito → redirect FINESTRA PRINCIPALE a Google OAuth
+                // (i popup auto-triggered vengono bloccati dal browser)
+                const authRes = await fetch('/api/google-auth/start?returnTo=/google-calendar', { credentials: 'include' });
+                if (authRes.ok) {
+                  const authData = await authRes.json();
+                  if (authData.authUrl) {
+                    window.location.href = authData.authUrl;
+                    return; // la pagina si sta redirigendo, stop
+                  }
+                }
+                setNeedsReauth(true); // fallback: mostra il form
               }
               // se reason === 'disabled_by_user': mostra il form normalmente
             } catch (e) {
@@ -317,11 +325,6 @@ export default function GoogleCalendarSetupPage() {
       setIsCheckingStatus(false);
     }
   }, [hasProAccess, isLoading]);
-
-  // Auto-avvio OAuth quando il token è sparito ma non per scelta utente
-  useEffect(() => {
-    if (needsReauth) startGoogleAuth(true);
-  }, [needsReauth]);
 
   const startGoogleAuth = async (skipEmailCheck = false) => {
     if (!skipEmailCheck && !email.trim()) {
