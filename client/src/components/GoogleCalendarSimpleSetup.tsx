@@ -64,8 +64,17 @@ export default function GoogleCalendarSimpleSetup() {
               setIsGoogleAuthorized(true);
               setIsSyncEnabled(true);
             } else if (rd.reason === 'needs_oauth') {
-              // Token sparito → mostra solo il mini-banner di riconnessione
-              setNeedsReauth(true);
+              // Token sparito → redirect FINESTRA PRINCIPALE a Google OAuth
+              // (i popup auto-triggered vengono bloccati dal browser)
+              const authRes = await fetch('/api/google-auth/start?returnTo=/google-calendar', { credentials: 'include' });
+              if (authRes.ok) {
+                const authData = await authRes.json();
+                if (authData.authUrl) {
+                  window.location.href = authData.authUrl;
+                  return;
+                }
+              }
+              setNeedsReauth(true); // fallback
             }
           }
         }
@@ -74,11 +83,6 @@ export default function GoogleCalendarSimpleSetup() {
     };
     init();
   }, []);
-
-  // Auto-avvio OAuth quando il token è sparito ma non per scelta utente
-  useEffect(() => {
-    if (needsReauth) startGoogleAuth();
-  }, [needsReauth]);
 
   const startGoogleAuth = async () => {
     setIsAuthenticating(true);
