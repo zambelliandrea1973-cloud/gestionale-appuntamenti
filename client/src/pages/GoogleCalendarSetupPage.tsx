@@ -239,7 +239,8 @@ export default function GoogleCalendarSetupPage() {
         const response = await fetch('/api/google-auth/status', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
-          if (data.authorized) {
+          if (data.authorized && !data.needsReauth) {
+            // Token valido e attivo → stato normale
             setIsGoogleAuthorized(true);
             const syncEnabled = data.calendarEnabled || false;
             setIsSyncEnabled(syncEnabled);
@@ -249,9 +250,13 @@ export default function GoogleCalendarSetupPage() {
             if (data.lastSyncAt) {
               setLastSyncAt(data.lastSyncAt);
             }
-
-            // Sync rimossa dall'apertura automatica: la sync parte solo manualmente
-            // o via scheduler (ogni 24h) — evita importazioni indesiderate al caricamento
+          } else if (data.needsReauth) {
+            // Token scaduto (invalid_grant) — l'email è preservata nel DB.
+            // Mostra banner "riconnettiti" con email precompilata senza auto-redirect.
+            setNeedsReauth(true);
+            if (data.email) {
+              setEmail(data.email);
+            }
           } else if (!data.disabledByUser) {
             // Disconnesso NON per scelta dell'utente → prova ripristino automatico
             setIsAutoRestoring(true);
@@ -268,8 +273,6 @@ export default function GoogleCalendarSetupPage() {
                 setIsSyncEnabled(true);
               } else if (restoreData.reason === 'needs_oauth') {
                 // Token sparito → mostra banner "Riconnetti" senza redirect automatico.
-                // Il professionista deve cliccare esplicitamente il pulsante (evita redirect
-                // indesiderati quando l'admin gestisce account staff altrui).
                 setNeedsReauth(true);
               }
               // se reason === 'disabled_by_user': mostra il form normalmente
