@@ -64,17 +64,9 @@ export default function GoogleCalendarSimpleSetup() {
               setIsGoogleAuthorized(true);
               setIsSyncEnabled(true);
             } else if (rd.reason === 'needs_oauth') {
-              // Token sparito → redirect FINESTRA PRINCIPALE a Google OAuth
-              // (i popup auto-triggered vengono bloccati dal browser)
-              const authRes = await fetch('/api/google-auth/start?returnTo=/google-calendar', { credentials: 'include' });
-              if (authRes.ok) {
-                const authData = await authRes.json();
-                if (authData.authUrl) {
-                  window.location.href = authData.authUrl;
-                  return;
-                }
-              }
-              setNeedsReauth(true); // fallback
+              // Token sparito → mostra banner "Riconnetti" senza redirect automatico.
+              // L'utente deve cliccare esplicitamente (evita redirect indesiderati).
+              setNeedsReauth(true);
             }
           }
         }
