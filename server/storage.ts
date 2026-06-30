@@ -112,6 +112,8 @@ export async function ensureSessionTable(): Promise<void> {
       `);
       // Colonne aggiunte in sessioni successive — safe con IF NOT EXISTS
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_disabled_by_user boolean DEFAULT false;`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_needs_reauth boolean DEFAULT false;`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_email text;`);
       await pool.end();
       console.log('✅ Table user_sessions verified/created successfully');
       return;
