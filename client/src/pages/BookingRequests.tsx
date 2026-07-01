@@ -207,7 +207,7 @@ export default function BookingRequests() {
         <h1 className="text-3xl font-bold">{t("bookingRequests.title")}</h1>
         <p className="text-gray-600 mt-1">{t("bookingRequests.subtitle")}</p>
       </div>
-      
+
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Card>
