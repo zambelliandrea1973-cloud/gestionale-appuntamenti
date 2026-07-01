@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "बुकिंग अनुरोध",
-    "subtitle": "ग्राहकों के अपॉइंटमेंट अनुरोध प्रबंधित करें",
+    "subtitle": "ग्राहक क्लाइंट ऐप से QR कोड स्कैन करके बुकिंग करते हैं: अनुरोध आपकी स्वीकृति के लिए यहाँ आते हैं",
     "toManage": "प्रबंधित करना है",
     "confirmed": "पुष्टि हुई",
     "rejected": "अस्वीकृत",
@@ -2879,6 +2879,12 @@
       "connError": "कनेक्शन त्रुटि: {{error}}",
       "unknownError": "अज्ञात त्रुटि",
       "emailFetchError": "ईमेल सेटिंग्स प्राप्त करने में त्रुटि"
+    },
+    "unverifiedNotice": {
+      "title": "[TODO:HI] Note before proceeding",
+      "desc": "[TODO:HI] Google will show an 'unverified app' warning. This is normal and safe. To continue:",
+      "step1": "[TODO:HI] Click 'Advanced' at the bottom left",
+      "step2": "[TODO:HI] Then click 'Go to [app name] (unsafe)'"
     }
   },
   "contacts": {
@@ -5740,6 +5746,10 @@
       "description": "आप <strong>{{username}}</strong> को <strong>10 साल</strong> के मुफ्त पहुंच के साथ <strong>Staff</strong> में पदोन्नत करने वाले हैं।",
       "promoting": "पदोन्नत हो रहा है...",
       "confirm": "Staff में पदोन्नत करें"
+    },
+    "gmail": {
+      "connected": "[TODO:HI] Gmail connected",
+      "disabledByUser": "[TODO:HI] Gmail disabled by user"
     }
   },
   "adminLicense": {
@@ -6459,5 +6469,13 @@
       "retry": "[TODO:HI] Retry",
       "error": "[TODO:HI] Error creating payment"
     }
+  },
+  "setupServiceBanner": {
+    "title": "[TODO:HI] Professional setup service",
+    "desc": "[TODO:HI] Let us do it for you! We configure your account, import your contacts (up to 100) and guide you through the system.",
+    "price": "[TODO:HI] Complete service for just €500",
+    "cta": "[TODO:HI] Request information",
+    "dismiss": "[TODO:HI] Remind me later",
+    "dismissForever": "[TODO:HI] Don't show again"
   }
 }
