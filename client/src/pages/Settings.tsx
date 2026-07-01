@@ -32,6 +32,7 @@ import SubscriptionPlansPanel from '@/components/SubscriptionPlansPanel';
 import PosSettingsPanel from '@/components/pos/PosSettingsPanel';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
+import SetupServiceBanner from '@/components/SetupServiceBanner';
 
 const VALID_TABS = ['app', 'contacts', 'staff', 'integrations', 'pos', 'appearance', 'security', 'subscription', 'admin'] as const;
 
@@ -188,6 +189,10 @@ export default function Settings() {
           {t('settings.description', 'Customize the application and configure preferences')}
         </p>
       </header>
+
+      <div className="mb-6">
+        <SetupServiceBanner />
+      </div>
 
       {returnTo && (
         <Card className="mb-6 border-primary/40 bg-primary/5">
