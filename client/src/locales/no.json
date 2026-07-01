@@ -1288,6 +1288,12 @@
       "connError": "Tilkoblingsfeil: {{error}}",
       "unknownError": "Ukjent feil",
       "emailFetchError": "Feil ved henting av e-postinnstillinger"
+    },
+    "unverifiedNotice": {
+      "title": "Merk før du fortsetter",
+      "desc": "Google vil vise en advarsel om 'uverifisert app'. Dette er normalt og trygt. For å fortsette:",
+      "step1": "Klikk 'Avansert' nederst til venstre",
+      "step2": "Klikk deretter 'Gå til [appnavn] (usikkert)'"
     }
   },
   "errors": {
