@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Boekingsverzoeken",
-    "subtitle": "Klanten boeken door de QR-code te scannen met de Klanten-App: verzoeken komen hier voor uw goedkeuring",
+    "subtitle": "Uw klanten kunnen online boeken via de Klanten-App, gedownload door uw QR-code te scannen: verzoeken komen op deze pagina voor uw goedkeuring.",
     "toManage": "Te beheren",
     "confirmed": "Bevestigd",
     "rejected": "Geweigerd",
