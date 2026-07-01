@@ -1317,6 +1317,12 @@
       "connError": "Errore di connessione: {{error}}",
       "unknownError": "Errore sconosciuto",
       "emailFetchError": "Errore nel recupero delle impostazioni email"
+    },
+    "unverifiedNotice": {
+      "title": "Nota prima di procedere",
+      "desc": "Google mostrerà un avviso 'app non verificata'. È normale e sicuro. Per continuare:",
+      "step1": "Clicca 'Avanzate' in basso a sinistra",
+      "step2": "Poi clicca 'Vai a [nome app] (non sicuro)'"
     }
   },
   "errors": {
