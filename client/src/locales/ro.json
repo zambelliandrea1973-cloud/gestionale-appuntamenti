@@ -1288,6 +1288,12 @@
       "connError": "Eroare de conexiune: {{error}}",
       "unknownError": "Eroare necunoscută",
       "emailFetchError": "Eroare la preluarea setărilor email"
+    },
+    "unverifiedNotice": {
+      "title": "Notă înainte de a continua",
+      "desc": "Google va afișa un avertisment 'aplicație neverificată'. Este normal și sigur. Pentru a continua:",
+      "step1": "Faceți clic pe 'Avansat' în stânga jos",
+      "step2": "Apoi faceți clic pe 'Mergeți la [numele aplicației] (nesigur)'"
     }
   },
   "errors": {
