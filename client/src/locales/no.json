@@ -6469,5 +6469,13 @@
       "retry": "Prøv igjen",
       "error": "Feil ved oppretting av betaling"
     }
+  },
+  "setupServiceBanner": {
+    "title": "Profesjonell oppsettservice",
+    "desc": "La oss gjøre det! Vi konfigurerer kontoen din, importerer kontaktene dine (opptil 100) og veileder deg gjennom systemet.",
+    "price": "Komplett service for bare €500",
+    "cta": "Be om informasjon",
+    "dismiss": "Påminn meg senere",
+    "dismissForever": "Ikke vis mer"
   }
 }
