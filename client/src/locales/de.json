@@ -6469,5 +6469,13 @@
       "retry": "Erneut versuchen",
       "error": "Fehler beim Erstellen der Zahlung"
     }
+  },
+  "setupServiceBanner": {
+    "title": "Professioneller Einrichtungsservice",
+    "desc": "Lassen Sie uns das erledigen! Wir konfigurieren Ihr Konto, importieren Ihre Kontakte (bis zu 100) und führen Sie durch das System.",
+    "price": "Komplettservice für nur €500",
+    "cta": "Informationen anfordern",
+    "dismiss": "Später erinnern",
+    "dismissForever": "Nicht mehr anzeigen"
   }
 }
