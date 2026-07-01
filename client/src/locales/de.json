@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Buchungsanfragen",
-    "subtitle": "Terminanfragen von Kunden verwalten",
+    "subtitle": "Kunden buchen durch Scannen des QR-Codes mit der Kunden-App: Anfragen kommen hier zur Genehmigung an",
     "toManage": "Zu verwalten",
     "confirmed": "Bestätigt",
     "rejected": "Abgelehnt",
