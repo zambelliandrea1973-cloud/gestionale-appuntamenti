@@ -1299,6 +1299,12 @@
       "connError": "Erreur de connexion : {{error}}",
       "unknownError": "Erreur inconnue",
       "emailFetchError": "Erreur lors de la récupération des paramètres email"
+    },
+    "unverifiedNotice": {
+      "title": "Note avant de continuer",
+      "desc": "Google affichera un avertissement 'application non vérifiée'. C'est normal et sûr. Pour continuer :",
+      "step1": "Cliquez sur 'Avancé' en bas à gauche",
+      "step2": "Puis cliquez sur 'Accéder à [nom de l'app] (non sécurisé)'"
     }
   },
   "errors": {
