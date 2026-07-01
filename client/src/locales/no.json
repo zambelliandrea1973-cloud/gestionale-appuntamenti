@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Bestillingsforespørsler",
-    "subtitle": "Håndter kundens timeavtaleforespørsler",
+    "subtitle": "Kunder bestiller ved å skanne QR-koden med Kunde-appen: forespørsler ankommer her for din godkjenning",
     "toManage": "Å håndtere",
     "confirmed": "Bekreftet",
     "rejected": "Avvist",
