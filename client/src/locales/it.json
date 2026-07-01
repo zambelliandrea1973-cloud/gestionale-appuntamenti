@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Richieste Prenotazione",
-    "subtitle": "I clienti prenotano scansionando il QR code con l'App Cliente: le richieste arrivano qui per la tua approvazione",
+    "subtitle": "I tuoi clienti possono prenotare online tramite l'App Cliente, scaricata scansionando il tuo QR code: le richieste arrivano in questa pagina per la tua approvazione.",
     "toManage": "Da gestire",
     "confirmed": "Confermate",
     "rejected": "Respinte",
