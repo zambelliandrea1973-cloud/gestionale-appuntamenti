@@ -6469,5 +6469,13 @@
       "retry": "Réessayer",
       "error": "Erreur lors de la création du paiement"
     }
+  },
+  "setupServiceBanner": {
+    "title": "Service de configuration professionnelle",
+    "desc": "Laissez-nous faire ! Nous configurons votre compte, importons vos contacts (jusqu'à 100) et vous guidons dans l'utilisation du système.",
+    "price": "Service complet pour seulement €500",
+    "cta": "Demander des informations",
+    "dismiss": "Me le rappeler plus tard",
+    "dismissForever": "Ne plus afficher"
   }
 }
