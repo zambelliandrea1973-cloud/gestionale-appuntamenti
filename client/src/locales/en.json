@@ -1351,6 +1351,12 @@
       "connError": "Connection error: {{error}}",
       "unknownError": "Unknown error",
       "emailFetchError": "Error retrieving email settings"
+    },
+    "unverifiedNotice": {
+      "title": "Note before proceeding",
+      "desc": "Google will show an 'unverified app' warning. This is normal and safe. To continue:",
+      "step1": "Click 'Advanced' at the bottom left",
+      "step2": "Then click 'Go to [app name] (unsafe)'"
     }
   },
   "errors": {
