@@ -6469,5 +6469,13 @@
     "subtitle": "Register for free and start with your real data. No credit card.",
     "cta": "Create free account",
     "dismiss": "Continue in demo"
+  },
+  "setupServiceBanner": {
+    "title": "Professional setup service",
+    "desc": "Let us do it for you! We configure your account, import your contacts (up to 100) and guide you through the system.",
+    "price": "Complete service for just €500",
+    "cta": "Request information",
+    "dismiss": "Remind me later",
+    "dismissForever": "Don't show again"
   }
 }
