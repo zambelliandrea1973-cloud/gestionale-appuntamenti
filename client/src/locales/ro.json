@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Cereri de Rezervare",
-    "subtitle": "Clienții rezervă scanând codul QR cu Aplicația Client: solicitările ajung aici pentru aprobarea dvs.",
+    "subtitle": "Clienții dvs. pot rezerva online prin Aplicația Client, descărcată prin scanarea codului QR: solicitările ajung pe această pagină pentru aprobarea dvs.",
     "toManage": "De gestionat",
     "confirmed": "Confirmate",
     "rejected": "Respinse",
