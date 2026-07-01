@@ -396,6 +396,23 @@ export default function GoogleCalendarSimpleSetup() {
                 <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
                   {t('google.connectCalendarDesc', 'Link your Google account to automatically sync appointments between your calendar and Google Calendar.')}
                 </p>
+                <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg p-3 mb-4 text-left">
+                  <div className="flex items-start gap-2">
+                    <span className="text-amber-500 text-base mt-0.5">⚠️</span>
+                    <div className="text-xs">
+                      <p className="font-semibold text-amber-900 dark:text-amber-100 mb-1">
+                        {t('googleCalendar.unverifiedNotice.title', 'Nota prima di procedere')}
+                      </p>
+                      <p className="text-amber-800 dark:text-amber-200 mb-1">
+                        {t('googleCalendar.unverifiedNotice.desc', "Google mostrerà un avviso 'app non verificata'. È normale. Per continuare:")}
+                      </p>
+                      <ol className="list-decimal list-inside space-y-0.5 text-amber-800 dark:text-amber-200">
+                        <li>{t('googleCalendar.unverifiedNotice.step1', "Clicca 'Avanzate' in basso a sinistra")}</li>
+                        <li>{t('googleCalendar.unverifiedNotice.step2', "Poi clicca 'Vai a [nome app] (non sicuro)'")}</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
                 <Button 
                   onClick={startGoogleAuth} 
                   className="flex items-center"
