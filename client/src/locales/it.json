@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Richieste Prenotazione",
-    "subtitle": "Gestisci le richieste di appuntamento dei clienti",
+    "subtitle": "I clienti prenotano scansionando il QR code con l'App Cliente: le richieste arrivano qui per la tua approvazione",
     "toManage": "Da gestire",
     "confirmed": "Confermate",
     "rejected": "Respinte",
