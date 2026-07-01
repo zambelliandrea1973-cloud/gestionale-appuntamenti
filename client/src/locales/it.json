@@ -6469,5 +6469,13 @@
     "subtitle": "Registrati gratis e inizia con i tuoi dati reali. Nessuna carta di credito.",
     "cta": "Crea account gratuito",
     "dismiss": "Continua nel demo"
+  },
+  "setupServiceBanner": {
+    "title": "Servizio di configurazione professionale",
+    "desc": "Lascia fare a noi! Configuriamo il tuo account, importiamo i tuoi contatti (fino a 100) e ti guidiamo nell'utilizzo del gestionale.",
+    "price": "Servizio completo a soli €500",
+    "cta": "Richiedi informazioni",
+    "dismiss": "Ricordamelo dopo",
+    "dismissForever": "Non mostrare più"
   }
 }
