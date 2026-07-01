@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Solicitudes de Reserva",
-    "subtitle": "Gestiona las solicitudes de cita de los clientes",
+    "subtitle": "Los clientes reservan escaneando el código QR con la App del cliente: las solicitudes llegan aquí para tu aprobación",
     "toManage": "Por gestionar",
     "confirmed": "Confirmadas",
     "rejected": "Rechazadas",
