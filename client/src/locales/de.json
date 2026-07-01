@@ -1299,6 +1299,12 @@
       "connError": "Verbindungsfehler: {{error}}",
       "unknownError": "Unbekannter Fehler",
       "emailFetchError": "Fehler beim Abrufen der E-Mail-Einstellungen"
+    },
+    "unverifiedNotice": {
+      "title": "Hinweis vor dem Fortfahren",
+      "desc": "Google zeigt eine Warnung 'App nicht verifiziert'. Das ist normal und sicher. Um fortzufahren:",
+      "step1": "Klicken Sie unten links auf 'Erweitert'",
+      "step2": "Klicken Sie dann auf 'Weiter zu [App-Name] (unsicher)'"
     }
   },
   "errors": {
