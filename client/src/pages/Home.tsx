@@ -20,6 +20,7 @@ import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import FooterContactIcons from "@/components/FooterContactIcons";
 import OnboardingBanner from "@/components/OnboardingBanner";
 import ScrollDownHint from "@/components/ScrollDownHint";
+import SetupServiceBanner from "@/components/SetupServiceBanner";
 
 function AppIcon() {
   const [iconUrl, setIconUrl] = useState<string>("");
@@ -264,6 +265,7 @@ export default function Home() {
       {showOnboardingBanner && (
         <OnboardingBanner onDismiss={() => setOnboardingDismissed(true)} />
       )}
+      <SetupServiceBanner />
       <ScrollDownHint />
       <BetaBadge />
 
