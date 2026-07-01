@@ -6469,5 +6469,13 @@
       "retry": "Opnieuw proberen",
       "error": "Fout bij aanmaken betaling"
     }
+  },
+  "setupServiceBanner": {
+    "title": "Professionele configuratieservice",
+    "desc": "Laat ons het doen! We configureren uw account, importeren uw contacten (tot 100) en begeleiden u bij het gebruik van het systeem.",
+    "price": "Volledige service voor slechts €500",
+    "cta": "Informatie aanvragen",
+    "dismiss": "Herinner mij later",
+    "dismissForever": "Niet meer tonen"
   }
 }
