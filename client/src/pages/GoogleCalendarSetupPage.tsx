@@ -910,6 +910,27 @@ export default function GoogleCalendarSetupPage() {
                 </p>
               </div>
 
+              {/* Avviso app non verificata da Google */}
+              {!isGoogleAuthorized && (
+                <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-amber-500 text-lg mt-0.5">⚠️</span>
+                    <div className="text-sm">
+                      <p className="font-semibold text-amber-900 dark:text-amber-100 mb-1">
+                        {t('googleCalendar.unverifiedNotice.title', 'Nota prima di procedere')}
+                      </p>
+                      <p className="text-amber-800 dark:text-amber-200 mb-2">
+                        {t('googleCalendar.unverifiedNotice.desc', "Google mostrerà un avviso 'app non verificata'. È normale e sicuro. Per continuare:")}
+                      </p>
+                      <ol className="list-decimal list-inside space-y-1 text-amber-800 dark:text-amber-200">
+                        <li>{t('googleCalendar.unverifiedNotice.step1', "Clicca 'Avanzate' in basso a sinistra")}</li>
+                        <li>{t('googleCalendar.unverifiedNotice.step2', "Poi clicca 'Vai a [nome app] (non sicuro)'")}</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Bottone connessione */}
               {!isGoogleAuthorized ? (
                 <Button
