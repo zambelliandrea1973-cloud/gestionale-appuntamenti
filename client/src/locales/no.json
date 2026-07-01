@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Bestillingsforespørsler",
-    "subtitle": "Kunder bestiller ved å skanne QR-koden med Kunde-appen: forespørsler ankommer her for din godkjenning",
+    "subtitle": "Kundene dine kan bestille online via Kunde-appen, som lastes ned ved å skanne QR-koden din: forespørslene ankommer denne siden for din godkjenning.",
     "toManage": "Å håndtere",
     "confirmed": "Bekreftet",
     "rejected": "Avvist",
