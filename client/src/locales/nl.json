@@ -1288,6 +1288,12 @@
       "connError": "Verbindingsfout: {{error}}",
       "unknownError": "Onbekende fout",
       "emailFetchError": "Fout bij ophalen van e-mailinstellingen"
+    },
+    "unverifiedNotice": {
+      "title": "Opmerking voor u verdergaat",
+      "desc": "Google toont een waarschuwing 'app niet geverifieerd'. Dit is normaal en veilig. Om verder te gaan:",
+      "step1": "Klik op 'Geavanceerd' linksonder",
+      "step2": "Klik dan op 'Ga naar [app-naam] (onveilig)'"
     }
   },
   "errors": {
