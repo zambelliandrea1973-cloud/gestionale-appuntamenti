@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Buchungsanfragen",
-    "subtitle": "Kunden buchen durch Scannen des QR-Codes mit der Kunden-App: Anfragen kommen hier zur Genehmigung an",
+    "subtitle": "Ihre Kunden können online über die Kunden-App buchen, die durch Scannen Ihres QR-Codes heruntergeladen wird: Die Anfragen kommen auf dieser Seite zur Genehmigung an.",
     "toManage": "Zu verwalten",
     "confirmed": "Bestätigt",
     "rejected": "Abgelehnt",
