@@ -243,7 +243,7 @@
   },
   "bookingRequests": {
     "title": "Booking Requests",
-    "subtitle": "Clients book by scanning the QR code with the Client App: requests arrive here for your approval",
+    "subtitle": "Your clients can book online via the Client App, downloaded by scanning your QR code: requests arrive on this page for your approval.",
     "toManage": "To Manage",
     "confirmed": "Confirmed",
     "rejected": "Rejected",
