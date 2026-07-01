@@ -6469,5 +6469,13 @@
       "retry": "Reîncercați",
       "error": "Eroare la crearea plății"
     }
+  },
+  "setupServiceBanner": {
+    "title": "Serviciu profesional de configurare",
+    "desc": "Lăsați-ne să facem asta! Configurăm contul dvs., importăm contactele (până la 100) și vă ghidăm prin sistem.",
+    "price": "Serviciu complet pentru doar €500",
+    "cta": "Solicitați informații",
+    "dismiss": "Amintește-mi mai târziu",
+    "dismissForever": "Nu mai afișa"
   }
 }
