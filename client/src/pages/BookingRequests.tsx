@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
-import { CheckCircle, XCircle, Clock, AlertCircle, Calendar as CalendarIcon, User, DoorOpen } from "lucide-react";
+import { CheckCircle, XCircle, Clock, AlertCircle, Calendar as CalendarIcon, User, DoorOpen, Smartphone } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface BookingRequest {
@@ -205,7 +205,10 @@ export default function BookingRequests() {
     <div className="container mx-auto p-6 max-w-7xl">
       <div className="mb-6">
         <h1 className="text-3xl font-bold">{t("bookingRequests.title")}</h1>
-        <p className="text-gray-600 mt-1">{t("bookingRequests.subtitle")}</p>
+        <div className="flex items-center gap-2 mt-2 rounded-lg bg-green-100 border border-green-200 px-3 py-2 text-green-800 text-sm font-medium">
+          <Smartphone className="h-4 w-4 shrink-0" />
+          <span>{t("bookingRequests.subtitle")}</span>
+        </div>
       </div>
 
       {/* Metrics Cards */}
