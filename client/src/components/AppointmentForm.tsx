@@ -128,6 +128,7 @@ export default function AppointmentForm({
   const [quickClientPhone, setQuickClientPhone] = useState("");
   const quickClientLastNameRef = useRef<HTMLInputElement | null>(null);
   const quickClientPhoneRef = useRef<HTMLInputElement | null>(null);
+  const serviceSearchInputRef = useRef<HTMLInputElement | null>(null);
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<any>(null);
   // Mostra i dettagli solo se stiamo modificando un appuntamento o se vengono forniti valori predefiniti
@@ -1101,7 +1102,13 @@ export default function AppointmentForm({
                                             if (e.key === 'Enter') {
                                               e.preventDefault();
                                               setIsClientDropdownOpen(false);
-                                              form.handleSubmit(onSubmit)();
+                                              // Se il servizio non è ancora stato scelto, passa il focus lì
+                                              // per completare l'appuntamento; altrimenti salva direttamente.
+                                              if (!form.getValues('serviceId')) {
+                                                serviceSearchInputRef.current?.focus();
+                                              } else {
+                                                form.handleSubmit(onSubmit)();
+                                              }
                                             }
                                           }}
                                           className="h-8 text-sm"
@@ -1207,6 +1214,7 @@ export default function AppointmentForm({
                     <FormControl>
                       <div className="relative">
                         <Input 
+                          ref={serviceSearchInputRef}
                           placeholder={t('appointmentForm.fields.servicePlaceholder')} 
                           value={serviceSearchTerm}
                           onChange={(e) => setServiceSearchTerm(e.target.value)}
@@ -1214,6 +1222,21 @@ export default function AppointmentForm({
                           onBlur={() => {
                             // Ritardo per permettere il click sulle opzioni
                             setTimeout(() => setIsServiceDropdownOpen(false), 200);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              // Se c'è un solo servizio corrispondente, selezionalo automaticamente
+                              // e completa/salva l'appuntamento; altrimenti lascia scegliere dalla lista.
+                              if (filteredServices.length === 1) {
+                                const service = filteredServices[0];
+                                field.onChange(service.id);
+                                setServiceSearchTerm(service.name);
+                                setIsServiceDropdownOpen(false);
+                                setCustomDuration(service.duration);
+                                form.handleSubmit(onSubmit)();
+                              }
+                            }
                           }}
                           className="w-full"
                         />
