@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { insertClientSchema } from "../../../shared/schema";
 import { Loader2, AlertTriangle, Tag } from "lucide-react";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   AlertDialog,
@@ -69,6 +69,19 @@ const formSchema = insertClientSchema.omit({ userId: true, ownerId: true }).exte
 type FormData = z.infer<typeof formSchema>;
 
 // Lista dei prefissi internazionali piu comuni
+function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
+  return (node: T | null) => {
+    refs.forEach((ref) => {
+      if (!ref) return;
+      if (typeof ref === "function") {
+        ref(node);
+      } else {
+        (ref as React.MutableRefObject<T | null>).current = node;
+      }
+    });
+  };
+}
+
 const countryPrefixes = [
   { value: "+39", labelKey: "italy" },
   { value: "+1", labelKey: "usaCanada" },
@@ -107,6 +120,18 @@ export default function ClientForm({
   const [duplicateClients, setDuplicateClients] = useState<any[]>([]);
   const [pendingData, setPendingData] = useState<any>(null);
   const [isCheckingDuplicates, setIsCheckingDuplicates] = useState(false);
+  const firstNameInputRef = useRef<HTMLInputElement | null>(null);
+  const lastNameInputRef = useRef<HTMLInputElement | null>(null);
+  const phoneInputRef = useRef<HTMLInputElement | null>(null);
+
+  const focusOnEnter = (nextRef: React.RefObject<HTMLInputElement>) => (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      nextRef.current?.focus();
+    }
+  };
   
   // Fetch client if editing
   const { data: client, isLoading: isLoadingClient } = useQuery({
@@ -365,7 +390,13 @@ export default function ClientForm({
                       <FormItem>
                         <FormLabel>{t('clientForm.firstName')} *</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder={t('clientForm.firstName')} />
+                          <Input
+                            {...field}
+                            ref={mergeRefs(field.ref, firstNameInputRef)}
+                            placeholder={t('clientForm.firstName')}
+                            autoFocus={!clientId}
+                            onKeyDown={focusOnEnter(lastNameInputRef)}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -379,7 +410,12 @@ export default function ClientForm({
                       <FormItem>
                         <FormLabel>{t('clientForm.lastName')} *</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder={t('clientForm.lastName')} />
+                          <Input
+                            {...field}
+                            ref={mergeRefs(field.ref, lastNameInputRef)}
+                            placeholder={t('clientForm.lastName')}
+                            onKeyDown={focusOnEnter(phoneInputRef)}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -458,6 +494,12 @@ export default function ClientForm({
                                 value={displayValue} 
                                 onChange={handlePhoneChange} 
                                 placeholder={t('clientForm.phonePlaceholder')} 
+                                ref={phoneInputRef}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                             </FormControl>
                           </div>
