@@ -857,6 +857,16 @@ export default function AppointmentForm({
 
   const [isCreatingQuickClient, setIsCreatingQuickClient] = useState(false);
 
+  // Normalizza un nome per il confronto: rimuove spazi doppi, accenti e maiuscole,
+  // così "Lina Fichele", "lina  fichele" e "lina fichéle" vengono riconosciuti come lo stesso cliente.
+  const normalizeNameForMatch = (s: string): string =>
+    s
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, ' ');
+
   // Crea automaticamente il cliente "al volo" se l'utente ha digitato un nome
   // nuovo ma non ha ancora selezionato/creato un cliente esistente.
   // Ritorna l'id del cliente da usare per l'appuntamento, oppure null se non
@@ -865,10 +875,25 @@ export default function AppointmentForm({
     const trimmedName = clientSearchTerm.trim();
     if (trimmedName.length < 2) return null;
 
-    // Se il testo digitato corrisponde già a un cliente esistente, non creare nulla:
+    const normalizedTyped = normalizeNameForMatch(trimmedName);
+
+    // Se il nome digitato corrisponde ESATTAMENTE (a meno di spazi/maiuscole/accenti)
+    // a un cliente già esistente, riusa quel cliente invece di crearne uno duplicato.
+    const exactMatch = clients.find((c: any) =>
+      normalizeNameForMatch(`${c.firstName} ${c.lastName}`) === normalizedTyped
+    );
+    if (exactMatch) {
+      form.setValue('clientId', exactMatch.id);
+      setClientSearchTerm(`${exactMatch.firstName} ${exactMatch.lastName}`);
+      setIsClientDropdownOpen(false);
+      setShowQuickCreateForm(false);
+      return exactMatch.id;
+    }
+
+    // Se il testo digitato corrisponde parzialmente a un cliente esistente, non creare nulla:
     // sarà la validazione normale a richiedere di selezionarlo dalla lista.
     const filteredClients = clients.filter((c: any) =>
-      `${c.firstName} ${c.lastName}`.toLowerCase().includes(trimmedName.toLowerCase())
+      normalizeNameForMatch(`${c.firstName} ${c.lastName}`).includes(normalizedTyped)
     );
     if (filteredClients.length > 0) return null;
 
@@ -1002,11 +1027,11 @@ export default function AppointmentForm({
                           }}
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
+                              const normalizedTyped = normalizeNameForMatch(clientSearchTerm);
                               const filteredClients = clients.filter((client: any) =>
                                 clientSearchTerm.length === 0 ||
-                                `${client.firstName} ${client.lastName}`
-                                  .toLowerCase()
-                                  .includes(clientSearchTerm.toLowerCase())
+                                normalizeNameForMatch(`${client.firstName} ${client.lastName}`)
+                                  .includes(normalizedTyped)
                               );
                               const canQuickCreate = clientSearchTerm.trim().length >= 2 && filteredClients.length === 0;
                               if (canQuickCreate) {
