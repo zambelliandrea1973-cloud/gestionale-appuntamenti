@@ -467,8 +467,8 @@ export default function SubscriptionPlansPanel() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {plans.map((plan: Plan) => {
               const isCurrentPlan =
-                String(subscriptionInfo?.plan?.id) === String(plan.id) ||
-                (plan.type === LicenseType.TRIAL && licenseInfo?.type === LicenseType.TRIAL);
+                (subscriptionInfo?.status === 'active' && String(subscriptionInfo?.plan?.id) === String(plan.id)) ||
+                (plan.type === LicenseType.TRIAL && licenseInfo?.type === LicenseType.TRIAL && subscriptionInfo?.status !== 'active');
 
               return (
                 <Card
