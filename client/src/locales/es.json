@@ -3212,7 +3212,8 @@
     "creatingClient": "Creando...",
     "createNewClient": {
       "before": "+ Crear \"",
-      "after": "\" como nuevo cliente"
+      "after": "\" como nuevo cliente",
+      "autoHint": "El cliente se creará automáticamente al guardar la cita"
     },
     "warnings": {
       "otherAccountClient": "Estás creando una cita para un cliente que pertenece a otra cuenta ({{firstName}} {{lastName}}). Comprueba que tienes los permisos necesarios antes de continuar."
