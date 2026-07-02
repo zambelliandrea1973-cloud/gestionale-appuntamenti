@@ -124,6 +124,10 @@ export default function AppointmentForm({
   const [clientSearchTerm, setClientSearchTerm] = useState("");
   const [serviceSearchTerm, setServiceSearchTerm] = useState("");
   const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false);
+  const [quickClientLastName, setQuickClientLastName] = useState("");
+  const [quickClientPhone, setQuickClientPhone] = useState("");
+  const quickClientLastNameRef = useRef<HTMLInputElement | null>(null);
+  const quickClientPhoneRef = useRef<HTMLInputElement | null>(null);
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<any>(null);
   // Mostra i dettagli solo se stiamo modificando un appuntamento o se vengono forniti valori predefiniti
@@ -836,14 +840,14 @@ export default function AppointmentForm({
     if (isCreatingQuickClient) return;
     setIsCreatingQuickClient(true);
     try {
-      const parts = searchTerm.trim().split(/\s+/);
-      const firstName = parts[0] || searchTerm.trim();
-      const lastName = parts.slice(1).join(' ') || '-';
+      const firstName = searchTerm.trim();
+      const lastName = quickClientLastName.trim() || '-';
+      const phone = quickClientPhone.trim();
 
       const response = await apiRequest('POST', '/api/clients', {
         firstName,
         lastName,
-        phone: '',
+        phone,
       });
 
       const data = await response.json();
@@ -857,6 +861,8 @@ export default function AppointmentForm({
       field.onChange(data.id);
       setClientSearchTerm(`${data.firstName} ${data.lastName}`);
       setIsClientDropdownOpen(false);
+      setQuickClientLastName("");
+      setQuickClientPhone("");
 
       toast({
         title: t('appointmentForm.toast.clientCreated.title'),
@@ -959,9 +965,29 @@ export default function AppointmentForm({
                           value={clientSearchTerm}
                           onChange={(e) => setClientSearchTerm(e.target.value)}
                           onFocus={() => setIsClientDropdownOpen(true)}
-                          onBlur={() => {
+                          onBlur={(e) => {
+                            // Non chiudere se il focus si sposta sui campi Cognome/Telefono del quick-create
+                            const next = e.relatedTarget as HTMLElement | null;
+                            if (next && (next === quickClientLastNameRef.current || next === quickClientPhoneRef.current)) {
+                              return;
+                            }
                             // Ritardo per permettere il click sulle opzioni
                             setTimeout(() => setIsClientDropdownOpen(false), 200);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const filteredClients = clients.filter((client: any) =>
+                                clientSearchTerm.length === 0 ||
+                                `${client.firstName} ${client.lastName}`
+                                  .toLowerCase()
+                                  .includes(clientSearchTerm.toLowerCase())
+                              );
+                              const showQuickCreate = clientSearchTerm.trim().length >= 2 && filteredClients.length === 0;
+                              if (showQuickCreate) {
+                                e.preventDefault();
+                                quickClientLastNameRef.current?.focus();
+                              }
+                            }
                           }}
                           className="w-full"
                         />
@@ -1014,19 +1040,66 @@ export default function AppointmentForm({
                                     );
                                   })}
                                   {showQuickCreate && (
-                                    <div
-                                      className="p-3 hover:bg-green-50 cursor-pointer border-t border-dashed flex items-center gap-2 text-green-700 font-medium"
-                                      onClick={() => createQuickClient(clientSearchTerm, field)}
-                                    >
-                                      <UserPlus className="h-4 w-4" />
-                                      {isCreatingQuickClient ? (
-                                        <span className="flex items-center gap-2">
-                                          <Loader2 className="h-3 w-3 animate-spin" />
-                                          {t('appointmentForm.creatingClient')}
-                                        </span>
-                                      ) : (
+                                    <div className="p-3 border-t border-dashed bg-green-50/50 space-y-2">
+                                      <div className="flex items-center gap-2 text-green-700 font-medium text-sm">
+                                        <UserPlus className="h-4 w-4 shrink-0" />
                                         <span>{t('appointmentForm.createNewClient.before')}<strong>{clientSearchTerm.trim()}</strong>{t('appointmentForm.createNewClient.after')}</span>
-                                      )}
+                                      </div>
+                                      <div className="grid grid-cols-2 gap-2">
+                                        <Input
+                                          ref={quickClientLastNameRef}
+                                          placeholder={t('clientForm.lastName')}
+                                          value={quickClientLastName}
+                                          onChange={(e) => setQuickClientLastName(e.target.value)}
+                                          onMouseDown={(e) => e.stopPropagation()}
+                                          onBlur={(e) => {
+                                            const next = e.relatedTarget as HTMLElement | null;
+                                            if (next && next === quickClientPhoneRef.current) return;
+                                            setTimeout(() => setIsClientDropdownOpen(false), 200);
+                                          }}
+                                          onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                              e.preventDefault();
+                                              quickClientPhoneRef.current?.focus();
+                                            }
+                                          }}
+                                          className="h-8 text-sm"
+                                        />
+                                        <Input
+                                          ref={quickClientPhoneRef}
+                                          placeholder={t('clientForm.phone')}
+                                          value={quickClientPhone}
+                                          onChange={(e) => setQuickClientPhone(e.target.value)}
+                                          onMouseDown={(e) => e.stopPropagation()}
+                                          onBlur={() => {
+                                            setTimeout(() => setIsClientDropdownOpen(false), 200);
+                                          }}
+                                          onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                              e.preventDefault();
+                                              createQuickClient(clientSearchTerm, field);
+                                            }
+                                          }}
+                                          className="h-8 text-sm"
+                                        />
+                                      </div>
+                                      <Button
+                                        type="button"
+                                        size="sm"
+                                        className="w-full h-8 bg-green-600 hover:bg-green-700"
+                                        disabled={isCreatingQuickClient}
+                                        onMouseDown={(e) => e.preventDefault()}
+                                        onClick={() => createQuickClient(clientSearchTerm, field)}
+                                      >
+                                        {isCreatingQuickClient ? (
+                                          <span className="flex items-center gap-2">
+                                            <Loader2 className="h-3 w-3 animate-spin" />
+                                            {t('appointmentForm.creatingClient')}
+                                          </span>
+                                        ) : (
+                                          t('clientForm.newClient')
+                                        )}
+                                      </Button>
                                     </div>
                                   )}
                                 </>
