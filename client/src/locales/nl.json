@@ -3212,7 +3212,8 @@
     "creatingClient": "Bezig met aanmaken...",
     "createNewClient": {
       "before": "+ Aanmaken \"",
-      "after": "\" als nieuwe klant"
+      "after": "\" als nieuwe klant",
+      "autoHint": "De klant wordt automatisch aangemaakt bij het opslaan van de afspraak"
     },
     "warnings": {
       "otherAccountClient": "Je maakt een afspraak voor een klant van een ander account ({{firstName}} {{lastName}}). Controleer of je over de benodigde rechten beschikt voordat je doorgaat."
