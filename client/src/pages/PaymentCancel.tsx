@@ -1,12 +1,20 @@
+import { useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, ArrowLeft, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { apiRequest } from '@/lib/queryClient';
 
 export default function PaymentCancel() {
   const { t } = useTranslation();
   const [, navigate] = useLocation();
+
+  // Reset the pending subscription so the user can try again cleanly
+  useEffect(() => {
+    apiRequest('POST', '/api/payments/subscription/reset-pending')
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="container max-w-lg mx-auto py-12">
@@ -27,7 +35,7 @@ export default function PaymentCancel() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-2">
-          <Button 
+          <Button
             onClick={() => navigate('/subscribe')}
             className="w-full"
             variant="default"
@@ -35,7 +43,7 @@ export default function PaymentCancel() {
             <CreditCard className="h-4 w-4 mr-2" />
             {t('payment.cancel.tryAgain', 'Retry payment')}
           </Button>
-          <Button 
+          <Button
             onClick={() => navigate('/')}
             className="w-full"
             variant="outline"
