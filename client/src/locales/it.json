@@ -3251,7 +3251,8 @@
     "creatingClient": "Creazione in corso...",
     "createNewClient": {
       "before": "+ Crea \"",
-      "after": "\" come nuovo cliente"
+      "after": "\" come nuovo cliente",
+      "autoHint": "Il cliente verrà creato automaticamente al salvataggio dell'appuntamento"
     },
     "warnings": {
       "otherAccountClient": "Stai creando un appuntamento per un cliente di un altro account ({{firstName}} {{lastName}}). Verifica di avere i permessi necessari prima di procedere."
