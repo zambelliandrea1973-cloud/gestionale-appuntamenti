@@ -1041,7 +1041,8 @@ export default function AppointmentForm({
                                   .includes(clientSearchTerm.toLowerCase())
                               );
                               const canQuickCreate = clientSearchTerm.trim().length >= 2;
-                              const showQuickCreate = canQuickCreate && showQuickCreateForm;
+                              const autoQuickCreate = canQuickCreate && filteredClients.length === 0;
+                              const showQuickCreate = canQuickCreate && (showQuickCreateForm || autoQuickCreate);
                               return (
                                 <>
                                   {filteredClients.map((client: any) => {
@@ -1070,7 +1071,7 @@ export default function AppointmentForm({
                                       </div>
                                     );
                                   })}
-                                  {canQuickCreate && !showQuickCreateForm && (
+                                  {canQuickCreate && !showQuickCreateForm && !autoQuickCreate && (
                                     <div
                                       className="p-2 hover:bg-green-50 cursor-pointer flex items-center gap-2 text-green-700 font-medium border-t border-dashed"
                                       onMouseDown={(e) => e.preventDefault()}
