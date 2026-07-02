@@ -3212,7 +3212,8 @@
     "creatingClient": "Oppretter...",
     "createNewClient": {
       "before": "+ Opprett \"",
-      "after": "\" som ny kunde"
+      "after": "\" som ny kunde",
+      "autoHint": "Kunden opprettes automatisk når avtalen lagres"
     },
     "warnings": {
       "otherAccountClient": "Du oppretter en avtale for en kunde som tilhører en annen konto ({{firstName}} {{lastName}}). Kontroller at du har de nødvendige tillatelsene før du fortsetter."
