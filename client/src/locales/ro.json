@@ -3212,7 +3212,8 @@
     "creatingClient": "Se creează...",
     "createNewClient": {
       "before": "+ Creează \"",
-      "after": "\" ca client nou"
+      "after": "\" ca client nou",
+      "autoHint": "Clientul va fi creat automat la salvarea programării"
     },
     "warnings": {
       "otherAccountClient": "Creezi o programare pentru un client care aparține altui cont ({{firstName}} {{lastName}}). Asigură-te că ai permisiunile necesare înainte de a continua."
