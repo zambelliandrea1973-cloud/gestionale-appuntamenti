@@ -3212,7 +3212,8 @@
     "creatingClient": "Wird erstellt...",
     "createNewClient": {
       "before": "+ Erstellen \"",
-      "after": "\" als neuen Kunden"
+      "after": "\" als neuen Kunden",
+      "autoHint": "Der Kunde wird automatisch erstellt, wenn der Termin gespeichert wird"
     },
     "warnings": {
       "otherAccountClient": "Sie legen einen Termin für einen Kunden eines anderen Kontos an ({{firstName}} {{lastName}}). Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen besitzen, bevor Sie fortfahren."
