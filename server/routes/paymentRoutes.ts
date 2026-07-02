@@ -561,6 +561,29 @@ router.post('/wise/webhook', async (req, res) => {
 /* The subscription endpoint is already defined above */
 
 /**
+ * Reset a pending subscription when the user cancels payment
+ * POST /api/payments/subscription/reset-pending
+ * Safe: only acts on subscriptions with status='pending', never touches active ones
+ */
+router.post('/subscription/reset-pending', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user!.id;
+    const subscription = await storage.getSubscriptionByUserId(userId);
+    if (!subscription) {
+      return res.json({ success: true, message: 'No subscription to reset' });
+    }
+    if (subscription.status !== 'pending') {
+      return res.json({ success: true, message: 'Subscription is not pending, no action taken' });
+    }
+    await storage.updateSubscription(subscription.id, { status: 'canceled' });
+    return res.json({ success: true, message: 'Pending subscription reset' });
+  } catch (error) {
+    console.error('Error resetting pending subscription:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+/**
  * Endpoint for cancelling a subscription
  * POST /api/payments/subscription/cancel
  * Access: authenticated user
