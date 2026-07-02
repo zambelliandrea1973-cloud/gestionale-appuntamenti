@@ -729,7 +729,26 @@ export default function AppointmentForm({
     try {
       console.log("=== STARTING APPOINTMENT SAVE PROCESS ===");
       console.log("Form data:", data);
-      
+
+      // Se non è stato selezionato un cliente esistente ma è stato digitato un
+      // nome nuovo, crealo ora insieme all'appuntamento (un solo click per il professionista).
+      if (!data.clientId || data.clientId === 0) {
+        try {
+          const newClientId = await createQuickClientIfNeeded();
+          if (newClientId) {
+            data.clientId = newClientId;
+          }
+        } catch (error: any) {
+          toast({
+            title: t("common.error"),
+            description: error.message || t('appointmentForm.errors.createClient'),
+            variant: "destructive",
+          });
+          endSubmitting();
+          return;
+        }
+      }
+
       // Controllo se il cliente è di un altro account e chiedi conferma
       const client = clients.find((c: any) => c.id === data.clientId);
       const clientOwnerId = client?.ownerId || client?.originalOwnerId;
@@ -836,11 +855,24 @@ export default function AppointmentForm({
 
   const [isCreatingQuickClient, setIsCreatingQuickClient] = useState(false);
 
-  const createQuickClient = async (searchTerm: string, field: any) => {
-    if (isCreatingQuickClient) return;
+  // Crea automaticamente il cliente "al volo" se l'utente ha digitato un nome
+  // nuovo ma non ha ancora selezionato/creato un cliente esistente.
+  // Ritorna l'id del cliente da usare per l'appuntamento, oppure null se non
+  // c'è nulla da creare (nessun testo digitato).
+  const createQuickClientIfNeeded = async (): Promise<number | null> => {
+    const trimmedName = clientSearchTerm.trim();
+    if (trimmedName.length < 2) return null;
+
+    // Se il testo digitato corrisponde già a un cliente esistente, non creare nulla:
+    // sarà la validazione normale a richiedere di selezionarlo dalla lista.
+    const filteredClients = clients.filter((c: any) =>
+      `${c.firstName} ${c.lastName}`.toLowerCase().includes(trimmedName.toLowerCase())
+    );
+    if (filteredClients.length > 0) return null;
+
     setIsCreatingQuickClient(true);
     try {
-      const firstName = searchTerm.trim();
+      const firstName = trimmedName;
       const lastName = quickClientLastName.trim() || '-';
       const phone = quickClientPhone.trim();
 
@@ -850,30 +882,21 @@ export default function AppointmentForm({
         phone,
       });
 
-      const data = await response.json();
+      const newClient = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || t('appointmentForm.toast.clientCreateErrorDesc'));
+        throw new Error(newClient.message || t('appointmentForm.toast.clientCreateErrorDesc'));
       }
 
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
 
-      field.onChange(data.id);
-      setClientSearchTerm(`${data.firstName} ${data.lastName}`);
+      form.setValue('clientId', newClient.id);
+      setClientSearchTerm(`${newClient.firstName} ${newClient.lastName}`);
       setIsClientDropdownOpen(false);
       setQuickClientLastName("");
       setQuickClientPhone("");
 
-      toast({
-        title: t('appointmentForm.toast.clientCreated.title'),
-        description: t('appointmentForm.toast.clientCreated.desc', { firstName: data.firstName, lastName: data.lastName }),
-      });
-    } catch (error: any) {
-      toast({
-        title: t("common.error"),
-        description: error.message || t('appointmentForm.errors.createClient'),
-        variant: "destructive",
-      });
+      return newClient.id;
     } finally {
       setIsCreatingQuickClient(false);
     }
@@ -1077,29 +1100,17 @@ export default function AppointmentForm({
                                           onKeyDown={(e) => {
                                             if (e.key === 'Enter') {
                                               e.preventDefault();
-                                              createQuickClient(clientSearchTerm, field);
+                                              setIsClientDropdownOpen(false);
+                                              form.handleSubmit(onSubmit)();
                                             }
                                           }}
                                           className="h-8 text-sm"
                                         />
                                       </div>
-                                      <Button
-                                        type="button"
-                                        size="sm"
-                                        className="w-full h-8 bg-green-600 hover:bg-green-700"
-                                        disabled={isCreatingQuickClient}
-                                        onMouseDown={(e) => e.preventDefault()}
-                                        onClick={() => createQuickClient(clientSearchTerm, field)}
-                                      >
-                                        {isCreatingQuickClient ? (
-                                          <span className="flex items-center gap-2">
-                                            <Loader2 className="h-3 w-3 animate-spin" />
-                                            {t('appointmentForm.creatingClient')}
-                                          </span>
-                                        ) : (
-                                          t('clientForm.newClient')
-                                        )}
-                                      </Button>
+                                      <p className="text-xs text-green-700/80 flex items-center gap-1">
+                                        {isCreatingQuickClient && <Loader2 className="h-3 w-3 animate-spin" />}
+                                        {t('appointmentForm.createNewClient.autoHint')}
+                                      </p>
                                     </div>
                                   )}
                                 </>
