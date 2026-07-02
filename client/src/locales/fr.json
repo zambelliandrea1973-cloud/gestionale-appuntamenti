@@ -3212,7 +3212,8 @@
     "creatingClient": "Création en cours...",
     "createNewClient": {
       "before": "+ Créer \"",
-      "after": "\" comme nouveau client"
+      "after": "\" comme nouveau client",
+      "autoHint": "Le client sera créé automatiquement lors de l'enregistrement du rendez-vous"
     },
     "warnings": {
       "otherAccountClient": "Vous créez un rendez-vous pour un client appartenant à un autre compte ({{firstName}} {{lastName}}). Vérifiez que vous disposez des autorisations nécessaires avant de continuer."
