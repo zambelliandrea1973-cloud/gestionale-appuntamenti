@@ -237,7 +237,10 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
   // Determina se la cancellazione è stata sbloccata
   const isDeletionUnlocked = client?.deletionUnlocked === true;
 
-  const isIncompleteData = !client.phone || client.phone.trim() === '';
+  const isIncompleteData =
+    !client.phone || client.phone.trim() === '' ||
+    !client.firstName || client.firstName.trim() === '' ||
+    !client.lastName || client.lastName.trim() === '' || client.lastName.trim() === '-';
 
   function detectGender(name: string): 'female' | 'male' | 'unknown' {
     const n = name.trim().split(/\s+/)[0].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
