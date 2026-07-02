@@ -126,6 +126,7 @@ export default function AppointmentForm({
   const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false);
   const [quickClientLastName, setQuickClientLastName] = useState("");
   const [quickClientPhone, setQuickClientPhone] = useState("");
+  const [showQuickCreateForm, setShowQuickCreateForm] = useState(false);
   const quickClientLastNameRef = useRef<HTMLInputElement | null>(null);
   const quickClientPhoneRef = useRef<HTMLInputElement | null>(null);
   const serviceSearchInputRef = useRef<HTMLInputElement | null>(null);
@@ -894,6 +895,7 @@ export default function AppointmentForm({
       form.setValue('clientId', newClient.id);
       setClientSearchTerm(`${newClient.firstName} ${newClient.lastName}`);
       setIsClientDropdownOpen(false);
+      setShowQuickCreateForm(false);
       setQuickClientLastName("");
       setQuickClientPhone("");
 
@@ -1006,9 +1008,10 @@ export default function AppointmentForm({
                                   .toLowerCase()
                                   .includes(clientSearchTerm.toLowerCase())
                               );
-                              const showQuickCreate = clientSearchTerm.trim().length >= 2 && filteredClients.length === 0;
-                              if (showQuickCreate) {
+                              const canQuickCreate = clientSearchTerm.trim().length >= 2 && filteredClients.length === 0;
+                              if (canQuickCreate) {
                                 e.preventDefault();
+                                setShowQuickCreateForm(true);
                                 quickClientLastNameRef.current?.focus();
                               }
                             }
@@ -1037,7 +1040,8 @@ export default function AppointmentForm({
                                   .toLowerCase()
                                   .includes(clientSearchTerm.toLowerCase())
                               );
-                              const showQuickCreate = clientSearchTerm.trim().length >= 2 && filteredClients.length === 0;
+                              const canQuickCreate = clientSearchTerm.trim().length >= 2;
+                              const showQuickCreate = canQuickCreate && showQuickCreateForm;
                               return (
                                 <>
                                   {filteredClients.map((client: any) => {
@@ -1051,6 +1055,9 @@ export default function AppointmentForm({
                                           field.onChange(client.id);
                                           setClientSearchTerm(`${client.firstName} ${client.lastName}`);
                                           setIsClientDropdownOpen(false);
+                                          setShowQuickCreateForm(false);
+                                          setQuickClientLastName("");
+                                          setQuickClientPhone("");
                                         }}
                                       >
                                         <span>{client.firstName} {client.lastName}</span>
@@ -1063,6 +1070,19 @@ export default function AppointmentForm({
                                       </div>
                                     );
                                   })}
+                                  {canQuickCreate && !showQuickCreateForm && (
+                                    <div
+                                      className="p-2 hover:bg-green-50 cursor-pointer flex items-center gap-2 text-green-700 font-medium border-t border-dashed"
+                                      onMouseDown={(e) => e.preventDefault()}
+                                      onClick={() => {
+                                        setShowQuickCreateForm(true);
+                                        quickClientLastNameRef.current?.focus();
+                                      }}
+                                    >
+                                      <UserPlus className="h-4 w-4 shrink-0" />
+                                      <span>{t('appointmentForm.createNewClient.before')}<strong>{clientSearchTerm.trim()}</strong>{t('appointmentForm.createNewClient.after')}</span>
+                                    </div>
+                                  )}
                                   {showQuickCreate && (
                                     <div className="p-3 border-t border-dashed bg-green-50/50 space-y-2">
                                       <div className="flex items-center gap-2 text-green-700 font-medium text-sm">
