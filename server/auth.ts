@@ -696,7 +696,9 @@ export function setupAuth(app: Express) {
         lastName: lastName || '',
       });
       const { licenseService } = await import('./services/licenseService');
-      await licenseService.createTrialLicense(user.id);
+      const trialExpiry = new Date();
+      trialExpiry.setDate(trialExpiry.getDate() + 40);
+      await licenseService.createTrialLicense(user.id, trialExpiry);
       console.log(`✅ [SOCIAL LOGIN] New account created for ${email} (id: ${user.id})`);
     } else {
       console.log(`✅ [SOCIAL LOGIN] Existing account found for ${email} (id: ${user.id})`);
