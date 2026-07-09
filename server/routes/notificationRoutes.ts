@@ -29,17 +29,17 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
       });
     }
 
-    // Calculate last 10 days up to tomorrow (historical + upcoming, NO distant future)
+    // Calculate last 7 days up to tomorrow (historical + upcoming, NO distant future)
     const now = new Date();
-    const tenDaysAgo = new Date(now);
-    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+    const sevenDaysAgo = new Date(now);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     const tomorrow = new Date(now);
     tomorrow.setDate(tomorrow.getDate() + 1);
     
-    const startDate = format(tenDaysAgo, 'yyyy-MM-dd');
+    const startDate = format(sevenDaysAgo, 'yyyy-MM-dd');
     const endDate = format(tomorrow, 'yyyy-MM-dd');
     
-    console.log(`🔍 [NOTIFICATIONS PG] Looking for appointments from last 10 days to tomorrow: ${startDate} - ${endDate}`);
+    console.log(`🔍 [NOTIFICATIONS PG] Looking for appointments from last 7 days to tomorrow: ${startDate} - ${endDate}`);
     
     // 🔄 USES POSTGRESQL: Query with JOIN for client and service
     // ✅ MULTI-TENANT: Filter by userId (each staff sees only their own)
