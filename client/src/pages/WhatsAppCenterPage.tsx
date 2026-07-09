@@ -444,9 +444,10 @@ const WhatsAppCenterPage: React.FC = () => {
   const [sequenceTotal, setSequenceTotal] = useState(0);
   
   // Funzione per avviare l'invio sequenziale
-  const startSequentialSend = async () => {
-    // Raccogliamo tutti gli appuntamenti selezionati
-    const selectedIds = Object.entries(selectedAppointments)
+  // Se viene passato un array di ID espliciti (es. tutti gli appuntamenti di una data),
+  // viene usato quello al posto della selezione manuale (ormai rimossa dalla UI)
+  const startSequentialSend = async (idsOverride?: number[]) => {
+    const selectedIds = idsOverride ?? Object.entries(selectedAppointments)
       .filter(([_, isSelected]) => isSelected)
       .map(([id]) => parseInt(id));
     
@@ -1177,9 +1178,22 @@ const WhatsAppCenterPage: React.FC = () => {
                         .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
                         .map(([date, apps]) => (
                         <div key={date} className="space-y-3">
-                          <div className="flex items-center space-x-2">
-                            <div className="h-2 w-2 rounded-full bg-primary" />
-                            <h4 className="font-medium">{format(parseISO(date), 'dd MMMM yyyy', { locale: getDateLocale(i18n.language) })}</h4>
+                          <div className="flex items-center justify-between gap-2 flex-wrap">
+                            <div className="flex items-center space-x-2">
+                              <div className="h-2 w-2 rounded-full bg-primary" />
+                              <h4 className="font-medium">{format(parseISO(date), 'dd MMMM yyyy', { locale: getDateLocale(i18n.language) })}</h4>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="default"
+                              className="bg-blue-600 hover:bg-blue-700"
+                              disabled={isSending}
+                              onClick={() => startSequentialSend(apps.map(a => a.id))}
+                              data-testid={`button-send-all-date-${date}`}
+                            >
+                              <Send className="h-3.5 w-3.5 mr-1" />
+                              {t('whatsappCenter.sendNotifications.sendAllForDate')}
+                            </Button>
                           </div>
                           
                           <div className="space-y-2 pl-4">
@@ -1245,17 +1259,8 @@ const WhatsAppCenterPage: React.FC = () => {
                                     key={appointment.id} 
                                     className={`flex items-center gap-3 p-3 rounded-md border hover:bg-muted/30 transition-colors ${bgColor}`}
                                   >
-                                    <Checkbox
-                                      id={`appointment-${appointment.id}`}
-                                      checked={!!selectedAppointments[appointment.id]}
-                                      onCheckedChange={() => toggleAppointmentSelection(appointment.id)}
-                                    />
-                                    
                                     <div className="grid gap-0.5 flex-1">
-                                      <Label 
-                                        htmlFor={`appointment-${appointment.id}`}
-                                        className="cursor-pointer font-medium"
-                                      >
+                                      <Label className="font-medium">
                                         {appointment.client?.firstName} {appointment.client?.lastName}
                                       </Label>
                                       <div className="text-sm text-muted-foreground flex gap-2 flex-wrap">
