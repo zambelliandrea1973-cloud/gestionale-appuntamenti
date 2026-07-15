@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { storage } from '../storage';
+import { recordMilestone, checkAndRecordProfessionalActivated } from '../utils/funnelMilestones';
 
 const router = Router();
 
@@ -75,6 +76,10 @@ router.post("/api/services", async (req, res) => {
     }
     
     console.log(`✅ [/api/services] service "${newService.name}" created in PostgreSQL for user ${user.id} (ID: ${newService.id})`);
+    // Funnel milestone — fire-and-forget, non-blocking
+    recordMilestone(user.id, 'first_service_created')
+      .then(isNew => { if (isNew) checkAndRecordProfessionalActivated(user.id); })
+      .catch(() => {});
     res.status(201).json(newService);
   } catch (error) {
     console.error(`❌ [/api/services] Error creating service:`, error);
