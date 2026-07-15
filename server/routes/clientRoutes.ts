@@ -4,6 +4,7 @@ import { Router } from 'express';
 import { db } from '../db';
 import { storage } from '../storage';
 import { clients, licenses, users } from '../../shared/schema';
+import { recordMilestone, checkAndRecordProfessionalActivated } from '../utils/funnelMilestones';
 import { eq, sql, count, or, and, not, like } from 'drizzle-orm';
 import { generateClientCode as generateNewClientCode } from '../utils/clientCodeGenerator';
 import { migrateClientCodes } from '../scripts/migrate-client-codes';
@@ -324,6 +325,10 @@ router.post("/api/clients", async (req, res) => {
         }
       }
       
+      // Funnel milestone — fire-and-forget, non-blocking
+      recordMilestone(tenantId, 'first_customer_created')
+        .then(isNew => { if (isNew) checkAndRecordProfessionalActivated(tenantId); })
+        .catch(() => {});
       logger.debug(`✅ [POST /api/clients] Client created: ${finalClient.firstName} ${finalClient.lastName}`);
       if (newUniqueCode) {
         console.log(`   📋 New code: ${newUniqueCode} | Legacy code: ${legacyUniqueCode}`);
