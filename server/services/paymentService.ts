@@ -900,6 +900,12 @@ export class PaymentService {
         
         await storage.createPaymentTransaction(transactionData);
         
+        // Funnel milestone — subscription confirmed server-side via Stripe webhook
+        try {
+          const { recordMilestone } = await import('../utils/funnelMilestones');
+          await recordMilestone(userId, 'subscription_purchased');
+        } catch (_) {}
+        
         return {
           success: true
         };
