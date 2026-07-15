@@ -79,6 +79,8 @@ import EVWarehousePage from "./pages/EVWarehousePage";
 import EVPaymentSuccessPage from "./pages/EVPaymentSuccessPage";
 import { TimezoneDetector } from "./components/TimezoneDetector";
 import { DemoExitPopup } from "./components/DemoExitPopup";
+import { FunnelTracker } from "./components/FunnelTracker";
+import FunnelReportPage from "./pages/FunnelReportPage";
 
 /**
  * Wrapper per le pagine client (con layout cliente)
@@ -102,6 +104,7 @@ function ActivationPageWrapper({ children }: { children: React.ReactNode }) {
 function StaffPageWrapper({ children }: { children: React.ReactNode }) {
   return (
     <Layout>
+      <FunnelTracker />
       {children}
     </Layout>
   );
@@ -452,6 +455,11 @@ function AppRoutes() {
       <Route path="/admin/users">
         <StaffPageWrapper>
           <AdminUsersPage />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/admin/funnel-report">
+        <StaffPageWrapper>
+          <FunnelReportPage />
         </StaffPageWrapper>
       </Route>
       <Route path="/staff-management">
