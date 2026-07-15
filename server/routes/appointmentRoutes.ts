@@ -1,6 +1,33 @@
 // @ts-nocheck
 import { logger } from '../utils/logger';
 import { Router } from 'express';
+import { recordMilestone, checkAndRecordProfessionalActivated } from '../utils/funnelMilestones';
+
+/**
+ * Convert a local Italy date+time to RFC3339 with timezone offset embedded.
+ * Example: ("2026-06-30", "15:00") → "2026-06-30T15:00:00+02:00"  (CEST, summer)
+ *          ("2026-01-15", "09:00") → "2026-01-15T09:00:00+01:00"  (CET, winter)
+ * Using the offset IN the dateTime string is the only unambiguous way to send
+ * times to Google Calendar API for non-recurring events.
+ */
+function italyTimeToRfc3339(date: string, time: string): string {
+  const timePadded = time.length === 5 ? `${time}:00` : time;
+  const refDate = new Date(`${date}T12:00:00Z`);
+  const fmt = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hour12: false, timeZone: 'Europe/Rome'
+  });
+  const parts = fmt.formatToParts(refDate);
+  const mp = Object.fromEntries(parts.filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
+  const localMs = Date.UTC(+mp.year, +mp.month - 1, +mp.day, +mp.hour, +mp.minute, +mp.second);
+  const offsetMinutes = (localMs - refDate.getTime()) / 60000;
+  const sign = offsetMinutes >= 0 ? '+' : '-';
+  const absMin = Math.abs(offsetMinutes);
+  const oh = String(Math.floor(absMin / 60)).padStart(2, '0');
+  const om = String(absMin % 60).padStart(2, '0');
+  return `${date}T${timePadded}${sign}${oh}:${om}`;
+}
 import { db } from '../db';
 import { storage } from '../storage';
 import { appointments, services, clients, bookingRequests, staff, users, treatmentRooms, googleCalendarEvents, packagePurchases, packageRedemptions } from '../../shared/schema';
@@ -261,12 +288,9 @@ router.post("/api/appointments", async (req, res) => {
             : null;
           
           if (clientData) {
-            // USE ISO format WITHOUT Z to respect Europe/Rome timezone
-            // Handle both HH:MM and HH:MM:SS formats
-            const startTime = newAppointment.startTime.length === 5 ? `${newAppointment.startTime}:00` : newAppointment.startTime;
-            const endTime = newAppointment.endTime.length === 5 ? `${newAppointment.endTime}:00` : newAppointment.endTime;
-            const startDateTimeStr = `${newAppointment.date}T${startTime}`;
-            const endDateTimeStr = `${newAppointment.date}T${endTime}`;
+            // RFC3339 with Italy offset embedded (e.g. "2026-06-30T15:00:00+02:00") — unambiguous for Google API
+            const startDateTimeStr = italyTimeToRfc3339(newAppointment.date, newAppointment.startTime);
+            const endDateTimeStr   = italyTimeToRfc3339(newAppointment.date, newAppointment.endTime);
             
             
             const summary = serviceData 
@@ -365,7 +389,10 @@ router.post("/api/appointments", async (req, res) => {
       // email notifications are automatically sent by the scheduler 24h in advance
       // WhatsApp notifications can be sent manually from the WhatsApp Center
       logger.debug(`📧 [NOTIFICATIONS] Appointment created - automatic email scheduled for ${reminderTime?.toISOString() || 'N/A'}`);
-      
+      // Funnel milestone — fire-and-forget, non-blocking
+      recordMilestone(user.id, 'first_appointment_created')
+        .then(isNew => { if (isNew) checkAndRecordProfessionalActivated(user.id); })
+        .catch(() => {});
       res.status(201).json(newAppointment);
     } catch (error: any) {
       if (error?.message?.startsWith('CONFLICT:')) {
@@ -476,9 +503,10 @@ router.put("/api/appointments/:id", async (req, res) => {
                 : null;
               
               if (clientData) {
-                const startDateTime = new Date(`${updatedAppointment.date}T${updatedAppointment.startTime}`);
-                const endDateTime = new Date(`${updatedAppointment.date}T${updatedAppointment.endTime}`);
-                
+                // RFC3339 with Italy offset embedded — unambiguous for Google API
+                const startDateTimeStr = italyTimeToRfc3339(updatedAppointment.date, updatedAppointment.startTime);
+                const endDateTimeStr   = italyTimeToRfc3339(updatedAppointment.date, updatedAppointment.endTime);
+
                 const summary = serviceData 
                   ? `${clientData.firstName} ${clientData.lastName} - ${serviceData.name}`
                   : `Appointment with ${clientData.firstName} ${clientData.lastName}`;
@@ -490,13 +518,13 @@ router.put("/api/appointments/:id", async (req, res) => {
                 await calendar.events.update({
                   calendarId: googleUser.googleCalendarId || 'primary',
                   eventId: eventMapping.googleEventId,
-                requestBody: {
-                  summary,
-                  description,
-                  start: { dateTime: startDateTime.toISOString(), timeZone: 'Europe/Rome' },
-                  end: { dateTime: endDateTime.toISOString(), timeZone: 'Europe/Rome' },
-                },
-              });
+                  requestBody: {
+                    summary,
+                    description,
+                    start: { dateTime: startDateTimeStr, timeZone: 'Europe/Rome' },
+                    end: { dateTime: endDateTimeStr, timeZone: 'Europe/Rome' },
+                  },
+                });
               
               // Update timestamp sync
               await db.update(googleCalendarEvents)
@@ -553,10 +581,14 @@ router.delete("/api/appointments/:id", async (req, res) => {
         (existingAppointment && existingAppointment.importedFromGoogle === true);
       
       logger.debug(`🗑️ [DELETE] Step 5: isGoogleImport = ${isGoogleImport}`);
-      
-      if (isGoogleImport) {
-        console.log(`🚫 [DELETE] ===== BLOCCO Deleting event GOOGLE =====`);
-        console.log(`🚫 [DELETE] Motivo: syncDir=${eventMapping?.syncDirection}, importedFlag=${existingAppointment?.importedFromGoogle}`);
+
+      // REGOLA: gli eventi creati in Google Calendar si eliminano solo da Google.
+      // Usiamo syncDirection='import' dal tracking record come fonte di verità primaria.
+      // Il flag importedFromGoogle da solo NON basta (può essere settato per errore dal re-import).
+      const isTrueGoogleOrigin = eventMapping?.syncDirection === 'import';
+
+      if (isTrueGoogleOrigin) {
+        console.log(`🚫 [DELETE] Evento creato in Google Calendar — deve essere eliminato da Google. syncDir=${eventMapping?.syncDirection}`);
         return res.status(403).json({ 
           message: "This event was imported from Google Calendar and cannot be deleted from the app. To delete it, access Google Calendar directly.",
           isGoogleImport: true
@@ -573,8 +605,10 @@ router.delete("/api/appointments/:id", async (req, res) => {
       
       console.log(`✅ [DELETE] Appointment ${appointmentId} deleted from PostgreSQL for user ${user.id}`);
       
-      // 🔄 GOOGLE CALENDAR SYNC: Delete from Google Calendar if enabled (only exported events)
-      if (existingAppointment && eventMapping && eventMapping.syncDirection === 'export') {
+      // 🔄 GOOGLE CALENDAR SYNC: Se l'evento era esportato su Google (syncDirection='export'),
+      // lo eliminiamo anche lì per mantenere i calendari allineati.
+      const googleEventIdToDelete = eventMapping?.googleEventId || existingAppointment?.googleEventId;
+      if (existingAppointment && googleEventIdToDelete && eventMapping?.syncDirection === 'export') {
         try {
           const [googleUser] = await db.select().from(users).where(eq(users.id, user.id));
           if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
@@ -590,23 +624,24 @@ router.delete("/api/appointments/:id", async (req, res) => {
               oauth2Client.setCredentials(tokens);
               const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
               
-              // Use the calendarId saved in the mapping
               const targetCalendarId = eventMapping.calendarId || googleUser.googleCalendarId || 'primary';
               
               await calendar.events.delete({
                 calendarId: targetCalendarId,
-                eventId: eventMapping.googleEventId,
+                eventId: googleEventIdToDelete,
               });
               
-              logger.debug(`✅ [GOOGLE SYNC] Event ${eventMapping.googleEventId} deleted from Google Calendar`);
-              
-              // Remove the mapping
-              await db.delete(googleCalendarEvents)
-                .where(eq(googleCalendarEvents.appointmentId, appointmentId));
+              logger.debug(`✅ [GOOGLE SYNC] Event ${googleEventIdToDelete} deleted from Google Calendar`);
           }
         } catch (syncError) {
           console.error(`⚠️ [GOOGLE SYNC] Error deleting from Google (non-blocking):`, syncError);
         }
+      }
+      // Rimuovi sempre il record di tracking se presente
+      if (eventMapping) {
+        await db.delete(googleCalendarEvents)
+          .where(eq(googleCalendarEvents.appointmentId, appointmentId))
+          .catch(() => {});
       }
       
       res.status(200).json({ message: "Appointment deleted successfully" });
