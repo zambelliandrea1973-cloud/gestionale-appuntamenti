@@ -494,6 +494,12 @@ export const users = pgTable("users", {
   termsAcceptedAt: timestamp("terms_accepted_at"), // Data e ora accettazione Termini di Servizio
   hideWelcomeGuide: boolean("hide_welcome_guide").default(false),
   createdAt: timestamp("created_at").defaultNow(),
+  // Funnel tracking milestones — idempotent timestamps set once per account
+  milestoneFirstServiceAt: timestamp("milestone_first_service_at"),
+  milestoneFirstClientAt: timestamp("milestone_first_client_at"),
+  milestoneFirstAppointmentAt: timestamp("milestone_first_appointment_at"),
+  milestoneSubscriptionAt: timestamp("milestone_subscription_at"),
+  milestoneProfessionalActivatedAt: timestamp("milestone_professional_activated_at"),
 });
 
 export const insertUserSchema = createInsertSchema(users).omit({
