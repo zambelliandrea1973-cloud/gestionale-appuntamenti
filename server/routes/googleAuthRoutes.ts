@@ -73,13 +73,16 @@ const oauth2Client = new google.auth.OAuth2(
   redirectUri
 );
 
-// Base scopes for Calendar and Gmail (main authorization)
+// Base scopes for Calendar, Gmail and Contacts (main authorization)
+// All 4 scopes must appear in the main OAuth consent screen for Google verification
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar',
+  'https://www.googleapis.com/auth/calendar.events',
   'https://www.googleapis.com/auth/gmail.send',
+  'https://www.googleapis.com/auth/contacts.readonly',
 ];
 
-// Separate scope for Contacts (separate authorization, requires Google verification)
+// Contacts scopes (also included in main SCOPES for Google verification compliance)
 const CONTACTS_SCOPES = [
   'https://www.googleapis.com/auth/contacts.readonly',
 ];
