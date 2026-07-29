@@ -580,7 +580,7 @@ export default function MonthView({
       {/* ── Edit appointment dialog ── */}
       {editingId && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-50 overflow-y-auto"
+          className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-50"
           onClick={() => { if (Date.now() - formOpenedAtRef.current > 300) setEditingId(null); }}
         >
           <div className="relative" onClick={(e) => e.stopPropagation()}>
@@ -604,7 +604,7 @@ export default function MonthView({
       {/* ── New appointment dialog ── */}
       {newApptDay && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-50 overflow-y-auto"
+          className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-50"
           onClick={() => { if (Date.now() - formOpenedAtRef.current > 300) setNewApptDay(null); }}
         >
           <div className="relative" onClick={(e) => e.stopPropagation()}>

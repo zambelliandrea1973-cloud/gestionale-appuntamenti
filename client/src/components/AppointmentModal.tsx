@@ -131,11 +131,11 @@ export default function AppointmentModal({
   
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-[100] overflow-y-auto"
+      className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center pt-3 sm:pt-0 z-[100]"
       onClick={() => { if (Date.now() - openedAtRef.current > 300) onClose(); }}
     >
       <div 
-        className="relative max-h-[90vh] overflow-auto bg-white rounded-lg"
+        className="relative bg-white rounded-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <AppointmentForm 
