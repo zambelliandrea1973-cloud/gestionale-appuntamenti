@@ -40,4 +40,17 @@ export function fireGtagMilestone(milestoneName: string) {
       }
     } catch (_) {}
   }
+
+  // Google Ads conversion for first appointment created (engagement signal)
+  if (milestoneName === 'first_appointment_created') {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-18109628280/-afjCOeRldkcEPj-q7tD',
+          currency: 'EUR',
+        });
+        console.log('[FUNNEL] 📅 Google Ads conversion fired: Primo Appuntamento Creato');
+      }
+    } catch (_) {}
+  }
 }
