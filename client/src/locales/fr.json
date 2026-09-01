@@ -1932,7 +1932,9 @@
     "clickToConfigure": "Cliquez pour configurer et gérer la synchronisation avec Google Agenda",
     "googleCalendarIntegration": "Intégration Google Agenda",
     "googleCalendarLocked": "L'intégration Google Agenda est disponible dans la version PRO. Mettez à niveau votre plan pour accéder à cette fonctionnalité.",
-    "googleConnected": "Connecté avec succès"
+    "googleConnected": "Connecté avec succès",
+    "googleConnect": "Connecter",
+    "googleSettings": "Paramètres"
   },
   "proFeature": {
     "title": "Fonctionnalité PRO",

@@ -1971,7 +1971,9 @@
     "clickToConfigure": "Clicca per configurare calendario e importare contatti da Google",
     "googleCalendarIntegration": "Integrazione Google Calendar",
     "googleCalendarLocked": "L'integrazione con Google Calendar è disponibile nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità.",
-    "googleConnected": "Connesso con successo"
+    "googleConnected": "Connesso con successo",
+    "googleConnect": "Connetti",
+    "googleSettings": "Impostazioni"
   },
   "proFeature": {
     "title": "Funzionalità PRO",

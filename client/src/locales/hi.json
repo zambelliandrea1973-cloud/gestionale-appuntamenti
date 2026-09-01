@@ -3294,7 +3294,9 @@
     "clickToConfigure": "Google से कैलेंडर कॉन्फ़िगर करने और संपर्क आयात करने के लिए क्लिक करें",
     "googleCalendarIntegration": "Google Calendar एकीकरण",
     "googleCalendarLocked": "Google Calendar एकीकरण PRO संस्करण में उपलब्ध है। इस सुविधा तक पहुंचने के लिए अपनी योजना अपग्रेड करें।",
-    "googleConnected": "सफलतापूर्वक कनेक्ट"
+    "googleConnected": "सफलतापूर्वक कनेक्ट",
+    "googleConnect": "कनेक्ट करें",
+    "googleSettings": "सेटिंग्स"
   },
   "proFeature": {
     "title": "सुविधा PRO",

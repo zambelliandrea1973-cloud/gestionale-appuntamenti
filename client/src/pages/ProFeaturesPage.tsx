@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package, ArrowRight, CheckCircle2, Loader2, AlertTriangle } from "lucide-react";
+import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package, CheckCircle2, Loader2, AlertTriangle } from "lucide-react";
 import GoogleCalendarSimpleSetup from '@/components/GoogleCalendarSimpleSetup';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
@@ -128,6 +128,7 @@ export default function ProFeaturesPage() {
       
       {hasPROAccess ? (
         <div className="space-y-4">
+          <div className="relative">
           <Link to="/google-calendar">
             <Card className={`hover:shadow-lg transition-shadow cursor-pointer ${
               isGoogleReauthRequired
@@ -136,7 +137,7 @@ export default function ProFeaturesPage() {
                   ? 'border-green-500/50 bg-green-50/30'
                   : 'border-primary/20'
             }`}>
-              <CardHeader className={`border-b ${
+              <CardHeader className={`border-b pr-32 ${
                 isGoogleReauthRequired
                   ? 'bg-gradient-to-r from-amber-500/15 to-amber-500/5'
                   : isGoogleConnected
@@ -159,7 +160,6 @@ export default function ProFeaturesPage() {
                       {t('pro.syncDescription')}
                     </CardDescription>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-primary" />
                 </div>
               </CardHeader>
               <CardContent className="pt-4">
@@ -200,6 +200,23 @@ export default function ProFeaturesPage() {
               </CardContent>
             </Card>
           </Link>
+          <Button
+            asChild
+            size="sm"
+            variant={isGoogleConnected ? "outline" : "default"}
+            className={`absolute right-4 top-4 ${
+              isGoogleReauthRequired
+                ? 'border-amber-500 text-amber-700 hover:bg-amber-100'
+                : ''
+            }`}
+          >
+            <Link to="/google-calendar">
+              {isGoogleConnected
+                ? t('pro.googleSettings', 'Impostazioni')
+                : t('pro.googleConnect', 'Connetti')}
+            </Link>
+          </Button>
+          </div>
         </div>
       ) : (
         <Card className="max-w-md w-full mx-auto">

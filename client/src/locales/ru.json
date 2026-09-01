@@ -1932,7 +1932,9 @@
     "clickToConfigure": "Нажмите, чтобы настроить и управлять синхронизацией с Google Календарём",
     "googleCalendarIntegration": "Интеграция Google Календаря",
     "googleCalendarLocked": "Интеграция Google Календаря доступна в PRO-версии. Обновите план, чтобы получить доступ к этой функции.",
-    "googleConnected": "Подключено успешно"
+    "googleConnected": "Подключено успешно",
+    "googleConnect": "Подключить",
+    "googleSettings": "Настройки"
   },
   "proFeature": {
     "title": "PRO-функция",

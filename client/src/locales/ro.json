@@ -1932,7 +1932,9 @@
     "clickToConfigure": "Click pentru a configura și gestiona sincronizarea cu Google Calendar",
     "googleCalendarIntegration": "Integrare Google Calendar",
     "googleCalendarLocked": "Integrarea Google Calendar este disponibilă în versiunea PRO. Actualizează-ți planul pentru a accesa această funcționalitate.",
-    "googleConnected": "Conectat cu succes"
+    "googleConnected": "Conectat cu succes",
+    "googleConnect": "Conectează",
+    "googleSettings": "Setări"
   },
   "proFeature": {
     "title": "Funcționalitate PRO",
