@@ -392,7 +392,9 @@
     "noCollaboratorsForColumns": "Aggiungi collaboratori nelle impostazioni per usare la vista colonne.",
     "noCollaboratorsForFilter": "Aggiungi collaboratori o stanze nelle impostazioni per usare il filtro.",
     "columnsOnlyInDayView": "La vista colonne è disponibile solo nella visualizzazione Giorno.",
-    "syncInProgress": "Sincronizzazione in corso…"
+    "syncInProgress": "Sincronizzazione in corso…",
+    "googleConnectionLostTitle": "Connessione Google Calendar interrotta",
+    "googleConnectionLostDescription": "Ricollega il tuo account Google per riprendere la sincronizzazione bidirezionale."
   },
   "clients": {
     "title": "Clienti",

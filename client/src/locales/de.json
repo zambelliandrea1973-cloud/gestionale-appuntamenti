@@ -374,7 +374,9 @@
     "noCollaboratorsForColumns": "Füge Mitarbeiter in den Einstellungen hinzu, um die Spaltenansicht zu nutzen.",
     "noCollaboratorsForFilter": "Füge Mitarbeiter oder Räume in den Einstellungen hinzu, um den Filter zu nutzen.",
     "columnsOnlyInDayView": "Die Spaltenansicht ist nur in der Tagesansicht verfügbar.",
-    "syncInProgress": "Synchronisierung…"
+    "syncInProgress": "Synchronisierung…",
+    "googleConnectionLostTitle": "Google-Calendar-Verbindung unterbrochen",
+    "googleConnectionLostDescription": "Verbinden Sie Ihr Google-Konto erneut, um die bidirektionale Synchronisierung fortzusetzen."
   },
   "clients": {
     "title": "Kunden",

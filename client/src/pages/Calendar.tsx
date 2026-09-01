@@ -4,10 +4,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from 'react-i18next';
 import { 
   ChevronLeft, ChevronRight, CalendarDays, Search, Clock,
-  Calendar as CalendarIcon, LayoutGrid, Globe, Filter, LayoutDashboard, X
+  Calendar as CalendarIcon, LayoutGrid, Globe, Filter, LayoutDashboard, X,
+  AlertTriangle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { formatMonthYear, formatDateForApi, getBrowserLocale, getWeekStart, getWeekEnd } from "@/lib/utils/date";
 import { getISOWeek } from "date-fns";
@@ -35,6 +37,7 @@ export default function Calendar() {
   const clockRef = useRef<HTMLSpanElement>(null);
   const [isAutoSyncing, setIsAutoSyncing] = useState(false);
   const [googleEnabled, setGoogleEnabled] = useState(false);
+  const [googleNeedsReauth, setGoogleNeedsReauth] = useState(false);
 
   // ── Modalità calendario ────────────────────────────────────────────────────
   const [calendarMode, setCalendarMode] = useState<'global'|'filter'|'columns'>(() => {
@@ -63,21 +66,35 @@ export default function Calendar() {
         const statusRes = await fetch('/api/google-auth/status', { credentials: 'include' });
         if (!statusRes.ok || cancelled) return;
         const status = await statusRes.json();
+        if (status.needsReauth && !status.disabledByUser) {
+          if (!cancelled) {
+            setGoogleNeedsReauth(true);
+            setGoogleEnabled(false);
+          }
+          return;
+        }
         if (!status.authorized || !status.calendarEnabled || cancelled) return;
+        if (!cancelled) setGoogleNeedsReauth(false);
         if (!cancelled) setGoogleEnabled(true);
         if (!cancelled) setIsAutoSyncing(true);
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 130_000);
         try {
-          await fetch('/api/google-calendar/sync-now', {
+          const syncResponse = await fetch('/api/google-calendar/sync-now', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ forceFullSync: false }),
             credentials: 'include',
             signal: controller.signal,
           });
+          const syncData = await syncResponse.json().catch(() => null);
+          if (syncData?.needsReauth && !cancelled) {
+            setGoogleNeedsReauth(true);
+            setGoogleEnabled(false);
+            return;
+          }
           // Aggiorna gli appuntamenti silenziosamente dopo la sync
-          if (!cancelled) {
+          if (syncResponse.ok && syncData?.success && !cancelled) {
             queryClient.invalidateQueries({ queryKey: ["/api/appointments"], refetchType: 'all' });
           }
         } catch {
@@ -93,6 +110,44 @@ export default function Calendar() {
     autoSync();
     return () => { cancelled = true; };
   }, [queryClient]);
+
+  // Keep the warning current even when a background/webhook sync detects a
+  // broken OAuth connection after the calendar page has already loaded.
+  useEffect(() => {
+    let cancelled = false;
+
+    const refreshGoogleConnectionStatus = async () => {
+      try {
+        const response = await fetch('/api/google-auth/status', {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (!response.ok || cancelled) return;
+        const status = await response.json();
+        const reauthRequired = Boolean(status.needsReauth && !status.disabledByUser);
+        setGoogleNeedsReauth(reauthRequired);
+        if (reauthRequired) setGoogleEnabled(false);
+      } catch {
+        // A network failure is not proof that OAuth is broken.
+      }
+    };
+
+    const handleReauthRequired = () => {
+      if (!cancelled) {
+        setGoogleNeedsReauth(true);
+        setGoogleEnabled(false);
+      }
+    };
+
+    window.addEventListener('google-calendar-reauth-required', handleReauthRequired);
+    const intervalId = window.setInterval(refreshGoogleConnectionStatus, 60_000);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+      window.removeEventListener('google-calendar-reauth-required', handleReauthRequired);
+    };
+  }, []);
 
   // ── Auto-refresh silenzioso ogni 60s quando Google Calendar è attivo ────────
   // Dopo che il webhook riceve una notifica da Google e importa nuovi eventi,
@@ -211,6 +266,32 @@ export default function Calendar() {
 
   return (
     <div className="space-y-6">
+      {googleNeedsReauth && (
+        <Alert variant="destructive" className="border-red-300 bg-red-50 text-red-900">
+          <AlertTriangle className="h-5 w-5" />
+          <AlertTitle>
+            {t('calendar.googleConnectionLostTitle', 'Connessione Google Calendar interrotta')}
+          </AlertTitle>
+          <AlertDescription className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p>
+              {t(
+                'calendar.googleConnectionLostDescription',
+                'Ricollega il tuo account Google per riprendere la sincronizzazione bidirezionale.'
+              )}
+            </p>
+            <Button
+              type="button"
+              size="sm"
+              variant="destructive"
+              className="shrink-0"
+              onClick={() => { window.location.href = '/google-calendar'; }}
+            >
+              {t('googleCalendar.setup.reconnectGoogle', 'Riconnetti Google')}
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="bg-white shadow-md rounded-lg p-4 mb-6">
         

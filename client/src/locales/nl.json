@@ -363,7 +363,9 @@
     "noCollaboratorsForColumns": "Voeg medewerkers toe in instellingen om de kolomweergave te gebruiken.",
     "noCollaboratorsForFilter": "Voeg medewerkers of kamers toe in instellingen om het filter te gebruiken.",
     "columnsOnlyInDayView": "De kolomweergave is alleen beschikbaar in de dagweergave.",
-    "syncInProgress": "Synchroniseren…"
+    "syncInProgress": "Synchroniseren…",
+    "googleConnectionLostTitle": "Verbinding met Google Agenda onderbroken",
+    "googleConnectionLostDescription": "Koppel je Google-account opnieuw om de tweerichtingssynchronisatie te hervatten."
   },
   "clients": {
     "title": "Klanten",

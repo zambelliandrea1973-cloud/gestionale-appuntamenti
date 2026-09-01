@@ -374,7 +374,9 @@
     "noCollaboratorsForColumns": "Добавьте сотрудников в настройках, чтобы использовать вид по колонкам.",
     "noCollaboratorsForFilter": "Добавьте сотрудников или кабинеты в настройках для использования фильтра.",
     "columnsOnlyInDayView": "Вид по колонкам доступен только в режиме День.",
-    "syncInProgress": "Синхронизация…"
+    "syncInProgress": "Синхронизация…",
+    "googleConnectionLostTitle": "Соединение с Google Календарём прервано",
+    "googleConnectionLostDescription": "Повторно подключите аккаунт Google, чтобы возобновить двустороннюю синхронизацию."
   },
   "clients": {
     "title": "Клиенты",

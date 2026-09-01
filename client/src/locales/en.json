@@ -387,7 +387,9 @@
     "noCollaboratorsForColumns": "Add collaborators in settings to use the column view.",
     "noCollaboratorsForFilter": "Add collaborators or rooms in settings to use the filter.",
     "columnsOnlyInDayView": "Column view is only available in Day view.",
-    "syncInProgress": "Syncing…"
+    "syncInProgress": "Syncing…",
+    "googleConnectionLostTitle": "Google Calendar connection interrupted",
+    "googleConnectionLostDescription": "Reconnect your Google account to resume two-way synchronization."
   },
   "clients": {
     "title": "Clients",

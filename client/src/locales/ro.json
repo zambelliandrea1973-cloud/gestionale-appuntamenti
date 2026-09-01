@@ -363,7 +363,9 @@
     "noCollaboratorsForColumns": "Adaugă colaboratori în setări pentru a folosi vizualizarea pe coloane.",
     "noCollaboratorsForFilter": "Adaugă colaboratori sau camere în setări pentru a folosi filtrul.",
     "columnsOnlyInDayView": "Vizualizarea pe coloane este disponibilă doar în modul Zi.",
-    "syncInProgress": "Sincronizare…"
+    "syncInProgress": "Sincronizare…",
+    "googleConnectionLostTitle": "Conexiunea cu Google Calendar a fost întreruptă",
+    "googleConnectionLostDescription": "Reconectează contul Google pentru a relua sincronizarea bidirecțională."
   },
   "clients": {
     "title": "Clienți",

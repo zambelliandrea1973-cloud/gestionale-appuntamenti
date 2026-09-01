@@ -84,11 +84,57 @@ export function extractGoogleEmail(tokens: any, fallback: string | null = null):
   return fallback;
 }
 
+const GOOGLE_REAUTH_MESSAGE = 'La connessione con Google Calendar è interrotta. Ricollega il tuo account per riprendere la sincronizzazione.';
+
+function googleOAuthErrorText(error: unknown): string {
+  if (typeof error === 'string') return error;
+
+  const candidate = error as any;
+  const parts = [
+    candidate?.message,
+    candidate?.error,
+    candidate?.error_description,
+    candidate?.response?.data?.error,
+    candidate?.response?.data?.error_description,
+    candidate?.response?.data?.message,
+  ].filter(Boolean);
+
+  try {
+    parts.push(JSON.stringify(error));
+  } catch {
+    // Ignore objects that cannot be serialized.
+  }
+
+  return parts.join(' ');
+}
+
 /**
- * Disable Google Calendar for a user when the OAuth token is invalid.
- * Clears the token and sync tokens so the UI shows "Disconnected" and the user can reconnect.
+ * Returns true only for errors that mean the Google OAuth connection can no
+ * longer be used. Transient network/API errors must not force a reconnect.
  */
-async function disableGoogleCalendarOnInvalidGrant(userId: number): Promise<void> {
+function isGoogleOAuthConnectionError(error: unknown): boolean {
+  const candidate = error as any;
+  const status = Number(candidate?.code || candidate?.response?.status || 0);
+  const text = googleOAuthErrorText(error).toLowerCase();
+
+  if (status === 401) return true;
+
+  return [
+    'invalid_grant',
+    'unauthorized_client',
+    'invalid_client',
+    'token has been expired',
+    'token has been revoked',
+    'invalid authentication credentials',
+    'login required',
+  ].some(marker => text.includes(marker));
+}
+
+/**
+ * Mark Google Calendar as requiring a new OAuth authorization.
+ * The encrypted token is preserved only to retain the connected email in the UI.
+ */
+async function markGoogleCalendarNeedsReauth(userId: number): Promise<void> {
   try {
     // Preserve the connected email before modifying the record
     const [userRecord] = await db.select({
@@ -1187,7 +1233,7 @@ async function syncSecondaryAccountExport(
   return result;
 }
 
-export async function syncBidirectional(userId: number, timeZone: string = 'Europe/Rome', forceFullSync: boolean = false): Promise<{ success: boolean; message: string; details: any }> {
+export async function syncBidirectional(userId: number, timeZone: string = 'Europe/Rome', forceFullSync: boolean = false): Promise<{ success: boolean; message: string; details: any; needsReauth?: boolean }> {
   const details = {
     exported: 0,
     imported: 0,
@@ -1216,15 +1262,13 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       details.found = importResult.found;
       if (importResult.errors.length > 0) {
         details.errors.push(...importResult.errors);
-        // Check if any error is an OAuth invalid_grant — the error is returned (not thrown)
+        // OAuth errors are returned inside the errors array, not always thrown.
         // so we must check here, not in the catch block below
-        const hasOAuthError = importResult.errors.some(e =>
-          e.includes('invalid_grant') || e.includes('Token has been expired') || e.includes('Token has been revoked')
-        );
+        const hasOAuthError = importResult.errors.some(isGoogleOAuthConnectionError);
         if (hasOAuthError) {
-          await disableGoogleCalendarOnInvalidGrant(userId);
-          details.errors.push('Google Calendar disabilitato automaticamente — riconnettersi da Impostazioni → Google Calendar');
-          return { success: false, message: 'Token OAuth scaduto — Google Calendar disabilitato. Riconnettersi da Impostazioni → Google Calendar', details };
+          await markGoogleCalendarNeedsReauth(userId);
+          details.errors.push(GOOGLE_REAUTH_MESSAGE);
+          return { success: false, needsReauth: true, message: GOOGLE_REAUTH_MESSAGE, details };
         }
       }
     } catch (importError: any) {
@@ -1232,10 +1276,10 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       console.error(`❌ [SYNC] Error importing:`, errMsg);
       details.errors.push(`Error importing: ${errMsg}`);
       
-      if (errMsg.includes('invalid_grant') || errMsg.includes('Token has been expired') || errMsg.includes('Token has been revoked')) {
-        await disableGoogleCalendarOnInvalidGrant(userId);
-        details.errors.push('Google Calendar disabilitato automaticamente — riconnettersi da Impostazioni → Google Calendar');
-        return { success: false, message: 'Token OAuth scaduto — Google Calendar disabilitato. Riconnettersi da Impostazioni → Google Calendar', details };
+      if (isGoogleOAuthConnectionError(importError)) {
+        await markGoogleCalendarNeedsReauth(userId);
+        details.errors.push(GOOGLE_REAUTH_MESSAGE);
+        return { success: false, needsReauth: true, message: GOOGLE_REAUTH_MESSAGE, details };
       }
     }
 
@@ -1443,10 +1487,10 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         console.error(`❌ [SYNC] Error exporting appointment ${appointment.id}:`, errorMsg);
         details.errors.push(`Error exporting appointment ${appointment.id}: ${errorMsg}`);
         
-        if (errorMsg.includes('invalid_grant') || errorMsg.includes('Token has been expired') || errorMsg.includes('Token has been revoked')) {
-          await disableGoogleCalendarOnInvalidGrant(userId);
-          details.errors.push('Google Calendar disabilitato automaticamente — riconnettersi da Impostazioni → Google Calendar');
-          break;
+        if (isGoogleOAuthConnectionError(error)) {
+          await markGoogleCalendarNeedsReauth(userId);
+          details.errors.push(GOOGLE_REAUTH_MESSAGE);
+          return { success: false, needsReauth: true, message: GOOGLE_REAUTH_MESSAGE, details };
         }
       }
     }
@@ -1477,6 +1521,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       deleted = deleteResult.deleted;
       if (deleteResult.errors.length > 0) {
         details.errors.push(...deleteResult.errors);
+        if (deleteResult.errors.some(isGoogleOAuthConnectionError)) {
+          await markGoogleCalendarNeedsReauth(userId);
+          details.errors.push(GOOGLE_REAUTH_MESSAGE);
+          return { success: false, needsReauth: true, message: GOOGLE_REAUTH_MESSAGE, details };
+        }
       }
     } catch (deleteError) {
       console.error(`❌ [SYNC] Error detecting deletions:`, deleteError);
@@ -1635,7 +1684,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             } catch (delError) {
               console.error(`❌ [SYNC] Error deleting appointment ${syncedAppt.appointmentId}:`, delError);
             }
-          } else {
+          } else if (isGoogleOAuthConnectionError(updateError)) {
+            details.errors.push(`Error updating appointment ${syncedAppt.appointmentId}: ${googleOAuthErrorText(updateError)}`);
+            await markGoogleCalendarNeedsReauth(userId);
+            details.errors.push(GOOGLE_REAUTH_MESSAGE);
+            return { success: false, needsReauth: true, message: GOOGLE_REAUTH_MESSAGE, details };
           }
         }
       }
@@ -1652,6 +1705,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
   } catch (error) {
     const message = `Error synchronizing: ${String(error)}`;
     console.error(`❌ ${message}`, error);
+    if (isGoogleOAuthConnectionError(error)) {
+      await markGoogleCalendarNeedsReauth(userId);
+      details.errors.push(GOOGLE_REAUTH_MESSAGE);
+      return { success: false, needsReauth: true, message: GOOGLE_REAUTH_MESSAGE, details };
+    }
     return { success: false, message, details };
   }
 }
@@ -1736,6 +1794,9 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
           } catch (deleteError) {
             result.errors.push(`Error deleting appointment ${synced.appointmentId}: ${String(deleteError)}`);
           }
+        } else if (isGoogleOAuthConnectionError(getError)) {
+          result.errors.push(`Google OAuth connection error: ${googleOAuthErrorText(getError)}`);
+          break;
         } else {
           // Other errors - detailed log for debugging
         }
@@ -1744,7 +1805,7 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     
     return result;
   } catch (error) {
-    result.errors.push(`General sync delete error: ${String(error)}`);
+    result.errors.push(`General sync delete error: ${googleOAuthErrorText(error) || String(error)}`);
     console.error('❌ [SYNC DELETE] Error:', error);
     return result;
   }

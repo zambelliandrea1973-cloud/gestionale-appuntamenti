@@ -50,6 +50,9 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
       const data = await response.json();
       
       if (!response.ok || !data.success) {
+        if (data.needsReauth && typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('google-calendar-reauth-required'));
+        }
         // Surface the most specific error available
         const innerError = data.details?.errors?.[0] || data.error || data.message || 'Sync error';
         throw new Error(innerError);

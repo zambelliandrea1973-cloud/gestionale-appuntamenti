@@ -392,7 +392,9 @@
     "noCollaboratorsForColumns": "कॉलम दृश्य के लिए सेटिंग्स में सहयोगी जोड़ें।",
     "noCollaboratorsForFilter": "फ़िल्टर के लिए सेटिंग्स में सहयोगी या कमरे जोड़ें।",
     "columnsOnlyInDayView": "कॉलम दृश्य केवल दिन दृश्य में उपलब्ध है।",
-    "syncInProgress": "सिंक हो रहा है…"
+    "syncInProgress": "सिंक हो रहा है…",
+    "googleConnectionLostTitle": "Google Calendar कनेक्शन टूट गया है",
+    "googleConnectionLostDescription": "दो-तरफ़ा सिंक्रोनाइज़ेशन फिर से शुरू करने के लिए अपना Google खाता दोबारा कनेक्ट करें।"
   },
   "clients": {
     "title": "ग्राहक",

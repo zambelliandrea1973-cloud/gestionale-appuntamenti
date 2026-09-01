@@ -374,7 +374,9 @@
     "noCollaboratorsForColumns": "Ajoutez des collaborateurs dans les paramètres pour utiliser la vue colonnes.",
     "noCollaboratorsForFilter": "Ajoutez des collaborateurs ou des salles dans les paramètres pour utiliser le filtre.",
     "columnsOnlyInDayView": "La vue colonnes est disponible uniquement en vue Jour.",
-    "syncInProgress": "Synchronisation…"
+    "syncInProgress": "Synchronisation…",
+    "googleConnectionLostTitle": "Connexion à Google Agenda interrompue",
+    "googleConnectionLostDescription": "Reconnectez votre compte Google pour reprendre la synchronisation bidirectionnelle."
   },
   "clients": {
     "title": "Clients",

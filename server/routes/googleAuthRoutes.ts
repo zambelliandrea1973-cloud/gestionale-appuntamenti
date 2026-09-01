@@ -527,7 +527,8 @@ router.get('/callback', async (req, res) => {
               googleCalendarEnabled: true,
               googleCalendarId: 'primary',
               lastGoogleSyncAt: new Date(),
-              googleCalendarDisabledByUser: false
+              googleCalendarDisabledByUser: false,
+              googleNeedsReauth: false
             })
             .where(eq(users.id, userId));
           

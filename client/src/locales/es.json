@@ -374,7 +374,9 @@
     "noCollaboratorsForColumns": "Añade colaboradores en ajustes para usar la vista de columnas.",
     "noCollaboratorsForFilter": "Añade colaboradores o salas en ajustes para usar el filtro.",
     "columnsOnlyInDayView": "La vista de columnas solo está disponible en la vista Día.",
-    "syncInProgress": "Sincronizando…"
+    "syncInProgress": "Sincronizando…",
+    "googleConnectionLostTitle": "Conexión con Google Calendar interrumpida",
+    "googleConnectionLostDescription": "Vuelve a conectar tu cuenta de Google para reanudar la sincronización bidireccional."
   },
   "clients": {
     "title": "Clientes",
