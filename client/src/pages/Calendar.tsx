@@ -140,7 +140,7 @@ export default function Calendar() {
     };
 
     window.addEventListener('google-calendar-reauth-required', handleReauthRequired);
-    const intervalId = window.setInterval(refreshGoogleConnectionStatus, 60_000);
+    const intervalId = window.setInterval(refreshGoogleConnectionStatus, 6 * 60 * 60 * 1000);
 
     return () => {
       cancelled = true;

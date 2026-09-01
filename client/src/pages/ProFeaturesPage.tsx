@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package, ArrowRight, CheckCircle2, Loader2, AlertTriangle } from "lucide-react";
 import GoogleCalendarSimpleSetup from '@/components/GoogleCalendarSimpleSetup';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
@@ -30,6 +30,7 @@ export default function ProFeaturesPage() {
     email?: string;
     calendarEnabled?: boolean;
     disabledByUser?: boolean;
+    needsReauth?: boolean;
   }>({
     queryKey: ['/api/google-auth/status'],
     enabled: hasPROAccess,
@@ -40,7 +41,7 @@ export default function ProFeaturesPage() {
   // riabilita in automatico la connessione Google Calendar senza alcuna azione utente
   useEffect(() => {
     if (!hasPROAccess || isLoadingGoogleStatus) return;
-    if (googleAuthStatus?.authorized) return; // già connesso
+    if (googleAuthStatus?.authorized && !googleAuthStatus.needsReauth) return; // già connesso e valido
     if (googleAuthStatus?.disabledByUser) return; // scelta volontaria, rispettiamo
     
     // Disconnesso per bug/aggiornamento → ripristino silenzioso
@@ -57,8 +58,12 @@ export default function ProFeaturesPage() {
       .catch(() => { /* silent */ });
   }, [hasPROAccess, isLoadingGoogleStatus, googleAuthStatus]);
   
-  // Connesso = token presente nel DB (authorized=true), indipendentemente da calendarEnabled
-  const isGoogleConnected = googleAuthStatus?.authorized === true;
+  // Un token presente non basta: dopo un errore OAuth viene conservato per
+  // mostrare l'email, ma la connessione deve risultare interrotta.
+  const isGoogleReauthRequired =
+    googleAuthStatus?.needsReauth === true && !googleAuthStatus.disabledByUser;
+  const isGoogleConnected =
+    googleAuthStatus?.authorized === true && !isGoogleReauthRequired;
   
   // Reindirizza direttamente alla pagina di abbonamento
   const handleUpgradeClick = () => {
@@ -124,12 +129,26 @@ export default function ProFeaturesPage() {
       {hasPROAccess ? (
         <div className="space-y-4">
           <Link to="/google-calendar">
-            <Card className={`hover:shadow-lg transition-shadow cursor-pointer ${isGoogleConnected ? 'border-green-500/50 bg-green-50/30' : 'border-primary/20'}`}>
-              <CardHeader className={`border-b ${isGoogleConnected ? 'bg-gradient-to-r from-green-500/10 to-green-500/5' : 'bg-gradient-to-r from-primary/10 to-primary/5'}`}>
+            <Card className={`hover:shadow-lg transition-shadow cursor-pointer ${
+              isGoogleReauthRequired
+                ? 'border-amber-500/60 bg-amber-50/30'
+                : isGoogleConnected
+                  ? 'border-green-500/50 bg-green-50/30'
+                  : 'border-primary/20'
+            }`}>
+              <CardHeader className={`border-b ${
+                isGoogleReauthRequired
+                  ? 'bg-gradient-to-r from-amber-500/15 to-amber-500/5'
+                  : isGoogleConnected
+                    ? 'bg-gradient-to-r from-green-500/10 to-green-500/5'
+                    : 'bg-gradient-to-r from-primary/10 to-primary/5'
+              }`}>
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="flex items-center gap-2">
-                      {isGoogleConnected ? (
+                      {isGoogleReauthRequired ? (
+                        <AlertTriangle className="h-5 w-5 text-amber-600" />
+                      ) : isGoogleConnected ? (
                         <CheckCircle2 className="h-5 w-5 text-green-600" />
                       ) : (
                         <CalendarPlus className="h-5 w-5 text-primary" />
@@ -148,6 +167,18 @@ export default function ProFeaturesPage() {
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Loader2 className="h-4 w-4 animate-spin" />
                     {t('common.loading')}
+                  </div>
+                ) : isGoogleReauthRequired ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0" />
+                    <span className="text-sm text-amber-700 font-medium">
+                      {t('calendar.googleConnectionLostTitle', 'Connessione Google Calendar interrotta')}
+                    </span>
+                    {googleAuthStatus?.email && (
+                      <span className="text-sm text-muted-foreground">
+                        ({googleAuthStatus.email})
+                      </span>
+                    )}
                   </div>
                 ) : isGoogleConnected ? (
                   <div className="flex items-center gap-2">
