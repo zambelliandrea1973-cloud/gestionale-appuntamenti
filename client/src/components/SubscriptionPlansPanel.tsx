@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useTranslation, type TFunction } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useLocation } from 'wouter';
 import {
   Check,
@@ -14,6 +15,8 @@ import {
   Wallet,
   Copy,
   ExternalLink,
+  XCircle,
+  Info,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,7 +30,7 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { apiRequest } from '@/lib/queryClient';
+import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useCurrency } from '@/hooks/use-currency';
 import { useAuth } from '@/hooks/use-auth';
 
@@ -133,6 +136,7 @@ export default function SubscriptionPlansPanel() {
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [showBankTransferInfo, setShowBankTransferInfo] = useState(false);
+  const [showCancelSubscription, setShowCancelSubscription] = useState(false);
   const [bankTransferInfo, setBankTransferInfo] = useState<{
     bankInfo: { recipient?: string; iban?: string; notes?: string };
     planId: string;
@@ -355,6 +359,23 @@ export default function SubscriptionPlansPanel() {
     },
   });
 
+  const cancelSubscription = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest('POST', '/api/payments/subscription/cancel', { immediate: false });
+      return res.json();
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        queryClient.invalidateQueries({ queryKey: ['/api/payments/subscription'] });
+        setShowCancelSubscription(false);
+        toast({ title: t('subscribe.cancelScheduledTitle'), description: t('subscribe.cancelScheduledDescription') });
+      } else {
+        toast({ title: t('common.error'), description: data.message || t('subscribe.cancelError'), variant: 'destructive' });
+      }
+    },
+    onError: () => toast({ title: t('common.error'), description: t('subscribe.cancelError'), variant: 'destructive' }),
+  });
+
   const handlePayment = (planId: string) => {
     setSelectedPlanId(planId);
     if (paymentMethod === 'paypal') {
@@ -420,6 +441,30 @@ export default function SubscriptionPlansPanel() {
             ) : (
               <>{t('subscribe.trialActive')}: <strong>{new Date(licenseInfo?.expiresAt || '').toLocaleDateString()}</strong></>
             )}
+            {subscriptionInfo.paymentMethod && (
+              <div className="mt-1">{t('subscribe.paymentMethodLabel')}: <strong>{subscriptionInfo.paymentMethod}</strong></div>
+            )}
+            {subscriptionInfo.currentPeriodEnd && (
+              <div className="mt-1">
+                {subscriptionInfo.cancelAtPeriodEnd ? t('subscribe.accessEnds') : t('subscribe.nextRenewal')}:{' '}
+                <strong>{new Date(subscriptionInfo.currentPeriodEnd).toLocaleDateString()}</strong>
+              </div>
+            )}
+            {subscriptionInfo.cancelAtPeriodEnd ? (
+              <div className="mt-2 font-medium">{t('subscribe.cancelScheduled')}</div>
+            ) : (
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+                className="mt-3 gap-2"
+                onClick={() => setShowCancelSubscription(true)}
+                aria-label={t('subscribe.cancelButtonAria')}
+              >
+                <XCircle className="h-4 w-4" aria-hidden="true" />
+                {t('subscribe.cancelButton')}
+              </Button>
+            )}
           </AlertDescription>
         </Alert>
       )}
@@ -462,6 +507,16 @@ export default function SubscriptionPlansPanel() {
               {t('subscribe.paymentSecurity')}
             </div>
           </Tabs>
+
+          <Alert className="border-blue-200 bg-blue-50/70">
+            <Info className="h-4 w-4 text-blue-600" />
+            <AlertTitle className="text-blue-900">{t('subscribe.billingInfo.title')}</AlertTitle>
+            <AlertDescription className="space-y-1 text-blue-800">
+              <p>{t('subscribe.billingInfo.recurring')}</p>
+              <p>{t('subscribe.billingInfo.cancel')}</p>
+              <p>{t('subscribe.billingInfo.manual')}</p>
+            </AlertDescription>
+          </Alert>
 
           {/* Schede piani */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -564,6 +619,24 @@ export default function SubscriptionPlansPanel() {
       )}
 
       {/* Dialog attivazione codice */}
+      <Dialog open={showCancelSubscription} onOpenChange={setShowCancelSubscription}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('subscribe.cancelDialogTitle')}</DialogTitle>
+            <DialogDescription>
+              {t('subscribe.cancelDialogDescription')}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCancelSubscription(false)} disabled={cancelSubscription.isPending}>{t('subscribe.keepSubscription')}</Button>
+            <Button variant="destructive" onClick={() => cancelSubscription.mutate()} disabled={cancelSubscription.isPending} className="gap-2">
+              {cancelSubscription.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
+              {t('subscribe.confirmCancellation')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={showActivationDialog} onOpenChange={setShowActivationDialog}>
         <DialogContent>
           <DialogHeader>

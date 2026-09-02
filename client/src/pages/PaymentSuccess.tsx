@@ -21,7 +21,7 @@ export default function PaymentSuccess() {
   const searchParams = new URLSearchParams(search);
   const sessionId = searchParams.get('session_id');
   // PayPal restituisce il token nell'URL di ritorno come "token" parameter
-  const paypalOrderId = searchParams.get('order_id') || searchParams.get('token');
+  const paypalOrderId = searchParams.get('subscription_id') || searchParams.get('order_id') || searchParams.get('token');
   const type = searchParams.get('type') || (sessionId ? 'stripe' : (paypalOrderId ? 'paypal' : 'stripe'));
   
   // Recupera informazioni sull'abbonamento
@@ -78,7 +78,7 @@ export default function PaymentSuccess() {
     const checkLicense = async () => {
       try {
         // Verifica sia la licenza che le informazioni sull'abbonamento
-        const hasActiveSubscription = subscriptionInfo && subscriptionInfo.active;
+        const hasActiveSubscription = subscriptionInfo && (subscriptionInfo.active || subscriptionInfo.status === 'active');
         const hasNonTrialLicense = licenseInfo?.type !== 'trial';
         
         setSuccess(hasActiveSubscription || hasNonTrialLicense);
@@ -188,14 +188,16 @@ export default function PaymentSuccess() {
                     <div className="mt-4">
                       <h4 className="font-medium mb-2">{t('payment.features', 'Included features')}:</h4>
                       <ul className="space-y-1">
-                        {subscriptionInfo.plan.features && Array.isArray(JSON.parse(subscriptionInfo.plan.features || '[]')) && 
-                          JSON.parse(subscriptionInfo.plan.features || '[]').map((feature: string, index: number) => (
+                        {(() => {
+                          const raw = subscriptionInfo.plan.features;
+                          const features = Array.isArray(raw) ? raw : typeof raw === 'string' ? (() => { try { return JSON.parse(raw); } catch { return []; } })() : [];
+                          return Array.isArray(features) && features.map((feature: any, index: number) => (
                             <li key={index} className="flex items-start">
                               <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
-                              <span>{feature}</span>
+                              <span>{typeof feature === 'string' ? feature : feature.name || feature.key}</span>
                             </li>
-                          ))
-                        }
+                          ));
+                        })()}
                       </ul>
                     </div>
                   )}

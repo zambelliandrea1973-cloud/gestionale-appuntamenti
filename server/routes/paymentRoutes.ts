@@ -501,10 +501,7 @@ router.post('/stripe/webhook', async (req, res) => {
     // Get the webhook secret from environment variable
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
     if (!webhookSecret) {
-      console.warn('Warning: STRIPE_WEBHOOK_SECRET not configured. Signatures will not be verified in test environment.');
-      // For testing, proceed without verification
-      const result = await PaymentService.handleStripeWebhook(req.body);
-      return res.json(result);
+      return res.status(503).json({ success: false, message: 'Stripe webhook verification is not configured' });
     }
     
     // Verify the signature
@@ -592,7 +589,9 @@ router.post('/subscription/cancel', isAuthenticated, async (req, res) => {
   try {
     const userId = req.user!.id;
     const { immediate } = req.body;
-    
+    if (immediate === true) {
+      return res.status(400).json({ success: false, message: 'Immediate cancellation is not supported' });
+    }
     const result = await PaymentService.cancelSubscription(userId, immediate);
     
     return res.json(result);

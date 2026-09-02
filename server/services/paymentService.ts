@@ -8,6 +8,7 @@ import { db } from '../db';
 import { licenses, subscriptions } from '../../shared/schema';
 import { eq, and, sql } from 'drizzle-orm';
 import crypto from 'crypto';
+import axios from 'axios';
 
 // Type for licenses: 'base', 'pro', 'business', 'trial', 'passepartout'
 type LicenseTypeValue = 'base' | 'pro' | 'business' | 'trial' | 'passepartout';
@@ -169,6 +170,24 @@ const getPayPalClient = async () => {
   }
 };
 
+/** Credentials for the REST subscriptions API.  Keep these server-side only. */
+const getPayPalRestConfig = async () => {
+  const methods = await storage.getPaymentMethods();
+  const config = methods.find(m => m.id === 'paypal')?.config;
+  const live = (config?.mode || (process.env.PAYMENT_MODE === 'production' ? 'live' : 'sandbox')) === 'live';
+  const clientId = config?.clientId || (live ? process.env.PAYPAL_CLIENT_ID_LIVE : process.env.PAYPAL_CLIENT_ID);
+  const clientSecret = config?.clientSecret || (live ? process.env.PAYPAL_CLIENT_SECRET_LIVE : process.env.PAYPAL_CLIENT_SECRET);
+  if (!clientId || !clientSecret) throw new Error('PayPal credentials are missing. Configure them on the Payment Methods page.');
+  const baseUrl = live ? 'https://api.paypal.com' : 'https://api.sandbox.paypal.com';
+  const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+  const token = await axios.post(`${baseUrl}/v1/oauth2/token`, 'grant_type=client_credentials', {
+    headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/x-www-form-urlencoded' }
+  });
+  return { baseUrl, headers: { Authorization: `Bearer ${token.data.access_token}`, 'Content-Type': 'application/json' } };
+};
+
+const paypalRequestId = (value: string) => crypto.createHash('sha256').update(value).digest('hex');
+
 /**
  * Service for managing payments and subscriptions
  */
@@ -258,52 +277,32 @@ export class PaymentService {
         planName: plan.name
       });
       
-      // Use PayPal API for a single order (simpler for integration)
-      // In a complete implementation we should use the PayPal Subscriptions API
-      const request = new paypal.orders.OrdersCreateRequest();
-      request.prefer('return=representation');
-      request.requestBody({
-        intent: 'CAPTURE',
-        purchase_units: [{
-          amount: {
-            currency_code: 'EUR',
-            value: priceInEuro
-          },
-          description: `Subscription: ${plan.name} (1 anno)`
-        }],
-        application_context: {
-          return_url: returnUrl,
-          cancel_url: cancelUrl,
-          brand_name: 'Gestione Appuntamenti',
-          landing_page: 'BILLING',
-          user_action: 'PAY_NOW',
-          shipping_preference: 'NO_SHIPPING'
-        }
-      });
-      
-      console.log('Sending request to PayPal...');
-      
-      // Send the request to PayPal
-      const client = await getPayPalClient();
-      const response = await client.execute(request);
-      
-      console.log('PayPal response:', {
-        statusCode: response.statusCode,
-        resultId: response.result.id,
-        linksCount: response.result.links?.length || 0
-      });
-      
-      if (response.statusCode !== 201) {
-        return {
-          success: false,
-          message: 'Error creating PayPal order'
-        };
-      }
+      const { baseUrl, headers } = await getPayPalRestConfig();
+      const productName = `gestione-appuntamenti-service`;
+      const product = await axios.post(`${baseUrl}/v1/catalogs/products`, {
+        name: productName, type: 'SERVICE', description: 'Gestione Appuntamenti subscriptions'
+      }, { headers: { ...headers, 'PayPal-Request-Id': paypalRequestId(`product:${productName}`) } });
+      // PayPal returns the same object for a replayed request id; deterministic IDs
+      // make retries safe without trusting a browser supplied value.
+      const productId = product.data.id;
+      const planKey = `gestione-appuntamenti-plan-${plan.id}-${plan.price}-${plan.interval}`;
+      const billingPlan = await axios.post(`${baseUrl}/v1/billing/plans`, {
+        product_id: productId, name: planKey,
+        billing_cycles: [{ tenure_type: 'REGULAR', sequence: 1, total_cycles: 0,
+          frequency: { interval_unit: plan.interval === 'year' ? 'YEAR' : 'MONTH', interval_count: 1 },
+          pricing_scheme: { fixed_price: { value: priceInEuro, currency_code: 'EUR' } } }],
+        payment_preferences: { auto_bill_outstanding: true }
+      }, { headers: { ...headers, 'PayPal-Request-Id': paypalRequestId(`plan:${planKey}`) } });
+      const response = await axios.post(`${baseUrl}/v1/billing/subscriptions`, {
+        plan_id: billingPlan.data.id, custom_id: String(userId),
+        application_context: { return_url: returnUrl, cancel_url: cancelUrl, brand_name: 'Gestione Appuntamenti',
+          user_action: 'SUBSCRIBE_NOW', shipping_preference: 'NO_SHIPPING' }
+      }, { headers: { ...headers, 'PayPal-Request-Id': paypalRequestId(`subscription:${userId}:${plan.id}:${billingPlan.data.id}`) } });
       
       // Find the approval URL
-      const approvalLink = response.result.links.find((link: any) => link.rel === 'approve');
+      const approvalLink = response.data.links?.find((link: any) => link.rel === 'approve');
       if (!approvalLink) {
-        console.error('Available links:', response.result.links);
+        console.error('Available links:', response.data.links);
         return {
           success: false,
           message: 'PayPal approval URL not found'
@@ -333,7 +332,7 @@ export class PaymentService {
           currentPeriodStart: currentDate,
           currentPeriodEnd: endDate,
           cancelAtPeriodEnd: false,
-          paypalSubscriptionId: response.result.id,
+          paypalSubscriptionId: response.data.id,
           paymentMethod: 'paypal'
         });
       } else {
@@ -345,7 +344,7 @@ export class PaymentService {
           currentPeriodStart: currentDate,
           currentPeriodEnd: endDate,
           cancelAtPeriodEnd: false,
-          paypalSubscriptionId: response.result.id,
+          paypalSubscriptionId: response.data.id,
           paymentMethod: 'paypal'
         };
         
@@ -355,7 +354,7 @@ export class PaymentService {
       return {
         success: true,
         url: approvalLink.href,
-        subscriptionId: response.result.id
+        subscriptionId: response.data.id
       };
     } catch (error) {
       // Detailed error log for debugging
@@ -405,6 +404,17 @@ export class PaymentService {
           success: false,
           message: 'Subscription not found'
         };
+      }
+      // New recurring checkouts return an I-* subscription id. Verify it from
+      // PayPal instead of capturing an Order client-side.
+      if (orderId.startsWith('I-')) {
+        if (subscription.paypalSubscriptionId !== orderId) {
+          return { success: false, message: 'Subscription does not belong to this checkout' };
+        }
+        const result = await this.syncPayPalSubscription(subscription);
+        return result.status === 'active'
+          ? { success: true }
+          : { success: false, message: 'PayPal subscription is not active yet' };
       }
       
       // Capture the PayPal payment
@@ -486,6 +496,12 @@ export class PaymentService {
           userId
         };
       }
+      if (orderId.startsWith('I-')) {
+        const synced = await this.syncPayPalSubscription(subscription);
+        return synced.status === 'active'
+          ? { success: true, userId }
+          : { success: false, message: 'PayPal subscription is not active', userId };
+      }
       
       // Capture the PayPal payment
       const client = await getPayPalClient();
@@ -564,16 +580,18 @@ export class PaymentService {
         };
       }
       
-      // Update the subscription in the database
-      if (immediate) {
-        // Cancellazione immediata
-        await storage.updateSubscription(subscription.id, {
-          status: 'canceled'
-        });
-      } else {
-        // Cancellation at the end of the current period
-        await storage.cancelSubscription(subscription.id, true);
+      if (immediate) return { success: false, message: 'Immediate cancellation is not supported' };
+      if (subscription.stripeSubscriptionId) {
+        const stripe = await getStripeClient();
+        await stripe.subscriptions.update(subscription.stripeSubscriptionId, { cancel_at_period_end: true });
+      } else if (subscription.paypalSubscriptionId?.startsWith('I-')) {
+        const { baseUrl, headers } = await getPayPalRestConfig();
+        await axios.post(`${baseUrl}/v1/billing/subscriptions/${subscription.paypalSubscriptionId}/cancel`,
+          { reason: 'Cancelled by customer at period end' }, { headers });
       }
+      // Manual subscriptions have no remote cancellation operation, but retain
+      // access until their already-paid period expires.
+      await storage.cancelSubscription(subscription.id, true);
       
       return {
         success: true
@@ -587,12 +605,61 @@ export class PaymentService {
     }
   }
 
+  /** Reads provider state only: no transactions or referral commissions are created here. */
+  private static async syncSubscription(subscription: any): Promise<any> {
+    if (subscription.stripeSubscriptionId) {
+      const stripe = await getStripeClient();
+      const remote: any = await stripe.subscriptions.retrieve(subscription.stripeSubscriptionId);
+      const updated = await storage.updateSubscription(subscription.id, {
+        status: this.normaliseProviderStatus(remote.status),
+        currentPeriodStart: remote.current_period_start ? new Date(remote.current_period_start * 1000) : subscription.currentPeriodStart,
+        currentPeriodEnd: remote.current_period_end ? new Date(remote.current_period_end * 1000) : subscription.currentPeriodEnd,
+        cancelAtPeriodEnd: !!remote.cancel_at_period_end
+      });
+      if (updated?.status === 'active' && updated.currentPeriodEnd) {
+        await createOrUpdateLicense(updated.userId, getLicenseTypeFromPlanName(subscription.plan.name), updated.currentPeriodEnd);
+      }
+      return updated ? { ...subscription, ...updated } : subscription;
+    }
+    if (subscription.paypalSubscriptionId?.startsWith('I-')) return this.syncPayPalSubscription(subscription);
+    return subscription;
+  }
+
+  private static normaliseProviderStatus(status: string): 'active' | 'past_due' | 'canceled' | 'pending' {
+    const value = status.toLowerCase();
+    if (value === 'active' || value === 'trialing') return 'active';
+    if (['past_due', 'unpaid', 'suspended'].includes(value)) return 'past_due';
+    if (['canceled', 'cancelled', 'expired'].includes(value)) return 'canceled';
+    return 'pending';
+  }
+
+  private static async syncPayPalSubscription(subscription: any): Promise<any> {
+    const { baseUrl, headers } = await getPayPalRestConfig();
+    const { data } = await axios.get(`${baseUrl}/v1/billing/subscriptions/${subscription.paypalSubscriptionId}`, { headers });
+    if (String(data.custom_id) !== String(subscription.userId)) throw new Error('PayPal subscription ownership mismatch');
+    const end = data.billing_info?.next_billing_time ? new Date(data.billing_info.next_billing_time) : subscription.currentPeriodEnd;
+    // PayPal's cancel endpoint returns CANCELLED immediately, while our
+    // entitlement remains valid through the paid local/provider period.
+    const providerStatus = this.normaliseProviderStatus(data.status);
+    const retainAccess = subscription.cancelAtPeriodEnd && subscription.currentPeriodEnd &&
+      new Date(subscription.currentPeriodEnd) > new Date();
+    const updated = await storage.updateSubscription(subscription.id, {
+      status: retainAccess ? 'active' : providerStatus,
+      currentPeriodStart: data.start_time ? new Date(data.start_time) : subscription.currentPeriodStart,
+      currentPeriodEnd: end,
+      cancelAtPeriodEnd: data.status === 'CANCELLED'
+    });
+    if (updated?.status === 'active' && end) await createOrUpdateLicense(updated.userId, getLicenseTypeFromPlanName(subscription.plan.name), end);
+    return updated ? { ...subscription, ...updated } : subscription;
+  }
+
   /**
    * Get the subscription status for a user
    */
   static async getUserSubscription(userId: number) {
     try {
-      return await storage.getSubscriptionByUserId(userId);
+      const subscription = await storage.getSubscriptionByUserId(userId);
+      return subscription ? await this.syncSubscription(subscription) : null;
     } catch (error) {
       console.error('Error retrieving user subscription:', error);
       return null;
@@ -604,7 +671,8 @@ export class PaymentService {
    */
   static async hasActiveSubscription(userId: number): Promise<boolean> {
     try {
-      const subscription = await storage.getSubscriptionByUserId(userId);
+      const current = await storage.getSubscriptionByUserId(userId);
+      const subscription = current ? await this.syncSubscription(current) : current;
       return subscription?.status === 'active';
     } catch (error) {
       console.error('Error verifying active subscription:', error);
@@ -751,7 +819,7 @@ export class PaymentService {
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        mode: 'payment',
+        mode: 'subscription',
         line_items: [
           {
             price_data: {
@@ -761,6 +829,7 @@ export class PaymentService {
                 description: plan.description || undefined,
               },
               unit_amount: plan.price, // Price already in cents from the database
+               recurring: { interval: plan.interval as 'month' | 'year' },
             },
             quantity: 1,
           },
@@ -770,8 +839,9 @@ export class PaymentService {
           planId: planId.toString(),
           planType: plan.name
         },
+         subscription_data: { metadata: { userId: userId.toString(), planId: planId.toString(), planType: plan.name } },
         customer_email: user.email || undefined,
-        success_url: successUrl,
+        success_url: `${successUrl}${successUrl.includes('?') ? '&' : '?'}session_id={CHECKOUT_SESSION_ID}&type=stripe`,
         cancel_url: cancelUrl,
       });
       
@@ -903,17 +973,27 @@ export class PaymentService {
         };
       }
       
-      // Activate the subscription
+      const stripeSubscriptionId = typeof session.subscription === 'string'
+        ? session.subscription : session.subscription?.id;
+      if (!stripeSubscriptionId) return { success: false, message: 'Stripe subscription is missing from checkout' };
+      const providerSubscription: any = await stripe.subscriptions.retrieve(stripeSubscriptionId);
+      const periodStart = new Date(providerSubscription.current_period_start * 1000);
+      const periodEnd = new Date(providerSubscription.current_period_end * 1000);
+      // Activate using Stripe's authoritative subscription period.
       await storage.updateSubscription(subscription.id, {
         status: 'active',
-        stripeCustomerId: typeof session.customer === 'string' ? session.customer : null
+        stripeCustomerId: typeof session.customer === 'string' ? session.customer : null,
+        stripeSubscriptionId,
+        currentPeriodStart: periodStart,
+        currentPeriodEnd: periodEnd,
+        cancelAtPeriodEnd: providerSubscription.cancel_at_period_end
       });
       
       // Get the plan to determine the license type
       const plan = await storage.getSubscriptionPlan(sessionPlanId);
       if (plan) {
         const licenseType = getLicenseTypeFromPlanName(plan.name);
-        const licenseExpiry = subscription.currentPeriodEnd || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+        const licenseExpiry = periodEnd;
         await createOrUpdateLicense(userId, licenseType, licenseExpiry);
         logger.debug(`✅ license ${licenseType} activated for user ${userId}`);
       }
