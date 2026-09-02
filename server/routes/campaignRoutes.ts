@@ -574,6 +574,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
       
       const { title, message, channel } = req.body;
       const attachments = (req.files as Express.Multer.File[]) || [];
+      const promotionId = Number.parseInt(req.body.promotionId, 10);
       
       console.log('📤 [CAMPAIGN NEW] Campaign send request:', title, '- Channel:', channel);
       
@@ -623,19 +624,47 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
         return res.json({ sent: 0, message: 'No clients found' });
       }
       
-      // 💾 STEP 3: CREATE CAMPAIGN RECORD WITH STATUS='LOCKED' (BEFORE SENDING!)
-      const uniqueCode = crypto.randomBytes(8).toString('hex');
-      const [newCampaign] = await db.insert(marketingCampaigns).values({
-        userId: user.id,
-        title: title,
-        message: message,
-        uniqueCode: uniqueCode,
-        sentTo: 0,
-        status: 'locked', // BLOCKED during send
-        idempotencyKey: idempotencyKey,
-        attachmentPaths: [],
-        attachmentTypes: [],
-      }).returning();
+      // 💾 STEP 3: Reuse the promotion record when the client already created
+      // one for uploaded media. This keeps the public flyer and campaign
+      // history on the same row instead of creating a duplicate without media.
+      let newCampaign: any;
+      if (Number.isInteger(promotionId)) {
+        const [promotionCampaign] = await db
+          .select()
+          .from(marketingCampaigns)
+          .where(and(
+            eq(marketingCampaigns.id, promotionId),
+            eq(marketingCampaigns.userId, user.id)
+          ))
+          .limit(1);
+
+        if (promotionCampaign) {
+          [newCampaign] = await db.update(marketingCampaigns)
+            .set({
+              sentTo: 0,
+              status: 'locked',
+              idempotencyKey,
+              sentAt: null,
+            })
+            .where(eq(marketingCampaigns.id, promotionCampaign.id))
+            .returning();
+        }
+      }
+
+      if (!newCampaign) {
+        const uniqueCode = crypto.randomBytes(8).toString('hex');
+        [newCampaign] = await db.insert(marketingCampaigns).values({
+          userId: user.id,
+          title,
+          message,
+          uniqueCode,
+          sentTo: 0,
+          status: 'locked', // BLOCKED during send
+          idempotencyKey,
+          attachmentPaths: [],
+          attachmentTypes: [],
+        }).returning();
+      }
       
       campaignId = newCampaign.id;
       

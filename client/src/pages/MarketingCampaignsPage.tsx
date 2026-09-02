@@ -430,6 +430,7 @@ export default function MarketingCampaignsPage() {
     try {
       // STEP 1: Salva campagna e genera link promozione (se ci sono allegati)
       let promotionLink = '';
+      let promotionId = '';
       if (uploadedFiles.length > 0) {
         const promoFormData = new FormData();
         promoFormData.append('title', editableTitle);
@@ -451,6 +452,7 @@ export default function MarketingCampaignsPage() {
           // Usa VITE_PUBLIC_DOMAIN se configurato (produzione Sliplane), altrimenti dominio corrente
           const baseUrl = import.meta.env.VITE_PUBLIC_DOMAIN || window.location.origin;
           promotionLink = `${baseUrl}/promozioni/${promoData.code}`;
+          promotionId = String(promoData.id);
         } else {
           // ❌ ERRORE CRITICO: Se il salvataggio fallisce, BLOCCA l'invio
           throw new Error(t('marketingCampaigns.toast.promoSaveError'));
@@ -467,6 +469,9 @@ export default function MarketingCampaignsPage() {
       formData.append('title', editableTitle);
       formData.append('message', finalMessage);
       formData.append('channel', channel);
+      if (promotionId) {
+        formData.append('promotionId', promotionId);
+      }
       
       // Aggiungi allegati (manteniamo per retrocompatibilità email)
       if (uploadedFiles.length > 0) {
