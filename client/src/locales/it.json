@@ -3626,6 +3626,7 @@
       "alreadySent": "Questa campagna è già stata inviata"
     },
     "addMedia": "Aggiungi Immagini o Video (opzionale)",
+    "posterPreview": "Anteprima locandina",
     "filesUploaded": "{{count}} file caricati",
     "uploadFiles": "Carica File",
     "removeAll": "Rimuovi tutti",

@@ -3588,6 +3588,7 @@
       "alreadySent": "This campaign has already been sent"
     },
     "addMedia": "Add Images or Video (optional)",
+    "posterPreview": "Flyer preview",
     "filesUploaded": "{{count}} files uploaded",
     "uploadFiles": "Upload Files",
     "removeAll": "Remove all",

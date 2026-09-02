@@ -3549,6 +3549,7 @@
       "alreadySent": "Esta campaña ya ha sido enviada"
     },
     "addMedia": "Añadir imágenes o vídeo (opcional)",
+    "posterPreview": "Vista previa del folleto",
     "filesUploaded": "{{count}} archivos cargados",
     "uploadFiles": "Cargar archivos",
     "removeAll": "Eliminar todos",

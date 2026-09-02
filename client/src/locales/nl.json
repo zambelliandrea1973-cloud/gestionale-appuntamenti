@@ -3549,6 +3549,7 @@
       "alreadySent": "Deze campagne is al verzonden"
     },
     "addMedia": "Afbeeldingen of video toevoegen (optioneel)",
+    "posterPreview": "Voorbeeld van flyer",
     "filesUploaded": "{{count}} bestanden geüpload",
     "uploadFiles": "Bestanden uploaden",
     "removeAll": "Alles verwijderen",

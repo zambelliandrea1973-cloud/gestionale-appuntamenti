@@ -3549,6 +3549,7 @@
       "alreadySent": "Această campanie a fost deja trimisă"
     },
     "addMedia": "Adăugați imagini sau video (opțional)",
+    "posterPreview": "Previzualizare pliant",
     "filesUploaded": "{{count}} fișiere încărcate",
     "uploadFiles": "Încărcați fișiere",
     "removeAll": "Eliminați toate",

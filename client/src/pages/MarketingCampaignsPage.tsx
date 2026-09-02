@@ -102,6 +102,14 @@ export default function MarketingCampaignsPage() {
   const [filePreviews, setFilePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const previewUrlsRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    return () => {
+      previewUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      previewUrlsRef.current.clear();
+    };
+  }, []);
   
   // Stati per popup sequenziale WhatsApp
   const [showGeneratedLinks, setShowGeneratedLinks] = useState(false);
@@ -281,8 +289,6 @@ export default function MarketingCampaignsPage() {
 
     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
     const validFiles: File[] = [];
-    const previews: string[] = [];
-
     // Valida tutti i file
     for (const file of files) {
       // Verifica tipo
@@ -310,20 +316,16 @@ export default function MarketingCampaignsPage() {
 
     if (validFiles.length === 0) return;
 
-    // Crea preview per tutti i file validi
-    Promise.all(
-      validFiles.map(file => {
-        return new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (e) => resolve(e.target?.result as string);
-          reader.readAsDataURL(file);
-        });
-      })
-    ).then(newPreviews => {
-      setFilePreviews(prev => [...prev, ...newPreviews]);
+    // Crea gli URL subito: l'anteprima è disponibile nello stesso render
+    // in cui il file viene aggiunto, senza attendere FileReader.
+    const newPreviews = validFiles.map((file) => {
+      const url = URL.createObjectURL(file);
+      previewUrlsRef.current.add(url);
+      return url;
     });
 
     setUploadedFiles(prev => [...prev, ...validFiles]);
+    setFilePreviews(prev => [...prev, ...newPreviews]);
 
     toast({
       title: t('marketingCampaigns.toast.filesUploaded'),
@@ -333,10 +335,19 @@ export default function MarketingCampaignsPage() {
 
   const handleRemoveFile = (index?: number) => {
     if (index !== undefined) {
+      const previewUrl = filePreviews[index];
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        previewUrlsRef.current.delete(previewUrl);
+      }
       // Rimuovi singolo file
       setUploadedFiles(prev => prev.filter((_, i) => i !== index));
       setFilePreviews(prev => prev.filter((_, i) => i !== index));
     } else {
+      filePreviews.forEach((url) => {
+        URL.revokeObjectURL(url);
+        previewUrlsRef.current.delete(url);
+      });
       // {t('marketingCampaigns.removeAll')} i file
       setUploadedFiles([]);
       setFilePreviews([]);
@@ -361,11 +372,7 @@ export default function MarketingCampaignsPage() {
       setGeneratedCampaign(null);
       setEditableTitle('');
       setEditableMessage('');
-      setUploadedFiles([]);
-      setFilePreviews([]);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      handleRemoveFile();
       
       toast({
         title: t('marketingCampaigns.toast.draftDeletedTitle'),
@@ -669,6 +676,42 @@ export default function MarketingCampaignsPage() {
                   />
                 </div>
 
+                {/* Anteprima locandina prima dell'invio */}
+                <div className="space-y-2">
+                  <Label>{t('marketingCampaigns.posterPreview')}</Label>
+                  <div className="mx-auto max-w-lg overflow-hidden rounded-xl border bg-background shadow-sm">
+                    <div className="bg-primary px-4 py-3 text-center text-lg font-semibold text-primary-foreground">
+                      {editableTitle || t('marketingCampaigns.titlePlaceholder')}
+                    </div>
+                    <div className="space-y-3 p-4">
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed">
+                        {editableMessage || t('marketingCampaigns.messagePlaceholder')}
+                      </p>
+                      {uploadedFiles.length > 0 && (
+                        <div className="grid grid-cols-2 gap-2">
+                          {uploadedFiles.map((file, index) => (
+                            file.type.startsWith('image/') ? (
+                              <img
+                                key={`${file.name}-${index}`}
+                                src={filePreviews[index]}
+                                alt={file.name}
+                                className="h-32 w-full rounded-lg object-cover"
+                              />
+                            ) : (
+                              <video
+                                key={`${file.name}-${index}`}
+                                src={filePreviews[index]}
+                                controls
+                                className="h-32 w-full rounded-lg object-cover"
+                              />
+                            )
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 {/* Upload Allegato */}
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">{t('marketingCampaigns.addMedia')}</Label>
@@ -857,6 +900,28 @@ export default function MarketingCampaignsPage() {
                         <p className="text-xs text-muted-foreground line-clamp-2">
                           {campaign.message}
                         </p>
+
+                        {campaign.attachmentPaths && campaign.attachmentPaths.length > 0 && (
+                          <div className="grid grid-cols-3 gap-1.5">
+                            {campaign.attachmentPaths.slice(0, 3).map((path, index) => (
+                              campaign.attachmentTypes?.[index] === 'video' ? (
+                                <video
+                                  key={`${path}-${index}`}
+                                  src={path}
+                                  className="h-16 w-full rounded object-cover"
+                                  muted
+                                />
+                              ) : (
+                                <img
+                                  key={`${path}-${index}`}
+                                  src={path}
+                                  alt={`${campaign.title} - ${index + 1}`}
+                                  className="h-16 w-full rounded object-cover"
+                                />
+                              )
+                            ))}
+                          </div>
+                        )}
                         
                         {/* Pulsanti azione */}
                         <div className="flex items-center gap-1 pt-1">

@@ -3549,6 +3549,7 @@
       "alreadySent": "Denne kampanjen er allerede sendt"
     },
     "addMedia": "Legg til bilder eller video (valgfritt)",
+    "posterPreview": "Forhåndsvisning av flyer",
     "filesUploaded": "{{count}} filer lastet opp",
     "uploadFiles": "Last opp filer",
     "removeAll": "Fjern alle",

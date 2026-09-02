@@ -3549,6 +3549,7 @@
       "alreadySent": "Diese Kampagne wurde bereits gesendet"
     },
     "addMedia": "Bilder oder Video hinzufügen (optional)",
+    "posterPreview": "Flyer-Vorschau",
     "filesUploaded": "{{count}} Dateien hochgeladen",
     "uploadFiles": "Dateien hochladen",
     "removeAll": "Alle entfernen",
