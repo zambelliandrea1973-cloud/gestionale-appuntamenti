@@ -255,10 +255,10 @@ export default function StaffManagementPageFixed() {
   );
 
   const handleCreateStaff = () => {
-    if (!newStaff.username || !newStaff.password) {
+    if (!newStaff.username || !newStaff.password || !newStaff.email.trim()) {
       toast({
         title: t('staffManagement.requiredFields'),
-        description: t('staffManagement.requiredUsernamePassword'),
+        description: t('staffManagement.requiredFields'),
         variant: "destructive",
       });
       return;
@@ -539,6 +539,7 @@ export default function StaffManagementPageFixed() {
                         id="email"
                         data-testid="input-staff-email"
                         type="email"
+                        required
                         placeholder={t('staffManagement.emailInputPlaceholder')}
                         value={newStaff.email}
                         onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}

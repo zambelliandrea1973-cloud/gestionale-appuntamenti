@@ -121,35 +121,12 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
     }
   });
 
-  // API to show email password in plain text (only for authenticated user)
+  // Saved SMTP credentials are write-only and must never be returned to a browser.
 router.get('/api/email-calendar-settings/show-password', requireAuth, async (req, res) => {
-    try {
-      const user = req.user!;
-      logger.debug(`🔓 [SHOW PASSWORD] Request for user ${user.id}`);
-      
-      const { getEmailConfig } = await import('../utils/emailConfig');
-      const emailConfig = await getEmailConfig(user.id);
-      
-      if (!emailConfig || !emailConfig.emailPassword) {
-        return res.status(404).json({
-          success: false,
-          error: 'No password saved'
-        });
-      }
-      
-      // Restituisci the password decriptata
-      res.json({
-        success: true,
-        emailPassword: emailConfig.emailPassword // getEmailConfig already decrypts automatically
-      });
-      
-    } catch (error) {
-      console.error('❌ [SHOW PASSWORD ERROR]:', error);
-      res.status(500).json({
-        success: false,
-        error: 'Error retrieving password'
-      });
-    }
+    return res.status(410).json({
+      success: false,
+      error: 'Saved passwords cannot be displayed. Enter a new password to replace it.'
+    });
   });
 
 router.post('/api/test-system-email', requireAuth, async (req, res) => {
@@ -214,10 +191,11 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
       
       logger.debug(`📧 [TEST EMAIL] Usando: ${emailConfig.emailAddress}`);
       
+      const smtpPort = emailConfig.smtpPort || 587;
       const transporter = nodemailer.createTransport({
         host: emailConfig.smtpServer || 'smtp.gmail.com',
-        port: emailConfig.smtpPort || 587,
-        secure: false,
+        port: smtpPort,
+        secure: smtpPort === 465,
         auth: {
           user: emailConfig.emailAddress,
           pass: emailConfig.emailPassword

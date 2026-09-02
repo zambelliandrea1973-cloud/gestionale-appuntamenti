@@ -547,31 +547,6 @@ export function setupAuth(app: Express) {
     return res.status(401).json({ message: "Missing or invalid credentials" });
   });
 
-  // Registration for staff users (only admin can create other staff)
-  app.post("/api/staff/register", async (req, res, next) => {
-    try {
-      // Verify that the user making the request is an admin
-      if (!req.isAuthenticated() || (req.user as any).type !== "admin") {
-        return res.status(403).json({ message: "Only administrators can register new staff" });
-      }
-
-      const existingUser = await storage.getUserByUsername(req.body.username);
-      if (existingUser) {
-        return res.status(400).json({ message: "Username already in use" });
-      }
-
-      const hashedPassword = await hashPassword(req.body.password);
-      const user = await storage.createUser({
-        ...req.body,
-        password: hashedPassword,
-      });
-
-      res.status(201).json(user);
-    } catch (err) {
-      next(err);
-    }
-  });
-
   // Registration for clients (can be done by a staff member)
   app.post("/api/client/register", async (req, res, next) => {
     try {

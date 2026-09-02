@@ -81,7 +81,6 @@ export default function EmailSettings() {
   const [lastValidTemplate, setLastValidTemplate] = useState('');
   const [lastValidSubject, setLastValidSubject] = useState('');
   const [hasPasswordSaved, setHasPasswordSaved] = useState(false);
-  const [isLoadingPassword, setIsLoadingPassword] = useState(false);
   // Utilizziamo l'interfaccia definita per le impostazioni email
   const [emailCalendarSettings, setEmailCalendarSettings] = useState<EmailCalendarSettings>({
     emailEnabled: false,
@@ -135,58 +134,6 @@ export default function EmailSettings() {
     }
     
     return false; // Nessuna modifica rilevata ai campi precompilati
-  };
-  
-  // Funzione per recuperare la password reale dal server
-  const fetchRealPassword = async () => {
-    try {
-      setIsLoadingPassword(true);
-      const response = await fetch('/api/email-calendar-settings/show-password');
-      
-      // Aggiungo un log per vedere il response status e body
-      console.log('Response status:', response.status, response.statusText);
-      // Otteniamo il corpo della risposta anche se non è una risposta OK
-      const responseText = await response.text();
-      console.log('Response body (raw):', responseText);
-      
-      let data;
-      try {
-        // Tentiamo di interpretarlo come JSON
-        data = JSON.parse(responseText);
-        console.log('Server response (parsed):', data);
-      } catch (e) {
-        console.error('Error parsing JSON response', e);
-        toast({
-          title: t("common.error"),
-          description: t("emailSettings.toast.invalidServerResponse"),
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      if (data.success && data.emailPassword) {
-        // Imposta la password reale nel form
-        form.setValue("emailPassword", data.emailPassword);
-        // Abilita la visualizzazione del testo
-        setShowPassword(true);
-      } else {
-        // Se manca il flag success o la password, mostriamo un messaggio di errore adeguato
-        toast({
-          title: t("common.error"),
-          description: data.error || t('emailSettings.toast.passwordRetrieveFail'),
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Error retrieving password:', error);
-      toast({
-        title: t("common.error"),
-        description: t("emailSettings.toast.passwordFetchError"),
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoadingPassword(false);
-    }
   };
   
   // Gestione del cambiamento del template
@@ -613,35 +560,16 @@ export default function EmailSettings() {
                             }}
                           />
                         </FormControl>
-                        <Button 
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          disabled={!field.value}
-                          onClick={() => {
-                            // Se il campo è mascherato (••••••••••), recuperiamo la password reale dal server
-                            if (field.value === "••••••••••" && !showPassword) {
-                              fetchRealPassword();
-                            } else {
-                              // Altrimenti, alterna lo stato di visualizzazione
-                              setShowPassword(!showPassword);
-                              
-                              // Se nascondiamo e c'è una password salvata, ripristina gli asterischi
-                              if (showPassword && hasPasswordSaved) {
-                                setTimeout(() => {
-                                  form.setValue("emailPassword", "••••••••••");
-                                }, 100);
-                              }
-                            }
-                          }}
-                          className="h-9 px-3"
-                        >
-                          {isLoadingPassword ? (
-                            <span className="flex items-center gap-1">
-                              <RefreshCw className="h-4 w-4 animate-spin" />
-                              {t("emailSettings.loading")}
-                            </span>
-                          ) : showPassword ? (
+                        {field.value !== "••••••••••" && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            disabled={!field.value}
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="h-9 px-3"
+                          >
+                          {showPassword ? (
                             <span className="flex items-center gap-1">
                               <Eye className="h-4 w-4" />
                               {t("emailSettings.hide")}
@@ -652,7 +580,8 @@ export default function EmailSettings() {
                               {t("emailSettings.show")}
                             </span>
                           )}
-                        </Button>
+                          </Button>
+                        )}
                       </div>
                       <FormDescription className="text-xs mt-1">
                         {hasPasswordSaved && form.getValues("emailPassword") === "••••••••••" && (

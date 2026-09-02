@@ -52,25 +52,12 @@ router.get('/', isAuthenticated, async (req, res) => {
   }
 });
 
-// Endpoint to retrieve the plaintext password
+// Saved SMTP credentials are write-only and must never be returned to a browser.
 router.get('/show-password', isAuthenticated, async (req, res) => {
-  try {
-    const userId = (req as any).user?.id;
-    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-
-    const settings = await db.query.emailCalendarSettings.findFirst({
-      where: eq(emailCalendarSettings.userId, userId),
-    });
-
-    if (!settings?.emailPassword) {
-      return res.status(404).json({ success: false, error: 'No password saved' });
-    }
-
-    res.json({ success: true, emailPassword: settings.emailPassword });
-  } catch (error: any) {
-    console.error('Error reading password:', error);
-    res.status(500).json({ error: 'Error reading password' });
-  }
+  return res.status(410).json({
+    success: false,
+    error: 'Saved passwords cannot be displayed. Enter a new password to replace it.'
+  });
 });
 
 // Update email and calendar settings

@@ -10,6 +10,7 @@ import { EncryptionService } from '../services/encryption';
 import { z } from 'zod';
 import { generateClientCode } from '../utils/clientCodeGenerator';
 import { syncBidirectional, extractGoogleEmail } from '../services/googleCalendarSync';
+import crypto from 'crypto';
 
 // Validation schema for contact import
 const contactsImportSchema = z.object({
@@ -51,6 +52,55 @@ function getRedirectUri(requestHost?: string): string {
   // DEFAULT: Public Replit domain (registered in Google Cloud Console)
   // DO NOT use .worf.replit.dev because it is NOT registered and causes "invalid_client"
   return `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
+}
+
+function sanitizeReturnTo(value: unknown): string | null {
+  if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//')) {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(value, 'https://app.local');
+    return `${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch {
+    return null;
+  }
+}
+
+function createSignedOAuthState(payload: Record<string, unknown>): string {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) {
+    throw new Error('SESSION_SECRET is required to secure Google OAuth state');
+  }
+
+  const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto.createHmac('sha256', secret).update(encodedPayload).digest('base64url');
+  return `${encodedPayload}.${signature}`;
+}
+
+function parseSignedOAuthState(state: string): Record<string, any> {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) {
+    throw new Error('SESSION_SECRET is required to secure Google OAuth state');
+  }
+
+  const [encodedPayload, signature, ...extra] = state.split('.');
+  if (!encodedPayload || !signature || extra.length > 0) {
+    throw new Error('Malformed OAuth state');
+  }
+
+  const expected = crypto.createHmac('sha256', secret).update(encodedPayload).digest('base64url');
+  const actualBuffer = Buffer.from(signature, 'base64url');
+  const expectedBuffer = Buffer.from(expected, 'base64url');
+
+  if (
+    actualBuffer.length !== expectedBuffer.length ||
+    !crypto.timingSafeEqual(actualBuffer, expectedBuffer)
+  ) {
+    throw new Error('Invalid OAuth state signature');
+  }
+
+  return JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
 }
 
 // Default URI for the OAuth client (used at startup)
@@ -168,21 +218,28 @@ router.get('/start', async (req, res) => {
     const isAddAccount = req.query.mode === 'addAccount';
     console.log("Google OAuth start for user:", userId, isAddAccount ? "(ADD SECONDARY ACCOUNT)" : "(primary)");
 
-    // Salva il flag in sessione come BACKUP nel caso il `state` si corrompa nel round-trip OAuth
+    const oauthNonce = crypto.randomBytes(32).toString('base64url');
+    const oauthIssuedAt = Date.now();
+    (req as any).session.pendingGoogleOAuth = {
+      nonce: oauthNonce,
+      userId,
+      ts: oauthIssuedAt
+    };
+
+    // Salva anche il flag specifico per il collegamento di account secondari.
     if (isAddAccount) {
       (req as any).session.pendingAddGoogleAccount = { userId, ts: Date.now() };
-      await new Promise<void>((resolve) => (req as any).session.save(() => resolve()));
-      console.log(`🔒 [OAUTH] Session backup saved for addAccount (user ${userId})`);
     } else {
-      // Pulizia preventiva: se c'era un vecchio backup pendente, rimuovilo
       delete (req as any).session.pendingAddGoogleAccount;
     }
+    await new Promise<void>((resolve, reject) =>
+      (req as any).session.save((error: unknown) => error ? reject(error) : resolve())
+    );
     
     // Get the request domain to support dev webviews
     const requestHost = req.get('host');
     const dynamicRedirectUri = getRedirectUri(requestHost);
     
-    console.log("Google Client ID:", process.env.GOOGLE_CLIENT_ID);
     console.log("Request Host:", requestHost);
     console.log("Dynamic redirect URI:", dynamicRedirectUri);
     
@@ -196,13 +253,15 @@ router.get('/start', async (req, res) => {
     
     // State contains the userId AND the redirectUri for the callback
     // returnTo: pagina a cui tornare dopo auth via redirect (non popup)
-    const returnTo = (req.query.returnTo as string) || null;
-    const state = Buffer.from(JSON.stringify({ 
+    const returnTo = sanitizeReturnTo(req.query.returnTo);
+    const state = createSignedOAuthState({
       userId, 
       redirectUri: dynamicRedirectUri,
       addAccount: isAddAccount,
+      nonce: oauthNonce,
+      issuedAt: oauthIssuedAt,
       ...(returnTo ? { returnTo } : {})
-    })).toString('base64');
+    });
     
     // Required parameters in the correct order
     const params = [
@@ -291,9 +350,12 @@ router.get('/callback', async (req, res) => {
   let isAddAccount = false; // true → collega un account Google secondario
   let callbackReturnTo = '/google-calendar'; // pagina a cui tornare dopo auth via redirect (non popup)
   
-  if (state) {
-    try {
-      const stateData = JSON.parse(Buffer.from(state as string, 'base64').toString());
+  if (!state || typeof state !== 'string') {
+    return res.status(400).send('Invalid session. Please restart Google authorization.');
+  }
+
+  try {
+      const stateData = parseSignedOAuthState(state);
       console.log("State data parsed:", stateData);
       
       // Retrieve the redirectUri from state (if present)
@@ -307,7 +369,7 @@ router.get('/callback', async (req, res) => {
       console.log(`🔍 [OAUTH CB] state.addAccount=${stateData.addAccount} → isAddAccount=${isAddAccount}`);
       
       // Pagina di ritorno per il flusso redirect (non popup)
-      if (stateData.returnTo) callbackReturnTo = stateData.returnTo;
+      callbackReturnTo = sanitizeReturnTo(stateData.returnTo) || callbackReturnTo;
       
       // The userId can be a string like "admin:3" or a number
       const rawUserId = stateData.userId;
@@ -323,15 +385,32 @@ router.get('/callback', async (req, res) => {
         userId = parseInt(rawUserId, 10);
         console.log("UserId converted from string:", userId);
       }
+
+      const pendingOAuth = (req as any).session?.pendingGoogleOAuth;
+      const stateAge = Date.now() - Number(stateData.issuedAt || 0);
+      if (
+        !pendingOAuth ||
+        pendingOAuth.nonce !== stateData.nonce ||
+        Number(pendingOAuth.userId) !== userId ||
+        stateAge < 0 ||
+        stateAge > 10 * 60 * 1000
+      ) {
+        throw new Error('Expired, reused or session-mismatched OAuth state');
+      }
+
+      // Consume before token exchange so the state cannot be replayed.
+      delete (req as any).session.pendingGoogleOAuth;
+      await new Promise<void>((resolve, reject) =>
+        (req as any).session.save((error: unknown) => error ? reject(error) : resolve())
+      );
     } catch (e) {
       console.error("Error parsing state:", e);
       lastCallbackError = {
         timestamp: new Date().toISOString(),
-        error: 'Error parsing state: ' + String(e),
-        query: req.query
+        error: 'Invalid OAuth state'
       };
+      return res.status(400).send('Invalid session. Please restart Google authorization.');
     }
-  }
   
   // FALLBACK SESSIONE: se il state non ha addAccount=true ma c'è un flag di sessione valido
   // (es: state corrotto nel round-trip OAuth su alcuni proxy/iframe), recupera l'intento dalla sessione
@@ -604,7 +683,7 @@ router.get('/callback', async (req, res) => {
                 }, 500);
               } else {
                 // Redirect main window: torna alla pagina di origine (returnTo dallo state)
-                window.location.href = '${callbackReturnTo}';
+                window.location.href = ${JSON.stringify(callbackReturnTo)};
               }
               
               // Close the window after 2 seconds to give the message time to be processed

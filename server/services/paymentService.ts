@@ -1,12 +1,12 @@
 import { logger } from '../utils/logger';
 import { storage } from '../storage';
-import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction } from '../../shared/schema';
+import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction, PlanFeatureEntry } from '../../shared/schema';
 // @ts-ignore - no type declarations available
 import paypal from '@paypal/checkout-server-sdk';
 import Stripe from 'stripe';
 import { db } from '../db';
-import { licenses } from '../../shared/schema';
-import { eq, and } from 'drizzle-orm';
+import { licenses, subscriptions } from '../../shared/schema';
+import { eq, and, sql } from 'drizzle-orm';
 import crypto from 'crypto';
 
 // Type for licenses: 'base', 'pro', 'business', 'trial', 'passepartout'
@@ -112,9 +112,12 @@ const getStripeClient = async () => {
   
   const isTestKey = stripeSecretKey.startsWith('sk_test_');
   const isLiveKey = stripeSecretKey.startsWith('sk_live_');
-  
-  logger.debug(`🔐 Stripe: using key from DATABASE ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUCTION (LIVE) 💰' : 'UNKNOWN ⚠️')}`);
-  console.log(`Stripe: Prefisso chiave: ${stripeSecretKey.substring(0, 8)}...`);
+
+  if (!isTestKey && !isLiveKey) {
+    throw new Error('Stripe secret key has an invalid format');
+  }
+
+  logger.debug(`🔐 Stripe: using key from DATABASE ${isTestKey ? 'TEST 🧪' : 'PRODUCTION (LIVE) 💰'}`);
   
   return new Stripe(stripeSecretKey);
 };
@@ -178,7 +181,7 @@ export class PaymentService {
     description?: string;
     price: number; // in cents
     interval: 'month' | 'year';
-    features?: string[];
+    features?: PlanFeatureEntry[];
     clientLimit?: number;
     sortOrder?: number;
   }): Promise<{success: boolean, plan?: any, message?: string}> {
@@ -188,7 +191,7 @@ export class PaymentService {
         description: planData.description,
         price: planData.price,
         interval: planData.interval,
-        features: planData.features ? JSON.stringify(planData.features) : null,
+        features: planData.features || null,
         clientLimit: planData.clientLimit,
         isActive: true,
         sortOrder: planData.sortOrder || 0
@@ -631,6 +634,10 @@ export class PaymentService {
     cancelUrl: string
   ): Promise<{success: boolean, url?: string, sessionId?: string, message?: string}> {
     try {
+      return await db.transaction(async (tx) => {
+      // Serialize checkout creation per user across requests and app instances.
+      await tx.execute(sql`SELECT pg_advisory_xact_lock(${userId})`);
+
       // Get plan information
       const plan = await storage.getSubscriptionPlan(planId);
       if (!plan) {
@@ -651,6 +658,89 @@ export class PaymentService {
 
       // Create a checkout session
       const stripe = await getStripeClient();
+      const existingSubscription = await storage.getSubscriptionByUserId(userId);
+
+      if (
+        existingSubscription?.status === 'pending' &&
+        existingSubscription.stripeSessionId
+      ) {
+        try {
+          const previousSession = await stripe.checkout.sessions.retrieve(
+            existingSubscription.stripeSessionId
+          );
+          const previousPlanId = previousSession.metadata?.planId
+            ? parseInt(previousSession.metadata.planId, 10)
+            : null;
+
+          if (previousSession.payment_status === 'paid') {
+            const confirmation = await this.confirmStripeSession(previousSession.id, userId);
+            if (!confirmation.success) {
+              return confirmation;
+            }
+            return {
+              success: true,
+              url: successUrl,
+              sessionId: previousSession.id,
+              message: 'Previous payment confirmed'
+            };
+          }
+
+          if (previousSession.status === 'open') {
+            if (previousPlanId === planId && previousSession.url) {
+              return {
+                success: true,
+                url: previousSession.url,
+                sessionId: previousSession.id,
+                message: 'Existing checkout session reused'
+              };
+            }
+
+            // A user can have only one pending subscription row. Expire the
+            // previous unpaid checkout before replacing its session reference.
+            await stripe.checkout.sessions.expire(previousSession.id);
+          }
+        } catch (previousSessionError) {
+          console.warn('Unable to reuse or expire previous Stripe checkout:', previousSessionError);
+          try {
+            const latestSession = await stripe.checkout.sessions.retrieve(
+              existingSubscription.stripeSessionId
+            );
+
+            if (latestSession.payment_status === 'paid') {
+              const confirmation = await this.confirmStripeSession(latestSession.id, userId);
+              if (!confirmation.success) return confirmation;
+              return {
+                success: true,
+                url: successUrl,
+                sessionId: latestSession.id,
+                message: 'Previous payment confirmed'
+              };
+            }
+
+            if (latestSession.status === 'open') {
+              return {
+                success: false,
+                message: 'A previous checkout is still open and could not be safely replaced'
+              };
+            }
+          } catch (recheckError) {
+            const stripeError = recheckError as { code?: string; statusCode?: number };
+            const isMissingSession =
+              stripeError.code === 'resource_missing' ||
+              stripeError.statusCode === 404;
+
+            if (!isMissingSession) {
+              console.error('Unable to verify previous Stripe checkout safely:', recheckError);
+              return {
+                success: false,
+                message: 'Stripe is temporarily unavailable. Please retry without starting a new payment.'
+              };
+            }
+
+            console.warn('Previous Stripe checkout no longer exists; creating a replacement');
+          }
+        }
+      }
       
       console.log('🔗 STRIPE URLs configurati:', {
         successUrl,
@@ -693,8 +783,6 @@ export class PaymentService {
         status: session.status
       });
       
-      // Check if a subscription already exists for this user
-      const existingSubscription = await storage.getSubscriptionByUserId(userId);
       const currentDate = new Date();
       const endDate = new Date();
       endDate.setMonth(endDate.getMonth() + (plan.interval === 'month' ? 1 : 12));
@@ -732,6 +820,7 @@ export class PaymentService {
         url: session.url || undefined,
         sessionId: session.id
       };
+      });
     } catch (error) {
       console.error('Error creating Stripe checkout session:', error);
       return {
@@ -772,16 +861,37 @@ export class PaymentService {
       
       // Verify that the user matches
       const sessionUserId = session.metadata?.userId ? parseInt(session.metadata.userId) : null;
-      if (sessionUserId && sessionUserId !== userId) {
+      if (!sessionUserId || sessionUserId !== userId) {
         console.warn(`⚠️ User mismatch: session ${sessionUserId}, request ${userId}`);
+        return {
+          success: false,
+          message: 'Checkout session does not belong to this user'
+        };
       }
       
-      // Find l'subscription of the user
-      const subscription = await storage.getSubscriptionByUserId(userId);
+      // Bind confirmation to the exact pending subscription created for this checkout.
+      const [subscription] = await db
+        .select()
+        .from(subscriptions)
+        .where(and(
+          eq(subscriptions.userId, userId),
+          eq(subscriptions.stripeSessionId, sessionId)
+        ))
+        .limit(1);
+
       if (!subscription) {
         return {
           success: false,
-          message: 'Subscription not found'
+          message: 'Subscription not found for this checkout session'
+        };
+      }
+
+      const sessionPlanId = session.metadata?.planId ? parseInt(session.metadata.planId, 10) : null;
+      if (!sessionPlanId || sessionPlanId !== subscription.planId) {
+        console.warn(`⚠️ Plan mismatch: session ${sessionPlanId}, subscription ${subscription.planId}`);
+        return {
+          success: false,
+          message: 'Checkout plan does not match the pending subscription'
         };
       }
       
@@ -800,8 +910,7 @@ export class PaymentService {
       });
       
       // Get the plan to determine the license type
-      const planId = session.metadata?.planId ? parseInt(session.metadata.planId) : subscription.planId;
-      const plan = await storage.getSubscriptionPlan(planId);
+      const plan = await storage.getSubscriptionPlan(sessionPlanId);
       if (plan) {
         const licenseType = getLicenseTypeFromPlanName(plan.name);
         const licenseExpiry = subscription.currentPeriodEnd || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);

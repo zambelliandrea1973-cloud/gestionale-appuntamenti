@@ -95,7 +95,8 @@ class ClientLoginService {
    */
   async verifyToken(token: string, clientId: number) {
     try {
-      return await tokenService.verifyClientToken(token, clientId);
+      const tokenClientId = await tokenService.verifyActivationToken(token, false);
+      return tokenClientId === clientId;
     } catch (error: any) {
       console.error(`Error verifying token for clientId ${clientId}:`, error);
       return false;
@@ -153,6 +154,12 @@ class ClientLoginService {
           console.log(`Automatic user creation attempt for client ${clientId} with username ${username}`);
           
           try {
+            const tokenClientId = await tokenService.verifyActivationToken(token, false);
+            if (tokenClientId !== clientId) {
+              console.warn(`Invalid token for automatic client user creation: ${clientId}`);
+              return null;
+            }
+
             // Verify that the client exists effettivamente
             const client = await storage.getClient(clientId);
             
@@ -166,6 +173,9 @@ class ClientLoginService {
               const newUser = await storage.createUser({
                 username,
                 password: hashedPassword,
+                // Portal users authenticate by token, but the users table requires
+                // a unique email. Use a reserved non-deliverable address.
+                email: `client-${clientId}@internal.invalid`,
                 type: "client",
                 clientId
               });

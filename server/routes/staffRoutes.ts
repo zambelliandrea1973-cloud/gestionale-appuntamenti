@@ -202,10 +202,14 @@ export default function setupStaffRoutes(app: Express) {
   app.post("/api/staff/register", isAdmin, async (req: Request, res: Response) => {
     try {
       const { username, password, email, role } = req.body;
+      const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
       
-      // Verify that username and password are present
-      if (!username || !password) {
-        return res.status(400).json({ message: "Username and password are required" });
+      // Email is required by the users table and is also used for account recovery.
+      if (!username || !password || !normalizedEmail) {
+        return res.status(400).json({ message: "Username, email and password are required" });
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+        return res.status(400).json({ message: "A valid email address is required" });
       }
       
       // Check if the username is already in use
@@ -242,7 +246,7 @@ export default function setupStaffRoutes(app: Express) {
       const newUser = await storage.createUser({
         username,
         password: hashedPassword,
-        email: email || null,
+        email: normalizedEmail,
         role: userRole,
         type: userType,
         clientId: null

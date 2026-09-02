@@ -7,6 +7,13 @@ import axios from 'axios';
  * Service to manage PayPal payouts for staff commissions
  */
 export class PayPalPayoutService {
+  private static async getApiBaseUrl(): Promise<string> {
+    const paymentMethods = await storage.getPaymentMethods();
+    const paypalConfig = paymentMethods.find(m => m.id === 'paypal');
+    const mode = paypalConfig?.config?.mode || (process.env.PAYMENT_MODE === 'production' ? 'live' : 'sandbox');
+    return mode === 'live' ? 'https://api.paypal.com' : 'https://api.sandbox.paypal.com';
+  }
+
   private static async getAccessToken(): Promise<string> {
     try {
       // Get PayPal credentials from database or env
@@ -74,16 +81,15 @@ export class PayPalPayoutService {
   /**
    * Send a PayPal payout to a single beneficiary
    * 
-   * ⚠️ NOTE: This method returns success=true when PayPal accepts the batch (201),
-   * but the payout could still fail. For a robust system, implement polling
-   * of GET /payouts/{batch_id} to verify the final status.
+   * PayPal accepting a batch does not mean the payout has completed.
+   * The caller stores accepted batches as processing until status verification.
    */
   static async sendPayout(
     recipientEmail: string,
     amount: number, // in cents
     commissionId: number,
     staffName: string
-  ): Promise<{ success: boolean; transactionId?: string; error?: string }> {
+  ): Promise<{ success: boolean; transactionId?: string; status?: 'completed' | 'processing'; error?: string }> {
     try {
       // PayPal email validation
       if (!this.validatePayPalEmail(recipientEmail)) {
@@ -97,12 +103,7 @@ export class PayPalPayoutService {
       const accessToken = await this.getAccessToken();
       
       // Determine base URL (sandbox or live)
-      const paymentMethods = await storage.getPaymentMethods();
-      const paypalConfig = paymentMethods.find(m => m.id === 'paypal');
-      const mode = paypalConfig?.config?.mode || (process.env.PAYMENT_MODE === 'production' ? 'live' : 'sandbox');
-      const baseUrl = mode === 'live' 
-        ? 'https://api.paypal.com' 
-        : 'https://api.sandbox.paypal.com';
+      const baseUrl = await this.getApiBaseUrl();
       
       const amountInEuro = (amount / 100).toFixed(2);
       
@@ -136,7 +137,6 @@ export class PayPalPayoutService {
       );
       
       const batchId = response.data.batch_header.payout_batch_id;
-      
       logger.debug(`✅ PayPal payout sent successfully!`);
       console.log(`   Email: ${recipientEmail}`);
       console.log(`   Amount: €${amountInEuro}`);
@@ -144,7 +144,8 @@ export class PayPalPayoutService {
       
       return {
         success: true,
-        transactionId: batchId
+        transactionId: batchId,
+        status: 'processing'
       };
     } catch (error: any) {
       console.error('❌ Error sending PayPal payout:', error.response?.data || error.message);
@@ -153,6 +154,27 @@ export class PayPalPayoutService {
         error: error.response?.data?.message || error.message
       };
     }
+  }
+
+  private static async checkPayoutStatus(
+    batchId: string
+  ): Promise<'completed' | 'processing' | 'failed'> {
+    const accessToken = await this.getAccessToken();
+    const baseUrl = await this.getApiBaseUrl();
+    const response = await axios.get(`${baseUrl}/v1/payments/payouts/${encodeURIComponent(batchId)}`, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    const batchStatus = response.data?.batch_header?.batch_status;
+    const itemStatus = response.data?.items?.[0]?.transaction_status;
+
+    if (itemStatus === 'SUCCESS') return 'completed';
+    if (['FAILED', 'BLOCKED', 'RETURNED', 'REFUNDED', 'REVERSED'].includes(itemStatus)) {
+      return 'failed';
+    }
+    if (!itemStatus && (batchStatus === 'DENIED' || batchStatus === 'CANCELED')) {
+      return 'failed';
+    }
+    return 'processing';
   }
   
   /**
@@ -166,10 +188,16 @@ export class PayPalPayoutService {
       const today = new Date();
       const commissions = await storage.getReferralCommissions();
       
-      const readyForPayout = commissions.filter(c => 
-        c.payoutStatus === 'scheduled' && 
-        c.payoutScheduledDate && 
-        new Date(c.payoutScheduledDate) <= today
+      const readyForPayout = commissions.filter(c =>
+        (
+          c.payoutStatus === 'scheduled' &&
+          c.payoutScheduledDate &&
+          new Date(c.payoutScheduledDate) <= today
+        ) ||
+        (
+          c.payoutStatus === 'processing' &&
+          !!c.payoutTransactionId
+        )
       );
       
       if (readyForPayout.length === 0) {
@@ -184,6 +212,23 @@ export class PayPalPayoutService {
       
       for (const commission of readyForPayout) {
         try {
+          if (commission.payoutStatus === 'processing' && commission.payoutTransactionId) {
+            const finalStatus = await this.checkPayoutStatus(commission.payoutTransactionId);
+            if (finalStatus === 'completed') {
+              await storage.updateReferralCommission(commission.id, {
+                payoutStatus: 'completed',
+                payoutDate: new Date()
+              });
+              processed++;
+            } else if (finalStatus === 'failed') {
+              await storage.updateReferralCommission(commission.id, {
+                payoutStatus: 'failed'
+              });
+              failed++;
+            }
+            continue;
+          }
+
           // Get info staff sponsor
           const staff = await storage.getUser(commission.referrerId);
           if (!staff) {
@@ -223,9 +268,9 @@ export class PayPalPayoutService {
           
           if (result.success) {
             await storage.updateReferralCommission(commission.id, {
-              payoutStatus: 'completed',
+              payoutStatus: result.status || 'processing',
               payoutMethod: 'paypal',
-              payoutDate: new Date(),
+              payoutDate: result.status === 'completed' ? new Date() : null,
               payoutTransactionId: result.transactionId
             });
             processed++;
