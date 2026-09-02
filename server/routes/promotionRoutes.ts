@@ -69,6 +69,7 @@ router.post('/api/promotions/create', upload.array('files', 10), async (req, res
       title,
       message,
       uniqueCode: code,
+      idempotencyKey: `promotion-${req.user.id}-${code}`,
       attachmentPaths: attachmentPaths.length > 0 ? attachmentPaths : null,
       attachmentTypes: attachmentTypes.length > 0 ? attachmentTypes : null,
       createdAt: new Date()
