@@ -25,6 +25,19 @@ const setupPaypalClient = (clientId: string, clientSecret: string, mode: 'sandbo
   return new paypal.core.PayPalHttpClient(environment);
 };
 
+const getStripeConfigFromEnvironment = () => {
+  const isProduction = process.env.PAYMENT_MODE === 'production';
+
+  return {
+    publicKey: isProduction
+      ? (process.env.VITE_STRIPE_PUBLIC_KEY_LIVE || process.env.VITE_STRIPE_PUBLIC_KEY || '')
+      : (process.env.VITE_STRIPE_PUBLIC_KEY || process.env.VITE_STRIPE_PUBLIC_KEY_LIVE || ''),
+    secretKey: isProduction
+      ? (process.env.STRIPE_SECRET_KEY_LIVE || process.env.STRIPE_SECRET_KEY || '')
+      : (process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY_LIVE || ''),
+  };
+};
+
 /**
  * Get configured payment methods
  * GET /api/payments/payment-admin/payment-methods
@@ -34,6 +47,7 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
   try {
     let paymentMethods = await storage.getPaymentMethods();
     const isProduction = process.env.PAYMENT_MODE === 'production';
+    const stripeEnvironmentConfig = getStripeConfigFromEnvironment();
     
     if (!paymentMethods || paymentMethods.length === 0) {
       // If payment methods are configured, create initial configuration with Stripe and PayPal
@@ -43,12 +57,8 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
           name: 'Carta di Credito (Stripe)',
           enabled: true,
           config: {
-            publicKey: isProduction 
-              ? (process.env.VITE_STRIPE_PUBLIC_KEY_LIVE || '') 
-              : (process.env.VITE_STRIPE_PUBLIC_KEY || ''),
-            secretKey: isProduction 
-              ? (process.env.STRIPE_SECRET_KEY_LIVE || '') 
-              : (process.env.STRIPE_SECRET_KEY || ''),
+            publicKey: stripeEnvironmentConfig.publicKey,
+            secretKey: stripeEnvironmentConfig.secretKey,
             webhookSecret: '',
             statementDescriptor: 'Gestionale Appuntamenti'
           }
@@ -103,12 +113,8 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
         if (method.id === 'stripe' && method.config) {
           // If Stripe fields are empty, use environment secrets
           if (!method.config.publicKey || !method.config.secretKey) {
-            method.config.publicKey = isProduction 
-              ? (process.env.VITE_STRIPE_PUBLIC_KEY_LIVE || '') 
-              : (process.env.VITE_STRIPE_PUBLIC_KEY || '');
-            method.config.secretKey = isProduction 
-              ? (process.env.STRIPE_SECRET_KEY_LIVE || '') 
-              : (process.env.STRIPE_SECRET_KEY || '');
+            method.config.publicKey = stripeEnvironmentConfig.publicKey;
+            method.config.secretKey = stripeEnvironmentConfig.secretKey;
             console.log('✅ Stripe keys populated from environment secrets');
           }
         }

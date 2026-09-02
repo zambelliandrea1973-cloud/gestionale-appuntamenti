@@ -486,7 +486,9 @@ router.post('/stripe/webhook', async (req, res) => {
     }
     
     // Get the key segreta Stripe
-    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    const stripeSecretKey = process.env.PAYMENT_MODE === 'production'
+      ? (process.env.STRIPE_SECRET_KEY_LIVE || process.env.STRIPE_SECRET_KEY)
+      : (process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY_LIVE);
     if (!stripeSecretKey) {
       return res.status(500).json({
         success: false,
