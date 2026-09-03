@@ -38,6 +38,7 @@ export default function Calendar() {
   const [isAutoSyncing, setIsAutoSyncing] = useState(false);
   const [googleEnabled, setGoogleEnabled] = useState(false);
   const [googleNeedsReauth, setGoogleNeedsReauth] = useState(false);
+  const [googleNotConnected, setGoogleNotConnected] = useState(false);
 
   // ── Modalità calendario ────────────────────────────────────────────────────
   const [calendarMode, setCalendarMode] = useState<'global'|'filter'|'columns'>(() => {
@@ -66,15 +67,33 @@ export default function Calendar() {
         const statusRes = await fetch('/api/google-auth/status', { credentials: 'include' });
         if (!statusRes.ok || cancelled) return;
         const status = await statusRes.json();
-        if (status.needsReauth && !status.disabledByUser) {
+        const disabledByUser = Boolean(status.disabledByUser);
+        if (status.needsReauth && !disabledByUser) {
           if (!cancelled) {
             setGoogleNeedsReauth(true);
+            setGoogleNotConnected(false);
             setGoogleEnabled(false);
           }
           return;
         }
-        if (!status.authorized || !status.calendarEnabled || cancelled) return;
+        if (disabledByUser || cancelled) {
+          if (!cancelled) {
+            setGoogleNeedsReauth(false);
+            setGoogleNotConnected(false);
+            setGoogleEnabled(false);
+          }
+          return;
+        }
+        if (!status.authorized || !status.calendarEnabled) {
+          if (!cancelled) {
+            setGoogleNeedsReauth(false);
+            setGoogleNotConnected(true);
+            setGoogleEnabled(false);
+          }
+          return;
+        }
         if (!cancelled) setGoogleNeedsReauth(false);
+        if (!cancelled) setGoogleNotConnected(false);
         if (!cancelled) setGoogleEnabled(true);
         if (!cancelled) setIsAutoSyncing(true);
         const controller = new AbortController();
@@ -125,8 +144,14 @@ export default function Calendar() {
         if (!response.ok || cancelled) return;
         const status = await response.json();
         const reauthRequired = Boolean(status.needsReauth && !status.disabledByUser);
+        const notConnected = Boolean(
+          !status.disabledByUser &&
+          !reauthRequired &&
+          (!status.authorized || !status.calendarEnabled)
+        );
         setGoogleNeedsReauth(reauthRequired);
-        if (reauthRequired) setGoogleEnabled(false);
+        setGoogleNotConnected(notConnected);
+        if (reauthRequired || notConnected) setGoogleEnabled(false);
       } catch {
         // A network failure is not proof that OAuth is broken.
       }
@@ -135,6 +160,7 @@ export default function Calendar() {
     const handleReauthRequired = () => {
       if (!cancelled) {
         setGoogleNeedsReauth(true);
+        setGoogleNotConnected(false);
         setGoogleEnabled(false);
       }
     };
@@ -266,27 +292,43 @@ export default function Calendar() {
 
   return (
     <div className="space-y-6">
-      {googleNeedsReauth && (
-        <Alert variant="destructive" className="border-red-300 bg-red-50 text-red-900">
+      {(googleNeedsReauth || googleNotConnected) && (
+        <Alert
+          variant={googleNeedsReauth ? "destructive" : "default"}
+          className={
+            googleNeedsReauth
+              ? "border-red-300 bg-red-50 text-red-900"
+              : "border-amber-300 bg-amber-50 text-amber-900"
+          }
+        >
           <AlertTriangle className="h-5 w-5" />
           <AlertTitle>
-            {t('calendar.googleConnectionLostTitle', 'Connessione Google Calendar interrotta')}
+            {googleNeedsReauth
+              ? t('calendar.googleConnectionLostTitle', 'Connessione Google Calendar interrotta')
+              : t('pro.googleConnect', 'Google Calendar non collegato')}
           </AlertTitle>
           <AlertDescription className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <p>
-              {t(
-                'calendar.googleConnectionLostDescription',
-                'Ricollega il tuo account Google per riprendere la sincronizzazione bidirezionale.'
-              )}
+              {googleNeedsReauth
+                ? t(
+                    'calendar.googleConnectionLostDescription',
+                    'Ricollega il tuo account Google per riprendere la sincronizzazione bidirezionale.'
+                  )
+                : t(
+                    'pro.clickToConfigure',
+                    'Collega il tuo account Google per attivare la sincronizzazione.'
+                  )}
             </p>
             <Button
               type="button"
               size="sm"
-              variant="destructive"
+              variant={googleNeedsReauth ? "destructive" : "default"}
               className="shrink-0"
               onClick={() => { window.location.href = '/google-calendar'; }}
             >
-              {t('googleCalendar.setup.reconnectGoogle', 'Riconnetti Google')}
+              {googleNeedsReauth
+                ? t('googleCalendar.setup.reconnectButton', 'Riconnetti Google')
+                : t('googleCalendar.setup.connectButton', 'Connetti Google')}
             </Button>
           </AlertDescription>
         </Alert>
