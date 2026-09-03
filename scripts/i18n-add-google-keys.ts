@@ -801,20 +801,20 @@ const KEYS: Record<string, LangMap | LangArrMap> = {
     ru: 'Импорт контактов Google сейчас доступен только авторизованным тестировщикам. Если вы не тестировщик, вы можете увидеть ошибку «Доступ заблокирован» от Google.'
   },
   'googleCalendar.setup.reconnectNeeded': {
-    it: "Riconnessione necessaria", en: "Reconnection required", es: "Se necesita reconexión",
-    fr: "Reconnexion requise", de: "Erneutes Verbinden erforderlich", nl: "Opnieuw verbinden vereist",
-    no: "Gjentilkobling påkrevd", ro: "Este necesară reconectarea", ru: "Требуется повторное подключение"
+    it: "Connessione a Google Calendar inattiva", en: "Google Calendar connection inactive", es: "Conexión con Google Calendar inactiva",
+    fr: "Connexion à Google Agenda inactive", de: "Google-Kalenderverbindung inaktiv", nl: "Google Agenda-verbinding inactief",
+    no: "Google Kalender-tilkobling inaktiv", ro: "Conexiunea la Google Calendar este inactivă", ru: "Подключение к Google Календарю неактивно"
   },
   'googleCalendar.setup.reconnectNeededDesc': {
-    it: "Per accedere ai contatti è necessario riconnettere il tuo account Google con i nuovi permessi.",
-    en: "To access contacts you need to reconnect your Google account with the new permissions.",
-    es: "Para acceder a los contactos debes reconectar tu cuenta de Google con los nuevos permisos.",
-    fr: "Pour accéder aux contacts, vous devez reconnecter votre compte Google avec les nouvelles autorisations.",
-    de: "Um auf Kontakte zuzugreifen, müssen Sie Ihr Google-Konto mit den neuen Berechtigungen erneut verbinden.",
-    nl: "Om toegang te krijgen tot contacten moet je je Google-account opnieuw verbinden met de nieuwe machtigingen.",
-    no: "For å få tilgang til kontaktene må du koble til Google-kontoen din på nytt med de nye tillatelsene.",
-    ro: "Pentru a accesa contactele trebuie să reconectezi contul Google cu noile permisiuni.",
-    ru: "Для доступа к контактам нужно переподключить аккаунт Google с новыми разрешениями."
+    it: "Per attivare la sincronizzazione con il proprio calendario Google, effettuare il collegamento.",
+    en: "To activate synchronization with your Google Calendar, connect your Google account.",
+    es: "Para activar la sincronización con tu calendario de Google, conecta tu cuenta de Google.",
+    fr: "Pour activer la synchronisation avec votre agenda Google, connectez votre compte Google.",
+    de: "Um die Synchronisierung mit Ihrem Google-Kalender zu aktivieren, verbinden Sie Ihr Google-Konto.",
+    nl: "Activeer de synchronisatie met je Google Agenda door je Google-account te verbinden.",
+    no: "Aktiver synkronisering med Google Kalender ved å koble til Google-kontoen din.",
+    ro: "Pentru a activa sincronizarea cu calendarul Google, conectează contul Google.",
+    ru: "Чтобы включить синхронизацию с Google Календарём, подключите аккаунт Google."
   },
   'googleCalendar.setup.loadingContacts': {
     it: "Caricamento contatti...", en: "Loading contacts...", es: "Cargando contactos...",
