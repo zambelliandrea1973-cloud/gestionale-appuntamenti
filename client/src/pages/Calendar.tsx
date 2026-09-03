@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { 
   ChevronLeft, ChevronRight, CalendarDays, Search, Clock,
   Calendar as CalendarIcon, LayoutGrid, Globe, Filter, LayoutDashboard, X,
-  AlertTriangle
+  AlertTriangle, CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,6 +39,7 @@ export default function Calendar() {
   const [googleEnabled, setGoogleEnabled] = useState(false);
   const [googleNeedsReauth, setGoogleNeedsReauth] = useState(false);
   const [googleNotConnected, setGoogleNotConnected] = useState(false);
+  const [googleStatusChecked, setGoogleStatusChecked] = useState(false);
 
   // ── Modalità calendario ────────────────────────────────────────────────────
   const [calendarMode, setCalendarMode] = useState<'global'|'filter'|'columns'>(() => {
@@ -67,6 +68,7 @@ export default function Calendar() {
         const statusRes = await fetch('/api/google-auth/status', { credentials: 'include' });
         if (!statusRes.ok || cancelled) return;
         const status = await statusRes.json();
+        if (!cancelled) setGoogleStatusChecked(true);
         const disabledByUser = Boolean(status.disabledByUser);
         if (status.needsReauth && !disabledByUser) {
           if (!cancelled) {
@@ -144,6 +146,7 @@ export default function Calendar() {
         });
         if (!response.ok || cancelled) return;
         const status = await response.json();
+        setGoogleStatusChecked(true);
         const reauthRequired = Boolean(status.needsReauth && !status.disabledByUser);
         const notConnected = Boolean(
           !reauthRequired &&
@@ -459,7 +462,22 @@ export default function Calendar() {
 
           {/* Google sync + data */}
           <div className="w-full sm:w-auto flex gap-2 items-center">
-            <SyncGoogleButton size="sm" variant="outline" showLabel={true} isExternalLoading={isAutoSyncing} />
+            {googleStatusChecked && (
+              googleEnabled && !googleNeedsReauth && !googleNotConnected ? (
+                <>
+                  <span className="inline-flex items-center gap-1.5 rounded-md border border-green-200 bg-green-50 px-2.5 py-1.5 text-xs font-medium text-green-700">
+                    <CheckCircle2 className="h-4 w-4" />
+                    {t('googleCalendar.setup.syncEnabled', 'Sincronizzazione attiva')}
+                  </span>
+                  <SyncGoogleButton size="sm" variant="outline" showLabel={true} isExternalLoading={isAutoSyncing} />
+                </>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-xs font-medium text-amber-700">
+                  <AlertTriangle className="h-4 w-4" />
+                  {t('googleCalendar.setup.syncDisabled', 'Sincronizzazione disattivata')}
+                </span>
+              )
+            )}
             <div className="text-sm text-gray-500 hidden sm:block text-right">
               {view==="day" ? (
                 <div className="text-green-600 font-semibold">
