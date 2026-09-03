@@ -76,12 +76,13 @@ export default function Calendar() {
           }
           return;
         }
-        if (disabledByUser || cancelled) {
-          if (!cancelled) {
-            setGoogleNeedsReauth(false);
-            setGoogleNotConnected(false);
-            setGoogleEnabled(false);
-          }
+        if (cancelled) {
+          return;
+        }
+        if (disabledByUser) {
+          setGoogleNeedsReauth(false);
+          setGoogleNotConnected(true);
+          setGoogleEnabled(false);
           return;
         }
         if (!status.authorized || !status.calendarEnabled) {
@@ -145,9 +146,8 @@ export default function Calendar() {
         const status = await response.json();
         const reauthRequired = Boolean(status.needsReauth && !status.disabledByUser);
         const notConnected = Boolean(
-          !status.disabledByUser &&
           !reauthRequired &&
-          (!status.authorized || !status.calendarEnabled)
+          (status.disabledByUser || !status.authorized || !status.calendarEnabled)
         );
         setGoogleNeedsReauth(reauthRequired);
         setGoogleNotConnected(notConnected);
@@ -294,7 +294,7 @@ export default function Calendar() {
     <div className="space-y-6">
       {(googleNeedsReauth || googleNotConnected) && (
         <Alert
-          variant={googleNeedsReauth ? "destructive" : "default"}
+          variant="destructive"
           className={
             googleNeedsReauth
               ? "border-red-300 bg-red-50 text-red-900"
@@ -305,7 +305,7 @@ export default function Calendar() {
           <AlertTitle>
             {googleNeedsReauth
               ? t('calendar.googleConnectionLostTitle', 'Connessione Google Calendar interrotta')
-              : t('pro.googleConnect', 'Google Calendar non collegato')}
+              : t('googleCalendar.setup.reconnectNeeded', 'Google Calendar non attivo')}
           </AlertTitle>
           <AlertDescription className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <p>
@@ -315,20 +315,18 @@ export default function Calendar() {
                     'Ricollega il tuo account Google per riprendere la sincronizzazione bidirezionale.'
                   )
                 : t(
-                    'pro.clickToConfigure',
-                    'Collega il tuo account Google per attivare la sincronizzazione.'
+                    'googleCalendar.setup.reconnectDesc',
+                    'Ricollega il tuo account Google per riattivare la sincronizzazione.'
                   )}
             </p>
             <Button
               type="button"
               size="sm"
-              variant={googleNeedsReauth ? "destructive" : "default"}
+              variant="destructive"
               className="shrink-0"
               onClick={() => { window.location.href = '/google-calendar'; }}
             >
-              {googleNeedsReauth
-                ? t('googleCalendar.setup.reconnectButton', 'Riconnetti Google')
-                : t('googleCalendar.setup.connectButton', 'Connetti Google')}
+              {t('googleCalendar.setup.reconnectButton', 'Riconnetti Google')}
             </Button>
           </AlertDescription>
         </Alert>

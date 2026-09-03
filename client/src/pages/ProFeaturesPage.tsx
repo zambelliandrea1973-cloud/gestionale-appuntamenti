@@ -61,9 +61,18 @@ export default function ProFeaturesPage() {
   // Un token presente non basta: dopo un errore OAuth viene conservato per
   // mostrare l'email, ma la connessione deve risultare interrotta.
   const isGoogleReauthRequired =
-    googleAuthStatus?.needsReauth === true && !googleAuthStatus.disabledByUser;
+    googleAuthStatus?.needsReauth === true;
   const isGoogleConnected =
-    googleAuthStatus?.authorized === true && !isGoogleReauthRequired;
+    googleAuthStatus?.authorized === true &&
+    googleAuthStatus?.calendarEnabled === true &&
+    !googleAuthStatus?.disabledByUser &&
+    !isGoogleReauthRequired;
+  const canReconnectGoogle = Boolean(
+    googleAuthStatus?.authorized ||
+    googleAuthStatus?.disabledByUser ||
+    googleAuthStatus?.needsReauth ||
+    googleAuthStatus?.email
+  );
   
   // Reindirizza direttamente alla pagina di abbonamento
   const handleUpgradeClick = () => {
@@ -213,7 +222,9 @@ export default function ProFeaturesPage() {
             <Link to="/google-calendar">
               {isGoogleConnected
                 ? t('pro.googleSettings', 'Impostazioni')
-                : t('pro.googleConnect', 'Connetti')}
+                : canReconnectGoogle
+                  ? t('googleCalendar.setup.reconnectButton', 'Riconnetti Google')
+                  : t('pro.googleConnect', 'Connetti')}
             </Link>
           </Button>
           </div>
