@@ -412,7 +412,9 @@ Formato obbligatorio:
   "confirmation": "yes" | "no" | "unknown"
 }
 
-"confirmation" vale yes/no solo se il messaggio esprime chiaramente una conferma o un rifiuto.
+"confirmation" vale yes se il messaggio esprime una conferma anche in forma colloquiale o articolata (per esempio "sì, crealo", "va bene, procedi", "crea pure il servizio").
+Vale no se esprime un rifiuto o una richiesta di cambiare scelta (per esempio "no, scelgo un altro", "non crearlo", "preferisco un altro servizio").
+Usa unknown solo quando non è possibile capire l'intenzione.
 Se il professionista comunica informazioni ulteriori da salvare nell'appuntamento, inseriscile in notes.`;
 
     const result = await model.generateContent(prompt);

@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import {
   addMinutesToTime,
+  detectAssistantConfirmation,
   findAssistantClient,
   findAssistantService,
   getAssistantGreetingName,
@@ -113,8 +114,10 @@ export default function VoiceAppointmentAssistant({
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [autoListenSignal, setAutoListenSignal] = useState(0);
   const recognitionRef = useRef<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const autoListenRequestedRef = useRef(false);
 
   const { data: clients = [], isLoading: isLoadingClients } = useQuery<AssistantClient[]>({
     queryKey: ['/api/clients'],
@@ -126,18 +129,47 @@ export default function VoiceAppointmentAssistant({
   });
   const isCatalogLoading = isLoadingClients || isLoadingServices;
 
-  const speak = (text: string) => {
-    if (!('speechSynthesis' in window)) return;
+  const speak = (text: string, onComplete?: () => void) => {
+    if (!('speechSynthesis' in window)) {
+      onComplete?.();
+      return;
+    }
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = speechLocale;
-    utterance.rate = 1;
+    const matchingVoices = window.speechSynthesis.getVoices().filter(voice =>
+      voice.lang.toLowerCase().startsWith(speechLocale.split('-')[0].toLowerCase())
+    );
+    utterance.voice = matchingVoices.find(voice =>
+      /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
+    ) || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
+      || matchingVoices[0]
+      || null;
+    utterance.rate = 0.94;
+    utterance.pitch = 1.02;
+    if (onComplete) {
+      let completed = false;
+      const completeOnce = () => {
+        if (completed) return;
+        completed = true;
+        onComplete();
+      };
+      utterance.onend = completeOnce;
+      utterance.onerror = event => {
+        if (event.error !== 'canceled' && event.error !== 'interrupted') completeOnce();
+      };
+    }
     window.speechSynthesis.speak(utterance);
   };
 
-  const addAssistantMessage = (content: string) => {
+  const addAssistantMessage = (content: string, options: { autoListen?: boolean } = {}) => {
     setMessages(previous => [...previous, { role: 'assistant', content }]);
-    speak(content);
+    speak(content, options.autoListen
+      ? () => {
+        autoListenRequestedRef.current = true;
+        setAutoListenSignal(signal => signal + 1);
+      }
+      : undefined);
   };
 
   useEffect(() => {
@@ -155,6 +187,23 @@ export default function VoiceAppointmentAssistant({
   }, [messages, isProcessing, isSaving]);
 
   useEffect(() => {
+    if (
+      !open ||
+      !autoListenRequestedRef.current ||
+      isProcessing ||
+      isSaving ||
+      isCatalogLoading ||
+      isListening
+    ) {
+      return;
+    }
+
+    autoListenRequestedRef.current = false;
+    const timeout = window.setTimeout(() => startListening(), 350);
+    return () => window.clearTimeout(timeout);
+  }, [open, isProcessing, isSaving, isCatalogLoading, isListening, autoListenSignal]);
+
+  useEffect(() => {
     return () => {
       recognitionRef.current?.stop?.();
       window.speechSynthesis?.cancel();
@@ -164,22 +213,22 @@ export default function VoiceAppointmentAssistant({
   const askNextQuestion = (nextDraft: AssistantDraft): AssistantDraft => {
     if (!nextDraft.clientName) {
       setPendingQuestion(null);
-      addAssistantMessage(t('voiceAppointmentAssistant.askClientName'));
+      addAssistantMessage(t('voiceAppointmentAssistant.askClientName'), { autoListen: true });
       return nextDraft;
     }
     if (!nextDraft.date) {
       setPendingQuestion(null);
-      addAssistantMessage(t('voiceAppointmentAssistant.askDate'));
+      addAssistantMessage(t('voiceAppointmentAssistant.askDate'), { autoListen: true });
       return nextDraft;
     }
     if (!nextDraft.startTime) {
       setPendingQuestion(null);
-      addAssistantMessage(t('voiceAppointmentAssistant.askTime'));
+      addAssistantMessage(t('voiceAppointmentAssistant.askTime'), { autoListen: true });
       return nextDraft;
     }
     if (!nextDraft.serviceName) {
       setPendingQuestion(null);
-      addAssistantMessage(t('voiceAppointmentAssistant.askService'));
+      addAssistantMessage(t('voiceAppointmentAssistant.askService'), { autoListen: true });
       return nextDraft;
     }
 
@@ -190,7 +239,8 @@ export default function VoiceAppointmentAssistant({
     } else if (!nextDraft.createClientApproved) {
       setPendingQuestion('create_client');
       addAssistantMessage(
-        t('voiceAppointmentAssistant.clientNotFound', { name: nextDraft.clientName })
+        t('voiceAppointmentAssistant.clientNotFound', { name: nextDraft.clientName }),
+        { autoListen: true }
       );
       return nextDraft;
     }
@@ -203,14 +253,18 @@ export default function VoiceAppointmentAssistant({
     } else if (!nextDraft.createServiceApproved) {
       setPendingQuestion('create_service');
       addAssistantMessage(
-        t('voiceAppointmentAssistant.serviceNotFound', { name: nextDraft.serviceName })
+        t('voiceAppointmentAssistant.serviceNotFound', { name: nextDraft.serviceName }),
+        { autoListen: true }
       );
       return nextDraft;
     }
 
     if (!nextDraft.durationMinutes) {
       setPendingQuestion(null);
-      addAssistantMessage(t('voiceAppointmentAssistant.askDuration', { name: nextDraft.serviceName }));
+      addAssistantMessage(
+        t('voiceAppointmentAssistant.askDuration', { name: nextDraft.serviceName }),
+        { autoListen: true }
+      );
       return nextDraft;
     }
 
@@ -236,7 +290,8 @@ export default function VoiceAppointmentAssistant({
         service: nextDraft.serviceName,
         duration: nextDraft.durationMinutes,
         notes: notesText
-      })
+      }),
+      { autoListen: true }
     );
     return nextDraft;
   };
@@ -339,56 +394,63 @@ export default function VoiceAppointmentAssistant({
         language: i18n.resolvedLanguage || i18n.language
       });
       const interpretation = await response.json() as Interpretation;
+      const detectedConfirmation = detectAssistantConfirmation(
+        userMessage,
+        i18n.resolvedLanguage || i18n.language
+      );
+      const confirmation = detectedConfirmation === 'unknown'
+        ? interpretation.confirmation
+        : detectedConfirmation;
       let nextDraft = mergeInterpretation(draft, interpretation);
 
       if (pendingQuestion === 'create_client') {
-        if (interpretation.confirmation === 'yes') {
+        if (confirmation === 'yes') {
           nextDraft.createClientApproved = true;
           setPendingQuestion(null);
-        } else if (interpretation.confirmation === 'no') {
+        } else if (confirmation === 'no') {
           nextDraft.clientName = null;
           nextDraft.clientId = null;
           nextDraft.createClientApproved = false;
           setDraft(nextDraft);
           setPendingQuestion(null);
-          addAssistantMessage(t('voiceAppointmentAssistant.okExistingClient'));
+          addAssistantMessage(t('voiceAppointmentAssistant.okExistingClient'), { autoListen: true });
           return;
         } else {
           setDraft(nextDraft);
-          addAssistantMessage(t('voiceAppointmentAssistant.confirmClient'));
+          addAssistantMessage(t('voiceAppointmentAssistant.confirmClient'), { autoListen: true });
           return;
         }
       }
 
       if (pendingQuestion === 'create_service') {
-        if (interpretation.confirmation === 'yes') {
+        if (confirmation === 'yes') {
           nextDraft.createServiceApproved = true;
           setPendingQuestion(null);
-        } else if (interpretation.confirmation === 'no') {
+        } else if (confirmation === 'no') {
           nextDraft.serviceName = null;
           nextDraft.serviceId = null;
           nextDraft.createServiceApproved = false;
           setDraft(nextDraft);
           setPendingQuestion(null);
-          addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'));
+          addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'), { autoListen: true });
           return;
         } else {
           setDraft(nextDraft);
-          addAssistantMessage(t('voiceAppointmentAssistant.confirmService'));
+          addAssistantMessage(t('voiceAppointmentAssistant.confirmService'), { autoListen: true });
           return;
         }
       }
 
       if (pendingQuestion === 'confirm_appointment') {
-        if (interpretation.confirmation === 'yes') {
+        if (confirmation === 'yes') {
           setDraft(nextDraft);
           await saveAppointment(nextDraft);
           return;
         }
-        if (interpretation.confirmation === 'no') {
+        if (confirmation === 'no') {
           setPendingQuestion(null);
           setDraft(nextDraft);
-          addAssistantMessage(t('voiceAppointmentAssistant.modify'));
+          addAssistantMessage(t('voiceAppointmentAssistant.modify'), { autoListen: true });
           return;
         }
       }
@@ -447,10 +509,23 @@ export default function VoiceAppointmentAssistant({
   };
 
   const resetConversation = () => {
+    autoListenRequestedRef.current = false;
+    recognitionRef.current?.stop?.();
+    window.speechSynthesis?.cancel();
     setMessages([]);
     setDraft({});
     setPendingQuestion(null);
     setInput('');
+  };
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+    if (!nextOpen) {
+      autoListenRequestedRef.current = false;
+      recognitionRef.current?.stop?.();
+      window.speechSynthesis?.cancel();
+      setIsListening(false);
+    }
   };
 
   return (
@@ -466,7 +541,7 @@ export default function VoiceAppointmentAssistant({
         <Mic className="h-6 w-6" />
       </Button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent className="flex max-h-[88vh] w-[calc(100vw-1.5rem)] max-w-lg flex-col gap-0 overflow-hidden p-0">
           <DialogHeader className="border-b bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 text-white">
             <DialogTitle className="flex items-center gap-2 text-white">
