@@ -28,6 +28,7 @@ import { useMobileForcedSync } from "@/hooks/use-mobile-force-sync";
 import { LanguageSelector } from "./ui/language-selector";
 import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
+import VoiceAppointmentAssistant from "./VoiceAppointmentAssistant";
 
 function UserIcon({ className, userId }: { className?: string; userId?: number }) {
   const [imgError, setImgError] = useState(false);
@@ -78,6 +79,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   }
   
   const isActive = (path: string) => location === path;
+  const showVoiceAppointmentAssistant = ['/calendar', '/clients', '/ai-chat'].includes(location);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -564,6 +566,15 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           {children}
         </div>
       </main>
+      {showVoiceAppointmentAssistant && (
+        <VoiceAppointmentAssistant
+          professionalName={
+            (userWithLicense as any)?.name ||
+            (userWithLicense as any)?.firstName ||
+            userWithLicense?.username
+          }
+        />
+      )}
     </div>
   );
 }

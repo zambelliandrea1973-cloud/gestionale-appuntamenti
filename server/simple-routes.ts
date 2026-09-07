@@ -53,6 +53,7 @@ import pwaRoutes from './routes/pwaRoutes';
 import campaignRoutes from './routes/campaignRoutes';
 import fileRoutes from './routes/fileRoutes';
 import analyticsRoutes from './routes/analyticsRoutes';
+import aiAppointmentAssistantRoutes from './routes/aiAppointmentAssistantRoutes';
 import { pushNotificationService } from './services/pushNotificationService';
 
 // Import AI onboarding module
@@ -266,6 +267,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use(pwaRoutes);
   app.use(campaignRoutes);
   app.use(analyticsRoutes);
+  app.use(aiAppointmentAssistantRoutes);
   
   // New user registration routes
   app.post("/api/register", async (req, res) => {
