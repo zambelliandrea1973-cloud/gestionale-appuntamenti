@@ -13,6 +13,9 @@ router.post('/api/ai-appointment-assistant/interpret', requireAuth, async (req, 
     const draft = (req.body?.draft && typeof req.body.draft === 'object')
       ? req.body.draft as AppointmentAssistantDraft
       : {};
+    const language = typeof req.body?.language === 'string'
+      ? req.body.language.slice(0, 20)
+      : 'it';
 
     if (!message) {
       return res.status(400).json({ message: 'Il messaggio è obbligatorio.' });
@@ -22,7 +25,7 @@ router.post('/api/ai-appointment-assistant/interpret', requireAuth, async (req, 
       return res.status(400).json({ message: 'Il messaggio è troppo lungo.' });
     }
 
-    const interpretation = await interpretAppointmentRequest(message, draft);
+    const interpretation = await interpretAppointmentRequest(message, draft, language);
     res.json(interpretation);
   } catch (error) {
     console.error('❌ [AI APPOINTMENT ASSISTANT] Interpretation error:', error);

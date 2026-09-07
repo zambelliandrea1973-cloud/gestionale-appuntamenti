@@ -370,7 +370,8 @@ function getTodayInRome(): string {
  */
 export async function interpretAppointmentRequest(
   userMessage: string,
-  currentDraft: AppointmentAssistantDraft = {}
+  currentDraft: AppointmentAssistantDraft = {},
+  language = 'it'
 ): Promise<AppointmentAssistantInterpretation> {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error('AI service is not configured');
@@ -387,9 +388,10 @@ export async function interpretAppointmentRequest(
 
     const prompt = `Sei il modulo di comprensione di un assistente vocale per appuntamenti.
 La data di oggi in Italia è ${getTodayInRome()}.
+La lingua preferita del professionista è "${language}". Comprendi la richiesta in questa lingua, incluse date relative, orari e conferme.
 
 Devi unire il nuovo messaggio ai dati già raccolti e restituire SOLO JSON valido.
-Interpreta date relative come "oggi", "domani", giorni della settimana e orari in italiano.
+Interpreta date relative come "oggi", "domani", giorni della settimana e orari nella lingua della richiesta.
 Il trattamento corrisponde al nome del servizio.
 Non inventare dati assenti. Conserva i dati esistenti salvo correzioni esplicite.
 

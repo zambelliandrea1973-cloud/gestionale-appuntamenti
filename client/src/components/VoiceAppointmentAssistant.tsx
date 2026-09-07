@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { Bot, CalendarPlus, Loader2, Mic, MicOff, Send, Sparkles, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -50,13 +51,23 @@ interface VoiceAppointmentAssistantProps {
   professionalEmail?: string;
 }
 
-const dateFormatter = new Intl.DateTimeFormat('it-IT', {
-  weekday: 'long',
-  day: '2-digit',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'Europe/Rome'
-});
+const assistantSpeechLocales: Record<string, string> = {
+  it: 'it-IT',
+  en: 'en-US',
+  de: 'de-DE',
+  fr: 'fr-FR',
+  es: 'es-ES',
+  nl: 'nl-NL',
+  no: 'nb-NO',
+  ro: 'ro-RO',
+  ru: 'ru-RU',
+  hi: 'hi-IN'
+};
+
+function getAssistantSpeechLocale(language?: string): string {
+  const baseLanguage = (language || 'it').split('-')[0].toLowerCase();
+  return assistantSpeechLocales[baseLanguage] || 'it-IT';
+}
 
 function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretation): AssistantDraft {
   const merged = { ...draft };
@@ -92,6 +103,8 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
 export default function VoiceAppointmentAssistant({
   professionalEmail
 }: VoiceAppointmentAssistantProps) {
+  const { t, i18n } = useTranslation();
+  const speechLocale = getAssistantSpeechLocale(i18n.resolvedLanguage || i18n.language);
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [input, setInput] = useState('');
@@ -117,7 +130,7 @@ export default function VoiceAppointmentAssistant({
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'it-IT';
+    utterance.lang = speechLocale;
     utterance.rate = 1;
     window.speechSynthesis.speak(utterance);
   };
@@ -130,10 +143,12 @@ export default function VoiceAppointmentAssistant({
   useEffect(() => {
     if (!open || messages.length > 0) return;
     const greetingName = getAssistantGreetingName(professionalEmail);
-    const greeting = greetingName ? `Ciao ${greetingName}` : 'Ciao';
+    const greeting = greetingName
+      ? t('voiceAppointmentAssistant.greeting', { name: greetingName })
+      : t('voiceAppointmentAssistant.greetingFallback');
     setMessages([{ role: 'assistant', content: greeting }]);
     speak(greeting);
-  }, [open, messages.length, professionalEmail]);
+  }, [open, messages.length, professionalEmail, speechLocale, t]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -149,22 +164,22 @@ export default function VoiceAppointmentAssistant({
   const askNextQuestion = (nextDraft: AssistantDraft): AssistantDraft => {
     if (!nextDraft.clientName) {
       setPendingQuestion(null);
-      addAssistantMessage('Qual è il nome del cliente?');
+      addAssistantMessage(t('voiceAppointmentAssistant.askClientName'));
       return nextDraft;
     }
     if (!nextDraft.date) {
       setPendingQuestion(null);
-      addAssistantMessage('Per quale data vuoi creare l’appuntamento?');
+      addAssistantMessage(t('voiceAppointmentAssistant.askDate'));
       return nextDraft;
     }
     if (!nextDraft.startTime) {
       setPendingQuestion(null);
-      addAssistantMessage('A che ora deve iniziare l’appuntamento?');
+      addAssistantMessage(t('voiceAppointmentAssistant.askTime'));
       return nextDraft;
     }
     if (!nextDraft.serviceName) {
       setPendingQuestion(null);
-      addAssistantMessage('Quale trattamento o servizio devo inserire?');
+      addAssistantMessage(t('voiceAppointmentAssistant.askService'));
       return nextDraft;
     }
 
@@ -175,7 +190,7 @@ export default function VoiceAppointmentAssistant({
     } else if (!nextDraft.createClientApproved) {
       setPendingQuestion('create_client');
       addAssistantMessage(
-        `${nextDraft.clientName} non risulta tra i clienti. Vuoi creare questo nuovo cliente?`
+        t('voiceAppointmentAssistant.clientNotFound', { name: nextDraft.clientName })
       );
       return nextDraft;
     }
@@ -188,26 +203,40 @@ export default function VoiceAppointmentAssistant({
     } else if (!nextDraft.createServiceApproved) {
       setPendingQuestion('create_service');
       addAssistantMessage(
-        `Il trattamento ${nextDraft.serviceName} non è presente. Vuoi creare questo nuovo servizio?`
+        t('voiceAppointmentAssistant.serviceNotFound', { name: nextDraft.serviceName })
       );
       return nextDraft;
     }
 
     if (!nextDraft.durationMinutes) {
       setPendingQuestion(null);
-      addAssistantMessage(`Quanto dura il trattamento ${nextDraft.serviceName}, in minuti?`);
+      addAssistantMessage(t('voiceAppointmentAssistant.askDuration', { name: nextDraft.serviceName }));
       return nextDraft;
     }
 
     const date = new Date(`${nextDraft.date}T12:00:00`);
     const readableDate = Number.isNaN(date.getTime())
       ? nextDraft.date
-      : dateFormatter.format(date);
-    const notesText = nextDraft.notes ? ` Note: ${nextDraft.notes}.` : '';
+      : new Intl.DateTimeFormat(speechLocale, {
+        weekday: 'long',
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'Europe/Rome'
+      }).format(date);
+    const notesText = nextDraft.notes
+      ? t('voiceAppointmentAssistant.notes', { value: nextDraft.notes })
+      : '';
     setPendingQuestion('confirm_appointment');
     addAssistantMessage(
-      `Riepilogo: ${nextDraft.clientName}, ${readableDate} alle ${nextDraft.startTime}, ` +
-      `${nextDraft.serviceName}, durata ${nextDraft.durationMinutes} minuti.${notesText} Confermi la creazione?`
+      t('voiceAppointmentAssistant.summary', {
+        client: nextDraft.clientName,
+        date: readableDate,
+        time: nextDraft.startTime,
+        service: nextDraft.serviceName,
+        duration: nextDraft.durationMinutes,
+        notes: notesText
+      })
     );
     return nextDraft;
   };
@@ -220,7 +249,7 @@ export default function VoiceAppointmentAssistant({
       !readyDraft.startTime ||
       !readyDraft.durationMinutes
     ) {
-      addAssistantMessage('Mancano ancora alcune informazioni obbligatorie.');
+      addAssistantMessage(t('voiceAppointmentAssistant.missingRequired'));
       return;
     }
 
@@ -229,7 +258,7 @@ export default function VoiceAppointmentAssistant({
       let clientId = readyDraft.clientId || null;
       if (!clientId) {
         if (!readyDraft.createClientApproved) {
-          throw new Error('La creazione del nuovo cliente non è stata autorizzata.');
+          throw new Error(t('voiceAppointmentAssistant.unauthorizedClient'));
         }
         const clientName = splitClientName(readyDraft.clientName);
         const response = await apiRequest('POST', '/api/clients', {
@@ -245,7 +274,7 @@ export default function VoiceAppointmentAssistant({
       let serviceId = readyDraft.serviceId || null;
       if (!serviceId) {
         if (!readyDraft.createServiceApproved) {
-          throw new Error('La creazione del nuovo servizio non è stata autorizzata.');
+          throw new Error(t('voiceAppointmentAssistant.unauthorizedService'));
         }
         const response = await apiRequest('POST', '/api/services', {
           name: readyDraft.serviceName,
@@ -279,10 +308,10 @@ export default function VoiceAppointmentAssistant({
 
       setPendingQuestion(null);
       setDraft({});
-      addAssistantMessage('Appuntamento creato correttamente. Vuoi inserirne un altro?');
+      addAssistantMessage(t('voiceAppointmentAssistant.created'));
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Errore sconosciuto';
-      addAssistantMessage(`Non sono riuscito a creare l’appuntamento: ${message}`);
+      console.error('[AI APPOINTMENT ASSISTANT] Appointment creation error:', error);
+      addAssistantMessage(t('voiceAppointmentAssistant.creationError'));
     } finally {
       setIsSaving(false);
     }
@@ -306,7 +335,8 @@ export default function VoiceAppointmentAssistant({
           serviceName: draft.serviceName,
           durationMinutes: draft.durationMinutes,
           notes: draft.notes
-        }
+        },
+        language: i18n.resolvedLanguage || i18n.language
       });
       const interpretation = await response.json() as Interpretation;
       let nextDraft = mergeInterpretation(draft, interpretation);
@@ -321,11 +351,11 @@ export default function VoiceAppointmentAssistant({
           nextDraft.createClientApproved = false;
           setDraft(nextDraft);
           setPendingQuestion(null);
-          addAssistantMessage('Va bene. Indicami il nome di un cliente già presente.');
+          addAssistantMessage(t('voiceAppointmentAssistant.okExistingClient'));
           return;
         } else {
           setDraft(nextDraft);
-          addAssistantMessage('Rispondi sì per creare il cliente, oppure no per indicarne un altro.');
+          addAssistantMessage(t('voiceAppointmentAssistant.confirmClient'));
           return;
         }
       }
@@ -340,11 +370,11 @@ export default function VoiceAppointmentAssistant({
           nextDraft.createServiceApproved = false;
           setDraft(nextDraft);
           setPendingQuestion(null);
-          addAssistantMessage('Va bene. Indicami un trattamento già presente.');
+          addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'));
           return;
         } else {
           setDraft(nextDraft);
-          addAssistantMessage('Rispondi sì per creare il servizio, oppure no per indicarne un altro.');
+          addAssistantMessage(t('voiceAppointmentAssistant.confirmService'));
           return;
         }
       }
@@ -358,7 +388,7 @@ export default function VoiceAppointmentAssistant({
         if (interpretation.confirmation === 'no') {
           setPendingQuestion(null);
           setDraft(nextDraft);
-          addAssistantMessage('Va bene. Dimmi cosa vuoi modificare.');
+          addAssistantMessage(t('voiceAppointmentAssistant.modify'));
           return;
         }
       }
@@ -366,8 +396,8 @@ export default function VoiceAppointmentAssistant({
       nextDraft = askNextQuestion(nextDraft);
       setDraft({ ...nextDraft });
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Riprova tra poco.';
-      addAssistantMessage(`Non ho capito la richiesta: ${message}`);
+      console.error('[AI APPOINTMENT ASSISTANT] Interpretation error:', error);
+      addAssistantMessage(t('voiceAppointmentAssistant.interpretationError'));
     } finally {
       setIsProcessing(false);
     }
@@ -375,7 +405,7 @@ export default function VoiceAppointmentAssistant({
 
   const startListening = () => {
     if (isCatalogLoading) {
-      addAssistantMessage('Attendi un momento: sto caricando clienti e trattamenti.');
+      addAssistantMessage(t('voiceAppointmentAssistant.loadingCatalog'));
       return;
     }
 
@@ -384,21 +414,21 @@ export default function VoiceAppointmentAssistant({
 
     if (!SpeechRecognition) {
       addAssistantMessage(
-        'Il riconoscimento vocale non è disponibile in questo browser. Puoi scrivere la richiesta nel campo qui sotto.'
+        t('voiceAppointmentAssistant.unsupportedVoice')
       );
       return;
     }
 
     recognitionRef.current?.stop?.();
     const recognition = new SpeechRecognition();
-    recognition.lang = 'it-IT';
+    recognition.lang = speechLocale;
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.onstart = () => setIsListening(true);
     recognition.onend = () => setIsListening(false);
     recognition.onerror = () => {
       setIsListening(false);
-      addAssistantMessage('Non sono riuscito ad ascoltare. Riprova oppure scrivi la richiesta.');
+      addAssistantMessage(t('voiceAppointmentAssistant.listenError'));
     };
     recognition.onresult = (event: any) => {
       const transcript = event.results?.[0]?.[0]?.transcript?.trim();
@@ -429,8 +459,8 @@ export default function VoiceAppointmentAssistant({
         type="button"
         onClick={() => setOpen(true)}
         className="fixed bottom-5 right-5 z-40 h-14 w-14 rounded-full bg-violet-600 p-0 text-white shadow-xl hover:bg-violet-700"
-        aria-label="Apri assistente vocale appuntamenti"
-        title="Assistente vocale appuntamenti"
+        aria-label={t('voiceAppointmentAssistant.openAriaLabel')}
+        title={t('voiceAppointmentAssistant.openTitle')}
         data-testid="button-open-voice-appointment-assistant"
       >
         <Mic className="h-6 w-6" />
@@ -441,7 +471,7 @@ export default function VoiceAppointmentAssistant({
           <DialogHeader className="border-b bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 text-white">
             <DialogTitle className="flex items-center gap-2 text-white">
               <Sparkles className="h-5 w-5" />
-              Assistente appuntamenti AI
+              {t('voiceAppointmentAssistant.title')}
             </DialogTitle>
           </DialogHeader>
 
@@ -477,10 +507,10 @@ export default function VoiceAppointmentAssistant({
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   {isCatalogLoading
-                    ? 'Caricamento clienti e trattamenti…'
+                    ? t('voiceAppointmentAssistant.loading')
                     : isSaving
-                      ? 'Creazione appuntamento…'
-                      : 'Sto elaborando…'}
+                      ? t('voiceAppointmentAssistant.saving')
+                      : t('voiceAppointmentAssistant.processing')}
                 </div>
               )}
               <div ref={messagesEndRef} />
@@ -490,7 +520,7 @@ export default function VoiceAppointmentAssistant({
           <div className="border-t bg-background p-3">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-xs text-muted-foreground">
-                Dati minimi: cliente, data, ora e trattamento
+                {t('voiceAppointmentAssistant.minimumData')}
               </span>
               <Button
                 type="button"
@@ -501,7 +531,7 @@ export default function VoiceAppointmentAssistant({
                 className="h-7 gap-1 px-2 text-xs"
               >
                 <X className="h-3 w-3" />
-                Ricomincia
+                {t('voiceAppointmentAssistant.restart')}
               </Button>
             </div>
 
@@ -514,7 +544,7 @@ export default function VoiceAppointmentAssistant({
                 data-testid="button-confirm-ai-appointment"
               >
                 <CalendarPlus className="h-4 w-4" />
-                Conferma e crea appuntamento
+                {t('voiceAppointmentAssistant.confirmButton')}
               </Button>
             )}
 
@@ -525,7 +555,9 @@ export default function VoiceAppointmentAssistant({
                 size="icon"
                 onClick={isListening ? stopListening : startListening}
                 disabled={isProcessing || isSaving || isCatalogLoading}
-                aria-label={isListening ? 'Interrompi ascolto' : 'Avvia ascolto'}
+                 aria-label={isListening
+                   ? t('voiceAppointmentAssistant.stopListening')
+                   : t('voiceAppointmentAssistant.startListening')}
                 data-testid="button-toggle-appointment-listening"
               >
                 {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -536,7 +568,9 @@ export default function VoiceAppointmentAssistant({
                 onKeyDown={event => {
                   if (event.key === 'Enter') void submitMessage();
                 }}
-                placeholder={isListening ? 'Ti sto ascoltando…' : 'Parla oppure scrivi qui…'}
+                placeholder={isListening
+                  ? t('voiceAppointmentAssistant.listeningPlaceholder')
+                  : t('voiceAppointmentAssistant.inputPlaceholder')}
                 disabled={isProcessing || isSaving}
                 data-testid="input-voice-appointment-message"
               />
