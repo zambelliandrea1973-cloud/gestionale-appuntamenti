@@ -19,6 +19,14 @@ export function normalizeAssistantName(value: string | null | undefined): string
     .trim();
 }
 
+export function getAssistantGreetingName(email: string | null | undefined): string {
+  return (email || '')
+    .split('@')[0]
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 export function findAssistantClient(
   clients: AssistantClient[],
   requestedName: string

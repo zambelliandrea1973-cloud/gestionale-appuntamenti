@@ -568,11 +568,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       </main>
       {showVoiceAppointmentAssistant && (
         <VoiceAppointmentAssistant
-          professionalName={
-            (userWithLicense as any)?.name ||
-            (userWithLicense as any)?.firstName ||
-            userWithLicense?.username
-          }
+          professionalEmail={(userWithLicense as any)?.email || userWithLicense?.username}
         />
       )}
     </div>

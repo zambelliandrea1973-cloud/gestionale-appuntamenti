@@ -10,6 +10,7 @@ import {
   addMinutesToTime,
   findAssistantClient,
   findAssistantService,
+  getAssistantGreetingName,
   splitClientName,
   type AssistantClient,
   type AssistantService
@@ -46,7 +47,7 @@ interface ConversationMessage {
 }
 
 interface VoiceAppointmentAssistantProps {
-  professionalName?: string;
+  professionalEmail?: string;
 }
 
 const dateFormatter = new Intl.DateTimeFormat('it-IT', {
@@ -89,7 +90,7 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
 }
 
 export default function VoiceAppointmentAssistant({
-  professionalName
+  professionalEmail
 }: VoiceAppointmentAssistantProps) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
@@ -128,13 +129,11 @@ export default function VoiceAppointmentAssistant({
 
   useEffect(() => {
     if (!open || messages.length > 0) return;
-    const firstName = professionalName?.trim().split(/\s+/)[0];
-    const greeting = firstName
-      ? `Ciao ${firstName}, sono il tuo assistente appuntamenti. Dimmi il nome del cliente, la data, l'ora e il trattamento.`
-      : `Ciao, sono il tuo assistente appuntamenti. Dimmi il nome del cliente, la data, l'ora e il trattamento.`;
+    const greetingName = getAssistantGreetingName(professionalEmail);
+    const greeting = greetingName ? `Ciao ${greetingName}` : 'Ciao';
     setMessages([{ role: 'assistant', content: greeting }]);
     speak(greeting);
-  }, [open, messages.length, professionalName]);
+  }, [open, messages.length, professionalEmail]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
