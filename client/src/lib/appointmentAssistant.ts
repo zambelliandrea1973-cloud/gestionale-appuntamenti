@@ -113,10 +113,40 @@ export function findAssistantClient(
   const target = normalizeAssistantName(requestedName);
   if (!target) return undefined;
 
-  return clients.find(client => {
+  const targetTokens = target.split(' ').filter(Boolean);
+  const exactMatch = clients.find(client => {
     const fullName = normalizeAssistantName(`${client.firstName} ${client.lastName || ''}`);
     return fullName === target;
   });
+  if (exactMatch) return exactMatch;
+
+  // Voice recognition and Gemini can occasionally invert first/last name
+  // ("Zambelli Andrea") even though the catalog stores "Andrea Zambelli".
+  // Match the same complete set of name parts without using loose partial
+  // matches that could select the wrong client.
+  const reorderedMatch = clients.find(client => {
+    const fullName = normalizeAssistantName(`${client.firstName} ${client.lastName || ''}`);
+    const clientTokens = fullName.split(' ').filter(Boolean);
+    if (clientTokens.length !== targetTokens.length) return false;
+    const remaining = [...clientTokens];
+    return targetTokens.every(token => {
+      const index = remaining.indexOf(token);
+      if (index < 0) return false;
+      remaining.splice(index, 1);
+      return true;
+    });
+  });
+  if (reorderedMatch) return reorderedMatch;
+
+  // If speech recognition captured only part of a name, accept it only when
+  // it identifies one unique client. This avoids attaching an appointment to
+  // the wrong person when multiple clients share a first name.
+  const partialMatches = clients.filter(client => {
+    const fullName = normalizeAssistantName(`${client.firstName} ${client.lastName || ''}`);
+    const clientTokens = fullName.split(' ').filter(Boolean);
+    return targetTokens.every(token => clientTokens.includes(token));
+  });
+  return partialMatches.length === 1 ? partialMatches[0] : undefined;
 }
 
 export function findAssistantService(

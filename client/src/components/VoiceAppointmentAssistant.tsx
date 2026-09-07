@@ -404,7 +404,16 @@ export default function VoiceAppointmentAssistant({
       let nextDraft = mergeInterpretation(draft, interpretation);
 
       if (pendingQuestion === 'create_client') {
-        if (confirmation === 'yes') {
+        // A user may correct or repeat the name after the first lookup
+        // ("cerca meglio Andrea Zambelli"). Retry the catalog lookup before
+        // interpreting the message as a yes/no answer to client creation.
+        const existingClient = findAssistantClient(clients, nextDraft.clientName || '');
+        if (existingClient) {
+          nextDraft.clientId = existingClient.id;
+          nextDraft.clientName = `${existingClient.firstName} ${existingClient.lastName || ''}`.trim();
+          nextDraft.createClientApproved = false;
+          setPendingQuestion(null);
+        } else if (confirmation === 'yes') {
           nextDraft.createClientApproved = true;
           setPendingQuestion(null);
         } else if (confirmation === 'no') {
@@ -536,6 +545,7 @@ export default function VoiceAppointmentAssistant({
         className="fixed bottom-5 right-5 z-40 h-14 w-14 rounded-full bg-violet-600 p-0 text-white shadow-xl hover:bg-violet-700"
         aria-label={t('voiceAppointmentAssistant.openAriaLabel')}
         title={t('voiceAppointmentAssistant.openTitle')}
+        data-voice-appointment-trigger
         data-testid="button-open-voice-appointment-assistant"
       >
         <Mic className="h-6 w-6" />

@@ -14,6 +14,8 @@ interface FloatingActionButtonProps {
 const LONG_PRESS_MS = 1500;
 const MIN_SCALE = 0.6;
 const MAX_SCALE = 2.0;
+const VOICE_TRIGGER_SELECTOR = '[data-voice-appointment-trigger]';
+const FLOATING_ACTION_GAP = 12;
 
 function loadSaved<T>(key: string, fallback: T): T {
   try {
@@ -65,26 +67,6 @@ export function FloatingActionButton({
   posRef.current   = pos;
   scaleRef.current = scale;
 
-  // After mount (and on resize): clamp position to current viewport so the
-  // button is never cut off regardless of device or saved localStorage value.
-  useEffect(() => {
-    const recalc = () => {
-      setPos(prev => {
-        const w = (containerRef.current?.offsetWidth  ?? 180) * scaleRef.current;
-        const h = (containerRef.current?.offsetHeight ?? 48)  * scaleRef.current;
-        const clamped = {
-          x: Math.max(8, Math.min(window.innerWidth  - w - 8, prev.x)),
-          y: Math.max(8, Math.min(window.innerHeight - h - 8, prev.y)),
-        };
-        return clamped;
-      });
-    };
-    // Small delay lets the browser paint the button so offsetWidth is real
-    const t = setTimeout(recalc, 120);
-    window.addEventListener('resize', recalc);
-    return () => { clearTimeout(t); window.removeEventListener('resize', recalc); };
-  }, []);
-
   // Pinch-to-scale state
   const pinchRef = useRef<{ dist: number; scale0: number } | null>(null);
 
@@ -95,13 +77,80 @@ export function FloatingActionButton({
   }, []);
 
   const clamp = useCallback((x: number, y: number) => {
-    const w = (containerRef.current?.offsetWidth  ?? 160) * scaleRef.current;
-    const h = (containerRef.current?.offsetHeight ?? 48)  * scaleRef.current;
-    return {
-      x: Math.max(8, Math.min(window.innerWidth  - w - 8, x)),
-      y: Math.max(8, Math.min(window.innerHeight - h - 8, y)),
+    const baseWidth = containerRef.current?.offsetWidth ?? 180;
+    const baseHeight = containerRef.current?.offsetHeight ?? 48;
+    const currentScale = scaleRef.current;
+
+    // The FAB scales around its bottom-right corner. Keep the calculations in
+    // sync with the transformed visual rectangle, not only the CSS left/top.
+    const getVisualRect = (candidateX: number, candidateY: number) => ({
+      left: candidateX - baseWidth * (currentScale - 1),
+      top: candidateY - baseHeight * (currentScale - 1),
+      right: candidateX + baseWidth * currentScale,
+      bottom: candidateY + baseHeight * currentScale,
+    });
+
+    const clampToViewport = (candidateX: number, candidateY: number) => ({
+      x: Math.max(
+        8 + baseWidth * (currentScale - 1),
+        Math.min(window.innerWidth - baseWidth * currentScale - 8, candidateX)
+      ),
+      y: Math.max(
+        8 + baseHeight * (currentScale - 1),
+        Math.min(window.innerHeight - baseHeight * currentScale - 8, candidateY)
+      ),
+    });
+
+    const viewportPosition = clampToViewport(x, y);
+    const voiceTrigger = document.querySelector<HTMLElement>(VOICE_TRIGGER_SELECTOR);
+    if (!voiceTrigger) return viewportPosition;
+
+    const voiceRect = voiceTrigger.getBoundingClientRect();
+    const overlapsVoiceButton = (candidate: { x: number; y: number }) => {
+      const rect = getVisualRect(candidate.x, candidate.y);
+      return (
+        rect.right + FLOATING_ACTION_GAP > voiceRect.left &&
+        rect.left - FLOATING_ACTION_GAP < voiceRect.right &&
+        rect.bottom + FLOATING_ACTION_GAP > voiceRect.top &&
+        rect.top - FLOATING_ACTION_GAP < voiceRect.bottom
+      );
     };
+
+    if (!overlapsVoiceButton(viewportPosition)) return viewportPosition;
+
+    // Prefer keeping the manual action in the same bottom row, immediately
+    // left of the voice action. If that space is unavailable, try above it.
+    const alternatives = [
+      clampToViewport(
+        voiceRect.left - FLOATING_ACTION_GAP - baseWidth * currentScale,
+        viewportPosition.y
+      ),
+      clampToViewport(
+        viewportPosition.x,
+        voiceRect.top - FLOATING_ACTION_GAP - baseHeight * currentScale
+      ),
+      clampToViewport(
+        viewportPosition.x,
+        voiceRect.bottom + FLOATING_ACTION_GAP + baseHeight * (currentScale - 1)
+      ),
+    ];
+
+    return alternatives.find(candidate => !overlapsVoiceButton(candidate))
+      || alternatives[0];
   }, []);
+
+  // After mount (and on resize): clamp position to the viewport and keep the
+  // manual appointment action clear of the fixed voice action. This also
+  // repairs positions saved by an older layout on the current device.
+  useEffect(() => {
+    const recalc = () => {
+      setPos(prev => clamp(prev.x, prev.y));
+    };
+    // Small delay lets the browser paint both floating actions first.
+    const t = setTimeout(recalc, 120);
+    window.addEventListener('resize', recalc);
+    return () => { clearTimeout(t); window.removeEventListener('resize', recalc); };
+  }, [clamp]);
 
   // --- Pointer events for drag ---
 
