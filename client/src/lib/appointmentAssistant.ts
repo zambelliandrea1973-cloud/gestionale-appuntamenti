@@ -164,6 +164,19 @@ export function findAssistantService(
   return services.find(service => normalizeAssistantName(service.name) === target);
 }
 
+export function findAssistantServicePrefixMatches(
+  services: AssistantService[],
+  requestedName: string
+): AssistantService[] {
+  const target = normalizeAssistantName(requestedName);
+  if (!target) return [];
+
+  const matches = services.filter(service =>
+    normalizeAssistantName(service.name).startsWith(`${target} `)
+  );
+  return matches.length > 1 ? matches : [];
+}
+
 function levenshteinDistance(left: string, right: string): number {
   const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
 
@@ -233,6 +246,21 @@ export function findAssistantServiceSuggestion(
 
   const best = ranked[0];
   if (!best) return undefined;
+
+  const requestedTokens = normalizeAssistantName(requestedName).split(' ').filter(Boolean);
+  const bestTokens = normalizeAssistantName(best.service.name).split(' ').filter(Boolean);
+  if (
+    requestedTokens.length > 1 &&
+    bestTokens.length > 1 &&
+    requestedTokens[0] === bestTokens[0]
+  ) {
+    const qualifierSimilarity = Math.max(
+      ...requestedTokens.slice(1).flatMap(requestedToken =>
+        bestTokens.slice(1).map(serviceToken => stringSimilarity(requestedToken, serviceToken))
+      )
+    );
+    if (qualifierSimilarity < 0.58) return undefined;
+  }
 
   // Clear spelling/transcription matches can be suggested directly. For
   // looser phonetic cases (for example "biorisonanza" vs "bio bicom"), only

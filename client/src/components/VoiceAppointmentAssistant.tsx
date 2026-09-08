@@ -21,6 +21,7 @@ import {
   detectAssistantConfirmation,
   findAssistantClient,
   findAssistantService,
+  findAssistantServicePrefixMatches,
   findAssistantServiceSuggestion,
   getAssistantGreetingName,
   normalizeAssistantName,
@@ -29,7 +30,7 @@ import {
   type AssistantService
 } from '@/lib/appointmentAssistant';
 
-type PendingQuestion = 'create_client' | 'suggest_service' | 'create_service' | 'confirm_appointment' | null;
+type PendingQuestion = 'create_client' | 'suggest_service' | 'choose_service' | 'create_service' | 'confirm_appointment' | null;
 
 interface AssistantDraft {
   clientName?: string | null;
@@ -132,6 +133,7 @@ export default function VoiceAppointmentAssistant({
   const [isSaving, setIsSaving] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [servicePickerOpen, setServicePickerOpen] = useState(false);
+  const [servicePickerOptions, setServicePickerOptions] = useState<AssistantService[]>([]);
   const [autoListenSignal, setAutoListenSignal] = useState(0);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
@@ -276,6 +278,18 @@ export default function VoiceAppointmentAssistant({
       nextDraft.serviceName = existingService.name;
       nextDraft.durationMinutes = existingService.duration || 60;
     } else if (!nextDraft.createServiceApproved) {
+      const prefixMatches = findAssistantServicePrefixMatches(services, nextDraft.serviceName);
+      if (prefixMatches.length > 1) {
+        setPendingQuestion('choose_service');
+        setServicePickerOptions(prefixMatches);
+        setServicePickerOpen(true);
+        addAssistantMessage(
+          t('voiceAppointmentAssistant.serviceFamilyPrompt', { name: nextDraft.serviceName }),
+          { autoListen: true }
+        );
+        return nextDraft;
+      }
+
       const suggestion = findAssistantServiceSuggestion(services, nextDraft.serviceName);
       if (suggestion) {
         setPendingQuestion('suggest_service');
@@ -288,6 +302,7 @@ export default function VoiceAppointmentAssistant({
         );
       } else {
         setPendingQuestion('create_service');
+        setServicePickerOptions(services);
         setServicePickerOpen(true);
         addAssistantMessage(
           t('voiceAppointmentAssistant.servicePickerPrompt', { name: nextDraft.serviceName }),
@@ -516,6 +531,51 @@ export default function VoiceAppointmentAssistant({
         }
       }
 
+      if (pendingQuestion === 'choose_service') {
+        const exactService = findAssistantService(services, nextDraft.serviceName || '');
+        const normalizedAnswer = normalizeAssistantName(userMessage);
+        const requestedOtherService =
+          confirmation === 'no' ||
+          ['altro', 'altra', 'other', 'another'].includes(normalizedAnswer);
+
+        if (exactService) {
+          nextDraft.serviceId = exactService.id;
+          nextDraft.serviceName = exactService.name;
+          nextDraft.durationMinutes = exactService.duration || 60;
+          nextDraft.createServiceApproved = false;
+          setServicePickerOpen(false);
+          setPendingQuestion(null);
+        } else if (requestedOtherService) {
+          nextDraft.serviceId = null;
+          nextDraft.serviceName = null;
+          nextDraft.durationMinutes = null;
+          nextDraft.createServiceApproved = false;
+          setServicePickerOpen(false);
+          setPendingQuestion(null);
+          setDraft(nextDraft);
+          addAssistantMessage(t('voiceAppointmentAssistant.askOtherService'), { autoListen: true });
+          return;
+        } else if (nextDraft.serviceName && nextDraft.serviceName !== draft.serviceName) {
+          nextDraft.serviceId = null;
+          nextDraft.createServiceApproved = false;
+          setServicePickerOpen(false);
+          setPendingQuestion('create_service');
+          setDraft(nextDraft);
+          addAssistantMessage(
+            t('voiceAppointmentAssistant.serviceNotFound', { name: nextDraft.serviceName }),
+            { autoListen: true }
+          );
+          return;
+        } else {
+          setDraft(nextDraft);
+          addAssistantMessage(
+            t('voiceAppointmentAssistant.chooseListedService', { name: draft.serviceName }),
+            { autoListen: true }
+          );
+          return;
+        }
+      }
+
       if (pendingQuestion === 'create_service') {
         const requestedAnotherService = Boolean(
           nextDraft.serviceName &&
@@ -674,6 +734,7 @@ export default function VoiceAppointmentAssistant({
     setDraft({});
     setPendingQuestion(null);
     setServicePickerOpen(false);
+    setServicePickerOptions([]);
     setInput('');
   };
 
@@ -686,6 +747,7 @@ export default function VoiceAppointmentAssistant({
       autoListenRequestedRef.current = false;
       dragStateRef.current = null;
       setServicePickerOpen(false);
+      setServicePickerOptions([]);
       recognitionRef.current?.stop?.();
       window.speechSynthesis?.cancel();
       setIsListening(false);
@@ -852,14 +914,18 @@ export default function VoiceAppointmentAssistant({
               {t('voiceAppointmentAssistant.servicePickerTitle')}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {t('voiceAppointmentAssistant.servicePickerDescription', {
-                name: draft.serviceName
-              })}
+              {pendingQuestion === 'choose_service'
+                ? t('voiceAppointmentAssistant.serviceFamilyDescription', {
+                    name: draft.serviceName
+                  })
+                : t('voiceAppointmentAssistant.servicePickerDescription', {
+                    name: draft.serviceName
+                  })}
             </AlertDialogDescription>
           </AlertDialogHeader>
 
           <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
-            {services
+            {servicePickerOptions
               .slice()
               .sort((left, right) => left.name.localeCompare(right.name))
               .map(service => (
