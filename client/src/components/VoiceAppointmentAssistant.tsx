@@ -186,7 +186,7 @@ export default function VoiceAppointmentAssistant({
     ) || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
       || matchingVoices[0]
       || null;
-    utterance.rate = 1.06;
+    utterance.rate = 1.11;
     utterance.pitch = 1;
     if (onComplete) {
       let completed = false;
@@ -442,8 +442,7 @@ export default function VoiceAppointmentAssistant({
         notes: readyDraft.notes || '',
       };
 
-      setPendingQuestion(null);
-      setDraft({});
+      resetConversation();
       setOpen(false);
       if (window.location.pathname === '/calendar') {
         window.dispatchEvent(new CustomEvent(VOICE_APPOINTMENT_DRAFT_EVENT, { detail: formDraft }));
@@ -832,6 +831,7 @@ export default function VoiceAppointmentAssistant({
     setServicePickerOpen(false);
     setServicePickerOptions([]);
     setInput('');
+    setIsListening(false);
   };
 
   const handleOpenChange = (nextOpen: boolean) => {
