@@ -294,24 +294,23 @@ export default function VoiceAppointmentAssistant({
       return nextDraft;
     }
 
+    const prefixMatches = findAssistantServicePrefixMatches(services, nextDraft.serviceName);
     const existingService = findAssistantService(services, nextDraft.serviceName);
+    if (prefixMatches.length > 1 && !nextDraft.serviceId) {
+      setPendingQuestion('choose_service');
+      setServicePickerOptions(prefixMatches);
+      setServicePickerOpen(true);
+      addAssistantMessage(
+        t('voiceAppointmentAssistant.serviceFamilyPrompt', { name: nextDraft.serviceName }),
+        { autoListen: false }
+      );
+      return nextDraft;
+    }
     if (existingService) {
       nextDraft.serviceId = existingService.id;
       nextDraft.serviceName = existingService.name;
       nextDraft.durationMinutes = existingService.duration || 60;
     } else if (!nextDraft.createServiceApproved) {
-      const prefixMatches = findAssistantServicePrefixMatches(services, nextDraft.serviceName);
-      if (prefixMatches.length > 1) {
-        setPendingQuestion('choose_service');
-        setServicePickerOptions(prefixMatches);
-        setServicePickerOpen(true);
-        addAssistantMessage(
-          t('voiceAppointmentAssistant.serviceFamilyPrompt', { name: nextDraft.serviceName }),
-          { autoListen: true }
-        );
-        return nextDraft;
-      }
-
       const suggestion = findAssistantServiceSuggestion(services, nextDraft.serviceName);
       if (suggestion) {
         setPendingQuestion('suggest_service');
@@ -498,6 +497,15 @@ export default function VoiceAppointmentAssistant({
         language: i18n.resolvedLanguage || i18n.language
       });
       const interpretation = await response.json() as Interpretation;
+      if (
+        !interpretation.serviceName &&
+        !draft.serviceName &&
+        draft.clientName &&
+        draft.date &&
+        draft.startTime
+      ) {
+        interpretation.serviceName = userMessage;
+      }
       const detectedConfirmation = detectAssistantConfirmation(
         userMessage,
         i18n.resolvedLanguage || i18n.language
@@ -782,6 +790,26 @@ export default function VoiceAppointmentAssistant({
     addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'), { autoListen: true });
   };
 
+  const selectServiceFromPicker = (service: AssistantService) => {
+    recognitionRef.current?.stop?.();
+    window.speechSynthesis?.cancel();
+    setIsListening(false);
+    setServicePickerOpen(false);
+    setServicePickerOptions([]);
+    setPendingQuestion(null);
+
+    const nextDraft: AssistantDraft = {
+      ...draft,
+      serviceId: service.id,
+      serviceName: service.name,
+      durationMinutes: service.duration || 60,
+      servicePrice: null,
+      createServiceApproved: false
+    };
+    const completedDraft = askNextQuestion(nextDraft);
+    setDraft({ ...completedDraft });
+  };
+
   const handleDialogDragStart = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
     dragStateRef.current = {
@@ -1019,15 +1047,17 @@ export default function VoiceAppointmentAssistant({
               .slice()
               .sort((left, right) => left.name.localeCompare(right.name))
               .map(service => (
-                <div
+                <button
+                  type="button"
                   key={service.id}
-                  className="flex w-full justify-between gap-3 rounded-md border px-4 py-3"
+                  onClick={() => selectServiceFromPicker(service)}
+                  className="flex w-full justify-between gap-3 rounded-md border px-4 py-3 text-left transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span className="font-medium">{service.name}</span>
                   <span className="shrink-0 text-xs text-muted-foreground">
                     {service.duration || 60} min
                   </span>
-                </div>
+                </button>
               ))}
           </div>
 

@@ -216,6 +216,7 @@ export function findAssistantServicePrefixMatches(
   if (!target) return [];
 
   const matches = services.filter(service =>
+    normalizeAssistantName(service.name) === target ||
     normalizeAssistantName(service.name).startsWith(`${target} `)
   );
   return matches.length > 1 ? matches : [];
