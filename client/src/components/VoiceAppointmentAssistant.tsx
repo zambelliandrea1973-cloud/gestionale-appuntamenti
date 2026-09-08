@@ -178,6 +178,8 @@ export default function VoiceAppointmentAssistant({
       voice.lang.toLowerCase().startsWith(speechLocale.split('-')[0].toLowerCase())
     );
     utterance.voice = matchingVoices.find(voice =>
+      /^google italiano$/i.test(voice.name.trim())
+    ) || matchingVoices.find(voice =>
       /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
     ) || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
       || matchingVoices[0]
