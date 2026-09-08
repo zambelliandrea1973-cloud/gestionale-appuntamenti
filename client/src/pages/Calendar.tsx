@@ -16,8 +16,13 @@ import { getISOWeek } from "date-fns";
 import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
 import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
-import AppointmentForm from "@/components/AppointmentForm";
+import AppointmentModal from "@/components/AppointmentModal";
 import { SyncGoogleButton } from "@/components/SyncGoogleButton";
+import {
+  VOICE_APPOINTMENT_DRAFT_EVENT,
+  VOICE_APPOINTMENT_DRAFT_STORAGE_KEY,
+  type VoiceAppointmentFormDraft,
+} from "@/lib/voiceAppointmentDraft";
 
 const STORAGE_KEY_MODE = 'calendar-mode-v1';
 
@@ -30,6 +35,8 @@ export default function Calendar() {
   const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<"day" | "week" | "month">("day");
+  const [voiceDraft, setVoiceDraft] = useState<VoiceAppointmentFormDraft | null>(null);
+  const [isVoiceDraftModalOpen, setIsVoiceDraftModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [timezoneInfo, setTimezoneInfo] = useState<{
     timezone: string; offset: number; name: string;
@@ -40,6 +47,31 @@ export default function Calendar() {
   const [googleNeedsReauth, setGoogleNeedsReauth] = useState(false);
   const [googleNotConnected, setGoogleNotConnected] = useState(false);
   const [googleStatusChecked, setGoogleStatusChecked] = useState(false);
+
+  useEffect(() => {
+    const openVoiceDraft = (draft: VoiceAppointmentFormDraft) => {
+      const [year, month, day] = draft.date.split('-').map(Number);
+      setSelectedDate(new Date(year, month - 1, day));
+      setView('day');
+      setVoiceDraft(draft);
+      setIsVoiceDraftModalOpen(true);
+    };
+    const handleVoiceDraft = (event: Event) => {
+      openVoiceDraft((event as CustomEvent<VoiceAppointmentFormDraft>).detail);
+    };
+
+    window.addEventListener(VOICE_APPOINTMENT_DRAFT_EVENT, handleVoiceDraft);
+    const storedDraft = sessionStorage.getItem(VOICE_APPOINTMENT_DRAFT_STORAGE_KEY);
+    if (storedDraft) {
+      sessionStorage.removeItem(VOICE_APPOINTMENT_DRAFT_STORAGE_KEY);
+      try {
+        openVoiceDraft(JSON.parse(storedDraft));
+      } catch (error) {
+        console.error('[VOICE APPOINTMENT] Invalid stored draft:', error);
+      }
+    }
+    return () => window.removeEventListener(VOICE_APPOINTMENT_DRAFT_EVENT, handleVoiceDraft);
+  }, []);
 
   // ── Modalità calendario ────────────────────────────────────────────────────
   const [calendarMode, setCalendarMode] = useState<'global'|'filter'|'columns'>(() => {
@@ -680,6 +712,25 @@ export default function Calendar() {
             />
           )}
         </>
+      )}
+
+      {voiceDraft && (
+        <AppointmentModal
+          isOpen={isVoiceDraftModalOpen}
+          onClose={() => {
+            setIsVoiceDraftModalOpen(false);
+            setVoiceDraft(null);
+          }}
+          onSave={() => {
+            setIsVoiceDraftModalOpen(false);
+            setVoiceDraft(null);
+            handleAppointmentSaved();
+          }}
+          defaultDate={selectedDate}
+          defaultTime={voiceDraft.startTime}
+          selectedSlots={[]}
+          initialValues={voiceDraft}
+        />
       )}
     </div>
   );
