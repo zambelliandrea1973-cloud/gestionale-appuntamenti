@@ -208,8 +208,7 @@ export default function VoiceAppointmentAssistant({
     }
 
     autoListenRequestedRef.current = false;
-    const timeout = window.setTimeout(() => startListening(), 350);
-    return () => window.clearTimeout(timeout);
+    startListening();
   }, [open, isProcessing, isSaving, isCatalogLoading, isListening, autoListenSignal]);
 
   useEffect(() => {
@@ -363,12 +362,16 @@ export default function VoiceAppointmentAssistant({
       }
 
       const endTime = addMinutesToTime(readyDraft.startTime, readyDraft.durationMinutes);
+      const startTimeWithSeconds = readyDraft.startTime.length === 5
+        ? `${readyDraft.startTime}:00`
+        : readyDraft.startTime;
+      const endTimeWithSeconds = endTime.length === 5 ? `${endTime}:00` : endTime;
       await apiRequest('POST', '/api/appointments', {
         clientId,
         serviceId,
         date: readyDraft.date,
-        startTime: readyDraft.startTime,
-        endTime,
+        startTime: startTimeWithSeconds,
+        endTime: endTimeWithSeconds,
         notes: readyDraft.notes || '',
         status: 'scheduled'
       });
