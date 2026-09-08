@@ -13,6 +13,11 @@ import AppointmentModal from "./AppointmentModal";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { AppointmentWithDetails, Service, Client } from "../types/api";
 import { formatDateForApi, formatTime, calculateEndTime, addMinutes } from "@/lib/utils/date";
+import {
+  VOICE_APPOINTMENT_DRAFT_EVENT,
+  VOICE_APPOINTMENT_DRAFT_STORAGE_KEY,
+  type VoiceAppointmentFormDraft,
+} from "@/lib/voiceAppointmentDraft";
 
 interface DayViewWithTimeSlotsProps {
   selectedDate: Date;
@@ -48,6 +53,12 @@ export default function DayViewWithTimeSlots({
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>("09:00");
+  const [voiceDraft, setVoiceDraft] = useState<VoiceAppointmentFormDraft | null>(null);
+  const appointmentDefaultDate = useMemo(() => {
+    if (!voiceDraft) return selectedDate;
+    const [year, month, day] = voiceDraft.date.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }, [voiceDraft, selectedDate]);
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
   const [selectedClient, setSelectedClient] = useState<{id: number, name: string} | null>(null);
   const [selectedService, setSelectedService] = useState<{id: number, name: string, duration: number} | null>(null);
@@ -398,6 +409,7 @@ export default function DayViewWithTimeSlots({
 
   // Click su slot → apre direttamente il form con quell'orario
   const handleSlotClick = (slotTime: string) => {
+    setVoiceDraft(null);
     setSelectedTime(slotTime);
     setSelectedAppointmentId(null);
     setIsAppointmentModalOpen(true);
@@ -407,14 +419,40 @@ export default function DayViewWithTimeSlots({
   const handleModalClose = () => {
     setIsAppointmentModalOpen(false);
     setSelectedAppointmentId(null);
+    setVoiceDraft(null);
   };
 
   // Gestisce il completamento dell'appuntamento
   const handleAppointmentSaved = () => {
     setIsAppointmentModalOpen(false);
     setSelectedAppointmentId(null);
+    setVoiceDraft(null);
     onAppointmentUpdated();
   };
+
+  useEffect(() => {
+    const openVoiceDraft = (draft: VoiceAppointmentFormDraft) => {
+      setVoiceDraft(draft);
+      setSelectedTime(draft.startTime);
+      setSelectedAppointmentId(null);
+      setIsAppointmentModalOpen(true);
+    };
+    const handleVoiceDraft = (event: Event) => {
+      openVoiceDraft((event as CustomEvent<VoiceAppointmentFormDraft>).detail);
+    };
+
+    window.addEventListener(VOICE_APPOINTMENT_DRAFT_EVENT, handleVoiceDraft);
+    const storedDraft = sessionStorage.getItem(VOICE_APPOINTMENT_DRAFT_STORAGE_KEY);
+    if (storedDraft) {
+      sessionStorage.removeItem(VOICE_APPOINTMENT_DRAFT_STORAGE_KEY);
+      try {
+        openVoiceDraft(JSON.parse(storedDraft));
+      } catch (error) {
+        console.error('[VOICE APPOINTMENT] Invalid stored draft:', error);
+      }
+    }
+    return () => window.removeEventListener(VOICE_APPOINTMENT_DRAFT_EVENT, handleVoiceDraft);
+  }, []);
 
   // Apre il modal per modificare un appuntamento esistente
   const editAppointment = (appointment: AppointmentWithDetails) => {
@@ -595,10 +633,11 @@ export default function DayViewWithTimeSlots({
           isOpen={isAppointmentModalOpen}
           onClose={() => { setIsAppointmentModalOpen(false); setSelectedAppointmentId(null); }}
           onSave={() => { setIsAppointmentModalOpen(false); setSelectedAppointmentId(null); onAppointmentUpdated(); }}
-          defaultDate={selectedDate}
+          defaultDate={appointmentDefaultDate}
           defaultTime="09:00"
           appointmentId={selectedAppointmentId}
           selectedSlots={[]}
+          initialValues={voiceDraft}
         />
 
         {showDeleteConfirm && (() => {
@@ -921,10 +960,11 @@ export default function DayViewWithTimeSlots({
         isOpen={isAppointmentModalOpen}
         onClose={handleModalClose}
         onSave={handleAppointmentSaved}
-        defaultDate={selectedDate}
+        defaultDate={appointmentDefaultDate}
         defaultTime={selectedTime}
         appointmentId={selectedAppointmentId}
         selectedSlots={[]}
+        initialValues={voiceDraft}
       />
       
       {/* Dialog di conferma eliminazione */}

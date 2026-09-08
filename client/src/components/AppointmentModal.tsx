@@ -6,6 +6,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { AppointmentWithDetails } from "@/types/api";
 import { parseTime, addMinutes, formatTime, formatDateForApi } from "@/lib/utils/date";
+import type { VoiceAppointmentFormDraft } from "@/lib/voiceAppointmentDraft";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface AppointmentModalProps {
   defaultTime: string;
   appointmentId?: number | null;
   selectedSlots?: string[];
+  initialValues?: VoiceAppointmentFormDraft | null;
 }
 
 // Usiamo la funzione formatDateForApi importata da utils/date.ts
@@ -26,7 +28,8 @@ export default function AppointmentModal({
   defaultDate,
   defaultTime,
   appointmentId,
-  selectedSlots = []
+  selectedSlots = [],
+  initialValues
 }: AppointmentModalProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
@@ -145,6 +148,7 @@ export default function AppointmentModal({
           defaultTime={defaultTime}
           appointmentId={appointmentId ?? undefined}
           selectedSlots={selectedSlots}
+          initialValues={initialValues}
         />
         
         {/* Aggiungiamo il pulsante di salvataggio diretto */}

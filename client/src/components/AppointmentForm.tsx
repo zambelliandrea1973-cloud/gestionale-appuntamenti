@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { getDateLocale } from "@/lib/utils/date";
+import type { VoiceAppointmentFormDraft } from "@/lib/voiceAppointmentDraft";
 import {
   Form,
   FormControl,
@@ -53,6 +54,7 @@ interface AppointmentFormProps {
   defaultTime?: string;
   clientId?: number;
   selectedSlots?: string[];
+  initialValues?: VoiceAppointmentFormDraft | null;
 }
 
 // Schema personalizzato per evitare limitazioni integer su timestamp ID
@@ -117,12 +119,13 @@ export default function AppointmentForm({
   defaultTime,
   clientId: defaultClientId,
   selectedSlots = [],
+  initialValues,
 }: AppointmentFormProps) {
   const { toast } = useToast();
   const [, navigate] = useLocation();
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
-  const [clientSearchTerm, setClientSearchTerm] = useState("");
-  const [serviceSearchTerm, setServiceSearchTerm] = useState("");
+  const [clientSearchTerm, setClientSearchTerm] = useState(initialValues?.clientName || "");
+  const [serviceSearchTerm, setServiceSearchTerm] = useState(initialValues?.serviceName || "");
   const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false);
   const [quickClientLastName, setQuickClientLastName] = useState("");
   const [quickClientPhone, setQuickClientPhone] = useState("");
@@ -144,7 +147,9 @@ export default function AppointmentForm({
   const calendarDragRef = useRef({ active: false, startX: 0, startY: 0, originX: 0, originY: 0 });
   
   // Stato per la durata personalizzata dell'appuntamento (in minuti)
-  const [customDuration, setCustomDuration] = useState<number | null>(null);
+  const [customDuration, setCustomDuration] = useState<number | null>(
+    initialValues?.durationMinutes ?? null
+  );
   
   // Stati per gestire conflitti orari
   const [conflictDialogOpen, setConflictDialogOpen] = useState(false);
@@ -212,12 +217,12 @@ export default function AppointmentForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       clientId: defaultClientId || 0,
-      serviceId: 0,
+      serviceId: initialValues?.serviceId ?? 0,
       staffId: undefined,
       roomId: undefined,
       date: defaultDate || new Date(),
       startTime: defaultTime || "09:00",
-      notes: "",
+      notes: initialValues?.notes || "",
       reminderType: "whatsapp" // Imposta solo WhatsApp come valore predefinito
     }
   });
@@ -276,6 +281,17 @@ export default function AppointmentForm({
       form.setValue("clientId", defaultClientId);
     }
   }, [defaultClientId]);
+
+  useEffect(() => {
+    if (!initialValues || appointmentId) return;
+    form.setValue("clientId", initialValues.clientId);
+    form.setValue("serviceId", initialValues.serviceId ?? 0);
+    form.setValue("startTime", initialValues.startTime);
+    form.setValue("notes", initialValues.notes || "");
+    setClientSearchTerm(initialValues.clientName);
+    setServiceSearchTerm(initialValues.serviceName);
+    setCustomDuration(initialValues.durationMinutes);
+  }, [initialValues, appointmentId, form]);
 
   // Track selected client for warnings - use useWatch for reliability
   const watchedClientId = useWatch({ control: form.control, name: "clientId" });

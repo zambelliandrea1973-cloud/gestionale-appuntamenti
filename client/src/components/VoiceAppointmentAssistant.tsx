@@ -30,6 +30,11 @@ import {
   type AssistantClient,
   type AssistantService
 } from '@/lib/appointmentAssistant';
+import {
+  VOICE_APPOINTMENT_DRAFT_EVENT,
+  VOICE_APPOINTMENT_DRAFT_STORAGE_KEY,
+  type VoiceAppointmentFormDraft,
+} from '@/lib/voiceAppointmentDraft';
 
 type PendingQuestion = 'suggest_client' | 'create_client' | 'suggest_service' | 'choose_service' | 'create_service' | 'confirm_appointment' | null;
 
@@ -381,7 +386,7 @@ export default function VoiceAppointmentAssistant({
     return nextDraft;
   };
 
-  const saveAppointment = async (readyDraft: AssistantDraft) => {
+  const openManualAppointmentForm = async (readyDraft: AssistantDraft) => {
     if (
       !readyDraft.clientName ||
       !readyDraft.serviceName ||
@@ -411,15 +416,12 @@ export default function VoiceAppointmentAssistant({
         const createdClient = await response.json();
         clientId = createdClient.id;
       }
+      if (!clientId) {
+        throw new Error(t('voiceAppointmentAssistant.unauthorizedClient'));
+      }
 
       const existingService = findAssistantService(services, readyDraft.serviceName);
-      const serviceId = readyDraft.serviceId || existingService?.id || null;
-      let newService: {
-        name: string;
-        duration: number;
-        price: number;
-        color: string;
-      } | undefined;
+      let serviceId = readyDraft.serviceId || existingService?.id || null;
       if (!serviceId) {
         if (!readyDraft.createServiceApproved) {
           throw new Error(t('voiceAppointmentAssistant.unauthorizedService'));
@@ -427,42 +429,44 @@ export default function VoiceAppointmentAssistant({
         if (readyDraft.servicePrice === null || readyDraft.servicePrice === undefined) {
           throw new Error(t('voiceAppointmentAssistant.missingServicePrice'));
         }
-        newService = {
+        const response = await apiRequest('POST', '/api/services', {
           name: readyDraft.serviceName,
           duration: readyDraft.durationMinutes,
           price: readyDraft.servicePrice,
           color: '#7c3aed'
-        };
+        });
+        const createdService = await response.json();
+        serviceId = createdService.id;
       }
-
-      const endTime = addMinutesToTime(readyDraft.startTime, readyDraft.durationMinutes);
-      const startTimeWithSeconds = readyDraft.startTime.length === 5
-        ? `${readyDraft.startTime}:00`
-        : readyDraft.startTime;
-      const endTimeWithSeconds = endTime.length === 5 ? `${endTime}:00` : endTime;
-      await apiRequest('POST', '/api/appointments', {
-        clientId,
-        serviceId,
-        newService,
-        date: readyDraft.date,
-        startTime: startTimeWithSeconds,
-        endTime: endTimeWithSeconds,
-        notes: readyDraft.notes || '',
-        status: 'scheduled'
-      });
+      if (!serviceId) {
+        throw new Error(t('voiceAppointmentAssistant.unauthorizedService'));
+      }
 
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['/api/clients'] }),
         queryClient.invalidateQueries({ queryKey: ['/api/services'] }),
-        queryClient.invalidateQueries({ queryKey: ['/api/appointments'] }),
-        queryClient.invalidateQueries({
-          predicate: query => String(query.queryKey[0]).startsWith('/api/appointments/')
-        })
       ]);
+
+      const formDraft: VoiceAppointmentFormDraft = {
+        clientId,
+        serviceId,
+        clientName: readyDraft.clientName,
+        serviceName: readyDraft.serviceName,
+        date: readyDraft.date,
+        startTime: readyDraft.startTime.substring(0, 5),
+        durationMinutes: readyDraft.durationMinutes,
+        notes: readyDraft.notes || '',
+      };
 
       setPendingQuestion(null);
       setDraft({});
-      addAssistantMessage(t('voiceAppointmentAssistant.created'));
+      setOpen(false);
+      if (window.location.pathname === '/calendar') {
+        window.dispatchEvent(new CustomEvent(VOICE_APPOINTMENT_DRAFT_EVENT, { detail: formDraft }));
+      } else {
+        sessionStorage.setItem(VOICE_APPOINTMENT_DRAFT_STORAGE_KEY, JSON.stringify(formDraft));
+        window.location.assign('/calendar');
+      }
     } catch (error) {
       console.error('[AI APPOINTMENT ASSISTANT] Appointment creation error:', error);
       addAssistantMessage(t('voiceAppointmentAssistant.creationError'));
@@ -699,7 +703,7 @@ export default function VoiceAppointmentAssistant({
       if (pendingQuestion === 'confirm_appointment') {
         if (confirmation === 'yes') {
           setDraft(nextDraft);
-          await saveAppointment(nextDraft);
+          await openManualAppointmentForm(nextDraft);
           return;
         }
         if (confirmation === 'no') {
@@ -941,7 +945,7 @@ export default function VoiceAppointmentAssistant({
               <Button
                 type="button"
                 className="mb-2 w-full gap-2 bg-emerald-600 hover:bg-emerald-700"
-                onClick={() => saveAppointment(draft)}
+                onClick={() => openManualAppointmentForm(draft)}
                 disabled={isProcessing || isSaving || isCatalogLoading}
                 data-testid="button-confirm-ai-appointment"
               >
