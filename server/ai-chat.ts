@@ -347,6 +347,7 @@ export interface AppointmentAssistantDraft {
   startTime?: string | null;
   serviceName?: string | null;
   durationMinutes?: number | null;
+  servicePrice?: number | null;
   notes?: string | null;
 }
 
@@ -395,6 +396,8 @@ Interpreta date relative come "oggi", "domani", giorni della settimana e orari n
 Il trattamento corrisponde al nome del servizio. Se il professionista corregge
 un nome di trattamento o rifiuta una proposta per indicarne un altro, usa il
 nuovo nome comunicato nel campo serviceName.
+servicePrice è il costo in euro del trattamento e deve essere valorizzato solo
+quando il professionista comunica esplicitamente un prezzo.
 Non inventare dati assenti. Conserva i dati esistenti salvo correzioni esplicite.
 
 Dati già raccolti:
@@ -410,6 +413,7 @@ Formato obbligatorio:
   "startTime": "HH:mm" | null,
   "serviceName": string | null,
   "durationMinutes": number | null,
+  "servicePrice": number | null,
   "notes": string | null,
   "confirmation": "yes" | "no" | "unknown"
 }
@@ -428,12 +432,19 @@ Se il professionista comunica informazioni ulteriori da salvare nell'appuntament
 
     const parsed = JSON.parse(jsonMatch[0]);
     const duration = Number(parsed.durationMinutes);
+    const servicePrice = Number(parsed.servicePrice);
     return {
       clientName: typeof parsed.clientName === 'string' ? parsed.clientName.trim() : null,
       date: typeof parsed.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.date) ? parsed.date : null,
       startTime: typeof parsed.startTime === 'string' && /^\d{2}:\d{2}$/.test(parsed.startTime) ? parsed.startTime : null,
       serviceName: typeof parsed.serviceName === 'string' ? parsed.serviceName.trim() : null,
       durationMinutes: Number.isFinite(duration) && duration > 0 && duration <= 1440 ? Math.round(duration) : null,
+      servicePrice: parsed.servicePrice !== null &&
+        parsed.servicePrice !== undefined &&
+        Number.isFinite(servicePrice) &&
+        servicePrice >= 0
+        ? Math.round(servicePrice * 100) / 100
+        : null,
       notes: typeof parsed.notes === 'string' ? parsed.notes.trim() : null,
       confirmation: parsed.confirmation === 'yes' || parsed.confirmation === 'no'
         ? parsed.confirmation

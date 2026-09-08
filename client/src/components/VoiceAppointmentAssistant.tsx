@@ -41,6 +41,7 @@ interface AssistantDraft {
   serviceName?: string | null;
   serviceId?: number | null;
   durationMinutes?: number | null;
+  servicePrice?: number | null;
   notes?: string | null;
   createClientApproved?: boolean;
   createServiceApproved?: boolean;
@@ -52,6 +53,7 @@ interface Interpretation {
   startTime?: string | null;
   serviceName?: string | null;
   durationMinutes?: number | null;
+  servicePrice?: number | null;
   notes?: string | null;
   confirmation: 'yes' | 'no' | 'unknown';
 }
@@ -91,6 +93,7 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
     'startTime',
     'serviceName',
     'durationMinutes',
+    'servicePrice',
     'notes'
   ];
 
@@ -115,6 +118,7 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
     merged.serviceId = null;
     merged.createServiceApproved = false;
     if (!interpretation.durationMinutes) merged.durationMinutes = null;
+    merged.servicePrice = null;
   }
 
   return merged;
@@ -334,6 +338,18 @@ export default function VoiceAppointmentAssistant({
       return nextDraft;
     }
 
+    if (
+      nextDraft.createServiceApproved &&
+      (nextDraft.servicePrice === null || nextDraft.servicePrice === undefined)
+    ) {
+      setPendingQuestion(null);
+      addAssistantMessage(
+        t('voiceAppointmentAssistant.askServicePrice', { name: nextDraft.serviceName }),
+        { autoListen: true }
+      );
+      return nextDraft;
+    }
+
     const date = new Date(`${nextDraft.date}T12:00:00`);
     const readableDate = Number.isNaN(date.getTime())
       ? nextDraft.date
@@ -355,6 +371,9 @@ export default function VoiceAppointmentAssistant({
         time: nextDraft.startTime,
         service: nextDraft.serviceName,
         duration: nextDraft.durationMinutes,
+        price: nextDraft.createServiceApproved
+          ? t('voiceAppointmentAssistant.summaryPrice', { price: nextDraft.servicePrice })
+          : '',
         notes: notesText
       }),
       { autoListen: true }
@@ -394,19 +413,26 @@ export default function VoiceAppointmentAssistant({
       }
 
       const existingService = findAssistantService(services, readyDraft.serviceName);
-      let serviceId = readyDraft.serviceId || existingService?.id || null;
+      const serviceId = readyDraft.serviceId || existingService?.id || null;
+      let newService: {
+        name: string;
+        duration: number;
+        price: number;
+        color: string;
+      } | undefined;
       if (!serviceId) {
         if (!readyDraft.createServiceApproved) {
           throw new Error(t('voiceAppointmentAssistant.unauthorizedService'));
         }
-        const response = await apiRequest('POST', '/api/services', {
+        if (readyDraft.servicePrice === null || readyDraft.servicePrice === undefined) {
+          throw new Error(t('voiceAppointmentAssistant.missingServicePrice'));
+        }
+        newService = {
           name: readyDraft.serviceName,
           duration: readyDraft.durationMinutes,
-          price: 0,
+          price: readyDraft.servicePrice,
           color: '#7c3aed'
-        });
-        const createdService = await response.json();
-        serviceId = createdService.id;
+        };
       }
 
       const endTime = addMinutesToTime(readyDraft.startTime, readyDraft.durationMinutes);
@@ -417,6 +443,7 @@ export default function VoiceAppointmentAssistant({
       await apiRequest('POST', '/api/appointments', {
         clientId,
         serviceId,
+        newService,
         date: readyDraft.date,
         startTime: startTimeWithSeconds,
         endTime: endTimeWithSeconds,
@@ -461,6 +488,7 @@ export default function VoiceAppointmentAssistant({
           startTime: draft.startTime,
           serviceName: draft.serviceName,
           durationMinutes: draft.durationMinutes,
+          servicePrice: draft.servicePrice,
           notes: draft.notes
         },
         language: i18n.resolvedLanguage || i18n.language
@@ -744,6 +772,7 @@ export default function VoiceAppointmentAssistant({
       serviceId: null,
       serviceName: null,
       durationMinutes: null,
+      servicePrice: null,
       createServiceApproved: false
     }));
     addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'), { autoListen: true });

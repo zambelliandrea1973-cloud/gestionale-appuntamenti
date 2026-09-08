@@ -205,7 +205,7 @@ router.post("/api/appointments", async (req, res) => {
         logger.debug(`⏰ [REMINDER] Calculated reminder_time: ${reminderTime.toISOString()} (24h before ${appointmentDateTime.toISOString()})`);
       }
       
-      const appointmentData = {
+      const appointmentData: any = {
         userId: user.id,
         clientId: req.body.clientId,
         serviceId: req.body.serviceId,
@@ -221,8 +221,43 @@ router.post("/api/appointments", async (req, res) => {
         reminderStatus: "pending",
         status: req.body.status || "scheduled"
       };
+
+      let createdServiceId: number | null = null;
       
       const newAppointment = await db.transaction(async (tx) => {
+        if (!appointmentData.serviceId && req.body.newService) {
+          const requestedService = req.body.newService;
+          const serviceName = typeof requestedService.name === 'string'
+            ? requestedService.name.trim()
+            : '';
+          const duration = Number(requestedService.duration);
+          const price = Number(requestedService.price);
+          if (
+            !serviceName ||
+            !Number.isFinite(duration) ||
+            duration <= 0 ||
+            duration > 1440 ||
+            !Number.isFinite(price) ||
+            price < 0
+          ) {
+            throw new Error('INVALID_NEW_SERVICE');
+          }
+
+          const [createdService] = await tx.insert(services).values({
+            userId: user.id,
+            name: serviceName,
+            duration: Math.round(duration),
+            price: Math.round(price),
+            color: requestedService.color || '#7c3aed'
+          }).returning({ id: services.id });
+          appointmentData.serviceId = createdService.id;
+          createdServiceId = createdService.id;
+        }
+
+        if (!appointmentData.serviceId) {
+          throw new Error('SERVICE_REQUIRED');
+        }
+
         if (appointmentData.date && appointmentData.startTime && appointmentData.endTime) {
           const timeOverlap = [
             eq(appointments.userId, user.id),
@@ -263,6 +298,12 @@ router.post("/api/appointments", async (req, res) => {
       });
       
       logger.debug(`✅ [PostgreSQL] Appointment ${newAppointment.id} created with staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}, packagePurchaseId: ${newAppointment.packagePurchaseId}, reminderTime: ${reminderTime?.toISOString() || 'null'}`);
+
+      if (createdServiceId) {
+        recordMilestone(user.id, 'first_service_created')
+          .then(isNew => { if (isNew) checkAndRecordProfessionalActivated(user.id); })
+          .catch(() => {});
+      }
       
       // 🔄 GOOGLE CALENDAR SYNC: Automatically export to Google if enabled
       try {
@@ -398,6 +439,12 @@ router.post("/api/appointments", async (req, res) => {
       if (error?.message?.startsWith('CONFLICT:')) {
         console.warn(`⚠️ [/api/appointments] Time conflict: ${error.message}`);
         return res.status(409).json({ message: error.message.replace('CONFLICT: ', '') });
+      }
+      if (error?.message === 'INVALID_NEW_SERVICE') {
+        return res.status(400).json({ message: 'Invalid new service data' });
+      }
+      if (error?.message === 'SERVICE_REQUIRED') {
+        return res.status(400).json({ message: 'Service is required' });
       }
       console.error(`❌ [/api/appointments] Error creating appointment:`, error);
       res.status(500).json({ message: "Internal server error" });
