@@ -6547,3 +6547,6 @@
     "startListening": "Start listening"
   }
 }
+    "servicePickerPrompt": "I couldn't find the treatment {{name}}. Look at the available services and say the name you want to use, or say create new service.",
+    "servicePickerTitle": "Choose a treatment",
+    "servicePickerDescription": "“{{name}}” is not in the list. Choose by voice: say one of the treatments shown or say “create new service”.",

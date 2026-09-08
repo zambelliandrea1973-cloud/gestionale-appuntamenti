@@ -6547,3 +6547,6 @@
     "startListening": "Luisteren starten"
   }
 }
+    "servicePickerPrompt": "Ik kon de behandeling {{name}} niet vinden. Bekijk de beschikbare diensten en spreek de gewenste naam uit, of zeg ‘nieuwe dienst maken’.",
+    "servicePickerTitle": "Kies een behandeling",
+    "servicePickerDescription": "‘{{name}}’ staat niet in de lijst. Kies met je stem: noem een getoonde behandeling of zeg ‘nieuwe dienst maken’.",

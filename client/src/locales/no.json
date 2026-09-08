@@ -6547,3 +6547,6 @@
     "startListening": "Start lytting"
   }
 }
+    "servicePickerPrompt": "Jeg fant ikke behandlingen {{name}}. Se på de tilgjengelige tjenestene og si navnet du vil bruke, eller si «opprett ny tjeneste».",
+    "servicePickerTitle": "Velg en behandling",
+    "servicePickerDescription": "«{{name}}» finnes ikke i listen. Velg med stemmen: si en av behandlingene som vises, eller «opprett ny tjeneste».",

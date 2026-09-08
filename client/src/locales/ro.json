@@ -6547,3 +6547,6 @@
     "startListening": "Pornește ascultarea"
   }
 }
+    "servicePickerPrompt": "Nu am găsit tratamentul {{name}}. Privește serviciile disponibile și rostește numele dorit sau spune „creează serviciu nou”.",
+    "servicePickerTitle": "Alege un tratament",
+    "servicePickerDescription": "„{{name}}” nu este în listă. Alegerea este vocală: rostește un tratament afișat sau spune „creează serviciu nou”.",

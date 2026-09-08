@@ -3,6 +3,15 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Bot, CalendarPlus, GripHorizontal, Loader2, Mic, MicOff, Send, Sparkles, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -122,6 +131,7 @@ export default function VoiceAppointmentAssistant({
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [servicePickerOpen, setServicePickerOpen] = useState(false);
   const [autoListenSignal, setAutoListenSignal] = useState(0);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
@@ -278,8 +288,9 @@ export default function VoiceAppointmentAssistant({
         );
       } else {
         setPendingQuestion('create_service');
+        setServicePickerOpen(true);
         addAssistantMessage(
-          t('voiceAppointmentAssistant.serviceNotFound', { name: nextDraft.serviceName }),
+          t('voiceAppointmentAssistant.servicePickerPrompt', { name: nextDraft.serviceName }),
           { autoListen: true }
         );
       }
@@ -510,21 +521,25 @@ export default function VoiceAppointmentAssistant({
           nextDraft.serviceName &&
           nextDraft.serviceName !== draft.serviceName
         );
-        if (requestedAnotherService) {
+        if (confirmation === 'yes') {
+          nextDraft.serviceName = draft.serviceName;
+          nextDraft.serviceId = null;
+          nextDraft.createServiceApproved = true;
+          setServicePickerOpen(false);
+          setPendingQuestion(null);
+        } else if (requestedAnotherService) {
           nextDraft.serviceId = null;
           nextDraft.createServiceApproved = false;
+          setServicePickerOpen(false);
           setPendingQuestion(null);
           nextDraft = askNextQuestion(nextDraft);
           setDraft({ ...nextDraft });
           return;
-        }
-        if (confirmation === 'yes') {
-          nextDraft.createServiceApproved = true;
-          setPendingQuestion(null);
         } else if (confirmation === 'no') {
           nextDraft.serviceName = null;
           nextDraft.serviceId = null;
           nextDraft.createServiceApproved = false;
+          setServicePickerOpen(false);
           setDraft(nextDraft);
           setPendingQuestion(null);
           addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'), { autoListen: true });
@@ -604,6 +619,19 @@ export default function VoiceAppointmentAssistant({
     setIsListening(false);
   };
 
+  const cancelServicePicker = () => {
+    setServicePickerOpen(false);
+    setPendingQuestion(null);
+    setDraft(previous => ({
+      ...previous,
+      serviceId: null,
+      serviceName: null,
+      durationMinutes: null,
+      createServiceApproved: false
+    }));
+    addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'), { autoListen: true });
+  };
+
   const handleDialogDragStart = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
     dragStateRef.current = {
@@ -645,6 +673,7 @@ export default function VoiceAppointmentAssistant({
     setMessages([]);
     setDraft({});
     setPendingQuestion(null);
+    setServicePickerOpen(false);
     setInput('');
   };
 
@@ -656,6 +685,7 @@ export default function VoiceAppointmentAssistant({
     if (!nextOpen) {
       autoListenRequestedRef.current = false;
       dragStateRef.current = null;
+      setServicePickerOpen(false);
       recognitionRef.current?.stop?.();
       window.speechSynthesis?.cancel();
       setIsListening(false);
@@ -814,6 +844,51 @@ export default function VoiceAppointmentAssistant({
           </div>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={servicePickerOpen}>
+        <AlertDialogContent className="max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t('voiceAppointmentAssistant.servicePickerTitle')}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('voiceAppointmentAssistant.servicePickerDescription', {
+                name: draft.serviceName
+              })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
+            {services
+              .slice()
+              .sort((left, right) => left.name.localeCompare(right.name))
+              .map(service => (
+                <div
+                  key={service.id}
+                  className="flex w-full justify-between gap-3 rounded-md border px-4 py-3"
+                >
+                  <span className="font-medium">{service.name}</span>
+                  <span className="shrink-0 text-xs text-muted-foreground">
+                    {service.duration || 60} min
+                  </span>
+                </div>
+              ))}
+          </div>
+
+          {isListening && (
+            <div className="flex items-center justify-center gap-2 rounded-md bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700">
+              <Mic className="h-4 w-4" />
+              {t('voiceAppointmentAssistant.listeningPlaceholder')}
+            </div>
+          )}
+
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={cancelServicePicker}>
+              {t('common.cancel')}
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

@@ -6547,3 +6547,6 @@
     "startListening": "Avvia ascolto"
   }
 }
+    "servicePickerPrompt": "Non trovo il trattamento {{name}}. Guarda i servizi disponibili e pronuncia il nome di quello che vuoi usare, oppure di’ crea nuovo servizio.",
+    "servicePickerTitle": "Scegli un trattamento",
+    "servicePickerDescription": "“{{name}}” non è nell’elenco. La scelta è vocale: pronuncia uno dei trattamenti mostrati oppure di’ “crea nuovo servizio”.",

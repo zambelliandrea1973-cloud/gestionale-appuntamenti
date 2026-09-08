@@ -6547,3 +6547,6 @@
     "startListening": "Zuhören starten"
   }
 }
+    "servicePickerPrompt": "Die Behandlung {{name}} wurde nicht gefunden. Sehen Sie sich die verfügbaren Leistungen an und nennen Sie die gewünschte Behandlung, oder sagen Sie „neue Dienstleistung anlegen“.",
+    "servicePickerTitle": "Behandlung auswählen",
+    "servicePickerDescription": "„{{name}}“ steht nicht in der Liste. Die Auswahl erfolgt per Sprache: Nennen Sie eine angezeigte Behandlung oder sagen Sie „neue Dienstleistung anlegen“.",
