@@ -37,6 +37,8 @@ export default function Calendar() {
   const [view, setView] = useState<"day" | "week" | "month">("day");
   const [voiceDraft, setVoiceDraft] = useState<VoiceAppointmentFormDraft | null>(null);
   const [isVoiceDraftModalOpen, setIsVoiceDraftModalOpen] = useState(false);
+  const currentViewRef = useRef<"day" | "week" | "month">(view);
+  const voiceReturnViewRef = useRef<"day" | "week" | "month">(view);
   const [searchQuery, setSearchQuery] = useState("");
   const [timezoneInfo, setTimezoneInfo] = useState<{
     timezone: string; offset: number; name: string;
@@ -49,8 +51,13 @@ export default function Calendar() {
   const [googleStatusChecked, setGoogleStatusChecked] = useState(false);
 
   useEffect(() => {
+    currentViewRef.current = view;
+  }, [view]);
+
+  useEffect(() => {
     const openVoiceDraft = (draft: VoiceAppointmentFormDraft) => {
       const [year, month, day] = draft.date.split('-').map(Number);
+      voiceReturnViewRef.current = currentViewRef.current;
       setSelectedDate(new Date(year, month - 1, day));
       setView('day');
       setVoiceDraft(draft);
@@ -720,10 +727,12 @@ export default function Calendar() {
           onClose={() => {
             setIsVoiceDraftModalOpen(false);
             setVoiceDraft(null);
+            setView(voiceReturnViewRef.current);
           }}
           onSave={() => {
             setIsVoiceDraftModalOpen(false);
             setVoiceDraft(null);
+            setView(voiceReturnViewRef.current);
             handleAppointmentSaved();
           }}
           defaultDate={selectedDate}
