@@ -302,7 +302,7 @@ export default function VoiceAppointmentAssistant({
       setServicePickerOpen(true);
       addAssistantMessage(
         t('voiceAppointmentAssistant.serviceFamilyPrompt', { name: nextDraft.serviceName }),
-        { autoListen: false }
+        { autoListen: true }
       );
       return nextDraft;
     }
@@ -635,14 +635,7 @@ export default function VoiceAppointmentAssistant({
           confirmation === 'no' ||
           ['altro', 'altra', 'other', 'another'].includes(normalizedAnswer);
 
-        if (exactService) {
-          nextDraft.serviceId = exactService.id;
-          nextDraft.serviceName = exactService.name;
-          nextDraft.durationMinutes = exactService.duration || 60;
-          nextDraft.createServiceApproved = false;
-          setServicePickerOpen(false);
-          setPendingQuestion(null);
-        } else if (requestedOtherService) {
+        if (requestedOtherService) {
           nextDraft.serviceId = null;
           nextDraft.serviceName = null;
           nextDraft.durationMinutes = null;
@@ -652,6 +645,13 @@ export default function VoiceAppointmentAssistant({
           setDraft(nextDraft);
           addAssistantMessage(t('voiceAppointmentAssistant.askOtherService'), { autoListen: true });
           return;
+        } else if (exactService) {
+          nextDraft.serviceId = exactService.id;
+          nextDraft.serviceName = exactService.name;
+          nextDraft.durationMinutes = exactService.duration || 60;
+          nextDraft.createServiceApproved = false;
+          setServicePickerOpen(false);
+          setPendingQuestion(null);
         } else if (nextDraft.serviceName && nextDraft.serviceName !== draft.serviceName) {
           nextDraft.serviceId = null;
           nextDraft.createServiceApproved = false;
@@ -808,6 +808,24 @@ export default function VoiceAppointmentAssistant({
     };
     const completedDraft = askNextQuestion(nextDraft);
     setDraft({ ...completedDraft });
+  };
+
+  const selectOtherServiceFromPicker = () => {
+    recognitionRef.current?.stop?.();
+    window.speechSynthesis?.cancel();
+    setIsListening(false);
+    setServicePickerOpen(false);
+    setServicePickerOptions([]);
+    setPendingQuestion(null);
+    setDraft(previous => ({
+      ...previous,
+      serviceId: null,
+      serviceName: null,
+      durationMinutes: null,
+      servicePrice: null,
+      createServiceApproved: false
+    }));
+    addAssistantMessage(t('voiceAppointmentAssistant.askOtherService'), { autoListen: true });
   };
 
   const handleDialogDragStart = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -1059,6 +1077,15 @@ export default function VoiceAppointmentAssistant({
                   </span>
                 </button>
               ))}
+            <button
+              type="button"
+              onClick={selectOtherServiceFromPicker}
+              className="flex w-full rounded-md border border-dashed px-4 py-3 text-left font-medium text-primary transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {t('voiceAppointmentAssistant.otherServiceButton', {
+                defaultValue: 'Altro — aggiungi un nuovo trattamento'
+              })}
+            </button>
           </div>
 
           {isListening && (
