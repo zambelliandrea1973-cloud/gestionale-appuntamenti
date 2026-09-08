@@ -144,11 +144,10 @@ export default function VoiceAppointmentAssistant({
   const [isListening, setIsListening] = useState(false);
   const [servicePickerOpen, setServicePickerOpen] = useState(false);
   const [servicePickerOptions, setServicePickerOptions] = useState<AssistantService[]>([]);
-  const [autoListenSignal, setAutoListenSignal] = useState(0);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
+  const startListeningRef = useRef<() => void>(() => {});
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const autoListenRequestedRef = useRef(false);
   const dragStateRef = useRef<{
     pointerId: number;
     startX: number;
@@ -167,11 +166,6 @@ export default function VoiceAppointmentAssistant({
   });
   const isCatalogLoading = isLoadingClients || isLoadingServices;
 
-  const requestAutoListen = () => {
-    autoListenRequestedRef.current = true;
-    setAutoListenSignal(signal => signal + 1);
-  };
-
   const speak = (text: string, onComplete?: () => void) => {
     if (!('speechSynthesis' in window)) {
       onComplete?.();
@@ -188,8 +182,8 @@ export default function VoiceAppointmentAssistant({
     ) || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
       || matchingVoices[0]
       || null;
-    utterance.rate = 0.94;
-    utterance.pitch = 1.02;
+    utterance.rate = 1.06;
+    utterance.pitch = 1;
     if (onComplete) {
       let completed = false;
       const completeOnce = () => {
@@ -207,7 +201,10 @@ export default function VoiceAppointmentAssistant({
 
   const addAssistantMessage = (content: string, options: { autoListen?: boolean } = {}) => {
     setMessages(previous => [...previous, { role: 'assistant', content }]);
-    speak(content, options.autoListen === false ? undefined : requestAutoListen);
+    speak(
+      content,
+      options.autoListen === false ? undefined : () => startListeningRef.current()
+    );
   };
 
   useEffect(() => {
@@ -217,28 +214,12 @@ export default function VoiceAppointmentAssistant({
       ? t('voiceAppointmentAssistant.greeting', { name: greetingName })
       : t('voiceAppointmentAssistant.greetingFallback');
     setMessages([{ role: 'assistant', content: greeting }]);
-    speak(greeting, requestAutoListen);
+    speak(greeting, () => startListeningRef.current());
   }, [open, messages.length, professionalEmail, speechLocale, t]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isProcessing, isSaving]);
-
-  useEffect(() => {
-    if (
-      !open ||
-      !autoListenRequestedRef.current ||
-      isProcessing ||
-      isSaving ||
-      isCatalogLoading ||
-      isListening
-    ) {
-      return;
-    }
-
-    autoListenRequestedRef.current = false;
-    startListening();
-  }, [open, isProcessing, isSaving, isCatalogLoading, isListening, autoListenSignal]);
 
   useEffect(() => {
     return () => {
@@ -483,33 +464,46 @@ export default function VoiceAppointmentAssistant({
     setIsProcessing(true);
 
     try {
-      const response = await apiRequest('POST', '/api/ai-appointment-assistant/interpret', {
-        message: userMessage,
-        draft: {
-          clientName: draft.clientName,
-          date: draft.date,
-          startTime: draft.startTime,
-          serviceName: draft.serviceName,
-          durationMinutes: draft.durationMinutes,
-          servicePrice: draft.servicePrice,
-          notes: draft.notes
-        },
-        language: i18n.resolvedLanguage || i18n.language
-      });
-      const interpretation = await response.json() as Interpretation;
-      if (
-        !interpretation.serviceName &&
-        !draft.serviceName &&
-        draft.clientName &&
-        draft.date &&
-        draft.startTime
-      ) {
-        interpretation.serviceName = userMessage;
-      }
       const detectedConfirmation = detectAssistantConfirmation(
         userMessage,
         i18n.resolvedLanguage || i18n.language
       );
+      const isExpectedServiceName = Boolean(
+        !draft.serviceName &&
+        draft.clientName &&
+        draft.date &&
+        draft.startTime
+      );
+      let interpretation: Interpretation;
+
+      if (pendingQuestion === 'choose_service') {
+        interpretation = {
+          serviceName: detectedConfirmation === 'unknown' ? userMessage : null,
+          confirmation: detectedConfirmation
+        };
+      } else if (pendingQuestion && detectedConfirmation !== 'unknown') {
+        interpretation = { confirmation: detectedConfirmation };
+      } else if (isExpectedServiceName) {
+        interpretation = {
+          serviceName: userMessage,
+          confirmation: detectedConfirmation
+        };
+      } else {
+        const response = await apiRequest('POST', '/api/ai-appointment-assistant/interpret', {
+          message: userMessage,
+          draft: {
+            clientName: draft.clientName,
+            date: draft.date,
+            startTime: draft.startTime,
+            serviceName: draft.serviceName,
+            durationMinutes: draft.durationMinutes,
+            servicePrice: draft.servicePrice,
+            notes: draft.notes
+          },
+          language: i18n.resolvedLanguage || i18n.language
+        });
+        interpretation = await response.json() as Interpretation;
+      }
       const confirmation = detectedConfirmation === 'unknown'
         ? interpretation.confirmation
         : detectedConfirmation;
@@ -770,6 +764,7 @@ export default function VoiceAppointmentAssistant({
     recognitionRef.current = recognition;
     recognition.start();
   };
+  startListeningRef.current = startListening;
 
   const stopListening = () => {
     recognitionRef.current?.stop?.();
@@ -825,7 +820,6 @@ export default function VoiceAppointmentAssistant({
   };
 
   const resetConversation = () => {
-    autoListenRequestedRef.current = false;
     recognitionRef.current?.stop?.();
     window.speechSynthesis?.cancel();
     setMessages([]);
@@ -842,7 +836,6 @@ export default function VoiceAppointmentAssistant({
       setDialogPosition({ x: 0, y: 0 });
     }
     if (!nextOpen) {
-      autoListenRequestedRef.current = false;
       dragStateRef.current = null;
       setServicePickerOpen(false);
       setServicePickerOptions([]);
