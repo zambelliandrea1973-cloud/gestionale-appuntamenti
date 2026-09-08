@@ -6513,6 +6513,8 @@
     "askTime": "Um wie viel Uhr soll der Termin beginnen?",
     "askService": "Welche Behandlung oder Dienstleistung soll ich hinzufügen?",
     "clientNotFound": "{{name}} ist nicht in der Kundenliste. Möchten Sie diesen neuen Kunden anlegen?",
+    "clientSuggestion": "Ich finde {{requested}} nicht, aber der ähnlichste Kunde ist {{suggestion}}. Meinten Sie {{suggestion}}?",
+    "confirmClientSuggestion": "Sagen Sie Ja, um den vorgeschlagenen Kunden zu verwenden, oder Nein, um einen anderen zu suchen.",
     "serviceNotFound": "Die Behandlung {{name}} ist nicht vorhanden. Möchten Sie diese neue Dienstleistung anlegen?",
     "serviceSuggestion": "Ich habe {{requested}} nicht gefunden. Die ähnlichste Dienstleistung ist {{suggestion}}. Möchten Sie diese verwenden?",
     "confirmServiceSuggestion": "Sagen Sie Ja, um die vorgeschlagene Dienstleistung zu verwenden, oder Nein, um eine andere zu nennen.",

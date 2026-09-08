@@ -6513,6 +6513,8 @@
     "askTime": "La ce oră trebuie să înceapă programarea?",
     "askService": "Ce tratament sau serviciu trebuie să adaug?",
     "clientNotFound": "{{name}} nu apare în lista clienților. Dorești să creezi acest client nou?",
+    "clientSuggestion": "Nu găsesc {{requested}}, dar cel mai asemănător client este {{suggestion}}. Te refereai la {{suggestion}}?",
+    "confirmClientSuggestion": "Spune da pentru a folosi clientul sugerat sau nu pentru a căuta altul.",
     "serviceNotFound": "Tratamentul {{name}} nu există. Dorești să creezi acest serviciu nou?",
     "serviceSuggestion": "Nu am găsit {{requested}}, dar cel mai asemănător serviciu este {{suggestion}}. Dorești să îl folosesc?",
     "confirmServiceSuggestion": "Poți spune da pentru a folosi serviciul sugerat sau nu pentru a indica altul.",

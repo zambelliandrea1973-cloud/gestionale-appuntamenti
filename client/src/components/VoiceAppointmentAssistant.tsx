@@ -20,6 +20,7 @@ import {
   addMinutesToTime,
   detectAssistantConfirmation,
   findAssistantClient,
+  findAssistantClientSuggestion,
   findAssistantService,
   findAssistantServicePrefixMatches,
   findAssistantServiceSuggestion,
@@ -30,7 +31,7 @@ import {
   type AssistantService
 } from '@/lib/appointmentAssistant';
 
-type PendingQuestion = 'create_client' | 'suggest_service' | 'choose_service' | 'create_service' | 'confirm_appointment' | null;
+type PendingQuestion = 'suggest_client' | 'create_client' | 'suggest_service' | 'choose_service' | 'create_service' | 'confirm_appointment' | null;
 
 interface AssistantDraft {
   clientName?: string | null;
@@ -264,11 +265,23 @@ export default function VoiceAppointmentAssistant({
       nextDraft.clientId = existingClient.id;
       nextDraft.clientName = `${existingClient.firstName} ${existingClient.lastName || ''}`.trim();
     } else if (!nextDraft.createClientApproved) {
-      setPendingQuestion('create_client');
-      addAssistantMessage(
-        t('voiceAppointmentAssistant.clientNotFound', { name: nextDraft.clientName }),
-        { autoListen: true }
-      );
+      const suggestion = findAssistantClientSuggestion(clients, nextDraft.clientName);
+      if (suggestion) {
+        setPendingQuestion('suggest_client');
+        addAssistantMessage(
+          t('voiceAppointmentAssistant.clientSuggestion', {
+            requested: nextDraft.clientName,
+            suggestion: `${suggestion.client.firstName} ${suggestion.client.lastName || ''}`.trim()
+          }),
+          { autoListen: true }
+        );
+      } else {
+        setPendingQuestion('create_client');
+        addAssistantMessage(
+          t('voiceAppointmentAssistant.clientNotFound', { name: nextDraft.clientName }),
+          { autoListen: true }
+        );
+      }
       return nextDraft;
     }
 
@@ -461,6 +474,50 @@ export default function VoiceAppointmentAssistant({
         ? interpretation.confirmation
         : detectedConfirmation;
       let nextDraft = mergeInterpretation(draft, interpretation);
+
+      if (pendingQuestion === 'suggest_client') {
+        const exactClient = findAssistantClient(clients, nextDraft.clientName || '');
+        const suggestedClient = findAssistantClientSuggestion(clients, draft.clientName || '');
+        const requestedAnotherClient = Boolean(
+          nextDraft.clientName &&
+          normalizeAssistantName(nextDraft.clientName) !== normalizeAssistantName(draft.clientName)
+        );
+
+        if (exactClient) {
+          nextDraft.clientId = exactClient.id;
+          nextDraft.clientName = `${exactClient.firstName} ${exactClient.lastName || ''}`.trim();
+          nextDraft.createClientApproved = false;
+          setPendingQuestion(null);
+        } else if (confirmation === 'yes' && suggestedClient) {
+          nextDraft.clientId = suggestedClient.client.id;
+          nextDraft.clientName =
+            `${suggestedClient.client.firstName} ${suggestedClient.client.lastName || ''}`.trim();
+          nextDraft.createClientApproved = false;
+          setPendingQuestion(null);
+        } else if (requestedAnotherClient) {
+          nextDraft.clientId = null;
+          nextDraft.createClientApproved = false;
+          setPendingQuestion(null);
+          nextDraft = askNextQuestion(nextDraft);
+          setDraft({ ...nextDraft });
+          return;
+        } else if (confirmation === 'no') {
+          nextDraft.clientName = null;
+          nextDraft.clientId = null;
+          nextDraft.createClientApproved = false;
+          setDraft(nextDraft);
+          setPendingQuestion(null);
+          addAssistantMessage(t('voiceAppointmentAssistant.okExistingClient'), { autoListen: true });
+          return;
+        } else {
+          setDraft(nextDraft);
+          addAssistantMessage(
+            t('voiceAppointmentAssistant.confirmClientSuggestion'),
+            { autoListen: true }
+          );
+          return;
+        }
+      }
 
       if (pendingQuestion === 'create_client') {
         // A user may correct or repeat the name after the first lookup

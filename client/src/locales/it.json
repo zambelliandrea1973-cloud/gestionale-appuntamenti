@@ -6513,6 +6513,8 @@
     "askTime": "A che ora deve iniziare l’appuntamento?",
     "askService": "Quale trattamento o servizio devo inserire?",
     "clientNotFound": "Non trovo {{name}} tra i tuoi clienti. Vuoi che lo aggiunga?",
+    "clientSuggestion": "Non trovo {{requested}}, ma il cliente più simile è {{suggestion}}. Intendevi {{suggestion}}?",
+    "confirmClientSuggestion": "Puoi dire sì per usare il cliente suggerito, oppure no per cercarne un altro.",
     "serviceNotFound": "Non trovo il trattamento {{name}}. Vuoi che lo crei per te?",
     "serviceSuggestion": "Non trovo {{requested}}, ma il servizio più simile è {{suggestion}}. Vuoi usare questo?",
     "confirmServiceSuggestion": "Puoi dire sì per usare il servizio suggerito, oppure no per indicarne un altro.",

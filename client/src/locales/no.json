@@ -6513,6 +6513,8 @@
     "askTime": "Når skal avtalen begynne?",
     "askService": "Hvilken behandling eller tjeneste skal jeg legge til?",
     "clientNotFound": "{{name}} finnes ikke i kundelisten. Vil du opprette denne nye kunden?",
+    "clientSuggestion": "Jeg finner ikke {{requested}}, men den mest lignende kunden er {{suggestion}}. Mente du {{suggestion}}?",
+    "confirmClientSuggestion": "Si ja for å bruke den foreslåtte kunden, eller nei for å søke etter en annen.",
     "serviceNotFound": "Behandlingen {{name}} finnes ikke. Vil du opprette denne nye tjenesten?",
     "serviceSuggestion": "Jeg fant ikke {{requested}}, men den mest lignende tjenesten er {{suggestion}}. Vil du bruke den?",
     "confirmServiceSuggestion": "Si ja for å bruke den foreslåtte tjenesten, eller nei for å oppgi en annen.",

@@ -15,6 +15,11 @@ export interface AssistantServiceSuggestion {
   score: number;
 }
 
+export interface AssistantClientSuggestion {
+  client: AssistantClient;
+  score: number;
+}
+
 export function normalizeAssistantName(value: string | null | undefined): string {
   return (value || '')
     .normalize('NFD')
@@ -152,6 +157,45 @@ export function findAssistantClient(
     return targetTokens.every(token => clientTokens.includes(token));
   });
   return partialMatches.length === 1 ? partialMatches[0] : undefined;
+}
+
+export function findAssistantClientSuggestion(
+  clients: AssistantClient[],
+  requestedName: string
+): AssistantClientSuggestion | undefined {
+  const requested = normalizeAssistantName(requestedName);
+  const requestedTokens = requested.split(' ').filter(Boolean);
+  if (requestedTokens.length < 2) return undefined;
+
+  const ranked = clients
+    .map(client => {
+      const fullName = normalizeAssistantName(`${client.firstName} ${client.lastName || ''}`);
+      const clientTokens = fullName.split(' ').filter(Boolean);
+      if (clientTokens.length !== requestedTokens.length) {
+        return { client, score: 0 };
+      }
+
+      const fullNameScore = stringSimilarity(
+        requested.replace(/\s/g, ''),
+        fullName.replace(/\s/g, '')
+      );
+      const tokenScore = requestedTokens.reduce((total, requestedToken) => {
+        const bestTokenScore = Math.max(
+          ...clientTokens.map(clientToken => stringSimilarity(requestedToken, clientToken))
+        );
+        return total + bestTokenScore;
+      }, 0) / requestedTokens.length;
+
+      return { client, score: Math.max(fullNameScore, tokenScore) };
+    })
+    .filter(result => result.score >= 0.82)
+    .sort((left, right) => right.score - left.score);
+
+  const best = ranked[0];
+  if (!best) return undefined;
+  const second = ranked[1];
+  if (second && best.score - second.score < 0.06) return undefined;
+  return best;
 }
 
 export function findAssistantService(
