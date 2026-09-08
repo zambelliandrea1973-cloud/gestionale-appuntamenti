@@ -186,7 +186,7 @@ export default function VoiceAppointmentAssistant({
     ) || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
       || matchingVoices[0]
       || null;
-    utterance.rate = 1.11;
+    utterance.rate = 1.5;
     utterance.pitch = 1;
     if (onComplete) {
       let completed = false;
