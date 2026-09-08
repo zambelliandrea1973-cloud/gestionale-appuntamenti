@@ -180,6 +180,8 @@ export default function VoiceAppointmentAssistant({
     utterance.voice = matchingVoices.find(voice =>
       /^google italiano$/i.test(voice.name.trim())
     ) || matchingVoices.find(voice =>
+      /^microsoft elsa\b/i.test(voice.name.trim())
+    ) || matchingVoices.find(voice =>
       /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
     ) || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
       || matchingVoices[0]
