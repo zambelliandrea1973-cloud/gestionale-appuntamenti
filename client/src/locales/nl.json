@@ -6514,6 +6514,8 @@
     "askService": "Welke behandeling of dienst moet ik toevoegen?",
     "clientNotFound": "{{name}} staat niet in de klantenlijst. Wil je deze nieuwe klant aanmaken?",
     "serviceNotFound": "De behandeling {{name}} is niet beschikbaar. Wil je deze nieuwe dienst aanmaken?",
+    "serviceSuggestion": "Ik kon {{requested}} niet vinden, maar de meest gelijkende dienst is {{suggestion}}. Wil je deze gebruiken?",
+    "confirmServiceSuggestion": "Zeg ja om de voorgestelde dienst te gebruiken, of nee om een andere te noemen.",
     "askDuration": "Hoeveel minuten duurt {{name}}?",
     "summary": "Samenvatting: {{client}}, {{date}} om {{time}}, {{service}}, duur {{duration}} minuten{{notes}}. Bevestig je het aanmaken?",
     "notes": " Notities: {{value}}.",

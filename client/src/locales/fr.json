@@ -6514,6 +6514,8 @@
     "askService": "Quel traitement ou service dois-je ajouter ?",
     "clientNotFound": "{{name}} n’est pas dans la liste des clients. Voulez-vous créer ce nouveau client ?",
     "serviceNotFound": "Le traitement {{name}} n’est pas disponible. Voulez-vous créer ce nouveau service ?",
+    "serviceSuggestion": "Je n’ai pas trouvé {{requested}}, mais le service le plus proche est {{suggestion}}. Voulez-vous l’utiliser ?",
+    "confirmServiceSuggestion": "Vous pouvez dire oui pour utiliser le service proposé, ou non pour en indiquer un autre.",
     "askDuration": "Combien de minutes dure {{name}} ?",
     "summary": "Récapitulatif : {{client}}, {{date}} à {{time}}, {{service}}, durée {{duration}} minutes{{notes}}. Confirmez-vous la création ?",
     "notes": " Notes : {{value}}.",

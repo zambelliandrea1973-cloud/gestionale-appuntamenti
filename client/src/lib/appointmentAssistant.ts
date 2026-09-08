@@ -10,6 +10,11 @@ export interface AssistantService {
   duration?: number | null;
 }
 
+export interface AssistantServiceSuggestion {
+  service: AssistantService;
+  score: number;
+}
+
 export function normalizeAssistantName(value: string | null | undefined): string {
   return (value || '')
     .normalize('NFD')
@@ -157,6 +162,85 @@ export function findAssistantService(
   if (!target) return undefined;
 
   return services.find(service => normalizeAssistantName(service.name) === target);
+}
+
+function levenshteinDistance(left: string, right: string): number {
+  const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+
+  for (let leftIndex = 1; leftIndex <= left.length; leftIndex += 1) {
+    let diagonal = previous[0];
+    previous[0] = leftIndex;
+
+    for (let rightIndex = 1; rightIndex <= right.length; rightIndex += 1) {
+      const above = previous[rightIndex];
+      const cost = left[leftIndex - 1] === right[rightIndex - 1] ? 0 : 1;
+      previous[rightIndex] = Math.min(
+        previous[rightIndex] + 1,
+        previous[rightIndex - 1] + 1,
+        diagonal + cost
+      );
+      diagonal = above;
+    }
+  }
+
+  return previous[right.length];
+}
+
+function stringSimilarity(left: string, right: string): number {
+  if (!left || !right) return 0;
+  if (left === right) return 1;
+  const distance = levenshteinDistance(left, right);
+  return 1 - distance / Math.max(left.length, right.length);
+}
+
+function serviceSimilarity(requestedName: string, serviceName: string): number {
+  const requested = normalizeAssistantName(requestedName);
+  const service = normalizeAssistantName(serviceName);
+  if (!requested || !service || requested.length < 4 || service.length < 4) return 0;
+
+  const requestedCompact = requested.replace(/\s/g, '');
+  const serviceCompact = service.replace(/\s/g, '');
+  const characterScore = stringSimilarity(requestedCompact, serviceCompact);
+
+  const requestedTokens = requested.split(' ').filter(Boolean);
+  const serviceTokens = service.split(' ').filter(Boolean);
+  const tokenScore = requestedTokens.reduce((total, requestedToken) => {
+    const bestTokenScore = Math.max(
+      ...serviceTokens.map(serviceToken => stringSimilarity(requestedToken, serviceToken))
+    );
+    return total + bestTokenScore;
+  }, 0) / requestedTokens.length;
+
+  const containmentScore = requestedCompact.includes(serviceCompact) || serviceCompact.includes(requestedCompact)
+    ? 0.86
+    : 0;
+
+  return Math.max(characterScore, tokenScore, containmentScore);
+}
+
+/**
+ * Finds a safe, human-confirmed suggestion for a service that was misspelled
+ * or transcribed imperfectly. It intentionally returns no result for weak
+ * matches so an unrelated service is never silently proposed.
+ */
+export function findAssistantServiceSuggestion(
+  services: AssistantService[],
+  requestedName: string
+): AssistantServiceSuggestion | undefined {
+  const ranked = services
+    .map(service => ({ service, score: serviceSimilarity(requestedName, service.name) }))
+    .sort((left, right) => right.score - left.score);
+
+  const best = ranked[0];
+  if (!best) return undefined;
+
+  // Clear spelling/transcription matches can be suggested directly. For
+  // looser phonetic cases (for example "biorisonanza" vs "bio bicom"), only
+  // suggest when the best candidate is noticeably stronger than the rest.
+  const secondBestScore = ranked[1]?.score || 0;
+  const isClearMatch = best.score >= 0.58;
+  const isDistinctPhoneticMatch = best.score >= 0.34 && best.score - secondBestScore >= 0.08;
+  return isClearMatch || isDistinctPhoneticMatch ? best : undefined;
 }
 
 export function addMinutesToTime(startTime: string, durationMinutes: number): string {

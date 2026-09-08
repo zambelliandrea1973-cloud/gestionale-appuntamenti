@@ -6514,6 +6514,8 @@
     "askService": "Hvilken behandling eller tjeneste skal jeg legge til?",
     "clientNotFound": "{{name}} finnes ikke i kundelisten. Vil du opprette denne nye kunden?",
     "serviceNotFound": "Behandlingen {{name}} finnes ikke. Vil du opprette denne nye tjenesten?",
+    "serviceSuggestion": "Jeg fant ikke {{requested}}, men den mest lignende tjenesten er {{suggestion}}. Vil du bruke den?",
+    "confirmServiceSuggestion": "Si ja for å bruke den foreslåtte tjenesten, eller nei for å oppgi en annen.",
     "askDuration": "Hvor mange minutter tar {{name}}?",
     "summary": "Oppsummering: {{client}}, {{date}} klokken {{time}}, {{service}}, varighet {{duration}} minutter{{notes}}. Bekrefter du opprettelsen?",
     "notes": " Notater: {{value}}.",

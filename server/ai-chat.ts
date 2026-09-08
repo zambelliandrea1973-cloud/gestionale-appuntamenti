@@ -392,7 +392,9 @@ La lingua preferita del professionista è "${language}". Comprendi la richiesta 
 
 Devi unire il nuovo messaggio ai dati già raccolti e restituire SOLO JSON valido.
 Interpreta date relative come "oggi", "domani", giorni della settimana e orari nella lingua della richiesta.
-Il trattamento corrisponde al nome del servizio.
+Il trattamento corrisponde al nome del servizio. Se il professionista corregge
+un nome di trattamento o rifiuta una proposta per indicarne un altro, usa il
+nuovo nome comunicato nel campo serviceName.
 Non inventare dati assenti. Conserva i dati esistenti salvo correzioni esplicite.
 
 Dati già raccolti:

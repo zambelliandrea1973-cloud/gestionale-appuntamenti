@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { Bot, CalendarPlus, Loader2, Mic, MicOff, Send, Sparkles, User, X } from 'lucide-react';
+import { Bot, CalendarPlus, GripHorizontal, Loader2, Mic, MicOff, Send, Sparkles, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -12,13 +12,14 @@ import {
   detectAssistantConfirmation,
   findAssistantClient,
   findAssistantService,
+  findAssistantServiceSuggestion,
   getAssistantGreetingName,
   splitClientName,
   type AssistantClient,
   type AssistantService
 } from '@/lib/appointmentAssistant';
 
-type PendingQuestion = 'create_client' | 'create_service' | 'confirm_appointment' | null;
+type PendingQuestion = 'create_client' | 'suggest_service' | 'create_service' | 'confirm_appointment' | null;
 
 interface AssistantDraft {
   clientName?: string | null;
@@ -115,9 +116,17 @@ export default function VoiceAppointmentAssistant({
   const [isSaving, setIsSaving] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [autoListenSignal, setAutoListenSignal] = useState(0);
+  const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const autoListenRequestedRef = useRef(false);
+  const dragStateRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    originX: number;
+    originY: number;
+  } | null>(null);
 
   const { data: clients = [], isLoading: isLoadingClients } = useQuery<AssistantClient[]>({
     queryKey: ['/api/clients'],
@@ -128,6 +137,11 @@ export default function VoiceAppointmentAssistant({
     enabled: open
   });
   const isCatalogLoading = isLoadingClients || isLoadingServices;
+
+  const requestAutoListen = () => {
+    autoListenRequestedRef.current = true;
+    setAutoListenSignal(signal => signal + 1);
+  };
 
   const speak = (text: string, onComplete?: () => void) => {
     if (!('speechSynthesis' in window)) {
@@ -164,12 +178,7 @@ export default function VoiceAppointmentAssistant({
 
   const addAssistantMessage = (content: string, options: { autoListen?: boolean } = {}) => {
     setMessages(previous => [...previous, { role: 'assistant', content }]);
-    speak(content, options.autoListen
-      ? () => {
-        autoListenRequestedRef.current = true;
-        setAutoListenSignal(signal => signal + 1);
-      }
-      : undefined);
+    speak(content, options.autoListen === false ? undefined : requestAutoListen);
   };
 
   useEffect(() => {
@@ -179,7 +188,7 @@ export default function VoiceAppointmentAssistant({
       ? t('voiceAppointmentAssistant.greeting', { name: greetingName })
       : t('voiceAppointmentAssistant.greetingFallback');
     setMessages([{ role: 'assistant', content: greeting }]);
-    speak(greeting);
+    speak(greeting, requestAutoListen);
   }, [open, messages.length, professionalEmail, speechLocale, t]);
 
   useEffect(() => {
@@ -251,11 +260,23 @@ export default function VoiceAppointmentAssistant({
       nextDraft.serviceName = existingService.name;
       nextDraft.durationMinutes = existingService.duration || 60;
     } else if (!nextDraft.createServiceApproved) {
-      setPendingQuestion('create_service');
-      addAssistantMessage(
-        t('voiceAppointmentAssistant.serviceNotFound', { name: nextDraft.serviceName }),
-        { autoListen: true }
-      );
+      const suggestion = findAssistantServiceSuggestion(services, nextDraft.serviceName);
+      if (suggestion) {
+        setPendingQuestion('suggest_service');
+        addAssistantMessage(
+          t('voiceAppointmentAssistant.serviceSuggestion', {
+            requested: nextDraft.serviceName,
+            suggestion: suggestion.service.name
+          }),
+          { autoListen: true }
+        );
+      } else {
+        setPendingQuestion('create_service');
+        addAssistantMessage(
+          t('voiceAppointmentAssistant.serviceNotFound', { name: nextDraft.serviceName }),
+          { autoListen: true }
+        );
+      }
       return nextDraft;
     }
 
@@ -431,7 +452,60 @@ export default function VoiceAppointmentAssistant({
         }
       }
 
+      if (pendingQuestion === 'suggest_service') {
+        const exactService = findAssistantService(services, nextDraft.serviceName || '');
+        const suggestedService = findAssistantServiceSuggestion(services, draft.serviceName || '');
+        const requestedAnotherService = Boolean(
+          nextDraft.serviceName &&
+          nextDraft.serviceName !== draft.serviceName
+        );
+
+        if (exactService) {
+          nextDraft.serviceId = exactService.id;
+          nextDraft.serviceName = exactService.name;
+          nextDraft.durationMinutes = exactService.duration || 60;
+          setPendingQuestion(null);
+        } else if (confirmation === 'yes' && suggestedService) {
+          nextDraft.serviceId = suggestedService.service.id;
+          nextDraft.serviceName = suggestedService.service.name;
+          nextDraft.durationMinutes = suggestedService.service.duration || 60;
+          nextDraft.createServiceApproved = false;
+          setPendingQuestion(null);
+        } else if (requestedAnotherService) {
+          nextDraft.serviceId = null;
+          nextDraft.createServiceApproved = false;
+          setPendingQuestion(null);
+          nextDraft = askNextQuestion(nextDraft);
+          setDraft({ ...nextDraft });
+          return;
+        } else if (confirmation === 'no') {
+          nextDraft.serviceName = null;
+          nextDraft.serviceId = null;
+          nextDraft.createServiceApproved = false;
+          setDraft(nextDraft);
+          setPendingQuestion(null);
+          addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'), { autoListen: true });
+          return;
+        } else {
+          setDraft(nextDraft);
+          addAssistantMessage(t('voiceAppointmentAssistant.confirmServiceSuggestion'), { autoListen: true });
+          return;
+        }
+      }
+
       if (pendingQuestion === 'create_service') {
+        const requestedAnotherService = Boolean(
+          nextDraft.serviceName &&
+          nextDraft.serviceName !== draft.serviceName
+        );
+        if (requestedAnotherService) {
+          nextDraft.serviceId = null;
+          nextDraft.createServiceApproved = false;
+          setPendingQuestion(null);
+          nextDraft = askNextQuestion(nextDraft);
+          setDraft({ ...nextDraft });
+          return;
+        }
         if (confirmation === 'yes') {
           nextDraft.createServiceApproved = true;
           setPendingQuestion(null);
@@ -485,7 +559,8 @@ export default function VoiceAppointmentAssistant({
 
     if (!SpeechRecognition) {
       addAssistantMessage(
-        t('voiceAppointmentAssistant.unsupportedVoice')
+        t('voiceAppointmentAssistant.unsupportedVoice'),
+        { autoListen: false }
       );
       return;
     }
@@ -499,7 +574,7 @@ export default function VoiceAppointmentAssistant({
     recognition.onend = () => setIsListening(false);
     recognition.onerror = () => {
       setIsListening(false);
-      addAssistantMessage(t('voiceAppointmentAssistant.listenError'));
+      addAssistantMessage(t('voiceAppointmentAssistant.listenError'), { autoListen: false });
     };
     recognition.onresult = (event: any) => {
       const transcript = event.results?.[0]?.[0]?.transcript?.trim();
@@ -517,6 +592,40 @@ export default function VoiceAppointmentAssistant({
     setIsListening(false);
   };
 
+  const handleDialogDragStart = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.button !== 0) return;
+    dragStateRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: dialogPosition.x,
+      originY: dialogPosition.y
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleDialogDragMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const dragState = dragStateRef.current;
+    if (!dragState || dragState.pointerId !== event.pointerId) return;
+
+    const maxX = Math.max(0, window.innerWidth / 2 - 96);
+    const maxY = Math.max(0, window.innerHeight / 2 - 96);
+    const nextX = dragState.originX + event.clientX - dragState.startX;
+    const nextY = dragState.originY + event.clientY - dragState.startY;
+    setDialogPosition({
+      x: Math.max(-maxX, Math.min(maxX, nextX)),
+      y: Math.max(-maxY, Math.min(maxY, nextY))
+    });
+  };
+
+  const handleDialogDragEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (dragStateRef.current?.pointerId !== event.pointerId) return;
+    dragStateRef.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
+
   const resetConversation = () => {
     autoListenRequestedRef.current = false;
     recognitionRef.current?.stop?.();
@@ -529,8 +638,12 @@ export default function VoiceAppointmentAssistant({
 
   const handleOpenChange = (nextOpen: boolean) => {
     setOpen(nextOpen);
+    if (nextOpen) {
+      setDialogPosition({ x: 0, y: 0 });
+    }
     if (!nextOpen) {
       autoListenRequestedRef.current = false;
+      dragStateRef.current = null;
       recognitionRef.current?.stop?.();
       window.speechSynthesis?.cancel();
       setIsListening(false);
@@ -552,11 +665,25 @@ export default function VoiceAppointmentAssistant({
       </Button>
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className="flex max-h-[88vh] w-[calc(100vw-1.5rem)] max-w-lg flex-col gap-0 overflow-hidden p-0">
-          <DialogHeader className="border-b bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 text-white">
+        <DialogContent
+          className="flex max-h-[88vh] w-[calc(100vw-1.5rem)] max-w-lg flex-col gap-0 overflow-hidden p-0"
+          overlayClassName="bg-black/15"
+          style={{
+            marginLeft: `${dialogPosition.x}px`,
+            marginTop: `${dialogPosition.y}px`
+          }}
+        >
+          <DialogHeader
+            className="touch-none select-none cursor-grab border-b bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 text-white active:cursor-grabbing"
+            onPointerDown={handleDialogDragStart}
+            onPointerMove={handleDialogDragMove}
+            onPointerUp={handleDialogDragEnd}
+            onPointerCancel={handleDialogDragEnd}
+          >
             <DialogTitle className="flex items-center gap-2 text-white">
               <Sparkles className="h-5 w-5" />
               {t('voiceAppointmentAssistant.title')}
+              <GripHorizontal className="ml-auto h-4 w-4 opacity-75" aria-hidden="true" />
             </DialogTitle>
           </DialogHeader>
 
@@ -636,10 +763,13 @@ export default function VoiceAppointmentAssistant({
             <div className="flex gap-2">
               <Button
                 type="button"
-                variant={isListening ? 'destructive' : 'outline'}
+                variant={isListening ? 'default' : 'outline'}
                 size="icon"
                 onClick={isListening ? stopListening : startListening}
                 disabled={isProcessing || isSaving || isCatalogLoading}
+                className={isListening
+                  ? 'bg-emerald-600 text-white shadow-[0_0_0_4px_rgba(16,185,129,0.2)] hover:bg-emerald-700'
+                  : undefined}
                  aria-label={isListening
                    ? t('voiceAppointmentAssistant.stopListening')
                    : t('voiceAppointmentAssistant.startListening')}
