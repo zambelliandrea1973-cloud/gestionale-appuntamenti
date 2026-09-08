@@ -6516,6 +6516,9 @@
     "serviceNotFound": "Die Behandlung {{name}} ist nicht vorhanden. Möchten Sie diese neue Dienstleistung anlegen?",
     "serviceSuggestion": "Ich habe {{requested}} nicht gefunden. Die ähnlichste Dienstleistung ist {{suggestion}}. Möchten Sie diese verwenden?",
     "confirmServiceSuggestion": "Sagen Sie Ja, um die vorgeschlagene Dienstleistung zu verwenden, oder Nein, um eine andere zu nennen.",
+    "servicePickerPrompt": "Die Behandlung {{name}} wurde nicht gefunden. Sehen Sie sich die verfügbaren Leistungen an und nennen Sie die gewünschte Behandlung, oder sagen Sie „neue Dienstleistung anlegen“.",
+    "servicePickerTitle": "Behandlung auswählen",
+    "servicePickerDescription": "„{{name}}“ steht nicht in der Liste. Die Auswahl erfolgt per Sprache: Nennen Sie eine angezeigte Behandlung oder sagen Sie „neue Dienstleistung anlegen“.",
     "askDuration": "Wie viele Minuten dauert {{name}}?",
     "summary": "Zusammenfassung: {{client}}, {{date}} um {{time}}, {{service}}, Dauer {{duration}} Minuten{{notes}}. Bestätigen Sie die Erstellung?",
     "notes": " Notizen: {{value}}.",
@@ -6547,6 +6550,3 @@
     "startListening": "Zuhören starten"
   }
 }
-    "servicePickerPrompt": "Die Behandlung {{name}} wurde nicht gefunden. Sehen Sie sich die verfügbaren Leistungen an und nennen Sie die gewünschte Behandlung, oder sagen Sie „neue Dienstleistung anlegen“.",
-    "servicePickerTitle": "Behandlung auswählen",
-    "servicePickerDescription": "„{{name}}“ steht nicht in der Liste. Die Auswahl erfolgt per Sprache: Nennen Sie eine angezeigte Behandlung oder sagen Sie „neue Dienstleistung anlegen“.",

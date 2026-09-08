@@ -6516,6 +6516,9 @@
     "serviceNotFound": "Behandlingen {{name}} finnes ikke. Vil du opprette denne nye tjenesten?",
     "serviceSuggestion": "Jeg fant ikke {{requested}}, men den mest lignende tjenesten er {{suggestion}}. Vil du bruke den?",
     "confirmServiceSuggestion": "Si ja for å bruke den foreslåtte tjenesten, eller nei for å oppgi en annen.",
+    "servicePickerPrompt": "Jeg fant ikke behandlingen {{name}}. Se på de tilgjengelige tjenestene og si navnet du vil bruke, eller si «opprett ny tjeneste».",
+    "servicePickerTitle": "Velg en behandling",
+    "servicePickerDescription": "«{{name}}» finnes ikke i listen. Velg med stemmen: si en av behandlingene som vises, eller «opprett ny tjeneste».",
     "askDuration": "Hvor mange minutter tar {{name}}?",
     "summary": "Oppsummering: {{client}}, {{date}} klokken {{time}}, {{service}}, varighet {{duration}} minutter{{notes}}. Bekrefter du opprettelsen?",
     "notes": " Notater: {{value}}.",
@@ -6547,6 +6550,3 @@
     "startListening": "Start lytting"
   }
 }
-    "servicePickerPrompt": "Jeg fant ikke behandlingen {{name}}. Se på de tilgjengelige tjenestene og si navnet du vil bruke, eller si «opprett ny tjeneste».",
-    "servicePickerTitle": "Velg en behandling",
-    "servicePickerDescription": "«{{name}}» finnes ikke i listen. Velg med stemmen: si en av behandlingene som vises, eller «opprett ny tjeneste».",

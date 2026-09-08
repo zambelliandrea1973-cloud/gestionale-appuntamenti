@@ -6516,6 +6516,9 @@
     "serviceNotFound": "Tratamentul {{name}} nu există. Dorești să creezi acest serviciu nou?",
     "serviceSuggestion": "Nu am găsit {{requested}}, dar cel mai asemănător serviciu este {{suggestion}}. Dorești să îl folosesc?",
     "confirmServiceSuggestion": "Poți spune da pentru a folosi serviciul sugerat sau nu pentru a indica altul.",
+    "servicePickerPrompt": "Nu am găsit tratamentul {{name}}. Privește serviciile disponibile și rostește numele dorit sau spune „creează serviciu nou”.",
+    "servicePickerTitle": "Alege un tratament",
+    "servicePickerDescription": "„{{name}}” nu este în listă. Alegerea este vocală: rostește un tratament afișat sau spune „creează serviciu nou”.",
     "askDuration": "Câte minute durează {{name}}?",
     "summary": "Rezumat: {{client}}, {{date}} la {{time}}, {{service}}, durata {{duration}} de minute{{notes}}. Confirmi crearea?",
     "notes": " Notițe: {{value}}.",
@@ -6547,6 +6550,3 @@
     "startListening": "Pornește ascultarea"
   }
 }
-    "servicePickerPrompt": "Nu am găsit tratamentul {{name}}. Privește serviciile disponibile și rostește numele dorit sau spune „creează serviciu nou”.",
-    "servicePickerTitle": "Alege un tratament",
-    "servicePickerDescription": "„{{name}}” nu este în listă. Alegerea este vocală: rostește un tratament afișat sau spune „creează serviciu nou”.",

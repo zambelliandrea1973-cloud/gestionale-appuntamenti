@@ -6516,6 +6516,9 @@
     "serviceNotFound": "De behandeling {{name}} is niet beschikbaar. Wil je deze nieuwe dienst aanmaken?",
     "serviceSuggestion": "Ik kon {{requested}} niet vinden, maar de meest gelijkende dienst is {{suggestion}}. Wil je deze gebruiken?",
     "confirmServiceSuggestion": "Zeg ja om de voorgestelde dienst te gebruiken, of nee om een andere te noemen.",
+    "servicePickerPrompt": "Ik kon de behandeling {{name}} niet vinden. Bekijk de beschikbare diensten en spreek de gewenste naam uit, of zeg ‘nieuwe dienst maken’.",
+    "servicePickerTitle": "Kies een behandeling",
+    "servicePickerDescription": "‘{{name}}’ staat niet in de lijst. Kies met je stem: noem een getoonde behandeling of zeg ‘nieuwe dienst maken’.",
     "askDuration": "Hoeveel minuten duurt {{name}}?",
     "summary": "Samenvatting: {{client}}, {{date}} om {{time}}, {{service}}, duur {{duration}} minuten{{notes}}. Bevestig je het aanmaken?",
     "notes": " Notities: {{value}}.",
@@ -6547,6 +6550,3 @@
     "startListening": "Luisteren starten"
   }
 }
-    "servicePickerPrompt": "Ik kon de behandeling {{name}} niet vinden. Bekijk de beschikbare diensten en spreek de gewenste naam uit, of zeg ‘nieuwe dienst maken’.",
-    "servicePickerTitle": "Kies een behandeling",
-    "servicePickerDescription": "‘{{name}}’ staat niet in de lijst. Kies met je stem: noem een getoonde behandeling of zeg ‘nieuwe dienst maken’.",

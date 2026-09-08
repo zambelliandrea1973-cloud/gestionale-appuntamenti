@@ -6516,6 +6516,9 @@
     "serviceNotFound": "Le traitement {{name}} n’est pas disponible. Voulez-vous créer ce nouveau service ?",
     "serviceSuggestion": "Je n’ai pas trouvé {{requested}}, mais le service le plus proche est {{suggestion}}. Voulez-vous l’utiliser ?",
     "confirmServiceSuggestion": "Vous pouvez dire oui pour utiliser le service proposé, ou non pour en indiquer un autre.",
+    "servicePickerPrompt": "Je n’ai pas trouvé le soin {{name}}. Consultez les services disponibles et prononcez le nom souhaité, ou dites « créer un nouveau service ».",
+    "servicePickerTitle": "Choisir un soin",
+    "servicePickerDescription": "« {{name}} » ne figure pas dans la liste. Le choix est vocal : prononcez un soin affiché ou dites « créer un nouveau service ».",
     "askDuration": "Combien de minutes dure {{name}} ?",
     "summary": "Récapitulatif : {{client}}, {{date}} à {{time}}, {{service}}, durée {{duration}} minutes{{notes}}. Confirmez-vous la création ?",
     "notes": " Notes : {{value}}.",
@@ -6547,6 +6550,3 @@
     "startListening": "Démarrer l’écoute"
   }
 }
-    "servicePickerPrompt": "Je n’ai pas trouvé le soin {{name}}. Consultez les services disponibles et prononcez le nom souhaité, ou dites « créer un nouveau service ».",
-    "servicePickerTitle": "Choisir un soin",
-    "servicePickerDescription": "« {{name}} » ne figure pas dans la liste. Le choix est vocal : prononcez un soin affiché ou dites « créer un nouveau service ».",
