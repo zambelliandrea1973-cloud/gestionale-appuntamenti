@@ -14,6 +14,7 @@ import {
   findAssistantService,
   findAssistantServiceSuggestion,
   getAssistantGreetingName,
+  normalizeAssistantName,
   splitClientName,
   type AssistantClient,
   type AssistantService
@@ -89,11 +90,17 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
     }
   }
 
-  if (interpretation.clientName && interpretation.clientName !== draft.clientName) {
+  if (
+    interpretation.clientName &&
+    normalizeAssistantName(interpretation.clientName) !== normalizeAssistantName(draft.clientName)
+  ) {
     merged.clientId = null;
     merged.createClientApproved = false;
   }
-  if (interpretation.serviceName && interpretation.serviceName !== draft.serviceName) {
+  if (
+    interpretation.serviceName &&
+    normalizeAssistantName(interpretation.serviceName) !== normalizeAssistantName(draft.serviceName)
+  ) {
     merged.serviceId = null;
     merged.createServiceApproved = false;
     if (!interpretation.durationMinutes) merged.durationMinutes = null;
@@ -330,7 +337,8 @@ export default function VoiceAppointmentAssistant({
 
     setIsSaving(true);
     try {
-      let clientId = readyDraft.clientId || null;
+      const existingClient = findAssistantClient(clients, readyDraft.clientName);
+      let clientId = readyDraft.clientId || existingClient?.id || null;
       if (!clientId) {
         if (!readyDraft.createClientApproved) {
           throw new Error(t('voiceAppointmentAssistant.unauthorizedClient'));
@@ -346,7 +354,8 @@ export default function VoiceAppointmentAssistant({
         clientId = createdClient.id;
       }
 
-      let serviceId = readyDraft.serviceId || null;
+      const existingService = findAssistantService(services, readyDraft.serviceName);
+      let serviceId = readyDraft.serviceId || existingService?.id || null;
       if (!serviceId) {
         if (!readyDraft.createServiceApproved) {
           throw new Error(t('voiceAppointmentAssistant.unauthorizedService'));
