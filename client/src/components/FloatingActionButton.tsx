@@ -265,7 +265,7 @@ export function FloatingActionButton({
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
-      className={variant === 'primary' ? 'appointment-action-pulse-green' : undefined}
+      className={variant === 'primary' ? 'appointment-action-shell appointment-action-pulse-green' : undefined}
       style={{
         position: 'fixed',
         left: pos.x,
@@ -283,7 +283,7 @@ export function FloatingActionButton({
       }}
     >
       <Button
-        className={`h-14 rounded-full px-4 text-xs font-extrabold flex items-center gap-2 select-none transition-colors duration-300 ${
+        className={`appointment-action-control h-14 rounded-full px-4 text-xs font-extrabold flex items-center gap-2 select-none transition-colors duration-300 ${
           isDraggingUI
             ? activeClass + ' opacity-80'
             : isBlinking ? activeClass : inactiveClass

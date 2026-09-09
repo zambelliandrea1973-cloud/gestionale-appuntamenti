@@ -3,6 +3,18 @@
 @tailwind utilities;
 
 /* The two appointment actions take turns drawing attention without moving. */
+.appointment-action-shell {
+  display: flex;
+  align-items: center;
+  height: 3.5rem;
+  min-height: 3.5rem;
+}
+
+.appointment-action-control {
+  height: 3.5rem;
+  min-height: 3.5rem;
+}
+
 @keyframes appointment-action-pulse {
   0%, 48%, 100% {
     box-shadow: 0 0 0 0 var(--appointment-pulse-ring);

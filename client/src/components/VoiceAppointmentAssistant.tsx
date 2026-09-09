@@ -852,7 +852,7 @@ export default function VoiceAppointmentAssistant({
   return (
     <>
       <div
-        className="fixed bottom-5 right-5 z-40 flex items-center gap-2.5"
+        className="appointment-action-shell fixed bottom-5 right-5 z-40 flex items-center gap-2.5"
         data-voice-appointment-trigger
       >
         <span
@@ -864,7 +864,7 @@ export default function VoiceAppointmentAssistant({
         <Button
           type="button"
           onClick={() => setOpen(true)}
-          className="appointment-action-pulse-ai h-14 w-14 shrink-0 rounded-full bg-violet-600 p-0 text-white shadow-[0_0_0_6px_rgba(124,58,237,0.11),0_13px_25px_rgba(84,58,145,0.28)] transition-all hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-[0_0_0_7px_rgba(124,58,237,0.15),0_17px_30px_rgba(84,58,145,0.30)] focus-visible:ring-4 focus-visible:ring-violet-300"
+          className="appointment-action-control appointment-action-pulse-ai h-14 w-14 shrink-0 rounded-full bg-violet-600 p-0 text-white shadow-[0_0_0_6px_rgba(124,58,237,0.11),0_13px_25px_rgba(84,58,145,0.28)] transition-all hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-[0_0_0_7px_rgba(124,58,237,0.15),0_17px_30px_rgba(84,58,145,0.30)] focus-visible:ring-4 focus-visible:ring-violet-300"
           aria-label={t('voiceAppointmentAssistant.openAriaLabel')}
           title={t('voiceAppointmentAssistant.openTitle')}
           data-testid="button-open-voice-appointment-assistant"
