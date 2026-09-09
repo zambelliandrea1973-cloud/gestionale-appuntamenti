@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* The two appointment actions take turns drawing attention without moving. */
+@keyframes appointment-action-pulse {
+  0%, 48%, 100% {
+    box-shadow: 0 0 0 0 var(--appointment-pulse-ring);
+  }
+  8%, 28% {
+    box-shadow: 0 0 0 8px var(--appointment-pulse-ring);
+  }
+}
+
+.appointment-action-pulse-green {
+  --appointment-pulse-ring: rgba(74, 222, 128, 0.42);
+  animation: appointment-action-pulse 4s ease-in-out infinite;
+}
+
+.appointment-action-pulse-ai {
+  --appointment-pulse-ring: rgba(124, 58, 237, 0.38);
+  animation: appointment-action-pulse 4s ease-in-out 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appointment-action-pulse-green,
+  .appointment-action-pulse-ai {
+    animation: none;
+  }
+}
+
 /* Nascondi completamente il popup DevTools runtime error modal */
 #replit-runtime-error-modal,
 [data-replit-runtime-error-modal],

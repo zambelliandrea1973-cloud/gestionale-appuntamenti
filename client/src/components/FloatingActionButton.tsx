@@ -252,8 +252,6 @@ export function FloatingActionButton({
 
   // --- Styling ---
 
-  const shadowColor = variant === 'primary' ? 'rgba(74,222,128,0.7)' : 'rgba(156,163,175,0.7)';
-  const shadowFade  = variant === 'primary' ? 'rgba(74,222,128,0)'   : 'rgba(156,163,175,0)';
   const activeClass   = variant === 'primary' ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-600';
   const inactiveClass = variant === 'primary' ? 'bg-green-600/60 hover:bg-green-700' : 'bg-gray-500/60 hover:bg-gray-600';
 
@@ -267,6 +265,7 @@ export function FloatingActionButton({
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
+      className={variant === 'primary' ? 'appointment-action-pulse-green' : undefined}
       style={{
         position: 'fixed',
         left: pos.x,
@@ -281,18 +280,8 @@ export function FloatingActionButton({
         boxShadow: isDraggingUI
           ? `0 0 0 4px ${shadowColor}, 0 8px 24px rgba(0,0,0,0.25)`
           : undefined,
-        animation: isDraggingUI || variant !== 'primary'
-          ? undefined
-          : 'fab-pulse 2s infinite',
       }}
     >
-      <style>{`
-        @keyframes fab-pulse {
-          0%   { box-shadow: 0 0 0 0   ${shadowColor}; }
-          70%  { box-shadow: 0 0 0 15px ${shadowFade}; }
-          100% { box-shadow: 0 0 0 0   ${shadowFade}; }
-        }
-      `}</style>
       <Button
         className={`h-14 rounded-full px-4 text-xs font-extrabold flex items-center gap-2 select-none transition-colors duration-300 ${
           isDraggingUI
