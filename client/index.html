@@ -181,8 +181,9 @@
           setTimeout(() => {
             const debugDiv = document.createElement('div');
             debugDiv.style.position = 'fixed';
-            debugDiv.style.bottom = '10px';
-            debugDiv.style.right = '10px';
+            // Keep the temporary PWA notice above the floating AI assistant.
+            debugDiv.style.bottom = '96px';
+            debugDiv.style.right = '20px';
             debugDiv.style.padding = '10px';
             debugDiv.style.background = 'green';
             debugDiv.style.color = 'white';

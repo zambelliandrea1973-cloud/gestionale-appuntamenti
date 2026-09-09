@@ -34,7 +34,7 @@ export default function Calendar() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [view, setView] = useState<"day" | "week" | "month">("day");
+  const [view, setView] = useState<"day" | "week" | "month">("month");
   const [voiceDraft, setVoiceDraft] = useState<VoiceAppointmentFormDraft | null>(null);
   const [isVoiceDraftModalOpen, setIsVoiceDraftModalOpen] = useState(false);
   const currentViewRef = useRef<"day" | "week" | "month">(view);
