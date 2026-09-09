@@ -45,11 +45,12 @@ export function FloatingActionButton({
   const { t } = useTranslation();
   const posKey   = storageKey;
   const scaleKey = `${storageKey}-scale`;
+  const scaleLocked = variant === 'primary';
 
   const [pos, setPos] = useState<{ x: number; y: number }>(
     () => loadSaved<{ x: number; y: number } | null>(posKey, null) ?? getDefaultPos()
   );
-  const [scale, setScale]       = useState<number>(() => loadSaved<number>(scaleKey, 1));
+  const [scale, setScale]       = useState<number>(() => scaleLocked ? 1 : loadSaved<number>(scaleKey, 1));
   const [isBlinking, setIsBlinking] = useState(false);
   const [isDraggingUI, setIsDraggingUI] = useState(false);
 
@@ -66,6 +67,10 @@ export function FloatingActionButton({
   // Keep refs in sync with state
   posRef.current   = pos;
   scaleRef.current = scale;
+
+  useEffect(() => {
+    if (scaleLocked) localStorage.removeItem(scaleKey);
+  }, [scaleKey, scaleLocked]);
 
   // Pinch-to-scale state
   const pinchRef = useRef<{ dist: number; scale0: number } | null>(null);
@@ -219,6 +224,7 @@ export function FloatingActionButton({
   // --- Touch events for pinch-to-scale ---
 
   const onTouchStart = useCallback((e: React.TouchEvent) => {
+    if (scaleLocked) return;
     if (e.touches.length === 2) {
       e.preventDefault();
       const dx   = e.touches[0].clientX - e.touches[1].clientX;
@@ -226,9 +232,10 @@ export function FloatingActionButton({
       const dist = Math.hypot(dx, dy);
       pinchRef.current = { dist, scale0: scaleRef.current };
     }
-  }, []);
+  }, [scaleLocked]);
 
   const onTouchMove = useCallback((e: React.TouchEvent) => {
+    if (scaleLocked) return;
     if (e.touches.length === 2 && pinchRef.current) {
       e.preventDefault();
       const dx      = e.touches[0].clientX - e.touches[1].clientX;
@@ -241,14 +248,15 @@ export function FloatingActionButton({
       scaleRef.current = newScale;
       setScale(newScale);
     }
-  }, []);
+  }, [scaleLocked]);
 
   const onTouchEnd = useCallback(() => {
+    if (scaleLocked) return;
     if (pinchRef.current) {
       localStorage.setItem(scaleKey, JSON.stringify(scaleRef.current));
       pinchRef.current = null;
     }
-  }, [scaleKey]);
+  }, [scaleKey, scaleLocked]);
 
   // --- Styling ---
 
@@ -283,7 +291,7 @@ export function FloatingActionButton({
       }}
     >
       <Button
-        className={`appointment-action-control h-14 rounded-full px-4 text-xs font-extrabold flex items-center gap-2 select-none transition-colors duration-300 ${
+        className={`appointment-action-control h-12 rounded-full px-4 text-xs font-extrabold flex items-center gap-2 select-none transition-colors duration-300 ${
           isDraggingUI
             ? activeClass + ' opacity-80'
             : isBlinking ? activeClass : inactiveClass

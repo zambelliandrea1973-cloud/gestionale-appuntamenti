@@ -6,21 +6,23 @@
 .appointment-action-shell {
   display: flex;
   align-items: center;
-  height: 3.5rem;
-  min-height: 3.5rem;
+  height: 3rem;
+  min-height: 3rem;
 }
 
 .appointment-action-control {
-  height: 3.5rem;
-  min-height: 3.5rem;
+  height: 3rem;
+  min-height: 3rem;
 }
 
 @keyframes appointment-action-pulse {
   0%, 48%, 100% {
     box-shadow: 0 0 0 0 var(--appointment-pulse-ring);
+    filter: brightness(1);
   }
   8%, 28% {
-    box-shadow: 0 0 0 8px var(--appointment-pulse-ring);
+    box-shadow: 0 0 0 10px var(--appointment-pulse-ring);
+    filter: brightness(1.12);
   }
 }
 
