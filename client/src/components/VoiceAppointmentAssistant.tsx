@@ -851,17 +851,27 @@ export default function VoiceAppointmentAssistant({
 
   return (
     <>
-      <Button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 h-14 w-14 rounded-full bg-violet-600 p-0 text-white shadow-xl hover:bg-violet-700"
-        aria-label={t('voiceAppointmentAssistant.openAriaLabel')}
-        title={t('voiceAppointmentAssistant.openTitle')}
+      <div
+        className="fixed bottom-5 right-5 z-40 flex items-center gap-2.5"
         data-voice-appointment-trigger
-        data-testid="button-open-voice-appointment-assistant"
       >
-        <Mic className="h-6 w-6" />
-      </Button>
+        <span
+          className="relative hidden whitespace-nowrap rounded-xl border border-violet-200 bg-violet-50 px-3.5 py-2 text-xs font-extrabold text-violet-800 shadow-[0_8px_18px_rgba(84,58,145,0.12)] after:absolute after:right-[-5px] after:top-1/2 after:h-2.5 after:w-2.5 after:-translate-y-1/2 after:rotate-45 after:border-r after:border-t after:border-violet-200 after:bg-violet-50 sm:inline-flex"
+          aria-hidden="true"
+        >
+          {t('navigation.aiAssistant')}
+        </span>
+        <Button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="h-14 w-14 shrink-0 rounded-full bg-violet-600 p-0 text-white shadow-[0_0_0_6px_rgba(124,58,237,0.11),0_13px_25px_rgba(84,58,145,0.28)] transition-all hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-[0_0_0_7px_rgba(124,58,237,0.15),0_17px_30px_rgba(84,58,145,0.30)] focus-visible:ring-4 focus-visible:ring-violet-300"
+          aria-label={t('voiceAppointmentAssistant.openAriaLabel')}
+          title={t('voiceAppointmentAssistant.openTitle')}
+          data-testid="button-open-voice-appointment-assistant"
+        >
+          <Mic className="h-6 w-6" />
+        </Button>
+      </div>
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent
