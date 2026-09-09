@@ -337,7 +337,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
             setIsAppointmentFormOpen(true);
           }}
           text={t('calendar.selectNewAppointment', 'New appointment')}
-          storageKey="fab-week-position"
+           storageKey="fab-appointment-position"
         />
       )}
     </div>

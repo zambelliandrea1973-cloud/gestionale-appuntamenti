@@ -294,15 +294,14 @@ export function FloatingActionButton({
         }
       `}</style>
       <Button
-        size="lg"
-        className={`rounded-full flex items-center gap-2 select-none transition-colors duration-300 ${
+        className={`h-14 rounded-full px-4 text-xs font-extrabold flex items-center gap-2 select-none transition-colors duration-300 ${
           isDraggingUI
             ? activeClass + ' opacity-80'
             : isBlinking ? activeClass : inactiveClass
         }`}
         style={{ pointerEvents: 'none' }}
       >
-        {isDraggingUI ? <Move className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+        {isDraggingUI ? <Move className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
         {isDraggingUI ? t('fab.dragging') : text}
       </Button>
       {onCancel && !isDraggingUI && (

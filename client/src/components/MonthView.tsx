@@ -624,7 +624,7 @@ export default function MonthView({
             formOpenedAtRef.current = Date.now();
           }}
           text={t("calendar.selectNewAppointment", "Nuovo appuntamento")}
-          storageKey="fab-month-position"
+           storageKey="fab-appointment-position"
         />
       )}
     </div>
