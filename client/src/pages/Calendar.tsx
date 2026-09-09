@@ -93,6 +93,14 @@ export default function Calendar() {
     if (mode !== 'filter') setActiveFilter(null);
   };
 
+  useEffect(() => {
+    if (view !== 'day' && calendarMode === 'columns') {
+      setCalendarMode('global');
+      localStorage.setItem(STORAGE_KEY_MODE, 'global');
+      setActiveFilter(null);
+    }
+  }, [view, calendarMode]);
+
   const handleFilterChip = (type: 'staff'|'room', id: number) => {
     setActiveFilter(prev => (prev?.type === type && prev?.id === id) ? null : { type, id });
   };
@@ -488,15 +496,17 @@ export default function Calendar() {
               <Filter className="h-4 w-4" />
               <span className="hidden sm:inline">{t('calendar.modeFilter')}</span>
             </Button>
-            <Button
-              variant={calendarMode==='columns' ? "default" : "ghost"} size="sm"
-              onClick={() => updateCalendarMode('columns')}
-              className={`rounded-none px-3 flex-1 sm:flex-initial gap-1.5 ${calendarMode==='columns' ? 'bg-primary text-white' : ''}`}
-              title={t('calendar.modeColumns')}
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              <span className="hidden sm:inline">{t('calendar.modeColumns')}</span>
-            </Button>
+            {view === 'day' && (
+              <Button
+                variant={calendarMode==='columns' ? "default" : "ghost"} size="sm"
+                onClick={() => updateCalendarMode('columns')}
+                className={`rounded-none px-3 flex-1 sm:flex-initial gap-1.5 ${calendarMode==='columns' ? 'bg-primary text-white' : ''}`}
+                title={t('calendar.modeColumns')}
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                <span className="hidden sm:inline">{t('calendar.modeColumns')}</span>
+              </Button>
+            )}
           </div>
 
           {/* Google sync + data */}
@@ -616,15 +626,6 @@ export default function Calendar() {
                 )}
               </div>
             )}
-          </div>
-        )}
-
-        {/* Avviso vista colonne in week/month */}
-        {calendarMode === 'columns' && view !== 'day' && (
-          <div className="mt-3 pt-3 border-t border-gray-100">
-            <p className="text-sm text-amber-600 text-center py-1 bg-amber-50 rounded-md px-3">
-              {t('calendar.columnsOnlyInDayView', 'Column view is only available in Day view.')}
-            </p>
           </div>
         )}
 
