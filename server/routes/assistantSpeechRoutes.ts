@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
+import { pipeline } from 'node:stream/promises';
 import { requireAuth } from '../middleware/authMiddleware';
 import {
   assistantSpeechConfig,
-  synthesizeAssistantSpeech
+  synthesizeAssistantSpeechStream
 } from '../services/assistantSpeechService';
 
 const router = Router();
@@ -37,20 +38,44 @@ router.post(
       });
     }
 
+    const upstreamController = new AbortController();
+    const abortUpstream = () => {
+      if (!res.writableEnded) upstreamController.abort();
+    };
+    req.once('aborted', abortUpstream);
+    res.once('close', abortUpstream);
+
     try {
-      const audio = await synthesizeAssistantSpeech(text, language);
-      res.set({
+      const audio = await synthesizeAssistantSpeechStream(
+        text,
+        language,
+        upstreamController.signal
+      );
+      const headers: Record<string, string> = {
         'Content-Type': 'audio/mpeg',
-        'Content-Length': audio.length.toString(),
         'Cache-Control': 'private, no-store',
-        'X-Assistant-Voice': assistantSpeechConfig.voice
-      });
-      return res.send(audio);
+        'X-Assistant-Voice': assistantSpeechConfig.voice,
+        'X-Assistant-Audio-Streaming': audio.cached ? 'cache' : 'stream'
+      };
+      if (audio.contentLength) {
+        headers['Content-Length'] = audio.contentLength.toString();
+      }
+      res.set(headers);
+      await pipeline(audio.stream, res);
+      return;
     } catch (error) {
+      if (upstreamController.signal.aborted) return;
       console.error('[AI APPOINTMENT ASSISTANT] Speech synthesis failed:', error);
+      if (res.headersSent) {
+        res.destroy();
+        return;
+      }
       return res.status(503).json({
         message: 'La voce non è momentaneamente disponibile.'
       });
+    } finally {
+      req.removeListener('aborted', abortUpstream);
+      res.removeListener('close', abortUpstream);
     }
   }
 );

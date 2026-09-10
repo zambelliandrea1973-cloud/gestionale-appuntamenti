@@ -206,6 +206,7 @@ export default function VoiceAppointmentAssistant({
     const playBrowserFallback = () => {
       if (fallbackStarted || completed || sequence !== speechSequenceRef.current) return;
       fallbackStarted = true;
+      controller.abort();
       speechRequestRef.current = null;
       if (speechAudioRef.current) {
         speechAudioRef.current.onended = null;
@@ -241,6 +242,131 @@ export default function VoiceAppointmentAssistant({
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
     };
+    const playBufferedAudio = async (response: Response) => {
+      const audioBlob = await response.blob();
+      if (sequence !== speechSequenceRef.current) return;
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      speechAudioUrlRef.current = audioUrl;
+      speechAudioRef.current = audio;
+      audio.preload = 'auto';
+      audio.onended = completeOnce;
+      audio.onerror = playBrowserFallback;
+      await audio.play();
+    };
+    const appendToSourceBuffer = (
+      sourceBuffer: SourceBuffer,
+      chunk: Uint8Array,
+      signal: AbortSignal
+    ): Promise<void> => new Promise((resolve, reject) => {
+      let settled = false;
+      const cleanup = () => {
+        sourceBuffer.removeEventListener('updateend', handleUpdateEnd);
+        sourceBuffer.removeEventListener('error', handleError);
+        sourceBuffer.removeEventListener('abort', handleAbort);
+        signal.removeEventListener('abort', handleAbort);
+      };
+      const settle = (callback: () => void) => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        callback();
+      };
+      const handleUpdateEnd = () => {
+        settle(resolve);
+      };
+      const handleError = () => {
+        settle(() => reject(new Error('Unable to append streamed speech audio')));
+      };
+      const handleAbort = () => {
+        settle(() => reject(new DOMException('Speech stream aborted', 'AbortError')));
+      };
+      sourceBuffer.addEventListener('updateend', handleUpdateEnd);
+      sourceBuffer.addEventListener('error', handleError);
+      sourceBuffer.addEventListener('abort', handleAbort);
+      signal.addEventListener('abort', handleAbort, { once: true });
+      if (signal.aborted) {
+        handleAbort();
+        return;
+      }
+      sourceBuffer.appendBuffer(new Uint8Array(chunk).buffer);
+    });
+    const playStreamingAudio = async (response: Response) => {
+      if (
+        !response.body ||
+        !('MediaSource' in window) ||
+        !MediaSource.isTypeSupported('audio/mpeg')
+      ) {
+        await playBufferedAudio(response);
+        return;
+      }
+
+      const mediaSource = new MediaSource();
+      const audioUrl = URL.createObjectURL(mediaSource);
+      const audio = new Audio(audioUrl);
+      speechAudioUrlRef.current = audioUrl;
+      speechAudioRef.current = audio;
+      audio.preload = 'auto';
+      audio.onended = completeOnce;
+      audio.onerror = playBrowserFallback;
+
+      await new Promise<void>((resolve, reject) => {
+        let settled = false;
+        let sourceOpened = false;
+        const settle = (callback: () => void) => {
+          if (settled) return;
+          settled = true;
+          controller.signal.removeEventListener('abort', handleAbort);
+          mediaSource.removeEventListener('sourceopen', handleSourceOpen);
+          callback();
+        };
+        const handleAbort = () => {
+          if (!sourceOpened) {
+            void response.body?.cancel().catch(() => undefined);
+          }
+          settle(() => reject(new DOMException('Speech stream aborted', 'AbortError')));
+        };
+        const handleSourceOpen = async () => {
+          if (settled || controller.signal.aborted) {
+            handleAbort();
+            return;
+          }
+          sourceOpened = true;
+          const reader = response.body!.getReader();
+          let playbackStarted = false;
+          const cancelReader = () => {
+            void reader.cancel().catch(() => undefined);
+          };
+          controller.signal.addEventListener('abort', cancelReader, { once: true });
+          try {
+            const sourceBuffer = mediaSource.addSourceBuffer('audio/mpeg');
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              if (sequence !== speechSequenceRef.current) {
+                await reader.cancel();
+                return;
+              }
+              await appendToSourceBuffer(sourceBuffer, value, controller.signal);
+              if (!playbackStarted) {
+                playbackStarted = true;
+                void audio.play().catch(playBrowserFallback);
+              }
+            }
+            if (mediaSource.readyState === 'open') mediaSource.endOfStream();
+            settle(resolve);
+          } catch (error) {
+            settle(() => reject(error));
+          } finally {
+            controller.signal.removeEventListener('abort', cancelReader);
+            reader.releaseLock();
+          }
+        };
+        controller.signal.addEventListener('abort', handleAbort, { once: true });
+        mediaSource.addEventListener('sourceopen', handleSourceOpen, { once: true });
+        if (controller.signal.aborted) handleAbort();
+      });
+    };
 
     try {
       const response = await fetch('/api/ai-appointment-assistant/speech', {
@@ -253,17 +379,7 @@ export default function VoiceAppointmentAssistant({
       if (!response.ok) {
         throw new Error(`Speech request failed with status ${response.status}`);
       }
-
-      const audioBlob = await response.blob();
-      if (sequence !== speechSequenceRef.current) return;
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
-      speechAudioUrlRef.current = audioUrl;
-      speechAudioRef.current = audio;
-      audio.preload = 'auto';
-      audio.onended = completeOnce;
-      audio.onerror = playBrowserFallback;
-      await audio.play();
+      await playStreamingAudio(response);
     } catch (error) {
       if (controller.signal.aborted || sequence !== speechSequenceRef.current) return;
       console.error('[AI APPOINTMENT ASSISTANT] Central speech playback failed:', error);

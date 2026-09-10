@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { Readable } from 'node:stream';
 
 const ASSISTANT_VOICE = 'shimmer' as const;
 const ASSISTANT_SPEECH_MODEL = 'tts-1' as const;
@@ -31,16 +32,27 @@ function cacheSpeech(key: string, audio: Buffer): void {
   }
 }
 
-export async function synthesizeAssistantSpeech(
+export interface AssistantSpeechStream {
+  stream: Readable;
+  contentLength?: number;
+  cached: boolean;
+}
+
+export async function synthesizeAssistantSpeechStream(
   text: string,
-  language: string
-): Promise<Buffer> {
+  language: string,
+  signal?: AbortSignal
+): Promise<AssistantSpeechStream> {
   const cacheKey = `${language}:${text}`;
   const cached = speechCache.get(cacheKey);
   if (cached) {
     speechCache.delete(cacheKey);
     speechCache.set(cacheKey, cached);
-    return cached;
+    return {
+      stream: Readable.from([cached]),
+      contentLength: cached.length,
+      cached: true
+    };
   }
 
   const response = await getOpenAIClient().audio.speech.create({
@@ -49,10 +61,53 @@ export async function synthesizeAssistantSpeech(
     input: text,
     response_format: 'mp3',
     speed: ASSISTANT_SPEECH_SPEED
-  });
-  const audio = Buffer.from(await response.arrayBuffer());
-  cacheSpeech(cacheKey, audio);
-  return audio;
+  }, { signal });
+  const contentLengthHeader = response.headers.get('content-length');
+  const contentLength = contentLengthHeader
+    ? Number.parseInt(contentLengthHeader, 10)
+    : undefined;
+
+  if (!response.body) {
+    const audio = Buffer.from(await response.arrayBuffer());
+    cacheSpeech(cacheKey, audio);
+    return {
+      stream: Readable.from([audio]),
+      contentLength: audio.length,
+      cached: false
+    };
+  }
+
+  const reader = response.body.getReader();
+  const chunks: Buffer[] = [];
+  const stream = Readable.from((async function* () {
+    let completed = false;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          completed = true;
+          break;
+        }
+        const chunk = Buffer.from(value);
+        chunks.push(chunk);
+        yield chunk;
+      }
+    } finally {
+      if (!completed) {
+        await reader.cancel().catch(() => undefined);
+      }
+      reader.releaseLock();
+      if (completed) {
+        cacheSpeech(cacheKey, Buffer.concat(chunks));
+      }
+    }
+  })());
+
+  return {
+    stream,
+    contentLength: Number.isFinite(contentLength) ? contentLength : undefined,
+    cached: false
+  };
 }
 
 export const assistantSpeechConfig = {
