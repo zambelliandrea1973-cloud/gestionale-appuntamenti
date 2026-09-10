@@ -85,6 +85,13 @@ const assistantSpeechLocales: Record<string, string> = {
   hi: 'hi-IN'
 };
 
+const ASSISTANT_FEMALE_VOICE_KEY = 'voice-appointment-assistant-female-voice';
+const preferredFemaleVoiceNames = [
+  /^google italiano$/i,
+  /^microsoft elsa\b/i,
+  /\b(alice|federica|lucia|isabella|elsa|aria|jenny|sonia|amelie|denise|katja|ingrid|sabina|svetlana|neerja|heera|samantha|karen|moira|fiona|tessa)\b/i,
+];
+
 function getAssistantSpeechLocale(language?: string): string {
   const baseLanguage = (language || 'it').split('-')[0].toLowerCase();
   return assistantSpeechLocales[baseLanguage] || 'it-IT';
@@ -177,16 +184,23 @@ export default function VoiceAppointmentAssistant({
     const matchingVoices = window.speechSynthesis.getVoices().filter(voice =>
       voice.lang.toLowerCase().startsWith(speechLocale.split('-')[0].toLowerCase())
     );
-    utterance.voice = matchingVoices.find(voice =>
-      /^google italiano$/i.test(voice.name.trim())
-    ) || matchingVoices.find(voice =>
-      /^microsoft elsa\b/i.test(voice.name.trim())
-    ) || matchingVoices.find(voice =>
-      /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
-    ) || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
+    const savedVoiceName = localStorage.getItem(ASSISTANT_FEMALE_VOICE_KEY);
+    const savedVoice = savedVoiceName
+      ? matchingVoices.find(voice => voice.name === savedVoiceName)
+      : undefined;
+    const preferredFemaleVoice = preferredFemaleVoiceNames
+      .map(pattern => matchingVoices.find(voice => pattern.test(voice.name.trim())))
+      .find(Boolean);
+    const selectedVoice = savedVoice
+      || preferredFemaleVoice
+      || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
       || matchingVoices[0]
       || null;
-    utterance.rate = 1.33;
+    utterance.voice = selectedVoice;
+    if (selectedVoice) {
+      localStorage.setItem(ASSISTANT_FEMALE_VOICE_KEY, selectedVoice.name);
+    }
+    utterance.rate = 2.22;
     utterance.pitch = 1;
     if (onComplete) {
       let completed = false;
@@ -856,7 +870,7 @@ export default function VoiceAppointmentAssistant({
         data-voice-appointment-trigger
       >
         <span
-          className="relative hidden whitespace-nowrap rounded-xl border border-violet-200 bg-violet-50 px-3.5 py-2 text-xs font-extrabold text-violet-800 shadow-[0_8px_18px_rgba(84,58,145,0.12)] after:absolute after:right-[-5px] after:top-1/2 after:h-2.5 after:w-2.5 after:-translate-y-1/2 after:rotate-45 after:border-r after:border-t after:border-violet-200 after:bg-violet-50 sm:inline-flex"
+          className="appointment-action-label relative hidden whitespace-nowrap rounded-xl border border-violet-200 bg-violet-50 px-3.5 py-2 text-xs font-extrabold text-violet-800 shadow-[0_8px_18px_rgba(84,58,145,0.12)] after:absolute after:right-[-5px] after:top-1/2 after:h-2.5 after:w-2.5 after:-translate-y-1/2 after:rotate-45 after:border-r after:border-t after:border-violet-200 after:bg-violet-50 sm:inline-flex"
           aria-hidden="true"
         >
           {t('navigation.aiAssistant')}

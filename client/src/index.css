@@ -15,6 +15,13 @@
   min-height: 3rem;
 }
 
+.appointment-action-label {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  min-height: 2rem;
+}
+
 @keyframes appointment-action-pulse {
   0%, 48%, 100% {
     box-shadow: 0 0 0 0 var(--appointment-pulse-ring);
