@@ -146,6 +146,7 @@ export default function VoiceAppointmentAssistant({
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const conversationVoiceNameRef = useRef<string | null | undefined>(undefined);
   const startListeningRef = useRef<() => void>(() => {});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
@@ -165,6 +166,10 @@ export default function VoiceAppointmentAssistant({
     enabled: open
   });
   const isCatalogLoading = isLoadingClients || isLoadingServices;
+
+  useEffect(() => {
+    conversationVoiceNameRef.current = undefined;
+  }, [speechLocale]);
 
   const speak = (text: string, onComplete?: () => void) => {
     if (!('speechSynthesis' in window)) {
@@ -205,36 +210,49 @@ export default function VoiceAppointmentAssistant({
     const matchingVoices = synthesis.getVoices().filter(voice =>
       voice.lang.toLowerCase().startsWith(language)
     );
-    const savedVoiceName = localStorage.getItem(ASSISTANT_FEMALE_VOICE_KEY);
-    const savedVoice = savedVoiceName
-      ? matchingVoices.find(voice =>
-          voice.name === savedVoiceName &&
-          preferredFemaleVoiceNames.some(pattern => pattern.test(voice.name.trim()))
-        )
-      : undefined;
-    if (savedVoiceName && !savedVoice) {
-      localStorage.removeItem(ASSISTANT_FEMALE_VOICE_KEY);
+    let selectedVoice: SpeechSynthesisVoice | null = null;
+    const lockedVoiceName = conversationVoiceNameRef.current;
+
+    if (lockedVoiceName !== undefined) {
+      // Once a conversation has started, never switch voices because the
+      // browser loaded another voice asynchronously between two replies.
+      selectedVoice = lockedVoiceName
+        ? matchingVoices.find(voice => voice.name === lockedVoiceName) || null
+        : null;
+    } else {
+      const savedVoiceName = localStorage.getItem(ASSISTANT_FEMALE_VOICE_KEY);
+      const savedVoice = savedVoiceName
+        ? matchingVoices.find(voice =>
+            voice.name === savedVoiceName &&
+            preferredFemaleVoiceNames.some(pattern => pattern.test(voice.name.trim()))
+          )
+        : undefined;
+      if (savedVoiceName && !savedVoice) {
+        localStorage.removeItem(ASSISTANT_FEMALE_VOICE_KEY);
+      }
+      const preferredFemaleVoice = preferredFemaleVoiceNames
+        .map(pattern => matchingVoices.find(voice => pattern.test(voice.name.trim())))
+        .find((voice): voice is SpeechSynthesisVoice => Boolean(voice));
+      const exactLocaleFallback = matchingVoices.find(voice =>
+        voice.lang.toLowerCase() === speechLocale.toLowerCase() &&
+        !knownMaleVoiceNames.test(voice.name.trim())
+      );
+      const fallbackVoice = exactLocaleFallback
+        || matchingVoices.find(voice => !knownMaleVoiceNames.test(voice.name.trim()))
+        || matchingVoices[0]
+        || null;
+      selectedVoice = savedVoice || preferredFemaleVoice || fallbackVoice;
+      conversationVoiceNameRef.current = selectedVoice?.name || null;
+
+      if (savedVoice || preferredFemaleVoice) {
+        localStorage.setItem(
+          ASSISTANT_FEMALE_VOICE_KEY,
+          (savedVoice || preferredFemaleVoice)!.name
+        );
+      }
     }
-    const preferredFemaleVoice = preferredFemaleVoiceNames
-      .map(pattern => matchingVoices.find(voice => pattern.test(voice.name.trim())))
-      .find((voice): voice is SpeechSynthesisVoice => Boolean(voice));
-    const exactLocaleFallback = matchingVoices.find(voice =>
-      voice.lang.toLowerCase() === speechLocale.toLowerCase() &&
-      !knownMaleVoiceNames.test(voice.name.trim())
-    );
-    const fallbackVoice = exactLocaleFallback
-      || matchingVoices.find(voice => !knownMaleVoiceNames.test(voice.name.trim()))
-      || matchingVoices[0]
-      || null;
-    const selectedVoice = savedVoice || preferredFemaleVoice || fallbackVoice;
 
     utterance.voice = selectedVoice;
-    if (savedVoice || preferredFemaleVoice) {
-      localStorage.setItem(
-        ASSISTANT_FEMALE_VOICE_KEY,
-        (savedVoice || preferredFemaleVoice)!.name
-      );
-    }
     utteranceRef.current = utterance;
     synthesis.resume();
     synthesis.speak(utterance);
