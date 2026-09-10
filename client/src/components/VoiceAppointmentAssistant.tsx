@@ -76,14 +76,6 @@ const assistantSpeechLocales: Record<string, string> = {
   hi: 'hi-IN'
 };
 
-const ASSISTANT_FEMALE_VOICE_KEY = 'voice-appointment-assistant-female-voice';
-const preferredFemaleVoiceNames = [
-  /^google italiano$/i,
-  /^microsoft elsa\b/i,
-  /\b(alice|federica|lucia|isabella|elsa|bianca|fabiola|paola|carla|aria|jenny|sonia|amelie|denise|katja|ingrid|sabina|svetlana|neerja|heera|samantha|karen|moira|fiona|tessa|female|woman|donna)\b/i,
-];
-const knownMaleVoiceNames = /\b(cosimo|diego|giuseppe|luca|marco|male|man|uomo)\b/i;
-
 function getAssistantSpeechLocale(language?: string): string {
   const baseLanguage = (language || 'it').split('-')[0].toLowerCase();
   return assistantSpeechLocales[baseLanguage] || 'it-IT';
@@ -145,8 +137,10 @@ export default function VoiceAppointmentAssistant({
   const [servicePickerOptions, setServicePickerOptions] = useState<AssistantService[]>([]);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const conversationVoiceNameRef = useRef<string | null | undefined>(undefined);
+  const speechAudioRef = useRef<HTMLAudioElement | null>(null);
+  const speechAudioUrlRef = useRef<string | null>(null);
+  const speechRequestRef = useRef<AbortController | null>(null);
+  const speechSequenceRef = useRef(0);
   const startListeningRef = useRef<() => void>(() => {});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
@@ -167,95 +161,71 @@ export default function VoiceAppointmentAssistant({
   });
   const isCatalogLoading = isLoadingClients || isLoadingServices;
 
-  useEffect(() => {
-    conversationVoiceNameRef.current = undefined;
-  }, [speechLocale]);
-
-  const speak = (text: string, onComplete?: () => void) => {
-    if (!('speechSynthesis' in window)) {
-      onComplete?.();
-      return;
+  const stopSpeech = () => {
+    speechSequenceRef.current += 1;
+    speechRequestRef.current?.abort();
+    speechRequestRef.current = null;
+    if (speechAudioRef.current) {
+      speechAudioRef.current.onended = null;
+      speechAudioRef.current.onerror = null;
+      speechAudioRef.current.pause();
+      speechAudioRef.current.removeAttribute('src');
+      speechAudioRef.current.load();
+      speechAudioRef.current = null;
     }
-    const synthesis = window.speechSynthesis;
-    synthesis.cancel();
-    utteranceRef.current = null;
+    if (speechAudioUrlRef.current) {
+      URL.revokeObjectURL(speechAudioUrlRef.current);
+      speechAudioUrlRef.current = null;
+    }
+  };
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = speechLocale;
-    utterance.rate = 2.22;
-    utterance.pitch = 1;
-
+  const speak = async (text: string, onComplete?: () => void) => {
+    stopSpeech();
+    const sequence = speechSequenceRef.current;
+    const controller = new AbortController();
+    speechRequestRef.current = controller;
     let completed = false;
     const completeOnce = () => {
       if (completed) return;
       completed = true;
-      utteranceRef.current = null;
+      if (sequence === speechSequenceRef.current) {
+        speechRequestRef.current = null;
+        speechAudioRef.current = null;
+        if (speechAudioUrlRef.current) {
+          URL.revokeObjectURL(speechAudioUrlRef.current);
+          speechAudioUrlRef.current = null;
+        }
+      }
       onComplete?.();
     };
-    if (onComplete) {
-      utterance.onend = completeOnce;
-      utterance.onerror = event => {
-        if (event.error !== 'canceled' && event.error !== 'interrupted') completeOnce();
-      };
-    } else {
-      utterance.onend = () => {
-        utteranceRef.current = null;
-      };
-      utterance.onerror = () => {
-        utteranceRef.current = null;
-      };
-    }
 
-    const language = speechLocale.split('-')[0].toLowerCase();
-    const matchingVoices = synthesis.getVoices().filter(voice =>
-      voice.lang.toLowerCase().startsWith(language)
-    );
-    let selectedVoice: SpeechSynthesisVoice | null = null;
-    const lockedVoiceName = conversationVoiceNameRef.current;
-
-    if (lockedVoiceName !== undefined) {
-      // Once a conversation has started, never switch voices because the
-      // browser loaded another voice asynchronously between two replies.
-      selectedVoice = lockedVoiceName
-        ? matchingVoices.find(voice => voice.name === lockedVoiceName) || null
-        : null;
-    } else {
-      const savedVoiceName = localStorage.getItem(ASSISTANT_FEMALE_VOICE_KEY);
-      const savedVoice = savedVoiceName
-        ? matchingVoices.find(voice =>
-            voice.name === savedVoiceName &&
-            preferredFemaleVoiceNames.some(pattern => pattern.test(voice.name.trim()))
-          )
-        : undefined;
-      if (savedVoiceName && !savedVoice) {
-        localStorage.removeItem(ASSISTANT_FEMALE_VOICE_KEY);
+    try {
+      const response = await fetch('/api/ai-appointment-assistant/speech', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, language: speechLocale }),
+        signal: controller.signal
+      });
+      if (!response.ok) {
+        throw new Error(`Speech request failed with status ${response.status}`);
       }
-      const preferredFemaleVoice = preferredFemaleVoiceNames
-        .map(pattern => matchingVoices.find(voice => pattern.test(voice.name.trim())))
-        .find((voice): voice is SpeechSynthesisVoice => Boolean(voice));
-      const exactLocaleFallback = matchingVoices.find(voice =>
-        voice.lang.toLowerCase() === speechLocale.toLowerCase() &&
-        !knownMaleVoiceNames.test(voice.name.trim())
-      );
-      const fallbackVoice = exactLocaleFallback
-        || matchingVoices.find(voice => !knownMaleVoiceNames.test(voice.name.trim()))
-        || matchingVoices[0]
-        || null;
-      selectedVoice = savedVoice || preferredFemaleVoice || fallbackVoice;
-      conversationVoiceNameRef.current = selectedVoice?.name || null;
 
-      if (savedVoice || preferredFemaleVoice) {
-        localStorage.setItem(
-          ASSISTANT_FEMALE_VOICE_KEY,
-          (savedVoice || preferredFemaleVoice)!.name
-        );
-      }
+      const audioBlob = await response.blob();
+      if (sequence !== speechSequenceRef.current) return;
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      speechAudioUrlRef.current = audioUrl;
+      speechAudioRef.current = audio;
+      audio.preload = 'auto';
+      audio.onended = completeOnce;
+      audio.onerror = completeOnce;
+      await audio.play();
+    } catch (error) {
+      if (controller.signal.aborted || sequence !== speechSequenceRef.current) return;
+      console.error('[AI APPOINTMENT ASSISTANT] Central speech playback failed:', error);
+      completeOnce();
     }
-
-    utterance.voice = selectedVoice;
-    utteranceRef.current = utterance;
-    synthesis.resume();
-    synthesis.speak(utterance);
   };
 
   const addAssistantMessage = (content: string, options: { autoListen?: boolean } = {}) => {
@@ -283,7 +253,7 @@ export default function VoiceAppointmentAssistant({
   useEffect(() => {
     return () => {
       recognitionRef.current?.stop?.();
-      window.speechSynthesis?.cancel();
+      stopSpeech();
     };
   }, []);
 
@@ -895,7 +865,7 @@ export default function VoiceAppointmentAssistant({
 
   const resetConversation = () => {
     recognitionRef.current?.stop?.();
-    window.speechSynthesis?.cancel();
+    stopSpeech();
     setMessages([]);
     setDraft({});
     setPendingQuestion(null);
@@ -915,7 +885,7 @@ export default function VoiceAppointmentAssistant({
       setServicePickerOpen(false);
       setServicePickerOptions([]);
       recognitionRef.current?.stop?.();
-      window.speechSynthesis?.cancel();
+      stopSpeech();
       setIsListening(false);
     }
   };
