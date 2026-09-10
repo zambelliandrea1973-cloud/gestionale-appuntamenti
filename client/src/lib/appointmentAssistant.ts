@@ -32,7 +32,7 @@ export function normalizeAssistantName(value: string | null | undefined): string
 export function getAssistantGreetingName(email: string | null | undefined): string {
   return (email || '')
     .split('@')[0]
-    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .replace(/[^\p{L}]+/gu, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
