@@ -128,7 +128,7 @@ export function FloatingActionButton({
     const alternatives = [
       clampToViewport(
         voiceRect.left - FLOATING_ACTION_GAP - baseWidth * currentScale,
-        viewportPosition.y
+        voiceRect.top
       ),
       clampToViewport(
         viewportPosition.x,

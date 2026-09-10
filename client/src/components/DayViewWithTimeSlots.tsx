@@ -637,7 +637,7 @@ export default function DayViewWithTimeSlots({
 
         <FloatingActionButton
           onClick={() => { setIsAppointmentModalOpen(true); setSelectedAppointmentId(null); }}
-          text={t('calendar.selectTimeNewAppointment')}
+          text={t('calendar.selectNewAppointment', 'Nuovo appuntamento')}
           storageKey="fab-appointment-position"
         />
       </Card>
@@ -1083,7 +1083,7 @@ export default function DayViewWithTimeSlots({
             setSelectedTime("09:00");
             setIsAppointmentModalOpen(true);
           }}
-          text={t('calendar.selectTimeNewAppointment')}
+          text={t('calendar.selectNewAppointment', 'Nuovo appuntamento')}
           storageKey="fab-appointment-position"
         />
       )}

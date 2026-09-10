@@ -146,8 +146,6 @@ export default function VoiceAppointmentAssistant({
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const speechStartTimerRef = useRef<number | null>(null);
-  const voicesChangedHandlerRef = useRef<(() => void) | null>(null);
   const startListeningRef = useRef<() => void>(() => {});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
@@ -174,14 +172,6 @@ export default function VoiceAppointmentAssistant({
       return;
     }
     const synthesis = window.speechSynthesis;
-    if (speechStartTimerRef.current !== null) {
-      window.clearTimeout(speechStartTimerRef.current);
-      speechStartTimerRef.current = null;
-    }
-    if (voicesChangedHandlerRef.current) {
-      synthesis.removeEventListener('voiceschanged', voicesChangedHandlerRef.current);
-      voicesChangedHandlerRef.current = null;
-    }
     synthesis.cancel();
     utteranceRef.current = null;
 
@@ -211,59 +201,43 @@ export default function VoiceAppointmentAssistant({
       };
     }
 
-    const startSpeaking = (allowFallback: boolean): boolean => {
-      const language = speechLocale.split('-')[0].toLowerCase();
-      const matchingVoices = synthesis.getVoices().filter(voice =>
-        voice.lang.toLowerCase().startsWith(language)
+    const language = speechLocale.split('-')[0].toLowerCase();
+    const matchingVoices = synthesis.getVoices().filter(voice =>
+      voice.lang.toLowerCase().startsWith(language)
+    );
+    const savedVoiceName = localStorage.getItem(ASSISTANT_FEMALE_VOICE_KEY);
+    const savedVoice = savedVoiceName
+      ? matchingVoices.find(voice =>
+          voice.name === savedVoiceName &&
+          preferredFemaleVoiceNames.some(pattern => pattern.test(voice.name.trim()))
+        )
+      : undefined;
+    if (savedVoiceName && !savedVoice) {
+      localStorage.removeItem(ASSISTANT_FEMALE_VOICE_KEY);
+    }
+    const preferredFemaleVoice = preferredFemaleVoiceNames
+      .map(pattern => matchingVoices.find(voice => pattern.test(voice.name.trim())))
+      .find((voice): voice is SpeechSynthesisVoice => Boolean(voice));
+    const exactLocaleFallback = matchingVoices.find(voice =>
+      voice.lang.toLowerCase() === speechLocale.toLowerCase() &&
+      !knownMaleVoiceNames.test(voice.name.trim())
+    );
+    const fallbackVoice = exactLocaleFallback
+      || matchingVoices.find(voice => !knownMaleVoiceNames.test(voice.name.trim()))
+      || matchingVoices[0]
+      || null;
+    const selectedVoice = savedVoice || preferredFemaleVoice || fallbackVoice;
+
+    utterance.voice = selectedVoice;
+    if (savedVoice || preferredFemaleVoice) {
+      localStorage.setItem(
+        ASSISTANT_FEMALE_VOICE_KEY,
+        (savedVoice || preferredFemaleVoice)!.name
       );
-      const savedVoiceName = localStorage.getItem(ASSISTANT_FEMALE_VOICE_KEY);
-      const savedVoice = savedVoiceName
-        ? matchingVoices.find(voice =>
-            voice.name === savedVoiceName &&
-            preferredFemaleVoiceNames.some(pattern => pattern.test(voice.name.trim()))
-          )
-        : undefined;
-      if (savedVoiceName && !savedVoice) {
-        localStorage.removeItem(ASSISTANT_FEMALE_VOICE_KEY);
-      }
-      const preferredFemaleVoice = preferredFemaleVoiceNames
-        .map(pattern => matchingVoices.find(voice => pattern.test(voice.name.trim())))
-        .find((voice): voice is SpeechSynthesisVoice => Boolean(voice));
-      const selectedVoice = savedVoice || preferredFemaleVoice;
-
-      if (!selectedVoice && !allowFallback) return false;
-
-      const fallbackVoice = matchingVoices.find(voice =>
-        !knownMaleVoiceNames.test(voice.name.trim())
-      ) || matchingVoices[0] || null;
-      utterance.voice = selectedVoice || fallbackVoice;
-      if (selectedVoice) {
-        localStorage.setItem(ASSISTANT_FEMALE_VOICE_KEY, selectedVoice.name);
-      }
-      utteranceRef.current = utterance;
-      synthesis.speak(utterance);
-      return true;
-    };
-
-    if (startSpeaking(false)) return;
-
-    const handleVoicesChanged = () => {
-      if (!startSpeaking(false)) return;
-      if (speechStartTimerRef.current !== null) {
-        window.clearTimeout(speechStartTimerRef.current);
-        speechStartTimerRef.current = null;
-      }
-      synthesis.removeEventListener('voiceschanged', handleVoicesChanged);
-      voicesChangedHandlerRef.current = null;
-    };
-    voicesChangedHandlerRef.current = handleVoicesChanged;
-    synthesis.addEventListener('voiceschanged', handleVoicesChanged);
-    speechStartTimerRef.current = window.setTimeout(() => {
-      synthesis.removeEventListener('voiceschanged', handleVoicesChanged);
-      voicesChangedHandlerRef.current = null;
-      speechStartTimerRef.current = null;
-      startSpeaking(true);
-    }, 800);
+    }
+    utteranceRef.current = utterance;
+    synthesis.resume();
+    synthesis.speak(utterance);
   };
 
   const addAssistantMessage = (content: string, options: { autoListen?: boolean } = {}) => {
