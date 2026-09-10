@@ -27,7 +27,7 @@ import {
   type VoiceAppointmentFormDraft,
 } from '@/lib/voiceAppointmentDraft';
 
-type PendingQuestion = 'suggest_client' | 'create_client' | 'suggest_service' | 'choose_service' | 'create_service' | 'confirm_appointment' | null;
+type PendingQuestion = 'suggest_client' | 'create_client' | 'suggest_service' | 'choose_service' | 'create_service' | 'name_new_service' | 'confirm_appointment' | null;
 
 interface AssistantDraft {
   clientName?: string | null;
@@ -79,6 +79,33 @@ const assistantSpeechLocales: Record<string, string> = {
 function getAssistantSpeechLocale(language?: string): string {
   const baseLanguage = (language || 'it').split('-')[0].toLowerCase();
   return assistantSpeechLocales[baseLanguage] || 'it-IT';
+}
+
+function isServiceCatalogRequest(value: string): boolean {
+  const normalized = normalizeAssistantName(value);
+  const catalogPhrases = [
+    'non ricordo',
+    'non mi ricordo',
+    'non mi viene in mente',
+    'non lo so',
+    'non so',
+    'suggerisc',
+    'consigli',
+    'mostrami',
+    'fammi vedere',
+    'quali servizi',
+    'quali trattamenti',
+    'servizi disponibili',
+    'trattamenti disponibili',
+    'lista',
+    'elenco',
+    'alternative',
+    'opzioni',
+    'aiutami',
+    'non ho capito',
+    'non capisco'
+  ];
+  return catalogPhrases.some(phrase => normalized.includes(phrase));
 }
 
 function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretation): AssistantDraft {
@@ -663,7 +690,26 @@ export default function VoiceAppointmentAssistant({
       );
       let interpretation: Interpretation;
 
-      if (pendingQuestion === 'choose_service') {
+      if (isExpectedServiceName && isServiceCatalogRequest(userMessage)) {
+        setServicePickerOptions(services);
+        setServicePickerOpen(true);
+        setPendingQuestion('choose_service');
+        setDraft(previous => ({
+          ...previous,
+          serviceId: null,
+          serviceName: null,
+          durationMinutes: null,
+          servicePrice: null,
+          createServiceApproved: false
+        }));
+        addAssistantMessage(t('voiceAppointmentAssistant.askService'), { autoListen: false });
+        return;
+      } else if (pendingQuestion === 'name_new_service') {
+        interpretation = {
+          serviceName: userMessage,
+          confirmation: detectedConfirmation
+        };
+      } else if (pendingQuestion === 'choose_service') {
         interpretation = {
           serviceName: detectedConfirmation === 'unknown' ? userMessage : null,
           confirmation: detectedConfirmation
@@ -889,6 +935,12 @@ export default function VoiceAppointmentAssistant({
         }
       }
 
+      if (pendingQuestion === 'name_new_service') {
+        nextDraft.serviceId = null;
+        nextDraft.createServiceApproved = true;
+        setPendingQuestion(null);
+      }
+
       if (pendingQuestion === 'confirm_appointment') {
         if (confirmation === 'yes') {
           setDraft(nextDraft);
@@ -939,6 +991,19 @@ export default function VoiceAppointmentAssistant({
     recognition.onend = () => setIsListening(false);
     recognition.onerror = () => {
       setIsListening(false);
+      const isExpectedServiceName = Boolean(
+        !draft.serviceName &&
+        draft.clientName &&
+        draft.date &&
+        draft.startTime
+      );
+      if (isExpectedServiceName) {
+        setServicePickerOptions(services);
+        setServicePickerOpen(true);
+        setPendingQuestion('choose_service');
+        addAssistantMessage(t('voiceAppointmentAssistant.askService'), { autoListen: false });
+        return;
+      }
       addAssistantMessage(t('voiceAppointmentAssistant.listenError'), { autoListen: false });
     };
     recognition.onresult = (event: any) => {
@@ -986,6 +1051,22 @@ export default function VoiceAppointmentAssistant({
     };
     const nextDraft = askNextQuestion(selectedDraft);
     setDraft({ ...nextDraft });
+  };
+
+  const requestNewServiceFromPicker = () => {
+    recognitionRef.current?.stop?.();
+    setIsListening(false);
+    setServicePickerOpen(false);
+    setPendingQuestion('name_new_service');
+    setDraft(previous => ({
+      ...previous,
+      serviceId: null,
+      serviceName: null,
+      durationMinutes: null,
+      servicePrice: null,
+      createServiceApproved: false
+    }));
+    addAssistantMessage(t('voiceAppointmentAssistant.askOtherService'), { autoListen: true });
   };
 
   const handleDialogDragStart = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -1151,13 +1232,11 @@ export default function VoiceAppointmentAssistant({
                     {t('voiceAppointmentAssistant.servicePickerTitle')}
                   </h2>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {pendingQuestion === 'choose_service'
+                    {pendingQuestion === 'choose_service' && draft.serviceName
                       ? t('voiceAppointmentAssistant.serviceFamilyDescription', {
                           name: draft.serviceName
                         })
-                      : t('voiceAppointmentAssistant.servicePickerDescription', {
-                          name: draft.serviceName
-                        })}
+                      : t('voiceAppointmentAssistant.askService')}
                   </p>
                 </div>
 
@@ -1187,6 +1266,9 @@ export default function VoiceAppointmentAssistant({
                   </div>
                 )}
 
+                <Button type="button" onClick={requestNewServiceFromPicker}>
+                  {t('serviceManager.addService')}
+                </Button>
                 <Button type="button" variant="outline" onClick={cancelServicePicker}>
                   {t('common.cancel')}
                 </Button>
