@@ -140,6 +140,7 @@ export default function VoiceAppointmentAssistant({
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
   const speechAudioUrlRef = useRef<string | null>(null);
   const speechRequestRef = useRef<AbortController | null>(null);
+  const speechUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const speechSequenceRef = useRef(0);
   const startListeningRef = useRef<() => void>(() => {});
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -165,6 +166,8 @@ export default function VoiceAppointmentAssistant({
     speechSequenceRef.current += 1;
     speechRequestRef.current?.abort();
     speechRequestRef.current = null;
+    window.speechSynthesis?.cancel();
+    speechUtteranceRef.current = null;
     if (speechAudioRef.current) {
       speechAudioRef.current.onended = null;
       speechAudioRef.current.onerror = null;
@@ -185,18 +188,58 @@ export default function VoiceAppointmentAssistant({
     const controller = new AbortController();
     speechRequestRef.current = controller;
     let completed = false;
+    let fallbackStarted = false;
     const completeOnce = () => {
       if (completed) return;
       completed = true;
       if (sequence === speechSequenceRef.current) {
         speechRequestRef.current = null;
         speechAudioRef.current = null;
+        speechUtteranceRef.current = null;
         if (speechAudioUrlRef.current) {
           URL.revokeObjectURL(speechAudioUrlRef.current);
           speechAudioUrlRef.current = null;
         }
+        onComplete?.();
       }
-      onComplete?.();
+    };
+    const playBrowserFallback = () => {
+      if (fallbackStarted || completed || sequence !== speechSequenceRef.current) return;
+      fallbackStarted = true;
+      speechRequestRef.current = null;
+      if (speechAudioRef.current) {
+        speechAudioRef.current.onended = null;
+        speechAudioRef.current.onerror = null;
+        speechAudioRef.current.pause();
+        speechAudioRef.current = null;
+      }
+      if (speechAudioUrlRef.current) {
+        URL.revokeObjectURL(speechAudioUrlRef.current);
+        speechAudioUrlRef.current = null;
+      }
+      if (!('speechSynthesis' in window)) {
+        completeOnce();
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = speechLocale;
+      const languagePrefix = speechLocale.split('-')[0].toLowerCase();
+      const matchingVoices = window.speechSynthesis.getVoices().filter(voice =>
+        voice.lang.toLowerCase().startsWith(languagePrefix)
+      );
+      utterance.voice = matchingVoices.find(voice =>
+        /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
+      ) || matchingVoices.find(voice =>
+        voice.lang.toLowerCase() === speechLocale.toLowerCase()
+      ) || matchingVoices[0] || null;
+      utterance.rate = 0.94;
+      utterance.pitch = 1.02;
+      utterance.onend = completeOnce;
+      utterance.onerror = completeOnce;
+      speechUtteranceRef.current = utterance;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
     };
 
     try {
@@ -219,12 +262,12 @@ export default function VoiceAppointmentAssistant({
       speechAudioRef.current = audio;
       audio.preload = 'auto';
       audio.onended = completeOnce;
-      audio.onerror = completeOnce;
+      audio.onerror = playBrowserFallback;
       await audio.play();
     } catch (error) {
       if (controller.signal.aborted || sequence !== speechSequenceRef.current) return;
       console.error('[AI APPOINTMENT ASSISTANT] Central speech playback failed:', error);
-      completeOnce();
+      playBrowserFallback();
     }
   };
 
