@@ -3,15 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Bot, CalendarPlus, GripHorizontal, Loader2, Mic, MicOff, Send, Sparkles, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle
-} from '@/components/ui/alert-dialog';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -89,8 +80,9 @@ const ASSISTANT_FEMALE_VOICE_KEY = 'voice-appointment-assistant-female-voice';
 const preferredFemaleVoiceNames = [
   /^google italiano$/i,
   /^microsoft elsa\b/i,
-  /\b(alice|federica|lucia|isabella|elsa|aria|jenny|sonia|amelie|denise|katja|ingrid|sabina|svetlana|neerja|heera|samantha|karen|moira|fiona|tessa)\b/i,
+  /\b(alice|federica|lucia|isabella|elsa|bianca|fabiola|paola|carla|aria|jenny|sonia|amelie|denise|katja|ingrid|sabina|svetlana|neerja|heera|samantha|karen|moira|fiona|tessa|female|woman|donna)\b/i,
 ];
+const knownMaleVoiceNames = /\b(cosimo|diego|giuseppe|luca|marco|male|man|uomo)\b/i;
 
 function getAssistantSpeechLocale(language?: string): string {
   const baseLanguage = (language || 'it').split('-')[0].toLowerCase();
@@ -153,6 +145,9 @@ export default function VoiceAppointmentAssistant({
   const [servicePickerOptions, setServicePickerOptions] = useState<AssistantService[]>([]);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const speechStartTimerRef = useRef<number | null>(null);
+  const voicesChangedHandlerRef = useRef<(() => void) | null>(null);
   const startListeningRef = useRef<() => void>(() => {});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
@@ -178,43 +173,97 @@ export default function VoiceAppointmentAssistant({
       onComplete?.();
       return;
     }
-    window.speechSynthesis.cancel();
+    const synthesis = window.speechSynthesis;
+    if (speechStartTimerRef.current !== null) {
+      window.clearTimeout(speechStartTimerRef.current);
+      speechStartTimerRef.current = null;
+    }
+    if (voicesChangedHandlerRef.current) {
+      synthesis.removeEventListener('voiceschanged', voicesChangedHandlerRef.current);
+      voicesChangedHandlerRef.current = null;
+    }
+    synthesis.cancel();
+    utteranceRef.current = null;
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = speechLocale;
-    const matchingVoices = window.speechSynthesis.getVoices().filter(voice =>
-      voice.lang.toLowerCase().startsWith(speechLocale.split('-')[0].toLowerCase())
-    );
-    const savedVoiceName = localStorage.getItem(ASSISTANT_FEMALE_VOICE_KEY);
-    const savedVoice = savedVoiceName
-      ? matchingVoices.find(voice => voice.name === savedVoiceName)
-      : undefined;
-    const preferredFemaleVoice = preferredFemaleVoiceNames
-      .map(pattern => matchingVoices.find(voice => pattern.test(voice.name.trim())))
-      .find(Boolean);
-    const selectedVoice = savedVoice
-      || preferredFemaleVoice
-      || matchingVoices.find(voice => voice.lang.toLowerCase() === speechLocale.toLowerCase())
-      || matchingVoices[0]
-      || null;
-    utterance.voice = selectedVoice;
-    if (selectedVoice) {
-      localStorage.setItem(ASSISTANT_FEMALE_VOICE_KEY, selectedVoice.name);
-    }
     utterance.rate = 2.22;
     utterance.pitch = 1;
+
+    let completed = false;
+    const completeOnce = () => {
+      if (completed) return;
+      completed = true;
+      utteranceRef.current = null;
+      onComplete?.();
+    };
     if (onComplete) {
-      let completed = false;
-      const completeOnce = () => {
-        if (completed) return;
-        completed = true;
-        onComplete();
-      };
       utterance.onend = completeOnce;
       utterance.onerror = event => {
         if (event.error !== 'canceled' && event.error !== 'interrupted') completeOnce();
       };
+    } else {
+      utterance.onend = () => {
+        utteranceRef.current = null;
+      };
+      utterance.onerror = () => {
+        utteranceRef.current = null;
+      };
     }
-    window.speechSynthesis.speak(utterance);
+
+    const startSpeaking = (allowFallback: boolean): boolean => {
+      const language = speechLocale.split('-')[0].toLowerCase();
+      const matchingVoices = synthesis.getVoices().filter(voice =>
+        voice.lang.toLowerCase().startsWith(language)
+      );
+      const savedVoiceName = localStorage.getItem(ASSISTANT_FEMALE_VOICE_KEY);
+      const savedVoice = savedVoiceName
+        ? matchingVoices.find(voice =>
+            voice.name === savedVoiceName &&
+            preferredFemaleVoiceNames.some(pattern => pattern.test(voice.name.trim()))
+          )
+        : undefined;
+      if (savedVoiceName && !savedVoice) {
+        localStorage.removeItem(ASSISTANT_FEMALE_VOICE_KEY);
+      }
+      const preferredFemaleVoice = preferredFemaleVoiceNames
+        .map(pattern => matchingVoices.find(voice => pattern.test(voice.name.trim())))
+        .find((voice): voice is SpeechSynthesisVoice => Boolean(voice));
+      const selectedVoice = savedVoice || preferredFemaleVoice;
+
+      if (!selectedVoice && !allowFallback) return false;
+
+      const fallbackVoice = matchingVoices.find(voice =>
+        !knownMaleVoiceNames.test(voice.name.trim())
+      ) || matchingVoices[0] || null;
+      utterance.voice = selectedVoice || fallbackVoice;
+      if (selectedVoice) {
+        localStorage.setItem(ASSISTANT_FEMALE_VOICE_KEY, selectedVoice.name);
+      }
+      utteranceRef.current = utterance;
+      synthesis.speak(utterance);
+      return true;
+    };
+
+    if (startSpeaking(false)) return;
+
+    const handleVoicesChanged = () => {
+      if (!startSpeaking(false)) return;
+      if (speechStartTimerRef.current !== null) {
+        window.clearTimeout(speechStartTimerRef.current);
+        speechStartTimerRef.current = null;
+      }
+      synthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+      voicesChangedHandlerRef.current = null;
+    };
+    voicesChangedHandlerRef.current = handleVoicesChanged;
+    synthesis.addEventListener('voiceschanged', handleVoicesChanged);
+    speechStartTimerRef.current = window.setTimeout(() => {
+      synthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+      voicesChangedHandlerRef.current = null;
+      speechStartTimerRef.current = null;
+      startSpeaking(true);
+    }, 800);
   };
 
   const addAssistantMessage = (content: string, options: { autoListen?: boolean } = {}) => {
@@ -802,6 +851,22 @@ export default function VoiceAppointmentAssistant({
     addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'), { autoListen: true });
   };
 
+  const selectServiceFromPicker = (service: AssistantService) => {
+    recognitionRef.current?.stop?.();
+    setIsListening(false);
+    setServicePickerOpen(false);
+    setPendingQuestion(null);
+    const selectedDraft: AssistantDraft = {
+      ...draft,
+      serviceId: service.id,
+      serviceName: service.name,
+      durationMinutes: service.duration || 60,
+      createServiceApproved: false
+    };
+    const nextDraft = askNextQuestion(selectedDraft);
+    setDraft({ ...nextDraft });
+  };
+
   const handleDialogDragStart = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
     dragStateRef.current = {
@@ -952,6 +1017,62 @@ export default function VoiceAppointmentAssistant({
             </div>
           </ScrollArea>
 
+          {servicePickerOpen && (
+            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="service-picker-title"
+                className="flex max-h-[80%] w-full max-w-md flex-col gap-4 rounded-xl border bg-background p-5 shadow-2xl"
+              >
+                <div>
+                  <h2 id="service-picker-title" className="text-lg font-semibold">
+                    {t('voiceAppointmentAssistant.servicePickerTitle')}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {pendingQuestion === 'choose_service'
+                      ? t('voiceAppointmentAssistant.serviceFamilyDescription', {
+                          name: draft.serviceName
+                        })
+                      : t('voiceAppointmentAssistant.servicePickerDescription', {
+                          name: draft.serviceName
+                        })}
+                  </p>
+                </div>
+
+                <div className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
+                  {servicePickerOptions
+                    .slice()
+                    .sort((left, right) => left.name.localeCompare(right.name))
+                    .map(service => (
+                      <button
+                        type="button"
+                        key={service.id}
+                        onClick={() => selectServiceFromPicker(service)}
+                        className="flex w-full items-center justify-between gap-3 rounded-md border px-4 py-3 text-left transition-colors hover:border-violet-300 hover:bg-violet-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                      >
+                        <span className="font-medium">{service.name}</span>
+                        <span className="shrink-0 text-xs text-muted-foreground">
+                          {service.duration || 60} min
+                        </span>
+                      </button>
+                    ))}
+                </div>
+
+                {isListening && (
+                  <div className="flex items-center justify-center gap-2 rounded-md bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700">
+                    <Mic className="h-4 w-4" />
+                    {t('voiceAppointmentAssistant.listeningPlaceholder')}
+                  </div>
+                )}
+
+                <Button type="button" variant="outline" onClick={cancelServicePicker}>
+                  {t('common.cancel')}
+                </Button>
+              </div>
+            </div>
+          )}
+
           <div className="border-t bg-background p-3">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-xs text-muted-foreground">
@@ -1026,54 +1147,6 @@ export default function VoiceAppointmentAssistant({
         </DialogContent>
       </Dialog>
 
-      <AlertDialog open={servicePickerOpen}>
-        <AlertDialogContent className="max-w-md">
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {t('voiceAppointmentAssistant.servicePickerTitle')}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              {pendingQuestion === 'choose_service'
-                ? t('voiceAppointmentAssistant.serviceFamilyDescription', {
-                    name: draft.serviceName
-                  })
-                : t('voiceAppointmentAssistant.servicePickerDescription', {
-                    name: draft.serviceName
-                  })}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-
-          <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
-            {servicePickerOptions
-              .slice()
-              .sort((left, right) => left.name.localeCompare(right.name))
-              .map(service => (
-                <div
-                  key={service.id}
-                  className="flex w-full justify-between gap-3 rounded-md border px-4 py-3"
-                >
-                  <span className="font-medium">{service.name}</span>
-                  <span className="shrink-0 text-xs text-muted-foreground">
-                    {service.duration || 60} min
-                  </span>
-                </div>
-              ))}
-          </div>
-
-          {isListening && (
-            <div className="flex items-center justify-center gap-2 rounded-md bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700">
-              <Mic className="h-4 w-4" />
-              {t('voiceAppointmentAssistant.listeningPlaceholder')}
-            </div>
-          )}
-
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={cancelServicePicker}>
-              {t('common.cancel')}
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   );
 }
