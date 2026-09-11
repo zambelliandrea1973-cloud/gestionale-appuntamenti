@@ -218,8 +218,8 @@ export default function AppointmentForm({
     defaultValues: {
       clientId: defaultClientId || 0,
       serviceId: initialValues?.serviceId ?? 0,
-      staffId: undefined,
-      roomId: undefined,
+      staffId: initialValues?.staffId ?? undefined,
+      roomId: initialValues?.roomId ?? undefined,
       date: defaultDate || new Date(),
       startTime: defaultTime || "09:00",
       notes: initialValues?.notes || "",
@@ -229,12 +229,12 @@ export default function AppointmentForm({
 
   // Auto-seleziona il primo collaboratore quando i dati sono caricati
   useEffect(() => {
-    if (collaborators && collaborators.length > 0 && !appointmentId) {
+    if (collaborators && collaborators.length > 0 && !appointmentId && !initialValues) {
       // Precompila solo se non stiamo modificando un appuntamento esistente
       const firstCollaborator = collaborators[0];
       form.setValue('staffId', firstCollaborator.id);
     }
-  }, [collaborators, appointmentId]);
+  }, [collaborators, appointmentId, initialValues, form]);
 
   // Fetch appointment if editing — usa l'endpoint singolo /api/appointments/:id
   // Il fetcher di default usa il PRIMO elemento del queryKey come URL,
@@ -286,6 +286,8 @@ export default function AppointmentForm({
     if (!initialValues || appointmentId) return;
     form.setValue("clientId", initialValues.clientId);
     form.setValue("serviceId", initialValues.serviceId ?? 0);
+    form.setValue("staffId", initialValues.staffId ?? undefined);
+    form.setValue("roomId", initialValues.roomId ?? undefined);
     form.setValue("startTime", initialValues.startTime);
     form.setValue("notes", initialValues.notes || "");
     setClientSearchTerm(initialValues.clientName);
@@ -693,6 +695,9 @@ export default function AppointmentForm({
       
       // Controlla ogni appuntamento esistente
       dayAppointments.forEach((apt: any) => {
+        if (apt.status === 'cancelled') {
+          return;
+        }
         // Salta l'appuntamento che stiamo modificando
         if (appointmentId && apt.id === appointmentId) {
           return;

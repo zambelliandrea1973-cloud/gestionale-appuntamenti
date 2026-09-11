@@ -9,5 +9,7 @@ export interface VoiceAppointmentFormDraft {
   date: string;
   startTime: string;
   durationMinutes: number;
+  staffId?: number | null;
+  roomId?: number | null;
   notes?: string;
 }

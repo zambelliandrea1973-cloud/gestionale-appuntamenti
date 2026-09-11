@@ -82,6 +82,7 @@ router.get("/api/appointments", async (req, res) => {
         notes: apt.notes,
         reminderSent: apt.reminderSent,
         reminderConfirmed: apt.reminderConfirmed,
+        status: apt.status,
         staffId: apt.staffId,
         roomId: apt.roomId,
         staff: apt.staff, // ✅ NEW: Full staff object (optional)
@@ -127,6 +128,7 @@ router.get("/api/appointments/date/:date", async (req, res) => {
         notes: apt.notes,
         reminderSent: apt.reminderSent,
         reminderConfirmed: apt.reminderConfirmed,
+        status: apt.status,
         staffId: apt.staffId,
         roomId: apt.roomId,
         staff: apt.staff, // ✅ NEW: Full staff object (optional)

@@ -27,7 +27,7 @@ import {
   type VoiceAppointmentFormDraft,
 } from '@/lib/voiceAppointmentDraft';
 
-type PendingQuestion = 'suggest_client' | 'create_client' | 'suggest_service' | 'choose_service' | 'create_service' | 'name_new_service' | 'confirm_appointment' | null;
+type PendingQuestion = 'suggest_client' | 'create_client' | 'suggest_service' | 'choose_service' | 'create_service' | 'name_new_service' | 'confirm_conflict' | 'confirm_appointment' | null;
 
 interface AssistantDraft {
   clientName?: string | null;
@@ -39,8 +39,17 @@ interface AssistantDraft {
   durationMinutes?: number | null;
   servicePrice?: number | null;
   notes?: string | null;
+  staffId?: number | null;
+  roomId?: number | null;
   createClientApproved?: boolean;
   createServiceApproved?: boolean;
+  conflictApprovedSignature?: string;
+}
+
+interface ConflictResourceOption {
+  id: number;
+  type: 'staff' | 'room';
+  name: string;
 }
 
 interface Interpretation {
@@ -79,6 +88,17 @@ const assistantSpeechLocales: Record<string, string> = {
 function getAssistantSpeechLocale(language?: string): string {
   const baseLanguage = (language || 'it').split('-')[0].toLowerCase();
   return assistantSpeechLocales[baseLanguage] || 'it-IT';
+}
+
+function getConflictSignature(draft: AssistantDraft): string {
+  return [
+    draft.clientId || normalizeAssistantName(draft.clientName),
+    draft.date,
+    draft.startTime,
+    draft.durationMinutes,
+    draft.staffId || '',
+    draft.roomId || ''
+  ].join(':');
 }
 
 function isServiceCatalogRequest(value: string): boolean {
@@ -143,7 +163,6 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
     if (!interpretation.durationMinutes) merged.durationMinutes = null;
     merged.servicePrice = null;
   }
-
   return merged;
 }
 
@@ -162,6 +181,7 @@ export default function VoiceAppointmentAssistant({
   const [isListening, setIsListening] = useState(false);
   const [servicePickerOpen, setServicePickerOpen] = useState(false);
   const [servicePickerOptions, setServicePickerOptions] = useState<AssistantService[]>([]);
+  const [conflictResourceOptions, setConflictResourceOptions] = useState<ConflictResourceOption[]>([]);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -257,6 +277,8 @@ export default function VoiceAppointmentAssistant({
         voice.lang.toLowerCase().startsWith(languagePrefix)
       );
       utterance.voice = matchingVoices.find(voice =>
+        /female|woman|femmina|elsa|isabella|alice|federica|paola|samantha|victoria|zira|aria|jenny|sara|helena|amelie|audrey|katja|sabina|luciana/i.test(voice.name)
+      ) || matchingVoices.find(voice =>
         /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
       ) || matchingVoices.find(voice =>
         voice.lang.toLowerCase() === speechLocale.toLowerCase()
@@ -443,7 +465,7 @@ export default function VoiceAppointmentAssistant({
     };
   }, []);
 
-  const askNextQuestion = (nextDraft: AssistantDraft): AssistantDraft => {
+  const askNextQuestion = async (nextDraft: AssistantDraft): Promise<AssistantDraft> => {
     if (!nextDraft.clientName) {
       setPendingQuestion(null);
       addAssistantMessage(t('voiceAppointmentAssistant.askClientName'), { autoListen: true });
@@ -550,6 +572,106 @@ export default function VoiceAppointmentAssistant({
       return nextDraft;
     }
 
+    const conflictSignature = getConflictSignature(nextDraft);
+    if (nextDraft.conflictApprovedSignature !== conflictSignature) {
+      try {
+        const [appointmentsResponse, collaboratorsResponse, roomsResponse] = await Promise.all([
+          fetch(`/api/appointments/date/${nextDraft.date}`, { credentials: 'include' }),
+          fetch('/api/collaborators', { credentials: 'include' }),
+          fetch('/api/treatment-rooms', { credentials: 'include' })
+        ]);
+        if (!appointmentsResponse.ok || !collaboratorsResponse.ok || !roomsResponse.ok) {
+          throw new Error('Availability check failed');
+        }
+        const [dayAppointments, collaborators, rooms] = await Promise.all([
+          appointmentsResponse.json() as Promise<Array<{
+            startTime?: string | null;
+            endTime?: string | null;
+            status?: string | null;
+            staffId?: number | null;
+            roomId?: number | null;
+          }>>,
+          collaboratorsResponse.json() as Promise<Array<{
+            id: number;
+            firstName?: string | null;
+            lastName?: string | null;
+            isActive?: boolean | null;
+          }>>,
+          roomsResponse.json() as Promise<Array<{
+            id: number;
+            name?: string | null;
+            isActive?: boolean | null;
+          }>>
+        ]);
+        if (!Array.isArray(dayAppointments) || !Array.isArray(collaborators) || !Array.isArray(rooms)) {
+          throw new Error('Availability check returned an invalid response');
+        }
+        const [startHours, startMinutes] = nextDraft.startTime.split(':').map(Number);
+        const requestedStart = startHours * 60 + startMinutes;
+        const requestedEnd = requestedStart + nextDraft.durationMinutes;
+        const overlappingAppointments = dayAppointments.filter(appointment => {
+          if (appointment.status === 'cancelled') return false;
+          const [appointmentStartHours, appointmentStartMinutes] =
+            (appointment.startTime || '').split(':').map(Number);
+          const [appointmentEndHours, appointmentEndMinutes] =
+            (appointment.endTime || '').split(':').map(Number);
+          const appointmentStart = appointmentStartHours * 60 + appointmentStartMinutes;
+          const appointmentEnd = appointmentEndHours * 60 + appointmentEndMinutes;
+          return Number.isFinite(appointmentStart) &&
+            Number.isFinite(appointmentEnd) &&
+            requestedStart < appointmentEnd &&
+            requestedEnd > appointmentStart;
+        });
+        if (overlappingAppointments.length > 0) {
+          const occupiedStaffIds = new Set(
+            overlappingAppointments.map(appointment => appointment.staffId).filter(Boolean)
+          );
+          const occupiedRoomIds = new Set(
+            overlappingAppointments.map(appointment => appointment.roomId).filter(Boolean)
+          );
+          const availableResources: ConflictResourceOption[] = [
+            ...collaborators
+              .filter(collaborator =>
+                collaborator.isActive !== false && !occupiedStaffIds.has(collaborator.id)
+              )
+              .map(collaborator => ({
+                id: collaborator.id,
+                type: 'staff' as const,
+                name: [collaborator.firstName, collaborator.lastName].filter(Boolean).join(' ')
+              })),
+            ...rooms
+              .filter(room => room.isActive !== false && !occupiedRoomIds.has(room.id))
+              .map(room => ({
+                id: room.id,
+                type: 'room' as const,
+                name: room.name || `${t('appointmentForm.fields.room')} ${room.id}`
+              }))
+          ].filter(resource => resource.name);
+          setConflictResourceOptions(availableResources);
+          const availableText = availableResources.length > 0
+            ? ` ${availableResources.map(resource =>
+                `${resource.type === 'staff'
+                  ? t('appointmentForm.fields.staff')
+                  : t('appointmentForm.fields.room')}: ${resource.name}`
+              ).join('; ')}.`
+            : '';
+          setPendingQuestion('confirm_conflict');
+          addAssistantMessage(
+            `${t('appointmentForm.conflict.intro')} ` +
+            `${nextDraft.startTime.substring(0, 5)}-${String(Math.floor(requestedEnd / 60)).padStart(2, '0')}:${String(requestedEnd % 60).padStart(2, '0')}.` +
+            `${availableText} ${t('appointmentForm.conflict.askProceed')}`,
+            { autoListen: true }
+          );
+          return nextDraft;
+        }
+      } catch (error) {
+        console.error('[AI APPOINTMENT ASSISTANT] Availability check failed:', error);
+        setPendingQuestion(null);
+        addAssistantMessage(t('voiceAppointmentAssistant.interpretationError'), { autoListen: false });
+        return nextDraft;
+      }
+    }
+
     const date = new Date(`${nextDraft.date}T12:00:00`);
     const readableDate = Number.isNaN(date.getTime())
       ? nextDraft.date
@@ -650,6 +772,8 @@ export default function VoiceAppointmentAssistant({
         date: readyDraft.date,
         startTime: readyDraft.startTime.substring(0, 5),
         durationMinutes: readyDraft.durationMinutes,
+        staffId: readyDraft.staffId || null,
+        roomId: readyDraft.roomId || null,
         notes: readyDraft.notes || '',
       };
 
@@ -690,7 +814,60 @@ export default function VoiceAppointmentAssistant({
       );
       let interpretation: Interpretation;
 
-      if (isExpectedServiceName && isServiceCatalogRequest(userMessage)) {
+      if (pendingQuestion === 'confirm_conflict') {
+        const normalizedAnswer = normalizeAssistantName(userMessage);
+        const matchingResources = conflictResourceOptions
+          .map(resource => ({
+            resource,
+            normalizedName: normalizeAssistantName(resource.name)
+          }))
+          .filter(({ normalizedName }) =>
+            normalizedName &&
+            (normalizedAnswer === normalizedName || normalizedAnswer.includes(normalizedName))
+          )
+          .sort((left, right) => right.normalizedName.length - left.normalizedName.length);
+        const longestLength = matchingResources[0]?.normalizedName.length;
+        const bestMatches = matchingResources.filter(
+          match => match.normalizedName.length === longestLength
+        );
+
+        if (bestMatches.length === 1) {
+          const selectedResource = bestMatches[0].resource;
+          const selectedDraft = { ...draft };
+          if (selectedResource.type === 'staff') selectedDraft.staffId = selectedResource.id;
+          if (selectedResource.type === 'room') selectedDraft.roomId = selectedResource.id;
+          selectedDraft.conflictApprovedSignature = getConflictSignature(selectedDraft);
+          setConflictResourceOptions([]);
+          setPendingQuestion(null);
+          const nextDraft = await askNextQuestion(selectedDraft);
+          setDraft({ ...nextDraft });
+          return;
+        }
+        if (detectedConfirmation === 'yes') {
+          const selectedDraft = {
+            ...draft,
+            conflictApprovedSignature: getConflictSignature(draft)
+          };
+          setConflictResourceOptions([]);
+          setPendingQuestion(null);
+          const nextDraft = await askNextQuestion(selectedDraft);
+          setDraft({ ...nextDraft });
+          return;
+        }
+        if (detectedConfirmation === 'no') {
+          setConflictResourceOptions([]);
+          setPendingQuestion(null);
+          setDraft(previous => ({
+            ...previous,
+            startTime: null,
+            conflictApprovedSignature: undefined
+          }));
+          addAssistantMessage(t('voiceAppointmentAssistant.askTime'), { autoListen: true });
+          return;
+        }
+        addAssistantMessage(t('appointmentForm.conflict.askProceed'), { autoListen: true });
+        return;
+      } else if (isExpectedServiceName && isServiceCatalogRequest(userMessage)) {
         setServicePickerOptions(services);
         setServicePickerOpen(true);
         setPendingQuestion('choose_service');
@@ -765,7 +942,7 @@ export default function VoiceAppointmentAssistant({
           nextDraft.clientId = null;
           nextDraft.createClientApproved = false;
           setPendingQuestion(null);
-          nextDraft = askNextQuestion(nextDraft);
+          nextDraft = await askNextQuestion(nextDraft);
           setDraft({ ...nextDraft });
           return;
         } else if (confirmation === 'no') {
@@ -837,7 +1014,7 @@ export default function VoiceAppointmentAssistant({
           nextDraft.serviceId = null;
           nextDraft.createServiceApproved = false;
           setPendingQuestion(null);
-          nextDraft = askNextQuestion(nextDraft);
+          nextDraft = await askNextQuestion(nextDraft);
           setDraft({ ...nextDraft });
           return;
         } else if (confirmation === 'no') {
@@ -916,7 +1093,7 @@ export default function VoiceAppointmentAssistant({
           nextDraft.createServiceApproved = false;
           setServicePickerOpen(false);
           setPendingQuestion(null);
-          nextDraft = askNextQuestion(nextDraft);
+          nextDraft = await askNextQuestion(nextDraft);
           setDraft({ ...nextDraft });
           return;
         } else if (confirmation === 'no') {
@@ -955,7 +1132,7 @@ export default function VoiceAppointmentAssistant({
         }
       }
 
-      nextDraft = askNextQuestion(nextDraft);
+      nextDraft = await askNextQuestion(nextDraft);
       setDraft({ ...nextDraft });
     } catch (error) {
       console.error('[AI APPOINTMENT ASSISTANT] Interpretation error:', error);
@@ -1037,7 +1214,7 @@ export default function VoiceAppointmentAssistant({
     addAssistantMessage(t('voiceAppointmentAssistant.okExistingService'), { autoListen: true });
   };
 
-  const selectServiceFromPicker = (service: AssistantService) => {
+  const selectServiceFromPicker = async (service: AssistantService) => {
     recognitionRef.current?.stop?.();
     setIsListening(false);
     setServicePickerOpen(false);
@@ -1049,7 +1226,20 @@ export default function VoiceAppointmentAssistant({
       durationMinutes: service.duration || 60,
       createServiceApproved: false
     };
-    const nextDraft = askNextQuestion(selectedDraft);
+    const nextDraft = await askNextQuestion(selectedDraft);
+    setDraft({ ...nextDraft });
+  };
+
+  const selectConflictResource = async (resource: ConflictResourceOption) => {
+    recognitionRef.current?.stop?.();
+    setIsListening(false);
+    const selectedDraft: AssistantDraft = { ...draft };
+    if (resource.type === 'staff') selectedDraft.staffId = resource.id;
+    if (resource.type === 'room') selectedDraft.roomId = resource.id;
+    selectedDraft.conflictApprovedSignature = getConflictSignature(selectedDraft);
+    setConflictResourceOptions([]);
+    setPendingQuestion(null);
+    const nextDraft = await askNextQuestion(selectedDraft);
     setDraft({ ...nextDraft });
   };
 
@@ -1111,6 +1301,7 @@ export default function VoiceAppointmentAssistant({
     setPendingQuestion(null);
     setServicePickerOpen(false);
     setServicePickerOptions([]);
+    setConflictResourceOptions([]);
     setInput('');
     setIsListening(false);
   };
@@ -1124,6 +1315,7 @@ export default function VoiceAppointmentAssistant({
       dragStateRef.current = null;
       setServicePickerOpen(false);
       setServicePickerOptions([]);
+      setConflictResourceOptions([]);
       recognitionRef.current?.stop?.();
       stopSpeech();
       setIsListening(false);
@@ -1218,6 +1410,25 @@ export default function VoiceAppointmentAssistant({
               <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
+
+          {pendingQuestion === 'confirm_conflict' && conflictResourceOptions.length > 0 && (
+            <div className="border-t bg-violet-50/70 px-4 py-3">
+              <div className="flex flex-wrap gap-2">
+                {conflictResourceOptions.map(resource => (
+                  <button
+                    type="button"
+                    key={`${resource.type}-${resource.id}`}
+                    onClick={() => selectConflictResource(resource)}
+                    className="rounded-full border border-violet-200 bg-white px-3 py-1.5 text-sm font-medium text-violet-800 transition-colors hover:border-violet-400 hover:bg-violet-100"
+                  >
+                    {resource.type === 'staff'
+                      ? t('appointmentForm.fields.staff')
+                      : t('appointmentForm.fields.room')}: {resource.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {servicePickerOpen && (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
