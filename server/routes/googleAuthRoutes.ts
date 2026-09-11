@@ -103,6 +103,12 @@ function parseSignedOAuthState(state: string): Record<string, any> {
   return JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
 }
 
+function isAppleMobileBrowser(userAgent: string | undefined): boolean {
+  if (!userAgent) return false;
+  return /iPhone|iPad|iPod/i.test(userAgent) ||
+    (/Macintosh/i.test(userAgent) && /Mobile/i.test(userAgent));
+}
+
 // Default URI for the OAuth client (used at startup)
 const redirectUri = getRedirectUri();
 
@@ -314,25 +320,25 @@ router.get('/last-error', (req, res) => {
 // Callback that receives the authorization code
 router.get('/callback', async (req, res) => {
   console.log("=== GOOGLE AUTH CALLBACK ===");
-  console.log("Callback received with parameters:", req.query);
-  console.log("Headers:", req.headers);
-  console.log("Host:", req.get('host'));
-  console.log("Origin:", req.get('origin'));
-  console.log("Referer:", req.get('referer'));
+  console.log("Callback metadata:", {
+    hasCode: typeof req.query.code === 'string',
+    hasState: typeof req.query.state === 'string',
+    hasError: typeof req.query.error === 'string',
+    host: req.get('host'),
+    userAgent: req.get('user-agent')
+  });
   
   // Save parameters for debug
   lastCallbackError = {
     timestamp: new Date().toISOString(),
-    error: 'Callback received - processing',
-    query: req.query
+    error: 'Callback received - processing'
   };
   
   // Log the error, if present
   if (req.query.error) {
     console.error("GOOGLE AUTH ERROR:", {
       error: req.query.error,
-      error_description: req.query.error_description,
-      state: req.query.state
+      error_description: req.query.error_description
     });
     return res.status(400).send(`Authorization error: ${req.query.error}<br>Description: ${req.query.error_description || 'No description'}`);
   }
@@ -388,21 +394,32 @@ router.get('/callback', async (req, res) => {
 
       const pendingOAuth = (req as any).session?.pendingGoogleOAuth;
       const stateAge = Date.now() - Number(stateData.issuedAt || 0);
-      if (
-        !pendingOAuth ||
-        pendingOAuth.nonce !== stateData.nonce ||
-        Number(pendingOAuth.userId) !== userId ||
-        stateAge < 0 ||
-        stateAge > 10 * 60 * 1000
-      ) {
+      const hasValidAge = stateAge >= 0 && stateAge <= 10 * 60 * 1000;
+      const hasValidNonce = typeof stateData.nonce === 'string' &&
+        /^[A-Za-z0-9_-]{43}$/.test(stateData.nonce);
+      const hasMatchingSession = Boolean(
+        pendingOAuth &&
+        pendingOAuth.nonce === stateData.nonce &&
+        Number(pendingOAuth.userId) === userId
+      );
+      const canRecoverAppleSession = !pendingOAuth &&
+        isAppleMobileBrowser(req.get('user-agent')) &&
+        hasValidAge &&
+        hasValidNonce;
+
+      if ((!hasMatchingSession && !canRecoverAppleSession) || !hasValidAge || !hasValidNonce) {
         throw new Error('Expired, reused or session-mismatched OAuth state');
       }
 
-      // Consume before token exchange so the state cannot be replayed.
-      delete (req as any).session.pendingGoogleOAuth;
-      await new Promise<void>((resolve, reject) =>
-        (req as any).session.save((error: unknown) => error ? reject(error) : resolve())
-      );
+      if (hasMatchingSession) {
+        // Consume before token exchange so the state cannot be replayed.
+        delete (req as any).session.pendingGoogleOAuth;
+        await new Promise<void>((resolve, reject) =>
+          (req as any).session.save((error: unknown) => error ? reject(error) : resolve())
+        );
+      } else {
+        console.warn('[GOOGLE OAUTH] Recovering signed iOS callback after browser context changed');
+      }
     } catch (e) {
       console.error("Error parsing state:", e);
       lastCallbackError = {
@@ -434,8 +451,7 @@ router.get('/callback', async (req, res) => {
     console.error("ERROR: UserId not found or invalid in state");
     lastCallbackError = {
       timestamp: new Date().toISOString(),
-      error: 'UserId not found or invalid',
-      query: req.query
+      error: 'UserId not found or invalid'
     };
     return res.status(400).send('Invalid session. Please try authorization again.');
   }
@@ -727,14 +743,16 @@ router.get('/callback', async (req, res) => {
       </html>
     `);
   } catch (error: any) {
-    console.error('Error exchanging authorization code:', error);
+    console.error('Error exchanging authorization code:', {
+      message: error?.message || String(error),
+      code: error?.code
+    });
     
     // Save l'error per debug
     lastCallbackError = {
       timestamp: new Date().toISOString(),
       error: error?.message || String(error),
-      stack: error?.stack,
-      query: req.query
+      stack: error?.stack
     };
     
     res.status(500).send(`
