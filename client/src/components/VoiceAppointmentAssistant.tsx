@@ -250,9 +250,10 @@ export default function VoiceAppointmentAssistant({
         onComplete?.();
       }
     };
-    const playBrowserFallback = () => {
+    const playBrowserFallback = (reason = 'unknown') => {
       if (fallbackStarted || completed || sequence !== speechSequenceRef.current) return;
       fallbackStarted = true;
+      console.warn('[AI APPOINTMENT ASSISTANT] Using device speech fallback:', reason);
       controller.abort();
       speechRequestRef.current = null;
       if (speechAudioRef.current) {
@@ -270,26 +271,49 @@ export default function VoiceAppointmentAssistant({
         return;
       }
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = speechLocale;
-      const languagePrefix = speechLocale.split('-')[0].toLowerCase();
-      const matchingVoices = window.speechSynthesis.getVoices().filter(voice =>
-        voice.lang.toLowerCase().startsWith(languagePrefix)
-      );
-      utterance.voice = matchingVoices.find(voice =>
-        /female|woman|femmina|elsa|isabella|alice|federica|paola|samantha|victoria|zira|aria|jenny|sara|helena|amelie|audrey|katja|sabina|luciana/i.test(voice.name)
-      ) || matchingVoices.find(voice =>
-        /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
-      ) || matchingVoices.find(voice =>
-        voice.lang.toLowerCase() === speechLocale.toLowerCase()
-      ) || matchingVoices[0] || null;
-      utterance.rate = 0.94;
-      utterance.pitch = 1.02;
-      utterance.onend = completeOnce;
-      utterance.onerror = completeOnce;
-      speechUtteranceRef.current = utterance;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(utterance);
+      void (async () => {
+        let voices = window.speechSynthesis.getVoices();
+        if (voices.length === 0) {
+          voices = await new Promise<SpeechSynthesisVoice[]>(resolve => {
+            let settled = false;
+            const finish = () => {
+              if (settled) return;
+              settled = true;
+              window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+              resolve(window.speechSynthesis.getVoices());
+            };
+            const handleVoicesChanged = () => finish();
+            window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
+            window.setTimeout(finish, 1500);
+          });
+        }
+        if (completed || sequence !== speechSequenceRef.current) return;
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = speechLocale;
+        const languagePrefix = speechLocale.split('-')[0].toLowerCase();
+        const matchingVoices = voices.filter(voice =>
+          voice.lang.toLowerCase().startsWith(languagePrefix)
+        );
+        utterance.voice = matchingVoices.find(voice =>
+          /female|woman|femmina|elsa|isabella|alice|federica|paola|samantha|victoria|zira|aria|jenny|sara|helena|amelie|audrey|katja|sabina|luciana/i.test(voice.name)
+        ) || matchingVoices.find(voice =>
+          /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
+        ) || matchingVoices.find(voice =>
+          voice.lang.toLowerCase() === speechLocale.toLowerCase()
+        ) || matchingVoices[0] || null;
+        console.info(
+          '[AI APPOINTMENT ASSISTANT] Device fallback voice:',
+          utterance.voice?.name || 'system default'
+        );
+        utterance.rate = 0.94;
+        utterance.pitch = 1.08;
+        utterance.onend = completeOnce;
+        utterance.onerror = completeOnce;
+        speechUtteranceRef.current = utterance;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+      })();
     };
     const playBufferedAudio = async (response: Response) => {
       const audioBlob = await response.blob();
@@ -300,7 +324,7 @@ export default function VoiceAppointmentAssistant({
       speechAudioRef.current = audio;
       audio.preload = 'auto';
       audio.onended = completeOnce;
-      audio.onerror = playBrowserFallback;
+      audio.onerror = () => playBrowserFallback('buffered-audio-error');
       await audio.play();
     };
     const appendToSourceBuffer = (
@@ -357,7 +381,7 @@ export default function VoiceAppointmentAssistant({
       speechAudioRef.current = audio;
       audio.preload = 'auto';
       audio.onended = completeOnce;
-      audio.onerror = playBrowserFallback;
+      audio.onerror = () => playBrowserFallback('streaming-audio-error');
 
       await new Promise<void>((resolve, reject) => {
         let settled = false;
@@ -399,7 +423,9 @@ export default function VoiceAppointmentAssistant({
               await appendToSourceBuffer(sourceBuffer, value, controller.signal);
               if (!playbackStarted) {
                 playbackStarted = true;
-                void audio.play().catch(playBrowserFallback);
+                void audio.play().catch(error =>
+                  playBrowserFallback(`streaming-play-rejected:${error.name}`)
+                );
               }
             }
             if (mediaSource.readyState === 'open') mediaSource.endOfStream();
@@ -428,11 +454,15 @@ export default function VoiceAppointmentAssistant({
       if (!response.ok) {
         throw new Error(`Speech request failed with status ${response.status}`);
       }
+      console.info(
+        '[AI APPOINTMENT ASSISTANT] Central voice response:',
+        response.headers.get('X-Assistant-Voice') || 'unknown'
+      );
       await playStreamingAudio(response);
     } catch (error) {
       if (controller.signal.aborted || sequence !== speechSequenceRef.current) return;
       console.error('[AI APPOINTMENT ASSISTANT] Central speech playback failed:', error);
-      playBrowserFallback();
+      playBrowserFallback(error instanceof Error ? error.message : 'central-speech-error');
     }
   };
 

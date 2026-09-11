@@ -69,6 +69,12 @@ The voice-assistant window must remain movable so professionals can consult the 
 
 **How to apply:** Use a touch-capable drag handle with viewport bounds and a light overlay. Start recognition from speech completion, show an unmistakable green listening state, and never auto-retry unsupported or failed microphone access.
 
+When central speech falls back to browser synthesis, wait for the browser voice catalog before selecting a voice.
+
+**Why:** Windows and Chromium can initially return an empty voice list; speaking immediately then uses the system-default Italian voice, which may be male.
+
+**How to apply:** Listen for `voiceschanged` with a short timeout, then prefer known female voices for the active locale. Log both the fallback reason and selected device voice without exposing request text or credentials.
+
 An overlapping time slot is not automatically forbidden. Studios can schedule concurrent appointments when another active professional or treatment room is available.
 
 **Why:** Treating every overlap as a duplicate would block valid work in multi-professional and multi-room businesses.
