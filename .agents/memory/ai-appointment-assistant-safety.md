@@ -39,6 +39,12 @@ When no exact or similar service is found, show the configured treatment list as
 
 **How to apply:** Open a readable, scrollable list, resume recognition immediately after the spoken prompt, show a green listening indicator in the popup, and close it after a recognized selection or creation command.
 
+Whenever the assistant reaches the service question, show the configured service catalog immediately, even if the professional has not asked for suggestions.
+
+**Why:** The visible catalog helps professionals recall the registered options without interrupting the conversational flow.
+
+**How to apply:** On desktop, use a compact side panel so the conversation remains readable; on narrow screens, use a contained overlay. Keep voice input active and retain actions for selecting a listed service, adding a new one, or cancelling.
+
 Generic service-family names must disambiguate only among exact-prefix variants. If the professional says a new qualified name that is absent, ask whether to create it instead of suggesting a sibling variant.
 
 **Why:** A shared generic word such as “depilazione” does not make “depilazione gambe” equivalent to “depilazione inguine”.

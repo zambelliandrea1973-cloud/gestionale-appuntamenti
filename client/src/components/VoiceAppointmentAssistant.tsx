@@ -482,7 +482,9 @@ export default function VoiceAppointmentAssistant({
       return nextDraft;
     }
     if (!nextDraft.serviceName) {
-      setPendingQuestion(null);
+      setServicePickerOptions(services);
+      setServicePickerOpen(true);
+      setPendingQuestion('choose_service');
       addAssistantMessage(t('voiceAppointmentAssistant.askService'), { autoListen: true });
       return nextDraft;
     }
@@ -1348,7 +1350,9 @@ export default function VoiceAppointmentAssistant({
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent
-          className="flex max-h-[88vh] w-[calc(100vw-1.5rem)] max-w-lg flex-col gap-0 overflow-hidden p-0"
+          className={`flex max-h-[88vh] w-[calc(100vw-1.5rem)] flex-col gap-0 overflow-hidden p-0 transition-[max-width] ${
+            servicePickerOpen ? 'max-w-3xl' : 'max-w-lg'
+          }`}
           overlayClassName="bg-black/15"
           style={{
             marginLeft: `${dialogPosition.x}px`,
@@ -1369,7 +1373,9 @@ export default function VoiceAppointmentAssistant({
             </DialogTitle>
           </DialogHeader>
 
-          <ScrollArea className="h-[52vh] min-h-[300px] px-4 py-4">
+          <ScrollArea className={`h-[52vh] min-h-[300px] px-4 py-4 ${
+            servicePickerOpen ? 'sm:pr-[18rem]' : ''
+          }`}>
             <div className="space-y-3">
               {messages.map((message, index) => (
                 <div
@@ -1431,15 +1437,15 @@ export default function VoiceAppointmentAssistant({
           )}
 
           {servicePickerOpen && (
-            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
+            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/45 p-4 sm:inset-auto sm:bottom-3 sm:right-3 sm:top-[4.5rem] sm:w-64 sm:items-stretch sm:bg-transparent sm:p-0">
               <div
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="service-picker-title"
-                className="flex max-h-[80%] w-full max-w-md flex-col gap-4 rounded-xl border bg-background p-5 shadow-2xl"
+                className="flex max-h-[80%] w-full max-w-md flex-col gap-4 rounded-xl border bg-background p-5 shadow-2xl sm:h-full sm:max-h-none sm:gap-3 sm:p-3"
               >
                 <div>
-                  <h2 id="service-picker-title" className="text-lg font-semibold">
+                    <h2 id="service-picker-title" className="text-base font-semibold">
                     {t('voiceAppointmentAssistant.servicePickerTitle')}
                   </h2>
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -1460,7 +1466,7 @@ export default function VoiceAppointmentAssistant({
                         type="button"
                         key={service.id}
                         onClick={() => selectServiceFromPicker(service)}
-                        className="flex w-full items-center justify-between gap-3 rounded-md border px-4 py-3 text-left transition-colors hover:border-violet-300 hover:bg-violet-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                        className="flex w-full items-center justify-between gap-2 rounded-md border px-3 py-2 text-left text-sm transition-colors hover:border-violet-300 hover:bg-violet-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
                       >
                         <span className="font-medium">{service.name}</span>
                         <span className="shrink-0 text-xs text-muted-foreground">
@@ -1487,7 +1493,9 @@ export default function VoiceAppointmentAssistant({
             </div>
           )}
 
-          <div className="border-t bg-background p-3">
+          <div className={`border-t bg-background p-3 ${
+            servicePickerOpen ? 'sm:pr-[17.5rem]' : ''
+          }`}>
             <div className="mb-2 flex items-center justify-between">
               <span className="text-xs text-muted-foreground">
                 {t('voiceAppointmentAssistant.minimumData')}
