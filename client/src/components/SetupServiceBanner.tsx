@@ -38,6 +38,14 @@ export default function SetupServiceBanner() {
   };
 
   const dismissForever = () => {
+    const confirmed = window.confirm(
+      t(
+        "setupServiceBanner.dismissForeverConfirm",
+        "Sei sicuro di non voler più vedere questo messaggio? Potrai comunque richiedere il servizio di configurazione dalle impostazioni."
+      )
+    );
+    if (!confirmed) return;
+
     setPersistentUiPreference(user.id, PREFERENCE);
     setHidden(true);
   };

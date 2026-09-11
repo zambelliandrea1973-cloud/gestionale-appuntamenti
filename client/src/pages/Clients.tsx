@@ -79,6 +79,14 @@ export default function Clients() {
   }, [currentUser?.id]);
 
   const dismissQrTip = () => {
+    const confirmed = window.confirm(
+      t(
+        "clients.qrTip.dismissConfirm",
+        "Sei sicuro di non voler più vedere questa spiegazione sui codici QR?"
+      )
+    );
+    if (!confirmed) return;
+
     if (currentUser?.id) {
       setPersistentUiPreference(currentUser.id, QR_TIP_PREFERENCE);
     }
