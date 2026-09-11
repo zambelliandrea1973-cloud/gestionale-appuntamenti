@@ -11,6 +11,11 @@ import { z } from 'zod';
 import { generateClientCode } from '../utils/clientCodeGenerator';
 import { syncBidirectional, extractGoogleEmail } from '../services/googleCalendarSync';
 import crypto from 'crypto';
+import {
+  createSignedOAuthState,
+  parseSignedOAuthState,
+  validateGoogleOAuthCallbackState
+} from '../services/googleOAuthState';
 
 // Validation schema for contact import
 const contactsImportSchema = z.object({
@@ -65,48 +70,6 @@ function sanitizeReturnTo(value: unknown): string | null {
   } catch {
     return null;
   }
-}
-
-function createSignedOAuthState(payload: Record<string, unknown>): string {
-  const secret = process.env.SESSION_SECRET;
-  if (!secret) {
-    throw new Error('SESSION_SECRET is required to secure Google OAuth state');
-  }
-
-  const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
-  const signature = crypto.createHmac('sha256', secret).update(encodedPayload).digest('base64url');
-  return `${encodedPayload}.${signature}`;
-}
-
-function parseSignedOAuthState(state: string): Record<string, any> {
-  const secret = process.env.SESSION_SECRET;
-  if (!secret) {
-    throw new Error('SESSION_SECRET is required to secure Google OAuth state');
-  }
-
-  const [encodedPayload, signature, ...extra] = state.split('.');
-  if (!encodedPayload || !signature || extra.length > 0) {
-    throw new Error('Malformed OAuth state');
-  }
-
-  const expected = crypto.createHmac('sha256', secret).update(encodedPayload).digest('base64url');
-  const actualBuffer = Buffer.from(signature, 'base64url');
-  const expectedBuffer = Buffer.from(expected, 'base64url');
-
-  if (
-    actualBuffer.length !== expectedBuffer.length ||
-    !crypto.timingSafeEqual(actualBuffer, expectedBuffer)
-  ) {
-    throw new Error('Invalid OAuth state signature');
-  }
-
-  return JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
-}
-
-function isAppleMobileBrowser(userAgent: string | undefined): boolean {
-  if (!userAgent) return false;
-  return /iPhone|iPad|iPod/i.test(userAgent) ||
-    (/Macintosh/i.test(userAgent) && /Mobile/i.test(userAgent));
 }
 
 // Default URI for the OAuth client (used at startup)
@@ -393,25 +356,14 @@ router.get('/callback', async (req, res) => {
       }
 
       const pendingOAuth = (req as any).session?.pendingGoogleOAuth;
-      const stateAge = Date.now() - Number(stateData.issuedAt || 0);
-      const hasValidAge = stateAge >= 0 && stateAge <= 10 * 60 * 1000;
-      const hasValidNonce = typeof stateData.nonce === 'string' &&
-        /^[A-Za-z0-9_-]{43}$/.test(stateData.nonce);
-      const hasMatchingSession = Boolean(
-        pendingOAuth &&
-        pendingOAuth.nonce === stateData.nonce &&
-        Number(pendingOAuth.userId) === userId
-      );
-      const canRecoverAppleSession = !pendingOAuth &&
-        isAppleMobileBrowser(req.get('user-agent')) &&
-        hasValidAge &&
-        hasValidNonce;
+      const validationMode = validateGoogleOAuthCallbackState({
+        stateData,
+        userId,
+        pendingOAuth,
+        userAgent: req.get('user-agent')
+      });
 
-      if ((!hasMatchingSession && !canRecoverAppleSession) || !hasValidAge || !hasValidNonce) {
-        throw new Error('Expired, reused or session-mismatched OAuth state');
-      }
-
-      if (hasMatchingSession) {
+      if (validationMode === 'matching-session') {
         // Consume before token exchange so the state cannot be replayed.
         delete (req as any).session.pendingGoogleOAuth;
         await new Promise<void>((resolve, reject) =>
