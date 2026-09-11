@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { isPersistentUiPreferenceKey } from "@/lib/persistentUiPreferences";
 
 interface LogoutButtonProps {
   variant?: "ghost" | "secondary" | "link";
@@ -31,9 +32,11 @@ export default function LogoutButton({
       
       // CRITICO: Pulisci TUTTA la cache prima del logout
       queryClient.clear();
-      const savedLang = localStorage.getItem('i18nextLng');
-      localStorage.clear();
-      if (savedLang) localStorage.setItem('i18nextLng', savedLang);
+      Object.keys(localStorage).forEach(key => {
+        if (key !== 'i18nextLng' && !isPersistentUiPreferenceKey(key)) {
+          localStorage.removeItem(key);
+        }
+      });
       sessionStorage.clear();
       console.log('🧹 Cache fully cleared on logout');
       

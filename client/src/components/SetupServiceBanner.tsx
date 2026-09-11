@@ -2,42 +2,44 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { X, Sparkles, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import {
+  hasPersistentUiPreference,
+  sessionUiPreferenceKey,
+  setPersistentUiPreference
+} from "@/lib/persistentUiPreferences";
 
-const STORAGE_KEY = "setupServiceBannerDismissed";
+const PREFERENCE = "setup-service-banner-dismissed";
 
 export default function SetupServiceBanner() {
   const { t } = useTranslation();
+  const { user, isLoading } = useUserWithLicense();
+  const [hidden, setHidden] = useState(false);
 
-  const [dismissed, setDismissed] = useState(() => {
+  if (isLoading || !user) return null;
+
+  const sessionKey = sessionUiPreferenceKey(user.id, PREFERENCE);
+  const dismissedForever = hasPersistentUiPreference(user.id, PREFERENCE);
+  const remindedLater = (() => {
     try {
-      return localStorage.getItem(STORAGE_KEY) === "forever";
+      return sessionStorage.getItem(sessionKey) === "1";
     } catch {
       return false;
     }
-  });
+  })();
 
-  const [hidden, setHidden] = useState(() => {
-    try {
-      return localStorage.getItem(STORAGE_KEY) !== null;
-    } catch {
-      return false;
-    }
-  });
-
-  if (dismissed || hidden) return null;
+  if (dismissedForever || remindedLater || hidden) return null;
 
   const dismissTemp = () => {
     try {
-      localStorage.setItem(STORAGE_KEY, "temp");
+      sessionStorage.setItem(sessionKey, "1");
     } catch {}
     setHidden(true);
   };
 
   const dismissForever = () => {
-    try {
-      localStorage.setItem(STORAGE_KEY, "forever");
-    } catch {}
-    setDismissed(true);
+    setPersistentUiPreference(user.id, PREFERENCE);
+    setHidden(true);
   };
 
   return (

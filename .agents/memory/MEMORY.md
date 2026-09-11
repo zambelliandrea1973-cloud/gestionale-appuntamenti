@@ -2,3 +2,4 @@
 - [Onboarding demo data](onboarding-demo-data.md) — new registrations auto-get ~270 demo appointments via onboardingDemoService.ts; demo clients are Elena Greco, Marco Conti, Lucia Esposito, etc.
 - [AI appointment assistant safety](ai-appointment-assistant-safety.md) — voice scheduling requires explicit approval and resource-aware overlap handling.
 - [Google OAuth callbacks on iOS](google-oauth-ios-callbacks.md) — signed short-lived state can recover PWA-to-Safari callbacks when Apple drops the initiating cookie.
+- [Banner dismissal semantics](banner-dismissal-semantics.md) — permanent dismissal survives login per account; reminders and close actions last only for the current session.

@@ -29,6 +29,10 @@ import ClientForm from "@/components/ClientForm";
 import ClientCard from "@/components/ClientCard";
 import { useTranslation } from "react-i18next";
 import { useMobileForcedSync } from "@/hooks/use-mobile-force-sync";
+import {
+  hasPersistentUiPreference,
+  setPersistentUiPreference
+} from "@/lib/persistentUiPreferences";
 
 interface ClientsSummary {
   ownerId: number;
@@ -38,7 +42,7 @@ interface ClientsSummary {
   isCurrentUser: boolean;
 }
 
-const QR_TIP_DISMISSED_KEY = "qr-feature-tip-dismissed";
+const QR_TIP_PREFERENCE = "qr-feature-tip-dismissed";
 
 export default function Clients() {
   const { t } = useTranslation();
@@ -47,19 +51,7 @@ export default function Clients() {
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
 
-  // Show to anyone who has at least 1 client and hasn't dismissed it yet
-  const [showQrTip, setShowQrTip] = useState(() => {
-    try {
-      return localStorage.getItem(QR_TIP_DISMISSED_KEY) !== "1";
-    } catch { return false; }
-  });
-
-  const dismissQrTip = () => {
-    try {
-      localStorage.setItem(QR_TIP_DISMISSED_KEY, "1");
-    } catch {}
-    setShowQrTip(false);
-  };
+  const [showQrTip, setShowQrTip] = useState(false);
   const CLIENTS_PER_PAGE = 50;
   const [visibleCount, setVisibleCount] = useState(CLIENTS_PER_PAGE);
   
@@ -80,6 +72,18 @@ export default function Clients() {
       return response.json();
     }
   });
+
+  useEffect(() => {
+    if (!currentUser?.id) return;
+    setShowQrTip(!hasPersistentUiPreference(currentUser.id, QR_TIP_PREFERENCE));
+  }, [currentUser?.id]);
+
+  const dismissQrTip = () => {
+    if (currentUser?.id) {
+      setPersistentUiPreference(currentUser.id, QR_TIP_PREFERENCE);
+    }
+    setShowQrTip(false);
+  };
   
   // Sistema di sincronizzazione forzata per mobile - stesso percorso del PC
   const { syncData, isMobile, clientsCount, isForcesynced } = useMobileForcedSync();

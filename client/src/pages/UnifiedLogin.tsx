@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
+import { isPersistentUiPreferenceKey } from "@/lib/persistentUiPreferences";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,7 +64,7 @@ export default function UnifiedLogin() {
       const keysToKeep = rememberMe ? ['savedLoginUsername', 'i18nextLng'] : ['i18nextLng'];
       const allKeys = Object.keys(localStorage);
       allKeys.forEach(key => {
-        if (!keysToKeep.includes(key)) {
+        if (!keysToKeep.includes(key) && !isPersistentUiPreferenceKey(key)) {
           localStorage.removeItem(key);
         }
       });
@@ -89,7 +90,7 @@ export default function UnifiedLogin() {
       const keysToKeep = ['savedLoginUsername', 'i18nextLng'];
       const allKeys = Object.keys(localStorage);
       allKeys.forEach(key => {
-        if (!keysToKeep.includes(key)) {
+        if (!keysToKeep.includes(key) && !isPersistentUiPreferenceKey(key)) {
           localStorage.removeItem(key);
         }
       });
