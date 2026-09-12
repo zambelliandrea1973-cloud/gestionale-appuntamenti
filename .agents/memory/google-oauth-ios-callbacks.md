@@ -1,10 +1,10 @@
 ---
-name: Google OAuth callbacks on iOS
-description: Safe recovery when an Apple PWA and Safari do not share the initiating session cookie.
+name: Google OAuth callbacks across browser contexts
+description: Durable one-time authorization handoffs when the initiating app and callback browser do not share cookies.
 ---
 
-An OAuth callback from an Apple mobile browser may continue without the initiating session cookie only when the server-signed state is authentic, recent, structurally valid, and identifies the initiating user.
+Use a durable, short-lived, one-time server-side transaction for every Google authorization. Send only an opaque random state to Google, store only its digest, and atomically consume the transaction at callback.
 
-**Why:** iOS can start authorization in an installed PWA and return from Google in Safari, whose cookie context does not contain the PWA session. Requiring only the original session nonce rejects legitimate reconnects.
+**Why:** An installed PWA and Safari may not share cookies. Session recovery based on browser detection is unreliable and cannot consume a self-contained state globally across server instances.
 
-**How to apply:** Keep strict nonce-to-session matching whenever the pending session exists. Allow the sessionless recovery only for iPhone/iPad browser contexts, within the short state lifetime, and never log the authorization code, signed state, cookies, or full callback query.
+**How to apply:** Bind each transaction to its owner, purpose, redirect and opener origin; enforce expiry and atomic single use. Never log authorization codes, raw state, cookies, headers, or full callback URLs.

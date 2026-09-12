@@ -20,6 +20,12 @@ const client = postgres(process.env.DATABASE_URL, {
 
 export const db = drizzle(client, { schema });
 
+// Primarily useful for short-lived maintenance/test processes. The server
+// keeps its pool open for the lifetime of the process.
+export async function closeDatabase(): Promise<void> {
+  await client.end();
+}
+
 // Additional implementations for the notification system
 export const notificationSettingsRepository = {
   async get() {

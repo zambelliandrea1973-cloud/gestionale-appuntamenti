@@ -81,10 +81,10 @@ export default function GoogleSetupInstructionsPage() {
     setTestingStatus('testing');
     
     try {
-      const response = await fetch('/api/google-auth/test-configuration');
+      const response = await fetch('/api/google-auth/status', { credentials: 'include' });
       const data = await response.json();
       
-      if (data.success) {
+      if (response.ok && data.success !== false) {
         setTestingStatus('success');
         toast({
           title: t('google.testSuccess', 'Test completed successfully'),

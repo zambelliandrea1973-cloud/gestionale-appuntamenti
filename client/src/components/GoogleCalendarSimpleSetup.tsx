@@ -85,24 +85,35 @@ export default function GoogleCalendarSimpleSetup() {
       if (response.ok) {
         const data = await response.json();
         if (data.authUrl) {
-          console.log("Auth URL:", data.authUrl);
-          console.log("Auth debug info:", data.debug || "Not available");
-          
           // Apre l'URL di autorizzazione in una nuova finestra
           const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
           
           if (!authWindow) {
             throw new Error(t('google.popupBlocked', 'The popup was blocked. Please disable the popup blocker for this site.'));
           }
+          const targetOrigin = new URL(data.appOrigin).origin;
+          if (targetOrigin !== data.appOrigin) throw new Error('Invalid authorization application origin');
+          let checkInterval: ReturnType<typeof setInterval>;
+          const onMessage = (event: MessageEvent) => {
+            if (event.source !== authWindow || event.origin !== targetOrigin ||
+                event.data !== 'google-auth-success') return;
+            clearInterval(checkInterval);
+            window.removeEventListener('message', onMessage);
+            setIsGoogleAuthorized(true);
+            setIsSyncEnabled(true);
+            if (!authWindow.closed) authWindow.close();
+          };
+          window.addEventListener('message', onMessage);
           
           // Verifica periodicamente se l'autorizzazione è completata
-          const checkInterval = setInterval(async () => {
+          checkInterval = setInterval(async () => {
             try {
               const statusResponse = await fetch('/api/google-auth/status');
               if (statusResponse.ok) {
                 const statusData = await statusResponse.json();
                 if (statusData.authorized) {
                   clearInterval(checkInterval);
+                  window.removeEventListener('message', onMessage);
                   setIsGoogleAuthorized(true);
                   setIsSyncEnabled(true); // Abilita automaticamente la sincronizzazione
                   
@@ -133,6 +144,7 @@ export default function GoogleCalendarSimpleSetup() {
           // Ferma il controllo dopo 2 minuti (per evitare loop infiniti)
           setTimeout(() => {
             clearInterval(checkInterval);
+            window.removeEventListener('message', onMessage);
             setIsAuthenticating(false);
           }, 120000);
         }
@@ -311,20 +323,6 @@ export default function GoogleCalendarSimpleSetup() {
             <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mt-2">
               {t('google.simpleSetup.cloudConfig.domainCheck')}
             </p>
-            <div className="mt-3 border-t border-amber-200 dark:border-amber-700 pt-3">
-              <a 
-                href="/api/google-auth/compare-auth-urls" 
-                target="_blank" 
-                className="text-xs inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                  <polyline points="15 3 21 3 21 9"/>
-                  <line x1="10" y1="14" x2="21" y2="3"/>
-                </svg>
-                {t('google.simpleSetup.cloudConfig.debugTool')}
-              </a>
-            </div>
           </div>
           
           {isLoadingStatus ? (

@@ -165,18 +165,15 @@ function AppRoutes() {
     
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
-      console.log('Auth state:', { user: !!user, location, isLoading });
       
       // Se siamo su un percorso dedicato ai clienti o inizia con /client/, NON applicare la logica di autenticazione staff
       // MA se siamo su desktop e non abbiamo parametri QR, reindirizza alla dashboard
       if (clientOnlyPaths.includes(location) || isClientPath) {
-        console.log('Client path detected, skipping staff auth checks');
         
         // Se siamo su /client/... senza parametri QR e abbiamo un utente autenticato, vai alla dashboard
         // NOTA: location da wouter NON include query params, usa window.location.search
         const hasToken = window.location.search.includes('token=');
         if (isClientPath && user && !hasToken) {
-          console.log('Client area without QR detected, redirecting to dashboard');
           setLocation('/dashboard');
           return;
         }
@@ -186,7 +183,6 @@ function AppRoutes() {
       
       // SOLO se l'utente NON è autenticato e sta cercando di accedere a una pagina protetta
       if (!user && !publicPaths.includes(location)) {
-        console.log('Unauthenticated user on protected page, redirecting to /');
         setLocation('/');
       }
       

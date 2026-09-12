@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, jsonb, date, index } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, jsonb, date, index, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -505,6 +505,44 @@ export const users = pgTable("users", {
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
+});
+
+/**
+ * Durable, one-time OAuth handoff records.
+ *
+ * The value sent to Google is never stored in this table.  Only its SHA-256
+ * digest is persisted, so a database read cannot be used to replay an OAuth
+ * handoff.  `metadata` is intentionally JSON so providers can add small,
+ * non-secret flow details without another schema migration.
+ */
+export const oauthTransactions = pgTable("oauth_transactions", {
+  id: serial("id").primaryKey(),
+  stateHash: varchar("state_hash", { length: 64 }).notNull().unique(),
+  ownerUserId: integer("owner_user_id").notNull(),
+  purpose: varchar("purpose", { length: 64 }).notNull(), // google-main | google-contacts
+  accountMode: varchar("account_mode", { length: 32 }).notNull().default("primary"), // primary | addAccount
+  redirectUri: text("redirect_uri").notNull(),
+  returnPath: text("return_path"),
+  expiresAt: timestamp("expires_at").notNull(),
+  appOrigin: text("app_origin").notNull(),
+  status: varchar("status", { length: 16 }).notNull().default("pending"), // pending | processing | completed | failed
+  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
+  claimedAt: timestamp("claimed_at"),
+  completedAt: timestamp("completed_at"),
+  failedAt: timestamp("failed_at"),
+  failureCode: varchar("failure_code", { length: 64 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  stateHashIdx: index("oauth_transactions_state_hash_idx").on(table.stateHash),
+  ownerStatusIdx: index("oauth_transactions_owner_status_idx").on(table.ownerUserId, table.status),
+  expiresAtIdx: index("oauth_transactions_expires_at_idx").on(table.expiresAt),
+}));
+
+export const insertOauthTransactionSchema = createInsertSchema(oauthTransactions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 // Client accounts table schema (for client portal access)
@@ -1973,6 +2011,7 @@ export const googleAccounts = pgTable("google_accounts", {
 }, (table) => ({
   userIdIdx: index("google_accounts_user_id_idx").on(table.userId),
   userEmailIdx: index("google_accounts_user_email_idx").on(table.userId, table.email),
+  userEmailUnique: uniqueIndex("google_accounts_user_email_unique").on(table.userId, table.email),
 }));
 
 export const insertGoogleAccountSchema = createInsertSchema(googleAccounts).omit({

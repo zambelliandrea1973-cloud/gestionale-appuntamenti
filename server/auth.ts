@@ -12,6 +12,9 @@ import { storage } from "./storage";
 import { User, ClientAccount, users, userLogins } from "../shared/schema";
 import { db } from "./db";
 import rateLimit from "express-rate-limit";
+import { parseSerializedPassportId } from './services/passportIdentity';
+
+export { parseSerializedPassportId } from './services/passportIdentity';
 
 const loginRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -52,9 +55,14 @@ export async function comparePasswords(supplied: string, stored: string) {
 
 export function setupAuth(app: Express) {
   // Detect if we are on Sliplane or production environment
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction = process.env.NODE_ENV === 'production' ||
+    process.env.SLIPLANE_SKIP_GZIP === 'true';
   const isReplit = process.env.REPL_ID !== undefined;
   const isSliplane = !isReplit && isProduction;
+  // OAuth/payment redirects require the production cookie to be cross-site.
+  // Local HTTP must never emit Secure or SameSite=None (browsers reject it).
+  const sessionCookieSecure = isProduction;
+  const sessionCookieSameSite: 'none' | 'lax' = isProduction ? 'none' : 'lax';
   
   logger.debug(`🔐 [AUTH] Session configuration: production=${isProduction}, replit=${isReplit}, sliplane=${isSliplane}`);
   
@@ -76,8 +84,8 @@ export function setupAuth(app: Express) {
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       httpOnly: true,
-      secure: isProduction || isReplit, // true on Replit/Sliplane (HTTPS)
-      sameSite: 'none', // 'none' always to allow redirects from PayPal/Stripe
+      secure: sessionCookieSecure,
+      sameSite: sessionCookieSameSite,
       domain: isSliplane ? undefined : undefined // auto-detect domain
     },
     name: 'session-id',
@@ -216,15 +224,12 @@ export function setupAuth(app: Express) {
         return done(new Error('Invalid session ID'));
       }
       
-      const [type, idStr] = serialized.split(":");
-      
-      // Check if we have both type and idStr
-      if (!type || !idStr) {
-        console.error('Deserialization error: invalid ID format', { type, idStr, serialized });
+      const parsedPassportId = parseSerializedPassportId(serialized);
+      if (!parsedPassportId) {
+        console.error('Deserialization error: invalid ID format');
         return done(new Error('Invalid session ID format'));
       }
-      
-      const id = parseInt(idStr, 10);
+      const { type, id } = parsedPassportId;
 
       // Handle all staff/admin/customer/user types (includes legacy 'user' type)
       if (type === "staff" || type === "admin" || type === "customer" || type === "user") {
@@ -629,8 +634,8 @@ export function setupAuth(app: Express) {
           res.clearCookie('session-id', {
             path: '/',
             httpOnly: true,
-            secure: isProduction || isReplit,
-            sameSite: isSliplane ? 'none' : 'lax'
+            secure: sessionCookieSecure,
+            sameSite: sessionCookieSameSite
           });
           console.log(`Logout completed successfully`);
           res.status(200).json({ success: true, message: "Logout completed successfully" });
@@ -710,39 +715,12 @@ export function setupAuth(app: Express) {
     const googleCallbackMiddleware = passport.authenticate('google-login', { failureRedirect: '/?error=google-auth-failed' });
     const googleCallbackDone = (req: any, res: any) => { res.redirect('/dashboard'); };
 
+    // Explicitly retire the historical diagnostic path before the SPA fallback.
+    app.all('/api/auth/google/debug-url', (_req, res) => res.sendStatus(404));
     app.get('/api/auth/google', googleAuthMiddleware);
     app.get('/auth/google', googleAuthMiddleware);
     app.get('/api/auth/google/callback', googleCallbackMiddleware, googleCallbackDone);
     app.get('/auth/google/callback', googleCallbackMiddleware, googleCallbackDone);
-
-    // Diagnostic endpoint — shows exact OAuth params sent to Google for THIS request
-    app.get('/api/auth/google/debug-url', (req: any, res: any) => {
-      const proto = req.headers['x-forwarded-proto'] || req.protocol;
-      const host  = req.headers['x-forwarded-host']  || req.headers['host'];
-      const builtCallback = `${proto}://${host}/api/auth/google/callback`;
-      const clientId = process.env.GOOGLE_CLIENT_ID || 'MISSING';
-      // Build the exact Google OAuth URL to verify redirect_uri and client_id
-      const oauthParams = new URLSearchParams({
-        response_type: 'code',
-        redirect_uri: builtCallback,
-        scope: 'profile email',
-        client_id: clientId,
-        prompt: 'select_account',
-      });
-      const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?${oauthParams.toString()}`;
-      res.json({
-        builtCallback,
-        clientIdPrefix: clientId.slice(0, 30) + '...',
-        googleAuthURL,
-        socialCallbackBase,
-        'x-forwarded-proto': req.headers['x-forwarded-proto'] || null,
-        'x-forwarded-host':  req.headers['x-forwarded-host']  || null,
-        protocol: req.protocol,
-        host: req.headers['host'],
-        PRODUCTION_DOMAIN: process.env.PRODUCTION_DOMAIN || null,
-        REPL_SLUG: process.env.REPL_SLUG || null,
-      });
-    });
 
     console.log('✅ [AUTH] Google OAuth login configured (proxy mode, relative callbackURL=/api/auth/google/callback)');
   } else {
@@ -959,17 +937,9 @@ export function setupAuth(app: Express) {
 
 // Middleware to verify that the user is authenticated
 export function isAuthenticated(req: any, res: any, next: any) {
-  logger.debug(`🔐 MIDDLEWARE isAuthenticated called for ${req.method} ${req.path}`);
-  logger.debug(`🔐 req.isAuthenticated():`, req.isAuthenticated());
-  logger.debug(`🔐 req.user:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'undefined');
-  logger.debug(`🔐 Session ID:`, req.sessionID || 'No session ID');
-  logger.debug(`🔐 Cookies:`, req.headers.cookie || 'No cookies');
-  
   if (req.isAuthenticated()) {
-    console.log('✅ User authenticated successfully in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);
     return next();
   }
-  console.log('❌ Unauthorized access attempt, no valid session');
   res.status(401).json({ message: "Unauthorized access" });
 }
 

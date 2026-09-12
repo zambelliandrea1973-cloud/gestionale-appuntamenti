@@ -69,6 +69,7 @@ export default function GoogleCalendarSetupPage() {
   const [contactsLoaded, setContactsLoaded] = useState(false);
   const [importResult, setImportResult] = useState<{ success: boolean; message: string } | null>(null);
   const [needsContactsReauth, setNeedsContactsReauth] = useState(false);
+  const [isAuthorizingContacts, setIsAuthorizingContacts] = useState(false);
   
   // Stati per importazione CSV
   const [csvContacts, setCsvContacts] = useState<Array<{name: string; email: string; phone: string}>>([]);
@@ -183,6 +184,8 @@ export default function GoogleCalendarSetupPage() {
 
       const authWindow = window.open(data.authUrl, 'googleAddAccountWindow', 'width=800,height=600');
       if (!authWindow) throw new Error(t('googleCalendar.errors.popupBlocked'));
+      const targetOrigin = new URL(data.appOrigin).origin;
+      if (targetOrigin !== data.appOrigin) throw new Error('Invalid authorization application origin');
 
       const doRefresh = () => {
         setIsAddingAccount(false);
@@ -201,7 +204,11 @@ export default function GoogleCalendarSetupPage() {
 
       // Listener postMessage: il popup invia 'google-auth-success' all'opener al completamento
       onMessage = (event: MessageEvent) => {
-        if (event.data === 'google-auth-success') {
+        if (
+          event.source === authWindow &&
+          event.origin === targetOrigin &&
+          event.data === 'google-auth-success'
+        ) {
           cleanup();
           doRefresh();
         }
@@ -355,15 +362,29 @@ export default function GoogleCalendarSetupPage() {
           if (!authWindow) {
             throw new Error(t('googleCalendar.errors.popupBlocked'));
           }
+           const targetOrigin = new URL(data.appOrigin).origin;
+           if (targetOrigin !== data.appOrigin) throw new Error('Invalid authorization application origin');
+           let checkInterval: ReturnType<typeof setInterval>;
+           const onMessage = (event: MessageEvent) => {
+             if (event.source !== authWindow || event.origin !== targetOrigin ||
+                 event.data !== 'google-auth-success') return;
+             clearInterval(checkInterval);
+             window.removeEventListener('message', onMessage);
+             setIsGoogleAuthorized(true);
+             setIsSyncEnabled(true);
+             if (!authWindow.closed) authWindow.close();
+           };
+           window.addEventListener('message', onMessage);
           
           // Verifica periodicamente il completamento
-          const checkInterval = setInterval(async () => {
+           checkInterval = setInterval(async () => {
             try {
               const statusResponse = await fetch('/api/google-auth/status');
               if (statusResponse.ok) {
                 const statusData = await statusResponse.json();
                 if (statusData.authorized) {
                   clearInterval(checkInterval);
+                   window.removeEventListener('message', onMessage);
                   setIsGoogleAuthorized(true);
                   setIsSyncEnabled(true);
                   
@@ -384,6 +405,7 @@ export default function GoogleCalendarSetupPage() {
           
           setTimeout(() => {
             clearInterval(checkInterval);
+             window.removeEventListener('message', onMessage);
             setIsAuthenticating(false);
           }, 120000);
         }
@@ -516,7 +538,7 @@ export default function GoogleCalendarSetupPage() {
           description: t('googleCalendar.setup.contactsFound', { count: data.total || 0 }),
         });
       } else {
-        if (data.needsReauth) {
+        if (data.needsContactsAuth || data.needsReauth) {
           setNeedsContactsReauth(true);
           toast({
             title: t('googleCalendar.setup.reconnectGoogle'),
@@ -539,6 +561,83 @@ export default function GoogleCalendarSetupPage() {
       });
     } finally {
       setIsLoadingContacts(false);
+    }
+  };
+
+  const authorizeGoogleContacts = async () => {
+    setIsAuthorizingContacts(true);
+    try {
+      const response = await fetch('/api/google-auth/contacts/authorize', {
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (!response.ok || !data.authUrl || typeof data.appOrigin !== 'string') {
+        throw new Error(data.error || 'Unable to start Google Contacts authorization');
+      }
+      const targetOrigin = new URL(data.appOrigin).origin;
+      if (targetOrigin !== data.appOrigin) {
+        throw new Error('Invalid authorization application origin');
+      }
+      const authWindow = window.open(data.authUrl, 'googleContactsAuthWindow', 'width=800,height=600');
+      if (!authWindow) throw new Error(t('googleCalendar.errors.popupBlocked'));
+
+      let pollInterval: ReturnType<typeof setInterval>;
+      let finished = false;
+      const cleanup = () => {
+        clearInterval(pollInterval);
+        window.removeEventListener('message', onMessage);
+      };
+      const refreshContacts = async () => {
+        if (finished) return;
+        finished = true;
+        cleanup();
+        setNeedsContactsReauth(false);
+        await loadGoogleContacts();
+        if (!authWindow.closed) authWindow.close();
+        setIsAuthorizingContacts(false);
+      };
+      const checkContactsStatus = async () => {
+        const statusResponse = await fetch('/api/google-auth/contacts/status', {
+          credentials: 'include',
+        });
+        if (statusResponse.ok && (await statusResponse.json()).authorized) {
+          await refreshContacts();
+          return true;
+        }
+        return false;
+      };
+      const onMessage = (event: MessageEvent) => {
+        if (
+          event.source === authWindow &&
+          event.origin === targetOrigin &&
+          event.data?.type === 'GOOGLE_CONTACTS_AUTHORIZED'
+        ) {
+          void refreshContacts();
+        }
+      };
+      window.addEventListener('message', onMessage);
+      pollInterval = setInterval(async () => {
+        try {
+          if (authWindow.closed) {
+            const authorized = await checkContactsStatus();
+            if (!authorized) {
+              cleanup();
+              setIsAuthorizingContacts(false);
+            }
+          } else {
+            await checkContactsStatus();
+          }
+        } catch {
+          // Keep polling; a transient status request must not strand the popup.
+        }
+      }, 1500);
+    } catch (error) {
+      setIsAuthorizingContacts(false);
+      toast({
+        title: t('common.error'),
+        description: error instanceof Error ? error.message : t('googleCalendar.errors.authError'),
+        variant: 'destructive',
+      });
     }
   };
 
@@ -1076,7 +1175,7 @@ export default function GoogleCalendarSetupPage() {
       </Card>
 
       {/* === SEZIONE ACCOUNT GOOGLE MULTIPLI === */}
-      {isGoogleAuthorized && (
+      {hasProAccess && (
         <Card className="mt-6">
           <CardHeader className="bg-gradient-to-r from-indigo-500/10 to-indigo-400/5 border-b">
             <div className="flex items-start justify-between">
@@ -1242,17 +1341,20 @@ export default function GoogleCalendarSetupPage() {
                     <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
                       <p className="font-medium text-amber-900 dark:text-amber-100">
-                        {t('googleCalendar.setup.reconnectNeeded')}
+                        {t('googleCalendar.setup.reconnectNeeded', 'Google Contacts authorization required')}
                       </p>
                       <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                        {t('googleCalendar.setup.reconnectDesc')}
+                        {t('googleCalendar.setup.reconnectDesc', 'Authorize Google Contacts separately to import your address book.')}
                       </p>
                       <Button 
-                        onClick={handleReconnectGoogle} 
+                        onClick={authorizeGoogleContacts}
+                        disabled={isAuthorizingContacts}
                         className="mt-3 bg-amber-600 hover:bg-amber-700"
                         size="sm"
                       >
-                        {t('googleCalendar.setup.reconnectButton')}
+                        {isAuthorizingContacts
+                          ? t('googleCalendar.setup.loadingContacts')
+                          : t('googleCalendar.setup.reconnectButton', 'Authorize Google Contacts')}
                       </Button>
                     </div>
                   </div>
@@ -1260,7 +1362,7 @@ export default function GoogleCalendarSetupPage() {
               )}
 
               {/* Pulsante per caricare i contatti */}
-              {!contactsLoaded && !needsContactsReauth ? (
+              {needsContactsReauth ? null : !contactsLoaded ? (
                 <Button
                   onClick={loadGoogleContacts}
                   disabled={isLoadingContacts}

@@ -55,13 +55,24 @@ export default function GoogleTroubleshootingPage() {
     checkGoogleAuth();
   }, []);
 
-  // Esegue il test di configurazione Google
+  // Use the authenticated status endpoint for configuration checks. The old
+  // diagnostic endpoint exposed provider URLs and is intentionally gone.
   const runGoogleTest = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/google-auth/test-configuration');
+      const response = await fetch('/api/google-auth/status', { credentials: 'include' });
       const data = await response.json();
-      setTestResult(data);
+      setTestResult({
+        success: response.ok && data.success !== false,
+        authorized: data.authorized,
+        message: response.ok
+          ? (data.authorized
+            ? t('googleCalendar.troubleshooting.statusAccountAuthorized')
+            : t('googleCalendar.troubleshooting.statusAccountNotAuthorized'))
+          : t('googleCalendar.troubleshooting.connError', {
+            error: data.error || t('googleCalendar.troubleshooting.unknownError')
+          }),
+      });
     } catch (error: any) {
       console.error("Error in configuration test:", error);
       setTestResult({
@@ -112,9 +123,15 @@ export default function GoogleTroubleshootingPage() {
       if (response.ok) {
         const data = await response.json();
         if (data.authUrl) {
+          const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
+          if (!authWindow) throw new Error('Popup blocked');
+          const targetOrigin = new URL(data.appOrigin).origin;
+          if (targetOrigin !== data.appOrigin) throw new Error('Invalid authorization application origin');
           // Aggiungiamo un gestore di eventi per il messaggio di successo
           const messageListener = (event: MessageEvent) => {
-            if (event.data === 'google-auth-success') {
+            if (event.source === authWindow &&
+                event.origin === targetOrigin &&
+                event.data === 'google-auth-success') {
               window.removeEventListener('message', messageListener);
               checkGoogleAuth();
               toast({
@@ -125,9 +142,6 @@ export default function GoogleTroubleshootingPage() {
           };
           
           window.addEventListener('message', messageListener);
-          
-          // Apre l'URL di autorizzazione in una nuova finestra
-          const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
           
           // Verifica periodicamente se l'autorizzazione è completata (come fallback)
           const checkInterval = setInterval(async () => {

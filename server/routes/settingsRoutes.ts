@@ -578,23 +578,13 @@ router.get("/api/license/license-info", async (req, res) => {
   // - PRO/BUSINESS/TRIAL/PASSEPARTOUT: YES PRO access
   // - Admin/Staff: YES full access
 router.get("/api/license/has-pro-access", async (req, res) => {
-    // Detailed log for debug session on Sliplane
-    console.log('🔐 [has-pro-access] ====== DEBUG SESSION ======');
-    console.log('🔐 [has-pro-access] Session ID:', req.sessionID);
-    console.log('🔐 [has-pro-access] isAuthenticated:', req.isAuthenticated());
-    console.log('🔐 [has-pro-access] req.user:', req.user ? `User ID ${(req.user as any).id}, type: ${(req.user as any).type}` : 'undefined');
-    console.log('🔐 [has-pro-access] Cookie header:', req.headers.cookie ? 'present' : 'missing');
-    console.log('🔐 [has-pro-access] ============================');
-    
     if (!req.isAuthenticated()) {
-      console.log('🔐 [has-pro-access] user not authenticated - return false');
       return res.json(false);
     }
     const user = req.user as any;
     
     // Admin and staff always have PRO access
     if (user.type === 'admin' || user.type === 'staff') {
-      logger.debug(`🔐 [has-pro-access] user ${user.id} (${user.type}) - admin/staff = true`);
       return res.json(true);
     }
     
@@ -608,15 +598,13 @@ router.get("/api/license/has-pro-access", async (req, res) => {
           // PRO, BUSINESS, PASSEPARTOUT, TRIAL have PRO access
           const proLicenseTypes = ['pro', 'business', 'passepartout', 'trial'];
           const hasAccess = proLicenseTypes.includes(activeLicense.type);
-          logger.debug(`🔐 [has-pro-access] user ${user.id} license ${activeLicense.type} - hasAccess: ${hasAccess}`);
           return res.json(hasAccess);
         }
       } catch (error: any) {
-        console.error(`❌ [has-pro-access] Error reading license for user ${user.id}:`, error);
+        logger.error('Unable to read license for PRO access check');
       }
     }
     
-    logger.debug(`🔐 [has-pro-access] user ${user.id} - no active PRO license = false`);
     res.json(false);
   });
 

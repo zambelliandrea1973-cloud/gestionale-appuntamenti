@@ -9,9 +9,6 @@ import {
 const secret = 'test-session-secret-with-sufficient-entropy';
 const now = new Date('2026-09-11T15:00:00.000Z').getTime();
 const nonce = 'A'.repeat(43);
-const iphoneUserAgent =
-  'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1';
-
 function validState(overrides: Record<string, unknown> = {}) {
   return {
     userId: 42,
@@ -22,32 +19,17 @@ function validState(overrides: Record<string, unknown> = {}) {
   };
 }
 
-describe('Google OAuth callback recovery on iOS', () => {
-  it('accepts a signed recent iPhone callback without the initiating cookie', () => {
+describe('Google OAuth callback state validation', () => {
+  it('rejects a sessionless callback regardless of user agent', () => {
     const signed = createSignedOAuthState(validState(), secret);
     const parsed = parseSignedOAuthState(signed, secret);
 
-    assert.equal(validateGoogleOAuthCallbackState({
+    assert.throws(() => validateGoogleOAuthCallbackState({
       stateData: parsed,
       userId: 42,
       pendingOAuth: null,
-      userAgent: iphoneUserAgent,
       now
-    }), 'apple-session-recovery');
-  });
-
-  it('also recognizes iPadOS desktop-style user agents', () => {
-    const stateData = validState();
-    const ipadUserAgent =
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1';
-
-    assert.equal(validateGoogleOAuthCallbackState({
-      stateData,
-      userId: 42,
-      pendingOAuth: null,
-      userAgent: ipadUserAgent,
-      now
-    }), 'apple-session-recovery');
+    }), /Expired, reused or session-mismatched OAuth state/);
   });
 
   it('rejects a callback whose signed payload was altered', () => {
@@ -69,7 +51,6 @@ describe('Google OAuth callback recovery on iOS', () => {
         stateData: validState({ issuedAt: now - 10 * 60 * 1000 - 1 }),
         userId: 42,
         pendingOAuth: null,
-        userAgent: iphoneUserAgent,
         now
       }),
       /Expired, reused or session-mismatched OAuth state/
@@ -82,30 +63,30 @@ describe('Google OAuth callback recovery on iOS', () => {
         stateData: validState({ nonce: 'too-short' }),
         userId: 42,
         pendingOAuth: null,
-        userAgent: iphoneUserAgent,
         now
       }),
       /Expired, reused or session-mismatched OAuth state/
     );
   });
 
-  it('accepts a recent signed iPhone callback when Safari carries a stale session', () => {
-    assert.equal(validateGoogleOAuthCallbackState({
-      stateData: validState(),
-      userId: 42,
-      pendingOAuth: { nonce: 'B'.repeat(43), userId: 42, ts: now - 60_000 },
-      userAgent: iphoneUserAgent,
-      now
-    }), 'apple-session-recovery');
+  it('rejects a present but mismatched session', () => {
+    assert.throws(
+      () => validateGoogleOAuthCallbackState({
+        stateData: validState(),
+        userId: 42,
+        pendingOAuth: { nonce: 'B'.repeat(43), userId: 42, ts: now - 60_000 },
+        now
+      }),
+      /Expired, reused or session-mismatched OAuth state/
+    );
   });
 
-  it('rejects a sessionless callback from a non-Apple browser', () => {
+  it('rejects a sessionless callback without a transaction', () => {
     assert.throws(
       () => validateGoogleOAuthCallbackState({
         stateData: validState(),
         userId: 42,
         pendingOAuth: null,
-        userAgent: 'Mozilla/5.0 (Linux; Android 15) Chrome/140.0 Mobile Safari/537.36',
         now
       }),
       /Expired, reused or session-mismatched OAuth state/
@@ -117,7 +98,6 @@ describe('Google OAuth callback recovery on iOS', () => {
       stateData: validState(),
       userId: 42,
       pendingOAuth: { nonce, userId: 42, ts: now - 60_000 },
-      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/140.0',
       now
     }), 'matching-session');
   });

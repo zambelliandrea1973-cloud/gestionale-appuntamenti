@@ -60,24 +60,17 @@ export function parseSignedOAuthState(
   return JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
 }
 
-export function isAppleMobileBrowser(userAgent: string | undefined): boolean {
-  if (!userAgent) return false;
-  return /iPhone|iPad|iPod/i.test(userAgent) ||
-    (/Macintosh/i.test(userAgent) && /Mobile/i.test(userAgent));
-}
-
 export function validateGoogleOAuthCallbackState(options: {
   stateData: GoogleOAuthStateData;
   userId: number | null;
   pendingOAuth?: PendingGoogleOAuth | null;
   userAgent?: string;
   now?: number;
-}): 'matching-session' | 'apple-session-recovery' {
+}): 'matching-session' {
   const {
     stateData,
     userId,
     pendingOAuth,
-    userAgent,
     now = Date.now()
   } = options;
   const stateAge = now - Number(stateData.issuedAt || 0);
@@ -89,16 +82,9 @@ export function validateGoogleOAuthCallbackState(options: {
     pendingOAuth.nonce === stateData.nonce &&
     Number(pendingOAuth.userId) === userId
   );
-  // An installed iOS PWA and Safari use separate cookie jars. Safari can
-  // therefore arrive with no app session or with an older, unrelated session.
-  // In both cases the signed, short-lived state is the source of truth.
-  const canRecoverAppleSession = isAppleMobileBrowser(userAgent) &&
-    hasValidAge &&
-    hasValidNonce;
-
-  if ((!hasMatchingSession && !canRecoverAppleSession) || !hasValidAge || !hasValidNonce) {
+  if (!hasMatchingSession || !hasValidAge || !hasValidNonce) {
     throw new Error('Expired, reused or session-mismatched OAuth state');
   }
 
-  return hasMatchingSession ? 'matching-session' : 'apple-session-recovery';
+  return 'matching-session';
 }
