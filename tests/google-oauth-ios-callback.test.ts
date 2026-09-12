@@ -89,17 +89,14 @@ describe('Google OAuth callback recovery on iOS', () => {
     );
   });
 
-  it('rejects a present but mismatched session even on iPhone', () => {
-    assert.throws(
-      () => validateGoogleOAuthCallbackState({
-        stateData: validState(),
-        userId: 42,
-        pendingOAuth: { nonce: 'B'.repeat(43), userId: 42, ts: now - 60_000 },
-        userAgent: iphoneUserAgent,
-        now
-      }),
-      /Expired, reused or session-mismatched OAuth state/
-    );
+  it('accepts a recent signed iPhone callback when Safari carries a stale session', () => {
+    assert.equal(validateGoogleOAuthCallbackState({
+      stateData: validState(),
+      userId: 42,
+      pendingOAuth: { nonce: 'B'.repeat(43), userId: 42, ts: now - 60_000 },
+      userAgent: iphoneUserAgent,
+      now
+    }), 'apple-session-recovery');
   });
 
   it('rejects a sessionless callback from a non-Apple browser', () => {
