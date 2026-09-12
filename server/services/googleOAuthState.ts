@@ -89,8 +89,10 @@ export function validateGoogleOAuthCallbackState(options: {
     pendingOAuth.nonce === stateData.nonce &&
     Number(pendingOAuth.userId) === userId
   );
-  const canRecoverAppleSession = !pendingOAuth &&
-    isAppleMobileBrowser(userAgent) &&
+  // An installed iOS PWA and Safari use separate cookie jars. Safari can
+  // therefore arrive with no app session or with an older, unrelated session.
+  // In both cases the signed, short-lived state is the source of truth.
+  const canRecoverAppleSession = isAppleMobileBrowser(userAgent) &&
     hasValidAge &&
     hasValidNonce;
 
