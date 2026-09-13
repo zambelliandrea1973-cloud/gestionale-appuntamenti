@@ -301,6 +301,15 @@ router.post("/api/appointments", async (req, res) => {
       
       logger.debug(`✅ [PostgreSQL] Appointment ${newAppointment.id} created with staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}, packagePurchaseId: ${newAppointment.packagePurchaseId}, reminderTime: ${reminderTime?.toISOString() || 'null'}`);
 
+      try {
+        const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
+        await cleanupDemoDataIfNeeded(user.id, 'appointments', {
+          preserveAppointmentIds: [newAppointment.id],
+        });
+      } catch (cleanupErr) {
+        console.error(`⚠️ [/api/appointments] Error cleaning up demo:`, cleanupErr);
+      }
+
       if (createdServiceId) {
         recordMilestone(user.id, 'first_service_created')
           .then(isNew => { if (isNew) checkAndRecordProfessionalActivated(user.id); })
@@ -1019,6 +1028,15 @@ router.put("/api/booking-requests/:id/confirm", async (req, res) => {
         .where(eq(bookingRequests.id, requestId));
       
       console.log(`✅ [BOOKING REQUEST] Booking request ${requestId} confirmed, appointment ${newAppointment[0].id} created`);
+
+      try {
+        const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
+        await cleanupDemoDataIfNeeded(user.id, 'appointments', {
+          preserveAppointmentIds: [newAppointment[0].id],
+        });
+      } catch (cleanupErr) {
+        console.error(`⚠️ [BOOKING REQUEST] Error cleaning up demo:`, cleanupErr);
+      }
       
       // 🔔 PUSH NOTIFICATION: Send notification to client
       try {

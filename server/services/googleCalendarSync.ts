@@ -1308,6 +1308,15 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       console.error(`❌ [SYNC] Error loading secondary Google accounts:`, secErr);
     }
 
+    if (details.found > 0 || details.imported > 0) {
+      try {
+        const { cleanupDemoDataIfNeeded } = await import('./onboardingDemoService');
+        await cleanupDemoDataIfNeeded(userId, 'appointments');
+      } catch (cleanupErr) {
+        console.error(`⚠️ [SYNC] Error cleaning up demo data:`, cleanupErr);
+      }
+    }
+
     // 2. EXPORT new appointments to Google
     let newAppointments: any[] = [];
     try {
@@ -1929,6 +1938,10 @@ export async function handleWebhookIncrementalSync(channelId: string): Promise<v
 
   try {
     const result = await importGoogleCalendarEvents(userId, 'Europe/Rome');
+    if (result.found > 0 || result.imported > 0) {
+      const { cleanupDemoDataIfNeeded } = await import('./onboardingDemoService');
+      await cleanupDemoDataIfNeeded(userId, 'appointments');
+    }
     console.log(`✅ [WEBHOOK] Sync user ${userId}: imported=${result.imported}, errors=${result.errors.length}`);
   } catch (err) {
     console.error(`❌ [WEBHOOK] Sync error for user ${userId}:`, err);

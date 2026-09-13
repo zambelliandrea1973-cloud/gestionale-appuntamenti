@@ -1,6 +1,6 @@
 import { db } from '../db';
 import { clients, services, appointments, userSettings, companyNameSettings } from '../../shared/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq, inArray, or } from 'drizzle-orm';
 
 // ─── Demo business profile ────────────────────────────────────────────────────
 const BUSINESS_NAME = 'Studio Giulia Beauty';
@@ -265,13 +265,106 @@ export async function seedDemoData(userId: number): Promise<void> {
   }
 }
 
+type DemoCleanupKind = 'clients' | 'services' | 'appointments';
+
 /**
- * Auto-cleanup legacy helper — kept for backward compatibility but no-ops
- * since the demo account now uses full re-seed instead of partial cleanup.
+ * Removes onboarding sample data after the account receives its first real
+ * client, service or appointment. A newly-created appointment can be preserved;
+ * any demo client/service it intentionally references is promoted before the
+ * remaining sample rows are deleted.
  */
 export async function cleanupDemoDataIfNeeded(
-  _userId: number,
-  _kind: 'clients' | 'services'
+  userId: number,
+  _kind: DemoCleanupKind,
+  options: { preserveAppointmentIds?: number[] } = {}
 ): Promise<void> {
-  // No-op: demo uses full re-seed, not incremental cleanup
+  const preserveAppointmentIds = (options.preserveAppointmentIds || [])
+    .filter((id) => Number.isInteger(id) && id > 0);
+
+  await db.transaction(async (tx) => {
+    const demoClientRows = await tx
+      .select({ id: clients.id })
+      .from(clients)
+      .where(and(eq(clients.ownerId, userId), eq(clients.isDemo, true)));
+    const demoServiceRows = await tx
+      .select({ id: services.id })
+      .from(services)
+      .where(and(eq(services.userId, userId), eq(services.isDemo, true)));
+
+    let demoClientIds = demoClientRows.map((row) => row.id);
+    let demoServiceIds = demoServiceRows.map((row) => row.id);
+    if (demoClientIds.length === 0 && demoServiceIds.length === 0) return;
+
+    if (preserveAppointmentIds.length > 0) {
+      const preservedAppointments = await tx
+        .select({
+          clientId: appointments.clientId,
+          serviceId: appointments.serviceId,
+        })
+        .from(appointments)
+        .where(and(
+          eq(appointments.userId, userId),
+          inArray(appointments.id, preserveAppointmentIds),
+        ));
+
+      const promotedClientIds = preservedAppointments
+        .map((row) => row.clientId)
+        .filter((id) => demoClientIds.includes(id));
+      const promotedServiceIds = preservedAppointments
+        .map((row) => row.serviceId)
+        .filter((id) => demoServiceIds.includes(id));
+
+      if (promotedClientIds.length > 0) {
+        await tx.update(clients)
+          .set({ isDemo: false })
+          .where(and(
+            eq(clients.ownerId, userId),
+            inArray(clients.id, promotedClientIds),
+          ));
+        demoClientIds = demoClientIds.filter((id) => !promotedClientIds.includes(id));
+      }
+      if (promotedServiceIds.length > 0) {
+        await tx.update(services)
+          .set({ isDemo: false })
+          .where(and(
+            eq(services.userId, userId),
+            inArray(services.id, promotedServiceIds),
+          ));
+        demoServiceIds = demoServiceIds.filter((id) => !promotedServiceIds.includes(id));
+      }
+    }
+
+    const demoAppointmentPredicates = [
+      ...(demoClientIds.length > 0 ? [inArray(appointments.clientId, demoClientIds)] : []),
+      ...(demoServiceIds.length > 0 ? [inArray(appointments.serviceId, demoServiceIds)] : []),
+    ];
+    if (demoAppointmentPredicates.length > 0) {
+      await tx.delete(appointments).where(and(
+        eq(appointments.userId, userId),
+        demoAppointmentPredicates.length === 1
+          ? demoAppointmentPredicates[0]
+          : or(...demoAppointmentPredicates),
+      ));
+    }
+
+    if (demoClientIds.length > 0) {
+      await tx.delete(clients).where(and(
+        eq(clients.ownerId, userId),
+        eq(clients.isDemo, true),
+        inArray(clients.id, demoClientIds),
+      ));
+    }
+    if (demoServiceIds.length > 0) {
+      await tx.delete(services).where(and(
+        eq(services.userId, userId),
+        eq(services.isDemo, true),
+        inArray(services.id, demoServiceIds),
+      ));
+    }
+
+    console.log(
+      `🧹 [DEMO] Cleanup user ${userId}: ` +
+      `${demoClientIds.length} clients, ${demoServiceIds.length} services`
+    );
+  });
 }
