@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { and, eq, gt } from 'drizzle-orm';
+import { and, eq, gt, sql } from 'drizzle-orm';
 import { db } from '../db';
 import { oauthTransactions } from '../../shared/schema';
 import { hashOAuthState } from './oauthTransactionState';
@@ -20,6 +20,59 @@ export type CreateOAuthTransactionInput = {
   metadata?: Record<string, unknown>;
   expiresInMs?: number;
 };
+
+/**
+ * Sliplane deploys the application image without running SQL migration files.
+ * Keep this idempotent bootstrap in sync with the oauthTransactions schema so
+ * a fresh production database can start secure OAuth flows immediately.
+ */
+export async function ensureOAuthTransactionsTable(): Promise<void> {
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS oauth_transactions (
+      id serial PRIMARY KEY,
+      state_hash varchar(64) NOT NULL UNIQUE,
+      owner_user_id integer NOT NULL,
+      purpose varchar(64) NOT NULL,
+      account_mode varchar(32) NOT NULL DEFAULT 'primary',
+      redirect_uri text NOT NULL,
+      app_origin text NOT NULL,
+      return_path text,
+      expires_at timestamp NOT NULL,
+      status varchar(16) NOT NULL DEFAULT 'pending',
+      metadata jsonb,
+      claimed_at timestamp,
+      completed_at timestamp,
+      failed_at timestamp,
+      failure_code varchar(64),
+      created_at timestamp NOT NULL DEFAULT now(),
+      updated_at timestamp NOT NULL DEFAULT now()
+    )
+  `);
+  await db.execute(sql`
+    ALTER TABLE oauth_transactions
+      ADD COLUMN IF NOT EXISTS app_origin text
+  `);
+  await db.execute(sql`
+    DELETE FROM oauth_transactions
+      WHERE app_origin IS NULL
+  `);
+  await db.execute(sql`
+    ALTER TABLE oauth_transactions
+      ALTER COLUMN app_origin SET NOT NULL
+  `);
+  await db.execute(sql`
+    CREATE INDEX IF NOT EXISTS oauth_transactions_state_hash_idx
+      ON oauth_transactions (state_hash)
+  `);
+  await db.execute(sql`
+    CREATE INDEX IF NOT EXISTS oauth_transactions_owner_status_idx
+      ON oauth_transactions (owner_user_id, status)
+  `);
+  await db.execute(sql`
+    CREATE INDEX IF NOT EXISTS oauth_transactions_expires_at_idx
+      ON oauth_transactions (expires_at)
+  `);
+}
 
 /**
  * Creates an opaque 256-bit handoff value.  Callers may send `state` to the

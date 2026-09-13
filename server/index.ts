@@ -6,6 +6,7 @@ import initialSetupService from "./services/initialSetupService";
 import { storage, ensureSessionTable } from "./storage";
 import path from "path";
 import { scalabilityMonitorService } from "./services/scalabilityMonitorService";
+import { ensureOAuthTransactionsTable } from "./services/oauthTransactionService";
 
 // Prevents the process from terminating when Replit sends SIGHUP for container management
 process.on('SIGHUP', () => {
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
 (async () => {
   // Ensures the user_sessions table exists in the DB before any required operation
   await ensureSessionTable();
+  await ensureOAuthTransactionsTable();
 
   // Initialize the initial setup service
   try {
