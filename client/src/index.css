@@ -50,6 +50,49 @@
   }
 }
 
+@keyframes demo-data-watermark-blink {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.24;
+  }
+}
+
+.demo-data-watermark {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.demo-data-watermark span {
+  color: #9f1239;
+  font-size: clamp(3.5rem, 14vw, 9rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 0.9;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: rotate(-24deg);
+  opacity: 0.1;
+  animation: demo-data-watermark-blink 2.4s ease-in-out infinite;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-data-watermark span {
+    animation: none;
+    opacity: 0.18;
+  }
+}
+
 /* Nascondi completamente il popup DevTools runtime error modal */
 #replit-runtime-error-modal,
 [data-replit-runtime-error-modal],

@@ -29,6 +29,7 @@ import { LanguageSelector } from "./ui/language-selector";
 import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
 import VoiceAppointmentAssistant from "./VoiceAppointmentAssistant";
+import DemoDataWatermark from "./DemoDataWatermark";
 
 function UserIcon({ className, userId }: { className?: string; userId?: number }) {
   const [imgError, setImgError] = useState(false);
@@ -80,12 +81,17 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   
   const isActive = (path: string) => location === path;
   const showVoiceAppointmentAssistant = ['/calendar', '/clients', '/ai-chat'].includes(location);
+  const showDemoDataWatermark = ['/calendar', '/clients'].includes(location);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <div className="flex flex-col min-h-screen">
+      <DemoDataWatermark
+        enabled={showDemoDataWatermark}
+        userId={userWithLicense?.id}
+      />
       {/* Header - identico per desktop e mobile */}
       <header className="bg-primary text-white shadow-md">
         <div className="w-full max-w-[1400px] mx-auto px-2 py-2">
