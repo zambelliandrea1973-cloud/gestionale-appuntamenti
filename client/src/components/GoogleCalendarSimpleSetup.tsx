@@ -78,29 +78,48 @@ export default function GoogleCalendarSimpleSetup() {
 
   const startGoogleAuth = async () => {
     setIsAuthenticating(true);
+    const isAppleMobile = /iPad|iPhone|iPod/i.test(navigator.userAgent) ||
+      (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+    const authWindow = isAppleMobile
+      ? null
+      : window.open('', 'googleAuthWindow', 'width=800,height=600');
     
     try {
-      // Utilizziamo l'URL generato manualmente per evitare errori redirect_uri_mismatch
-      const response = await fetch('/api/google-auth/start');
-      if (response.ok) {
-        const data = await response.json();
-        if (data.authUrl) {
-          // Apre l'URL di autorizzazione in una nuova finestra
-          const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
-          
-          if (!authWindow) {
-            throw new Error(t('google.popupBlocked', 'The popup was blocked. Please disable the popup blocker for this site.'));
-          }
+      if (!isAppleMobile && !authWindow) {
+        throw new Error(t('google.popupBlocked', 'The popup was blocked. Please disable the popup blocker for this site.'));
+      }
+
+      const response = await fetch('/api/google-auth/start', { credentials: 'include' });
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data?.authUrl || !data?.appOrigin) {
+        throw new Error(data?.error || t('google.startAuthError', 'Unable to start Google authorization'));
+      }
+
+      if (isAppleMobile) {
+        window.location.assign(data.authUrl);
+        return;
+      }
+
+      authWindow!.location.href = data.authUrl;
           const targetOrigin = new URL(data.appOrigin).origin;
           if (targetOrigin !== data.appOrigin) throw new Error('Invalid authorization application origin');
           let checkInterval: ReturnType<typeof setInterval>;
+          let finished = false;
+          const finish = (connected: boolean) => {
+            if (finished) return;
+            finished = true;
+            clearInterval(checkInterval);
+            window.removeEventListener('message', onMessage);
+            setIsAuthenticating(false);
+            if (connected) {
+              setIsGoogleAuthorized(true);
+              setIsSyncEnabled(true);
+            }
+          };
           const onMessage = (event: MessageEvent) => {
             if (event.source !== authWindow || event.origin !== targetOrigin ||
                 event.data !== 'google-auth-success') return;
-            clearInterval(checkInterval);
-            window.removeEventListener('message', onMessage);
-            setIsGoogleAuthorized(true);
-            setIsSyncEnabled(true);
+            finish(true);
             if (!authWindow.closed) authWindow.close();
           };
           window.addEventListener('message', onMessage);
@@ -112,10 +131,7 @@ export default function GoogleCalendarSimpleSetup() {
               if (statusResponse.ok) {
                 const statusData = await statusResponse.json();
                 if (statusData.authorized) {
-                  clearInterval(checkInterval);
-                  window.removeEventListener('message', onMessage);
-                  setIsGoogleAuthorized(true);
-                  setIsSyncEnabled(true); // Abilita automaticamente la sincronizzazione
+                  finish(true);
                   
                   // Salva l'impostazione di sincronizzazione
                   await saveCalendarSettings(true);
@@ -130,28 +146,33 @@ export default function GoogleCalendarSimpleSetup() {
                   });
                 }
               }
+              if (authWindow.closed && !finished) {
+                finish(false);
+                toast({
+                  title: t('common.error'),
+                  description: t('google.startAuthError', 'Google authorization was not completed. Please try again.'),
+                  variant: 'destructive',
+                });
+              }
             } catch (error) {
               console.error('Error checking authorization:', error);
-            } finally {
-              // In ogni caso, termina lo stato di autenticazione dopo 5 secondi
-              // per evitare che l'interfaccia rimanga bloccata in stato di caricamento
-              setTimeout(() => {
-                setIsAuthenticating(false);
-              }, 5000);
             }
           }, 2000); // Controlla ogni 2 secondi
           
           // Ferma il controllo dopo 2 minuti (per evitare loop infiniti)
           setTimeout(() => {
-            clearInterval(checkInterval);
-            window.removeEventListener('message', onMessage);
-            setIsAuthenticating(false);
-          }, 120000);
-        }
-      } else {
-        throw new Error(t('google.startAuthError', 'Unable to start Google authorization'));
-      }
+            if (!finished) {
+              finish(false);
+              if (!authWindow.closed) authWindow.close();
+              toast({
+                title: t('common.error'),
+                description: t('google.startAuthError', 'Google authorization timed out. Please try again.'),
+                variant: 'destructive',
+              });
+            }
+          }, 60000);
     } catch (error) {
+      if (authWindow && !authWindow.closed) authWindow.close();
       console.error('Error in Google authorization:', error);
       toast({
         title: t('common.error'),

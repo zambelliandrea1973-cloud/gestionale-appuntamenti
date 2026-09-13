@@ -351,17 +351,27 @@ export default function GoogleCalendarSetupPage() {
     }
 
     setIsAuthenticating(true);
+    const isAppleMobile = /iPad|iPhone|iPod/i.test(navigator.userAgent) ||
+      (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+    const pendingWindow = isAppleMobile
+      ? null
+      : window.open('', 'googleAuthWindow', 'width=800,height=600');
     
     try {
-      const response = await fetch('/api/google-auth/start');
-      if (response.ok) {
-        const data = await response.json();
-        if (data.authUrl) {
-          const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
-          
-          if (!authWindow) {
-            throw new Error(t('googleCalendar.errors.popupBlocked'));
-          }
+      if (!isAppleMobile && !pendingWindow) {
+        throw new Error(t('googleCalendar.errors.popupBlocked'));
+      }
+      const response = await fetch('/api/google-auth/start', { credentials: 'include' });
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data?.authUrl || !data?.appOrigin) {
+        throw new Error(data?.error || t('googleCalendar.errors.authError'));
+      }
+      if (isAppleMobile) {
+        window.location.assign(data.authUrl);
+        return;
+      }
+      const authWindow = pendingWindow!;
+      authWindow.location.href = data.authUrl;
            const targetOrigin = new URL(data.appOrigin).origin;
            if (targetOrigin !== data.appOrigin) throw new Error('Invalid authorization application origin');
            let checkInterval: ReturnType<typeof setInterval>;
@@ -372,6 +382,7 @@ export default function GoogleCalendarSetupPage() {
              window.removeEventListener('message', onMessage);
              setIsGoogleAuthorized(true);
              setIsSyncEnabled(true);
+              setIsAuthenticating(false);
              if (!authWindow.closed) authWindow.close();
            };
            window.addEventListener('message', onMessage);
@@ -391,6 +402,7 @@ export default function GoogleCalendarSetupPage() {
                   if (authWindow && !authWindow.closed) {
                     authWindow.close();
                   }
+                  setIsAuthenticating(false);
                   
                   toast({
                     title: t('googleCalendar.success.connected') + " 🎉",
@@ -407,10 +419,9 @@ export default function GoogleCalendarSetupPage() {
             clearInterval(checkInterval);
              window.removeEventListener('message', onMessage);
             setIsAuthenticating(false);
-          }, 120000);
-        }
-      }
+          }, 60000);
     } catch (error) {
+      if (pendingWindow && !pendingWindow.closed) pendingWindow.close();
       console.error('Google auth error:', error);
       toast({
         title: t('common.error'),

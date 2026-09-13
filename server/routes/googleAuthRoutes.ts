@@ -58,10 +58,22 @@ const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
 // Set a production URL as default, this is the URL that must be configured in the Google Console
 // IMPORTANT: ALWAYS use a STABLE domain registered in the Google Cloud Console
 // Webview domains (.worf.replit.dev) are NOT registered and cause "invalid_client" error
+function normalizeConfiguredOrigin(value: string | undefined): string | null {
+  if (!value) return null;
+  try {
+    const parsed = new URL(value.includes('://') ? value : `https://${value}`);
+    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return null;
+    return parsed.origin;
+  } catch {
+    return null;
+  }
+}
+
 function getRedirectUri(): string {
   // PRIORITY 1: If we are on Sliplane (production domain)
-  if (process.env.PRODUCTION_DOMAIN) {
-    return `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`;
+  const productionOrigin = normalizeConfiguredOrigin(process.env.PRODUCTION_DOMAIN);
+  if (productionOrigin) {
+    return `${productionOrigin}/api/google-auth/callback`;
   }
   
   // DEFAULT: Public Replit domain (registered in Google Cloud Console).
@@ -92,10 +104,10 @@ function escapeHtml(value: unknown): string {
   }[character] || character));
 }
 
-const DEFAULT_APP_ORIGIN = process.env.APP_ORIGIN ||
-  (process.env.PRODUCTION_DOMAIN
-    ? `https://${process.env.PRODUCTION_DOMAIN}`
-    : 'https://wife-scheduler-zambelliandrea1.replit.app');
+const DEFAULT_APP_ORIGIN =
+  normalizeConfiguredOrigin(process.env.APP_ORIGIN) ||
+  normalizeConfiguredOrigin(process.env.PRODUCTION_DOMAIN) ||
+  'https://wife-scheduler-zambelliandrea1.replit.app';
 
 function getAllowedAppOrigins(): Set<string> {
   const configured = (process.env.ALLOWED_APP_ORIGINS || '')
@@ -130,11 +142,18 @@ function getAllowedAppOrigins(): Set<string> {
  */
 function getValidatedAppOrigin(req: any): string | null {
   const requestOrigin = req.get('origin');
+  const forwardedProto = String(req.get('x-forwarded-proto') || '').split(',')[0].trim();
+  const forwardedHost = String(req.get('x-forwarded-host') || '').split(',')[0].trim();
+  const protocol = forwardedProto || req.protocol || 'https';
+  const host = forwardedHost || req.get('host') || '';
   const candidate = requestOrigin && requestOrigin !== 'null'
     ? requestOrigin
-    : `${req.protocol || 'https'}://${req.get('host') || ''}`;
+    : `${protocol}://${host}`;
   const allowed = getAllowedAppOrigins();
-  return allowed.has(candidate) ? candidate : null;
+  const normalizedCandidate = normalizeConfiguredOrigin(candidate);
+  return normalizedCandidate && allowed.has(normalizedCandidate)
+    ? normalizedCandidate
+    : null;
 }
 
 // Default URI for the OAuth client (used at startup)
