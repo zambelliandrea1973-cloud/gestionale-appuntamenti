@@ -21,6 +21,7 @@ import FooterContactIcons from "@/components/FooterContactIcons";
 import OnboardingBanner from "@/components/OnboardingBanner";
 import ScrollDownHint from "@/components/ScrollDownHint";
 import SetupServiceBanner from "@/components/SetupServiceBanner";
+import { useHasOnlyDemoClients } from "@/components/DemoDataWatermark";
 
 function AppIcon() {
   const [iconUrl, setIconUrl] = useState<string>("");
@@ -73,7 +74,7 @@ function AppIcon() {
   );
 }
 
-function CompanyName() {
+function CompanyName({ showDemoName = false }: { showDemoName?: boolean }) {
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
   const [settings, setSettings] = useState<{
@@ -114,21 +115,22 @@ function CompanyName() {
   }, [user?.id]);
   
   if (loading) return null;
-  if (!settings || !settings.enabled || !settings.name) return null;
+  if (!showDemoName && (!settings || !settings.enabled || !settings.name)) return null;
   
-  const charCount = settings.name.length || 1;
+  const displayedName = showDemoName ? 'Studio Demo' : settings!.name;
+  const charCount = displayedName.length || 1;
   const nameStyle = {
-    fontSize: `min(${settings.fontSize}px, calc(88vw / ${charCount} * 1.5))`,
-    fontFamily: settings.fontFamily,
-    fontStyle: settings.fontStyle,
-    color: settings.color,
+    fontSize: `min(${settings?.fontSize ?? 24}px, calc(88vw / ${charCount} * 1.5))`,
+    fontFamily: settings?.fontFamily,
+    fontStyle: settings?.fontStyle,
+    color: settings?.color ?? '#be185d',
     marginTop: '8px',
     textAlign: 'center' as const,
     whiteSpace: 'nowrap' as const,
     maxWidth: '90vw',
     overflow: 'hidden' as const,
   };
-  return <div style={nameStyle}>{settings.name}</div>;
+  return <div style={nameStyle}>{displayedName}</div>;
 }
 
 function BetaBadge() {
@@ -253,6 +255,7 @@ export default function Home() {
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
   const [onboardingDismissed, setOnboardingDismissed] = useState(false);
+  const hasOnlyDemoClients = useHasOnlyDemoClients(true, user?.id);
 
   const showOnboardingBanner =
     !!user &&
@@ -275,7 +278,7 @@ export default function Home() {
           <div className="w-28 h-28 rounded-full shadow-lg bg-white border-4 border-white ring-4 ring-primary/10 flex items-center justify-center overflow-hidden icon-rotate">
             <AppIcon />
           </div>
-          <CompanyName />
+          <CompanyName showDemoName={hasOnlyDemoClients} />
         </div>
         <h1 className="text-3xl font-bold mb-2 text-gray-800">
           {t('app.welcome')}
@@ -337,7 +340,10 @@ export default function Home() {
 
       {/* Footer contact icons */}
       <div className="mt-10">
-        <FooterContactIcons ownerId={user?.id} />
+        <FooterContactIcons
+          ownerId={user?.id}
+          showDemoWatermark={hasOnlyDemoClients}
+        />
       </div>
 
       {/* Legal footer */}

@@ -8,6 +8,7 @@ import { useUserWithLicense } from '@/hooks/use-user-with-license';
 
 interface FooterContactIconsProps {
   ownerId?: number;
+  showDemoWatermark?: boolean;
 }
 
 const ICON_STYLES: Record<string, {
@@ -124,7 +125,10 @@ function Icon3DButton({
   );
 }
 
-export default function FooterContactIcons({ ownerId }: FooterContactIconsProps) {
+export default function FooterContactIcons({
+  ownerId,
+  showDemoWatermark = false,
+}: FooterContactIconsProps) {
   const { t } = useTranslation();
   const { user, isLoading: authLoading } = useUserWithLicense();
 
@@ -206,7 +210,12 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
         </TooltipProvider>
       </div>
 
-      <div className="px-4 pb-4 text-center space-y-1.5 text-sm text-gray-600">
+      <div className="relative px-4 pb-4 text-center space-y-1.5 text-sm text-gray-600">
+        {showDemoWatermark && (
+          <div className="demo-contact-watermark" aria-hidden="true">
+            DATI DEMO
+          </div>
+        )}
         {info.email && (
           <p>
             <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.emailLabel', 'Email:')}</span>{' '}
