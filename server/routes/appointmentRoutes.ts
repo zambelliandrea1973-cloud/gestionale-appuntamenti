@@ -36,6 +36,7 @@ import { google } from 'googleapis';
 import { EncryptionService } from '../services/encryption';
 import { calculateAvailableSlots } from '../services/bookingAvailability';
 import { pushNotificationService } from '../services/pushNotificationService';
+import { hasDemoAppointmentResource } from '../services/demoAppointmentGuard';
 
 const router = Router();
 
@@ -339,7 +340,9 @@ router.post("/api/appointments", async (req, res) => {
             ? await db.select().from(services).where(eq(services.id, newAppointment.serviceId)).then(r => r[0])
             : null;
           
-          if (clientData) {
+          if (hasDemoAppointmentResource(clientData, serviceData)) {
+            console.log(`⏭️ [GOOGLE SYNC] Skipping export for demo appointment ${newAppointment.id}`);
+          } else if (clientData) {
             // RFC3339 with Italy offset embedded (e.g. "2026-06-30T15:00:00+02:00") — unambiguous for Google API
             const startDateTimeStr = italyTimeToRfc3339(newAppointment.date, newAppointment.startTime);
             const endDateTimeStr   = italyTimeToRfc3339(newAppointment.date, newAppointment.endTime);
@@ -560,7 +563,9 @@ router.put("/api/appointments/:id", async (req, res) => {
                 ? await db.select().from(services).where(eq(services.id, updatedAppointment.serviceId)).then(r => r[0])
                 : null;
               
-              if (clientData) {
+              if (hasDemoAppointmentResource(clientData, serviceData)) {
+                console.log(`⏭️ [GOOGLE SYNC] Skipping update for demo appointment ${appointmentId}`);
+              } else if (clientData) {
                 // RFC3339 with Italy offset embedded — unambiguous for Google API
                 const startDateTimeStr = italyTimeToRfc3339(updatedAppointment.date, updatedAppointment.startTime);
                 const endDateTimeStr   = italyTimeToRfc3339(updatedAppointment.date, updatedAppointment.endTime);

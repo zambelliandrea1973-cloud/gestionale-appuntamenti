@@ -1,4 +1,5 @@
 import { logger } from '../utils/logger';
+import { hasDemoAppointmentResource } from './demoAppointmentGuard';
 import { calendar_v3, google } from 'googleapis';
 import type { Appointment, Client, Service as ServiceType } from '../../shared/schema';
 import { storage } from '../storage';
@@ -152,6 +153,11 @@ export async function addAppointmentToGoogleCalendar(appointmentId: number): Pro
       console.error(`Client with ID ${appointment.clientId} not found`);
       return null;
     }
+
+    if (hasDemoAppointmentResource(client, service)) {
+      console.log(`⏭️ [GOOGLE CALENDAR] Skip export for demo appointment ${appointmentId}`);
+      return null;
+    }
     
     // Create Google Calendar event
     const event = createGoogleCalendarEvent(appointment, client, service || null);
@@ -257,6 +263,11 @@ export async function updateAppointmentInGoogleCalendar(
       
     if (!client) {
       console.error(`Client with ID ${appointment.clientId} not found`);
+      return false;
+    }
+
+    if (hasDemoAppointmentResource(client, service)) {
+      console.log(`⏭️ [GOOGLE CALENDAR] Skip update for demo appointment ${appointmentId}`);
       return false;
     }
     

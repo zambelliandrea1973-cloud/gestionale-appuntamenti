@@ -10,6 +10,7 @@ import { users, googleCalendarEvents } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { google } from 'googleapis';
 import { EncryptionService } from './encryption';
+import { isDemoAppointment } from './demoAppointmentGuard';
 
 type SyncAction = 'create' | 'update' | 'delete';
 
@@ -107,6 +108,11 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
       
       if (isImported) {
         console.log(`⏭️ [AUTO-SYNC] Skip ${action} for appointment ${appointment.id} - imported from Google Calendar`);
+        return;
+      }
+
+      if (action !== 'delete' && await isDemoAppointment(appointment.id, appointment.userId)) {
+        console.log(`⏭️ [AUTO-SYNC] Skip ${action} for demo appointment ${appointment.id}`);
         return;
       }
       

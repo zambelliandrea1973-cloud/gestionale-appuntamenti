@@ -6,6 +6,7 @@ import { storage } from '../storage';
 import { calendar_v3, google } from 'googleapis';
 import { addAppointmentToGoogleCalendar, updateAppointmentInGoogleCalendar, deleteAppointmentFromGoogleCalendar } from './googleCalendarService';
 import { EncryptionService } from './encryption';
+import { hasDemoAppointmentResource } from './demoAppointmentGuard';
 
 function createOAuth2ClientWithAutoSave(userId: number, tokens: any) {
   const oauth2Client = new google.auth.OAuth2(
@@ -1166,6 +1167,13 @@ async function syncSecondaryAccountExport(
         : [];
       const serviceRec = serviceData.length ? serviceData[0] : null;
 
+      if (hasDemoAppointmentResource(clientRec, serviceRec)) {
+        // Do not remove an already-exported legacy copy without explicit approval.
+        processedApptIds.add(apptIdStr);
+        console.log(`⏭️ [SEC EXPORT] Skip demo appointment ${appt.id}`);
+        continue;
+      }
+
       const startTime = appt.startTime.length === 5 ? `${appt.startTime}:00` : appt.startTime;
       const endTime = appt.endTime.length === 5 ? `${appt.endTime}:00` : appt.endTime;
       const refDate = new Date(`${appt.date}T12:00:00`);
@@ -1373,6 +1381,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         
         const client = clientData[0];
         const service = serviceData.length ? serviceData[0] : null;
+
+        if (hasDemoAppointmentResource(client, service)) {
+          console.log(`⏭️ [SYNC] Skip export for demo appointment ${appointment.id}`);
+          continue;
+        }
         
         // Create the event - CONVERT TO UTC for Google Calendar
         // Handle both HH:MM and HH:MM:SS formats
@@ -1593,6 +1606,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           if (!clientData.length) continue;
           const client = clientData[0];
           const service = serviceData.length ? serviceData[0] : null;
+
+          if (hasDemoAppointmentResource(client, service)) {
+            console.log(`⏭️ [SYNC] Skip update for demo appointment ${appt.id}`);
+            continue;
+          }
           
           // Prepare data for Google
           const startTime = appt.startTime.length === 5 ? `${appt.startTime}:00` : appt.startTime;

@@ -4,6 +4,10 @@ import { and, eq } from 'drizzle-orm';
 import { closeDatabase, db } from '../server/db';
 import { appointments, clients, services } from '../shared/schema';
 import { cleanupDemoDataIfNeeded } from '../server/services/onboardingDemoService';
+import {
+  hasDemoAppointmentResource,
+  isDemoAppointment,
+} from '../server/services/demoAppointmentGuard';
 
 const TEST_USERS = [2_000_000_101, 2_000_000_102];
 
@@ -111,4 +115,20 @@ test('Google appointment survives while all demo data is removed', async () => {
   assert.equal(demoClients.length, 0);
   assert.equal(demoServices.length, 0);
   assert.deepEqual(remainingAppointments.map((row) => row.id), [googleAppointment.id]);
+});
+
+test('Google export guard detects demo clients and services', async () => {
+  assert.equal(hasDemoAppointmentResource({ isDemo: true }, { isDemo: false }), true);
+  assert.equal(hasDemoAppointmentResource({ isDemo: false }, { isDemo: true }), true);
+  assert.equal(hasDemoAppointmentResource({ isDemo: false }, { isDemo: false }), false);
+
+  const userId = TEST_USERS[0];
+  const demo = await seedDemoRows(userId);
+
+  assert.equal(await isDemoAppointment(demo.demoAppointment.id, userId), true);
+
+  await db.update(clients).set({ isDemo: false }).where(eq(clients.id, demo.demoClients[0].id));
+  await db.update(services).set({ isDemo: false }).where(eq(services.id, demo.demoServices[0].id));
+
+  assert.equal(await isDemoAppointment(demo.demoAppointment.id, userId), false);
 });
