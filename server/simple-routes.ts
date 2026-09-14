@@ -67,6 +67,7 @@ import { notificationService } from './services/notificationService';
 // Import Google Calendar service for sync
 import { addAppointmentToGoogleCalendar } from './services/googleCalendarService';
 import { syncBidirectional, handleWebhookIncrementalSync } from './services/googleCalendarSync';
+import { cleanupLegacyDemoGoogleEvents } from './services/legacyDemoGoogleCleanup';
 import { google } from 'googleapis';
 
 // Import storage for new collaborators and rooms functionality
@@ -627,6 +628,7 @@ export function registerSimpleRoutes(app: Express): Server {
       const userId = (req.user as any).id;
       const timeZone = req.body?.timeZone || 'Europe/Rome';
       const forceFullSync = req.body?.forceFullSync === true;
+      const removedDemoGoogleEvents = await cleanupLegacyDemoGoogleEvents(userId);
       
       // Timeout: if syncBidirectional hangs (Google API unresponsive), fail fast after 180s
       const timeoutPromise = new Promise<never>((_, reject) =>
@@ -634,6 +636,10 @@ export function registerSimpleRoutes(app: Express): Server {
       );
       
       const result = await Promise.race([syncBidirectional(userId, timeZone, forceFullSync), timeoutPromise]);
+      result.details.removedDemoGoogleEvents = removedDemoGoogleEvents;
+      if (removedDemoGoogleEvents > 0) {
+        result.message = `${result.message} Rimossi ${removedDemoGoogleEvents} appuntamenti demo da Google Calendar.`;
+      }
       
       res.json(result);
     } catch (error: any) {

@@ -30,3 +30,21 @@ export async function isDemoAppointment(
 
   return row?.clientIsDemo === true || row?.serviceIsDemo === true;
 }
+
+export async function getAppointmentDemoState(
+  appointmentId: number,
+  userId: number,
+): Promise<'demo' | 'real' | 'missing'> {
+  const [row] = await db.select({
+    clientIsDemo: clients.isDemo,
+    serviceIsDemo: services.isDemo,
+  })
+    .from(appointments)
+    .innerJoin(clients, eq(clients.id, appointments.clientId))
+    .leftJoin(services, eq(services.id, appointments.serviceId))
+    .where(and(eq(appointments.id, appointmentId), eq(appointments.userId, userId)))
+    .limit(1);
+
+  if (!row) return 'missing';
+  return row.clientIsDemo === true || row.serviceIsDemo === true ? 'demo' : 'real';
+}
