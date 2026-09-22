@@ -6,7 +6,7 @@ import { and, eq, inArray, or } from 'drizzle-orm';
 const BUSINESS_NAME = 'Studio Giulia Beauty';
 
 // ─── Realistic Italian clients ────────────────────────────────────────────────
-export const DEMO_CLIENTS = [
+const DEMO_CLIENTS = [
   { firstName: 'Francesca', lastName: 'Moretti',   phone: '338 9876543', email: 'francesca.moretti@gmail.com',  notes: 'Allergia colori ossidativi' },
   { firstName: 'Lucia',     lastName: 'Esposito',  phone: '333 2345678', email: 'lucia.esposito@hotmail.it',    notes: 'Preferisce appuntamenti mattina' },
   { firstName: 'Anna',      lastName: 'Ferrari',   phone: '347 5678901', email: 'anna.ferrari@yahoo.it',        notes: '' },
@@ -22,7 +22,7 @@ export const DEMO_CLIENTS = [
 ];
 
 // ─── Realistic services for a beauty & hair salon ────────────────────────────
-export const DEMO_SERVICES = [
+const DEMO_SERVICES = [
   { name: 'Taglio + Piega',        duration: 60,  price: 45,  color: '#e91e63' },
   { name: 'Colorazione completa',  duration: 120, price: 90,  color: '#9c27b0' },
   { name: 'Meches / Colpi di sole',duration: 150, price: 110, color: '#ff9800' },
