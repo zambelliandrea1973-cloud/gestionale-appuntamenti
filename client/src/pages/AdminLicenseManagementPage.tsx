@@ -641,7 +641,11 @@ export default function AdminLicenseManagementPage() {
               onClick={() => {
                 if (deleteTargetUser) deleteUserMutation.mutate(deleteTargetUser.id);
               }}
-              disabled={deleteUserMutation.isPending || deleteConfirmText !== deleteTargetUser?.username}
+              disabled={
+                deleteUserMutation.isPending ||
+                deleteConfirmText.trim().toLocaleLowerCase() !==
+                  (deleteTargetUser?.username || '').trim().toLocaleLowerCase()
+              }
             >
               {deleteUserMutation.isPending ? (
                 <>
