@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { and, eq, gte, isNull, lt } from 'drizzle-orm';
+import { and, desc, eq, isNotNull, isNull, lt, ne, notInArray } from 'drizzle-orm';
 import { db } from '../db';
 import { licenses, subscriptions, users } from '../../shared/schema';
 import { sendSystemEmail } from './systemEmailService';
@@ -7,8 +7,8 @@ import { getPublicBaseUrl } from '../utils/publicBaseUrl';
 
 export const RECOVERY_DISCOUNT_PERCENT = 50;
 const OFFER_DELAY_MS = 3 * 24 * 60 * 60 * 1000;
-const OFFER_WINDOW_MS = 24 * 60 * 60 * 1000;
 const OFFER_VALIDITY_MS = 7 * 24 * 60 * 60 * 1000;
+const EXCLUDED_ACCOUNT_ROLES = ['admin', 'ev_admin', 'ev_staff'];
 
 export function hashRecoveryOfferToken(token: string): string {
   return crypto.createHash('sha256').update(token).digest('hex');
@@ -51,7 +51,7 @@ export async function markRecoveryOfferUsed(licenseId: number): Promise<void> {
     .where(and(eq(licenses.id, licenseId), isNull(licenses.recoveryOfferUsedAt)));
 }
 
-function recoveryEmailHtml(username: string, token: string, expiresAt: Date): string {
+export function recoveryEmailHtml(username: string, token: string, expiresAt: Date): string {
   const baseUrl = getPublicBaseUrl();
   const encoded = encodeURIComponent(token);
   const clickUrl = `${baseUrl}/api/trial-recovery/click/${encoded}`;
@@ -70,7 +70,7 @@ function recoveryEmailHtml(username: string, token: string, expiresAt: Date): st
     </div>
     <div style="background:white;padding:32px;border-radius:0 0 16px 16px">
       <p>Ciao <strong>${username}</strong>,</p>
-      <p>La tua prova è terminata. Per continuare a usare Gestionale Appuntamenti puoi attivare qualsiasi piano annuale pagando il 50% per il primo anno.</p>
+      <p>Hai provato Gestionale Appuntamenti ma non hai ancora un abbonamento attivo. Per riprendere a usarlo puoi attivare qualsiasi piano annuale pagando il 50% per il primo anno.</p>
       <div style="padding:18px;background:#fff7ed;border:1px solid #fdba74;border-radius:10px;text-align:center;margin:24px 0">
         <strong style="font-size:18px">Scade ${expiry}</strong><br>
         <span style="font-size:13px;color:#9a3412">Il conto alla rovescia continua nella pagina dell'offerta.</span>
@@ -89,8 +89,7 @@ export const trialRecoveryOfferService = {
   async process(): Promise<{ sent: number; failed: number }> {
     const now = new Date();
     const latestExpiry = new Date(now.getTime() - OFFER_DELAY_MS);
-    const earliestExpiry = new Date(latestExpiry.getTime() - OFFER_WINDOW_MS);
-    const candidates = await db.select({
+    const candidates = await db.selectDistinctOn([users.id], {
       licenseId: licenses.id,
       userId: licenses.userId,
       email: users.email,
@@ -98,12 +97,13 @@ export const trialRecoveryOfferService = {
     }).from(licenses)
       .innerJoin(users, eq(users.id, licenses.userId))
       .where(and(
-        eq(licenses.type, 'trial'),
-        gte(licenses.expiresAt, earliestExpiry),
+        ne(licenses.type, 'staff_free'),
         lt(licenses.expiresAt, latestExpiry),
         isNull(licenses.recoveryOfferSentAt),
         isNull(licenses.recoveryOfferTokenHash),
-      ));
+        notInArray(users.role, EXCLUDED_ACCOUNT_ROLES),
+      ))
+      .orderBy(users.id, desc(licenses.expiresAt));
 
     let sent = 0;
     let failed = 0;
@@ -113,6 +113,13 @@ export const trialRecoveryOfferService = {
         .where(and(eq(subscriptions.userId, candidate.userId), eq(subscriptions.status, 'active')))
         .limit(1);
       if (active) continue;
+      const [previousOffer] = await db.select({ id: licenses.id }).from(licenses)
+        .where(and(
+          eq(licenses.userId, candidate.userId),
+          isNotNull(licenses.recoveryOfferTokenHash),
+        ))
+        .limit(1);
+      if (previousOffer) continue;
 
       const token = crypto.randomBytes(32).toString('base64url');
       const expiresAt = new Date(Date.now() + OFFER_VALIDITY_MS);
