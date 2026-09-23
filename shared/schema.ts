@@ -1539,6 +1539,12 @@ export const licenses = pgTable("licenses", {
   sponsoredBy: integer("sponsored_by"), // ID dello staff che ha sponsorizzato questa licenza
   trialNotificationSent: boolean("trial_notification_sent").default(false), // Flag per notifica 10gg prima scadenza
   trialNotificationSentAt: timestamp("trial_notification_sent_at"), // Data invio notifica trial
+  recoveryOfferTokenHash: text("recovery_offer_token_hash"),
+  recoveryOfferSentAt: timestamp("recovery_offer_sent_at"),
+  recoveryOfferExpiresAt: timestamp("recovery_offer_expires_at"),
+  recoveryOfferOpenedAt: timestamp("recovery_offer_opened_at"),
+  recoveryOfferClickedAt: timestamp("recovery_offer_clicked_at"),
+  recoveryOfferUsedAt: timestamp("recovery_offer_used_at"),
 });
 
 export const insertLicenseSchema = createInsertSchema(licenses).omit({

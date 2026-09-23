@@ -2,6 +2,7 @@
 import { logger } from '../utils/logger';
 import { Router, Request, Response } from 'express';
 import { PaymentService } from '../services/paymentService';
+import { RECOVERY_DISCOUNT_PERCENT, validateRecoveryOffer } from '../services/trialRecoveryOfferService';
 import { WiseService } from '../services/wiseService';
 import { isAdmin, isAuthenticated } from '../auth';
 import { storage } from '../storage';
@@ -145,7 +146,7 @@ router.post('/plans', isAuthenticated, isAdmin, async (req, res) => {
  */
 router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
   try {
-    const { planId } = req.body;
+    const { planId, offerToken } = req.body;
     const userId = req.user!.id;
     
     if (!planId) {
@@ -170,11 +171,17 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
     const returnUrl = `${baseUrl}/payment/success?type=paypal`;
     const cancelUrl = `${baseUrl}/payment/cancel?type=paypal`;
     
+    if (offerToken) {
+      return res.status(400).json({
+        success: false,
+        message: 'L’offerta del 50% è disponibile esclusivamente con pagamento sicuro tramite carta',
+      });
+    }
     const result = await PaymentService.createPayPalSubscription(
       userId,
       parseInt(planId),
       returnUrl,
-      cancelUrl
+      cancelUrl,
     );
     
     if (!result.success) {
@@ -216,7 +223,7 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
  */
 router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res) => {
   try {
-    const { planId } = req.body;
+    const { planId, offerToken } = req.body;
     const userId = req.user!.id;
     
     if (!planId) {
@@ -239,11 +246,22 @@ router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res)
     const successUrl = `${baseUrl}/payment/success`;
     const cancelUrl = `${baseUrl}/payment/cancel`;
     
+    const recoveryOffer = offerToken
+      ? await validateRecoveryOffer(String(offerToken), userId)
+      : null;
+    if (offerToken && !recoveryOffer) {
+      return res.status(403).json({ success: false, message: 'Offerta non valida o scaduta' });
+    }
     const result = await PaymentService.createStripeCheckoutSession(
       userId,
       parseInt(planId),
       successUrl,
-      cancelUrl
+      cancelUrl,
+      recoveryOffer ? {
+        licenseId: recoveryOffer.licenseId,
+        discountPercent: RECOVERY_DISCOUNT_PERCENT,
+        expiresAt: recoveryOffer.expiresAt,
+      } : undefined,
     );
     
     if (!result.success) {

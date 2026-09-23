@@ -50,6 +50,7 @@ interface Plan {
   features: PlanFeature[];
   popular?: boolean;
   buttonVariant?: 'default' | 'outline' | 'secondary';
+  interval?: 'month' | 'year';
 }
 
 interface ServerPlan {
@@ -141,6 +142,18 @@ export default function SubscriptionPlansPanel() {
     bankInfo: { recipient?: string; iban?: string; notes?: string };
     planId: string;
   } | null>(null);
+  const offerToken = typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('offer')
+    : null;
+  const { data: recoveryOffer } = useQuery({
+    queryKey: ['/api/trial-recovery/validate', offerToken],
+    queryFn: async () => {
+      const res = await apiRequest('GET', `/api/trial-recovery/validate?offer=${encodeURIComponent(offerToken || '')}`);
+      return res.json();
+    },
+    enabled: !!offerToken && offerToken !== 'expired' && isAuthenticated,
+    retry: false,
+  });
 
   const { data: serverPlans, isLoading: isLoadingPlans } = useQuery({
     queryKey: ['/api/payments/plans'],
@@ -306,13 +319,20 @@ export default function SubscriptionPlansPanel() {
           popular: plan.name.toLowerCase().includes('pro'),
           buttonVariant: plan.name.toLowerCase().includes('pro') ? 'default' : 'outline' as 'default' | 'outline',
           features: normalizedFeatures,
+          interval: plan.interval,
         };
       })
     : fallbackPlans;
+  const visiblePlans = recoveryOffer?.success
+    ? plans.filter((plan) => plan.interval === 'year')
+    : plans;
+  const discountedPriceByPlan = new Map<number, number>(
+    (recoveryOffer?.plans || []).map((plan: { id: number; discountedPrice: number }) => [plan.id, plan.discountedPrice]),
+  );
 
   const startPaypalSubscription = useMutation({
     mutationFn: async (planId: string) => {
-      const res = await apiRequest('POST', '/api/payments/paypal/subscribe', { planId });
+      const res = await apiRequest('POST', '/api/payments/paypal/subscribe', { planId, offerToken });
       return await res.json();
     },
     onSuccess: (data) => {
@@ -330,7 +350,7 @@ export default function SubscriptionPlansPanel() {
 
   const startStripeSubscription = useMutation({
     mutationFn: async (planId: string) => {
-      const res = await apiRequest('POST', '/api/payments/stripe/create-checkout-session', { planId });
+      const res = await apiRequest('POST', '/api/payments/stripe/create-checkout-session', { planId, offerToken });
       return await res.json();
     },
     onSuccess: (data) => {
@@ -378,6 +398,14 @@ export default function SubscriptionPlansPanel() {
 
   const handlePayment = (planId: string) => {
     setSelectedPlanId(planId);
+    if (recoveryOffer?.success && paymentMethod !== 'credit-card') {
+      toast({
+        title: 'Metodo non disponibile per questa offerta',
+        description: 'Lo sconto del 50% può essere attivato esclusivamente con pagamento sicuro tramite carta.',
+        variant: 'destructive',
+      });
+      return;
+    }
     if (paymentMethod === 'paypal') {
       startPaypalSubscription.mutate(planId);
     } else if (paymentMethod === 'credit-card') {
@@ -520,7 +548,7 @@ export default function SubscriptionPlansPanel() {
 
           {/* Schede piani */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {plans.map((plan: Plan) => {
+            {visiblePlans.map((plan: Plan) => {
               const isCurrentPlan =
                 (subscriptionInfo?.status === 'active' && String(subscriptionInfo?.plan?.id) === String(plan.id)) ||
                 (plan.type === LicenseType.TRIAL && licenseInfo?.type === LicenseType.TRIAL && subscriptionInfo?.status !== 'active');
@@ -563,7 +591,17 @@ export default function SubscriptionPlansPanel() {
 
                   <CardContent className="flex-grow pt-0">
                     <div className="mb-4">
-                      <span className="text-2xl font-bold">{plan.priceLabel}</span>
+                      {recoveryOffer?.success && discountedPriceByPlan.has(Number(plan.id)) ? (
+                        <>
+                          <span className="block text-sm text-muted-foreground line-through">{plan.priceLabel}</span>
+                          <span className="text-2xl font-bold text-green-700">
+                            €{((discountedPriceByPlan.get(Number(plan.id)) || 0) / 100).toFixed(2).replace('.', ',')}/anno
+                          </span>
+                          <span className="ml-2 rounded-full bg-green-100 px-2 py-1 text-xs font-bold text-green-800">-50%</span>
+                        </>
+                      ) : (
+                        <span className="text-2xl font-bold">{plan.priceLabel}</span>
+                      )}
                       <span className="block text-xs text-muted-foreground">
                         {plan.type === LicenseType.TRIAL ? t('subscribe.for40Days') : t('subscribe.annualSub')}
                       </span>

@@ -3,6 +3,7 @@ import cron from 'node-cron';
 import { notificationService } from './notificationService';
 import { PayPalPayoutService } from './paypalPayoutService';
 import { trialNotificationService } from './trialNotificationService';
+import { trialRecoveryOfferService } from './trialRecoveryOfferService';
 import { importGoogleCalendarEvents, syncDeletedEvents } from './googleCalendarSync';
 import { db } from '../db';
 import { marketingCampaigns, users } from '../../shared/schema';
@@ -133,6 +134,21 @@ export const schedulerService = {
     });
     
     if (isVerbose) console.log('📧 Trial notifications scheduler started successfully (daily execution at 09:00)');
+  },
+
+  startTrialRecoveryOfferScheduler(): void {
+    const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+    cron.schedule('0 15 9 * * *', async () => {
+      try {
+        const result = await trialRecoveryOfferService.process();
+        if (isVerbose || result.sent > 0 || result.failed > 0) {
+          logger.debug(`🎁 Trial recovery offers: ${result.sent} sent, ${result.failed} failed`);
+        }
+      } catch (error) {
+        console.error('❌ Trial recovery offer job failed:', error);
+      }
+    });
+    if (isVerbose) console.log('🎁 Trial recovery offer scheduler started (daily at 09:15)');
   },
   
   /**
@@ -283,6 +299,7 @@ export function initializeSchedulers(): void {
   schedulerService.startPayoutScheduler();
   schedulerService.startCampaignCleanupScheduler();
   schedulerService.startTrialNotificationScheduler();
+  schedulerService.startTrialRecoveryOfferScheduler();
   schedulerService.startGoogleCalendarImportScheduler();
   schedulerService.startWatchRenewalScheduler();
   if (process.env.LOG_SCHEDULER !== 'false') console.log('All schedulers initialized');

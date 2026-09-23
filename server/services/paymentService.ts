@@ -6,9 +6,12 @@ import paypal from '@paypal/checkout-server-sdk';
 import Stripe from 'stripe';
 import { db } from '../db';
 import { licenses, subscriptions } from '../../shared/schema';
-import { eq, and, sql } from 'drizzle-orm';
+import { eq, and, gt, isNull, sql } from 'drizzle-orm';
 import crypto from 'crypto';
 import axios from 'axios';
+import { markRecoveryOfferUsed, RECOVERY_DISCOUNT_PERCENT } from './trialRecoveryOfferService';
+
+type RecoveryOfferCheckout = { licenseId: number; discountPercent: number; expiresAt?: Date };
 
 // Type for licenses: 'base', 'pro', 'business', 'trial', 'passepartout'
 type LicenseTypeValue = 'base' | 'pro' | 'business' | 'trial' | 'passepartout';
@@ -250,7 +253,8 @@ export class PaymentService {
     userId: number,
     planId: number,
     returnUrl: string,
-    cancelUrl: string
+    cancelUrl: string,
+    recoveryOffer?: RecoveryOfferCheckout,
   ): Promise<{success: boolean, url?: string, subscriptionId?: string, message?: string}> {
     try {
       console.log('createPayPalSubscription started with:', { userId, planId, returnUrl, cancelUrl });
@@ -263,11 +267,17 @@ export class PaymentService {
           message: 'Subscription plan not found'
         };
       }
+      if (recoveryOffer && plan.interval !== 'year') {
+        return { success: false, message: 'Recovery offer is valid only for annual plans' };
+      }
       
       console.log('Plan found:', plan);
       
       // Calculate the price in euros
       const priceInEuro = (plan.price / 100).toFixed(2);
+      const discountedPriceInEuro = (
+        plan.price * (100 - (recoveryOffer?.discountPercent || 0)) / 10000
+      ).toFixed(2);
       
       console.log('PayPal Config:', {
         clientIdPresent: !!process.env.PAYPAL_CLIENT_ID,
@@ -285,12 +295,20 @@ export class PaymentService {
       // PayPal returns the same object for a replayed request id; deterministic IDs
       // make retries safe without trusting a browser supplied value.
       const productId = product.data.id;
-      const planKey = `gestione-appuntamenti-plan-${plan.id}-${plan.price}-${plan.interval}`;
+      const planKey = `gestione-appuntamenti-plan-${plan.id}-${plan.price}-${plan.interval}${recoveryOffer ? `-recovery-${recoveryOffer.licenseId}` : ''}`;
+      const billingCycles = recoveryOffer ? [
+        { tenure_type: 'TRIAL', sequence: 1, total_cycles: 1,
+          frequency: { interval_unit: 'YEAR', interval_count: 1 },
+          pricing_scheme: { fixed_price: { value: discountedPriceInEuro, currency_code: 'EUR' } } },
+        { tenure_type: 'REGULAR', sequence: 2, total_cycles: 0,
+          frequency: { interval_unit: 'YEAR', interval_count: 1 },
+          pricing_scheme: { fixed_price: { value: priceInEuro, currency_code: 'EUR' } } },
+      ] : [{ tenure_type: 'REGULAR', sequence: 1, total_cycles: 0,
+        frequency: { interval_unit: plan.interval === 'year' ? 'YEAR' : 'MONTH', interval_count: 1 },
+        pricing_scheme: { fixed_price: { value: priceInEuro, currency_code: 'EUR' } } }];
       const billingPlan = await axios.post(`${baseUrl}/v1/billing/plans`, {
         product_id: productId, name: planKey,
-        billing_cycles: [{ tenure_type: 'REGULAR', sequence: 1, total_cycles: 0,
-          frequency: { interval_unit: plan.interval === 'year' ? 'YEAR' : 'MONTH', interval_count: 1 },
-          pricing_scheme: { fixed_price: { value: priceInEuro, currency_code: 'EUR' } } }],
+        billing_cycles: billingCycles,
         payment_preferences: { auto_bill_outstanding: true }
       }, { headers: { ...headers, 'PayPal-Request-Id': paypalRequestId(`plan:${planKey}`) } });
       const response = await axios.post(`${baseUrl}/v1/billing/subscriptions`, {
@@ -334,6 +352,7 @@ export class PaymentService {
           cancelAtPeriodEnd: false,
           paypalSubscriptionId: response.data.id,
           paymentMethod: 'paypal'
+          ,metadata: recoveryOffer ? { recoveryOfferLicenseId: recoveryOffer.licenseId } : null
         });
       } else {
         // Create a new pre-subscription in the database
@@ -346,6 +365,7 @@ export class PaymentService {
           cancelAtPeriodEnd: false,
           paypalSubscriptionId: response.data.id,
           paymentMethod: 'paypal'
+          ,metadata: recoveryOffer ? { recoveryOfferLicenseId: recoveryOffer.licenseId } : null
         };
         
         await storage.createSubscription(subscriptionData);
@@ -412,6 +432,10 @@ export class PaymentService {
           return { success: false, message: 'Subscription does not belong to this checkout' };
         }
         const result = await this.syncPayPalSubscription(subscription);
+        if (result.status === 'active') {
+          const promoLicenseId = Number((subscription.metadata as any)?.recoveryOfferLicenseId);
+          if (promoLicenseId) await markRecoveryOfferUsed(promoLicenseId);
+        }
         return result.status === 'active'
           ? { success: true }
           : { success: false, message: 'PayPal subscription is not active yet' };
@@ -435,6 +459,8 @@ export class PaymentService {
       await storage.updateSubscription(subscription.id, {
         status: 'active'
       });
+      const promoLicenseId = Number((subscription.metadata as any)?.recoveryOfferLicenseId);
+      if (promoLicenseId) await markRecoveryOfferUsed(promoLicenseId);
       
       // AUTOMATIC REFERRAL SYSTEM: Create commission if the user was sponsored
       await this.handleReferralCommission(userId, subscription.id, subscription.plan.price);
@@ -699,7 +725,8 @@ export class PaymentService {
     userId: number,
     planId: number,
     successUrl: string,
-    cancelUrl: string
+    cancelUrl: string,
+    recoveryOffer?: RecoveryOfferCheckout,
   ): Promise<{success: boolean, url?: string, sessionId?: string, message?: string}> {
     try {
       return await db.transaction(async (tx) => {
@@ -713,6 +740,29 @@ export class PaymentService {
           success: false,
           message: 'Subscription plan not found'
         };
+      }
+      if (recoveryOffer && plan.interval !== 'year') {
+        return { success: false, message: 'Recovery offer is valid only for annual plans' };
+      }
+      if (recoveryOffer) {
+        const [validOffer] = await tx.select({ id: licenses.id })
+          .from(licenses)
+          .where(and(
+            eq(licenses.id, recoveryOffer.licenseId),
+            eq(licenses.userId, userId),
+            isNull(licenses.recoveryOfferUsedAt),
+            gt(licenses.recoveryOfferExpiresAt, new Date()),
+          ))
+          .limit(1);
+        if (!validOffer) return { success: false, message: 'Recovery offer is no longer valid' };
+        const [active] = await tx.select({ id: subscriptions.id })
+          .from(subscriptions)
+          .where(and(eq(subscriptions.userId, userId), eq(subscriptions.status, 'active')))
+          .limit(1);
+        if (active) return { success: false, message: 'An active subscription already exists' };
+        if (!recoveryOffer.expiresAt || recoveryOffer.expiresAt.getTime() < Date.now() + 31 * 60 * 1000) {
+          return { success: false, message: 'Recovery offer is too close to expiry to start a payment' };
+        }
       }
       
       // Get the client
@@ -817,6 +867,14 @@ export class PaymentService {
         cancelProtocol: cancelUrl.startsWith('https') ? 'HTTPS ✅' : 'HTTP ❌'
       });
 
+      const recoveryCoupon = recoveryOffer
+        ? await stripe.coupons.create({
+            percent_off: recoveryOffer.discountPercent,
+            duration: 'once',
+            name: `Recupero prova -${recoveryOffer.discountPercent}%`,
+            metadata: { recoveryOfferLicenseId: String(recoveryOffer.licenseId) },
+          })
+        : null;
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'subscription',
@@ -838,8 +896,18 @@ export class PaymentService {
           userId: userId.toString(),
           planId: planId.toString(),
           planType: plan.name
+          ,recoveryOfferLicenseId: recoveryOffer ? String(recoveryOffer.licenseId) : ''
         },
-         subscription_data: { metadata: { userId: userId.toString(), planId: planId.toString(), planType: plan.name } },
+         subscription_data: { metadata: {
+           userId: userId.toString(),
+           planId: planId.toString(),
+           planType: plan.name,
+           recoveryOfferLicenseId: recoveryOffer ? String(recoveryOffer.licenseId) : '',
+         } },
+        ...(recoveryCoupon ? { discounts: [{ coupon: recoveryCoupon.id }] } : {}),
+        ...(recoveryOffer?.expiresAt ? {
+          expires_at: Math.floor(recoveryOffer.expiresAt.getTime() / 1000),
+        } : {}),
         customer_email: user.email || undefined,
         success_url: `${successUrl}${successUrl.includes('?') ? '&' : '?'}session_id={CHECKOUT_SESSION_ID}&type=stripe`,
         cancel_url: cancelUrl,
@@ -868,6 +936,7 @@ export class PaymentService {
           cancelAtPeriodEnd: false,
           stripeSessionId: session.id,
           paymentMethod: 'stripe'
+          ,metadata: recoveryOffer ? { recoveryOfferLicenseId: recoveryOffer.licenseId } : null
         });
       } else {
         // Create a new pre-subscription in the database
@@ -880,6 +949,7 @@ export class PaymentService {
           cancelAtPeriodEnd: false,
           stripeSessionId: session.id,
           paymentMethod: 'stripe'
+          ,metadata: recoveryOffer ? { recoveryOfferLicenseId: recoveryOffer.licenseId } : null
         };
         
         await storage.createSubscription(subscriptionData);
@@ -997,6 +1067,8 @@ export class PaymentService {
         await createOrUpdateLicense(userId, licenseType, licenseExpiry);
         logger.debug(`✅ license ${licenseType} activated for user ${userId}`);
       }
+      const promoLicenseId = Number(session.metadata?.recoveryOfferLicenseId);
+      if (promoLicenseId) await markRecoveryOfferUsed(promoLicenseId);
       
       // AUTOMATIC REFERRAL SYSTEM: Create commission if the user was sponsored
       if (session.amount_total) {
@@ -1044,6 +1116,9 @@ export class PaymentService {
       // Handle Stripe events based on type
       if (type === 'checkout.session.completed') {
         const session = data.object;
+        if (session.payment_status !== 'paid' && session.payment_status !== 'no_payment_required') {
+          return { success: false, message: 'Checkout completed without confirmed payment' };
+        }
         
         // Get data from metadata
         const userId = parseInt(session.metadata.userId);

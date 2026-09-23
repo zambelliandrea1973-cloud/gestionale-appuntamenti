@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'wouter';
 import { useAuth } from '@/hooks/use-auth';
@@ -15,6 +15,8 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import SubscriptionPlansPanel from '@/components/SubscriptionPlansPanel';
+import { useQuery } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 
 export default function SubscribePage() {
   const { t } = useTranslation();
@@ -23,6 +25,34 @@ export default function SubscribePage() {
   const { isAuthenticated, isLoading } = useAuth();
   const { licenseInfo } = useLicense();
   const { user: userWithLicense, isLoading: userLoading } = useUserWithLicense();
+  const offerToken = typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('offer')
+    : null;
+  const [now, setNow] = useState(Date.now());
+  const { data: recoveryOffer } = useQuery({
+    queryKey: ['/api/trial-recovery/validate', offerToken],
+    queryFn: async () => {
+      const res = await apiRequest('GET', `/api/trial-recovery/validate?offer=${encodeURIComponent(offerToken || '')}`);
+      return res.json();
+    },
+    enabled: !!offerToken && offerToken !== 'expired' && isAuthenticated,
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (!recoveryOffer?.expiresAt) return;
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [recoveryOffer?.expiresAt]);
+  const remainingMs = recoveryOffer?.expiresAt
+    ? Math.max(0, new Date(recoveryOffer.expiresAt).getTime() - now)
+    : 0;
+  const remaining = {
+    days: Math.floor(remainingMs / 86400000),
+    hours: Math.floor((remainingMs % 86400000) / 3600000),
+    minutes: Math.floor((remainingMs % 3600000) / 60000),
+    seconds: Math.floor((remainingMs % 60000) / 1000),
+  };
 
   const isTrialExpired =
     typeof window !== 'undefined' &&
@@ -90,6 +120,24 @@ export default function SubscribePage() {
         </p>
 
         {/* Trial Expired Warning */}
+        {recoveryOffer?.success && (
+          <Alert className="max-w-3xl mx-auto mb-8 border-purple-300 bg-purple-50">
+            <Crown className="h-5 w-5 text-purple-700" />
+            <AlertDescription className="text-purple-950">
+              <p className="text-xl font-bold">Offerta personale: 50% sul primo anno</p>
+              <p className="mt-2">Valida su tutti i piani annuali ancora per:</p>
+              <p className="mt-2 font-mono text-2xl font-bold">
+                {remaining.days}g {remaining.hours}h {remaining.minutes}m {remaining.seconds}s
+              </p>
+            </AlertDescription>
+          </Alert>
+        )}
+        {offerToken === 'expired' && (
+          <Alert className="max-w-3xl mx-auto mb-8 bg-red-50 border-red-300">
+            <AlertCircle className="h-5 w-5 text-red-600" />
+            <AlertDescription className="text-red-800">Questa offerta non è valida oppure è scaduta.</AlertDescription>
+          </Alert>
+        )}
         {isTrialExpired && (
           <Alert className="max-w-3xl mx-auto mb-8 bg-red-50 border-red-300" data-testid="alert-trial-expired">
             <AlertCircle className="h-5 w-5 text-red-600" />

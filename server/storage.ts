@@ -120,6 +120,14 @@ export async function ensureSessionTable(): Promise<void> {
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS milestone_first_appointment_at timestamp;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS milestone_subscription_at timestamp;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS milestone_professional_activated_at timestamp;`);
+      // Trial recovery offer tracking (50% off first annual billing cycle)
+      await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_token_hash text;`);
+      await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_sent_at timestamp;`);
+      await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_expires_at timestamp;`);
+      await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_opened_at timestamp;`);
+      await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_clicked_at timestamp;`);
+      await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_used_at timestamp;`);
+      await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS licenses_recovery_offer_token_hash_idx ON licenses (recovery_offer_token_hash) WHERE recovery_offer_token_hash IS NOT NULL;`);
       await pool.end();
       console.log('✅ Table user_sessions verified/created successfully');
       return;
