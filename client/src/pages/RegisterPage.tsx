@@ -178,6 +178,7 @@ export default function RegisterPage() {
                 <PasswordInput
                   id="password"
                   name="password"
+                  autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder={t('registerPage.passwordPlaceholder')}
