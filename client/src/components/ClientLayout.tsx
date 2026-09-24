@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'wouter';
 import { Toaster } from '@/components/ui/toaster';
 import FooterContactIcons from './FooterContactIcons';
 import FooterContent from './FooterContent';
@@ -10,6 +11,11 @@ interface ClientLayoutProps {
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
   const { t } = useTranslation();
+  const [location] = useLocation();
+  const hideOwnerContacts = new Set([
+    '/login', '/staff-login', '/customer-login', '/register',
+    '/forgot-password', '/reset-password',
+  ]).has(location);
   
   return (
     <div className="flex flex-col min-h-screen">
@@ -35,31 +41,11 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
               &copy; {new Date().getFullYear()} Zambelli Andrea - G.A.
             </div>
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0">
-              {/* Icone dei contatti */}
-              <div className="flex items-center">
-                <FooterContactIcons />
-              </div>
-              
-              {/* Separatore - visibile solo se ci sono icone */}
-              <div id="footer-client-separator" className="hidden md:block h-6 w-px bg-gray-300 mx-2"></div>
-
-              <script dangerouslySetInnerHTML={{ __html: `
-                // Nascondi il separatore se non ci sono icone di contatto
-                function updateSeparator() {
-                  const icons = document.querySelector('.flex.space-x-4');
-                  const separator = document.getElementById('footer-client-separator');
-                  if (separator) {
-                    separator.style.display = icons ? 'block' : 'none';
-                  }
-                }
-                
-                // Controlla all'avvio e ogni 5 secondi
-                updateSeparator();
-                setInterval(updateSeparator, 5000);
-
-                // Ascolta l'evento personalizzato
-                window.addEventListener('contactInfoUpdated', updateSeparator);
-              `}} />
+              {!hideOwnerContacts && (
+                <div className="flex items-center">
+                  <FooterContactIcons />
+                </div>
+              )}
 
               {/* Links */}
               <FooterContent />
