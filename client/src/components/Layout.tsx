@@ -572,6 +572,16 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           {children}
         </div>
       </main>
+      <footer className="w-full py-4 text-center text-sm">
+        <a
+          href="https://gestionale-appuntamenti.mighty-box-1205.chatgpt.site"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline underline-offset-4 hover:opacity-80"
+        >
+          Sito ufficiale di Gestionale Appuntamenti
+        </a>
+      </footer>
       {showVoiceAppointmentAssistant && (
         <VoiceAppointmentAssistant
           professionalEmail={(userWithLicense as any)?.email || userWithLicense?.username}
