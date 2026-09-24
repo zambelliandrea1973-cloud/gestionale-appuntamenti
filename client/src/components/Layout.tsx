@@ -574,7 +574,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       </main>
       <footer className="w-full py-4 text-center text-sm">
         <a
-          href="https://gestionale-appuntamenti.mighty-box-1205.chatgpt.site"
+          href="https://gestionale-appuntamenti.zambelli-andrea-1973.chatgpt.site"
           target="_blank"
           rel="noopener noreferrer"
           className="text-primary underline underline-offset-4 hover:opacity-80"
