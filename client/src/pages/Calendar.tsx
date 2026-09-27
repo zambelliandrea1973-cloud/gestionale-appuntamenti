@@ -341,7 +341,7 @@ export default function Calendar() {
   const columnModeAvailable = calendarMode === 'columns' && view === 'day' && activeCollaborators.length > 0;
 
   return (
-    <div className="space-y-6">
+    <div className={view === "month" ? "space-y-0 sm:space-y-6" : "space-y-6"}>
       {(googleNeedsReauth || googleNotConnected) && (
         <Alert
           variant="destructive"
@@ -382,8 +382,59 @@ export default function Calendar() {
         </Alert>
       )}
 
+      {view === "month" && (
+        <div className="sm:hidden bg-white px-2 pt-3 pb-1" aria-label={t("calendar.monthView", "Vista mensile")}>
+          <div className="flex items-center justify-between gap-1 px-2 mb-3">
+            <h2 className="text-[22px] font-semibold text-primary capitalize truncate">
+              {formatMonthYear(selectedDate, i18n.language)}
+            </h2>
+            <div className="flex items-center shrink-0">
+              <button type="button" className="w-9 h-9 grid place-items-center" aria-label={t("calendar.previousMonth", "Mese precedente")}
+                onClick={() => setSelectedDate(d => new Date(d.getFullYear(), d.getMonth() - 1, 1))}><ChevronLeft size={20} /></button>
+              <button type="button" className="w-9 h-9 grid place-items-center" aria-label={t("calendar.nextMonth", "Mese successivo")}
+                onClick={() => setSelectedDate(d => new Date(d.getFullYear(), d.getMonth() + 1, 1))}><ChevronRight size={20} /></button>
+              <button type="button" onClick={goToToday} className="border rounded-lg px-2 h-8 text-xs ml-1">
+                {t("calendar.today", "Oggi")}
+              </button>
+            </div>
+          </div>
+          <div className="flex items-center bg-[#f0f2ed] p-[3px] rounded-[10px] h-9 mx-1">
+            {(["day", "week", "month"] as const).map((choice) => (
+              <button key={choice} type="button" onClick={() => setView(choice)}
+                aria-current={choice === "month" ? "page" : undefined}
+                className={`flex-1 h-[30px] rounded-lg text-xs ${choice === "month" ? "bg-primary text-white font-semibold" : "text-[#616959]"}`}>
+                {t(choice === "day" ? "calendar.daily" : choice === "week" ? "calendar.weekly" : "calendar.monthly")}
+              </button>
+            ))}
+          </div>
+          <details className="mx-2 mt-1 text-xs text-gray-600" onToggle={() => window.dispatchEvent(new Event("resize"))}>
+            <summary className="cursor-pointer py-1">{t("calendar.mobileOptions", "Ricerca e opzioni calendario")}</summary>
+            <div className="p-2 border rounded-lg space-y-2 bg-white">
+              <Input
+                type="search" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+                placeholder={`${t("common.search")} ${t("calendar.title").toLowerCase()}...`}
+                aria-label={t("common.search")}
+              />
+              <div className="flex gap-2">
+                <Button size="sm" variant={calendarMode === "global" ? "default" : "outline"} onClick={() => updateCalendarMode("global")}>{t("calendar.modeGlobal")}</Button>
+                <Button size="sm" variant={calendarMode === "filter" ? "default" : "outline"} onClick={() => updateCalendarMode("filter")}>{t("calendar.modeFilter")}</Button>
+                {activeFilter && <Button size="sm" variant="outline" onClick={() => setActiveFilter(null)}>{t("common.reset", "Reset")}</Button>}
+              </div>
+              {calendarMode === "filter" && <div className="flex flex-wrap gap-1">
+                {activeCollaborators.map((c: any) => <Button key={`staff-${c.id}`} size="sm"
+                  variant={activeFilter?.type === "staff" && activeFilter.id === c.id ? "default" : "outline"}
+                  onClick={() => handleFilterChip("staff", c.id)}>{c.firstName} {c.lastName}</Button>)}
+                {(treatmentRooms as any[]).map((r: any) => <Button key={`room-${r.id}`} size="sm"
+                  variant={activeFilter?.type === "room" && activeFilter.id === r.id ? "default" : "outline"}
+                  onClick={() => handleFilterChip("room", r.id)}>{r.name}</Button>)}
+              </div>}
+              {googleEnabled && !googleNeedsReauth && !googleNotConnected && <SyncGoogleButton size="sm" variant="outline" showLabel={true} isExternalLoading={isAutoSyncing} />}
+            </div>
+          </details>
+        </div>
+      )}
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="bg-white shadow-md rounded-lg p-4 mb-6">
+      <div className={`bg-white shadow-md rounded-lg p-4 mb-6 ${view === "month" ? "hidden sm:block" : ""}`}>
         
         {/* Riga 1: data + ricerca */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">

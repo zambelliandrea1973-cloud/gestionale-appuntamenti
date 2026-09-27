@@ -14,6 +14,7 @@ import AppointmentForm from "./AppointmentForm";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { getISOWeek } from "date-fns";
+import MobileMonthGrid from "./MobileMonthGrid";
 
 interface MonthViewProps {
   selectedDate: Date;
@@ -528,7 +529,23 @@ export default function MonthView({
   });
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6 flex flex-col">
+    <>
+      <div className="sm:hidden">
+        <MobileMonthGrid
+          weeks={calendar}
+          month={viewDate}
+          isLoading={isLoading}
+          getAppointments={getAptsForDay}
+          getColors={getImportedColors}
+          getEventColor={getEventColor}
+          onDateSelect={onDateSelect}
+          onNewAppointment={() => {
+            setNewApptDay(selectedDate);
+            formOpenedAtRef.current = Date.now();
+          }}
+        />
+      </div>
+      <div className="hidden sm:flex bg-white rounded-lg shadow-md overflow-hidden mb-6 flex-col">
       {/* ── Month nav header ── */}
       <div className="bg-gray-100 px-4 py-3 border-b flex items-center justify-between shrink-0">
         <h3 className="text-lg font-medium capitalize">{monthLabel}</h3>
@@ -564,6 +581,7 @@ export default function MonthView({
           {/* All week rows as flat siblings in the same grid */}
           {gridCells}
         </div>
+      </div>
       </div>
 
       {/* ── More events popover ── */}
@@ -618,6 +636,7 @@ export default function MonthView({
       )}
 
       {!newApptDay && !editingId && (
+        <div className="hidden sm:block">
         <FloatingActionButton
           onClick={() => {
             setNewApptDay(viewDate);
@@ -626,7 +645,8 @@ export default function MonthView({
           text={t("calendar.selectNewAppointment", "Nuovo appuntamento")}
            storageKey="fab-appointment-position"
         />
+        </div>
       )}
-    </div>
+    </>
   );
 }

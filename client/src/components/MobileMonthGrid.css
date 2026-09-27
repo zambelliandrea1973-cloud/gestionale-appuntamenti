@@ -1,0 +1,71 @@
+@media (max-width: 639px) {
+  .mobile-month {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    background: #fff;
+    color: #21251c;
+    overflow: hidden;
+    font-family: Roboto, Arial, sans-serif;
+  }
+  .mobile-month * { box-sizing: border-box; }
+  .mobile-month-hint {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 5px; height: 29px; flex: none; padding: 0 8px;
+    font-size: 10px; color: #77806a;
+  }
+  .mobile-month-weekdays {
+    height: 27px; flex: none; display: grid; grid-template-columns: 22px repeat(7, minmax(0, 1fr));
+    padding: 0 3px; text-align: center; align-items: center; border-bottom: 1px solid #e7ebe2;
+    color: #666f5d; font-size: 11px; font-weight: 600;
+  }
+  .mobile-month-weekdays .weekend { color: #788045; }
+  .mobile-month-clip {
+    flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;
+  }
+  .mobile-month-grid {
+    width: calc(100% * var(--mobile-zoom, 1));
+    height: calc(100% * var(--mobile-zoom, 1));
+    min-height: 0; padding: 3px; gap: 3px; display: grid;
+    grid-template-columns: 22px repeat(7, minmax(0, 1fr));
+    grid-template-rows: repeat(var(--mobile-weeks), minmax(0, 1fr));
+  }
+  .mobile-month-week-number {
+    background: #f1f3ed; border-radius: 5px; color: #7c8572;
+    font-size: 10px; text-align: center; padding-top: 10px;
+  }
+  .mobile-month-day {
+    appearance: none; min-width: 0; min-height: 0; overflow: hidden;
+    display: flex; flex-direction: column; align-items: stretch;
+    border: 1px solid #e6eadf; background: #fff; border-radius: 7px;
+    padding: 3px 2px; text-align: left; cursor: pointer;
+  }
+  .mobile-month-day.outside { background: #f6f7f4; color: #abb2a5; }
+  .mobile-month-day.weekend:not(.outside) { background: #fafbf7; }
+  .mobile-month-day:focus-visible { outline: 2px solid #586323; outline-offset: -2px; }
+  .mobile-month-date {
+    width: 24px; height: 24px; flex: none; margin: 0 auto 5px;
+    display: grid; place-items: center; border-radius: 50%; font-size: 12px; font-weight: 600;
+  }
+  .mobile-month-date.today { background: #586323; color: #fff; }
+  .mobile-month-event {
+    flex: none; display: block; width: 100%; overflow: hidden; white-space: nowrap;
+    text-overflow: clip; border-radius: 3px; margin-top: 2px; padding: 2px;
+    line-height: 12px; font-size: 10px; font-weight: 500;
+  }
+  .mobile-month-more { padding: 2px 1px; color: #556622; font-size: 10px; font-weight: 700; }
+  .mobile-month-loading { height: 12px; background: #e5e7eb; border-radius: 3px; }
+  .mobile-month-reset {
+    position: absolute; bottom: 14px; left: 10px; z-index: 2;
+    display: flex; align-items: center; gap: 4px; padding: 7px 12px;
+    border: 1px solid #d9dfca; border-radius: 20px; background: #fff;
+    box-shadow: 0 2px 9px #0002; color: #4f5d20; font-size: 12px;
+  }
+  .mobile-month-add {
+    position: absolute; bottom: 13px; right: 13px; display: grid; place-items: center;
+    width: 52px; height: 52px; border: 0; border-radius: 18px;
+    background: #586323; color: white; box-shadow: 0 5px 15px #343b2650;
+  }
+}
