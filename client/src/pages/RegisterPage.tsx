@@ -105,6 +105,24 @@ export default function RegisterPage() {
           window.gtag('event', 'sign_up', { method: 'email' });
         }
       } catch (_) {}
+      // OpenAI Ads: invia la conversione solo dopo che /api/register ha confermato
+      // la creazione dell'account. Non passare email, password o altri dati personali.
+      try {
+        const w = window as any;
+        if (typeof w.oaiq !== "function") {
+          const q: any = function (...args: any[]) {
+            q.q.push(args);
+          };
+          q.q = [];
+          w.oaiq = q;
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = "https://bzrcdn.openai.com/sdk/oaiq.min.js";
+          document.head.appendChild(script);
+        }
+        w.oaiq("init", { pixelId: "AHRRP75PfYtE762B5AjVHm", debug: false });
+        w.oaiq("measure", "registration_completed", { type: "customer_action" });
+      } catch (_) {}
       // Auto-login lato server, invalida cache utente e vai alla dashboard
       await queryClient.invalidateQueries();
       if (data.autoLogin) {
