@@ -814,8 +814,8 @@ export default function DayViewWithTimeSlots({
                   )}
                 </div>
                 
-                <div className={`flex ${isExpanded ? 'flex-row' : 'flex-col sm:flex-row'} justify-between items-start ${isExpanded ? 'items-center' : 'sm:items-center'}`}>
-                  <div className="text-[10px] sm:text-xs font-medium flex flex-col" style={{ color: importedColors ? '#475569' : (appointment.service?.color || '#4299e1') }}>
+                <div className={`flex ${isExpanded ? 'flex-col gap-2 sm:flex-row sm:items-end' : 'flex-col sm:flex-row'} justify-between items-start`}>
+                  <div className="min-w-0 max-w-full text-[10px] sm:text-xs font-medium flex flex-col [overflow-wrap:anywhere]" style={{ color: importedColors ? '#475569' : (appointment.service?.color || '#4299e1') }}>
                     <span>{appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}</span>
                     {!appointment.importedFromGoogle && !appointment.client?.firstName?.startsWith("📅") && appointment.service?.name && (
                       <span className={`text-gray-600 ${isExpanded ? '' : 'truncate'}`}>{appointment.service.name}</span>
@@ -837,18 +837,19 @@ export default function DayViewWithTimeSlots({
                     
                     {/* Mostra le note solo quando l'appuntamento è espanso */}
                     {isExpanded && appointment.notes && (
-                      <span className="text-gray-500 text-[9px] sm:text-xs mt-1 block max-w-xs">
+                      <span className="text-gray-500 text-[9px] sm:text-xs mt-1 block max-w-full whitespace-pre-wrap">
                         {appointment.notes}
                       </span>
                     )}
                   </div>
                   
-                  <div className={`flex ${isMobile ? 'justify-end gap-3 mt-2 mb-1' : 'gap-1 mt-1 sm:mt-0'}`}>
+                  {isExpanded && (
+                  <div className={`grid grid-cols-2 gap-2 w-full min-w-0 ${isMobile ? 'mt-1' : 'sm:flex sm:w-auto sm:shrink-0 sm:gap-1'}`}>
                     <Button 
                       variant={isMobile ? "outline" : "ghost"} 
                       size={isMobile ? "default" : "icon"}
                       className={isMobile 
-                        ? "h-10 px-3 rounded-md border-2 border-blue-300 bg-blue-50" 
+                        ? "min-h-10 h-auto w-full min-w-0 px-1 py-2 rounded-md border-2 border-blue-300 bg-blue-50 whitespace-normal text-center"
                         : "h-5 w-5 sm:h-6 sm:w-6 p-0"
                       }
                       onClick={(e) => {
@@ -861,7 +862,7 @@ export default function DayViewWithTimeSlots({
                     >
                       {isMobile ? (
                         <>
-                          <Edit className="h-4 w-4 mr-1" />
+                          <Edit className="h-4 w-4 mr-1 shrink-0" />
                           <span>{t("common.edit")}</span>
                         </>
                       ) : (
@@ -872,7 +873,7 @@ export default function DayViewWithTimeSlots({
                       variant={isMobile ? "destructive" : "ghost"}
                       size={isMobile ? "default" : "icon"}
                       className={isMobile 
-                        ? "h-10 px-3 rounded-md" 
+                        ? "min-h-10 h-auto w-full min-w-0 px-1 py-2 rounded-md whitespace-normal text-center"
                         : "h-5 w-5 sm:h-6 sm:w-6 p-0 text-red-500"
                       }
                       onClick={(e) => {
@@ -885,7 +886,7 @@ export default function DayViewWithTimeSlots({
                     >
                       {isMobile ? (
                         <>
-                          <Trash2 className="h-4 w-4 mr-1" />
+                          <Trash2 className="h-4 w-4 mr-1 shrink-0" />
                           <span>{t("common.delete")}</span>
                         </>
                       ) : (
@@ -893,6 +894,7 @@ export default function DayViewWithTimeSlots({
                       )}
                     </Button>
                   </div>
+                  )}
                 </div>
               </div>
             </div>
