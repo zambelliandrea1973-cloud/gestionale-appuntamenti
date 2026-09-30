@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback, type TouchEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -48,6 +48,10 @@ export default function DayViewWithTimeSlots({
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>("09:00");
+  const [selectedSlotTime, setSelectedSlotTime] = useState<string | null>(null);
+  const lastSlotTapRef = useRef<{ time: string; at: number } | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const touchMovedRef = useRef(false);
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
   const [selectedClient, setSelectedClient] = useState<{id: number, name: string} | null>(null);
   const [selectedService, setSelectedService] = useState<{id: number, name: string, duration: number} | null>(null);
@@ -396,9 +400,41 @@ export default function DayViewWithTimeSlots({
     },
   });
 
-  // Click su slot → apre direttamente il form con quell'orario
+  useEffect(() => {
+    setSelectedSlotTime(null);
+    setSelectedTime("09:00");
+    lastSlotTapRef.current = null;
+  }, [selectedDate]);
+
+  const trackTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    touchStartRef.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
+    touchMovedRef.current = false;
+  };
+
+  const trackTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    const start = touchStartRef.current;
+    if (touch && start && Math.hypot(touch.clientX - start.x, touch.clientY - start.y) > 8) {
+      touchMovedRef.current = true;
+    }
+  };
+
+  // Un tocco sceglie l'ora; solo un secondo tocco rapido sulla stessa fascia apre il modulo.
+  // Il click sintetico dopo uno scorrimento non deve essere scambiato per un tocco.
   const handleSlotClick = (slotTime: string) => {
+    if (touchMovedRef.current) {
+      touchMovedRef.current = false;
+      lastSlotTapRef.current = null;
+      return;
+    }
+    const now = Date.now();
+    const secondTap = lastSlotTapRef.current?.time === slotTime &&
+      now - lastSlotTapRef.current.at < 450;
     setSelectedTime(slotTime);
+    setSelectedSlotTime(slotTime);
+    lastSlotTapRef.current = secondTap ? null : { time: slotTime, at: now };
+    if (!secondTap) return;
     setSelectedAppointmentId(null);
     setIsAppointmentModalOpen(true);
   };
@@ -514,13 +550,25 @@ export default function DayViewWithTimeSlots({
                     {timeSlots.map((slotTime, i) => (
                       <div
                         key={slotTime}
-                        className={`absolute left-0 right-0 border-t hover:bg-blue-50/30 transition-colors ${
+                        className={`absolute left-0 right-0 border-t hover:bg-blue-50/30 transition-colors touch-manipulation ${
+                          selectedSlotTime === slotTime ? 'bg-green-100/70' : ''
+                        } ${
                           slotTime.endsWith('00') ? 'border-gray-300' : 'border-gray-100'
                         }`}
                         style={{ top: i * SLOT_H, height: SLOT_H }}
-                        onClick={() => {
-                          setIsAppointmentModalOpen(true);
-                          setSelectedAppointmentId(null);
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`${slotTime} — ${t('calendar.selectNewAppointment', 'Nuovo appuntamento')}`}
+                        aria-pressed={selectedSlotTime === slotTime}
+                        onTouchStart={trackTouchStart}
+                        onTouchMove={trackTouchMove}
+                        onTouchCancel={() => { touchMovedRef.current = true; }}
+                        onClick={() => handleSlotClick(slotTime)}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            handleSlotClick(slotTime);
+                          }
                         }}
                       />
                     ))}
@@ -596,7 +644,7 @@ export default function DayViewWithTimeSlots({
           onClose={() => { setIsAppointmentModalOpen(false); setSelectedAppointmentId(null); }}
           onSave={() => { setIsAppointmentModalOpen(false); setSelectedAppointmentId(null); onAppointmentUpdated(); }}
           defaultDate={selectedDate}
-          defaultTime="09:00"
+          defaultTime={selectedTime}
           appointmentId={selectedAppointmentId}
           selectedSlots={[]}
         />
@@ -636,7 +684,7 @@ export default function DayViewWithTimeSlots({
         })()}
 
         <FloatingActionButton
-          onClick={() => { setIsAppointmentModalOpen(true); setSelectedAppointmentId(null); }}
+          onClick={() => { lastSlotTapRef.current = null; setIsAppointmentModalOpen(true); setSelectedAppointmentId(null); }}
           text={t('calendar.selectNewAppointment', 'Nuovo appuntamento')}
           storageKey="fab-appointment-position"
         />
@@ -657,7 +705,9 @@ export default function DayViewWithTimeSlots({
           return (
             <div
               key={slotTime}
-              className={`flex items-center h-10 px-2 py-1 cursor-pointer hover:bg-blue-50 group ${
+              className={`flex items-center h-10 px-2 py-1 cursor-pointer hover:bg-blue-50 group touch-manipulation ${
+                selectedSlotTime === slotTime ? 'bg-green-100 ring-1 ring-inset ring-green-500' : ''
+              } ${
                 isHourMark
                   ? 'border-t-2 border-gray-400'
                   : showFullTime
@@ -665,10 +715,19 @@ export default function DayViewWithTimeSlots({
                     : 'border-t border-gray-100'
               }`}
               data-slot-time={slotTime}
+              role="button"
+              tabIndex={0}
+              aria-label={`${slotTime} — ${t('calendar.selectNewAppointment', 'Nuovo appuntamento')}`}
+              aria-pressed={selectedSlotTime === slotTime}
+              onTouchStart={trackTouchStart}
+              onTouchMove={trackTouchMove}
+              onTouchCancel={() => { touchMovedRef.current = true; }}
               onClick={() => handleSlotClick(slotTime)}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                handleSlotClick(slotTime);
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  handleSlotClick(slotTime);
+                }
               }}
             >
               <div className="w-16 text-sm font-medium group-hover:text-blue-600 transition-colors">
@@ -1079,8 +1138,8 @@ export default function DayViewWithTimeSlots({
       {!isAppointmentModalOpen && (
         <FloatingActionButton
           onClick={() => {
+            lastSlotTapRef.current = null;
             setSelectedAppointmentId(null);
-            setSelectedTime("09:00");
             setIsAppointmentModalOpen(true);
           }}
           text={t('calendar.selectNewAppointment', 'Nuovo appuntamento')}
