@@ -57,7 +57,8 @@ export default function DayViewWithTimeSlots({
   const [selectedService, setSelectedService] = useState<{id: number, name: string, duration: number} | null>(null);
   const [showClientSelector, setShowClientSelector] = useState(false);
   const [showServiceSelector, setShowServiceSelector] = useState(false);
-  const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null); // Aggiungiamo un ref per il timer
+  const appointmentTouchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const appointmentTouchMovedRef = useRef(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Rileva se siamo su mobile
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [appointmentToDelete, setAppointmentToDelete] = useState<number | null>(null);
@@ -151,64 +152,19 @@ export default function DayViewWithTimeSlots({
     };
   }, []);
   
-  // Gestione dell'appuntamento espanso e timer di chiusura automatica
+  // La scheda rimane aperta finché non la si richiude o non si tocca fuori.
   useEffect(() => {
-    // Se non c'è un appuntamento espanso, non facciamo nulla
-    if (expandedAppointment === null) {
-      // Se non c'è un appuntamento espanso ma esiste un timer, cancelliamolo
-      if (autoCloseTimerRef.current) {
-        clearTimeout(autoCloseTimerRef.current);
-        autoCloseTimerRef.current = null;
-      }
-      return;
-    }
-    
-    // Cancella il timer precedente se esistente
-    if (autoCloseTimerRef.current) {
-      clearTimeout(autoCloseTimerRef.current);
-      autoCloseTimerRef.current = null;
-    }
-    
-    // Timer per chiudere automaticamente l'appuntamento espanso dopo 5 secondi (solo mobile)
-    // Lo manteniamo come backup, ma la chiusura principale avverrà tramite un secondo tocco
-    if (isMobile) {
-      console.log("Mobile: set 5-second timer for automatic appointment close"); // Debug
-      autoCloseTimerRef.current = setTimeout(() => {
-        console.log("Mobile: automatic appointment close after 5 seconds"); // Debug
-        setExpandedAppointment(null);
-      }, 5000); // 5 secondi invece di 2 per dare più tempo all'utente
-    }
-    
-    // Funzione per gestire il click fuori dall'appuntamento espanso (solo mobile)
+    if (expandedAppointment === null) return;
+
     const handleClickOutside = (event: MouseEvent) => {
-      // Ignora se non siamo su mobile
-      if (!isMobile) return;
-      
       const target = event.target as HTMLElement;
-      
-      // Se è un clic sui pulsanti dentro l'appuntamento, non chiudiamo
-      if (target.closest('button')) {
-        return;
-      }
-      
-      // Controlla se il click è stato fatto al di fuori di un elemento con classe .absolute
-      if (!target.closest('.absolute')) {
+      if (!target.closest('[data-appointment-card]')) {
         setExpandedAppointment(null);
       }
     };
-    
-    // Aggiungiamo l'event listener
+
     document.addEventListener('click', handleClickOutside);
-    
-    // Pulizia
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-      // Cancella il timer se esiste
-      if (autoCloseTimerRef.current) {
-        clearTimeout(autoCloseTimerRef.current);
-        autoCloseTimerRef.current = null;
-      }
-    };
+    return () => document.removeEventListener('click', handleClickOutside);
   }, [expandedAppointment]);
 
   // Generazione degli orari dal 08:00 alle 22:45 con incrementi di 15 minuti
@@ -746,41 +702,20 @@ export default function DayViewWithTimeSlots({
           // Calcolo stili di espansione
           let expandedStyles = {};
           if (isExpanded) {
-            // Calcola la larghezza massima disponibile senza uscire dal container
-            // GUARD: clamp tra 0 e containerWidth per evitare overflow
-            const maxExpandedWidth = Math.max(0, Math.min(containerWidth - 10, containerWidth)); // 10px di margine
-            
-            // Su mobile e desktop: espansione sia verticale che laterale
-            if (isMobile) {
-              expandedStyles = {
-                width: `${maxExpandedWidth}px`, // Usa larghezza misurata invece di viewport
-                maxWidth: `${maxExpandedWidth}px`,
-                zIndex: 1000,
-                left: '70px',
-                height: 'auto', // Espansione verticale
-                minHeight: styles.height,
-                transition: 'all 0.25s ease-in-out',
-                boxShadow: `0 6px 24px rgba(0,0,0,0.25), 0 0 0 2px ${appointment.service?.color || '#4299e1'}70`,
-                backgroundColor: '#ffffff',
-                padding: '8px',
-                overflow: 'visible' // Permette di vedere tutto il contenuto
-              };
-            } else {
-              // Desktop: espansione sia laterale che verticale
-              expandedStyles = {
-                width: `${maxExpandedWidth}px`, // Usa larghezza misurata
-                maxWidth: `${maxExpandedWidth}px`,
-                zIndex: 1000,
-                left: '70px',
-                height: 'auto', // Espansione verticale anche su desktop
-                minHeight: styles.height,
-                transition: 'all 0.25s ease-in-out',
-                boxShadow: `0 6px 24px rgba(0,0,0,0.25), 0 0 0 2px ${appointment.service?.color || '#4299e1'}70`,
-                backgroundColor: '#ffffff',
-                padding: '8px',
-                overflow: 'visible'
-              };
-            }
+            expandedStyles = {
+              // La percentuale segue la griglia anche quando la misura iniziale non è ancora pronta.
+              width: 'calc(100% - 70px)',
+              maxWidth: 'calc(100% - 70px)',
+              zIndex: 1000,
+              left: '70px',
+              height: 'auto',
+              minHeight: styles.height,
+              maxHeight: '70vh',
+              overflowY: 'auto' as const,
+              overflowX: 'hidden' as const,
+              backgroundColor: '#ffffff',
+              padding: '8px',
+            };
           }
           
           const importedColors = getImportedColors(appointment);
@@ -789,7 +724,11 @@ export default function DayViewWithTimeSlots({
           return (
             <div 
               key={appointment.id}
-              className={`absolute rounded shadow-md overflow-hidden ${isExpanded ? 'z-50' : 'z-10'}`}
+              data-appointment-card
+              role="button"
+              tabIndex={0}
+              aria-expanded={isExpanded}
+              className={`absolute rounded shadow-md cursor-pointer touch-manipulation ${isExpanded ? 'z-50' : 'z-10 overflow-hidden'}`}
               style={{
                 ...styles,
                 ...expandedStyles,
@@ -799,46 +738,32 @@ export default function DayViewWithTimeSlots({
                 transition: 'width 0.2s ease-in-out, left 0.2s ease-in-out',
                 backgroundColor: evOuterBg
               }}
-              // Su desktop usiamo hover (mouse enter/leave)
-              onMouseEnter={() => {
-                // Solo su desktop (non mobile)
-                if (!isMobile) {
-                  setExpandedAppointment(appointment.id);
-                }
-              }}
-              onMouseLeave={() => {
-                // Solo su desktop (non mobile)
-                if (!isMobile) {
-                  setExpandedAppointment(null);
-                }
-              }}
-              // Su mobile usiamo il tocco (touch)
               onTouchStart={(e) => {
-                // Su mobile, al tocco espandiamo l'appuntamento
-                if (isMobile) {
-                  // Previeni altri eventi (come click)
-                  e.preventDefault();
-                  e.stopPropagation();
-                  
-                  // Cancella un eventuale timer esistente
-                  if (autoCloseTimerRef.current) {
-                    clearTimeout(autoCloseTimerRef.current);
-                    autoCloseTimerRef.current = null;
-                  }
-                  
-                  // Se stiamo cliccando lo stesso appuntamento già espanso, lo chiudiamo
-                  if (expandedAppointment === appointment.id) {
-                    console.log("Mobile: Closing appointment on second tap, ID:", appointment.id);
-                    setExpandedAppointment(null);
-                  } else {
-                    // Altrimenti espandiamo questo appuntamento
-                    console.log("Mobile: Appointment expanded on first tap, ID:", appointment.id);
-                    
-                    // Aggiunge un indicatore visivo all'appuntamento espanso
-                    // per suggerire all'utente di toccare nuovamente per chiudere
-                    setExpandedAppointment(appointment.id);
-                  }
+                const touch = e.touches[0];
+                appointmentTouchStartRef.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
+                appointmentTouchMovedRef.current = false;
+              }}
+              onTouchMove={(e) => {
+                const touch = e.touches[0];
+                const start = appointmentTouchStartRef.current;
+                if (touch && start && Math.hypot(touch.clientX - start.x, touch.clientY - start.y) > 8) {
+                  appointmentTouchMovedRef.current = true;
                 }
+              }}
+              onTouchCancel={() => { appointmentTouchMovedRef.current = true; }}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (appointmentTouchMovedRef.current) {
+                  appointmentTouchMovedRef.current = false;
+                  return;
+                }
+                if ((e.target as HTMLElement).closest('button')) return;
+                setExpandedAppointment(isExpanded ? null : appointment.id);
+              }}
+              onKeyDown={(e) => {
+                if (e.target !== e.currentTarget || (e.key !== 'Enter' && e.key !== ' ')) return;
+                e.preventDefault();
+                setExpandedAppointment(isExpanded ? null : appointment.id);
               }}
             >
               <div 
@@ -866,7 +791,7 @@ export default function DayViewWithTimeSlots({
                   </button>
                 )}
                 
-                <div className="font-semibold text-xs sm:text-sm truncate text-gray-800 flex items-center">
+                <div className={`font-semibold text-xs sm:text-sm text-gray-800 flex items-center ${isExpanded ? 'flex-wrap break-words' : 'truncate'}`}>
                   {/* Per eventi importati da Google Calendar, mostra il titolo originale invece del nome cliente generico */}
                   {(() => {
                     // Se è un evento Google con titolo originale salvato, usa quello
