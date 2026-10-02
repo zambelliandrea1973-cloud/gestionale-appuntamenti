@@ -1,4 +1,11 @@
 {
+  "aiTrial": {
+    "usage": "Prova AI: {{used}} di {{limit}} utilizzi consumati.",
+    "limitReached": "Hai raggiunto il limite di utilizzi AI inclusi nella prova gratuita. Per continuare a utilizzare il servizio provato, sottoscrivi un abbonamento.",
+    "trialExpired": "La prova gratuita di 40 giorni è terminata. Per continuare a utilizzare il servizio AI provato, sottoscrivi un abbonamento.",
+    "subscribe": "Vai agli abbonamenti",
+    "conversationExpired": "Questa conversazione è terminata. Premi Ricomincia per iniziarne una nuova se hai ancora utilizzi disponibili."
+  },
   "app": {
     "title": "Gestionale Appuntamenti",
     "welcome": "Benvenuto nel Gestionale Appuntamenti",
@@ -6542,6 +6549,7 @@
     "confirmService": "Dimmi pure cosa preferisci: puoi dire sì, crealo, oppure no, scelgo un altro trattamento.",
     "modify": "Va bene. Dimmi cosa vuoi modificare.",
     "interpretationError": "Non ho capito la richiesta. Riprova.",
+    "interpretationUnavailable": "Ho ricevuto il testo, ma il servizio AI per comprenderlo non è disponibile in questo momento. Riprova più tardi.",
     "loadingCatalog": "Attendi un momento: sto caricando clienti e trattamenti.",
     "unsupportedVoice": "Il riconoscimento vocale non è disponibile in questo browser. Puoi scrivere la richiesta nel campo qui sotto.",
     "listenError": "Non sono riuscito ad ascoltare. Riprova oppure scrivi la richiesta.",

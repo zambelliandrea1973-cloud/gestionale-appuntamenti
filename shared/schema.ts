@@ -2,6 +2,7 @@ import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varc
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
+import { uuid } from "drizzle-orm/pg-core";
 
 // Clients table schema - RISTRUTTURATO PER MULTI-TENANT
 export const clients = pgTable("clients", {
@@ -2027,3 +2028,19 @@ export const insertGoogleAccountSchema = createInsertSchema(googleAccounts).omit
 
 export type GoogleAccount = typeof googleAccounts.$inferSelect;
 export type InsertGoogleAccount = z.infer<typeof insertGoogleAccountSchema>;
+
+export const aiTrialUsage = pgTable("ai_trial_usage", {
+  userId: integer("user_id").primaryKey().references(() => users.id, { onDelete: 'cascade' }),
+  appointmentConversations: integer("appointment_conversations").notNull().default(0),
+  marketingRequests: integer("marketing_requests").notNull().default(0)
+});
+
+export const aiTrialConversations = pgTable("ai_trial_conversations", {
+  id: uuid("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  interpretationRequests: integer("interpretation_requests").notNull().default(0),
+  speechRequests: integer("speech_requests").notNull().default(0),
+  speechCharacters: integer("speech_characters").notNull().default(0)
+});

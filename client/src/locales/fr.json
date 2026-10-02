@@ -1,4 +1,11 @@
 {
+  "aiTrial": {
+    "usage": "Essai IA : {{used}} utilisations consommées sur {{limit}}.",
+    "limitReached": "Vous avez atteint la limite d’utilisation de l’IA incluse dans votre essai gratuit. Abonnez-vous pour continuer à utiliser le service essayé.",
+    "trialExpired": "Votre essai gratuit de 40 jours est terminé. Abonnez-vous pour continuer à utiliser le service d’IA essayé.",
+    "subscribe": "Voir les abonnements",
+    "conversationExpired": "Cette conversation est terminée. Sélectionnez Recommencer pour en commencer une nouvelle s’il vous reste des utilisations."
+  },
   "app": {
     "title": "Gestion des Rendez-vous",
     "welcome": "Bienvenue dans la Gestion des Rendez-vous",
@@ -6542,6 +6549,7 @@
     "confirmService": "Dites-moi simplement ce que vous préférez, par exemple : oui, créez le service, ou non, choisissez-en un autre.",
     "modify": "D’accord. Que souhaitez-vous modifier ?",
     "interpretationError": "Je n’ai pas compris la demande. Veuillez réessayer.",
+    "interpretationUnavailable": "J’ai reçu le texte, mais le service d’IA chargé de le comprendre est actuellement indisponible. Veuillez réessayer plus tard.",
     "loadingCatalog": "Patientez pendant que je charge les clients et les traitements.",
     "unsupportedVoice": "La reconnaissance vocale n’est pas disponible dans ce navigateur. Vous pouvez écrire la demande ci-dessous.",
     "listenError": "Je ne vous ai pas entendu. Réessayez ou écrivez la demande.",

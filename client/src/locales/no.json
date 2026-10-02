@@ -1,4 +1,11 @@
 {
+  "aiTrial": {
+    "usage": "KI-prøveperiode: {{used}} av {{limit}} bruk er benyttet.",
+    "limitReached": "Du har nådd grensen for KI-bruk i den gratis prøveperioden. Tegn et abonnement for å fortsette å bruke tjenesten du prøvde.",
+    "trialExpired": "Den gratis prøveperioden på 40 dager er avsluttet. Tegn et abonnement for å fortsette å bruke KI-tjenesten du prøvde.",
+    "subscribe": "Se abonnementer",
+    "conversationExpired": "Denne samtalen er avsluttet. Velg Start på nytt for å begynne en ny samtale hvis du har bruk igjen."
+  },
   "app": {
     "title": "Timeavtalehåndtering",
     "welcome": "Velkommen til Timeavtalehåndtering",
@@ -6542,6 +6549,7 @@
     "confirmService": "Fortell hva du foretrekker, for eksempel: ja, opprett tjenesten, eller nei, velg en annen.",
     "modify": "Greit. Hva vil du endre?",
     "interpretationError": "Jeg forsto ikke forespørselen. Prøv igjen.",
+    "interpretationUnavailable": "Jeg har mottatt teksten, men KI-tjenesten som tolker den er ikke tilgjengelig akkurat nå. Prøv igjen senere.",
     "loadingCatalog": "Vent litt mens jeg laster inn kunder og behandlinger.",
     "unsupportedVoice": "Talegjenkjenning er ikke tilgjengelig i denne nettleseren. Du kan skrive forespørselen nedenfor.",
     "listenError": "Jeg kunne ikke høre deg. Prøv igjen eller skriv forespørselen.",

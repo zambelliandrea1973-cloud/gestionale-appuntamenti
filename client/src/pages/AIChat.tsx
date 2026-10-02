@@ -6,7 +6,9 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Bot, User, CheckCircle, XCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { AITrialNotice } from "@/components/AITrialNotice";
+import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess } from "@/hooks/use-ai-trial-access";
 import { useToast } from "@/hooks/use-toast";
 
 interface Message {
@@ -39,6 +41,9 @@ const getTimeLocale = (lang: string): string => {
 export default function AIChat() {
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
+  const { data: aiTrialAccess } = useAITrialAccess();
+  const aiTrialBlocked = Boolean(aiTrialAccess && !aiTrialAccess.unlimited &&
+    (!aiTrialAccess.eligible || aiTrialAccess.marketing.remaining === 0));
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [preview, setPreview] = useState<MessagePreview | null>(null);
@@ -67,17 +72,18 @@ export default function AIChat() {
         setPreview(data.preview);
       }
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         title: t('aiChat.error'),
-        description: t('aiChat.errorMessage'),
+        description: t(aiTrialMessageKey(error) || 'aiChat.errorMessage'),
         variant: "destructive"
       });
-    }
+    },
+    onSettled: () => { void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY }); }
   });
 
   const handleSend = () => {
-    if (!input.trim()) return;
+    if (!input.trim() || aiTrialBlocked || chatMutation.isPending) return;
 
     const userMessage = input.trim();
     
@@ -110,6 +116,7 @@ export default function AIChat() {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
+      <AITrialNotice feature="marketing" />
       <div className="mb-6">
         <h1 className="text-3xl font-bold flex items-center gap-2">
           <Bot className="h-8 w-8 text-purple-500" />
@@ -240,12 +247,12 @@ export default function AIChat() {
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSend()}
           placeholder={t('aiChat.placeholder')}
-          disabled={chatMutation.isPending}
+          disabled={chatMutation.isPending || aiTrialBlocked}
           data-testid="input-chat-message"
         />
         <Button
           onClick={handleSend}
-          disabled={!input.trim() || chatMutation.isPending}
+          disabled={!input.trim() || chatMutation.isPending || aiTrialBlocked}
           data-testid="button-send-message"
         >
           <Send className="h-4 w-4" />

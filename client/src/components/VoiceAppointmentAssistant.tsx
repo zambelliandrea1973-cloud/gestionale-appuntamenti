@@ -7,6 +7,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { apiRequest, queryClient } from '@/lib/queryClient';
+import { assistantInterpretationErrorKey, createAssistantTurnController } from '@/lib/assistantConversation';
+import { ApiRequestError } from '@/lib/apiError';
+import { AITrialNotice } from './AITrialNotice';
+import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey } from '@/hooks/use-ai-trial-access';
 import {
   addMinutesToTime,
   detectAssistantConfirmation,
@@ -179,6 +183,10 @@ export default function VoiceAppointmentAssistant({
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [trialBlocked, setTrialBlocked] = useState(false);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const conversationIdRef = useRef<string | null>(null);
+  const conversationReadyRef = useRef(false);
   const [servicePickerOpen, setServicePickerOpen] = useState(false);
   const [servicePickerOptions, setServicePickerOptions] = useState<AssistantService[]>([]);
   const [conflictResourceOptions, setConflictResourceOptions] = useState<ConflictResourceOption[]>([]);
@@ -190,6 +198,9 @@ export default function VoiceAppointmentAssistant({
   const speechUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const speechSequenceRef = useRef(0);
   const startListeningRef = useRef<() => void>(() => {});
+  const turnsRef = useRef(createAssistantTurnController());
+  const pendingAutoListenRef = useRef(false);
+  const autoListenTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     pointerId: number;
@@ -448,10 +459,12 @@ export default function VoiceAppointmentAssistant({
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, language: speechLocale }),
+        body: JSON.stringify({ text, language: speechLocale, conversationId: conversationIdRef.current }),
         signal: controller.signal
       });
       if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        if (typeof body.code === 'string') throw new ApiRequestError(body.message || 'Speech unavailable', response.status, body.code);
         throw new Error(`Speech request failed with status ${response.status}`);
       }
       console.info(
@@ -461,16 +474,49 @@ export default function VoiceAppointmentAssistant({
       await playStreamingAudio(response);
     } catch (error) {
       if (controller.signal.aborted || sequence !== speechSequenceRef.current) return;
+      const trialKey = aiTrialMessageKey(error);
+      if (trialKey) {
+        conversationReadyRef.current = false;
+        pendingAutoListenRef.current = false;
+        setTrialBlocked(trialKey !== 'aiTrial.conversationExpired');
+        if (trialKey === 'aiTrial.conversationExpired') {
+          conversationIdRef.current = null;
+          setConversationId(null);
+        }
+        setMessages(previous => [...previous, { role: 'assistant', content: t(trialKey) }]);
+        void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
+        return;
+      }
       console.error('[AI APPOINTMENT ASSISTANT] Central speech playback failed:', error);
       playBrowserFallback(error instanceof Error ? error.message : 'central-speech-error');
     }
+  };
+
+  const queueAutoListening = () => {
+    pendingAutoListenRef.current = true;
+    if (turnsRef.current.isBusy()) return;
+    if (autoListenTimerRef.current) clearTimeout(autoListenTimerRef.current);
+    autoListenTimerRef.current = setTimeout(() => {
+      autoListenTimerRef.current = null;
+      if (!pendingAutoListenRef.current || turnsRef.current.isBusy()) return;
+      pendingAutoListenRef.current = false;
+      startListeningRef.current();
+    }, 0);
+  };
+
+  const cancelInterpretation = () => {
+    turnsRef.current.cancel();
+    pendingAutoListenRef.current = false;
+    if (autoListenTimerRef.current) clearTimeout(autoListenTimerRef.current);
+    autoListenTimerRef.current = null;
+    setIsProcessing(false);
   };
 
   const addAssistantMessage = (content: string, options: { autoListen?: boolean } = {}) => {
     setMessages(previous => [...previous, { role: 'assistant', content }]);
     speak(
       content,
-      options.autoListen === false ? undefined : () => startListeningRef.current()
+      options.autoListen === false ? undefined : queueAutoListening
     );
   };
 
@@ -480,8 +526,32 @@ export default function VoiceAppointmentAssistant({
     const greeting = greetingName
       ? t('voiceAppointmentAssistant.greeting', { name: greetingName })
       : t('voiceAppointmentAssistant.greetingFallback');
-    setMessages([{ role: 'assistant', content: greeting }]);
-    speak(greeting, () => startListeningRef.current());
+    const controller = new AbortController();
+    setIsProcessing(true);
+    void (async () => {
+      try {
+        const response = await apiRequest('POST', '/api/ai-appointment-assistant/conversation',
+          { conversationId: conversationIdRef.current }, { signal: controller.signal });
+        const session = await response.json();
+        if (controller.signal.aborted) return;
+        conversationIdRef.current = session.conversationId;
+        setConversationId(session.conversationId);
+        conversationReadyRef.current = true;
+        setTrialBlocked(false);
+        queryClient.setQueryData(AI_TRIAL_ACCESS_KEY, session.usage);
+        setMessages([{ role: 'assistant', content: greeting }]);
+        void speak(greeting, queueAutoListening);
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        const key = aiTrialMessageKey(error);
+        setTrialBlocked(Boolean(key && key !== 'aiTrial.conversationExpired'));
+        setMessages([{ role: 'assistant', content: t(key || 'voiceAppointmentAssistant.interpretationUnavailable') }]);
+        void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
+      } finally {
+        if (!controller.signal.aborted) setIsProcessing(false);
+      }
+    })();
+    return () => controller.abort();
   }, [open, messages.length, professionalEmail, speechLocale, t]);
 
   useEffect(() => {
@@ -490,12 +560,17 @@ export default function VoiceAppointmentAssistant({
 
   useEffect(() => {
     return () => {
-      recognitionRef.current?.stop?.();
+      recognitionRef.current?.cancel();
+      recognitionRef.current = null;
+      turnsRef.current.cancel();
+      pendingAutoListenRef.current = false;
+      if (autoListenTimerRef.current) clearTimeout(autoListenTimerRef.current);
       stopSpeech();
     };
   }, []);
 
-  const askNextQuestion = async (nextDraft: AssistantDraft): Promise<AssistantDraft> => {
+  const askNextQuestion = async (nextDraft: AssistantDraft, signal?: AbortSignal): Promise<AssistantDraft> => {
+    signal?.throwIfAborted();
     if (!nextDraft.clientName) {
       setPendingQuestion(null);
       addAssistantMessage(t('voiceAppointmentAssistant.askClientName'), { autoListen: true });
@@ -608,9 +683,9 @@ export default function VoiceAppointmentAssistant({
     if (nextDraft.conflictApprovedSignature !== conflictSignature) {
       try {
         const [appointmentsResponse, collaboratorsResponse, roomsResponse] = await Promise.all([
-          fetch(`/api/appointments/date/${nextDraft.date}`, { credentials: 'include' }),
-          fetch('/api/collaborators', { credentials: 'include' }),
-          fetch('/api/treatment-rooms', { credentials: 'include' })
+          fetch(`/api/appointments/date/${nextDraft.date}`, { credentials: 'include', signal }),
+          fetch('/api/collaborators', { credentials: 'include', signal }),
+          fetch('/api/treatment-rooms', { credentials: 'include', signal })
         ]);
         if (!appointmentsResponse.ok || !collaboratorsResponse.ok || !roomsResponse.ok) {
           throw new Error('Availability check failed');
@@ -635,6 +710,7 @@ export default function VoiceAppointmentAssistant({
             isActive?: boolean | null;
           }>>
         ]);
+        signal?.throwIfAborted();
         if (!Array.isArray(dayAppointments) || !Array.isArray(collaborators) || !Array.isArray(rooms)) {
           throw new Error('Availability check returned an invalid response');
         }
@@ -697,6 +773,7 @@ export default function VoiceAppointmentAssistant({
           return nextDraft;
         }
       } catch (error) {
+        if (signal?.aborted) throw error;
         console.error('[AI APPOINTMENT ASSISTANT] Availability check failed:', error);
         setPendingQuestion(null);
         addAssistantMessage(t('voiceAppointmentAssistant.interpretationError'), { autoListen: false });
@@ -827,7 +904,14 @@ export default function VoiceAppointmentAssistant({
 
   const submitMessage = async (rawMessage?: string) => {
     const userMessage = (rawMessage ?? input).trim();
-    if (!userMessage || isProcessing || isSaving || isCatalogLoading) return;
+    if (!userMessage || !conversationReadyRef.current || trialBlocked || isProcessing || isSaving || isCatalogLoading) return;
+    const turn = turnsRef.current.begin();
+    if (!turn) return;
+    pendingAutoListenRef.current = false;
+    if (autoListenTimerRef.current) clearTimeout(autoListenTimerRef.current);
+    cancelListening();
+    stopSpeech();
+    const timeout = setTimeout(() => turn.controller.abort(), 30_000);
 
     setInput('');
     setMessages(previous => [...previous, { role: 'user', content: userMessage }]);
@@ -871,7 +955,8 @@ export default function VoiceAppointmentAssistant({
           selectedDraft.conflictApprovedSignature = getConflictSignature(selectedDraft);
           setConflictResourceOptions([]);
           setPendingQuestion(null);
-          const nextDraft = await askNextQuestion(selectedDraft);
+          const nextDraft = await askNextQuestion(selectedDraft, turn.controller.signal);
+          if (!turnsRef.current.isCurrent(turn)) return;
           setDraft({ ...nextDraft });
           return;
         }
@@ -882,7 +967,8 @@ export default function VoiceAppointmentAssistant({
           };
           setConflictResourceOptions([]);
           setPendingQuestion(null);
-          const nextDraft = await askNextQuestion(selectedDraft);
+          const nextDraft = await askNextQuestion(selectedDraft, turn.controller.signal);
+          if (!turnsRef.current.isCurrent(turn)) return;
           setDraft({ ...nextDraft });
           return;
         }
@@ -942,9 +1028,11 @@ export default function VoiceAppointmentAssistant({
             servicePrice: draft.servicePrice,
             notes: draft.notes
           },
-          language: i18n.resolvedLanguage || i18n.language
-        });
+          language: i18n.resolvedLanguage || i18n.language,
+          conversationId: conversationIdRef.current
+        }, { signal: turn.controller.signal });
         interpretation = await response.json() as Interpretation;
+        if (!turnsRef.current.isCurrent(turn)) return;
       }
       const confirmation = detectedConfirmation === 'unknown'
         ? interpretation.confirmation
@@ -974,7 +1062,8 @@ export default function VoiceAppointmentAssistant({
           nextDraft.clientId = null;
           nextDraft.createClientApproved = false;
           setPendingQuestion(null);
-          nextDraft = await askNextQuestion(nextDraft);
+          nextDraft = await askNextQuestion(nextDraft, turn.controller.signal);
+          if (!turnsRef.current.isCurrent(turn)) return;
           setDraft({ ...nextDraft });
           return;
         } else if (confirmation === 'no') {
@@ -1046,7 +1135,8 @@ export default function VoiceAppointmentAssistant({
           nextDraft.serviceId = null;
           nextDraft.createServiceApproved = false;
           setPendingQuestion(null);
-          nextDraft = await askNextQuestion(nextDraft);
+          nextDraft = await askNextQuestion(nextDraft, turn.controller.signal);
+          if (!turnsRef.current.isCurrent(turn)) return;
           setDraft({ ...nextDraft });
           return;
         } else if (confirmation === 'no') {
@@ -1125,7 +1215,8 @@ export default function VoiceAppointmentAssistant({
           nextDraft.createServiceApproved = false;
           setServicePickerOpen(false);
           setPendingQuestion(null);
-          nextDraft = await askNextQuestion(nextDraft);
+          nextDraft = await askNextQuestion(nextDraft, turn.controller.signal);
+          if (!turnsRef.current.isCurrent(turn)) return;
           setDraft({ ...nextDraft });
           return;
         } else if (confirmation === 'no') {
@@ -1164,17 +1255,40 @@ export default function VoiceAppointmentAssistant({
         }
       }
 
-      nextDraft = await askNextQuestion(nextDraft);
+      nextDraft = await askNextQuestion(nextDraft, turn.controller.signal);
+      if (!turnsRef.current.isCurrent(turn)) return;
       setDraft({ ...nextDraft });
     } catch (error) {
+      if (!turnsRef.current.isCurrent(turn)) return;
       console.error('[AI APPOINTMENT ASSISTANT] Interpretation error:', error);
-      addAssistantMessage(t('voiceAppointmentAssistant.interpretationError'));
+      pendingAutoListenRef.current = false;
+      const trialKey = aiTrialMessageKey(error);
+      if (trialKey) {
+        conversationReadyRef.current = false;
+        setTrialBlocked(trialKey !== 'aiTrial.conversationExpired');
+        if (trialKey === 'aiTrial.conversationExpired') {
+          conversationIdRef.current = null;
+          setConversationId(null);
+        }
+        setMessages(previous => [...previous, { role: 'assistant', content: t(trialKey) }]);
+        void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
+        return;
+      }
+      addAssistantMessage(
+        t(`voiceAppointmentAssistant.${assistantInterpretationErrorKey(error)}`),
+        { autoListen: false }
+      );
     } finally {
-      setIsProcessing(false);
+      clearTimeout(timeout);
+      if (turnsRef.current.finish(turn)) {
+        setIsProcessing(false);
+        if (pendingAutoListenRef.current) queueAutoListening();
+      }
     }
   };
 
   const startListening = () => {
+    if (!open || !conversationReadyRef.current || trialBlocked || turnsRef.current.isBusy() || isProcessing || isSaving || recognitionRef.current) return;
     if (isCatalogLoading) {
       addAssistantMessage(t('voiceAppointmentAssistant.loadingCatalog'));
       return;
@@ -1326,7 +1440,12 @@ export default function VoiceAppointmentAssistant({
   };
 
   const resetConversation = () => {
-    recognitionRef.current?.stop?.();
+    cancelInterpretation();
+    conversationIdRef.current = null;
+    conversationReadyRef.current = false;
+    setConversationId(null);
+    setTrialBlocked(false);
+    cancelListening();
     stopSpeech();
     setMessages([]);
     setDraft({});
@@ -1344,6 +1463,7 @@ export default function VoiceAppointmentAssistant({
       setDialogPosition({ x: 0, y: 0 });
     }
     if (!nextOpen) {
+      cancelInterpretation();
       dragStateRef.current = null;
       setServicePickerOpen(false);
       setServicePickerOptions([]);
@@ -1446,6 +1566,7 @@ export default function VoiceAppointmentAssistant({
               <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
+          <AITrialNotice feature="appointments" activeConversation={Boolean(conversationId)} blocked={trialBlocked} />
 
           {pendingQuestion === 'confirm_conflict' && conflictResourceOptions.length > 0 && (
             <div className="border-t bg-violet-50/70 px-4 py-3">

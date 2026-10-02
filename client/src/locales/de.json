@@ -1,4 +1,11 @@
 {
+  "aiTrial": {
+    "usage": "KI-Testphase: {{used}} von {{limit}} Nutzungen verbraucht.",
+    "limitReached": "Sie haben das KI-Nutzungslimit Ihrer kostenlosen Testphase erreicht. Schließen Sie ein Abonnement ab, um den getesteten Dienst weiter zu nutzen.",
+    "trialExpired": "Ihre kostenlose 40-tägige Testphase ist beendet. Schließen Sie ein Abonnement ab, um den getesteten KI-Dienst weiter zu nutzen.",
+    "subscribe": "Abonnements ansehen",
+    "conversationExpired": "Dieses Gespräch ist beendet. Wählen Sie Neu beginnen, um ein neues Gespräch zu starten, sofern noch Nutzungen verfügbar sind."
+  },
   "app": {
     "title": "Terminverwaltung",
     "welcome": "Willkommen bei der Terminverwaltung",
@@ -6542,6 +6549,7 @@
     "confirmService": "Sagen Sie mir einfach, was Sie bevorzugen, zum Beispiel: Ja, legen Sie die Dienstleistung an, oder: Nein, nehmen Sie eine andere.",
     "modify": "In Ordnung. Was möchten Sie ändern?",
     "interpretationError": "Ich habe die Anfrage nicht verstanden. Bitte versuchen Sie es erneut.",
+    "interpretationUnavailable": "Ich habe den Text erhalten, aber der KI-Dienst zur Verarbeitung ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.",
     "loadingCatalog": "Bitte warten Sie, während ich Kunden und Behandlungen lade.",
     "unsupportedVoice": "Die Spracherkennung ist in diesem Browser nicht verfügbar. Sie können die Anfrage unten eingeben.",
     "listenError": "Ich konnte Sie nicht hören. Versuchen Sie es erneut oder schreiben Sie die Anfrage.",

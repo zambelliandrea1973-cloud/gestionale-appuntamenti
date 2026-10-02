@@ -54,6 +54,7 @@ import connectPg from "connect-pg-simple";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 import pg from "pg";
+import { aiTrialSchemaSql } from "./services/aiTrialMigration";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, like, or, sql, ne, asc, inArray, not } from 'drizzle-orm';
 import { inventoryJsonStorage } from "./inventory-json-storage.js";
@@ -128,6 +129,7 @@ export async function ensureSessionTable(): Promise<void> {
       await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_clicked_at timestamp;`);
       await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_used_at timestamp;`);
       await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS licenses_recovery_offer_token_hash_idx ON licenses (recovery_offer_token_hash) WHERE recovery_offer_token_hash IS NOT NULL;`);
+      await pool.query(aiTrialSchemaSql);
       await pool.end();
       console.log('✅ Table user_sessions verified/created successfully');
       return;

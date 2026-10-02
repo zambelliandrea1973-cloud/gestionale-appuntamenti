@@ -2,6 +2,8 @@ import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import { pipeline } from 'node:stream/promises';
 import { requireAuth } from '../middleware/authMiddleware';
+import { authorizeAppointmentAI } from '../services/aiTrialUsageService';
+import { sendAITrialError } from './aiTrialRoutes';
 import {
   assistantSpeechConfig,
   synthesizeAssistantSpeechStream
@@ -46,6 +48,7 @@ router.post(
     res.once('close', abortUpstream);
 
     try {
+      await authorizeAppointmentAI(Number((req.user as { id: number }).id), req.body?.conversationId, 'speech', text.length);
       const audio = await synthesizeAssistantSpeechStream(
         text,
         language,
@@ -64,6 +67,7 @@ router.post(
       await pipeline(audio.stream, res);
       return;
     } catch (error) {
+      if (sendAITrialError(error, res)) return;
       if (upstreamController.signal.aborted) return;
       console.error('[AI APPOINTMENT ASSISTANT] Speech synthesis failed:', error);
       if (res.headersSent) {

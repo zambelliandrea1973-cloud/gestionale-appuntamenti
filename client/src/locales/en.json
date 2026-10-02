@@ -1,4 +1,11 @@
 {
+  "aiTrial": {
+    "usage": "AI trial: {{used}} of {{limit}} uses consumed.",
+    "limitReached": "You have reached the AI usage limit included in your free trial. Subscribe to continue using the service you tried.",
+    "trialExpired": "Your 40-day free trial has ended. Subscribe to continue using the AI service you tried.",
+    "subscribe": "View subscriptions",
+    "conversationExpired": "This conversation has ended. Select Start over to begin a new one if you still have uses available."
+  },
   "app": {
     "title": "Appointment Management",
     "welcome": "Welcome to Appointment Management",
@@ -6542,6 +6549,7 @@
     "confirmService": "Tell me what you prefer. You can say yes, create the service, or no, choose another one.",
     "modify": "Okay. Tell me what you would like to change.",
     "interpretationError": "I didn't understand the request. Please try again.",
+    "interpretationUnavailable": "I received the text, but the AI service that understands it is currently unavailable. Please try again later.",
     "loadingCatalog": "Please wait while I load clients and treatments.",
     "unsupportedVoice": "Voice recognition is not available in this browser. You can type the request in the field below.",
     "listenError": "I couldn't hear you. Please try again or type the request.",

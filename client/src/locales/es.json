@@ -1,4 +1,11 @@
 {
+  "aiTrial": {
+    "usage": "Prueba de IA: {{used}} de {{limit}} usos consumidos.",
+    "limitReached": "Has alcanzado el límite de uso de IA incluido en la prueba gratuita. Suscríbete para seguir utilizando el servicio que has probado.",
+    "trialExpired": "Tu prueba gratuita de 40 días ha terminado. Suscríbete para seguir utilizando el servicio de IA que has probado.",
+    "subscribe": "Ver suscripciones",
+    "conversationExpired": "Esta conversación ha terminado. Selecciona Empezar de nuevo para iniciar otra si aún tienes usos disponibles."
+  },
   "app": {
     "title": "Gestión de Citas",
     "welcome": "Bienvenido a la Gestión de Citas",
@@ -6542,6 +6549,7 @@
     "confirmService": "Dime qué prefieres; puedes decir sí, crea el servicio, o no, elige otro.",
     "modify": "De acuerdo. Dime qué quieres modificar.",
     "interpretationError": "No he entendido la solicitud. Inténtalo de nuevo.",
+    "interpretationUnavailable": "He recibido el texto, pero el servicio de IA para comprenderlo no está disponible en este momento. Inténtalo más tarde.",
     "loadingCatalog": "Espera un momento mientras cargo los clientes y los tratamientos.",
     "unsupportedVoice": "El reconocimiento de voz no está disponible en este navegador. Puedes escribir la solicitud en el campo inferior.",
     "listenError": "No he podido escucharte. Inténtalo de nuevo o escribe la solicitud.",

@@ -9,6 +9,8 @@ import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 import { requireAuth } from '../middleware/authMiddleware';
 import { analyzeBusinessNeeds } from '../onboarding-ai';
 import { processChatMessage, generateMarketingCampaign } from '../ai-chat';
+import { reserveMarketingAI } from '../services/aiTrialUsageService';
+import { sendAITrialError } from './aiTrialRoutes';
 import path from 'path';
 import fs from 'fs';
 import multer from 'multer';
@@ -379,6 +381,12 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
       if (!messages || !Array.isArray(messages)) {
         return res.status(400).json({ message: 'Messaggi invalid' });
       }
+      if (messages.length > 30 || messages.some((message: any) =>
+        !message || !['user', 'assistant', 'system'].includes(message.role) ||
+        typeof message.content !== 'string' || message.content.length > 4000
+      ) || messages.reduce((total: number, message: any) => total + message.content.length, 0) > 16000) {
+        return res.status(400).json({ message: 'Conversazione troppo lunga o non valida.' });
+      }
       
       console.log('💬 [AI CHAT] New request from user', user.id);
       
@@ -402,6 +410,7 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
       }
       
       // Process the message with AI
+      await reserveMarketingAI(Number(user.id));
       const response = await processChatMessage({
         messages,
         context
@@ -409,6 +418,7 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
       
       res.json(response);
     } catch (error: any) {
+      if (sendAITrialError(error, res)) return;
       console.error('❌ [AI CHAT] Error:', error);
       res.status(500).json({ 
         message: 'Error communicating with AI',
@@ -440,6 +450,10 @@ router.post('/api/ai/generate-campaign', requireAuth, async (req, res) => {
       if (!prompt || typeof prompt !== 'string') {
         return res.status(400).json({ message: 'Prompt invalid' });
       }
+      if (prompt.length > 4000) {
+        return res.status(400).json({ message: 'Prompt troppo lungo.' });
+      }
+      await reserveMarketingAI(Number(user.id));
       
       console.log('📧 [CAMPAIGN API] Generating campaign for user', user.id, '- License:', licenseType);
       logger.debug('📧 [CAMPAIGN API] GEMINI_API_KEY present:', !!process.env.GEMINI_API_KEY);
@@ -463,6 +477,7 @@ router.post('/api/ai/generate-campaign', requireAuth, async (req, res) => {
         }
       });
     } catch (error: any) {
+      if (sendAITrialError(error, res)) return;
       console.error('❌ [CAMPAIGN API] General error:', error);
       res.status(500).json({ 
         message: 'Error generating campaign',

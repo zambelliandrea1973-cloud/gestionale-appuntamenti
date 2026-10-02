@@ -1,4 +1,5 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { ApiRequestError } from "./apiError";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -56,7 +57,8 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
   options?: {
-    withBetaAdminToken?: boolean
+    withBetaAdminToken?: boolean;
+    signal?: AbortSignal;
   }
 ): Promise<Response> {
   // Rileva se il payload è FormData (per upload di file)
@@ -85,6 +87,7 @@ export async function apiRequest(
       headers,
       body: isFormData ? data as FormData : (data ? JSON.stringify(data) : undefined),
       credentials: "include",
+      signal: options?.signal,
     });
 
     
@@ -99,8 +102,10 @@ export async function apiRequest(
       
       // Prova a parsare il JSON per estrarre il messaggio di errore
       let errorMessage = errorText || res.statusText;
+      let errorCode: string | undefined;
       try {
         const errorJson = JSON.parse(errorText);
+        if (typeof errorJson.code === 'string') errorCode = errorJson.code;
         if (errorJson.message) {
           errorMessage = errorJson.message;
         }
@@ -119,7 +124,7 @@ export async function apiRequest(
         }, 100);
       }
       
-      throw new Error(errorMessage);
+      throw new ApiRequestError(errorMessage, res.status, errorCode);
     }
     
     // Cloniamo la risposta prima di restituirla per evitare problemi di "already consumed body"

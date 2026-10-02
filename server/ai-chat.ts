@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { interpretAppointmentWithOpenAI } from './services/appointmentInterpretationService';
 
 let genAI: GoogleGenerativeAI | null = null;
 
@@ -355,100 +356,14 @@ export interface AppointmentAssistantInterpretation extends AppointmentAssistant
   confirmation: 'yes' | 'no' | 'unknown';
 }
 
-function getTodayInRome(): string {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Europe/Rome',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  }).format(new Date());
-}
-
 /**
- * Uses the same Gemini client and queue as the existing AI assistant, but with
- * a constrained, read-only prompt. This function only extracts appointment
- * information; all database writes remain behind the existing REST endpoints.
+ * Appointment understanding uses OpenAI independently of Gemini's other AI
+ * features. Interpretation is read-only; writes still require explicit approval.
  */
 export async function interpretAppointmentRequest(
   userMessage: string,
   currentDraft: AppointmentAssistantDraft = {},
   language = 'it'
 ): Promise<AppointmentAssistantInterpretation> {
-  if (!process.env.GEMINI_API_KEY) {
-    throw new Error('AI service is not configured');
-  }
-
-  return enqueueRequest(async () => {
-    const model = getGeminiClient().getGenerativeModel({
-      model: 'gemini-2.5-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        temperature: 0.1
-      }
-    });
-
-    const prompt = `Sei il modulo di comprensione di un assistente vocale per appuntamenti.
-La data di oggi in Italia è ${getTodayInRome()}.
-La lingua preferita del professionista è "${language}". Comprendi la richiesta in questa lingua, incluse date relative, orari e conferme.
-
-Devi unire il nuovo messaggio ai dati già raccolti e restituire SOLO JSON valido.
-Interpreta date relative come "oggi", "domani", giorni della settimana e orari nella lingua della richiesta.
-Il trattamento corrisponde al nome del servizio. Se il professionista corregge
-un nome di trattamento o rifiuta una proposta per indicarne un altro, usa il
-nuovo nome comunicato nel campo serviceName.
-servicePrice è il costo in euro del trattamento e deve essere valorizzato solo
-quando il professionista comunica esplicitamente un prezzo.
-Non inventare dati assenti. Conserva i dati esistenti salvo correzioni esplicite.
-
-Dati già raccolti:
-${JSON.stringify(currentDraft)}
-
-Nuovo messaggio:
-${JSON.stringify(userMessage)}
-
-Formato obbligatorio:
-{
-  "clientName": string | null,
-  "date": "YYYY-MM-DD" | null,
-  "startTime": "HH:mm" | null,
-  "serviceName": string | null,
-  "durationMinutes": number | null,
-  "servicePrice": number | null,
-  "notes": string | null,
-  "confirmation": "yes" | "no" | "unknown"
-}
-
-"confirmation" vale yes se il messaggio esprime una conferma anche in forma colloquiale o articolata (per esempio "sì, crealo", "va bene, procedi", "crea pure il servizio").
-Vale no se esprime un rifiuto o una richiesta di cambiare scelta (per esempio "no, scelgo un altro", "non crearlo", "preferisco un altro servizio").
-Usa unknown solo quando non è possibile capire l'intenzione.
-Se il professionista comunica informazioni ulteriori da salvare nell'appuntamento, inseriscile in notes.`;
-
-    const result = await model.generateContent(prompt);
-    const text = result.response.text() || '';
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Invalid structured response from AI');
-    }
-
-    const parsed = JSON.parse(jsonMatch[0]);
-    const duration = Number(parsed.durationMinutes);
-    const servicePrice = Number(parsed.servicePrice);
-    return {
-      clientName: typeof parsed.clientName === 'string' ? parsed.clientName.trim() : null,
-      date: typeof parsed.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.date) ? parsed.date : null,
-      startTime: typeof parsed.startTime === 'string' && /^\d{2}:\d{2}$/.test(parsed.startTime) ? parsed.startTime : null,
-      serviceName: typeof parsed.serviceName === 'string' ? parsed.serviceName.trim() : null,
-      durationMinutes: Number.isFinite(duration) && duration > 0 && duration <= 1440 ? Math.round(duration) : null,
-      servicePrice: parsed.servicePrice !== null &&
-        parsed.servicePrice !== undefined &&
-        Number.isFinite(servicePrice) &&
-        servicePrice >= 0
-        ? Math.round(servicePrice * 100) / 100
-        : null,
-      notes: typeof parsed.notes === 'string' ? parsed.notes.trim() : null,
-      confirmation: parsed.confirmation === 'yes' || parsed.confirmation === 'no'
-        ? parsed.confirmation
-        : 'unknown'
-    };
-  });
+  return interpretAppointmentWithOpenAI(userMessage, currentDraft, language);
 }

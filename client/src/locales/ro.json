@@ -1,4 +1,11 @@
 {
+  "aiTrial": {
+    "usage": "Probă AI: {{used}} din {{limit}} utilizări consumate.",
+    "limitReached": "Ai atins limita de utilizare AI inclusă în perioada de probă gratuită. Abonează-te pentru a continua să folosești serviciul încercat.",
+    "trialExpired": "Perioada de probă gratuită de 40 de zile s-a încheiat. Abonează-te pentru a continua să folosești serviciul AI încercat.",
+    "subscribe": "Vezi abonamentele",
+    "conversationExpired": "Această conversație s-a încheiat. Alege Reîncepe pentru a începe una nouă dacă mai ai utilizări disponibile."
+  },
   "app": {
     "title": "Gestionare Programări",
     "welcome": "Bine ați venit la Gestionarea Programărilor",
@@ -6542,6 +6549,7 @@
     "confirmService": "Spune-mi ce preferi; poți spune da, creează serviciul, sau nu, alege altul.",
     "modify": "Bine. Spune-mi ce dorești să modifici.",
     "interpretationError": "Nu am înțeles cererea. Încearcă din nou.",
+    "interpretationUnavailable": "Am primit textul, dar serviciul AI care îl interpretează nu este disponibil momentan. Încearcă din nou mai târziu.",
     "loadingCatalog": "Așteaptă puțin cât încarc clienții și tratamentele.",
     "unsupportedVoice": "Recunoașterea vocală nu este disponibilă în acest browser. Poți scrie cererea mai jos.",
     "listenError": "Nu te-am putut auzi. Încearcă din nou sau scrie cererea.",

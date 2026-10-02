@@ -1,4 +1,11 @@
 {
+  "aiTrial": {
+    "usage": "AI-proefperiode: {{used}} van {{limit}} gebruiken verbruikt.",
+    "limitReached": "Je hebt de AI-gebruikslimiet van je gratis proefperiode bereikt. Neem een abonnement om de geteste dienst te blijven gebruiken.",
+    "trialExpired": "Je gratis proefperiode van 40 dagen is afgelopen. Neem een abonnement om de geteste AI-dienst te blijven gebruiken.",
+    "subscribe": "Abonnementen bekijken",
+    "conversationExpired": "Dit gesprek is afgelopen. Kies Opnieuw beginnen voor een nieuw gesprek als je nog gebruiken beschikbaar hebt."
+  },
   "app": {
     "title": "Afsprakenbeheer",
     "welcome": "Welkom bij Afsprakenbeheer",
@@ -6542,6 +6549,7 @@
     "confirmService": "Vertel gerust wat je wilt, bijvoorbeeld: ja, maak de dienst aan, of nee, kies een andere.",
     "modify": "Oké. Wat wil je wijzigen?",
     "interpretationError": "Ik heb het verzoek niet begrepen. Probeer het opnieuw.",
+    "interpretationUnavailable": "Ik heb de tekst ontvangen, maar de AI-dienst om deze te begrijpen is momenteel niet beschikbaar. Probeer het later opnieuw.",
     "loadingCatalog": "Even geduld terwijl ik klanten en behandelingen laad.",
     "unsupportedVoice": "Spraakherkenning is niet beschikbaar in deze browser. Je kunt het verzoek hieronder typen.",
     "listenError": "Ik kon je niet horen. Probeer het opnieuw of typ het verzoek.",

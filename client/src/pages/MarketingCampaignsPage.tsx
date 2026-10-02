@@ -30,6 +30,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import i18n from '@/lib/i18n';
 import { apiRequest, queryClient } from '@/lib/queryClient';
+import { AITrialNotice } from '@/components/AITrialNotice';
+import { AI_TRIAL_ACCESS_KEY, useAITrialAccess } from '@/hooks/use-ai-trial-access';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
 interface ChatMessage {
@@ -61,6 +63,10 @@ export default function MarketingCampaignsPage() {
   ]);
   const [userInput, setUserInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const generatingRef = useRef(false);
+  const { data: aiTrialAccess } = useAITrialAccess();
+  const aiTrialBlocked = Boolean(aiTrialAccess && !aiTrialAccess.unlimited &&
+    (!aiTrialAccess.eligible || aiTrialAccess.marketing.remaining === 0));
   const [generatedCampaign, setGeneratedCampaign] = useState<{title: string; message: string} | null>(null);
   const [editableTitle, setEditableTitle] = useState('');
   const [editableMessage, setEditableMessage] = useState('');
@@ -197,6 +203,7 @@ export default function MarketingCampaignsPage() {
 
 
   const handleSendMessage = async () => {
+    if (generatingRef.current || aiTrialBlocked) return;
     console.log('🚀 handleSendMessage called, userInput:', userInput);
     
     if (!userInput.trim()) {
@@ -212,6 +219,7 @@ export default function MarketingCampaignsPage() {
 
     setChatMessages(prev => [...prev, userMessage]);
     setUserInput('');
+    generatingRef.current = true;
     setIsGenerating(true);
     
     console.log('📤 Sending API request to /api/ai/generate-campaign');
@@ -253,10 +261,19 @@ export default function MarketingCampaignsPage() {
         }
       } else {
         const errorText = await response.text();
+        let quotaKey: string | null = null;
+        try {
+          const errorBody = JSON.parse(errorText);
+          if (errorBody.code === 'AI_TRIAL_EXPIRED') quotaKey = 'aiTrial.trialExpired';
+          else if (errorBody.code?.startsWith('AI_TRIAL_')) quotaKey = 'aiTrial.limitReached';
+        } catch { /* Other errors keep the existing message. */ }
+        if (quotaKey) {
+          setChatMessages(previous => [...previous, { role: 'assistant', content: t(quotaKey!), timestamp: new Date() }]);
+        }
         console.error('❌ API error:', response.status, errorText);
         toast({
           title: t('common.error'),
-          description: t('marketingCampaigns.toast.serverError', { status: response.status, error: errorText.substring(0, 100) }),
+          description: quotaKey ? t(quotaKey) : t('marketingCampaigns.toast.serverError', { status: response.status, error: errorText.substring(0, 100) }),
           variant: 'destructive'
         });
       }
@@ -268,6 +285,8 @@ export default function MarketingCampaignsPage() {
         variant: 'destructive'
       });
     } finally {
+      generatingRef.current = false;
+      void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
       setIsGenerating(false);
       console.log('🏁 handleSendMessage completed');
     }
@@ -552,6 +571,7 @@ export default function MarketingCampaignsPage() {
 
   return (
     <div className="container mx-auto p-4 space-y-6" data-testid="marketing-campaigns-page">
+      <AITrialNotice feature="marketing" />
       {/* Header */}
       <div className="flex items-center gap-3">
         <Sparkles className="h-8 w-8 text-primary" />
@@ -632,7 +652,7 @@ export default function MarketingCampaignsPage() {
                 />
                 <Button
                   onClick={handleSendMessage}
-                  disabled={!userInput.trim() || isGenerating}
+                  disabled={!userInput.trim() || isGenerating || aiTrialBlocked}
                   size="icon"
                   className="h-20 w-20"
                   data-testid="button-send-prompt"

@@ -17,6 +17,7 @@ import { useToast } from '@/hooks/use-toast';
 import SubscriptionPlansPanel from '@/components/SubscriptionPlansPanel';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
+import { shouldRedirectFreeStaff } from '@/lib/subscriptionPageAccess';
 
 export default function SubscribePage() {
   const { t } = useTranslation();
@@ -74,12 +75,7 @@ export default function SubscribePage() {
 
   useEffect(() => {
     if (!isLoading && !userLoading && isAuthenticated && userWithLicense) {
-      const type = userWithLicense.type;
-      const role = (userWithLicense as any).role;
-      const isStaffOrAdmin =
-        type === 'staff' || type === 'admin' ||
-        role === 'staff' || role === 'admin' || role === 'ev_staff' || role === 'ev_admin';
-      if (isStaffOrAdmin) {
+      if (shouldRedirectFreeStaff(userWithLicense)) {
         setLocation('/dashboard');
       }
     }
