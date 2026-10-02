@@ -13,7 +13,6 @@ import { AITrialNotice } from './AITrialNotice';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey } from '@/hooks/use-ai-trial-access';
 import {
   assistantRecognitionErrorKey,
-  createAssistantRecognitionSession,
   selectAssistantVoice,
   type AssistantRecognitionSession
 } from '@/lib/assistantVoice';
@@ -548,7 +547,9 @@ export default function VoiceAppointmentAssistant({
         if (controller.signal.aborted) return;
         const key = aiTrialMessageKey(error);
         setTrialBlocked(Boolean(key && key !== 'aiTrial.conversationExpired'));
-        setMessages([{ role: 'assistant', content: t(key || 'voiceAppointmentAssistant.interpretationUnavailable') }]);
+        setMessages([{ role: 'assistant', content: t(key || `voiceAppointmentAssistant.${assistantInterpretationErrorKey(error)}`, {
+          code: error instanceof ApiRequestError ? error.code : ''
+        }) }]);
         void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
       } finally {
         if (!controller.signal.aborted) setIsProcessing(false);
@@ -1265,6 +1266,8 @@ export default function VoiceAppointmentAssistant({
       if (!turnsRef.current.isCurrent(turn)) return;
       console.error('[AI APPOINTMENT ASSISTANT] Interpretation error:', error);
       pendingAutoListenRef.current = false;
+      // Keep a failed typed/dictated request editable instead of losing its text.
+      setInput(previous => previous || userMessage);
       const trialKey = aiTrialMessageKey(error);
       if (trialKey) {
         conversationReadyRef.current = false;
@@ -1278,7 +1281,9 @@ export default function VoiceAppointmentAssistant({
         return;
       }
       addAssistantMessage(
-        t(`voiceAppointmentAssistant.${assistantInterpretationErrorKey(error)}`),
+        t(`voiceAppointmentAssistant.${assistantInterpretationErrorKey(error)}`, {
+          code: error instanceof ApiRequestError ? error.code : ''
+        }),
         { autoListen: false }
       );
     } finally {
@@ -1330,25 +1335,45 @@ export default function VoiceAppointmentAssistant({
       addAssistantMessage(t(`voiceAppointmentAssistant.${errorKey}`), { autoListen: false });
     };
     try {
-      const session = createAssistantRecognitionSession(SpeechRecognition, speechLocale, {
-        onStart: () => {
-          if (recognitionRef.current === session) setIsListening(true);
+      // Preserve the original Gemini-era browser recognition flow. Only the
+      // server interpreting its completed transcript uses the new AI provider.
+      const recognition = new SpeechRecognition();
+      let cancelled = false;
+      const session: AssistantRecognitionSession = {
+        start: () => recognition.start(),
+        stop: () => recognition.stop(),
+        cancel: () => {
+          cancelled = true;
+          recognition.onstart = recognition.onend = recognition.onerror = recognition.onresult = null;
+          try { recognition.abort(); } catch { /* Already stopped. */ }
         },
-        onEnd: () => {
-          if (recognitionRef.current === session) {
-            recognitionRef.current = null;
-            setIsListening(false);
-          }
-        },
-        onError: handleRecognitionError,
-        onResult: transcript => {
+      };
+      recognition.lang = speechLocale;
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.onstart = () => {
+        if (!cancelled) setIsListening(true);
+      };
+      recognition.onend = () => {
+        if (cancelled) return;
+        if (recognitionRef.current === session) recognitionRef.current = null;
+        setIsListening(false);
+      };
+      recognition.onerror = (event: any) => {
+        if (!cancelled) handleRecognitionError(event.error || 'unknown');
+      };
+      recognition.onresult = (event: any) => {
+        if (cancelled) return;
+        const transcript = event.results?.[0]?.[0]?.transcript?.trim();
+        if (transcript) {
           setInput(transcript);
           void submitMessage(transcript);
         }
-      });
+      };
       recognitionRef.current = session;
       session.start();
     } catch (error) {
+      cancelListening();
       handleRecognitionError(error instanceof Error ? error.name : 'unknown');
     }
   };

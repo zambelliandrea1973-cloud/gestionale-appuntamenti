@@ -48,6 +48,26 @@ test('service, timeout and network errors are not reported as unrecognized speec
   assert.equal(assistantInterpretationErrorKey(new ApiRequestError('Bad request', 400)), 'interpretationError');
 });
 
+test('specific provider diagnoses take precedence over generic server and trial failures', () => {
+  const messages = {
+    AI_PROVIDER_NOT_CONFIGURED: 'interpretationKeyMissing',
+    AI_PROVIDER_AUTH_FAILED: 'interpretationKeyRejected',
+    AI_PROVIDER_QUOTA_EXHAUSTED: 'interpretationQuotaExceeded',
+    AI_PROVIDER_RATE_LIMITED: 'interpretationRateLimited',
+    AI_PROVIDER_ACCESS_DENIED: 'interpretationProviderSetupError',
+    AI_PROVIDER_MODEL_UNAVAILABLE: 'interpretationProviderSetupError',
+    AI_PROVIDER_REQUEST_INVALID: 'interpretationProviderSetupError',
+    AI_PROVIDER_CONNECTION_FAILED: 'interpretationConnectionError',
+    AI_PROVIDER_TIMEOUT: 'interpretationConnectionError',
+    AI_ASSISTANT_INTERNAL_ERROR: 'interpretationInternalError'
+  };
+  for (const [code, key] of Object.entries(messages)) {
+    assert.equal(assistantInterpretationErrorKey(new ApiRequestError('Unavailable', 503, code)), key);
+  }
+  assert.equal(assistantInterpretationErrorKey(new ApiRequestError('Limited', 429, 'AI_PROVIDER_RATE_LIMITED')), 'interpretationRateLimited');
+  assert.equal(assistantInterpretationErrorKey(new ApiRequestError('Unknown', 503, '__proto__')), 'interpretationUnavailable');
+});
+
 test('apiRequest preserves status and provider code, and forwards the abort signal', async () => {
   const originalWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
   const originalNavigator = Object.getOwnPropertyDescriptor(globalThis, 'navigator');

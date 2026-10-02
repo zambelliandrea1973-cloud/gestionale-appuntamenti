@@ -5,6 +5,7 @@ import {
   AppointmentInterpretationError,
   appointmentInterpretationSchema,
   buildAppointmentInterpretationMessages,
+  classifyAppointmentProviderError,
   getAppointmentTodayInRome,
   parseAppointmentInterpretation
 } from '../server/services/appointmentInterpretationService';
@@ -13,6 +14,30 @@ test('appointment interpretation has a strict OpenAI-only schema', () => {
   assert.equal(APPOINTMENT_INTERPRETATION_MODEL, 'gpt-4.1-mini');
   assert.equal(appointmentInterpretationSchema.additionalProperties, false);
   assert.deepEqual(appointmentInterpretationSchema.required.sort(), Object.keys(appointmentInterpretationSchema.properties).sort());
+});
+
+test('provider failures retain a precise safe diagnosis, not raw credentials or text', () => {
+  const cases = [
+    [{ status: 401 }, 'AI_PROVIDER_AUTH_FAILED', 503],
+    [{ status: 429, code: 'insufficient_quota' }, 'AI_PROVIDER_QUOTA_EXHAUSTED', 503],
+    [{ status: 429, code: 'rate_limit_exceeded' }, 'AI_PROVIDER_RATE_LIMITED', 429],
+    [{ status: 403 }, 'AI_PROVIDER_ACCESS_DENIED', 503],
+    [{ status: 404 }, 'AI_PROVIDER_MODEL_UNAVAILABLE', 503],
+    [{ status: 400 }, 'AI_PROVIDER_REQUEST_INVALID', 502],
+    [{ name: 'AbortError' }, 'AI_PROVIDER_TIMEOUT', 503],
+    [{ name: 'TypeError' }, 'AI_PROVIDER_CONNECTION_FAILED', 503],
+    [{ status: 500 }, 'AI_INTERPRETATION_UNAVAILABLE', 503]
+  ] as const;
+  for (const [provider, code, status] of cases) {
+    const classified = classifyAppointmentProviderError({ ...provider, message: 'private provider details' });
+    assert.equal(classified.code, code);
+    assert.equal(classified.httpStatus, status);
+    assert.equal(classified.message, code);
+    assert.ok(!JSON.stringify(classified).includes('private provider details'));
+  }
+  const missing = new AppointmentInterpretationError('AI_PROVIDER_NOT_CONFIGURED');
+  assert.equal(classifyAppointmentProviderError(missing), missing);
+  assert.equal(missing.httpStatus, 503);
 });
 
 test('missing data stays null; explicit zero price is retained', () => {

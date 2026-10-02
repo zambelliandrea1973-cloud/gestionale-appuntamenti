@@ -4,11 +4,46 @@ import type { AppointmentAssistantDraft, AppointmentAssistantInterpretation } fr
 export const APPOINTMENT_INTERPRETATION_MODEL = 'gpt-4.1-mini';
 let client: OpenAI | null = null;
 
+export type AppointmentInterpretationErrorCode =
+  | 'AI_INTERPRETATION_UNAVAILABLE' | 'AI_INTERPRETATION_INVALID'
+  | 'AI_PROVIDER_NOT_CONFIGURED' | 'AI_PROVIDER_AUTH_FAILED'
+  | 'AI_PROVIDER_QUOTA_EXHAUSTED' | 'AI_PROVIDER_RATE_LIMITED'
+  | 'AI_PROVIDER_ACCESS_DENIED' | 'AI_PROVIDER_MODEL_UNAVAILABLE'
+  | 'AI_PROVIDER_REQUEST_INVALID' | 'AI_PROVIDER_CONNECTION_FAILED'
+  | 'AI_PROVIDER_TIMEOUT';
+
 export class AppointmentInterpretationError extends Error {
-  constructor(public readonly code: 'AI_INTERPRETATION_UNAVAILABLE' | 'AI_INTERPRETATION_INVALID') {
+  constructor(public readonly code: AppointmentInterpretationErrorCode) {
     super(code);
     this.name = 'AppointmentInterpretationError';
   }
+
+  get httpStatus(): number {
+    if (this.code === 'AI_PROVIDER_RATE_LIMITED') return 429;
+    if (this.code === 'AI_INTERPRETATION_INVALID' || this.code === 'AI_PROVIDER_REQUEST_INVALID') return 502;
+    return 503;
+  }
+}
+
+export function classifyAppointmentProviderError(error: unknown): AppointmentInterpretationError {
+  if (error instanceof AppointmentInterpretationError) return error;
+  const provider = error as { status?: number; code?: string; name?: string } | null;
+  const status = provider?.status;
+  if (provider?.code === 'insufficient_quota' || provider?.code === 'billing_hard_limit_reached') {
+    return new AppointmentInterpretationError('AI_PROVIDER_QUOTA_EXHAUSTED');
+  }
+  if (status === 401) return new AppointmentInterpretationError('AI_PROVIDER_AUTH_FAILED');
+  if (status === 403) return new AppointmentInterpretationError('AI_PROVIDER_ACCESS_DENIED');
+  if (status === 404) return new AppointmentInterpretationError('AI_PROVIDER_MODEL_UNAVAILABLE');
+  if (status === 429) return new AppointmentInterpretationError('AI_PROVIDER_RATE_LIMITED');
+  if (status === 400 || status === 422) return new AppointmentInterpretationError('AI_PROVIDER_REQUEST_INVALID');
+  if (error instanceof OpenAI.APIConnectionTimeoutError || provider?.name === 'AbortError') {
+    return new AppointmentInterpretationError('AI_PROVIDER_TIMEOUT');
+  }
+  if (error instanceof OpenAI.APIConnectionError || provider?.name === 'TypeError') {
+    return new AppointmentInterpretationError('AI_PROVIDER_CONNECTION_FAILED');
+  }
+  return new AppointmentInterpretationError('AI_INTERPRETATION_UNAVAILABLE');
 }
 
 const nullableString = { type: ['string', 'null'] };
@@ -29,10 +64,11 @@ export const appointmentInterpretationSchema = {
 };
 
 function getClient(): OpenAI {
-  if (!process.env.OPENAI_API_KEY) {
-    throw new AppointmentInterpretationError('AI_INTERPRETATION_UNAVAILABLE');
+  const apiKey = process.env.OPENAI_API_KEY?.trim();
+  if (!apiKey) {
+    throw new AppointmentInterpretationError('AI_PROVIDER_NOT_CONFIGURED');
   }
-  client ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 20_000, maxRetries: 1 });
+  client ??= new OpenAI({ apiKey, timeout: 20_000, maxRetries: 1 });
   return client;
 }
 
@@ -115,11 +151,13 @@ export async function interpretAppointmentWithOpenAI(
       }
     });
   } catch (error) {
+    const classified = classifyAppointmentProviderError(error);
     // Never log provider error objects: they can include credentials, user text or URLs.
     console.warn('[AI APPOINTMENT ASSISTANT] OpenAI interpretation unavailable', {
+      code: classified.code,
       status: error instanceof OpenAI.APIError ? error.status : undefined
     });
-    throw new AppointmentInterpretationError('AI_INTERPRETATION_UNAVAILABLE');
+    throw classified;
   }
   const choice = response.choices[0];
   if (!choice || choice.finish_reason !== 'stop' || choice.message.refusal || !choice.message.content) {

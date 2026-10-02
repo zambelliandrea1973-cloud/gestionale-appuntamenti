@@ -30,6 +30,21 @@ export function createAssistantTurnController() {
 }
 
 export function assistantInterpretationErrorKey(error: unknown): string {
+  if (error instanceof ApiRequestError) {
+    const providerMessages: Record<string, string> = {
+      AI_PROVIDER_NOT_CONFIGURED: 'interpretationKeyMissing',
+      AI_PROVIDER_AUTH_FAILED: 'interpretationKeyRejected',
+      AI_PROVIDER_QUOTA_EXHAUSTED: 'interpretationQuotaExceeded',
+      AI_PROVIDER_RATE_LIMITED: 'interpretationRateLimited',
+      AI_PROVIDER_ACCESS_DENIED: 'interpretationProviderSetupError',
+      AI_PROVIDER_MODEL_UNAVAILABLE: 'interpretationProviderSetupError',
+      AI_PROVIDER_REQUEST_INVALID: 'interpretationProviderSetupError',
+      AI_PROVIDER_CONNECTION_FAILED: 'interpretationConnectionError',
+      AI_PROVIDER_TIMEOUT: 'interpretationConnectionError',
+      AI_ASSISTANT_INTERNAL_ERROR: 'interpretationInternalError'
+    };
+    if (error.code && Object.hasOwn(providerMessages, error.code)) return providerMessages[error.code];
+  }
   if (error instanceof ApiRequestError &&
       (error.status >= 500 || /^AI_INTERPRETATION_(UNAVAILABLE|INVALID)$/.test(error.code || ''))) {
     return 'interpretationUnavailable';

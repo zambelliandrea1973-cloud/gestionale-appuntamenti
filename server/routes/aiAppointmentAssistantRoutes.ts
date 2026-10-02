@@ -38,14 +38,14 @@ router.post('/api/ai-appointment-assistant/interpret', requireAuth, async (req, 
   } catch (error) {
     if (sendAITrialError(error, res)) return;
     if (error instanceof AppointmentInterpretationError) {
-      return res.status(error.code === 'AI_INTERPRETATION_UNAVAILABLE' ? 503 : 502).json({
+      return res.status(error.httpStatus).json({
         code: error.code,
         message: 'Il servizio di comprensione AI non è disponibile in questo momento. Riprova più tardi.'
       });
     }
     console.error('[AI APPOINTMENT ASSISTANT] Unexpected interpretation error');
     res.status(500).json({
-      code: 'AI_INTERPRETATION_UNAVAILABLE',
+      code: 'AI_ASSISTANT_INTERNAL_ERROR',
       message: 'Non riesco a interpretare la richiesta in questo momento. Riprova.'
     });
   }
