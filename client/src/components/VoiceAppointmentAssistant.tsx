@@ -12,6 +12,12 @@ import { ApiRequestError } from '@/lib/apiError';
 import { AITrialNotice } from './AITrialNotice';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey } from '@/hooks/use-ai-trial-access';
 import {
+  assistantRecognitionErrorKey,
+  createAssistantRecognitionSession,
+  selectAssistantVoice,
+  type AssistantRecognitionSession
+} from '@/lib/assistantVoice';
+import {
   addMinutesToTime,
   detectAssistantConfirmation,
   findAssistantClient,
@@ -191,7 +197,7 @@ export default function VoiceAppointmentAssistant({
   const [servicePickerOptions, setServicePickerOptions] = useState<AssistantService[]>([]);
   const [conflictResourceOptions, setConflictResourceOptions] = useState<ConflictResourceOption[]>([]);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<AssistantRecognitionSession | null>(null);
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
   const speechAudioUrlRef = useRef<string | null>(null);
   const speechRequestRef = useRef<AbortController | null>(null);
@@ -220,6 +226,12 @@ export default function VoiceAppointmentAssistant({
   });
   const isCatalogLoading = isLoadingClients || isLoadingServices;
 
+  const cancelListening = () => {
+    recognitionRef.current?.cancel();
+    recognitionRef.current = null;
+    setIsListening(false);
+  };
+
   const stopSpeech = () => {
     speechSequenceRef.current += 1;
     speechRequestRef.current?.abort();
@@ -241,6 +253,7 @@ export default function VoiceAppointmentAssistant({
   };
 
   const speak = async (text: string, onComplete?: () => void) => {
+    cancelListening();
     stopSpeech();
     const sequence = speechSequenceRef.current;
     const controller = new AbortController();
@@ -302,17 +315,7 @@ export default function VoiceAppointmentAssistant({
 
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = speechLocale;
-        const languagePrefix = speechLocale.split('-')[0].toLowerCase();
-        const matchingVoices = voices.filter(voice =>
-          voice.lang.toLowerCase().startsWith(languagePrefix)
-        );
-        utterance.voice = matchingVoices.find(voice =>
-          /female|woman|femmina|elsa|isabella|alice|federica|paola|samantha|victoria|zira|aria|jenny|sara|helena|amelie|audrey|katja|sabina|luciana/i.test(voice.name)
-        ) || matchingVoices.find(voice =>
-          /natural|enhanced|premium|google|microsoft|siri/i.test(voice.name)
-        ) || matchingVoices.find(voice =>
-          voice.lang.toLowerCase() === speechLocale.toLowerCase()
-        ) || matchingVoices[0] || null;
+        utterance.voice = selectAssistantVoice(voices, speechLocale);
         console.info(
           '[AI APPOINTMENT ASSISTANT] Device fallback voice:',
           utterance.voice?.name || 'system default'
@@ -1305,14 +1308,11 @@ export default function VoiceAppointmentAssistant({
       return;
     }
 
-    recognitionRef.current?.stop?.();
-    const recognition = new SpeechRecognition();
-    recognition.lang = speechLocale;
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.onstart = () => setIsListening(true);
-    recognition.onend = () => setIsListening(false);
-    recognition.onerror = () => {
+    stopSpeech();
+    const handleRecognitionError = (error: string) => {
+      const errorKey = assistantRecognitionErrorKey(error);
+      if (!errorKey) return;
+      console.warn('[AI APPOINTMENT ASSISTANT] Recognition failed:', error, 'locale:', speechLocale);
       setIsListening(false);
       const isExpectedServiceName = Boolean(
         !draft.serviceName &&
@@ -1320,24 +1320,37 @@ export default function VoiceAppointmentAssistant({
         draft.date &&
         draft.startTime
       );
-      if (isExpectedServiceName) {
+      if (error === 'no-speech' && isExpectedServiceName) {
         setServicePickerOptions(services);
         setServicePickerOpen(true);
         setPendingQuestion('choose_service');
         addAssistantMessage(t('voiceAppointmentAssistant.askService'), { autoListen: false });
         return;
       }
-      addAssistantMessage(t('voiceAppointmentAssistant.listenError'), { autoListen: false });
+      addAssistantMessage(t(`voiceAppointmentAssistant.${errorKey}`), { autoListen: false });
     };
-    recognition.onresult = (event: any) => {
-      const transcript = event.results?.[0]?.[0]?.transcript?.trim();
-      if (transcript) {
-        setInput(transcript);
-        void submitMessage(transcript);
-      }
-    };
-    recognitionRef.current = recognition;
-    recognition.start();
+    try {
+      const session = createAssistantRecognitionSession(SpeechRecognition, speechLocale, {
+        onStart: () => {
+          if (recognitionRef.current === session) setIsListening(true);
+        },
+        onEnd: () => {
+          if (recognitionRef.current === session) {
+            recognitionRef.current = null;
+            setIsListening(false);
+          }
+        },
+        onError: handleRecognitionError,
+        onResult: transcript => {
+          setInput(transcript);
+          void submitMessage(transcript);
+        }
+      });
+      recognitionRef.current = session;
+      session.start();
+    } catch (error) {
+      handleRecognitionError(error instanceof Error ? error.name : 'unknown');
+    }
   };
   startListeningRef.current = startListening;
 
@@ -1361,8 +1374,7 @@ export default function VoiceAppointmentAssistant({
   };
 
   const selectServiceFromPicker = async (service: AssistantService) => {
-    recognitionRef.current?.stop?.();
-    setIsListening(false);
+    cancelListening();
     setServicePickerOpen(false);
     setPendingQuestion(null);
     const selectedDraft: AssistantDraft = {
@@ -1377,8 +1389,7 @@ export default function VoiceAppointmentAssistant({
   };
 
   const selectConflictResource = async (resource: ConflictResourceOption) => {
-    recognitionRef.current?.stop?.();
-    setIsListening(false);
+    cancelListening();
     const selectedDraft: AssistantDraft = { ...draft };
     if (resource.type === 'staff') selectedDraft.staffId = resource.id;
     if (resource.type === 'room') selectedDraft.roomId = resource.id;
@@ -1390,8 +1401,7 @@ export default function VoiceAppointmentAssistant({
   };
 
   const requestNewServiceFromPicker = () => {
-    recognitionRef.current?.stop?.();
-    setIsListening(false);
+    cancelListening();
     setServicePickerOpen(false);
     setPendingQuestion('name_new_service');
     setDraft(previous => ({
@@ -1468,7 +1478,7 @@ export default function VoiceAppointmentAssistant({
       setServicePickerOpen(false);
       setServicePickerOptions([]);
       setConflictResourceOptions([]);
-      recognitionRef.current?.stop?.();
+      cancelListening();
       stopSpeech();
       setIsListening(false);
     }

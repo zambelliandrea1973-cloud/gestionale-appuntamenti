@@ -6564,6 +6564,11 @@
     "openAriaLabel": "Ouvrir l’assistant vocal de rendez-vous",
     "openTitle": "Assistant vocal de rendez-vous",
     "stopListening": "Arrêter l’écoute",
-    "startListening": "Démarrer l’écoute"
+    "startListening": "Démarrer l’écoute",
+    "listenNoSpeech": "Le navigateur n'a détecté aucun mot. Appuyez sur le microphone et parlez lorsque l'indicateur devient vert, ou écrivez votre demande.",
+    "listenNetworkError": "Le service de reconnaissance vocale du navigateur est inaccessible. Ce n'est pas une erreur de compréhension de l'IA. Vérifiez la connexion ou les restrictions réseau ; vous pouvez écrire votre demande.",
+    "listenPermissionError": "Le navigateur a refusé l'accès au microphone ou au service de reconnaissance vocale. Vérifiez les autorisations du site et du système, ou écrivez votre demande.",
+    "listenCaptureError": "Le navigateur ne peut pas capter le son du microphone. Vérifiez le périphérique d'entrée ou si une autre application l'utilise ; vous pouvez écrire votre demande.",
+    "listenLanguageError": "Le navigateur ne prend pas en charge la reconnaissance vocale dans la langue sélectionnée. Vous pouvez écrire votre demande."
   }
 }

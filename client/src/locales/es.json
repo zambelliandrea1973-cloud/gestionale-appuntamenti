@@ -6564,6 +6564,11 @@
     "openAriaLabel": "Abrir asistente de voz para citas",
     "openTitle": "Asistente de voz para citas",
     "stopListening": "Detener escucha",
-    "startListening": "Iniciar escucha"
+    "startListening": "Iniciar escucha",
+    "listenNoSpeech": "El navegador no ha detectado palabras. Pulsa el micrófono y habla cuando el indicador esté verde, o escribe la solicitud.",
+    "listenNetworkError": "El servicio de reconocimiento de voz del navegador no está disponible. No es un error de comprensión de la IA. Revisa la conexión o los bloqueos de red; puedes escribir la solicitud.",
+    "listenPermissionError": "El navegador ha denegado el acceso al micrófono o al servicio de reconocimiento de voz. Revisa los permisos del sitio y del sistema, o escribe la solicitud.",
+    "listenCaptureError": "El navegador no puede captar el audio del micrófono. Revisa el dispositivo de entrada o si otra aplicación lo está usando; puedes escribir la solicitud.",
+    "listenLanguageError": "El navegador no admite el reconocimiento de voz en el idioma seleccionado. Puedes escribir la solicitud."
   }
 }

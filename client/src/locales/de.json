@@ -6564,6 +6564,11 @@
     "openAriaLabel": "Sprachassistent für Termine öffnen",
     "openTitle": "Sprachassistent für Termine",
     "stopListening": "Zuhören beenden",
-    "startListening": "Zuhören starten"
+    "startListening": "Zuhören starten",
+    "listenNoSpeech": "Der Browser hat keine Wörter erkannt. Drücken Sie das Mikrofon und sprechen Sie, wenn die Anzeige grün wird, oder schreiben Sie Ihre Anfrage.",
+    "listenNetworkError": "Der Spracherkennungsdienst des Browsers ist nicht erreichbar. Dies ist kein Verständnisfehler der KI. Prüfen Sie die Verbindung oder Netzwerksperren; Sie können die Anfrage schreiben.",
+    "listenPermissionError": "Der Browser hat den Zugriff auf das Mikrofon oder den Spracherkennungsdienst verweigert. Prüfen Sie die Website- und Systemberechtigungen oder schreiben Sie Ihre Anfrage.",
+    "listenCaptureError": "Der Browser kann kein Mikrofon-Audio aufnehmen. Prüfen Sie das Eingabegerät oder ob eine andere App es verwendet; Sie können die Anfrage schreiben.",
+    "listenLanguageError": "Der Browser unterstützt keine Spracherkennung in der ausgewählten Sprache. Sie können die Anfrage schreiben."
   }
 }

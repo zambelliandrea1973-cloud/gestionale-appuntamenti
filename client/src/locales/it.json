@@ -6564,6 +6564,11 @@
     "openAriaLabel": "Apri assistente vocale appuntamenti",
     "openTitle": "Assistente vocale appuntamenti",
     "stopListening": "Interrompi ascolto",
-    "startListening": "Avvia ascolto"
+    "startListening": "Avvia ascolto",
+    "listenNoSpeech": "Il browser non ha rilevato parole. Premi il microfono e parla quando l'indicatore diventa verde, oppure scrivi la richiesta.",
+    "listenNetworkError": "Il servizio di riconoscimento vocale del browser non è raggiungibile. Non è un errore di comprensione dell'AI. Controlla la connessione o eventuali blocchi di rete; puoi scrivere la richiesta.",
+    "listenPermissionError": "Il browser ha negato l'accesso al microfono o al servizio di riconoscimento vocale. Controlla i permessi del sito e del sistema, oppure scrivi la richiesta.",
+    "listenCaptureError": "Il browser non riesce ad acquisire l'audio dal microfono. Controlla il dispositivo di ingresso o se un'altra app lo sta usando; puoi scrivere la richiesta.",
+    "listenLanguageError": "Il browser non supporta il riconoscimento vocale nella lingua selezionata. Puoi scrivere la richiesta."
   }
 }

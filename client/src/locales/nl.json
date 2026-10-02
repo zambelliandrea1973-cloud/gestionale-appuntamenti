@@ -6564,6 +6564,11 @@
     "openAriaLabel": "Spraakassistent voor afspraken openen",
     "openTitle": "Spraakassistent voor afspraken",
     "stopListening": "Luisteren stoppen",
-    "startListening": "Luisteren starten"
+    "startListening": "Luisteren starten",
+    "listenNoSpeech": "De browser heeft geen woorden gedetecteerd. Druk op de microfoon en spreek wanneer de indicator groen wordt, of typ je verzoek.",
+    "listenNetworkError": "De spraakherkenningsdienst van de browser is niet bereikbaar. Dit is geen begripsfout van de AI. Controleer de verbinding of netwerkblokkades; je kunt je verzoek typen.",
+    "listenPermissionError": "De browser heeft toegang tot de microfoon of spraakherkenningsdienst geweigerd. Controleer de site- en systeemrechten, of typ je verzoek.",
+    "listenCaptureError": "De browser kan geen microfoongeluid opnemen. Controleer het invoerapparaat of of een andere app het gebruikt; je kunt je verzoek typen.",
+    "listenLanguageError": "De browser ondersteunt geen spraakherkenning in de geselecteerde taal. Je kunt je verzoek typen."
   }
 }

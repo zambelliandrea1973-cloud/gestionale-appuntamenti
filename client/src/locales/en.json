@@ -6564,6 +6564,11 @@
     "openAriaLabel": "Open voice appointment assistant",
     "openTitle": "Voice appointment assistant",
     "stopListening": "Stop listening",
-    "startListening": "Start listening"
+    "startListening": "Start listening",
+    "listenNoSpeech": "The browser detected no words. Press the microphone and speak when the indicator turns green, or type your request.",
+    "listenNetworkError": "The browser's speech recognition service is unreachable. This is not an AI understanding error. Check your connection or network restrictions; you can type your request.",
+    "listenPermissionError": "The browser denied access to the microphone or speech recognition service. Check site and system permissions, or type your request.",
+    "listenCaptureError": "The browser cannot capture microphone audio. Check the input device or whether another app is using it; you can type your request.",
+    "listenLanguageError": "The browser does not support speech recognition in the selected language. You can type your request."
   }
 }

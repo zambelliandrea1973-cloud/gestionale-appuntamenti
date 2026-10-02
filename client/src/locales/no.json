@@ -6564,6 +6564,11 @@
     "openAriaLabel": "Åpne taleassistent for avtaler",
     "openTitle": "Taleassistent for avtaler",
     "stopListening": "Stopp lytting",
-    "startListening": "Start lytting"
+    "startListening": "Start lytting",
+    "listenNoSpeech": "Nettleseren registrerte ingen ord. Trykk på mikrofonen og snakk når indikatoren blir grønn, eller skriv forespørselen.",
+    "listenNetworkError": "Nettleserens talegjenkjenningstjeneste er ikke tilgjengelig. Dette er ikke en forståelsesfeil i KI-en. Sjekk tilkoblingen eller nettverksblokkeringer; du kan skrive forespørselen.",
+    "listenPermissionError": "Nettleseren nektet tilgang til mikrofonen eller talegjenkjenningstjenesten. Sjekk tillatelsene for nettstedet og systemet, eller skriv forespørselen.",
+    "listenCaptureError": "Nettleseren kan ikke ta opp lyd fra mikrofonen. Sjekk inndataenheten eller om en annen app bruker den; du kan skrive forespørselen.",
+    "listenLanguageError": "Nettleseren støtter ikke talegjenkjenning på det valgte språket. Du kan skrive forespørselen."
   }
 }

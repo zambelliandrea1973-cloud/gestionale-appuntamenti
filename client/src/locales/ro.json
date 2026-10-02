@@ -6564,6 +6564,11 @@
     "openAriaLabel": "Deschide asistentul vocal pentru programări",
     "openTitle": "Asistent vocal pentru programări",
     "stopListening": "Oprește ascultarea",
-    "startListening": "Pornește ascultarea"
+    "startListening": "Pornește ascultarea",
+    "listenNoSpeech": "Browserul nu a detectat cuvinte. Apasă microfonul și vorbește când indicatorul devine verde sau scrie cererea.",
+    "listenNetworkError": "Serviciul de recunoaștere vocală al browserului nu este accesibil. Nu este o eroare de înțelegere a AI-ului. Verifică conexiunea sau blocajele de rețea; poți scrie cererea.",
+    "listenPermissionError": "Browserul a refuzat accesul la microfon sau la serviciul de recunoaștere vocală. Verifică permisiunile site-ului și ale sistemului sau scrie cererea.",
+    "listenCaptureError": "Browserul nu poate capta sunetul microfonului. Verifică dispozitivul de intrare sau dacă o altă aplicație îl folosește; poți scrie cererea.",
+    "listenLanguageError": "Browserul nu acceptă recunoașterea vocală în limba selectată. Poți scrie cererea."
   }
 }
