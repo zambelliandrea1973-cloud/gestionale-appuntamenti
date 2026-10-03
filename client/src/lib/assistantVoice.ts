@@ -42,6 +42,19 @@ export interface AssistantRecognitionSession {
   cancel(): void;
 }
 
+// SpeechRecognition results are a cumulative list, not independent messages.
+// Re-read that list so updated indices replace earlier text instead of duplicating it.
+export function assistantFinalTranscript(results: any): string {
+  const segments: string[] = [];
+  for (let index = 0; index < (results?.length || 0); index++) {
+    const result = results[index];
+    if (result?.isFinal === false) continue;
+    const text = result?.[0]?.transcript?.trim();
+    if (text) segments.push(text);
+  }
+  return segments.join(' ');
+}
+
 interface RecognitionLike {
   lang: string;
   continuous: boolean;

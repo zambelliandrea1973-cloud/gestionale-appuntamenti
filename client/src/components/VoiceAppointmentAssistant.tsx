@@ -12,6 +12,7 @@ import { ApiRequestError } from '@/lib/apiError';
 import { AITrialNotice } from './AITrialNotice';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey } from '@/hooks/use-ai-trial-access';
 import {
+  assistantFinalTranscript,
   assistantRecognitionErrorKey,
   selectAssistantVoice,
   type AssistantRecognitionSession
@@ -1339,6 +1340,8 @@ export default function VoiceAppointmentAssistant({
       // server interpreting its completed transcript uses the new AI provider.
       const recognition = new SpeechRecognition();
       let cancelled = false;
+      let failed = false;
+      let transcript = '';
       const session: AssistantRecognitionSession = {
         start: () => recognition.start(),
         stop: () => recognition.stop(),
@@ -1356,19 +1359,23 @@ export default function VoiceAppointmentAssistant({
       };
       recognition.onend = () => {
         if (cancelled) return;
+        cancelled = true;
+        recognition.onstart = recognition.onend = recognition.onerror = recognition.onresult = null;
         if (recognitionRef.current === session) recognitionRef.current = null;
         setIsListening(false);
+        // Hand off only after the browser has finished, without aborting it
+        // on the first result (which may contain only the first segment).
+        if (!failed && transcript) void submitMessage(transcript);
       };
       recognition.onerror = (event: any) => {
-        if (!cancelled) handleRecognitionError(event.error || 'unknown');
+        if (cancelled) return;
+        failed = true;
+        handleRecognitionError(event.error || 'unknown');
       };
       recognition.onresult = (event: any) => {
-        if (cancelled) return;
-        const transcript = event.results?.[0]?.[0]?.transcript?.trim();
-        if (transcript) {
-          setInput(transcript);
-          void submitMessage(transcript);
-        }
+        if (cancelled || failed) return;
+        transcript = assistantFinalTranscript(event.results);
+        if (transcript) setInput(transcript);
       };
       recognitionRef.current = session;
       session.start();

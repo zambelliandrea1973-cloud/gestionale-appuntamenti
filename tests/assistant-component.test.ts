@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import ts from 'typescript';
-import { assistantRecognitionErrorKey } from '../client/src/lib/assistantVoice';
+import { assistantFinalTranscript, assistantRecognitionErrorKey } from '../client/src/lib/assistantVoice';
 import { assistantInterpretationErrorKey } from '../client/src/lib/assistantConversation';
 import { ApiRequestError } from '../client/src/lib/apiError';
 
@@ -63,7 +63,91 @@ test('browser recognition preserves the original Gemini-era settings and transcr
   assert.match(recognition, /new SpeechRecognition\(\)/);
   assert.match(recognition, /recognition\.continuous = false/);
   assert.match(recognition, /recognition\.interimResults = false/);
-  assert.match(recognition, /event\.results\?\.\[0\]\?\.\[0\]\?\.transcript\?\.trim\(\)/);
+  assert.match(recognition, /assistantFinalTranscript\(event\.results\)/);
   assert.match(recognition, /void submitMessage\(transcript\)/);
+  const resultHandler = recognition.slice(recognition.indexOf('recognition.onresult = (event: any) =>'));
+  assert.doesNotMatch(resultHandler, /submitMessage/);
   assert.doesNotMatch(recognition, /silenceMs|waitForSilence|onTranscript|createAssistantRecognitionSession/);
+});
+
+function componentRecognition() {
+  const source = readFileSync(path.join(process.cwd(), 'client/src/components/VoiceAppointmentAssistant.tsx'), 'utf8');
+  // Execute the component's real setup block with a fake native browser object.
+  const start = source.indexOf('      const recognition = new SpeechRecognition();');
+  const end = source.indexOf('      session.start();', start) + '      session.start();'.length;
+  assert.ok(start >= 0 && end > start);
+  const compiled = ts.transpileModule(source.slice(start, end), {
+    compilerOptions: { target: ts.ScriptTarget.ES2022 }
+  }).outputText;
+  const calls: string[] = [];
+  const ref: { current: any } = { current: null };
+  let browser: any;
+  class SpeechRecognition {
+    onstart: any; onend: any; onresult: any; onerror: any;
+    abortCount = 0;
+    constructor() { browser = this; }
+    start() { this.onstart?.(); }
+    stop() { this.onend?.(); }
+    abort() { this.abortCount++; }
+  }
+  new Function('SpeechRecognition', 'speechLocale', 'recognitionRef', 'setIsListening',
+    'setInput', 'submitMessage', 'handleRecognitionError', 'assistantFinalTranscript', compiled)(
+    SpeechRecognition, 'it-IT', ref, () => {},
+    (text: string) => calls.push(`input:${text}`),
+    (text: string) => {
+      assert.equal(ref.current, null, 'Recognition must be released before submitMessage cancels listening');
+      calls.push(`submit:${text}`);
+    },
+    (error: string) => calls.push(`error:${error}`), assistantFinalTranscript
+  );
+  return { browser, ref, calls };
+}
+
+test('actual component waits for native end and sends all final segments exactly once', () => {
+  const { browser, ref, calls } = componentRecognition();
+  const result = browser.onresult;
+  const end = browser.onend;
+  result({ results: [[{ transcript: 'crea' }]] });
+  assert.deepEqual(calls, ['input:crea']);
+  assert.ok(ref.current);
+  assert.equal(browser.abortCount, 0);
+  result({ resultIndex: 1, results: [
+    [{ transcript: 'crea' }], [{ transcript: 'un appuntamento domani alle dieci' }]
+  ] });
+  assert.ok(!calls.some(call => call.startsWith('submit:')));
+  end();
+  end();
+  result({ results: [[{ transcript: 'late callback' }]] });
+  assert.deepEqual(calls.filter(call => call.startsWith('submit:')),
+    ['submit:crea un appuntamento domani alle dieci']);
+  assert.equal(browser.abortCount, 0);
+});
+
+test('actual component replaces a revised result and manual stop submits the completed text', () => {
+  const { browser, ref, calls } = componentRecognition();
+  browser.onresult({ results: [[{ transcript: 'crea' }]] });
+  browser.onresult({ results: [[{ transcript: 'crea un appuntamento' }]] });
+  ref.current.stop();
+  assert.deepEqual(calls.filter(call => call.startsWith('submit:')), ['submit:crea un appuntamento']);
+});
+
+test('actual component never submits buffered speech after cancellation or recognition failure', () => {
+  for (const reason of ['cancel', 'network', 'aborted']) {
+    const { browser, ref, calls } = componentRecognition();
+    const end = browser.onend;
+    const result = browser.onresult;
+    result({ results: [[{ transcript: 'crea' }]] });
+    if (reason === 'cancel') ref.current.cancel();
+    else browser.onerror({ error: reason });
+    end();
+    result({ results: [[{ transcript: 'late' }]] });
+    assert.ok(!calls.some(call => call.startsWith('submit:')), reason);
+  }
+});
+
+test('final transcript ignores interim results and empty alternatives', () => {
+  const interim = Object.assign([{ transcript: 'unfinished' }], { isFinal: false });
+  assert.equal(assistantFinalTranscript([[{ transcript: '  crea  ' }], interim, [], [{ transcript: 'domani' }]]),
+    'crea domani');
+  assert.equal(assistantFinalTranscript(undefined), '');
 });
