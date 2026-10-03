@@ -392,7 +392,7 @@ export async function interpretAppointmentRequest(
 
   return enqueueRequest(async () => {
     const model = getAppointmentGeminiClient().getGenerativeModel({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.8-flash',
       generationConfig: {
         responseMimeType: 'application/json',
         temperature: 0.1

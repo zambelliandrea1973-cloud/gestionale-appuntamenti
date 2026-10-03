@@ -78,7 +78,7 @@ test('the original queued Gemini interpreter works with only the dedicated key, 
     let calls = 0;
     mock.method(GoogleGenerativeAI.prototype, 'getGenerativeModel', function (config) {
       assert.equal(this.apiKey, process.env.GEMINI_APPOINTMENTS_API_KEY);
-      assert.equal(config.model, 'gemini-2.5-flash');
+      assert.equal(config.model, 'gemini-3.8-flash');
       assert.equal(config.generationConfig.responseMimeType, 'application/json');
       return { generateContent: async prompt => {
         calls++;
@@ -115,6 +115,7 @@ test('appointment conversations and existing marketing use different Gemini cred
     mock.method(GoogleGenerativeAI.prototype, 'getGenerativeModel', function (config) {
       credentials.push(this.apiKey);
       const appointment = this.apiKey === process.env.GEMINI_APPOINTMENTS_API_KEY;
+      assert.equal(config.model, appointment ? 'gemini-3.8-flash' : 'gemini-2.5-flash');
       return { generateContent: async prompt => {
         assert.match(prompt, appointment ? /assistente vocale per appuntamenti/ : /esperto di marketing/);
         return { response: { text: () => JSON.stringify(appointment
@@ -134,6 +135,38 @@ test('appointment conversations and existing marketing use different Gemini cred
       GEMINI_API_KEY: 'unit-test-legacy-key',
       GEMINI_APPOINTMENTS_API_KEY: 'unit-test-dedicated-key'
     }
+  });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('the installed SDK sends the supported appointment model and dedicated key using the existing JSON generateContent contract', () => {
+  const result = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', `
+    import assert from 'node:assert/strict';
+    import { mock } from 'node:test';
+    import { interpretAppointmentRequest } from './server/ai-chat.ts';
+    let calls = 0;
+    mock.method(globalThis, 'fetch', async (url, options) => {
+      calls++;
+      assert.equal(String(url), 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent');
+      assert.equal(options.method, 'POST');
+      assert.equal(new Headers(options.headers).get('x-goog-api-key'), process.env.GEMINI_APPOINTMENTS_API_KEY);
+      const body = JSON.parse(options.body);
+      assert.equal(body.generationConfig.responseMimeType, 'application/json');
+      assert.equal(body.generationConfig.temperature, 0.1);
+      assert.match(body.contents[0].parts[0].text, /assistente vocale per appuntamenti/);
+      return new Response(JSON.stringify({
+        candidates: [{ content: { role: 'model', parts: [{ text: JSON.stringify({
+          clientName: 'Cliente Prova', date: '2026-10-04', startTime: '18:00', confirmation: 'unknown'
+        }) }] }, finishReason: 'STOP' }]
+      }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    });
+    const draft = await interpretAppointmentRequest('Cliente Prova domani alle diciotto');
+    assert.equal(calls, 1);
+    assert.equal(draft.clientName, 'Cliente Prova');
+    assert.equal(draft.startTime, '18:00');
+  `], {
+    cwd: process.cwd(), encoding: 'utf8',
+    env: { PATH: process.env.PATH, GEMINI_APPOINTMENTS_API_KEY: 'unit-test-dedicated-key' }
   });
   assert.equal(result.status, 0, result.stderr);
 });
