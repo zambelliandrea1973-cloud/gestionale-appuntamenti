@@ -1,14 +1,13 @@
 import { Router } from 'express';
 import { requireAuth } from '../middleware/authMiddleware';
-import { AppointmentInterpretationError } from '../services/appointmentInterpretationService';
-import { authorizeAppointmentAI } from '../services/aiTrialUsageService';
-import trialRoutes, { sendAITrialError } from './aiTrialRoutes';
+import trialRoutes from './aiTrialRoutes';
 import {
   interpretAppointmentRequest,
   type AppointmentAssistantDraft
 } from '../ai-chat';
 
 const router = Router();
+// Keep shared trial endpoints for the rest of the app; the restored assistant does not use them.
 router.use(trialRoutes);
 
 router.post('/api/ai-appointment-assistant/interpret', requireAuth, async (req, res) => {
@@ -28,24 +27,12 @@ router.post('/api/ai-appointment-assistant/interpret', requireAuth, async (req, 
     if (message.length > 1500) {
       return res.status(400).json({ message: 'Il messaggio è troppo lungo.' });
     }
-    if (JSON.stringify(draft).length > 4000) {
-      return res.status(400).json({ message: 'La bozza è troppo lunga.' });
-    }
 
-    await authorizeAppointmentAI(Number((req.user as { id: number }).id), req.body?.conversationId, 'interpretation');
     const interpretation = await interpretAppointmentRequest(message, draft, language);
     res.json(interpretation);
   } catch (error) {
-    if (sendAITrialError(error, res)) return;
-    if (error instanceof AppointmentInterpretationError) {
-      return res.status(error.httpStatus).json({
-        code: error.code,
-        message: 'Il servizio di comprensione AI non è disponibile in questo momento. Riprova più tardi.'
-      });
-    }
-    console.error('[AI APPOINTMENT ASSISTANT] Unexpected interpretation error');
+    console.error('❌ [AI APPOINTMENT ASSISTANT] Interpretation error:', error);
     res.status(500).json({
-      code: 'AI_ASSISTANT_INTERNAL_ERROR',
       message: 'Non riesco a interpretare la richiesta in questo momento. Riprova.'
     });
   }

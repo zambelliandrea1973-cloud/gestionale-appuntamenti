@@ -1,153 +1,104 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import test from 'node:test';
 import ts from 'typescript';
-import { assistantFinalTranscript, assistantRecognitionErrorKey } from '../client/src/lib/assistantVoice';
-import { assistantInterpretationErrorKey } from '../client/src/lib/assistantConversation';
-import { ApiRequestError } from '../client/src/lib/apiError';
 
-test('the actual appointment assistant component has no unresolved runtime names', () => {
+test('the restored appointment assistant has no unresolved runtime names', () => {
   const root = process.cwd();
-  const configPath = path.join(root, 'tsconfig.json');
-  const config = ts.readConfigFile(configPath, ts.sys.readFile);
+  const config = ts.readConfigFile(path.join(root, 'tsconfig.json'), ts.sys.readFile);
   assert.equal(config.error, undefined);
   const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, root);
   const componentPath = path.join(root, 'client/src/components/VoiceAppointmentAssistant.tsx');
   const program = ts.createProgram([componentPath], { ...parsed.options, incremental: false });
   const component = program.getSourceFile(componentPath);
-  assert.ok(component, 'The component being delivered must exist');
-  // Vite's build transpiles TSX without checking identifiers. A partially merged
-  // component can therefore build successfully but throw on the first send.
+  assert.ok(component);
   const unresolved = program.getSemanticDiagnostics(component)
     .filter(diagnostic => diagnostic.code === 2304 || diagnostic.code === 2552)
     .map(diagnostic => ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'));
-  assert.deepEqual(unresolved, [], 'An unresolved name would freeze the assistant at runtime');
+  assert.deepEqual(unresolved, []);
 });
 
-test('every microphone error has a real message in every supported assistant language', () => {
-  const errors = ['no-speech', 'network', 'not-allowed', 'audio-capture', 'language-not-supported', 'unknown'];
-  for (const language of ['it', 'en', 'de', 'fr', 'es', 'nl', 'no', 'ro', 'ru', 'hi']) {
-    const translations = JSON.parse(readFileSync(path.join(
-      process.cwd(), 'client/src/locales', `${language}.json`
-    ), 'utf8'));
-    for (const error of errors) {
-      const key = assistantRecognitionErrorKey(error)!;
-      const message = translations.voiceAppointmentAssistant?.[key];
-      assert.ok(typeof message === 'string' && message.trim() && !message.includes('[TODO:'),
-        `${language}: missing microphone error message ${key}`);
-    }
-  }
+test('the restored component is the exact historical source, not a reconstruction', () => {
+  const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx');
+  // Pin the recovered pre-migration source so a later change must be deliberate.
+  assert.equal(createHash('sha256').update(source).digest('hex'), '7509485de4a75eea43f80eeed3c7497f221f7fac117017326c0d846ad18ac6e5');
 });
 
-test('every provider diagnosis is translated, preserving diagnostic interpolation', () => {
-  const codes = ['AI_PROVIDER_NOT_CONFIGURED', 'AI_PROVIDER_AUTH_FAILED', 'AI_PROVIDER_QUOTA_EXHAUSTED',
-    'AI_PROVIDER_RATE_LIMITED', 'AI_PROVIDER_ACCESS_DENIED', 'AI_PROVIDER_MODEL_UNAVAILABLE',
-    'AI_PROVIDER_REQUEST_INVALID', 'AI_PROVIDER_CONNECTION_FAILED', 'AI_PROVIDER_TIMEOUT', 'AI_ASSISTANT_INTERNAL_ERROR'];
-  for (const language of ['it', 'en', 'de', 'fr', 'es', 'nl', 'no', 'ro', 'ru', 'hi']) {
-    const translations = JSON.parse(readFileSync(path.join(process.cwd(), 'client/src/locales', `${language}.json`), 'utf8'));
-    for (const code of codes) {
-      const key = assistantInterpretationErrorKey(new ApiRequestError('Service unavailable', 503, code));
-      const message = translations.voiceAppointmentAssistant?.[key];
-      assert.ok(typeof message === 'string' && message.trim() && !message.includes('[TODO:'), `${language}: missing ${key}`);
-      if (['interpretationProviderSetupError', 'interpretationConnectionError', 'interpretationInternalError'].includes(key)) {
-        assert.ok(message.includes('{{code}}'), `${language}: missing diagnostic code interpolation`);
-      }
-    }
-  }
-});
-
-test('browser recognition preserves the original Gemini-era settings and transcript handoff', () => {
-  const source = readFileSync(path.join(process.cwd(), 'client/src/components/VoiceAppointmentAssistant.tsx'), 'utf8');
+test('native recognition preserves original settings and hands the result directly to the original submit flow', () => {
+  const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
   const recognition = source.slice(source.indexOf('  const startListening ='), source.indexOf('  const stopListening ='));
-  assert.match(recognition, /new SpeechRecognition\(\)/);
   assert.match(recognition, /recognition\.continuous = false/);
   assert.match(recognition, /recognition\.interimResults = false/);
-  assert.match(recognition, /assistantFinalTranscript\(event\.results\)/);
   assert.match(recognition, /void submitMessage\(transcript\)/);
-  const resultHandler = recognition.slice(recognition.indexOf('recognition.onresult = (event: any) =>'));
-  assert.doesNotMatch(resultHandler, /submitMessage/);
-  assert.doesNotMatch(recognition, /silenceMs|waitForSilence|onTranscript|createAssistantRecognitionSession/);
-});
-
-function componentRecognition() {
-  const source = readFileSync(path.join(process.cwd(), 'client/src/components/VoiceAppointmentAssistant.tsx'), 'utf8');
-  // Execute the component's real setup block with a fake native browser object.
-  const start = source.indexOf('      const recognition = new SpeechRecognition();');
-  const end = source.indexOf('      session.start();', start) + '      session.start();'.length;
-  assert.ok(start >= 0 && end > start);
+  assert.doesNotMatch(source, /createAssistantRecognitionSession|assistantFinalTranscript|createAssistantTurnController|conversationIdRef|AITrialNotice/);
+  const submit = source.slice(source.indexOf('  const submitMessage ='), source.indexOf('  const startListening ='));
+  assert.doesNotMatch(submit, /cancelListening|recognition\.abort/);
+  const start = source.indexOf('    const recognition = new SpeechRecognition();');
+  const end = source.indexOf('    recognition.start();', start) + '    recognition.start();'.length;
+  assert.ok(start > 0 && end > start);
   const compiled = ts.transpileModule(source.slice(start, end), {
     compilerOptions: { target: ts.ScriptTarget.ES2022 }
   }).outputText;
-  const calls: string[] = [];
+  const submitted: string[] = [];
   const ref: { current: any } = { current: null };
-  let browser: any;
   class SpeechRecognition {
     onstart: any; onend: any; onresult: any; onerror: any;
-    abortCount = 0;
-    constructor() { browser = this; }
     start() { this.onstart?.(); }
-    stop() { this.onend?.(); }
-    abort() { this.abortCount++; }
   }
   new Function('SpeechRecognition', 'speechLocale', 'recognitionRef', 'setIsListening',
-    'setInput', 'submitMessage', 'handleRecognitionError', 'assistantFinalTranscript', compiled)(
-    SpeechRecognition, 'it-IT', ref, () => {},
-    (text: string) => calls.push(`input:${text}`),
-    (text: string) => {
-      assert.equal(ref.current, null, 'Recognition must be released before submitMessage cancels listening');
-      calls.push(`submit:${text}`);
-    },
-    (error: string) => calls.push(`error:${error}`), assistantFinalTranscript
+    'setInput', 'submitMessage', 'draft', 'services', 'setServicePickerOptions',
+    'setServicePickerOpen', 'setPendingQuestion', 'addAssistantMessage', 't', compiled)(
+    SpeechRecognition, 'it-IT', ref, () => {}, () => {},
+    (text: string) => submitted.push(text), {}, [], () => {}, () => {}, () => {}, () => {}, (key: string) => key
   );
-  return { browser, ref, calls };
-}
-
-test('actual component waits for native end and sends all final segments exactly once', () => {
-  const { browser, ref, calls } = componentRecognition();
-  const result = browser.onresult;
-  const end = browser.onend;
-  result({ results: [[{ transcript: 'crea' }]] });
-  assert.deepEqual(calls, ['input:crea']);
-  assert.ok(ref.current);
-  assert.equal(browser.abortCount, 0);
-  result({ resultIndex: 1, results: [
-    [{ transcript: 'crea' }], [{ transcript: 'un appuntamento domani alle dieci' }]
-  ] });
-  assert.ok(!calls.some(call => call.startsWith('submit:')));
-  end();
-  end();
-  result({ results: [[{ transcript: 'late callback' }]] });
-  assert.deepEqual(calls.filter(call => call.startsWith('submit:')),
-    ['submit:crea un appuntamento domani alle dieci']);
-  assert.equal(browser.abortCount, 0);
+  ref.current.onresult({ results: [[{ transcript: '  crea un appuntamento domani alle dieci  ' }]] });
+  assert.deepEqual(submitted, ['crea un appuntamento domani alle dieci']);
 });
 
-test('actual component replaces a revised result and manual stop submits the completed text', () => {
-  const { browser, ref, calls } = componentRecognition();
-  browser.onresult({ results: [[{ transcript: 'crea' }]] });
-  browser.onresult({ results: [[{ transcript: 'crea un appuntamento' }]] });
-  ref.current.stop();
-  assert.deepEqual(calls.filter(call => call.startsWith('submit:')), ['submit:crea un appuntamento']);
-});
-
-test('actual component never submits buffered speech after cancellation or recognition failure', () => {
-  for (const reason of ['cancel', 'network', 'aborted']) {
-    const { browser, ref, calls } = componentRecognition();
-    const end = browser.onend;
-    const result = browser.onresult;
-    result({ results: [[{ transcript: 'crea' }]] });
-    if (reason === 'cancel') ref.current.cancel();
-    else browser.onerror({ error: reason });
-    end();
-    result({ results: [[{ transcript: 'late' }]] });
-    assert.ok(!calls.some(call => call.startsWith('submit:')), reason);
+test('interpretation and speech no longer require the new trial conversation token', () => {
+  const interpretation = readFileSync('server/routes/aiAppointmentAssistantRoutes.ts', 'utf8');
+  const speech = readFileSync('server/routes/assistantSpeechRoutes.ts', 'utf8');
+  assert.match(interpretation, /router\.use\(trialRoutes\)/, 'Keep shared access endpoints for marketing and the rest of the app');
+  for (const route of [interpretation, speech]) {
+    assert.match(route, /requireAuth/);
+    assert.doesNotMatch(route, /authorizeAppointmentAI|conversationId|sendAITrialError/);
   }
+  assert.match(speech, /rateLimit/);
 });
 
-test('final transcript ignores interim results and empty alternatives', () => {
-  const interim = Object.assign([{ transcript: 'unfinished' }], { isFinal: false });
-  assert.equal(assistantFinalTranscript([[{ transcript: '  crea  ' }], interim, [], [{ transcript: 'domani' }]]),
-    'crea domani');
-  assert.equal(assistantFinalTranscript(undefined), '');
+test('the original queued Gemini interpreter works without an OpenAI key', () => {
+  const result = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', `
+    import assert from 'node:assert/strict';
+    import { mock } from 'node:test';
+    import { GoogleGenerativeAI } from '@google/generative-ai';
+    import { interpretAppointmentRequest } from './server/ai-chat.ts';
+    let calls = 0;
+    mock.method(GoogleGenerativeAI.prototype, 'getGenerativeModel', config => {
+      assert.equal(config.model, 'gemini-2.5-flash');
+      assert.equal(config.generationConfig.responseMimeType, 'application/json');
+      return { generateContent: async prompt => {
+        calls++;
+        assert.match(prompt, /modulo di comprensione di un assistente vocale/);
+        assert.match(prompt, /Cliente Prova/);
+        return { response: { text: () => JSON.stringify({
+          clientName: 'Cliente Prova', date: '2026-10-04', startTime: '10:00',
+          serviceName: null, durationMinutes: null, servicePrice: null,
+          notes: null, confirmation: 'unknown'
+        }) } };
+      } };
+    });
+    const interpreted = await interpretAppointmentRequest('domani alle dieci', { clientName: 'Cliente Prova' }, 'it');
+    assert.equal(calls, 1);
+    assert.equal(interpreted.clientName, 'Cliente Prova');
+    assert.equal(interpreted.startTime, '10:00');
+    assert.equal(interpreted.servicePrice, null);
+    assert.equal(process.env.OPENAI_API_KEY, undefined);
+  `], {
+    cwd: process.cwd(), encoding: 'utf8',
+    env: { PATH: process.env.PATH, GEMINI_API_KEY: 'unit-test-placeholder-not-a-real-key' }
+  });
+  assert.equal(result.status, 0, result.stderr);
 });
