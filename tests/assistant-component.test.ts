@@ -69,14 +69,15 @@ test('interpretation and speech no longer require the new trial conversation tok
   assert.match(speech, /rateLimit/);
 });
 
-test('the original queued Gemini interpreter works without an OpenAI key', () => {
+test('the original queued Gemini interpreter works with only the dedicated key, without legacy or OpenAI keys', () => {
   const result = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', `
     import assert from 'node:assert/strict';
     import { mock } from 'node:test';
     import { GoogleGenerativeAI } from '@google/generative-ai';
     import { interpretAppointmentRequest } from './server/ai-chat.ts';
     let calls = 0;
-    mock.method(GoogleGenerativeAI.prototype, 'getGenerativeModel', config => {
+    mock.method(GoogleGenerativeAI.prototype, 'getGenerativeModel', function (config) {
+      assert.equal(this.apiKey, process.env.GEMINI_APPOINTMENTS_API_KEY);
       assert.equal(config.model, 'gemini-2.5-flash');
       assert.equal(config.generationConfig.responseMimeType, 'application/json');
       return { generateContent: async prompt => {
@@ -95,10 +96,61 @@ test('the original queued Gemini interpreter works without an OpenAI key', () =>
     assert.equal(interpreted.clientName, 'Cliente Prova');
     assert.equal(interpreted.startTime, '10:00');
     assert.equal(interpreted.servicePrice, null);
+    assert.equal(process.env.GEMINI_API_KEY, undefined);
     assert.equal(process.env.OPENAI_API_KEY, undefined);
   `], {
     cwd: process.cwd(), encoding: 'utf8',
-    env: { PATH: process.env.PATH, GEMINI_API_KEY: 'unit-test-placeholder-not-a-real-key' }
+    env: { PATH: process.env.PATH, GEMINI_APPOINTMENTS_API_KEY: 'unit-test-placeholder-not-a-real-key' }
+  });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('appointment conversations and existing marketing use different Gemini credentials', () => {
+  const result = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', `
+    import assert from 'node:assert/strict';
+    import { mock } from 'node:test';
+    import { GoogleGenerativeAI } from '@google/generative-ai';
+    import { interpretAppointmentRequest, generateMarketingCampaign } from './server/ai-chat.ts';
+    const credentials = [];
+    mock.method(GoogleGenerativeAI.prototype, 'getGenerativeModel', function (config) {
+      credentials.push(this.apiKey);
+      const appointment = this.apiKey === process.env.GEMINI_APPOINTMENTS_API_KEY;
+      return { generateContent: async prompt => {
+        assert.match(prompt, appointment ? /assistente vocale per appuntamenti/ : /esperto di marketing/);
+        return { response: { text: () => JSON.stringify(appointment
+          ? { clientName: 'Cliente Prova', confirmation: 'unknown' }
+          : { title: 'Campagna prova', message: 'Messaggio prova' }) } };
+      } };
+    });
+    const appointment = await interpretAppointmentRequest('Cliente Prova');
+    const campaign = await generateMarketingCampaign('campagna prova');
+    assert.equal(appointment.clientName, 'Cliente Prova');
+    assert.equal(campaign.title, 'Campagna prova');
+    assert.deepEqual(credentials, [process.env.GEMINI_APPOINTMENTS_API_KEY, process.env.GEMINI_API_KEY]);
+  `], {
+    cwd: process.cwd(), encoding: 'utf8',
+    env: {
+      PATH: process.env.PATH,
+      GEMINI_API_KEY: 'unit-test-legacy-key',
+      GEMINI_APPOINTMENTS_API_KEY: 'unit-test-dedicated-key'
+    }
+  });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('a missing dedicated credential does not silently charge the existing Gemini project', () => {
+  const result = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', `
+    import assert from 'node:assert/strict';
+    import { mock } from 'node:test';
+    import { GoogleGenerativeAI } from '@google/generative-ai';
+    import { interpretAppointmentRequest } from './server/ai-chat.ts';
+    mock.method(GoogleGenerativeAI.prototype, 'getGenerativeModel', () => {
+      throw new Error('No provider call should occur without the dedicated credential');
+    });
+    await assert.rejects(interpretAppointmentRequest('domani alle dieci'), /GEMINI_APPOINTMENTS_API_KEY is required/);
+  `], {
+    cwd: process.cwd(), encoding: 'utf8',
+    env: { PATH: process.env.PATH, GEMINI_API_KEY: 'unit-test-legacy-key' }
   });
   assert.equal(result.status, 0, result.stderr);
 });

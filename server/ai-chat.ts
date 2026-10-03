@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 let genAI: GoogleGenerativeAI | null = null;
+let appointmentGenAI: GoogleGenerativeAI | null = null;
 
 function getGeminiClient(): GoogleGenerativeAI {
   if (!genAI) {
@@ -10,6 +11,17 @@ function getGeminiClient(): GoogleGenerativeAI {
     genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   }
   return genAI;
+}
+
+function getAppointmentGeminiClient(): GoogleGenerativeAI {
+  if (!appointmentGenAI) {
+    const apiKey = process.env.GEMINI_APPOINTMENTS_API_KEY;
+    if (!apiKey) {
+      throw new Error('Appointment AI service is not configured: GEMINI_APPOINTMENTS_API_KEY is required');
+    }
+    appointmentGenAI = new GoogleGenerativeAI(apiKey);
+  }
+  return appointmentGenAI;
 }
 
 const requestQueue: Array<{
@@ -365,7 +377,7 @@ function getTodayInRome(): string {
 }
 
 /**
- * Uses the same Gemini client and queue as the existing AI assistant, but with
+ * Uses a dedicated Gemini credential and the existing request queue, with
  * a constrained, read-only prompt. This function only extracts appointment
  * information; all database writes remain behind the existing REST endpoints.
  */
@@ -374,12 +386,12 @@ export async function interpretAppointmentRequest(
   currentDraft: AppointmentAssistantDraft = {},
   language = 'it'
 ): Promise<AppointmentAssistantInterpretation> {
-  if (!process.env.GEMINI_API_KEY) {
-    throw new Error('AI service is not configured');
+  if (!process.env.GEMINI_APPOINTMENTS_API_KEY) {
+    throw new Error('Appointment AI service is not configured: GEMINI_APPOINTMENTS_API_KEY is required');
   }
 
   return enqueueRequest(async () => {
-    const model = getGeminiClient().getGenerativeModel({
+    const model = getAppointmentGeminiClient().getGenerativeModel({
       model: 'gemini-2.5-flash',
       generationConfig: {
         responseMimeType: 'application/json',
