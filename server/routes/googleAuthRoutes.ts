@@ -16,6 +16,7 @@ import {
   completeOAuthTransaction,
   failOAuthTransaction
 } from '../services/oauthTransactionService';
+import { completePrivateGoogleOAuth } from '../services/privateAppointmentGoogle';
 
 // Validation schema for contact import
 const contactsImportSchema = z.object({
@@ -69,7 +70,7 @@ function normalizeConfiguredOrigin(value: string | undefined): string | null {
   }
 }
 
-function getRedirectUri(): string {
+export function getRedirectUri(): string {
   // PRIORITY 1: If we are on Sliplane (production domain)
   const productionOrigin = normalizeConfiguredOrigin(process.env.PRODUCTION_DOMAIN);
   if (productionOrigin) {
@@ -292,6 +293,10 @@ router.get('/start', async (req, res) => {
 // Callback that receives the authorization code
 router.get('/callback', async (req, res) => {
   const { code, state } = req.query;
+  if (typeof state === 'string' && state.startsWith('private-')) {
+    try { return await completePrivateGoogleOAuth(req, res); }
+    catch { return res.status(503).send('Collegamento privato non disponibile. Riprova dal gestionale.'); }
+  }
   if (typeof state !== 'string') {
     return res.status(400).send('Invalid Google authorization response.');
   }

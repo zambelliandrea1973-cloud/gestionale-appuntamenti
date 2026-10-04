@@ -1,6 +1,7 @@
 import { logger } from '../utils/logger';
 import { db } from '../db';
 import { users, appointments, googleCalendarEvents, clients, services, googleCalendarSyncTokens, googleAccounts, staff } from '../../shared/schema';
+import { getPrivateCalendarIds } from './privateAppointmentAccess';
 import { eq, and, gte, lt, sql } from 'drizzle-orm';
 import { storage } from '../storage';
 import { calendar_v3, google } from 'googleapis';
@@ -268,8 +269,9 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     // Questo esclude calendari condivisi da altri utenti (accessRole 'reader'/'writer')
     // che appartengono ad altri account Google — evita cross-contaminazione tra account.
     // Calendari 'freeBusyReader' esclusi comunque (non espongono dettagli eventi).
+    const reservedPrivateCalendars = await getPrivateCalendarIds();
     const accessibleCalendars = allCalendars.filter((cal: any) =>
-      cal.id && cal.accessRole === 'owner'
+      cal.id && cal.accessRole === 'owner' && !reservedPrivateCalendars.has(cal.id)
     );
 
     console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} da sincronizzare (tutti tranne freeBusyReader)`);
@@ -1867,9 +1869,10 @@ export async function registerCalendarWatches(userId: number): Promise<void> {
 
   let calendarList: any[];
   try {
+    const reservedPrivateCalendars = await getPrivateCalendarIds();
     const res = await calendar.calendarList.list();
     calendarList = (res.data.items || []).filter(
-      (cal: any) => cal.id && ['owner', 'writer'].includes(cal.accessRole || '')
+      (cal: any) => cal.id && ['owner', 'writer'].includes(cal.accessRole || '') && !reservedPrivateCalendars.has(cal.id)
     );
   } catch (err) {
     console.error(`❌ [WATCH] Cannot list calendars for user ${userId}:`, err);

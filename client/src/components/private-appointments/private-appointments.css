@@ -1,0 +1,19 @@
+.pa-field {
+  display: block;
+  width: 100%;
+  min-height: 2.45rem;
+  border: 1px solid #dce2da;
+  border-radius: .55rem;
+  background: #fffefa;
+  padding: .55rem .7rem;
+  color: #39483c;
+  font: inherit;
+  font-size: .875rem;
+  outline: none;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.pa-field:focus {
+  border-color: #879875;
+  box-shadow: 0 0 0 3px rgba(111, 132, 88, .13);
+}
+.pa-field::placeholder { color: #a0a9a0; }

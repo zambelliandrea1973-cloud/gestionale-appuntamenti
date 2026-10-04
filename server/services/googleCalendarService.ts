@@ -7,6 +7,7 @@ import { db } from '../db';
 import { appointments, clients, googleCalendarEvents, services } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { authInfo } from '../routes/googleAuthRoutes';
+import { getPrivateCalendarIds } from './privateAppointmentAccess';
 
 // Interfaccia per the token OAuth
 interface OAuth2Token {
@@ -400,7 +401,8 @@ export async function getAvailableCalendars(): Promise<calendar_v3.Schema$Calend
     
     // Get the list of calendars
     const response = await calendar.calendarList.list();
-    return response.data.items || [];
+    const reserved = await getPrivateCalendarIds();
+    return (response.data.items || []).filter(item => !item.id || !reserved.has(item.id));
   } catch (error) {
     console.error('Error retrieving available calendars:', error);
     return [];

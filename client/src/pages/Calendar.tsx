@@ -18,6 +18,7 @@ import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
 import AppointmentModal from "@/components/AppointmentModal";
 import { SyncGoogleButton } from "@/components/SyncGoogleButton";
+import PrivateAgenda from "@/components/private-appointments/PrivateAgenda";
 import {
   VOICE_APPOINTMENT_DRAFT_EVENT,
   VOICE_APPOINTMENT_DRAFT_STORAGE_KEY,
@@ -342,6 +343,7 @@ export default function Calendar() {
 
   return (
     <div className={view === "month" ? "space-y-0 sm:space-y-6" : "space-y-6"}>
+      <PrivateAgenda selectedDate={selectedDate} view={view} searchQuery={searchQuery} />
       {(googleNeedsReauth || googleNotConnected) && (
         <Alert
           variant="destructive"

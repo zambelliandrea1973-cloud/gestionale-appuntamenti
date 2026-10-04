@@ -15,6 +15,7 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { getISOWeek } from "date-fns";
 import MobileMonthGrid from "./MobileMonthGrid";
+import { usePrivateAppointments } from "@/components/private-appointments/PrivateAppointmentsProvider";
 
 interface MonthViewProps {
   selectedDate: Date;
@@ -330,6 +331,7 @@ export default function MonthView({
   const [newApptDay, setNewApptDay] = useState<Date | null>(null);
   const [moreDay, setMoreDay] = useState<Date | null>(null);
   const formOpenedAtRef = useRef(0);
+  const privateAppointments = usePrivateAppointments();
 
   useEffect(() => { setViewDate(selectedDate); }, [selectedDate]);
 
@@ -540,9 +542,14 @@ export default function MonthView({
           getEventColor={getEventColor}
           onDateSelect={onDateSelect}
           onNewAppointment={() => {
+            if (privateAppointments.mode === 'free') {
+              privateAppointments.openCreate('manual');
+              return;
+            }
             setNewApptDay(selectedDate);
             formOpenedAtRef.current = Date.now();
           }}
+          showNewAppointmentAction={false}
         />
       </div>
       <div className="hidden sm:flex bg-white rounded-lg shadow-md overflow-hidden mb-6 flex-col">
@@ -636,7 +643,7 @@ export default function MonthView({
       )}
 
       {!newApptDay && !editingId && (
-        <div className="hidden sm:block">
+        <div>
         <FloatingActionButton
           onClick={() => {
             setNewApptDay(viewDate);

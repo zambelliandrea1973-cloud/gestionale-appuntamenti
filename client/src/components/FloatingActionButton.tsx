@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Plus, Move, X } from "lucide-react";
+import { usePrivateAppointments } from "@/components/private-appointments/PrivateAppointmentsProvider";
 
 interface FloatingActionButtonProps {
   onClick: () => void;
@@ -43,9 +44,11 @@ export function FloatingActionButton({
   onCancel,
 }: FloatingActionButtonProps) {
   const { t } = useTranslation();
+  const privateAppointments = usePrivateAppointments();
   const posKey   = storageKey;
   const scaleKey = `${storageKey}-scale`;
   const scaleLocked = variant === 'primary';
+  const shadowColor = variant === 'primary' ? 'rgba(34,197,94,0.55)' : 'rgba(107,114,128,0.55)';
 
   const [pos, setPos] = useState<{ x: number; y: number }>(
     () => loadSaved<{ x: number; y: number } | null>(posKey, null) ?? getDefaultPos()
@@ -107,41 +110,40 @@ export function FloatingActionButton({
     });
 
     const viewportPosition = clampToViewport(x, y);
-    const voiceTrigger = document.querySelector<HTMLElement>(VOICE_TRIGGER_SELECTOR);
-    if (!voiceTrigger) return viewportPosition;
+    const obstacles = [
+      document.querySelector<HTMLElement>(VOICE_TRIGGER_SELECTOR),
+      document.querySelector<HTMLElement>('[data-private-mode-toggle]'),
+    ].filter((element): element is HTMLElement => element instanceof HTMLElement)
+      .map(element => element.getBoundingClientRect());
+    if (!obstacles.length) return viewportPosition;
 
-    const voiceRect = voiceTrigger.getBoundingClientRect();
-    const overlapsVoiceButton = (candidate: { x: number; y: number }) => {
-      const rect = getVisualRect(candidate.x, candidate.y);
+    const overlapsObstacle = (candidate: { x: number; y: number }, obstacle: DOMRect) => {
+      const visualRect = getVisualRect(candidate.x, candidate.y);
       return (
-        rect.right + FLOATING_ACTION_GAP > voiceRect.left &&
-        rect.left - FLOATING_ACTION_GAP < voiceRect.right &&
-        rect.bottom + FLOATING_ACTION_GAP > voiceRect.top &&
-        rect.top - FLOATING_ACTION_GAP < voiceRect.bottom
+        visualRect.right + FLOATING_ACTION_GAP > obstacle.left &&
+        visualRect.left - FLOATING_ACTION_GAP < obstacle.right &&
+        visualRect.bottom + FLOATING_ACTION_GAP > obstacle.top &&
+        visualRect.top - FLOATING_ACTION_GAP < obstacle.bottom
       );
     };
 
-    if (!overlapsVoiceButton(viewportPosition)) return viewportPosition;
+    if (!obstacles.some(rect=>overlapsObstacle(viewportPosition,rect))) return viewportPosition;
 
-    // Prefer keeping the manual action in the same bottom row, immediately
-    // left of the voice action. If that space is unavailable, try above it.
-    const alternatives = [
-      clampToViewport(
-        voiceRect.left - FLOATING_ACTION_GAP - baseWidth * currentScale,
-        voiceRect.top
-      ),
-      clampToViewport(
-        viewportPosition.x,
-        voiceRect.top - FLOATING_ACTION_GAP - baseHeight * currentScale
-      ),
-      clampToViewport(
-        viewportPosition.x,
-        voiceRect.bottom + FLOATING_ACTION_GAP + baseHeight * (currentScale - 1)
-      ),
-    ];
-
-    return alternatives.find(candidate => !overlapsVoiceButton(candidate))
-      || alternatives[0];
+    // Prefer the same bottom row, to the left of BOTH the slider and voice action.
+    // Only move above/below if that complete row cannot fit the viewport.
+    const leftmost = Math.min(...obstacles.map(obstacle => obstacle.left));
+    const voice = obstacles[0];
+    const rowPosition = clampToViewport(
+      leftmost - FLOATING_ACTION_GAP - baseWidth * currentScale,
+      voice.top + (voice.height - baseHeight * currentScale) / 2,
+    );
+    const alternatives=[rowPosition,...obstacles.flatMap(obstacle=>[
+      clampToViewport(obstacle.left-FLOATING_ACTION_GAP-baseWidth*currentScale,obstacle.top),
+      clampToViewport(viewportPosition.x,obstacle.top-FLOATING_ACTION_GAP-baseHeight*currentScale),
+      clampToViewport(viewportPosition.x,obstacle.bottom+FLOATING_ACTION_GAP+baseHeight*(currentScale-1)),
+    ])];
+    return alternatives.find(candidate=>!obstacles.some(obstacle=>overlapsObstacle(candidate,obstacle)))
+      || alternatives[0]
   }, []);
 
   // After mount (and on resize): clamp position to the viewport and keep the
@@ -205,10 +207,14 @@ export function FloatingActionButton({
       isDraggingRef.current = false;
       setIsDraggingUI(false);
     } else if (!hasDragged.current) {
-      onClick();
+      if (variant === 'primary' && privateAppointments.mode === 'free') {
+        privateAppointments.openCreate('manual');
+      } else {
+        onClick();
+      }
     }
     hasDragged.current = false;
-  }, [clamp, posKey, onClick]);
+  }, [clamp, posKey, onClick, variant, privateAppointments.mode, privateAppointments.openCreate]);
 
   const onPointerCancel = useCallback(() => {
     if (longPressTimer.current) {
@@ -291,6 +297,7 @@ export function FloatingActionButton({
       }}
     >
       <Button
+        aria-label={isDraggingUI ? t('fab.dragging') : variant === 'primary' && privateAppointments.mode === 'free' ? 'Nuovo impegno privato' : text}
         className={`appointment-action-label ${variant === 'primary' ? 'appointment-action-pulse-green' : ''} rounded-full px-4 text-xs font-extrabold flex items-center gap-2 select-none transition-colors duration-300 ${
           isDraggingUI
             ? activeClass + ' opacity-80'
@@ -299,7 +306,9 @@ export function FloatingActionButton({
         style={{ pointerEvents: 'none' }}
       >
         {isDraggingUI ? <Move className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
-        {isDraggingUI ? t('fab.dragging') : text}
+        <span className={variant === 'primary' ? 'hidden sm:inline' : undefined}>
+          {isDraggingUI ? t('fab.dragging') : variant === 'primary' && privateAppointments.mode === 'free' ? 'Nuovo impegno privato' : text}
+        </span>
       </Button>
       {onCancel && !isDraggingUI && (
         <button

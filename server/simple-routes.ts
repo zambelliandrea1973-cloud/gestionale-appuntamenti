@@ -1,5 +1,6 @@
 // @ts-nocheck
 import type { Express } from "express";
+import privateAppointmentRoutes from './routes/privateAppointmentRoutes';
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import path from "path";
@@ -251,6 +252,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use(checkTrialExpired);
   
   app.use(collaboratorRoutes);
+  app.use(privateAppointmentRoutes);
   app.use(treatmentRoomRoutes);
   app.use(clientNoteRoutes);
   app.use(subscriptionPlanRoutes);
