@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import test from 'node:test';
 import ts from 'typescript';
 import './assistant-speech.test';
+import './assistant-trial-conversation.test';
+import './ai-trial-policy.test';
 
 test('the restored appointment assistant has no unresolved runtime names', () => {
   const root = process.cwd();
@@ -22,16 +23,15 @@ test('the restored appointment assistant has no unresolved runtime names', () =>
   assert.deepEqual(unresolved, []);
 });
 
-test('the historical assistant changes only the approved Gemini audio format and timeout fallback', () => {
+test('trial quotas reserve a conversation before interpretation and expose translated subscription actions', () => {
   const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
-  // Reverse only the explicitly approved audio compatibility changes.
-  const historicalSource = source
-    .replace('    let speechTimeout: number | undefined;\n', '')
-    .replaceAll('      window.clearTimeout(speechTimeout);\n', '')
-    .replace("    // A stalled connection must not leave the assistant silent indefinitely.\n    speechTimeout = window.setTimeout(() => playBrowserFallback('central-speech-timeout'), 22_000);\n    controller.signal.addEventListener('abort', () => window.clearTimeout(speechTimeout), { once: true });\n", '')
-    .replace('      if (controller.signal.aborted || sequence !== speechSequenceRef.current) return;\n      const audioUrl', '      if (sequence !== speechSequenceRef.current) return;\n      const audioUrl')
-    .replace("        response.headers.get('Content-Type')?.split(';')[0].trim() !== 'audio/mpeg' ||\n", '');
-  assert.equal(createHash('sha256').update(historicalSource).digest('hex'), '7509485de4a75eea43f80eeed3c7497f221f7fac117017326c0d846ad18ac6e5');
+  assert.match(source, /trialConversationRef\.current\.ensure/);
+  assert.match(source, /conversationId: trialConversationRef\.current\.getId\(\)/);
+  assert.ok(source.indexOf('await trialConversationRef.current.ensure') < source.indexOf("apiRequest('POST', '/api/ai-appointment-assistant/interpret'"));
+  assert.match(source, /<AITrialNotice feature="appointments" activeConversation=\{conversationActive\} blocked=\{trialBlocked\}/);
+  const notice = readFileSync('client/src/components/AITrialNotice.tsx', 'utf8');
+  assert.match(notice, /href="\/subscribe"/);
+  assert.match(notice, /t\('aiTrial\.subscribe'\)/);
 });
 
 test('native recognition preserves original settings and hands the result directly to the original submit flow', () => {
@@ -40,7 +40,7 @@ test('native recognition preserves original settings and hands the result direct
   assert.match(recognition, /recognition\.continuous = false/);
   assert.match(recognition, /recognition\.interimResults = false/);
   assert.match(recognition, /void submitMessage\(transcript\)/);
-  assert.doesNotMatch(source, /createAssistantRecognitionSession|assistantFinalTranscript|createAssistantTurnController|conversationIdRef|AITrialNotice/);
+  assert.doesNotMatch(source, /createAssistantRecognitionSession|assistantFinalTranscript|createAssistantTurnController|conversationIdRef/);
   const submit = source.slice(source.indexOf('  const submitMessage ='), source.indexOf('  const startListening ='));
   assert.doesNotMatch(submit, /cancelListening|recognition\.abort/);
   const start = source.indexOf('    const recognition = new SpeechRecognition();');
@@ -65,14 +65,18 @@ test('native recognition preserves original settings and hands the result direct
   assert.deepEqual(submitted, ['crea un appuntamento domani alle dieci']);
 });
 
-test('interpretation and speech no longer require the new trial conversation token', () => {
+test('interpretation and Gemini speech both enforce server-side trial authorization before spending', () => {
   const interpretation = readFileSync('server/routes/aiAppointmentAssistantRoutes.ts', 'utf8');
   const speech = readFileSync('server/routes/assistantSpeechRoutes.ts', 'utf8');
   assert.match(interpretation, /router\.use\(trialRoutes\)/, 'Keep shared access endpoints for marketing and the rest of the app');
   for (const route of [interpretation, speech]) {
     assert.match(route, /requireAuth/);
-    assert.doesNotMatch(route, /authorizeAppointmentAI|conversationId|sendAITrialError/);
+    assert.match(route, /await authorizeAppointmentAI/);
+    assert.match(route, /req\.body\?\.conversationId/);
+    assert.match(route, /sendAITrialError\(error, res\)/);
   }
+  assert.ok(interpretation.indexOf('await authorizeAppointmentAI') < interpretation.indexOf('await interpretAppointmentRequest'));
+  assert.ok(speech.indexOf('await authorizeAppointmentAI') < speech.indexOf('await synthesizeAssistantSpeechStream'));
   assert.match(speech, /rateLimit/);
 });
 

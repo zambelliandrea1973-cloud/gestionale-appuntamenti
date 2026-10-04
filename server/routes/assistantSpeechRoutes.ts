@@ -2,6 +2,8 @@ import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import { pipeline } from 'node:stream/promises';
 import { requireAuth } from '../middleware/authMiddleware';
+import { sendAITrialError } from './aiTrialRoutes';
+import { authorizeAppointmentAI } from '../services/aiTrialUsageService';
 import {
   assistantSpeechConfig,
   synthesizeAssistantSpeechStream
@@ -46,6 +48,9 @@ router.post(
     res.once('close', abortUpstream);
 
     try {
+      await authorizeAppointmentAI(
+        Number((req.user as { id: number }).id), req.body?.conversationId, 'speech', text.length
+      );
       const audio = await synthesizeAssistantSpeechStream(
         text,
         language,
@@ -65,6 +70,7 @@ router.post(
       return;
     } catch (error) {
       if (upstreamController.signal.aborted) return;
+      if (sendAITrialError(error, res)) return;
       const reason = error instanceof Error && error.message.startsWith('Gemini speech')
         ? error.message
         : 'Request failed or timed out';

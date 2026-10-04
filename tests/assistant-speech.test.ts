@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import ts from 'typescript';
+import { ApiRequestError } from '../client/src/lib/apiError';
 
 function runService(code: string, dedicatedKey = true) {
   const result = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', `
@@ -111,7 +112,7 @@ test('Gemini speech respects cancellation and limits upstream waiting', () => {
   `);
 });
 
-function createSpeechHarness(fetchResponse: () => Promise<Response>, rejectPlayback = false) {
+function createSpeechHarness(fetchResponse: () => Promise<Response>, rejectPlayback = false, activeConversation = true) {
   const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
   const start = source.indexOf('  const speak =');
   const end = source.indexOf('  const addAssistantMessage =', start);
@@ -159,10 +160,14 @@ function createSpeechHarness(fetchResponse: () => Promise<Response>, rejectPlayb
   };
   const speak = new Function('window', 'SpeechSynthesisUtterance', 'Audio', 'MediaSource',
     'URL', 'fetch', 'stopSpeech', 'speechSequenceRef', 'speechRequestRef', 'speechAudioRef',
-    'speechAudioUrlRef', 'speechUtteranceRef', 'speechLocale', `${compiled}; return speak;`)(
+    'speechAudioUrlRef', 'speechUtteranceRef', 'speechLocale',
+    'aiBlockedRef', 'trialConversationRef', 'trialAccess', 'handleTrialFailure', 'ApiRequestError',
+    `${compiled}; return speak;`)(
     win, class { constructor(public text: string) {} }, Audio, MediaSource,
     { createObjectURL: () => 'blob:test', revokeObjectURL() {} },
-    fetchResponse, stopSpeech, sequence, request, audio, audioUrl, utterance, 'it-IT'
+    fetchResponse, stopSpeech, sequence, request, audio, audioUrl, utterance, 'it-IT',
+    { current: false }, { current: { isActive: () => activeConversation, getId: () => 'test-conversation-token' } },
+    { unlimited: false }, () => null, ApiRequestError
   );
   return { speak, utterances, audioInstances, timers, stopSpeech, streams: () => streams };
 }
@@ -196,6 +201,14 @@ test('connection and provider failures automatically speak the same text with th
     assert.equal(completions, 1);
     assert.equal(h.timers.size, 0);
   }
+});
+
+test('opening a trial assistant or speaking its greeting does not spend Gemini audio or a conversation', async () => {
+  const h = createSpeechHarness(async () => { assert.fail('No paid audio before the first user message'); }, false, false);
+  await h.speak('Come posso aiutarti?');
+  assert.equal(h.utterances.length, 1);
+  assert.equal(h.audioInstances.length, 0);
+  assert.equal(h.timers.size, 0);
 });
 
 test('playback rejection and stalled connections use device speech; cancelling does not restart it', async () => {
