@@ -1,13 +1,32 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
+import { usePersonalSpace } from '@/components/personal-space/PersonalSpaceProvider';
 
 export default function AppointmentModeSwitch() {
   const [mode, setMode] = useAppointmentMode();
+  const space = usePersonalSpace();
   const { t } = useTranslation();
   const personal = mode === 'personal';
+  useEffect(() => {
+    if (personal && space.profiles?.multi && !space.unlocked) {
+      space.requestAccess(undefined, { onCancel: () => setMode('work') });
+    }
+  }, [personal, space.profiles?.multi, space.unlocked, space.requestAccess, setMode]);
+  const changeMode = () => {
+    if (personal) {
+      void space.lock();
+      setMode('work');
+      return;
+    }
+    setMode('personal');
+    if (space.profiles?.multi && !space.unlocked) {
+      space.requestAccess(undefined, { onCancel: () => setMode('work') });
+    }
+  };
   return <button type="button" role="switch" aria-checked={personal}
     aria-label={t('personalAppointments.switchLabel', 'Modalità impegni personali')}
-    onClick={() => setMode(personal ? 'work' : 'personal')}
+    onClick={changeMode}
     className="h-12 shrink-0 flex items-center gap-1.5 rounded-full border border-[#dde3d8] bg-[#f7f8f5] px-2 text-[#57634f] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
     <span aria-hidden="true" className={`flex w-[31px] h-[19px] rounded-full p-[2px] transition-colors ${personal ? 'bg-primary' : 'bg-[#bdc5b6]'}`}>
       <span className={`h-[15px] w-[15px] rounded-full bg-white shadow transition-transform ${personal ? 'translate-x-[12px]' : ''}`} />

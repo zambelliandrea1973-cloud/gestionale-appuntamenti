@@ -10,11 +10,11 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Users, UserPlus, Edit, Trash2, Phone, Mail, Award, Lock } from "lucide-react";
+import { Users, UserPlus, Edit, Trash2, Phone, Mail, Award, Lock, KeyRound } from "lucide-react";
 import { useCapabilities } from "@/hooks/use-capabilities";
 import { UpgradePrompt } from "@/components/UpgradePrompt";
 import { spaceApi } from "@/components/personal-space/api";
-import { PERSONAL_SPACE_PROFILES_KEY } from "@/components/personal-space/PersonalSpaceProvider";
+import { PERSONAL_SPACE_PROFILES_KEY, usePersonalSpace } from "@/components/personal-space/PersonalSpaceProvider";
 
 interface Collaborator {
   id: number;
@@ -30,6 +30,7 @@ interface Collaborator {
 export default function StaffCollaboratorsPage() {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const personalSpace = usePersonalSpace();
   const { hasCapability, getUpgradeMessage } = useCapabilities();
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
   const [showAddDialog, setShowAddDialog] = useState(false);
@@ -228,6 +229,11 @@ export default function StaffCollaboratorsPage() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {collaborators.map((collaborator: Collaborator) => (
+          (() => {
+            const identity = personalSpace.profiles?.identities.find(row => row.identityId === collaborator.id);
+            const passwordProtected = identity?.passwordConfigured === true || (identity?.configured === true && identity.passwordConfigured !== false);
+            const canConfigurePersonal = !!identity && !passwordProtected && (identity.passwordConfigured === false || identity.configured === false);
+            return (
           <Card key={collaborator.id} className="relative">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
@@ -261,6 +267,38 @@ export default function StaffCollaboratorsPage() {
                 )}
               </div>
 
+              <div className="mt-4 rounded-lg border border-[#dce3d8] bg-[#f7f8f5] p-3">
+                <div className="flex items-start gap-2">
+                  <KeyRound className="mt-0.5 h-4 w-4 shrink-0 text-[#61776a]" />
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-slate-800">Spazio personale</p>
+                    <p className="mt-0.5 text-xs text-slate-600">
+                      {passwordProtected
+                        ? 'Password già configurata. Non è visibile e non può essere sovrascritta da qui.'
+                        : identity?.configured === false || identity?.passwordConfigured === false
+                          ? 'Facoltativo: configura una password per questo profilo.'
+                          : personalSpace.isLoading
+                            ? 'Verifica del profilo…'
+                            : 'Profilo personale non ancora disponibile.'}
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  variant={passwordProtected ? "outline" : "secondary"}
+                  size="sm"
+                  className="mt-2 w-full"
+                  disabled={!canConfigurePersonal}
+                  onClick={() => personalSpace.requestAccess(collaborator.id, {
+                    configureOnly: true,
+                    identityName: `${collaborator.firstName} ${collaborator.lastName}`,
+                    onComplete: () => toast({ title: 'Password personale configurata', description: 'L’accesso resta bloccato. Il collaboratore potrà sbloccarlo con la propria password.' }),
+                  })}
+                >
+                  <Lock className="mr-1.5 h-3.5 w-3.5" />
+                  {passwordProtected ? 'Protetto' : 'Configura password personale'}
+                </Button>
+              </div>
               <div className="flex justify-end gap-2 mt-4">
                 <Button variant="outline" size="sm" onClick={() => handleEdit(collaborator)} aria-label={t('common.edit')}>
                   <Edit className="h-4 w-4" />
@@ -277,6 +315,8 @@ export default function StaffCollaboratorsPage() {
               </div>
             </CardContent>
           </Card>
+            );
+          })()
         ))}
       </div>
 

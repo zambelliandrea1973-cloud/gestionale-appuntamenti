@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { personalRequest } from '@/components/personal-space/api';
 import { usePersonalSpace } from '@/components/personal-space/PersonalSpaceProvider';
+import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { personalAppointmentForCalendar, type PersonalAppointmentRecord } from '../../../shared/personalAppointments';
 
 // Keep the personal feed in the appointment query subtree: existing calendar
@@ -17,11 +18,13 @@ export function notifyPersonalAppointmentSaved(date: string, showDay = false) {
 }
 export function usePersonalCalendarAppointments(workAppointments: any[], startDate?: string, endDate = startDate) {
   const space = usePersonalSpace();
+  const [mode] = useAppointmentMode();
+  const showPersonalDetails = mode === 'personal' && space.unlocked;
   const profileId = space.access?.profile.id;
   const own = useQuery<PersonalAppointmentRecord[]>({
     queryKey: personalAppointmentsQueryKey(profileId),
     queryFn: () => personalRequest<PersonalAppointmentRecord[]>(''),
-    enabled: space.unlocked,
+    enabled: showPersonalDetails,
     staleTime: 0,
   });
   const busy = useQuery<any[]>({
@@ -40,10 +43,10 @@ export function usePersonalCalendarAppointments(workAppointments: any[], startDa
     ...(Array.isArray(workAppointments) ? workAppointments : []),
     ...(busy.data || []).filter((row: any) =>
       (!startDate || (row.date >= startDate && row.date <= (endDate || startDate))) &&
-      !(space.unlocked ? own.data || [] : []).some(record => record.id === row.id)
+      !(showPersonalDetails ? own.data || [] : []).some(record => record.id === row.id)
     ).map(row => personalAppointmentForCalendar({ ...row, userId: 0,
       isPersonalBusy: true, title: 'Occupato', location: '', notes: '' })),
-    ...(space.unlocked ? own.data || [] : []).filter(record => !startDate || (record.date >= startDate && record.date <= (endDate || startDate))).map(personalAppointmentForCalendar),
-  ], [workAppointments, own.data, busy.data, startDate, endDate, space.unlocked]);
+    ...(showPersonalDetails ? own.data || [] : []).filter(record => !startDate || (record.date >= startDate && record.date <= (endDate || startDate))).map(personalAppointmentForCalendar),
+  ], [workAppointments, own.data, busy.data, startDate, endDate, showPersonalDetails]);
   return { appointments, error: own.error || busy.error, isLoading: own.isLoading || busy.isLoading };
 }

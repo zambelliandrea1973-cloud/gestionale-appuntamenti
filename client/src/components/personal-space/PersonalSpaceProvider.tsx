@@ -7,7 +7,8 @@ import { spaceApi, setSpaceExpiredHandler, setSpaceToken, getSpaceToken, type Sp
 
 export const PERSONAL_SPACE_PROFILES_KEY = ['/api/personal-appointments/space/profiles'] as const;
 const ACCESS_KEY = ['/api/personal-appointments/space/access'] as const;
-type SpaceContextValue = { profiles?: SpaceProfiles; access?: SpaceAccess; isLoading: boolean; unlocked: boolean; requestAccess: () => void; lock: () => Promise<void>; refresh: () => void };
+type AccessOptions = { force?: boolean; configureOnly?: boolean; identityName?: string; onCancel?: () => void; onComplete?: () => void };
+type SpaceContextValue = { profiles?: SpaceProfiles; access?: SpaceAccess; isLoading: boolean; unlocked: boolean; requestAccess: (identityId?: number, options?: AccessOptions) => void; lock: () => Promise<void>; refresh: () => void };
 const PersonalSpaceContext = createContext<SpaceContextValue | null>(null);
 export const usePersonalSpace = () => {
   const value = useContext(PersonalSpaceContext);
@@ -24,6 +25,10 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
   const [identityId, setIdentityId] = useState<number | undefined>();
   const [profileName, setProfileName] = useState('');
   const [password, setPassword] = useState('');
+  const [configureOnly, setConfigureOnly] = useState(false);
+  const [cancelAction, setCancelAction] = useState<(() => void) | null>(null);
+  const [completeAction, setCompleteAction] = useState<(() => void) | null>(null);
+  const requestInProgress = useRef(false);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const profilesQuery = useQuery({ queryKey: [...PERSONAL_SPACE_PROFILES_KEY, accountKey], queryFn: spaceApi.profiles, retry: 1, staleTime: 30_000, refetchInterval: 30_000 });
@@ -83,10 +88,40 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
     window.addEventListener('personal-space-profile-change', handle);
     return () => window.removeEventListener('personal-space-profile-change', handle);
   }, [lock]);
-  const requestAccess = useCallback(() => {
-    if (unlocked) return;
-    setPrompt(true); setError('');
-  }, [unlocked]);
+  const requestAccess = useCallback(async (targetIdentityId?: number, options: AccessOptions = {}) => {
+    if (prompt || requestInProgress.current) return;
+    requestInProgress.current = true;
+    let profiles = profilesQuery.data;
+    if (!profiles) {
+      try { profiles = (await profilesQuery.refetch()).data; } catch { profiles = undefined; }
+    }
+    // Solo access is automatic: never expose profile/password recognition UI there.
+    if (!profiles?.multi) { requestInProgress.current = false; return; }
+    const target = profiles.identities.find(identity => identity.identityId === targetIdentityId);
+    if (options.configureOnly && (!target || (target.passwordConfigured !== false && target.configured !== false))) { requestInProgress.current = false; return; }
+    // Unlock is accepted before /access finishes loading. Do not let either
+    // mode-selector effect reopen the password form during that interval.
+    if ((unlocked || (tokenReady && !!getSpaceToken() && !accessQuery.isError)) &&
+        !options.force && targetIdentityId == null) { requestInProgress.current = false; return; }
+    if (unlocked || options.force) await lock();
+    setConfigureOnly(options.configureOnly === true);
+    setCancelAction(() => options.onCancel || null);
+    setCompleteAction(() => options.onComplete || null);
+    setError('');
+    setPassword('');
+    if (targetIdentityId != null) {
+      const shouldEnroll = options.configureOnly || !target?.configured || target?.passwordConfigured === false;
+      setIdentityId(shouldEnroll ? targetIdentityId : undefined);
+      setProfileId(target?.profileId);
+      setProfileName(options.identityName || target?.name || '');
+    } else {
+      setIdentityId(undefined);
+      setProfileId(undefined);
+      setProfileName('');
+    }
+    setPrompt(true);
+    requestInProgress.current = false;
+  }, [prompt, profilesQuery.data, profilesQuery.refetch, unlocked, tokenReady, accessQuery.isError, lock]);
   useEffect(() => {
     const handle = () => requestAccess();
     window.addEventListener('personal-space-request', handle);
@@ -98,13 +133,27 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
     try {
       const selected = profilesQuery.data?.profiles.find(profile => profile.id === profileId);
       const enrollIdentity = profilesQuery.data?.identities.find(identity => identity.identityId === identityId);
-      const result = enrollIdentity && (!selected || !enrollIdentity.configured || (enrollIdentity.profileId === selected.id && enrollIdentity.passwordConfigured === false))
-        ? await spaceApi.enroll({ identityId: enrollIdentity.identityId, name: profileName.trim() || enrollIdentity.name, password })
+      const shouldEnroll = identityId != null && (configureOnly || !selected || !enrollIdentity?.configured || (enrollIdentity.profileId === selected.id && enrollIdentity.passwordConfigured === false));
+      const result = shouldEnroll && identityId != null
+        ? await spaceApi.enroll({ identityId, name: profileName.trim() || enrollIdentity?.name || 'Profilo personale', password })
         : selected ? await spaceApi.unlock({ profileId: selected.id, password }) : null;
       if (!result) throw new Error('Seleziona il tuo profilo.');
-      setSpaceToken(result.token); setProfileId(result.profile.id); setTokenReady(true);
-      purge(); setPrompt(false); setPassword('');
-      await client.invalidateQueries({ queryKey: ACCESS_KEY });
+      if (configureOnly) {
+        setSpaceToken(result.token);
+        try { await spaceApi.lock(); } catch { /* enrollment succeeded; local access is still discarded */ }
+        setSpaceToken(null); setTokenReady(false); setProfileId(undefined); purge();
+        setPrompt(false); setPassword('');
+        requestInProgress.current = false;
+        await client.invalidateQueries({ queryKey: PERSONAL_SPACE_PROFILES_KEY });
+        completeAction?.();
+      } else {
+        setSpaceToken(result.token); setProfileId(result.profile.id); setTokenReady(true);
+        purge(); setPrompt(false); setPassword('');
+        requestInProgress.current = false;
+        await client.invalidateQueries({ queryKey: ACCESS_KEY });
+        completeAction?.();
+      }
+      setCancelAction(null); setCompleteAction(null);
     } catch (failure) { setError(failure instanceof Error ? failure.message : 'Accesso non riuscito.'); }
     finally { setBusy(false); }
   }
@@ -113,23 +162,28 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
     {children}
     {prompt && <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/45 p-4" role="presentation">
       <section role="dialog" aria-modal="true" aria-labelledby="personal-space-title" className="w-full max-w-md rounded-2xl border border-slate-200 bg-[#fbfaf6] p-6 shadow-2xl">
-        <div className="mb-4 flex items-start gap-3"><span className="rounded-xl bg-teal-100 p-2 text-teal-800"><LockKeyhole className="h-5 w-5" /></span><div><h2 id="personal-space-title" className="text-lg font-semibold text-slate-900">Spazio personale</h2><p className="text-sm text-slate-600">I tuoi impegni restano privati; ai colleghi compare solo “Occupato”.</p></div></div>
+        <div className="mb-4 flex items-start gap-3"><span className="rounded-xl bg-teal-100 p-2 text-teal-800"><LockKeyhole className="h-5 w-5" /></span><div><h2 id="personal-space-title" className="text-lg font-semibold text-slate-900">{configureOnly ? 'Configura lo spazio personale' : 'Spazio personale'}</h2><p className="text-sm text-slate-600">{configureOnly ? `Crea una password facoltativa per ${profileName || 'questo collaboratore'}. Non verrà mostrata né modificata in seguito.` : 'I tuoi impegni restano privati; ai colleghi compare solo “Occupato”.'}</p></div></div>
         <form className="space-y-3" onSubmit={submitAccess}>
           <label className="block text-sm font-medium">Profilo
-            <select className="mt-1 h-10 w-full rounded-md border border-slate-300 bg-white px-3" value={identityId != null ? `identity:${identityId}` : profileId ?? ''} onChange={event => {
+            <select disabled={configureOnly} className="mt-1 h-10 w-full rounded-md border border-slate-300 bg-white px-3 disabled:opacity-70" value={identityId != null ? `identity:${identityId}` : profileId ?? ''} onChange={event => {
               const value = event.target.value;
-              if (value.startsWith('identity:')) { const next = Number(value.slice(9)); setIdentityId(next); setProfileId(profilesQuery.data?.identities.find(row => row.identityId === next)?.profileId); }
+              if (value.startsWith('identity:')) { const next = Number(value.slice(9)); setIdentityId(next); setProfileId(profilesQuery.data?.identities.find(row => row.identityId === next)?.profileId); setProfileName(profilesQuery.data?.identities.find(row => row.identityId === next)?.name || ''); }
               else { setIdentityId(undefined); setProfileId(Number(value)); }
             }}>
-              <option value="">{profilesQuery.isLoading ? 'Caricamento profili…' : 'Seleziona profilo'}</option>{profilesQuery.data?.profiles.map(profile => <option key={profile.id} value={profile.id}>{profile.name}</option>)}
+              <option value="">{profilesQuery.isLoading ? 'Caricamento profili…' : 'Seleziona profilo'}</option>
+              {profilesQuery.data?.profiles.filter(profile => {
+                const identity = profilesQuery.data?.identities.find(row => row.identityId === profile.identityId);
+                return !(identity && (identity.passwordConfigured === false || identity.configured === false));
+              }).map(profile => <option key={profile.id} value={profile.id}>{profile.name}</option>)}
               {profilesQuery.data?.identities.filter(identity => !identity.configured || identity.passwordConfigured === false).map(identity => <option key={`identity-${identity.identityId}`} value={`identity:${identity.identityId}`}>{identity.name} · configura accesso</option>)}
+              {identityId != null && !profilesQuery.data?.identities.some(row => row.identityId === identityId) && <option value={`identity:${identityId}`}>{profileName || 'Collaboratore'} · configura accesso</option>}
             </select>
           </label>
           {profilesQuery.isError && <div className="rounded-lg bg-rose-50 p-3 text-sm text-rose-800"><p>Impossibile caricare i profili.</p><Button type="button" variant="outline" size="sm" className="mt-2" onClick={() => void profilesQuery.refetch()}>Riprova</Button></div>}
-          {identityId != null && <label className="block text-sm font-medium">Nome profilo<Input value={profileName} onChange={event => setProfileName(event.target.value)} placeholder={profilesQuery.data?.identities.find(row => row.identityId === identityId)?.name || 'Nome profilo'} /></label>}
+          {identityId != null && !configureOnly && <label className="block text-sm font-medium">Nome profilo<Input value={profileName} onChange={event => setProfileName(event.target.value)} placeholder={profilesQuery.data?.identities.find(row => row.identityId === identityId)?.name || 'Nome profilo'} /></label>}
           <label className="block text-sm font-medium">{identityId != null ? 'Crea password personale (almeno 10 caratteri)' : 'Password personale'}<Input autoFocus required minLength={identityId != null ? 10 : undefined} type="password" autoComplete={identityId != null ? 'new-password' : 'current-password'} value={password} onChange={event => setPassword(event.target.value)} /></label>
           {error && <p role="alert" className="text-sm text-rose-700">{error}</p>}
-          <div className="flex justify-end gap-2 pt-2"><Button type="button" variant="outline" onClick={() => setPrompt(false)}>Annulla</Button><Button type="submit" disabled={busy || (identityId == null && !profileId) || !password}>{busy ? 'Verifica…' : identityId != null ? 'Configura e apri' : 'Apri spazio'}</Button></div>
+          <div className="flex justify-end gap-2 pt-2"><Button type="button" variant="outline" onClick={() => { requestInProgress.current = false; setPrompt(false); setPassword(''); cancelAction?.(); setCancelAction(null); setCompleteAction(null); }}>Annulla</Button><Button type="submit" disabled={busy || (identityId == null && !profileId) || !password}>{busy ? 'Verifica…' : configureOnly ? 'Imposta password' : identityId != null ? 'Configura e apri' : 'Apri spazio'}</Button></div>
         </form>
         <p className="mt-4 flex items-center gap-2 border-t pt-3 text-xs text-slate-500"><ShieldCheck className="h-4 w-4 shrink-0" />L’accesso scade quando blocchi lo spazio o cambi profilo.</p>
       </section>
