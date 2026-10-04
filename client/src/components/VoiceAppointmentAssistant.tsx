@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import AppointmentModeSwitch from './AppointmentModeSwitch';
 import PersonalVoiceAppointmentAssistant from './PersonalVoiceAppointmentAssistant';
+import { createAssistantRecognition } from '@/lib/assistantRecognition';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { apiRequest, queryClient } from '@/lib/queryClient';
@@ -1285,14 +1286,15 @@ function ProfessionalVoiceAppointmentAssistant({
       return;
     }
 
-    recognitionRef.current?.stop?.();
-    const recognition = new SpeechRecognition();
-    recognition.lang = speechLocale;
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.onstart = () => setIsListening(true);
-    recognition.onend = () => setIsListening(false);
-    recognition.onerror = () => {
+    recognitionRef.current?.cancel?.();
+    stopSpeech();
+    recognitionRef.current = createAssistantRecognition({
+      Recognition: SpeechRecognition,
+      language: speechLocale,
+      onListening: setIsListening,
+      onTranscript: setInput,
+      onComplete: transcript => { void submitMessage(transcript); },
+      onError: () => {
       setIsListening(false);
       const isExpectedServiceName = Boolean(
         !draft.serviceName &&
@@ -1308,21 +1310,13 @@ function ProfessionalVoiceAppointmentAssistant({
         return;
       }
       addAssistantMessage(t('voiceAppointmentAssistant.listenError'), { autoListen: false });
-    };
-    recognition.onresult = (event: any) => {
-      const transcript = event.results?.[0]?.[0]?.transcript?.trim();
-      if (transcript) {
-        setInput(transcript);
-        void submitMessage(transcript);
-      }
-    };
-    recognitionRef.current = recognition;
-    recognition.start();
+      },
+    });
   };
   startListeningRef.current = startListening;
 
   const stopListening = () => {
-    recognitionRef.current?.stop?.();
+    recognitionRef.current?.finish?.();
     setIsListening(false);
   };
 

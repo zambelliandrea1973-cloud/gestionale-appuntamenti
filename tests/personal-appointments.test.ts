@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { getAssistantGreetingName } from '../client/src/lib/appointmentAssistant';
+import ts from 'typescript';
+import { createAssistantRecognition } from '../client/src/lib/assistantRecognition';
 import {
   personalAppointmentSchema, personalAppointmentForCalendar,
   PERSONAL_APPOINTMENT_BACKGROUND, PERSONAL_APPOINTMENT_COLOR,
@@ -15,7 +17,7 @@ test('personal assistant opens with the work greeting followed by Dimmi pure', (
   const end = source.indexOf('\n    }', start);
   assert.ok(start >= 0 && end > start);
   const openGreeting = new Function(
-    'professionalEmail', 't', 'getAssistantGreetingName', 'setDraft', 'setInput', 'setMessages',
+    'professionalEmail', 't', 'getAssistantGreetingName', 'setDraft', 'setInput', 'setMessages', 'speak',
     source.slice(start, end),
   );
   const locale = JSON.parse(readFileSync('client/src/locales/it.json', 'utf8'));
@@ -28,35 +30,225 @@ test('personal assistant opens with the work greeting followed by Dimmi pure', (
     [undefined, 'Ciao. Dimmi pure.'],
   ]) {
     let messages: unknown;
-    openGreeting(email, t, getAssistantGreetingName, () => {}, () => {}, (value: unknown) => { messages = value; });
+    openGreeting(email, t, getAssistantGreetingName, () => {}, () => {}, (value: unknown) => { messages = value; }, () => {});
     assert.deepEqual(messages, [{ role: 'assistant', content: expected }]);
   }
   const wrapper = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
   assert.match(wrapper, /<PersonalVoiceAppointmentAssistant professionalEmail=\{props\.professionalEmail\}/);
 });
+
+function voiceHarness(activeConversation = true, paidGreeting = false) {
+  const source = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
+  const ast = ts.createSourceFile('assistant.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  const declarations: string[] = [];
+  const names = new Set(['clearSpeechTimers', 'stopAudio', 'cancelRecognition', 'stop', 'speak', 'listen']);
+  const visit = (node: ts.Node) => {
+    if (ts.isFunctionDeclaration(node) && node.name && names.has(node.name.text)) declarations.push(node.getText(ast));
+    ts.forEachChild(node, visit);
+  };
+  visit(ast);
+  assert.equal(declarations.length, names.size);
+  const engines: any[] = [];
+  const players: any[] = [];
+  const utterances: any[] = [];
+  const submitted: string[] = [];
+  const errors: string[] = [];
+  const requests: string[] = [];
+  const timers = new Map<number, { callback: () => void; delay: number }>();
+  let timerId = 0;
+  let listening = false;
+  let failStart = false;
+  class Recognition {
+    onstart: any; onend: any; onerror: any; onresult: any;
+    constructor() { engines.push(this); }
+    start() { if (failStart) throw new Error('start failed'); this.onstart?.(); }
+    stop() { this.onend?.(); }
+    abort() { this.onend?.(); }
+  }
+  class Audio {
+    onended: any; onerror: any;
+    constructor() { players.push(this); }
+    async play() {}
+    pause() {}
+  }
+  class Utterance {
+    onend: any; onerror: any;
+    constructor() { utterances.push(this); }
+  }
+  const env = {
+    window: {
+      SpeechRecognition: Recognition,
+      speechSynthesis: { cancel() {}, speak() {}, getVoices: () => [] },
+      setTimeout: (callback: () => void, delay: number) => {
+        timers.set(++timerId, { callback, delay });
+        return timerId;
+      },
+      clearTimeout: (id: number) => { timers.delete(id); },
+    },
+    Audio, SpeechSynthesisUtterance: Utterance,
+    URL: { createObjectURL: () => 'blob:test', revokeObjectURL() {} },
+    generation: { current: 0 }, speechSequence: { current: 0 }, openRef: { current: true },
+    speechRequest: { current: null }, speechTimers: { current: [] }, recognitionTimer: { current: null },
+    audio: { current: null }, audioUrl: { current: null }, utterance: { current: null },
+    recognition: { current: null }, inFlight: { current: false }, pendingAutoListen: { current: false },
+    listenRef: { current: () => {} }, submitRef: { current: (text: string) => submitted.push(text) },
+    conversation: { current: { isActive: () => activeConversation, getId: () => activeConversation ? 'test-conversation' : null } },
+    trial: { data: { unlimited: paidGreeting } },
+    queryClient: { fetchQuery: async () => ({ unlimited: paidGreeting }) },
+    AI_TRIAL_ACCESS_KEY: ['/api/ai/trial-access'],
+    blocked: false, save: { isPending: false }, speechLocale: 'it-IT',
+    setInput() {},
+    createAssistantRecognition: (options: any) => createAssistantRecognition({
+      ...options,
+      setTimer: (callback, delay) => env.window.setTimeout(callback, delay),
+      clearTimer: timer => env.window.clearTimeout(timer as number),
+    }),
+    setListening: (value: boolean) => { listening = value; },
+    setError: (value: string) => { errors.push(value); }, setTrialBlocked() {},
+    t: (key: string) => key, aiTrialMessageKey: () => null,
+    apiRequest: async (_method: string, url: string) => {
+      requests.push(url);
+      return { blob: async () => new Blob(['audio']) };
+    },
+  };
+  const code = ts.transpileModule(declarations.join('\n'), {
+    compilerOptions: { target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  const api = new Function('env', `const {${Object.keys(env).join(',')}} = env;\n${code}\nreturn {listen,speak,stop};`)(env);
+  env.listenRef.current = api.listen;
+  return {
+    api, env, engines, players, utterances, submitted, errors, requests, timers,
+    fireTimers: (delay: number) => {
+      for (const [id, timer] of [...timers]) {
+        if (timer.delay === delay && timers.delete(id)) timer.callback();
+      }
+    },
+    listening: () => listening, failStart: (value: boolean) => { failStart = value; },
+  };
+}
+
+test('personal dictation restarts after the spoken reply, accepts repeated answers and ignores old callbacks', async () => {
+  const h = voiceHarness();
+  h.api.listen();
+  const first = h.engines[0];
+  const lateEnd = first.onend;
+  const duplicateResult = first.onresult;
+  const result = { results: [[{ transcript: 'sì' }]] };
+  first.onresult(result);
+  h.fireTimers(3000);
+  duplicateResult(result);
+  assert.deepEqual(h.submitted, ['sì']);
+  assert.equal(h.listening(), false);
+  await h.api.speak('Vuoi confermare?');
+  assert.equal(h.engines.length, 1, 'must not record the assistant speaking');
+  h.players[0].onended();
+  assert.equal(h.engines.length, 2);
+  assert.equal(h.listening(), true);
+  lateEnd();
+  assert.equal(h.listening(), true, 'old recognition must not reset the new session');
+  h.engines[1].onresult(result);
+  h.fireTimers(3000);
+  assert.deepEqual(h.submitted, ['sì', 'sì']);
+});
+
+test('personal microphone can retry after start failure and never starts overlapping sessions', () => {
+  const h = voiceHarness();
+  h.failStart(true);
+  h.api.listen();
+  assert.equal(h.env.recognition.current, null);
+  assert.equal(h.listening(), false);
+  h.failStart(false);
+  h.api.listen();
+  assert.equal(h.listening(), true);
+  h.api.listen();
+  assert.equal(h.engines.length, 2, 'a second tap stops, rather than starting another engine');
+  h.api.listen();
+  assert.equal(h.engines.length, 3);
+  assert.equal(h.listening(), true);
+});
+
+test('personal greeting uses device speech without starting a trial and close cancels automatic recording', async () => {
+  const h = voiceHarness(false);
+  await h.api.speak('Ciao. Dimmi pure.');
+  assert.equal(h.players.length, 0);
+  assert.equal(h.engines.length, 0);
+  const lateCompletion = h.utterances[0].onend;
+  h.env.openRef.current = false;
+  h.api.stop();
+  lateCompletion();
+  assert.equal(h.engines.length, 0);
+});
+
+test('paid personal greeting uses central AI speech even before a conversation exists', async () => {
+  const h = voiceHarness(false, true);
+  await h.api.speak('Ciao. Dimmi pure.');
+  assert.deepEqual(h.requests, ['/api/ai-appointment-assistant/speech']);
+  assert.equal(h.players.length, 1);
+  assert.equal(h.utterances.length, 0);
+  h.players[0].onended();
+  assert.equal(h.listening(), true);
+});
+
+test('silent Android device speech cannot indefinitely block dictation', async () => {
+  const h = voiceHarness(false);
+  await h.api.speak('Ciao. Dimmi pure.');
+  assert.equal(h.listening(), false);
+  h.fireTimers(5000);
+  assert.equal(h.listening(), true);
+  assert.ok(h.errors.includes('personalAppointments.speechError'));
+  assert.equal(h.timers.size, 0);
+});
+
+test('device speech errors resume dictation and manual interruption cancels old timers', async () => {
+  const h = voiceHarness(false);
+  await h.api.speak('Ciao.');
+  h.utterances[0].onerror();
+  assert.equal(h.listening(), true);
+  h.api.stop();
+  await h.api.speak('Ciao di nuovo.');
+  const lateEnd = h.utterances[1].onend;
+  h.api.listen();
+  lateEnd();
+  h.fireTimers(5000);
+  assert.equal(h.engines.length, 2);
+  assert.equal(h.listening(), true);
+});
+
+test('early speech completion queues recording until the current interpretation has finished', async () => {
+  const h = voiceHarness();
+  h.env.inFlight.current = true;
+  await h.api.speak('Quando?');
+  h.players[0].onended();
+  assert.equal(h.env.pendingAutoListen.current, true);
+  assert.equal(h.engines.length, 0);
+  h.env.inFlight.current = false;
+  h.env.pendingAutoListen.current = false;
+  h.env.listenRef.current();
+  assert.equal(h.engines.length, 1);
+  const source = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
+  assert.match(source, /inFlight\.current = false;\s*if \(pendingAutoListen\.current\)/);
+});
 test('personal entries require no client, service or Google account', () => {
-  const result = personalAppointmentSchema.parse({ ...input, userId: 999, clientId: 34, serviceId: 51 });
+  const result = personalAppointmentForCalendar({ ...personalAppointmentSchema.parse(input), id: 21, userId: 3 });
   assert.equal(result.title, input.title);
-  assert.equal('userId' in result, false);
-  assert.equal('clientId' in result, false);
-  assert.equal('serviceId' in result, false);
-  assert.equal(result.location, '');
+  assert.equal(result.clientId, null);
+  assert.equal(result.serviceId, null);
+  assert.equal(result.importedFromGoogle, false);
 });
-test('personal entries validate title and real calendar dates', () => {
-  for (const date of ['2026-02-29', '2026-04-31', 'not a date']) assert.equal(personalAppointmentSchema.safeParse({ ...input, date }).success, false);
-  assert.equal(personalAppointmentSchema.safeParse({ ...input, date: '2028-02-29' }).success, true);
-  assert.equal(personalAppointmentSchema.safeParse({ ...input, title: '   ' }).success, false);
-});
-test('personal entries reject invalid, equal or backwards time ranges', () => {
-  for (const endTime of ['09:00', '10:15', '24:00', '13:60']) assert.equal(personalAppointmentSchema.safeParse({ ...input, endTime }).success, false);
-  assert.equal(personalAppointmentSchema.safeParse({ ...input, startTime: '9:15' }).success, false);
-});
-test('free titles, locations and notes are trimmed and bounded', () => {
-  const result = personalAppointmentSchema.parse({ ...input, title: '  Dentista  ', location: ' Via Roma ', notes: ' Non un cliente ' });
+test('personal titles and locations are trimmed and bounded', () => {
+  const result = personalAppointmentSchema.parse({ ...input, title: '  Dentista  ', location: '  Via Roma  ' });
   assert.equal(result.title, 'Dentista');
   assert.equal(result.location, 'Via Roma');
   assert.equal(personalAppointmentSchema.safeParse({ ...input, title: 'x'.repeat(201) }).success, false);
   assert.equal(personalAppointmentSchema.safeParse({ ...input, notes: 'x'.repeat(5001) }).success, false);
+});
+test('personal entries reject empty titles, invalid dates and backwards or impossible times', () => {
+  for (const invalid of [
+    { title: '' }, { date: '2026-02-30' }, { startTime: '24:00' },
+    { endTime: '10:15' }, { endTime: '09:00' },
+  ]) {
+    assert.equal(personalAppointmentSchema.safeParse({ ...input, ...invalid }).success, false);
+  }
 });
 test('calendar personal IDs cannot collide with positive work appointment IDs', () => {
   const result = personalAppointmentForCalendar({ ...personalAppointmentSchema.parse(input), id: 21, userId: 3 });

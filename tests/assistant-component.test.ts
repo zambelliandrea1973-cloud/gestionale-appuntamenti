@@ -9,6 +9,7 @@ import './assistant-trial-conversation.test';
 import './ai-trial-policy.test';
 import './personal-appointments.test';
 import './appointment-mode-persistence.test';
+import './assistant-recognition.test';
 
 test('the restored appointment assistant has no unresolved runtime names', () => {
   const root = process.cwd();
@@ -36,35 +37,19 @@ test('trial quotas reserve a conversation before interpretation and expose trans
   assert.match(notice, /t\('aiTrial\.subscribe'\)/);
 });
 
-test('native recognition preserves original settings and hands the result directly to the original submit flow', () => {
+test('both assistant modes collect the complete utterance before submitting it', () => {
   const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
   const recognition = source.slice(source.indexOf('  const startListening ='), source.indexOf('  const stopListening ='));
-  assert.match(recognition, /recognition\.continuous = false/);
-  assert.match(recognition, /recognition\.interimResults = false/);
+  assert.match(recognition, /createAssistantRecognition/);
+  assert.match(recognition, /onTranscript: setInput/);
   assert.match(recognition, /void submitMessage\(transcript\)/);
-  assert.doesNotMatch(source, /createAssistantRecognitionSession|assistantFinalTranscript|createAssistantTurnController|conversationIdRef/);
+  assert.doesNotMatch(recognition, /event\.results.*\[0\]/);
+  const personal = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
+  assert.match(personal, /createAssistantRecognition/);
+  assert.match(personal, /onComplete: text/);
+  assert.match(personal, /submitRef\.current\(text\)/);
   const submit = source.slice(source.indexOf('  const submitMessage ='), source.indexOf('  const startListening ='));
   assert.doesNotMatch(submit, /cancelListening|recognition\.abort/);
-  const start = source.indexOf('    const recognition = new SpeechRecognition();');
-  const end = source.indexOf('    recognition.start();', start) + '    recognition.start();'.length;
-  assert.ok(start > 0 && end > start);
-  const compiled = ts.transpileModule(source.slice(start, end), {
-    compilerOptions: { target: ts.ScriptTarget.ES2022 }
-  }).outputText;
-  const submitted: string[] = [];
-  const ref: { current: any } = { current: null };
-  class SpeechRecognition {
-    onstart: any; onend: any; onresult: any; onerror: any;
-    start() { this.onstart?.(); }
-  }
-  new Function('SpeechRecognition', 'speechLocale', 'recognitionRef', 'setIsListening',
-    'setInput', 'submitMessage', 'draft', 'services', 'setServicePickerOptions',
-    'setServicePickerOpen', 'setPendingQuestion', 'addAssistantMessage', 't', compiled)(
-    SpeechRecognition, 'it-IT', ref, () => {}, () => {},
-    (text: string) => submitted.push(text), {}, [], () => {}, () => {}, () => {}, () => {}, (key: string) => key
-  );
-  ref.current.onresult({ results: [[{ transcript: '  crea un appuntamento domani alle dieci  ' }]] });
-  assert.deepEqual(submitted, ['crea un appuntamento domani alle dieci']);
 });
 
 test('interpretation and Gemini speech both enforce server-side trial authorization before spending', () => {
