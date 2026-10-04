@@ -118,8 +118,12 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
         utterance.current = message;
         message.lang = speechLocale;
         const voices = window.speechSynthesis.getVoices();
-        message.voice = voices.find(voice => voice.lang === speechLocale)
-          || voices.find(voice => voice.lang.startsWith(speechLocale.split('-')[0])) || null;
+        const matchingVoices = voices.filter(voice => voice.lang.startsWith(speechLocale.split('-')[0]));
+        message.voice = matchingVoices.find(voice =>
+          /female|woman|femmina|elsa|isabella|alice|federica|paola|samantha|victoria|zira|aria|jenny|sara|helena|amelie|audrey|katja|sabina|luciana/i.test(voice.name)
+        ) || matchingVoices.find(voice => voice.lang === speechLocale) || matchingVoices[0] || null;
+        message.rate = 0.94;
+        message.pitch = 1.08;
         // Some Android browsers expose synthesis but never emit start/end.
         // Neither a missing start nor a missing end may permanently lock dictation.
         const startTimer = window.setTimeout(() => {
