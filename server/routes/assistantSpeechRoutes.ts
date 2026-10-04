@@ -52,10 +52,10 @@ router.post(
         upstreamController.signal
       );
       const headers: Record<string, string> = {
-        'Content-Type': 'audio/mpeg',
+        'Content-Type': audio.contentType,
         'Cache-Control': 'private, no-store',
         'X-Assistant-Voice': assistantSpeechConfig.voice,
-        'X-Assistant-Audio-Streaming': audio.cached ? 'cache' : 'stream'
+        'X-Assistant-Audio-Streaming': audio.cached ? 'cache' : 'buffered'
       };
       if (audio.contentLength) {
         headers['Content-Length'] = audio.contentLength.toString();
@@ -65,7 +65,10 @@ router.post(
       return;
     } catch (error) {
       if (upstreamController.signal.aborted) return;
-      console.error('[AI APPOINTMENT ASSISTANT] Speech synthesis failed:', error);
+      const reason = error instanceof Error && error.message.startsWith('Gemini speech')
+        ? error.message
+        : 'Request failed or timed out';
+      console.error('[AI APPOINTMENT ASSISTANT] Speech synthesis failed:', reason);
       if (res.headersSent) {
         res.destroy();
         return;

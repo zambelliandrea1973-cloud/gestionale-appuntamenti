@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import test from 'node:test';
 import ts from 'typescript';
+import './assistant-speech.test';
 
 test('the restored appointment assistant has no unresolved runtime names', () => {
   const root = process.cwd();
@@ -21,10 +22,16 @@ test('the restored appointment assistant has no unresolved runtime names', () =>
   assert.deepEqual(unresolved, []);
 });
 
-test('the restored component is the exact historical source, not a reconstruction', () => {
-  const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx');
-  // Pin the recovered pre-migration source so a later change must be deliberate.
-  assert.equal(createHash('sha256').update(source).digest('hex'), '7509485de4a75eea43f80eeed3c7497f221f7fac117017326c0d846ad18ac6e5');
+test('the historical assistant changes only the approved Gemini audio format and timeout fallback', () => {
+  const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
+  // Reverse only the explicitly approved audio compatibility changes.
+  const historicalSource = source
+    .replace('    let speechTimeout: number | undefined;\n', '')
+    .replaceAll('      window.clearTimeout(speechTimeout);\n', '')
+    .replace("    // A stalled connection must not leave the assistant silent indefinitely.\n    speechTimeout = window.setTimeout(() => playBrowserFallback('central-speech-timeout'), 22_000);\n    controller.signal.addEventListener('abort', () => window.clearTimeout(speechTimeout), { once: true });\n", '')
+    .replace('      if (controller.signal.aborted || sequence !== speechSequenceRef.current) return;\n      const audioUrl', '      if (sequence !== speechSequenceRef.current) return;\n      const audioUrl')
+    .replace("        response.headers.get('Content-Type')?.split(';')[0].trim() !== 'audio/mpeg' ||\n", '');
+  assert.equal(createHash('sha256').update(historicalSource).digest('hex'), '7509485de4a75eea43f80eeed3c7497f221f7fac117017326c0d846ad18ac6e5');
 });
 
 test('native recognition preserves original settings and hands the result directly to the original submit flow', () => {

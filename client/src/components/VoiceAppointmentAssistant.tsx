@@ -236,9 +236,11 @@ export default function VoiceAppointmentAssistant({
     speechRequestRef.current = controller;
     let completed = false;
     let fallbackStarted = false;
+    let speechTimeout: number | undefined;
     const completeOnce = () => {
       if (completed) return;
       completed = true;
+      window.clearTimeout(speechTimeout);
       if (sequence === speechSequenceRef.current) {
         speechRequestRef.current = null;
         speechAudioRef.current = null;
@@ -253,6 +255,7 @@ export default function VoiceAppointmentAssistant({
     const playBrowserFallback = (reason = 'unknown') => {
       if (fallbackStarted || completed || sequence !== speechSequenceRef.current) return;
       fallbackStarted = true;
+      window.clearTimeout(speechTimeout);
       console.warn('[AI APPOINTMENT ASSISTANT] Using device speech fallback:', reason);
       controller.abort();
       speechRequestRef.current = null;
@@ -315,9 +318,13 @@ export default function VoiceAppointmentAssistant({
         window.speechSynthesis.speak(utterance);
       })();
     };
+    // A stalled connection must not leave the assistant silent indefinitely.
+    speechTimeout = window.setTimeout(() => playBrowserFallback('central-speech-timeout'), 22_000);
+    controller.signal.addEventListener('abort', () => window.clearTimeout(speechTimeout), { once: true });
     const playBufferedAudio = async (response: Response) => {
       const audioBlob = await response.blob();
-      if (sequence !== speechSequenceRef.current) return;
+      if (controller.signal.aborted || sequence !== speechSequenceRef.current) return;
+      window.clearTimeout(speechTimeout);
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
       speechAudioUrlRef.current = audioUrl;
@@ -366,6 +373,7 @@ export default function VoiceAppointmentAssistant({
     });
     const playStreamingAudio = async (response: Response) => {
       if (
+        response.headers.get('Content-Type')?.split(';')[0].trim() !== 'audio/mpeg' ||
         !response.body ||
         !('MediaSource' in window) ||
         !MediaSource.isTypeSupported('audio/mpeg')
