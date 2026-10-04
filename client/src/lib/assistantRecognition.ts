@@ -1,4 +1,26 @@
 type Timer = unknown;
+
+/** Merge browser fragments without repeating cumulative prefixes or overlaps. */
+export function mergeRecognitionTranscript(left: string, right: string): string {
+  const a = left.trim().split(/\s+/).filter(Boolean);
+  const b = right.trim().split(/\s+/).filter(Boolean);
+  const key = (word: string) => word.normalize('NFKC').toLocaleLowerCase()
+    .replace(/[^\p{L}\p{N}]/gu, '');
+  if (!a.length) return b.join(' ');
+  if (!b.length) return a.join(' ');
+  if (b.length >= a.length && a.every((word, index) => key(word) === key(b[index]))) {
+    return b.join(' ');
+  }
+  if (a.length >= b.length && b.every((word, index) => key(word) === key(a[index]))) {
+    return a.join(' ');
+  }
+  for (let overlap = Math.min(a.length, b.length); overlap > 0; overlap--) {
+    if (b.slice(0, overlap).every((word, index) => key(word) === key(a[a.length - overlap + index]))) {
+      return [...a, ...b.slice(overlap)].join(' ');
+    }
+  }
+  return [...a, ...b].join(' ');
+}
 export interface AssistantRecognitionSession {
   active: () => boolean;
   finish: () => void;
@@ -30,7 +52,7 @@ export function createAssistantRecognition(options: RecognitionOptions): Assista
   let restartTimer: Timer = null;
   let startTimer: Timer = null;
   let restarts = 0;
-  const text = () => [previous, current].filter(Boolean).join(' ').trim();
+  const text = () => mergeRecognitionTranscript(previous, current);
   const clearTimers = () => {
     for (const timer of [quietTimer, restartTimer, startTimer]) if (timer !== null) clear(timer);
     quietTimer = restartTimer = startTimer = null;
@@ -87,6 +109,7 @@ export function createAssistantRecognition(options: RecognitionOptions): Assista
       next.onspeechend = () => { if (valid() && text()) waitForSilence(); };
       next.onresult = (event: any) => {
         if (!valid()) return;
+        const before = text();
         const fragments: string[] = [];
         // Results are cumulative within one run. Rebuild, rather than append
         // the same index again when an interim result becomes final.
@@ -94,10 +117,11 @@ export function createAssistantRecognition(options: RecognitionOptions): Assista
           const fragment = event.results[index]?.[0]?.transcript?.trim();
           if (fragment) fragments.push(fragment);
         }
-        current = fragments.join(' ');
-        if (text()) {
-          options.onTranscript(text());
-          waitForSilence();
+        current = fragments.reduce(mergeRecognitionTranscript, '');
+        const transcript = text();
+        if (transcript) {
+          if (transcript !== before) options.onTranscript(transcript);
+          if (transcript !== before || quietTimer === null) waitForSilence();
         }
       };
       next.onend = () => {

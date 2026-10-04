@@ -18,6 +18,23 @@ export const personalAppointmentSchema = z.object({
   path: ['endTime'], message: 'End time must be after start time',
 });
 export type PersonalAppointmentInput = z.infer<typeof personalAppointmentSchema>;
+/** The voice form needs only a title, day and start; layout supplies one slot. */
+export function completePersonalAppointmentDraft(
+  draft: Partial<PersonalAppointmentInput> & { durationMinutes?: number },
+) {
+  if (!draft.startTime || draft.endTime || !clockTime.safeParse(draft.startTime).success) return draft;
+  const [hours, minutes] = draft.startTime.split(':').map(Number);
+  const duration = draft.durationMinutes ?? 15;
+  if (!Number.isFinite(duration) || duration <= 0) return draft;
+  // Personal entries currently stay within one calendar day.
+  const end = draft.durationMinutes == null
+    ? Math.min(hours * 60 + minutes + duration, 23 * 60 + 59)
+    : hours * 60 + minutes + duration;
+  return {
+    ...draft,
+    endTime: `${Math.floor(end / 60).toString().padStart(2, '0')}:${(end % 60).toString().padStart(2, '0')}`,
+  };
+}
 export type PersonalAppointmentRecord = PersonalAppointmentInput & { id: number; userId: number };
 export function isPersonalAppointment(value: any): boolean {
   return value?.isPersonalAppointment === true;

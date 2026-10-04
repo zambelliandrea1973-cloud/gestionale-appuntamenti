@@ -77,3 +77,57 @@ test('recognition permission failure is surfaced without submitting incomplete d
   assert.deepEqual(h.submissions, []);
   assert.equal(h.session.active(), false);
 });
+
+test('Brave cumulative results repeat prefixes but submit the professional phrase only once', () => {
+  const h = harness();
+  const emit = (...parts: string[]) => h.engines[0].onresult(h.results(...parts));
+  emit('Crea');
+  emit('Crea', 'Crea un appuntamento per Silvia', 'Crea un appuntamento per Silvia Busnari');
+  emit('Crea', 'Crea un appuntamento per Silvia', 'Crea un appuntamento per Silvia Busnari',
+    'Crea un appuntamento per Silvia Busnari per il dentista',
+    'Crea un appuntamento per Silvia Busnari per il dentista alle 8:00');
+  assert.deepEqual(h.submissions, []);
+  assert.equal(h.previews.at(-1), 'Crea un appuntamento per Silvia Busnari per il dentista alle 8:00');
+  h.fire(3000);
+  assert.deepEqual(h.submissions, ['Crea un appuntamento per Silvia Busnari per il dentista alle 8:00']);
+});
+
+test('Brave repeated and extending date results do not produce per per il per il', () => {
+  const h = harness();
+  h.engines[0].onresult(h.results('per', 'per il', 'per il', 'per il 28', 'per il 28 ottobre', 'per il 28 ottobre'));
+  h.fire(3000);
+  assert.deepEqual(h.submissions, ['per il 28 ottobre']);
+});
+
+test('cumulative replay after native restart and overlapping fragments do not duplicate the turn', () => {
+  const h = harness();
+  h.engines[0].onresult(h.results('Dentista il 28 ottobre'));
+  h.engines[0].onend();
+  h.fire(200);
+  h.engines[1].onresult(h.results('Dentista'));
+  assert.equal(h.previews.at(-1), 'Dentista il 28 ottobre');
+  h.engines[1].onresult(h.results('Dentista il 28 ottobre alle otto'));
+  h.engines[1].onend();
+  h.fire(200);
+  h.engines[2].onresult(h.results('alle otto per un’ora'));
+  h.fire(3000);
+  assert.deepEqual(h.submissions, ['Dentista il 28 ottobre alle otto per un’ora']);
+});
+
+test('intentional repetitions inside a phrase are preserved, not globally deduplicated', () => {
+  const h = harness();
+  h.engines[0].onresult(h.results('no no, voglio un altro giorno'));
+  h.fire(3000);
+  assert.deepEqual(h.submissions, ['no no, voglio un altro giorno']);
+});
+
+test('duplicate native results do not keep postponing the end of a silent turn', () => {
+  const h = harness();
+  h.engines[0].onresult(h.results('Dentista alle otto'));
+  const quietTimer = [...h.timers.keys()];
+  h.engines[0].onresult(h.results('Dentista alle otto', 'Dentista alle otto'));
+  assert.deepEqual([...h.timers.keys()], quietTimer);
+  assert.deepEqual(h.previews, ['Dentista alle otto']);
+  h.fire(3000);
+  assert.deepEqual(h.submissions, ['Dentista alle otto']);
+});

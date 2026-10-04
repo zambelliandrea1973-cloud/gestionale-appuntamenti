@@ -10,6 +10,7 @@ import './ai-trial-policy.test';
 import './personal-appointments.test';
 import './appointment-mode-persistence.test';
 import './assistant-recognition.test';
+import './offline-assistant-greeting.test';
 
 test('the restored appointment assistant has no unresolved runtime names', () => {
   const root = process.cwd();
@@ -42,7 +43,7 @@ test('both assistant modes collect the complete utterance before submitting it',
   const recognition = source.slice(source.indexOf('  const startListening ='), source.indexOf('  const stopListening ='));
   assert.match(recognition, /createAssistantRecognition/);
   assert.match(recognition, /onTranscript: setInput/);
-  assert.match(recognition, /void submitMessage\(transcript\)/);
+  assert.match(recognition, /void submitMessageRef\.current\(transcript\)/);
   assert.doesNotMatch(recognition, /event\.results.*\[0\]/);
   const personal = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
   assert.match(personal, /createAssistantRecognition/);

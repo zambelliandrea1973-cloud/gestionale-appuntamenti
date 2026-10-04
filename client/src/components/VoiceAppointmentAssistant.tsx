@@ -8,12 +8,13 @@ import { Input } from '@/components/ui/input';
 import AppointmentModeSwitch from './AppointmentModeSwitch';
 import PersonalVoiceAppointmentAssistant from './PersonalVoiceAppointmentAssistant';
 import { createAssistantRecognition } from '@/lib/assistantRecognition';
+import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { ApiRequestError } from '@/lib/apiError';
 import { AITrialNotice } from '@/components/AITrialNotice';
-import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess } from '@/hooks/use-ai-trial-access';
+import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess, type AITrialAccess } from '@/hooks/use-ai-trial-access';
 import { createAssistantTrialConversation } from '@/lib/assistantTrialConversation';
 import {
   addMinutesToTime,
@@ -208,6 +209,9 @@ function ProfessionalVoiceAppointmentAssistant({
   const [conflictResourceOptions, setConflictResourceOptions] = useState<ConflictResourceOption[]>([]);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const recognitionRef = useRef<any>(null);
+  const submitMessageRef = useRef<(text: string) => Promise<void>>(async () => {});
+  const pendingTranscriptRef = useRef<string | null>(null);
+  const offlineGreetingRef = useRef<{ cancel: () => void } | null>(null);
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
   const speechAudioUrlRef = useRef<string | null>(null);
   const speechRequestRef = useRef<AbortController | null>(null);
@@ -234,6 +238,8 @@ function ProfessionalVoiceAppointmentAssistant({
   const isCatalogLoading = isLoadingClients || isLoadingServices;
 
   const stopSpeech = () => {
+    offlineGreetingRef.current?.cancel();
+    offlineGreetingRef.current = null;
     speechSequenceRef.current += 1;
     speechRequestRef.current?.abort();
     speechRequestRef.current = null;
@@ -252,6 +258,25 @@ function ProfessionalVoiceAppointmentAssistant({
       speechAudioUrlRef.current = null;
     }
   };
+
+  const greetingName = getAssistantGreetingName(professionalEmail);
+  const greetingText = `${greetingName ? t('voiceAppointmentAssistant.greeting', { name: greetingName }) : t('voiceAppointmentAssistant.greetingFallback')}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`;
+  const greetingCacheKey = JSON.stringify([professionalEmail || '', speechLocale, greetingText]);
+  useEffect(() => {
+    if (window.speechSynthesis?.getVoices().some(voice =>
+      voice.localService && voice.lang.split('-')[0] === speechLocale.split('-')[0])) return;
+    void prepareAssistantGreeting(greetingCacheKey, async () => {
+      const access = await queryClient.fetchQuery<AITrialAccess>({ queryKey: AI_TRIAL_ACCESS_KEY });
+      if (!access.unlimited) return null;
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 15000);
+      try {
+        return await (await apiRequest('POST', '/api/ai-appointment-assistant/speech', {
+          text: greetingText, language: speechLocale, conversationId: null,
+        }, { signal: controller.signal })).blob();
+      } finally { window.clearTimeout(timeout); }
+    });
+  }, [greetingCacheKey]);
 
   const handleTrialFailure = (error: unknown): string | null => {
     const key = aiTrialMessageKey(error);
@@ -542,8 +567,16 @@ function ProfessionalVoiceAppointmentAssistant({
     const greeting = greetingName
       ? t('voiceAppointmentAssistant.greeting', { name: greetingName })
       : t('voiceAppointmentAssistant.greetingFallback');
-    setMessages([{ role: 'assistant', content: greeting }]);
-    speak(greeting, () => startListeningRef.current());
+    setMessages([{ role: 'assistant', content: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}` }]);
+    const generation = dialogGenerationRef.current;
+    offlineGreetingRef.current = speakOfflineAssistantGreeting({
+      text: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`,
+      language: speechLocale,
+      audioBlob: getCachedAssistantGreeting(greetingCacheKey),
+      onComplete: () => {
+        if (generation === dialogGenerationRef.current) startListeningRef.current();
+      },
+    });
   }, [open, messages.length, professionalEmail, speechLocale, t]);
 
   useEffect(() => {
@@ -900,8 +933,15 @@ function ProfessionalVoiceAppointmentAssistant({
 
   const submitMessage = async (rawMessage?: string) => {
     const userMessage = (rawMessage ?? input).trim();
-    if (!userMessage || isProcessing || isSaving || isCatalogLoading ||
+    if (!userMessage || isProcessing || isSaving ||
         isAIBlocked || aiBlockedRef.current || turnInFlightRef.current) return;
+    recognitionRef.current?.cancel?.();
+    setIsListening(false);
+    if (isCatalogLoading) {
+      pendingTranscriptRef.current = userMessage;
+      setInput(userMessage);
+      return;
+    }
 
     turnInFlightRef.current = true;
     const generation = dialogGenerationRef.current;
@@ -1268,12 +1308,17 @@ function ProfessionalVoiceAppointmentAssistant({
     }
   };
 
+  submitMessageRef.current = submitMessage;
+  useEffect(() => {
+    if (!open) { pendingTranscriptRef.current = null; return; }
+    if (isCatalogLoading || !pendingTranscriptRef.current) return;
+    const transcript = pendingTranscriptRef.current;
+    pendingTranscriptRef.current = null;
+    void submitMessageRef.current(transcript);
+  }, [open, isCatalogLoading]);
+
   const startListening = () => {
-    if (isAIBlocked || aiBlockedRef.current) return;
-    if (isCatalogLoading) {
-      addAssistantMessage(t('voiceAppointmentAssistant.loadingCatalog'));
-      return;
-    }
+    if (isAIBlocked || aiBlockedRef.current || pendingTranscriptRef.current) return;
 
     const SpeechRecognition =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -1293,7 +1338,7 @@ function ProfessionalVoiceAppointmentAssistant({
       language: speechLocale,
       onListening: setIsListening,
       onTranscript: setInput,
-      onComplete: transcript => { void submitMessage(transcript); },
+      onComplete: transcript => { void submitMessageRef.current(transcript); },
       onError: () => {
       setIsListening(false);
       const isExpectedServiceName = Boolean(
@@ -1414,6 +1459,7 @@ function ProfessionalVoiceAppointmentAssistant({
   };
 
   const resetConversation = () => {
+    pendingTranscriptRef.current = null;
     dialogGenerationRef.current++;
     turnInFlightRef.current = false;
     trialConversationRef.current.reset();

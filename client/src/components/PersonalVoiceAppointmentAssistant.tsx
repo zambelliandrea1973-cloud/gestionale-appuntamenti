@@ -11,10 +11,11 @@ import AppointmentModeSwitch from './AppointmentModeSwitch';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { createAssistantTrialConversation } from '@/lib/assistantTrialConversation';
 import { createAssistantRecognition } from '@/lib/assistantRecognition';
-import { addMinutesToTime, detectAssistantConfirmation, getAssistantGreetingName } from '@/lib/appointmentAssistant';
+import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
+import { detectAssistantConfirmation, getAssistantGreetingName } from '@/lib/appointmentAssistant';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess, type AITrialAccess } from '@/hooks/use-ai-trial-access';
 import { PERSONAL_APPOINTMENTS_QUERY, notifyPersonalAppointmentSaved } from '@/hooks/use-personal-appointments';
-import { personalAppointmentSchema, type PersonalAppointmentInput } from '../../../shared/personalAppointments';
+import { completePersonalAppointmentDraft, personalAppointmentSchema, type PersonalAppointmentInput } from '../../../shared/personalAppointments';
 
 type Draft = Partial<PersonalAppointmentInput> & { durationMinutes?: number };
 type Message = { role: 'assistant' | 'user'; content: string };
@@ -39,6 +40,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   const speechSequence = useRef(0);
   const speechRequest = useRef<AbortController | null>(null);
   const speechTimers = useRef<number[]>([]);
+  const offlineGreeting = useRef<{ cancel: () => void } | null>(null);
   const openRef = useRef(false);
   const listenRef = useRef<() => void>(() => {});
   const pendingAutoListen = useRef(false);
@@ -50,12 +52,33 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     (!trial.data.eligible || (trial.data.appointments.remaining === 0 && !conversationActive)));
   const locale = i18n.resolvedLanguage || i18n.language || 'it';
   const speechLocale = ({ it:'it-IT', en:'en-US', de:'de-DE', fr:'fr-FR', es:'es-ES', nl:'nl-NL', no:'nb-NO', ro:'ro-RO', ru:'ru-RU', hi:'hi-IN', ar:'ar-SA' } as Record<string,string>)[locale.split('-')[0]] || locale;
-  const ready = personalAppointmentSchema.safeParse({ ...draft, location: draft.location || '', notes: draft.notes || '' });
+  const greetingName = getAssistantGreetingName(professionalEmail);
+  const greetingText = `${greetingName ? t('voiceAppointmentAssistant.greeting', { name: greetingName }) : t('voiceAppointmentAssistant.greetingFallback')}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`;
+  const greetingCacheKey = JSON.stringify([professionalEmail || '', speechLocale, greetingText]);
+  useEffect(() => {
+    // Load voices before opening; prepare paid AI audio only if local voice is absent.
+    if (window.speechSynthesis?.getVoices().some(voice =>
+      voice.localService && voice.lang.split('-')[0] === speechLocale.split('-')[0])) return;
+    void prepareAssistantGreeting(greetingCacheKey, async () => {
+      const access = await queryClient.fetchQuery<AITrialAccess>({ queryKey: AI_TRIAL_ACCESS_KEY });
+      if (!access.unlimited) return null;
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 15000);
+      try {
+        return await (await apiRequest('POST', '/api/ai-appointment-assistant/speech', {
+          text: greetingText, language: speechLocale, conversationId: null,
+        }, { signal: controller.signal })).blob();
+      } finally { window.clearTimeout(timeout); }
+    });
+  }, [greetingCacheKey]);
+  const ready = personalAppointmentSchema.safeParse({ ...completePersonalAppointmentDraft(draft), location: draft.location || '', notes: draft.notes || '' });
   function clearSpeechTimers() {
     speechTimers.current.forEach(timer => window.clearTimeout(timer));
     speechTimers.current = [];
   }
   function stopAudio() {
+    offlineGreeting.current?.cancel();
+    offlineGreeting.current = null;
     speechSequence.current++;
     clearSpeechTimers();
     speechRequest.current?.abort();
@@ -240,9 +263,9 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       for (const key of ['title','date','startTime','endTime','location','notes','durationMinutes'] as const) {
         if (result[key] !== null && result[key] !== undefined) (next as any)[key] = result[key];
       }
-      if (next.startTime && next.durationMinutes && !result.endTime) next.endTime = addMinutesToTime(next.startTime, next.durationMinutes);
+      if (result.durationMinutes != null && result.endTime == null) delete next.endTime;
       setDraft(next);
-      const valid = personalAppointmentSchema.safeParse({ ...next, location: next.location || '', notes: next.notes || '' });
+      const valid = personalAppointmentSchema.safeParse({ ...completePersonalAppointmentDraft(next), location: next.location || '', notes: next.notes || '' });
       // A confirmation with a correction must show the changed draft first.
       // Never trust an AI-produced "yes" to authorize a database write.
       if (valid.success && ready.success && detectAssistantConfirmation(text, locale) === 'yes' &&
@@ -254,7 +277,6 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       else if (!next.title) await say(t('personalAppointments.askTitle', 'Come vuoi chiamare questo impegno?'));
       else if (!next.date) await say(t('voiceAppointmentAssistant.askDate'));
       else if (!next.startTime) await say(t('voiceAppointmentAssistant.askTime'));
-      else if (!next.endTime) await say(t('personalAppointments.askEnd', 'A che ora finisce, oppure quanto dura?'));
       else if (!valid.success) await say(t('personalAppointments.invalid', 'Inserisci un titolo, una data valida e un orario di fine successivo all’inizio.'));
       else await say(t('personalAppointments.askConfirm', 'Controlla titolo, data e orari nella bozza. Vuoi confermare questo impegno?'));
     } catch (failure) {
@@ -317,7 +339,15 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       setDraft({});
       setInput('');
       setMessages([{ role: 'assistant', content: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}` }]);
-      void speak(`${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`);
+      const token = generation.current;
+      offlineGreeting.current = speakOfflineAssistantGreeting({
+        text: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`,
+        language: speechLocale,
+        audioBlob: getCachedAssistantGreeting(greetingCacheKey),
+        onComplete: () => {
+          if (openRef.current && token === generation.current) listenRef.current();
+        },
+      });
     }
   }
   return <>

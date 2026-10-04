@@ -6,6 +6,7 @@ import ts from 'typescript';
 import { createAssistantRecognition } from '../client/src/lib/assistantRecognition';
 import {
   personalAppointmentSchema, personalAppointmentForCalendar,
+  completePersonalAppointmentDraft,
   PERSONAL_APPOINTMENT_BACKGROUND, PERSONAL_APPOINTMENT_COLOR,
 } from '../shared/personalAppointments';
 
@@ -17,7 +18,9 @@ test('personal assistant opens with the work greeting followed by Dimmi pure', (
   const end = source.indexOf('\n    }', start);
   assert.ok(start >= 0 && end > start);
   const openGreeting = new Function(
-    'professionalEmail', 't', 'getAssistantGreetingName', 'setDraft', 'setInput', 'setMessages', 'speak',
+    'professionalEmail', 't', 'getAssistantGreetingName', 'setDraft', 'setInput', 'setMessages',
+    'generation', 'offlineGreeting', 'speakOfflineAssistantGreeting', 'speechLocale', 'openRef', 'listenRef',
+    'getCachedAssistantGreeting', 'greetingCacheKey',
     source.slice(start, end),
   );
   const locale = JSON.parse(readFileSync('client/src/locales/it.json', 'utf8'));
@@ -30,8 +33,12 @@ test('personal assistant opens with the work greeting followed by Dimmi pure', (
     [undefined, 'Ciao. Dimmi pure.'],
   ]) {
     let messages: unknown;
-    openGreeting(email, t, getAssistantGreetingName, () => {}, () => {}, (value: unknown) => { messages = value; }, () => {});
+    let listeningStarts = 0;
+    openGreeting(email, t, getAssistantGreetingName, () => {}, () => {}, (value: unknown) => { messages = value; },
+      { current: 1 }, { current: null }, (options: any) => { options.onComplete(); return { cancel() {} }; },
+      'it-IT', { current: true }, { current: () => { listeningStarts++; } }, () => undefined, 'test-greeting');
     assert.deepEqual(messages, [{ role: 'assistant', content: expected }]);
+    assert.equal(listeningStarts, 1);
   }
   const wrapper = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
   assert.match(wrapper, /<PersonalVoiceAppointmentAssistant professionalEmail=\{props\.professionalEmail\}/);
@@ -90,6 +97,7 @@ function voiceHarness(activeConversation = true, paidGreeting = false) {
     generation: { current: 0 }, speechSequence: { current: 0 }, openRef: { current: true },
     speechRequest: { current: null }, speechTimers: { current: [] }, recognitionTimer: { current: null },
     audio: { current: null }, audioUrl: { current: null }, utterance: { current: null },
+    offlineGreeting: { current: null },
     recognition: { current: null }, inFlight: { current: false }, pendingAutoListen: { current: false },
     listenRef: { current: () => {} }, submitRef: { current: (text: string) => submitted.push(text) },
     conversation: { current: { isActive: () => activeConversation, getId: () => activeConversation ? 'test-conversation' : null } },
@@ -167,7 +175,7 @@ test('personal microphone can retry after start failure and never starts overlap
   assert.equal(h.listening(), true);
 });
 
-test('personal greeting uses device speech without starting a trial and close cancels automatic recording', async () => {
+test('device speech does not start a trial and close cancels automatic recording', async () => {
   const h = voiceHarness(false);
   await h.api.speak('Ciao. Dimmi pure.');
   assert.equal(h.players.length, 0);
@@ -179,7 +187,7 @@ test('personal greeting uses device speech without starting a trial and close ca
   assert.equal(h.engines.length, 0);
 });
 
-test('paid personal greeting uses central AI speech even before a conversation exists', async () => {
+test('paid personal speech remains available for AI replies', async () => {
   const h = voiceHarness(false, true);
   await h.api.speak('Ciao. Dimmi pure.');
   assert.deepEqual(h.requests, ['/api/ai-appointment-assistant/speech']);
@@ -241,6 +249,21 @@ test('personal titles and locations are trimmed and bounded', () => {
   assert.equal(result.location, 'Via Roma');
   assert.equal(personalAppointmentSchema.safeParse({ ...input, title: 'x'.repeat(201) }).success, false);
   assert.equal(personalAppointmentSchema.safeParse({ ...input, notes: 'x'.repeat(5001) }).success, false);
+});
+test('personal voice entries need only title, day and start, with an automatic single slot', () => {
+  const draft = { title: 'Dentista', date: '2026-10-28', startTime: '08:00' };
+  const result = personalAppointmentSchema.parse(completePersonalAppointmentDraft(draft));
+  assert.equal(result.endTime, '08:15');
+  assert.equal(draft.startTime, '08:00');
+  assert.equal('endTime' in draft, false, 'Never send the layout default back to the AI as a user-provided finish');
+  assert.equal(completePersonalAppointmentDraft({ ...draft, startTime: '09:00' }).endTime, '09:15');
+  assert.equal(completePersonalAppointmentDraft({ ...draft, durationMinutes: 60 }).endTime, '09:00');
+  assert.equal(completePersonalAppointmentDraft({ ...draft, endTime: '10:00' }).endTime, '10:00');
+  assert.equal(completePersonalAppointmentDraft({ ...draft, startTime: '23:50' }).endTime, '23:59');
+  assert.equal(personalAppointmentSchema.safeParse(completePersonalAppointmentDraft({ ...draft, startTime: '23:50', durationMinutes: 60 })).success, false,
+    'Do not silently shorten explicitly requested durations');
+  const source = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
+  assert.doesNotMatch(source, /await say\(t\('personalAppointments\.askEnd'/);
 });
 test('personal entries reject empty titles, invalid dates and backwards or impossible times', () => {
   for (const invalid of [
