@@ -9,6 +9,7 @@ import AppointmentModeSwitch from './AppointmentModeSwitch';
 import PersonalVoiceAppointmentAssistant from './PersonalVoiceAppointmentAssistant';
 import { createAssistantRecognition } from '@/lib/assistantRecognition';
 import { startLiveAppointmentSession, type LiveAppointmentSession } from '@/lib/liveAppointmentSession';
+import { prepareLiveGreeting } from '@/lib/liveAppointmentGreeting';
 import type { LiveInterpretation } from '../../../shared/liveAppointmentProtocol';
 import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
@@ -266,6 +267,7 @@ function ProfessionalVoiceAppointmentAssistant({
 
   const greetingName = getAssistantGreetingName(professionalEmail);
   const greetingText = `${greetingName ? t('voiceAppointmentAssistant.greeting', { name: greetingName }) : t('voiceAppointmentAssistant.greetingFallback')}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`;
+  useEffect(() => { prepareLiveGreeting({ mode: 'work', language: speechLocale, greeting: greetingText }); }, [speechLocale, greetingText]);
 
   const handleTrialFailure = (error: unknown): string | null => {
     const key = aiTrialMessageKey(error);
@@ -1319,7 +1321,7 @@ function ProfessionalVoiceAppointmentAssistant({
   }, [open, isCatalogLoading]);
 
   const startListening = () => {
-    if (liveSessionRef.current?.ready()) { liveSessionRef.current.setMuted(false); return; }
+    if (liveSessionRef.current?.active()) { liveSessionRef.current.setMuted(false); return; }
     beginLive();
   };
   const legacyStartListening = () => {

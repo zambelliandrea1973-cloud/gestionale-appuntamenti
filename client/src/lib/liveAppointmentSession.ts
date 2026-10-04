@@ -1,5 +1,6 @@
 import { apiRequest } from './queryClient';
 import { liveInterpretationSchema, type LiveInterpretation } from '../../../shared/liveAppointmentProtocol';
+import { getPreparedLiveGreeting, storeLiveGreeting } from './liveAppointmentGreeting';
 
 interface Options {
   mode: 'work' | 'personal';
@@ -18,6 +19,7 @@ export interface LiveAppointmentSession {
   sendText: (text: string) => void;
   setMuted: (value: boolean) => void;
   ready: () => boolean;
+  active: () => boolean;
 }
 
 export function encodeLivePCM(samples: Float32Array, inputRate: number) {
@@ -50,6 +52,12 @@ export function decodeLivePCM(data: string) {
 export function startLiveAppointmentSession(options: Options): LiveAppointmentSession {
   let closed = false, connected = false, muted = false, micAllowed = false;
   let voiceActivated = false, turnFinished = false;
+  const preparedGreeting = getPreparedLiveGreeting(options);
+  const greetingFrames: string[] = [];
+  let greetingSize = 0;
+  let firstGreeting = !preparedGreeting;
+  const pendingAudio: string[] = [];
+  let pendingAudioSize = 0;
   let callId: string | null = null;
   let socket: WebSocket | null = null;
   let context: AudioContext | null = null;
@@ -63,7 +71,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
   const players = new Set<AudioBufferSourceNode>();
   const abort = new AbortController();
   let startTimer: ReturnType<typeof setTimeout> | undefined;
-  const listening = () => options.onListening(!closed && connected && micAllowed && !muted);
+  const listening = () => options.onListening(!closed && !!stream && micAllowed && !muted);
   const send = (data: object) => {
     if (closed || socket?.readyState !== WebSocket.OPEN) return false;
     if (socket.bufferedAmount > 256 * 1024) { fail('LIVE_CONNECTION_ERROR'); return false; }
@@ -80,6 +88,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     if (closed) return;
     closed = true;
     abort.abort();
+    pendingAudio.length = 0;
     clearTimeout(startTimer);
     document.removeEventListener('visibilitychange', visibility);
     stopPlayers();
@@ -100,6 +109,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
   const allowMicAfterAudio = () => {
     if (closed || !turnFinished || players.size) return;
     micAllowed = true;
+    stream?.getAudioTracks().forEach(track => { track.enabled = !muted; });
     listening();
   };
   const play = (data: string) => {
@@ -126,10 +136,25 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     try {
       const message = JSON.parse(typeof event.data === 'string' ? event.data : await event.data.text());
       if (closed) return;
-      if (message.type === 'ready') { connected = true; clearTimeout(startTimer); }
+      if (message.type === 'ready') {
+        connected = true;
+        clearTimeout(startTimer);
+        for (const data of pendingAudio) { if (!send({ type: 'audio', data })) break; }
+        pendingAudio.length = 0; pendingAudioSize = 0;
+      }
       if (message.type === 'active') options.onActive(message.conversationId);
-      if (message.type === 'audio') { turnFinished = false; play(message.data); }
-      if (message.type === 'turnComplete') { turnFinished = true; allowMicAfterAudio(); }
+      if (message.type === 'audio') {
+        if (firstGreeting) {
+          greetingSize += message.data.length;
+          if (greetingSize <= 1024 * 1024) greetingFrames.push(message.data);
+          else greetingFrames.length = 0;
+        }
+        turnFinished = false; play(message.data);
+      }
+      if (message.type === 'turnComplete') {
+        if (firstGreeting) { storeLiveGreeting(options, greetingFrames); firstGreeting = false; }
+        turnFinished = true; allowMicAfterAudio();
+      }
       if (message.type === 'interrupted') { stopPlayers(); turnFinished = false; }
       if (message.type === 'cancelTurn') callId = null;
       if (message.type === 'transcript') options.onTranscript(message.text);
@@ -150,6 +175,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
   const session: LiveAppointmentSession = {
     close,
     ready: () => connected && !closed,
+    active: () => !closed,
     respond: text => {
       if (callId) { send({ type: 'reply', id: callId, text }); callId = null; }
       else send({ type: 'say', text });
@@ -162,7 +188,12 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     },
     setMuted: value => {
       muted = value;
-      if (value) { preRoll.length = 0; loudFrames = 0; send({ type: 'mute' }); }
+      stream?.getAudioTracks().forEach(track => { track.enabled = micAllowed && !muted && !closed; });
+      if (value) {
+        preRoll.length = 0; loudFrames = 0;
+        if (!connected) { pendingAudio.length = 0; pendingAudioSize = 0; voiceActivated = false; }
+        send({ type: 'mute' });
+      }
       else if (context) void context.resume().catch(() => fail('LIVE_AUDIO_UNAVAILABLE'));
       listening();
     },
@@ -174,23 +205,40 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
       const Context = window.AudioContext || (window as any).webkitAudioContext;
       if (!Context || !navigator.mediaDevices?.getUserMedia) { fail('LIVE_MIC_UNAVAILABLE'); return; }
       try { context = new Context({ sampleRate: 24000 }); } catch { context = new Context(); }
-      const resumed = context!.resume().then(() => null, error => error);
+      const resumed = context!.resume().then(() => {
+        if (preparedGreeting && !closed) {
+          for (const data of preparedGreeting) play(data);
+          turnFinished = true;
+        }
+        return null;
+      }, error => error);
       const mic = navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }, video: false,
       });
       const response = apiRequest('POST', '/api/ai-appointment-assistant/live-session', {
-        mode: options.mode, language: options.language, greeting: options.greeting, conversationId: options.conversationId,
+        mode: options.mode, language: options.language, greeting: options.greeting,
+        conversationId: options.conversationId, skipGreeting: Boolean(preparedGreeting),
       }, { signal: abort.signal }).then(value => ({ value }), error => ({ error }));
       stream = await mic;
       if (closed) { stream.getTracks().forEach(track => track.stop()); return; }
+      // Permission is requested in the click for mobile compatibility, but the
+      // microphone track supplies silence until the initial greeting finishes.
+      stream.getAudioTracks().forEach(track => { track.enabled = micAllowed && !muted; });
       if (await resumed) { fail('LIVE_AUDIO_UNAVAILABLE'); return; }
       if (context!.state !== 'running') { fail('LIVE_AUDIO_UNAVAILABLE'); return; }
       microphone = context!.createMediaStreamSource(stream);
       silentGain = context!.createGain();
       silentGain.gain.value = 0;
       const handleSamples = (samples: Float32Array) => {
-        if (closed || !connected || !micAllowed || muted) return;
+        if (closed || !micAllowed || muted) return;
         const encoded = encodeLivePCM(samples, context!.sampleRate);
+        const sendAudio = (data: string) => {
+          if (connected) { send({ type: 'audio', data }); return; }
+          // The cached greeting may finish before Live connects. Keep the user's
+          // first words, rather than showing green while silently losing them.
+          pendingAudio.push(data); pendingAudioSize += data.length;
+          if (pendingAudioSize > 200_000) fail('LIVE_START_TIMEOUT');
+        };
         if (!voiceActivated) {
           preRoll.push(encoded);
           if (preRoll.length > 4) preRoll.shift();
@@ -198,9 +246,9 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
           loudFrames = rms > 0.012 ? loudFrames + 1 : 0;
           if (loudFrames < 2) return;
           voiceActivated = true;
-          for (const frame of preRoll) send({ type: 'audio', data: frame });
+          for (const frame of preRoll) sendAudio(frame);
           preRoll.length = 0;
-        } else send({ type: 'audio', data: encoded });
+        } else sendAudio(encoded);
       };
       // Start the standard graph immediately. addModule can stall on WebViews
       // and headless/audio-disabled browsers; it must NEVER block the socket/greeting.
@@ -208,6 +256,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
       fallback.onaudioprocess = event => handleSamples(event.inputBuffer.getChannelData(0));
       processor = fallback;
       microphone.connect(processor); processor.connect(silentGain); silentGain.connect(context!.destination);
+      listening();
       if (context!.audioWorklet && typeof AudioWorkletNode !== 'undefined') {
         let expired = false;
         const workletDeadline = setTimeout(() => { expired = true; }, 1500);

@@ -5,7 +5,8 @@ import ts from 'typescript';
 import { completePersonalAppointmentDraft, personalAppointmentSchema } from '../shared/personalAppointments';
 import { detectAssistantConfirmation } from '../client/src/lib/appointmentAssistant';
 import { encodeLivePCM, decodeLivePCM, startLiveAppointmentSession } from '../client/src/lib/liveAppointmentSession';
-import { liveAppointmentSetup, liveInterpretationSchema } from '../shared/liveAppointmentProtocol';
+import { getPreparedLiveGreeting, prepareLiveGreeting, storeLiveGreeting } from '../client/src/lib/liveAppointmentGreeting';
+import { liveAppointmentSetup, liveInterpretationSchema, recoverPersonalTitle } from '../shared/liveAppointmentProtocol';
 
 test('Live config uses the native audio model, blocking application tools, transcription and no unsupported thinking settings', () => {
   const { setup } = liveAppointmentSetup('personal', 'it-IT');
@@ -16,6 +17,21 @@ test('Live config uses the native audio model, blocking application tools, trans
   assert.equal('proactiveAudio' in setup, false);
   assert.match(setup.systemInstruction.parts[0].text, /15 minuti/);
   assert.equal('confirmation' in setup.tools[0].functionDeclarations[0].parameters.properties, false);
+  assert.equal('clientName' in setup.tools[0].functionDeclarations[0].parameters.properties, false);
+  assert.equal('serviceName' in setup.tools[0].functionDeclarations[0].parameters.properties, false);
+  assert.match((setup.tools[0].functionDeclarations[0].parameters.properties.title as any).description, /dentista/);
+});
+test('Personal derives the stated dentist purpose without asking for a formal title or confusing it with a service', () => {
+  const text = 'Ho bisogno di fare un appuntamento per il dentista per il 22 alle ore 12:00.';
+  assert.deepEqual(recoverPersonalTitle({ date: '2026-10-22', startTime: '12:00' }, text), {
+    title: 'Dentista', date: '2026-10-22', startTime: '12:00',
+  });
+  assert.equal(recoverPersonalTitle({ serviceName: 'dentista' }, text).title, 'dentista');
+  assert.equal(recoverPersonalTitle({ title: 'Controllo annuale' }, text).title, 'Controllo annuale');
+  assert.equal(recoverPersonalTitle({}, 'Un appuntamento per il 22 alle 12').title, undefined);
+  assert.equal(recoverPersonalTitle({}, 'Un appuntamento per domani alle 12').title, undefined);
+  assert.equal(recoverPersonalTitle({}, 'Vorrei andare dal dentista domani alle 12').title, 'Dentista');
+  assert.equal(recoverPersonalTitle({}, 'Un incontro con Marco alle 12').title, 'Marco');
 });
 test('Live extraction cannot provide approval, customer IDs, or arbitrary fields', () => {
   assert.equal(liveInterpretationSchema.safeParse({ title: 'Dentista', startTime: '09:00' }).success, true);
@@ -81,6 +97,7 @@ test('Personal explicit approval keeps the actual submit callback pending until 
 test('real-time transport greets before capturing, returns tools on the same connection and stops all resources on close', async t => {
   const sockets: any[] = [], sources: any[] = [], errors: string[] = [], turns: any[] = [];
   let stopped = 0, listening = false, micNode: any;
+  let microphoneRequests = 0;
   let finishSave!: () => void;
   const pendingSave = new Promise<void>(resolve => { finishSave = resolve; });
   class Socket {
@@ -115,11 +132,15 @@ test('real-time transport greets before capturing, returns tools on the same con
   };
   set('window', { AudioContext: Context, location: { href: 'http://localhost/calendar' }, navigator: {}, matchMedia: () => ({ matches: false }) });
   set('document', { hidden: false, referrer: '', addEventListener() {}, removeEventListener() {} });
-  const track = { stop() { stopped++; }, addEventListener() {} };
-  set('navigator', { userAgent: 'unit-test', mediaDevices: { getUserMedia: async () => ({ getTracks: () => [track], getAudioTracks: () => [track] }) } });
+  const track = { enabled: true, stop() { stopped++; }, addEventListener() {} };
+  set('navigator', { userAgent: 'unit-test', mediaDevices: { getUserMedia: async () => {
+    microphoneRequests++;
+    return { getTracks: () => [track], getAudioTracks: () => [track] };
+  } } });
   set('WebSocket', Socket);
   set('AudioWorkletNode', class {});
-  t.mock.method(globalThis, 'fetch', async () => Response.json({ ticket: 'unit-capability', path: '/api/ai-appointment-assistant/live' }));
+  let fetchResponse = async (_url: any, _init: any): Promise<Response> => Response.json({ ticket: 'unit-capability', path: '/api/ai-appointment-assistant/live' });
+  t.mock.method(globalThis, 'fetch', (url, init) => fetchResponse(url, init));
   t.after(() => {
     for (const [key, descriptor] of originals) {
       if (descriptor) Object.defineProperty(globalThis, key, descriptor);
@@ -145,12 +166,14 @@ test('real-time transport greets before capturing, returns tools on the same con
   const samples = new Float32Array(4096).fill(0.3);
   const capture = () => micNode.onaudioprocess({ inputBuffer: { getChannelData: () => samples } });
   capture();
+  assert.equal(track.enabled, false, 'No local microphone audio during the greeting');
   assert.equal(socket.sent.filter((message: any) => message.type === 'audio').length, 0, 'No capture of the opening greeting');
   socket.emit({ type: 'audio', data: btoa('\0\0\0\0') });
   socket.emit({ type: 'turnComplete' });
   assert.equal(listening, false);
   sources[0].onended();
   assert.equal(listening, true);
+  assert.equal(track.enabled, true);
   capture(); capture();
   assert.ok(socket.sent.some((message: any) => message.type === 'audio'));
   socket.emit({ type: 'turn', id: 'turn-1', text: 'sì, alle nove', interpretation: { startTime: '09:00' } });
@@ -159,6 +182,7 @@ test('real-time transport greets before capturing, returns tools on the same con
   assert.deepEqual(socket.sent.find((message: any) => message.type === 'reply'), { type: 'reply', id: 'turn-1', text: 'Confermi?' });
   session.setMuted(true);
   assert.equal(listening, false);
+  assert.equal(track.enabled, false);
   const count = socket.sent.length;
   capture();
   assert.equal(socket.sent.length, count);
@@ -174,5 +198,55 @@ test('real-time transport greets before capturing, returns tools on the same con
   assert.equal(listening, false);
   assert.equal(stopped, 1);
   assert.equal(socket.readyState, 3);
+  assert.deepEqual(errors, []);
+
+  // Prepared audio starts without waiting for the ticket/model; the first
+  // actual user words are retained until the live connection is ready.
+  const cachedOptions = { mode: 'personal' as const, language: 'it-IT', greeting: 'Ciao prova cache. Dimmi pure.' };
+  storeLiveGreeting(cachedOptions, [btoa('\0\0\0\0')]);
+  let releaseTicket!: () => void, ticketBody: any;
+  fetchResponse = async (_url, init) => {
+    ticketBody = JSON.parse(init!.body as string);
+    await new Promise<void>(resolve => { releaseTicket = resolve; });
+    return Response.json({ ticket: 'cached-unit-capability', path: '/api/ai-appointment-assistant/live' });
+  };
+  const cachedSession = startLiveAppointmentSession({
+    ...cachedOptions, onListening: value => { listening = value; },
+    onTranscript() {}, onActive() {}, onError: code => errors.push(code), onTurn: async () => {},
+  });
+  t.after(() => cachedSession.close());
+  await Promise.resolve(); await Promise.resolve();
+  assert.equal(sources.length, 3, 'Cached PCM was scheduled before HTTP settled');
+  assert.equal(sockets.length, 1, 'No second socket until ticket arrives');
+  assert.equal(ticketBody.skipGreeting, true);
+  sources[2].onended();
+  assert.equal(listening, true, 'Capture can buffer safely while connecting');
+  assert.equal(track.enabled, true);
+  capture(); capture();
+  releaseTicket();
+  for (let i = 0; i < 20 && sockets.length < 2; i++) await new Promise(resolve => setTimeout(resolve, 5));
+  assert.equal(sockets.length, 2);
+  const cachedSocket = sockets[1];
+  cachedSocket.emit({ type: 'ready' });
+  cachedSocket.emit({ type: 'turnComplete' });
+  assert.ok(cachedSocket.sent.filter((message: any) => message.type === 'audio').length >= 2,
+    'The first words are forwarded instead of lost during the handshake');
+  assert.equal(sources.length, 3, 'No duplicate greeting required');
+  cachedSession.close();
+
+  // Background preparation must neither request a microphone nor play audio.
+  fetchResponse = async () => Response.json({ ticket: 'warm-unit-capability', path: '/api/ai-appointment-assistant/live' });
+  const warmOptions = { ...cachedOptions, greeting: 'Ciao preparazione separata.' };
+  const capturesBefore = microphoneRequests, playbacksBefore = sources.length;
+  prepareLiveGreeting(warmOptions);
+  for (let i = 0; i < 20 && sockets.length < 3; i++) await new Promise(resolve => setTimeout(resolve, 5));
+  assert.equal(sockets.length, 3);
+  const warmSocket = sockets[2];
+  warmSocket.emit({ type: 'audio', data: btoa('\0\0') });
+  warmSocket.emit({ type: 'turnComplete' });
+  assert.deepEqual(getPreparedLiveGreeting(warmOptions), [btoa('\0\0')]);
+  assert.equal(warmSocket.readyState, 3);
+  assert.equal(microphoneRequests, capturesBefore);
+  assert.equal(sources.length, playbacksBefore);
   assert.deepEqual(errors, []);
 });

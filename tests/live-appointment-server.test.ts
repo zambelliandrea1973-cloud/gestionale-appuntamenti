@@ -62,6 +62,16 @@ test('Live proxy has one-use authorization, deferred trial reservation, verified
   await wait(() => received.some(value => value.type === 'ready'));
   assert.equal(reservations, 0, 'Opening and greeting do not spend a trial conversation');
   assert.match(provider.sent[1].clientContent.turns[0].parts[0].text, /^APP_SAY /);
+  const backgroundTicket = await (await fetch(origin + '/api/ai-appointment-assistant/live-session', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mode: 'personal', language: 'it-IT', greeting: 'Ciao.', greetingOnly: true }),
+  })).json();
+  const background = new WebSocket(origin.replace('http:', 'ws:') + path, { origin });
+  await once(background, 'open');
+  background.send(JSON.stringify({ type: 'start', ticket: backgroundTicket.ticket }));
+  await once(background, 'close');
+  assert.equal(client.readyState, WebSocket.OPEN, 'Late warmup never disconnects a real conversation');
+  assert.equal(providers.length, 1, 'No second provider model needed while already talking');
   // Replaying an consumed capability cannot open a second provider connection.
   const replay = new WebSocket(origin.replace('http:', 'ws:') + path, { origin });
   replay.on('error', () => {});
@@ -73,12 +83,13 @@ test('Live proxy has one-use authorization, deferred trial reservation, verified
   await wait(() => received.some(value => value.type === 'active'));
   assert.equal(reservations, 1);
   provider.event({
-    serverContent: { inputTranscription: { text: 'Dentista domani alle nove' } },
-    toolCall: { functionCalls: [{ id: 'tool-1', name: 'appointment_turn', args: { title: 'Dentista', startTime: '09:00' } }] },
+    serverContent: { inputTranscription: { text: 'Ho bisogno di fare un appuntamento per il dentista per il 22 alle ore 12:00.' } },
+    toolCall: { functionCalls: [{ id: 'tool-1', name: 'appointment_turn', args: { date: '2026-10-22', startTime: '12:00' } }] },
   });
   await wait(() => received.some(value => value.type === 'turn'));
   const turn = received.find(value => value.type === 'turn');
-  assert.equal(turn.text, 'Dentista domani alle nove');
+  assert.equal(turn.text, 'Ho bisogno di fare un appuntamento per il dentista per il 22 alle ore 12:00.');
+  assert.equal(turn.interpretation.title, 'Dentista', 'The exact reported omission is repaired before the UI asks for a title');
   assert.deepEqual(authorizations, ['interpretation']);
   client.send(JSON.stringify({ type: 'reply', id: turn.id, text: 'Confermi questo impegno?' }));
   await wait(() => provider.sent.some(value => value.toolResponse));

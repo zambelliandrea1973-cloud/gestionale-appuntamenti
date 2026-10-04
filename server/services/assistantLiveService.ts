@@ -7,17 +7,20 @@ import { z } from 'zod';
 import { requireAuth } from '../middleware/authMiddleware';
 import { sendAITrialError } from '../routes/aiTrialRoutes';
 import { authorizeAppointmentAI, beginAppointmentConversation, getAITrialUsage } from './aiTrialUsageService';
-import { liveAppointmentSetup, liveInterpretationSchema, LIVE_SESSION_MS, LIVE_SOCKET_PATH } from '../../shared/liveAppointmentProtocol';
+import { liveAppointmentSetup, liveInterpretationSchema, recoverPersonalTitle, LIVE_SESSION_MS, LIVE_SOCKET_PATH } from '../../shared/liveAppointmentProtocol';
 
 const startSchema = z.object({
   mode: z.enum(['work', 'personal']),
   language: z.string().min(2).max(20),
   greeting: z.string().min(1).max(250),
   conversationId: z.string().uuid().nullable().optional(),
+  skipGreeting: z.boolean().optional(),
+  greetingOnly: z.boolean().optional(),
 });
 type Ticket = z.infer<typeof startSchema> & { userId: number; expires: number };
 const tickets = new Map<string, Ticket>();
 const activeAccounts = new Map<number, WebSocket>();
+const warmingAccounts = new Map<number, WebSocket>();
 
 /** One-use, short-lived capabilities. No API key or audio is sent to storage. */
 export function consumeLiveTicket(ticket: string): Ticket | undefined {
@@ -95,6 +98,7 @@ export function registerAssistantLive(app: Express, server: Server, dependencies
       upstream?.close();
       client.close(1000);
       if (ticket && activeAccounts.get(ticket.userId) === client) activeAccounts.delete(ticket.userId);
+      if (ticket && warmingAccounts.get(ticket.userId) === client) warmingAccounts.delete(ticket.userId);
     };
     const forward = (data: object) => {
       if (!ready || upstream?.readyState !== WebSocket.OPEN || upstream.bufferedAmount > 512 * 1024) throw new Error('Live unavailable');
@@ -127,8 +131,16 @@ export function registerAssistantLive(app: Express, server: Server, dependencies
           if (message.type !== 'start' || typeof message.ticket !== 'string') { close('LIVE_AUTH_REQUIRED'); return; }
           ticket = consumeLiveTicket(message.ticket);
           if (!ticket) { close('LIVE_AUTH_REQUIRED'); return; }
-          activeAccounts.get(ticket.userId)?.close(1000);
-          activeAccounts.set(ticket.userId, client);
+          if (ticket.greetingOnly) {
+            // A delayed background preparation must never replace an open conversation.
+            if (activeAccounts.has(ticket.userId)) { close('LIVE_PREPARATION_BUSY'); return; }
+            warmingAccounts.get(ticket.userId)?.close(1000);
+            warmingAccounts.set(ticket.userId, client);
+          } else {
+            warmingAccounts.get(ticket.userId)?.close(1000);
+            activeAccounts.get(ticket.userId)?.close(1000);
+            activeAccounts.set(ticket.userId, client);
+          }
           const key = process.env.GEMINI_APPOINTMENTS_API_KEY;
           if (!key) { close('LIVE_NOT_CONFIGURED'); return; }
           upstream = dependencies.connectProvider(key);
@@ -139,6 +151,7 @@ export function registerAssistantLive(app: Express, server: Server, dependencies
           let deferredCall: { id: string; name: string; args: unknown } | null = null;
           let transcriptionTimer: ReturnType<typeof setTimeout> | undefined;
           const deliverCall = async (call: { id: string; name: string; args: unknown }) => {
+            if (ticket?.greetingOnly) { close('LIVE_INVALID_TOOL'); return; }
             const parsed = liveInterpretationSchema.safeParse(call.args);
             if (!parsed.success || !inputText.trim() || !activated || !ticket) {
               forward({ toolResponse: { functionResponses: [{ id: call.id, name: call.name, response: {
@@ -151,7 +164,8 @@ export function registerAssistantLive(app: Express, server: Server, dependencies
             if (closed) return;
             toolBusy = true;
             pendingCalls.add(call.id);
-            send({ type: 'turn', id: call.id, text: inputText.trim(), interpretation: parsed.data });
+            const interpretation = ticket.mode === 'personal' ? recoverPersonalTitle(parsed.data, inputText.trim()) : parsed.data;
+            send({ type: 'turn', id: call.id, text: inputText.trim(), interpretation });
             inputText = '';
           };
           upstream.on('message', data => {
@@ -162,7 +176,8 @@ export function registerAssistantLive(app: Express, server: Server, dependencies
                 ready = true;
                 clearTimeout(timers[0]);
                 send({ type: 'ready' });
-                forward({ clientContent: { turns: [{ role: 'user', parts: [{ text: 'APP_SAY ' + ticket.greeting }] }], turnComplete: true } });
+                if (ticket.skipGreeting) send({ type: 'turnComplete' });
+                else forward({ clientContent: { turns: [{ role: 'user', parts: [{ text: 'APP_SAY ' + ticket.greeting }] }], turnComplete: true } });
               }
               const content = event.serverContent;
               if (content?.inputTranscription?.text) {
@@ -221,6 +236,7 @@ export function registerAssistantLive(app: Express, server: Server, dependencies
             /not found|permission|not supported|model/i.test(reason.toString()) ? 'LIVE_MODEL_UNAVAILABLE' : 'LIVE_PROVIDER_CLOSED'));
           return;
         }
+        if (ticket.greetingOnly) { close('LIVE_PREPARATION_ONLY'); return; }
         if (message.type === 'audio') {
           if (typeof message.data !== 'string' || !/^[A-Za-z0-9+/]*={0,2}$/.test(message.data) || message.data.length > 16000) throw new Error('Invalid audio');
           await activate();

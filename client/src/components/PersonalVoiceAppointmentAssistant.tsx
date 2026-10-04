@@ -13,6 +13,7 @@ import { ApiRequestError } from '@/lib/apiError';
 import { createAssistantTrialConversation } from '@/lib/assistantTrialConversation';
 import { createAssistantRecognition } from '@/lib/assistantRecognition';
 import { startLiveAppointmentSession, type LiveAppointmentSession } from '@/lib/liveAppointmentSession';
+import { prepareLiveGreeting } from '@/lib/liveAppointmentGreeting';
 import type { LiveInterpretation } from '../../../shared/liveAppointmentProtocol';
 import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
 import { detectAssistantConfirmation, getAssistantGreetingName } from '@/lib/appointmentAssistant';
@@ -59,6 +60,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   const speechLocale = ({ it:'it-IT', en:'en-US', de:'de-DE', fr:'fr-FR', es:'es-ES', nl:'nl-NL', no:'nb-NO', ro:'ro-RO', ru:'ru-RU', hi:'hi-IN', ar:'ar-SA' } as Record<string,string>)[locale.split('-')[0]] || locale;
   const greetingName = getAssistantGreetingName(professionalEmail);
   const greetingText = `${greetingName ? t('voiceAppointmentAssistant.greeting', { name: greetingName }) : t('voiceAppointmentAssistant.greetingFallback')}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`;
+  useEffect(() => { prepareLiveGreeting({ mode: 'personal', language: speechLocale, greeting: greetingText }); }, [speechLocale, greetingText]);
   const ready = personalAppointmentSchema.safeParse({ ...completePersonalAppointmentDraft(draft), location: draft.location || '', notes: draft.notes || '' });
   function clearSpeechTimers() {
     speechTimers.current.forEach(timer => window.clearTimeout(timer));
@@ -300,7 +302,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   }
   submitRef.current = submit;
   function listen() {
-    if (liveSession.current?.ready()) { liveSession.current.setMuted(listening); return; }
+    if (liveSession.current?.active()) { liveSession.current.setMuted(listening); return; }
     beginLive();
   }
   function legacyListen() {
