@@ -140,6 +140,9 @@ export function FloatingActionButton({
       leftmost - FLOATING_ACTION_GAP - baseWidth * currentScale,
       targetCenter - centerOffset,
     );
+    // Empty space in the draggable shell may extend beyond the viewport; do
+    // not let its height move the visible button above the microphone.
+    rowPosition.y = targetCenter - centerOffset;
     if (window.innerWidth < 640 && !hasDragged.current && !obstacles.some(obstacle=>overlapsObstacle(rowPosition,obstacle))) return rowPosition;
     if (!obstacles.some(rect=>overlapsObstacle(viewportPosition,rect))) return viewportPosition;
     const alternatives=[rowPosition,...obstacles.flatMap(obstacle=>[

@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { readPrivateAppointmentMode, persistPrivateAppointmentMode, resetNativeAppointmentMode } from '@/lib/privateAppointmentMode';
 import { useQueryClient } from '@tanstack/react-query';
 import { privateApi, clearPrivateToken, setPrivateToken, setPrivateUnauthorizedHandler, PrivateApiError, type EventDraft, type PrivateAccess, type PrivateEvent, type PrivateIdentity, type PrivateProfiles } from './api';
 
@@ -28,7 +29,11 @@ export function PrivateAppointmentsProvider({ children, accountKey }: { children
   const [events, setEventsState] = useState<PrivateEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [mode, setMode] = useState<'work'|'free'>('work');
+  const [mode, setModeState] = useState<'work'|'free'>(() => readPrivateAppointmentMode(accountKey));
+  const setMode = useCallback((next: 'work' | 'free') => {
+    setModeState(next);
+    persistPrivateAppointmentMode(accountKey, next);
+  }, [accountKey]);
   const [dialog, setDialog] = useState<'manual'|'voice'|null>(null);
   const [creationDefaults, setCreationDefaults] = useState<Partial<EventDraft>|null>(null);
   const [profileId, setProfileId] = useState<number|null>(null);
@@ -41,7 +46,6 @@ export function PrivateAppointmentsProvider({ children, accountKey }: { children
     tokenExpiry.current=null;
     clearPrivateToken();
     setAccess(null); setEventsState([]); setDialog(null); setCreationDefaults(null); setProfileId(null);
-    setMode('work');
     queryClient.removeQueries({ predicate: q => String(q.queryKey[0]).startsWith('private-appointments') });
   }, [queryClient]);
   const armTokenExpiry = useCallback(() => {
@@ -56,6 +60,10 @@ export function PrivateAppointmentsProvider({ children, accountKey }: { children
   const lockImmediately = useCallback(() => { clearSensitive(); }, [clearSensitive]);
   useEffect(() => {
     active.current = true;
+    const preference = readPrivateAppointmentMode(accountKey);
+    setModeState(preference);
+    persistPrivateAppointmentMode(accountKey, preference);
+    resetNativeAppointmentMode(accountKey);
     clearSensitive();
     setProfiles(null);
     const requestGeneration = generation.current;

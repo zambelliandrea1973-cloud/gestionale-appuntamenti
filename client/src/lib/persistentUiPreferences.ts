@@ -4,6 +4,21 @@ function preferenceKey(userId: number, preference: string): string {
   return `${PERSISTENT_UI_PREFIX}${userId}:${preference}`;
 }
 
+export function getPersistentUiPreferenceValue(
+  userId: number,
+  preference: string
+): string | null {
+  return localStorage.getItem(preferenceKey(userId, preference));
+}
+
+export function setPersistentUiPreferenceValue(
+  userId: number,
+  preference: string,
+  value: string
+): void {
+  localStorage.setItem(preferenceKey(userId, preference), value);
+}
+
 export function hasPersistentUiPreference(
   userId: number,
   preference: string

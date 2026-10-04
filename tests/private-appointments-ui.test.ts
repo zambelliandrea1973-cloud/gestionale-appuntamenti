@@ -38,6 +38,7 @@ test('mobile month has one manual action and both paths respect free mode', () =
   assert.match(month, /showNewAppointmentAction=\{false\}/, 'old in-grid plus does not duplicate the bottom-row manual action');
   const fab = readFileSync('client/src/components/FloatingActionButton.tsx', 'utf8');
   assert.match(fab, /privateAppointments\.mode === 'free'[\s\S]*privateAppointments\.openCreate\('manual'\)/);
+  assert.match(fab, /rowPosition\.y = targetCenter - centerOffset/, 'align the visible button without clamping its empty shell');
   assert.match(fab, /const alternatives=\[rowPosition,/);
   const width = 56, margin = 12, sliderLeft = 174, micTop = 806, micHeight = 48;
   const position = { x: sliderLeft - margin - width, y: micTop + (micHeight - 48) / 2 };
@@ -73,4 +74,37 @@ test('one completed day-slot tap opens the selected mode with its date/time, nev
     });
     else assert.deepEqual(dialogs[0], { work: true });
   }
+});
+
+test('account-scoped creation mode survives private locking without retaining access', () => {
+  const values = new Map<string, string>();
+  const storage = { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => values.set(key, value) };
+  const ui: any = {}, mode: any = {};
+  let notified = 0;
+  const execute = (file: string, exports: any, require: (id: string) => any) => {
+    const source = ts.transpileModule(readFileSync(file, 'utf8'), {
+      compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },
+    }).outputText;
+    new Function('exports', 'require', 'localStorage', 'window', source)(
+      exports, require, storage, { dispatchEvent: () => notified++ },
+    );
+  };
+  execute('client/src/lib/persistentUiPreferences.ts', ui, () => { throw new Error('Unexpected dependency'); });
+  execute('client/src/lib/privateAppointmentMode.ts', mode, (id) => {
+    assert.equal(id, './persistentUiPreferences'); return ui;
+  });
+  assert.equal(mode.readPrivateAppointmentMode(), 'work');
+  ui.setPersistentUiPreferenceValue(41, 'appointment-creation-mode', 'personal');
+  assert.equal(mode.readPrivateAppointmentMode(41), 'free', 'retain previous account preference');
+  mode.persistPrivateAppointmentMode(41, 'free');
+  mode.resetNativeAppointmentMode(41);
+  assert.equal(mode.readPrivateAppointmentMode(41), 'free', 'native work forms cannot reset private selector');
+  assert.equal(mode.readPrivateAppointmentMode(42), 'work', 'no preference shared with a different account');
+  assert.equal(notified, 1, 'native controls update their stale mode');
+  assert.ok([...values.keys()].every((key) => ui.isPersistentUiPreferenceKey(key)), 'login/logout cleanup retains only safe UI preferences');
+  const provider = readFileSync('client/src/components/private-appointments/PrivateAppointmentsProvider.tsx', 'utf8');
+  const cleanup = provider.slice(provider.indexOf('const clearSensitive'), provider.indexOf('const armTokenExpiry'));
+  assert.match(cleanup, /clearPrivateToken\(\)/);
+  assert.match(cleanup, /setAccess\(null\)/);
+  assert.doesNotMatch(cleanup, /setMode|persistPrivateAppointmentMode/, 'locking discards access, not chosen mode');
 });
