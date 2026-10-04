@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import test from 'node:test';
 import ts from 'typescript';
+import { formatAssistantDate } from '../client/src/lib/appointmentAssistant';
 import './assistant-speech.test';
 import './assistant-trial-conversation.test';
 import './ai-trial-policy.test';
@@ -13,6 +14,20 @@ import './assistant-recognition.test';
 import './offline-assistant-greeting.test';
 import './live-appointment-session.test';
 import './live-appointment-server.test';
+
+test('Italian confirmation dates include weekday, unpadded day, full month and year without mutating ISO dates', () => {
+  assert.equal(formatAssistantDate('2026-10-19', 'it-IT'), 'lunedì 19 ottobre 2026');
+  assert.equal(formatAssistantDate('2026-10-05', 'it'), 'lunedì 5 ottobre 2026');
+  assert.equal(formatAssistantDate('2028-02-29', 'it-IT'), 'martedì 29 febbraio 2028');
+  assert.equal(formatAssistantDate('2026-02-30', 'it-IT'), '2026-02-30');
+  assert.equal(formatAssistantDate('', 'it-IT'), '');
+  assert.match(formatAssistantDate('2026-10-19', 'en-US'), /Monday.*October.*19.*2026/);
+  const personal = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
+  const work = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
+  assert.match(personal, /formatAssistantDate\(ready\.data\.date, locale\)/);
+  assert.match(work, /formatAssistantDate\(nextDraft\.date, speechLocale\)/);
+  assert.match(personal, /save\.mutate\(ready\.data\)/);
+});
 
 test('the restored appointment assistant has no unresolved runtime names', () => {
   const root = process.cwd();

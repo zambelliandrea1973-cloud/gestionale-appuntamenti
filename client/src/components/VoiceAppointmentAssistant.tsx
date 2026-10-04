@@ -22,6 +22,7 @@ import { createAssistantTrialConversation } from '@/lib/assistantTrialConversati
 import {
   addMinutesToTime,
   detectAssistantConfirmation,
+  formatAssistantDate,
   findAssistantClient,
   findAssistantClientSuggestion,
   findAssistantService,
@@ -797,16 +798,7 @@ function ProfessionalVoiceAppointmentAssistant({
       }
     }
 
-    const date = new Date(`${nextDraft.date}T12:00:00`);
-    const readableDate = Number.isNaN(date.getTime())
-      ? nextDraft.date
-      : new Intl.DateTimeFormat(speechLocale, {
-        weekday: 'long',
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-        timeZone: 'Europe/Rome'
-      }).format(date);
+    const readableDate = formatAssistantDate(nextDraft.date, speechLocale);
     const notesText = nextDraft.notes
       ? t('voiceAppointmentAssistant.notes', { value: nextDraft.notes })
       : '';

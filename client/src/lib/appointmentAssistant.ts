@@ -37,6 +37,20 @@ export function getAssistantGreetingName(email: string | null | undefined): stri
     .trim();
 }
 
+/** Display a calendar date without changing its stored ISO value or weekday across time zones. */
+export function formatAssistantDate(value: string, locale = 'it-IT'): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+  const date = new Date(`${value}T12:00:00Z`);
+  if (Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) return value;
+  return new Intl.DateTimeFormat(locale, {
+    weekday: 'long',
+    day: locale.split('-')[0].toLowerCase() === 'it' ? 'numeric' : '2-digit',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Europe/Rome',
+  }).format(date);
+}
+
 export type AssistantConfirmation = 'yes' | 'no' | 'unknown';
 
 export function detectAssistantConfirmation(

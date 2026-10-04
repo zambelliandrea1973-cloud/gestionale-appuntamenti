@@ -16,7 +16,7 @@ import { startLiveAppointmentSession, type LiveAppointmentSession } from '@/lib/
 import { prepareLiveGreeting } from '@/lib/liveAppointmentGreeting';
 import type { LiveInterpretation } from '../../../shared/liveAppointmentProtocol';
 import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
-import { detectAssistantConfirmation, getAssistantGreetingName } from '@/lib/appointmentAssistant';
+import { detectAssistantConfirmation, formatAssistantDate, getAssistantGreetingName } from '@/lib/appointmentAssistant';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess, type AITrialAccess } from '@/hooks/use-ai-trial-access';
 import { PERSONAL_APPOINTMENTS_QUERY, notifyPersonalAppointmentSaved } from '@/hooks/use-personal-appointments';
 import { completePersonalAppointmentDraft, personalAppointmentSchema, type PersonalAppointmentInput } from '../../../shared/personalAppointments';
@@ -398,7 +398,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
         <div ref={chatEnd} />
       </div>
       {ready.success && <div className="mx-4 mb-3 rounded-xl border p-3 text-sm bg-white">
-        <h3 className="font-bold">{ready.data.title}</h3><p className="mt-1">{ready.data.date} · {ready.data.startTime}–{ready.data.endTime}</p>
+        <h3 className="font-bold">{ready.data.title}</h3><p className="mt-1">{formatAssistantDate(ready.data.date, locale)} · {ready.data.startTime}–{ready.data.endTime}</p>
         {ready.data.location && <p>{ready.data.location}</p>}{ready.data.notes && <p>{ready.data.notes}</p>}
         <Button disabled={processing || save.isPending} onClick={() => save.mutate(ready.data)} className="mt-3 bg-violet-600 text-white"><Check className="h-4 w-4 mr-2" />{t('personalAppointments.confirm', 'Conferma impegno')}</Button>
       </div>}
