@@ -9,12 +9,45 @@ import { isAdmin } from '../auth';
 import { licenseService, LicenseType } from '../services/licenseService';
 import { db } from '../db';
 import { users, licenses, subscriptions, subscriptionPlans, userLogins } from '../../shared/schema';
-import { eq, desc, sql, gte, and, count, ne, notInArray, inArray } from 'drizzle-orm';
+import { eq, desc, sql, gte, and, count, ne, notInArray, inArray, isNotNull } from 'drizzle-orm';
 
 const router = express.Router();
 
 // Protection middleware: only admin can access
 router.use(isAdmin);
+
+// Historical offer milestones are cumulative: a purchase can also have an open and click.
+// Never return the token hash (or license codes) to the reporting client.
+router.get('/recovery-offers', async (_req, res) => {
+  try {
+    const offers = await db.select({
+      licenseId: licenses.id,
+      username: users.username,
+      email: users.email,
+      sentAt: licenses.recoveryOfferSentAt,
+      openedAt: licenses.recoveryOfferOpenedAt,
+      clickedAt: licenses.recoveryOfferClickedAt,
+      usedAt: licenses.recoveryOfferUsedAt,
+      expiresAt: licenses.recoveryOfferExpiresAt,
+    }).from(licenses)
+      .leftJoin(users, eq(licenses.userId, users.id))
+      .where(isNotNull(licenses.recoveryOfferSentAt))
+      .orderBy(desc(licenses.recoveryOfferSentAt));
+
+    const now = Date.now();
+    const summary = {
+      sent: offers.length,
+      opened: offers.filter(offer => offer.openedAt).length,
+      clicked: offers.filter(offer => offer.clickedAt).length,
+      purchased: offers.filter(offer => offer.usedAt).length,
+      expired: offers.filter(offer => !offer.usedAt && offer.expiresAt && offer.expiresAt.getTime() <= now).length,
+    };
+    res.set('Cache-Control', 'no-store').json({ offers, summary });
+  } catch (error) {
+    console.error('Error retrieving recovery offers:', error);
+    res.status(500).json({ message: 'Error retrieving recovery offers' });
+  }
+});
 
 /**
  * Get all users with their license and subscription states

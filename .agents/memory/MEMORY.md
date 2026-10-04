@@ -1,5 +1,28 @@
-- [Calendar range endpoint isolation](calendar-range-isolation.md) — getAppointmentsByDateRange had no user filter; fixed with INNER JOIN users WHERE role IN ('admin','staff')
+- [Calendar range endpoint isolation](calendar-range-isolation.md) — getAppointmentsByDateRange now includes ev_staff/ev_admin; original fix only had admin+staff
 - [Onboarding demo data](onboarding-demo-data.md) — new registrations auto-get ~270 demo appointments via onboardingDemoService.ts; demo clients are Elena Greco, Marco Conti, Lucia Esposito, etc.
 - [AI appointment assistant safety](ai-appointment-assistant-safety.md) — voice scheduling requires explicit approval and resource-aware overlap handling.
 - [Google OAuth callbacks across browser contexts](google-oauth-ios-callbacks.md) — use durable one-time transactions; callbacks must not depend on a shared PWA/Safari cookie.
 - [Banner dismissal semantics](banner-dismissal-semantics.md) — permanent dismissal survives login per account; reminders and close actions last only for the current session.
+- [Trial recovery offers](trial-recovery-offers.md) — expired-trial discounts use Stripe only until other methods can prove the first payment safely.
+- [Stale Git rebase state](stale-git-rebase.md) — detached HEAD may advance long after a rebase paused; inspect ancestry before continuing it.
+- [Mobile calendar card gestures](mobile-calendar-card-gestures.md) — use completed taps for expansion, preserve scrolling, and leave cards open for reading.
+- [GitHub delivery and Sliplane](github-sliplane-deploy.md) — deliver dependent files atomically against the latest remote; check main-push automation before promising no publication.
+- [Explicit SELECT columns pattern](explicit-select-gender-pattern.md) — route con select esplicito omettono silenziosamente le nuove colonne; aggiornare TUTTE le route dopo ogni ALTER TABLE.
+- [EV orders visibility — ev_admin](ev-orders-ev-admin.md) — ev_admin ha type='staff' non 'admin'; GET /ev-orders deve controllare role='ev_admin' oltre a type='admin' per vedere tutti gli ordini.
+- [Data persistence across role changes](data-persistence-roles.md) — tutti i dati sono keyed by userId; role/type cambiano solo permessi. ev_staff/ev_admin hanno type='staff' quindi passano i check basati su type senza perdita dati.
+- [Google Calendar sync — auto-disable on invalid_grant](gcal-no-auto-disable.md) — su invalid_grant il sync DEVE auto-disabilitarsi (azzera enabled+token); il check va su importResult.errors, non sul catch (codice morto).
+- [Multi-account Google Calendar](gcal-multi-account.md) — secondary accounts import-only; scope googleAccounts by id AND userId; imported events = grey card + colored source-account band (gestionale untouched).
+- [Google Calendar sync — forceFullSync + no slot filter](gcal-forcefullsync.md) — ogni sync (auto e manuale) usa forceFullSync=true; filtro slot-conflict RIMOSSO; rule: importare SEMPRE tutto senza skip.
+- [Google Calendar event color logic](gcal-event-color-logic.md) — REGOLA DEFINITIVA: nativo→colore servizio; importato Step A match servizio→colore servizio; Step B→grigio+banda account Google.
+- [Auth serialization + role normalization](auth-role-normalization.md) — serializeUser/deserializeUser normalizzano sempre type da role; aggiungere qui nuovi ruoli se esteso il sistema.
+- [Shared DB + ENCRYPTION_KEY mismatch](shared-db-encryption-key.md) — dev e prod condividono il DB Neon; ENCRYPTION_KEY deve essere identica in entrambi o i token Google non si decriptano.
+- [Schema migration → produzione ko](schema-migration-prod-outage.md) — aggiungere colonna a schema.ts SENZA migration in ensureSessionTable() blocca login di TUTTI in produzione.
+- [EV Cosmetics — cose da perfezionare e testare](ev-pending-testing.md) — flusso Stripe shop, spedizione+email, commissioni sponsor, report admin: tutti implementati ma da testare end-to-end.
+- [Google Calendar auto-restore rules](gcal-auto-restore-rules.md) — NO redirect automatico OAuth; solo calendari accessRole=owner; needs_oauth mostra solo banner manuale.
+- [AI trial usage policy](ai-trial-usage-policy.md) — account-wide trial budgets count conversations, not phrases; quota prompts and direct subscription buttons must cover all languages.
+- [Historical source recovery](historical-source-recovery.md) — use full temporary exports and byte comparisons, not shell callback output, for exact restoration.
+- [Gemini billing continuity](gemini-billing-continuity.md) — keep voice and existing AI functions funded; the user does not require separate billing.
+- [Appuntamenti liberi](free-private-appointments.md) — privacy approvata, password solo con più professionisti, modalità manuale/vocale in basso e singolo tocco sull’ora.
+- [Preservare i prototipi](mockup-preservation.md) — una cartella sandbox esistente non garantisce che l’artefatto sia registrato; conservare sempre i prototipi precedenti.
+- [TypeScript verification memory](typescript-verification-memory.md) — il controllo completo richiede più memoria del limite Node predefinito; non confondere OOM con errori di codice.
+- [Private Google reconciliation](private-google-outbox.md) — unacknowledged remote writes still require deletion tombstones and durable destination binding.

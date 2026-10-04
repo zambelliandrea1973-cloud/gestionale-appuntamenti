@@ -408,10 +408,10 @@ export default function EmailSettings() {
     }
   };
   
-  // Reset del template dell'email al valore predefinito
+  // Reset del template dell'email al valore predefinito (usa la lingua corrente al momento del click)
   const resetEmailTemplate = () => {
-    form.setValue('emailTemplate', DEFAULT_EMAIL_TEMPLATE);
-    form.setValue('emailSubject', DEFAULT_EMAIL_SUBJECT);
+    form.setValue('emailTemplate', getDefaultEmailTemplate());
+    form.setValue('emailSubject', getDefaultEmailSubject());
   };
   
   // Variabili di stato per il dialog
@@ -637,7 +637,6 @@ export default function EmailSettings() {
                   </div>
                   
 
-                  
                   <FormField
                     control={form.control}
                     name="emailSubject"

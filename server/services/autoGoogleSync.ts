@@ -6,10 +6,6 @@ import { logger } from '../utils/logger';
  */
 
 import { db } from '../db';
-import { users, googleCalendarEvents } from '../../shared/schema';
-import { eq } from 'drizzle-orm';
-import { google } from 'googleapis';
-import { EncryptionService } from './encryption';
 import { isDemoAppointment } from './demoAppointmentGuard';
 
 type SyncAction = 'create' | 'update' | 'delete';
@@ -160,18 +156,37 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
  */
 async function createGoogleEvent(calendar: any, calendarId: string, appointment: AppointmentData): Promise<void> {
   try {
-    // Build event date/time - USE ISO format WITHOUT Z to respect the local timezone
-    // Handle both HH:MM and HH:MM:SS formats
-    const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
-    const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
-    const startDateTimeStr = `${appointment.date}T${startTime}`;
-    const endDateTimeStr = `${appointment.date}T${endTime}`;
+    // Guard: if a tracking record already exists (e.g. from a previous auto-sync run),
+    // do NOT create a second Google Calendar event — just ensure synced=true.
+    const existingBefore = await db.select()
+      .from(googleCalendarEvents)
+      .where(eq(googleCalendarEvents.appointmentId, appointment.id))
+      .limit(1);
+    if (existingBefore.length > 0) {
+      await db.update(appointments)
+        .set({ synced: true, googleEventId: existingBefore[0].googleEventId })
+        .where(eq(appointments.id, appointment.id));
+      logger.debug(`⏭️ [AUTO-SYNC] Skip create — tracking record already exists for appointment ${appointment.id}`);
+      return;
+    }
+
+    // Build RFC3339 datetime strings with Italy timezone offset embedded (e.g. "2026-06-30T15:00:00+02:00")
+    // This is unambiguous for Google Calendar API — the offset is DST-aware.
+    const startDateTimeStr = italyTimeToRfc3339(appointment.date, appointment.startTime);
+    const endDateTimeStr   = italyTimeToRfc3339(appointment.date, appointment.endTime);
     
-    console.log(`📅 [AUTO-SYNC] Creating event: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
+    console.log(`📅 [AUTO-SYNC] Creating event: ${startDateTimeStr} – ${endDateTimeStr}`);
+
+    // CRITICAL: mark the event with source='gestionale' so the import loop
+    // recognises it as an app-exported event and never re-imports it as a duplicate.
+    const _gesSig = `#gestionale ${JSON.stringify({ id: appointment.id, svcId: appointment.serviceId || 0, cliId: appointment.clientId || 0 })}`;
+    const description = (appointment.notes
+      ? `${appointment.notes}\n\n${_gesSig}`
+      : _gesSig);
 
     const event = {
-      summary: `Appointment #${appointment.id}`,
-      description: appointment.notes || 'Appointment from the scheduler',
+      summary: `Appuntamento #${appointment.id}`,
+      description,
       start: {
         dateTime: startDateTimeStr,
         timeZone: 'Europe/Rome',
@@ -180,6 +195,14 @@ async function createGoogleEvent(calendar: any, calendarId: string, appointment:
         dateTime: endDateTimeStr,
         timeZone: 'Europe/Rome',
       },
+      extendedProperties: {
+        private: {
+          source: 'gestionale',
+          appointmentId: String(appointment.id),
+          svcId: String(appointment.serviceId || 0),
+          cliId: String(appointment.clientId || 0),
+        }
+      }
     };
 
     const response = await calendar.events.insert({
@@ -188,35 +211,34 @@ async function createGoogleEvent(calendar: any, calendarId: string, appointment:
     });
 
     if (response.data.id) {
-      // Save the event mapping - use upsert to handle duplicates
-      const existingMapping = await db.select()
-        .from(googleCalendarEvents)
-        .where(eq(googleCalendarEvents.appointmentId, appointment.id))
-        .limit(1);
-      
-      if (existingMapping.length > 0) {
-        // Update existing mapping
-        await db.update(googleCalendarEvents)
-          .set({ 
-            googleEventId: response.data.id,
-            syncStatus: 'synced',
-            lastSyncAt: new Date(),
-            syncError: null,
-            calendarId
-          })
-          .where(eq(googleCalendarEvents.appointmentId, appointment.id));
-      } else {
-        // Create new mapping
-        await db.insert(googleCalendarEvents).values({
-          appointmentId: appointment.id,
-          googleEventId: response.data.id,
+      const googleEventId = response.data.id;
+
+      // Upsert the tracking record
+      await db.insert(googleCalendarEvents).values({
+        appointmentId: appointment.id,
+        googleEventId,
+        syncStatus: 'synced',
+        syncDirection: 'export',
+        lastSyncAt: new Date(),
+        calendarId
+      }).onConflictDoUpdate({
+        target: googleCalendarEvents.appointmentId,
+        set: {
+          googleEventId,
           syncStatus: 'synced',
+          syncDirection: 'export',
           lastSyncAt: new Date(),
-          calendarId
-        });
-      }
+          updatedAt: new Date()
+        }
+      });
+
+      // Mark the appointment as synced and store the googleEventId so the import
+      // loop can recognise it via appointmentsByGoogleId and never re-import it.
+      await db.update(appointments)
+        .set({ synced: true, googleEventId })
+        .where(eq(appointments.id, appointment.id));
       
-      logger.debug(`✅ [AUTO-SYNC] Event created in Google Calendar: ${response.data.id}`);
+      logger.debug(`✅ [AUTO-SYNC] Event created in Google Calendar: ${googleEventId}`);
     }
   } catch (error) {
     console.error(`❌ [AUTO-SYNC] Error creating Google event:`, error);
@@ -242,18 +264,21 @@ async function updateGoogleEvent(calendar: any, calendarId: string, appointment:
       return;
     }
 
-    // Update the existing event - USE ISO format WITHOUT Z to respect local timezone
-    // Handle both HH:MM and HH:MM:SS formats
-    const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
-    const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
-    const startDateTimeStr = `${appointment.date}T${startTime}`;
-    const endDateTimeStr = `${appointment.date}T${endTime}`;
-    
-    console.log(`📅 [AUTO-SYNC] Updating event: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
+    // Build RFC3339 datetime strings with Italy timezone offset embedded (e.g. "2026-06-30T15:00:00+02:00")
+    const startDateTimeStr = italyTimeToRfc3339(appointment.date, appointment.startTime);
+    const endDateTimeStr   = italyTimeToRfc3339(appointment.date, appointment.endTime);
+
+    console.log(`📅 [AUTO-SYNC] Updating event: ${startDateTimeStr} – ${endDateTimeStr}`);
+
+    // CRITICAL: keep extendedProperties on update so the import loop never re-imports it
+    const _gesSig = `#gestionale ${JSON.stringify({ id: appointment.id, svcId: appointment.serviceId || 0, cliId: appointment.clientId || 0 })}`;
+    const description = (appointment.notes
+      ? `${appointment.notes}\n\n${_gesSig}`
+      : _gesSig);
 
     const event = {
-      summary: `Appointment #${appointment.id}`,
-      description: appointment.notes || 'Appointment from the scheduler',
+      summary: `Appuntamento #${appointment.id}`,
+      description,
       start: {
         dateTime: startDateTimeStr,
         timeZone: 'Europe/Rome',
@@ -262,6 +287,14 @@ async function updateGoogleEvent(calendar: any, calendarId: string, appointment:
         dateTime: endDateTimeStr,
         timeZone: 'Europe/Rome',
       },
+      extendedProperties: {
+        private: {
+          source: 'gestionale',
+          appointmentId: String(appointment.id),
+          svcId: String(appointment.serviceId || 0),
+          cliId: String(appointment.clientId || 0),
+        }
+      }
     };
 
     await calendar.events.update({
@@ -270,10 +303,14 @@ async function updateGoogleEvent(calendar: any, calendarId: string, appointment:
       requestBody: event,
     });
 
-    // Update timestamp sync
+    // Update timestamp sync and ensure appointment is marked synced
     await db.update(googleCalendarEvents)
-      .set({ lastSyncAt: new Date(), syncStatus: 'synced' })
+      .set({ lastSyncAt: new Date(), syncStatus: 'synced', syncDirection: 'export' })
       .where(eq(googleCalendarEvents.appointmentId, appointment.id));
+
+    await db.update(appointments)
+      .set({ synced: true, googleEventId: existing.googleEventId })
+      .where(eq(appointments.id, appointment.id));
 
     logger.debug(`✅ [AUTO-SYNC] Event updated in Google Calendar: ${existing.googleEventId}`);
   } catch (error) {
@@ -312,4 +349,30 @@ async function deleteGoogleEvent(calendar: any, calendarId: string, appointment:
     console.error(`❌ [AUTO-SYNC] Error deleting Google event:`, error);
     throw error;
   }
+}
+
+/**
+ * Convert a local Italy date+time to RFC3339 with the correct timezone offset embedded.
+ * Example: ("2026-06-30", "15:00") → "2026-06-30T15:00:00+02:00"  (summer, CEST)
+ *          ("2026-01-15", "15:00") → "2026-01-15T15:00:00+01:00"  (winter, CET)
+ * This format is unambiguous for Google Calendar API — no need for a separate timeZone field.
+ */
+function italyTimeToRfc3339(date: string, time: string): string {
+  const timePadded = time.length === 5 ? `${time}:00` : time;
+  // Calculate Italy's UTC offset for this specific date (handles DST automatically)
+  const refDate = new Date(`${date}T12:00:00Z`); // noon UTC on appointment date
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hour12: false, timeZone: 'Europe/Rome'
+  });
+  const parts = formatter.formatToParts(refDate);
+  const m = Object.fromEntries(parts.filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
+  const localMs = Date.UTC(+m.year, +m.month - 1, +m.day, +m.hour, +m.minute, +m.second);
+  const offsetMinutes = (localMs - refDate.getTime()) / 60000; // e.g. 120 for UTC+2
+  const sign = offsetMinutes >= 0 ? '+' : '-';
+  const absMin = Math.abs(offsetMinutes);
+  const oh = String(Math.floor(absMin / 60)).padStart(2, '0');
+  const om = String(absMin % 60).padStart(2, '0');
+  return `${date}T${timePadded}${sign}${oh}:${om}`;
 }

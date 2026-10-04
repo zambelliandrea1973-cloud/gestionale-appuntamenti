@@ -13,7 +13,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Users, UserPlus, Edit, Trash2, Phone, Mail, Award, Lock } from "lucide-react";
 import { useCapabilities } from "@/hooks/use-capabilities";
 import { UpgradePrompt } from "@/components/UpgradePrompt";
-import { usePrivateAppointments } from "@/components/private-appointments/PrivateAppointmentsProvider";
 
 interface Collaborator {
   id: number;
@@ -28,19 +27,12 @@ interface Collaborator {
 
 export default function StaffCollaboratorsPage() {
   const { t } = useTranslation();
-  const privateAppointments = usePrivateAppointments();
   const { toast } = useToast();
   const { hasCapability, getUpgradeMessage } = useCapabilities();
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingCollaborator, setEditingCollaborator] = useState<Collaborator | null>(null);
   const [deletingCollaborator, setDeletingCollaborator] = useState<Collaborator | null>(null);
-  const [needsPrivatePassword, setNeedsPrivatePassword] = useState(false);
-  const [privatePassword, setPrivatePassword] = useState("");
-  const [privatePasswordConfirm, setPrivatePasswordConfirm] = useState("");
-  const [pendingCollaborator, setPendingCollaborator] = useState<any>(null);
-  const [privatePasswordError, setPrivatePasswordError] = useState("");
-  const [preparingPrivateSpace, setPreparingPrivateSpace] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -64,21 +56,12 @@ export default function StaffCollaboratorsPage() {
       const response = await fetch('/api/collaborators', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify(data),
       });
-      const body = await response.json().catch(() => null);
-      if (response.status === 428 && body?.code === 'PRIVATE_PASSWORD_REQUIRED') {
-        setPendingCollaborator(data);
-        setNeedsPrivatePassword(true);
-        setPrivatePasswordError("");
-        return { needsPrivatePassword: true };
-      }
-      if (!response.ok) throw new Error(body?.message || 'Create collaborator failed');
-      return body;
+      if (!response.ok) throw new Error('Create collaborator failed');
+      return response.json();
     },
-    onSuccess: (result) => {
-      if (result?.needsPrivatePassword) return;
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/collaborators'] });
       toast({ title: t('staffCollaborators.toast.created') });
       resetForm();
@@ -129,11 +112,6 @@ export default function StaffCollaboratorsPage() {
   });
 
   const resetForm = () => {
-    setNeedsPrivatePassword(false);
-    setPrivatePassword("");
-    setPrivatePasswordConfirm("");
-    setPendingCollaborator(null);
-    setPrivatePasswordError("");
     setFormData({
       firstName: "",
       lastName: "",
@@ -165,49 +143,7 @@ export default function StaffCollaboratorsPage() {
     if (editingCollaborator) {
       updateMutation.mutate({ id: editingCollaborator.id, data: formData });
     } else {
-      setNeedsPrivatePassword(false);
-      setPrivatePasswordError("");
       createMutation.mutate(formData);
-    }
-  };
-
-  const preparePrivateSpaceAndRetry = async () => {
-    if (preparingPrivateSpace) return;
-    setPrivatePasswordError("");
-    if (privatePassword.length < 10 || privatePassword.length > 128) {
-      setPrivatePasswordError("La password deve contenere da 10 a 128 caratteri.");
-      return;
-    }
-    if (privatePassword !== privatePasswordConfirm) {
-      setPrivatePasswordError("Le password non coincidono.");
-      return;
-    }
-    if (!pendingCollaborator) {
-      setPrivatePasswordError("I dati del collaboratore non sono disponibili. Riprova l’inserimento.");
-      return;
-    }
-    setPreparingPrivateSpace(true);
-    try {
-      const response = await fetch('/api/private-appointments/prepare-team', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: privatePassword }),
-      });
-      const body = await response.json().catch(() => null);
-      if (!response.ok) throw new Error(body?.message || 'Non è stato possibile proteggere lo spazio privato.');
-      const originalPayload = pendingCollaborator;
-      setPrivatePassword("");
-      setPrivatePasswordConfirm("");
-      setNeedsPrivatePassword(false);
-      setPrivatePasswordError("");
-      await privateAppointments.lock();
-      await privateAppointments.refreshProfiles();
-      createMutation.mutate(originalPayload);
-    } catch (error) {
-      setPrivatePasswordError((error as Error).message || 'Non è stato possibile proteggere lo spazio privato.');
-    } finally {
-      setPreparingPrivateSpace(false);
     }
   };
 
@@ -427,34 +363,6 @@ export default function StaffCollaboratorsPage() {
               <Label htmlFor="isActive">{t('staffCollaborators.activeCheckbox')}</Label>
             </div>
 
-            {needsPrivatePassword && !editingCollaborator && (
-              <section className="space-y-3 rounded-xl border border-[#dce3d8] bg-[#f5f7f2] p-4" aria-labelledby="private-password-title">
-                <div>
-                  <h3 id="private-password-title" className="m-0 text-sm font-bold text-[#43543f]">Proteggi il tuo spazio personale</h3>
-                  <p className="mb-0 mt-1 text-xs leading-relaxed text-[#6f7c71]">
-                    Prima di aggiungere un collega, imposta una password personale. Ti verrà chiesta solo per attivare la privacy multi-professionista; il collaboratore sarà aggiunto subito dopo.
-                  </p>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div>
-                    <Label htmlFor="private-space-password">Nuova password (10–128 caratteri)</Label>
-                    <Input id="private-space-password" type="password" minLength={10} maxLength={128} autoComplete="new-password" value={privatePassword} onChange={event=>setPrivatePassword(event.target.value)} />
-                  </div>
-                  <div>
-                    <Label htmlFor="private-space-password-confirm">Conferma password</Label>
-                    <Input id="private-space-password-confirm" type="password" maxLength={128} autoComplete="new-password" value={privatePasswordConfirm} onChange={event=>setPrivatePasswordConfirm(event.target.value)} />
-                  </div>
-                </div>
-                <p className="m-0 text-[11px] text-[#7a867d]">Conservala in un luogo sicuro: non è previsto un ripristino senza verifica.</p>
-                {privatePasswordError && <p className="m-0 text-xs font-medium text-red-700" role="alert">{privatePasswordError}</p>}
-                <div className="flex justify-end">
-                  <Button type="button" onClick={()=>void preparePrivateSpaceAndRetry()} disabled={createMutation.isPending||preparingPrivateSpace}>
-                    {preparingPrivateSpace?'Protezione in corso…':'Proteggi e aggiungi collega'}
-                  </Button>
-                </div>
-              </section>
-            )}
-
             <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={() => {
                 setShowAddDialog(false);
@@ -465,7 +373,7 @@ export default function StaffCollaboratorsPage() {
               </Button>
               <Button
                 onClick={handleSubmit}
-                disabled={createMutation.isPending || updateMutation.isPending || needsPrivatePassword}
+                disabled={createMutation.isPending || updateMutation.isPending}
               >
                 {createMutation.isPending || updateMutation.isPending
                   ? t('staffCollaborators.saving')

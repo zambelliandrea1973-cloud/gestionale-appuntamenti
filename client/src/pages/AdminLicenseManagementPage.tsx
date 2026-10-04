@@ -50,6 +50,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
+import RecoveryOffersReport from "@/components/admin/RecoveryOffersReport";
 
 interface StaffUser {
   id: number;
@@ -601,6 +602,7 @@ export default function AdminLicenseManagementPage() {
           </CardContent>
         </Card>
       </div>
+      <RecoveryOffersReport />
       
       {/* Dialog di conferma eliminazione account */}
       <Dialog open={deleteDialogOpen} onOpenChange={(open) => {

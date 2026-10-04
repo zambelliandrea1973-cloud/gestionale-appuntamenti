@@ -1,13 +1,33 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../auth';
-import { syncBidirectional } from '../services/googleCalendarSync';
 import { db } from '../db';
 import { users, googleCalendarEvents } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { google } from 'googleapis';
 import { EncryptionService } from '../services/encryption';
+import { previewLegacyDemoGoogleEvents } from '../services/legacyDemoGoogleCleanup';
+import { syncBidirectional, cleanupDuplicateAppointments } from '../services/googleCalendarSync';
 
 const router = Router();
+
+/**
+ * GET /api/google-calendar/legacy-demo-preview
+ * Read-only scan of Google Calendar for legacy demo copies.
+ */
+router.get('/legacy-demo-preview', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+
+    const preview = await previewLegacyDemoGoogleEvents(userId);
+    res.setHeader('Cache-Control', 'no-store');
+    return res.json(preview);
+  } catch (error) {
+    console.error('Error previewing legacy demo Google events:', error);
+    return res.status(500).json({ error: 'Unable to analyze Google Calendar events' });
+  }
+});
 
 /**
  * GET /api/google-calendar/check-event/:eventId
@@ -16,6 +36,8 @@ const router = Router();
 router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
   try {
     const userId = req.user?.id;
+
+    const result = await cleanupDuplicateAppointments(userId);
     const eventId = req.params.eventId;
     
     if (!userId) {
@@ -72,16 +94,16 @@ router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
   }
 });
 
-// NOTE: The POST /sync endpoint has been moved to simple-routes.ts
-// to avoid routing conflicts
-
 /**
- * GET /api/google-calendar/status
- * Get sync status
+ * POST /api/google-calendar/cleanup-duplicates
+ * Finds and removes duplicate "importedFromGoogle" appointments that shadow
+ * a native appointment at the same date+startTime slot.
  */
-router.get('/status', isAuthenticated, async (req, res) => {
+router.post('/cleanup-duplicates', isAuthenticated, async (req, res) => {
   try {
     const userId = req.user?.id;
+
+    const result = await cleanupDuplicateAppointments(userId);
     if (!userId) {
       return res.status(401).json({ error: 'Not authenticated' });
     }

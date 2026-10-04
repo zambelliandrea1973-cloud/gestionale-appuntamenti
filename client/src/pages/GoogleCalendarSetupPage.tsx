@@ -51,6 +51,14 @@ export default function GoogleCalendarSetupPage() {
   const [needsReauth, setNeedsReauth] = useState(false);
   const [lastSyncAt, setLastSyncAt] = useState<string | null>(null);
   const [totalSyncedEvents, setTotalSyncedEvents] = useState<number>(0);
+
+  interface LegacyDemoPreview {
+    count: number;
+    dateRange: { from: string | null; to: string | null };
+    events: Array<{ eventId: string; title: string; start: string; end: string | null }>;
+  }
+  const [legacyDemoPreview, setLegacyDemoPreview] = useState<LegacyDemoPreview | null>(null);
+  const [isLoadingLegacyDemoPreview, setIsLoadingLegacyDemoPreview] = useState(false);
   
   // Stati per importazione contatti
   interface GoogleContact {
@@ -525,6 +533,27 @@ export default function GoogleCalendarSetupPage() {
       });
     } finally {
       setIsSyncing(false);
+    }
+  };
+
+  const loadLegacyDemoPreview = async () => {
+    setIsLoadingLegacyDemoPreview(true);
+    try {
+      const response = await fetch('/api/google-calendar/legacy-demo-preview', {
+        credentials: 'include',
+        headers: { 'Cache-Control': 'no-cache, no-store' },
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || t('googleCalendar.setup.demoPreviewError'));
+      setLegacyDemoPreview(data);
+    } catch (error) {
+      toast({
+        title: t('common.error'),
+        description: error instanceof Error ? error.message : t('googleCalendar.setup.demoPreviewError'),
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoadingLegacyDemoPreview(false);
     }
   };
 
@@ -1044,7 +1073,7 @@ export default function GoogleCalendarSetupPage() {
               {/* Bottone connessione */}
               {!isGoogleAuthorized ? (
                 <Button
-                  onClick={startGoogleAuth}
+                  onClick={() => startGoogleAuth()}
                   disabled={isAuthenticating || !email.trim()}
                   className="w-full h-11 text-base"
                   size="lg"
@@ -1184,6 +1213,71 @@ export default function GoogleCalendarSetupPage() {
           </div>
         </CardContent>
       </Card>
+
+      {isGoogleAuthorized && (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <Info className="h-5 w-5 text-amber-600" />
+              {t('googleCalendar.setup.demoPreviewTitle')}
+            </CardTitle>
+            <CardDescription>
+              {t('googleCalendar.setup.demoPreviewDescription')}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-200">
+              {t('googleCalendar.setup.demoPreviewReadOnly')}
+            </div>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={loadLegacyDemoPreview}
+              disabled={isLoadingLegacyDemoPreview}
+            >
+              <RefreshCw className={`mr-2 h-4 w-4 ${isLoadingLegacyDemoPreview ? 'animate-spin' : ''}`} />
+              {isLoadingLegacyDemoPreview
+                ? t('googleCalendar.setup.demoPreviewLoading')
+                : t('googleCalendar.setup.demoPreviewButton')}
+            </Button>
+
+            {legacyDemoPreview && (
+              <div className="space-y-3">
+                <div className="rounded-lg bg-muted p-4">
+                  <p className="font-medium">
+                    {t('googleCalendar.setup.demoPreviewCount', { count: legacyDemoPreview.count })}
+                  </p>
+                  {legacyDemoPreview.dateRange.from && legacyDemoPreview.dateRange.to && (
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {t('googleCalendar.setup.demoPreviewRange', {
+                        from: new Date(legacyDemoPreview.dateRange.from).toLocaleDateString(i18n.language),
+                        to: new Date(legacyDemoPreview.dateRange.to).toLocaleDateString(i18n.language),
+                      })}
+                    </p>
+                  )}
+                </div>
+                {legacyDemoPreview.events.length > 0 && (
+                  <ScrollArea className="h-64 rounded-lg border">
+                    <div className="divide-y">
+                      {legacyDemoPreview.events.map(event => (
+                        <div key={event.eventId} className="p-3">
+                          <p className="font-medium">{event.title}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {new Date(event.start).toLocaleString(i18n.language)}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  {t('googleCalendar.setup.demoPreviewExclusions')}
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* === SEZIONE ACCOUNT GOOGLE MULTIPLI === */}
       {hasProAccess && (

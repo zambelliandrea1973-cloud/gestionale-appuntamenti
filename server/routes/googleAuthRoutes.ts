@@ -16,7 +16,6 @@ import {
   completeOAuthTransaction,
   failOAuthTransaction
 } from '../services/oauthTransactionService';
-import { completePrivateGoogleOAuth } from '../services/privateAppointmentGoogle';
 
 // Validation schema for contact import
 const contactsImportSchema = z.object({
@@ -70,7 +69,7 @@ function normalizeConfiguredOrigin(value: string | undefined): string | null {
   }
 }
 
-export function getRedirectUri(): string {
+function getRedirectUri(): string {
   // PRIORITY 1: If we are on Sliplane (production domain)
   const productionOrigin = normalizeConfiguredOrigin(process.env.PRODUCTION_DOMAIN);
   if (productionOrigin) {
@@ -293,10 +292,6 @@ router.get('/start', async (req, res) => {
 // Callback that receives the authorization code
 router.get('/callback', async (req, res) => {
   const { code, state } = req.query;
-  if (typeof state === 'string' && state.startsWith('private-')) {
-    try { return await completePrivateGoogleOAuth(req, res); }
-    catch { return res.status(503).send('Collegamento privato non disponibile. Riprova dal gestionale.'); }
-  }
   if (typeof state !== 'string') {
     return res.status(400).send('Invalid Google authorization response.');
   }
@@ -518,6 +513,13 @@ router.get('/callback', async (req, res) => {
           });
         } // end isDifferentEmail else
       } // end PRIMARY ACCOUNT else
+
+      // Register push notification watches so Google calls us when events change (production only)
+      import('../services/googleCalendarSync').then(({ registerCalendarWatches }) => {
+        registerCalendarWatches(userId)
+          .then(() => console.log(`✅ [OAUTH] Watch channels registered for user ${userId}`))
+          .catch(e => console.error(`❌ [OAUTH] Watch registration failed for user ${userId}:`, e));
+      });
 
     } catch (dbError) {
       logger.error('Google token persistence failed');
@@ -1284,7 +1286,7 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
   }
 });
 
-// ================ GOOGLE CONTACTS API ================
+// --- GOOGLE CONTACTS API ---
 
 /**
  * Check if the user has authorized access to Google contacts
@@ -1810,9 +1812,9 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
   }
 });
 
-// ============================================================
+// ------------------------------------------------------------
 // GESTIONE ACCOUNT GOOGLE MULTIPLI (account primario + secondari)
-// ============================================================
+// ------------------------------------------------------------
 
 // GET /api/google-auth/accounts — elenco account collegati (primario + secondari)
 router.get('/accounts', isAuthenticated, async (req, res) => {

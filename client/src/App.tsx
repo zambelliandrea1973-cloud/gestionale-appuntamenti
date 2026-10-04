@@ -229,7 +229,6 @@ function AppRoutes() {
       </Route>
       
 
-      
       {/* Pagina di login unificata */}
       <Route path="/login">
         <ClientPageWrapper>

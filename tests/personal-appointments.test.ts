@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { getAssistantGreetingName } from '../client/src/lib/appointmentAssistant';
-import ts from 'typescript';
 import {
   personalAppointmentSchema, personalAppointmentForCalendar,
   PERSONAL_APPOINTMENT_BACKGROUND, PERSONAL_APPOINTMENT_COLOR,
@@ -16,7 +15,7 @@ test('personal assistant opens with the work greeting followed by Dimmi pure', (
   const end = source.indexOf('\n    }', start);
   assert.ok(start >= 0 && end > start);
   const openGreeting = new Function(
-    'professionalEmail', 't', 'getAssistantGreetingName', 'setDraft', 'setInput', 'setMessages', 'speak',
+    'professionalEmail', 't', 'getAssistantGreetingName', 'setDraft', 'setInput', 'setMessages',
     source.slice(start, end),
   );
   const locale = JSON.parse(readFileSync('client/src/locales/it.json', 'utf8'));
@@ -29,134 +28,11 @@ test('personal assistant opens with the work greeting followed by Dimmi pure', (
     [undefined, 'Ciao. Dimmi pure.'],
   ]) {
     let messages: unknown;
-    openGreeting(email, t, getAssistantGreetingName, () => {}, () => {}, (value: unknown) => { messages = value; }, () => {});
+    openGreeting(email, t, getAssistantGreetingName, () => {}, () => {}, (value: unknown) => { messages = value; });
     assert.deepEqual(messages, [{ role: 'assistant', content: expected }]);
   }
   const wrapper = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
   assert.match(wrapper, /<PersonalVoiceAppointmentAssistant professionalEmail=\{props\.professionalEmail\}/);
-});
-
-function voiceHarness(activeConversation = true) {
-  const source = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
-  const ast = ts.createSourceFile('assistant.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
-  const declarations: string[] = [];
-  const names = new Set(['stopAudio', 'cancelRecognition', 'stop', 'speak', 'listen']);
-  const visit = (node: ts.Node) => {
-    if (ts.isFunctionDeclaration(node) && node.name && names.has(node.name.text)) declarations.push(node.getText(ast));
-    ts.forEachChild(node, visit);
-  };
-  visit(ast);
-  assert.equal(declarations.length, names.size);
-  const engines: any[] = [];
-  const players: any[] = [];
-  const utterances: any[] = [];
-  const submitted: string[] = [];
-  const errors: string[] = [];
-  let listening = false;
-  let failStart = false;
-  class Recognition {
-    onstart: any; onend: any; onerror: any; onresult: any;
-    constructor() { engines.push(this); }
-    start() { if (failStart) throw new Error('start failed'); this.onstart?.(); }
-    stop() { this.onend?.(); }
-    abort() { this.onend?.(); }
-  }
-  class Audio {
-    onended: any; onerror: any;
-    constructor() { players.push(this); }
-    async play() {}
-    pause() {}
-  }
-  class Utterance {
-    onend: any; onerror: any;
-    constructor() { utterances.push(this); }
-  }
-  const env = {
-    window: { SpeechRecognition: Recognition, speechSynthesis: { cancel() {}, speak() {} } },
-    Audio, SpeechSynthesisUtterance: Utterance,
-    URL: { createObjectURL: () => 'blob:test', revokeObjectURL() {} },
-    generation: { current: 0 }, speechSequence: { current: 0 }, openRef: { current: true },
-    audio: { current: null }, audioUrl: { current: null }, utterance: { current: null },
-    recognition: { current: null }, inFlight: { current: false }, pendingAutoListen: { current: false },
-    listenRef: { current: () => {} }, submitRef: { current: (text: string) => submitted.push(text) },
-    conversation: { current: { isActive: () => activeConversation, getId: () => 'test-conversation' } },
-    blocked: false, save: { isPending: false }, speechLocale: 'it-IT',
-    setListening: (value: boolean) => { listening = value; },
-    setError: (value: string) => { errors.push(value); }, setTrialBlocked() {},
-    t: (key: string) => key, aiTrialMessageKey: () => null,
-    apiRequest: async () => ({ blob: async () => new Blob(['audio']) }),
-  };
-  const code = ts.transpileModule(declarations.join('\n'), {
-    compilerOptions: { target: ts.ScriptTarget.ES2022 },
-  }).outputText;
-  const api = new Function('env', `const {${Object.keys(env).join(',')}} = env;\n${code}\nreturn {listen,speak,stop};`)(env);
-  env.listenRef.current = api.listen;
-  return { api, env, engines, players, utterances, submitted, errors, listening: () => listening, failStart: (value: boolean) => { failStart = value; } };
-}
-
-test('personal dictation restarts after the spoken reply, accepts repeated answers and ignores old callbacks', async () => {
-  const h = voiceHarness();
-  h.api.listen();
-  const first = h.engines[0];
-  const lateEnd = first.onend;
-  const duplicateResult = first.onresult;
-  const result = { results: [[{ transcript: 'sì' }]] };
-  first.onresult(result);
-  duplicateResult(result);
-  assert.deepEqual(h.submitted, ['sì']);
-  assert.equal(h.listening(), false);
-  await h.api.speak('Vuoi confermare?');
-  assert.equal(h.engines.length, 1, 'must not record the assistant speaking');
-  h.players[0].onended();
-  assert.equal(h.engines.length, 2);
-  assert.equal(h.listening(), true);
-  lateEnd();
-  assert.equal(h.listening(), true, 'old recognition must not reset the new session');
-  h.engines[1].onresult(result);
-  assert.deepEqual(h.submitted, ['sì', 'sì']);
-});
-
-test('personal microphone can retry after start failure and never starts overlapping sessions', () => {
-  const h = voiceHarness();
-  h.failStart(true);
-  h.api.listen();
-  assert.equal(h.env.recognition.current, null);
-  assert.equal(h.listening(), false);
-  h.failStart(false);
-  h.api.listen();
-  assert.equal(h.listening(), true);
-  h.api.listen();
-  assert.equal(h.engines.length, 2, 'a second tap stops, rather than starting another engine');
-  h.api.listen();
-  assert.equal(h.engines.length, 3);
-  assert.equal(h.listening(), true);
-});
-
-test('personal greeting uses device speech without starting a trial and close cancels automatic recording', async () => {
-  const h = voiceHarness(false);
-  await h.api.speak('Ciao. Dimmi pure.');
-  assert.equal(h.players.length, 0);
-  assert.equal(h.engines.length, 0);
-  const lateCompletion = h.utterances[0].onend;
-  h.env.openRef.current = false;
-  h.api.stop();
-  lateCompletion();
-  assert.equal(h.engines.length, 0);
-});
-
-test('early speech completion queues recording until the current interpretation has finished', async () => {
-  const h = voiceHarness();
-  h.env.inFlight.current = true;
-  await h.api.speak('Quando?');
-  h.players[0].onended();
-  assert.equal(h.env.pendingAutoListen.current, true);
-  assert.equal(h.engines.length, 0);
-  h.env.inFlight.current = false;
-  h.env.pendingAutoListen.current = false;
-  h.env.listenRef.current();
-  assert.equal(h.engines.length, 1);
-  const source = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
-  assert.match(source, /inFlight\.current = false;\s*if \(pendingAutoListen\.current\)/);
 });
 test('personal entries require no client, service or Google account', () => {
   const result = personalAppointmentSchema.parse({ ...input, userId: 999, clientId: 34, serviceId: 51 });

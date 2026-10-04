@@ -697,6 +697,7 @@ export class InventoryJsonStorage {
       throw error;
     }
   }
+
   // ─── EV Custom Catalog Products ──────────────────────────────────────────
 
   async getEvCatalogProducts(): Promise<any[]> {

@@ -9,6 +9,24 @@ The voice assistant may collect and interpret appointment details, but it must n
 
 **How to apply:** Keep AI interpretation isolated from persistence. Treat voice as an input layer over the unchanged manual flow: use the same authenticated client list (or create a missing client after approval), the same services from general settings, the same calendar-slot availability rules, and the same client, service, and appointment endpoints. Preserve client name, date, time, and treatment as mandatory appointment fields.
 
+Changing the provider for appointment understanding does not authorize a whole-app AI migration or a speech-model change.
+
+**Why:** The user approved provider changes specifically for understanding appointment requests, then requested a return to Gemini if the OpenAI attempt still failed. Other features and the female speech preference have separate requirements.
+
+**How to apply:** Keep provider changes scoped to the approved capability. Seek a separate decision before migrating chat, campaigns, speech generation, or other AI features.
+
+Provider migration must preserve the original Gemini-era browser recognition behavior; do not replace it with continuous recording, custom silence timers or automatic recognition restarts without approval.
+
+**Why:** The user explicitly rejected redesigning recognition while diagnosing a failure after moving appointment understanding to OpenAI. They require the voice interaction to work as before.
+
+**How to apply:** Compare against the actual pre-migration implementation, not an assumed version. Diagnose provider errors separately from microphone/transcription errors, and do not treat an unverified credit issue as the established cause.
+
+The application's appointment voice assistant must prioritize a female-sounding voice, including when replacing its audio model or selecting a device fallback.
+
+**Why:** The user explicitly requires that audio-model updates preserve the assistant's female voice preference. Browser voice objects have no gender field, so a generic vendor/locale label cannot guarantee a female timbre.
+
+**How to apply:** Evaluate successor models for a supported female-sounding voice rather than switching to a provider's default voice. Keep the active application language and prefer known female device voices when central speech is unavailable; device voice availability cannot be guaranteed. Do not treat every Google or Microsoft voice as female just because of its vendor name.
+
 The assistant conversation must follow the professional's selected application language. Localize its messages, date formatting, speech synthesis, speech recognition, and the language sent to the interpretation model together.
 
 **Why:** A translated interface paired with Italian-only voice prompts is confusing and can cause the browser to transcribe spoken words incorrectly.
@@ -20,6 +38,12 @@ Treat confirmations conversationally rather than requiring an exact yes/no. Afte
 **Why:** Professionals may answer with complete phrases, and starting recognition while the assistant is speaking can transcribe the assistant's own voice.
 
 **How to apply:** Combine model intent classification with language-aware local confirmation detection. Queue automatic recognition from the speech completion event, and cancel pending voice activity when the dialog closes.
+
+Prevent concurrent conversation turns without globally deduplicating replies by their text.
+
+**Why:** Professionals legitimately repeat the same “yes” for separate client, service and appointment approvals. Text-based deduplication could discard required consent, while simultaneous or stale turns can repeatedly bill the AI service and affect the wrong conversation.
+
+**How to apply:** Accept one submission per active turn, invalidate pending turns when closing or resetting, and allow the same words again in a later turn. Service failures must not restart recognition automatically.
 
 When a client lookup is inconclusive, a later name correction or search request must retry the catalog before asking permission to create a new client.
 

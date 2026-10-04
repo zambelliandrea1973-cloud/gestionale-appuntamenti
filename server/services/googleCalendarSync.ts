@@ -277,7 +277,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     console.log(`📅 [IMPORT] User ${userId}: ${allCalendars.length} calendari totali, ${accessibleCalendars.length} da sincronizzare (tutti tranne freeBusyReader)`);
     allCalendars.forEach((cal: any) => console.log(`   📆 "${cal.summary}" (${cal.id}) accessRole=${cal.accessRole}`));
     
-    // ========== INCREMENTAL SYNCHRONIZATION WITH SYNC TOKEN ==========
+    // --- INCREMENTAL SYNCHRONIZATION WITH SYNC TOKEN ---
     // Load saved syncToken for this user
     const savedSyncTokens = await db.select()
       .from(googleCalendarSyncTokens)
@@ -487,7 +487,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
 
     console.log(`📋 [IMPORT] User ${userId}: inizio elaborazione ${allEvents.length} eventi`);
 
-    // ========== OPTIMIZATION: IN-MEMORY DATA PRELOAD ==========
+    // --- OPTIMIZATION: IN-MEMORY DATA PRELOAD ---
     const preloadStart = Date.now();
     
     // 1. Preload ALL existing tracking records for this user (using appointment_id for join)
@@ -598,7 +598,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     logger.debug(`⚡ [IMPORT] Preload completed in ${Date.now() - preloadStart}ms`);
     console.log(`   - Tracking: ${trackingByGoogleId.size}, Appointments: ${allUserAppointments.length}, Clients: ${allUserClients.length}`);
     
-    // ========== END PRELOAD ==========
+    // --- END PRELOAD ---
 
     // Process each Google event (now with O(1) lookup instead of DB query)
     for (const googleEvent of allEvents) {

@@ -14,7 +14,8 @@ export interface UserWithLicense {
   id: number;
   username: string;
   email: string | null;
-  type: 'user' | 'staff' | 'admin' | 'customer' | 'client'; // Tipi di account possibili
+  type: 'user' | 'staff' | 'admin' | 'customer' | 'client';
+  role: string | null;
   firstName: string | null;
   lastName: string | null;
   assignmentCode: string | null;

@@ -85,9 +85,6 @@ checkDatabaseAvailability();
 // Ensure the user_sessions table exists (for connect-pg-simple)
 // Retries up to 5 times with exponential backoff; in production throws on final failure.
 export async function ensureSessionTable(): Promise<void> {
-  // Privacy storage must exist before Google import jobs or authenticated routes run.
-  const { ensurePrivateAppointmentTables } = await import('./services/privateAppointmentAccess');
-  await ensurePrivateAppointmentTables();
   if (!process.env.DATABASE_URL) return;
   const MAX_RETRIES = 5;
   let lastError: unknown;
@@ -1478,11 +1475,13 @@ export class DatabaseStorage implements IStorage {
           service: services,
         })
         .from(appointments)
+        .innerJoin(users, eq(appointments.userId, users.id))
         .leftJoin(clients, eq(appointments.clientId, clients.id))
         .leftJoin(services, eq(appointments.serviceId, services.id))
         .where(and(
           gte(appointments.date, startDate),
-          lte(appointments.date, endDate)
+          lte(appointments.date, endDate),
+          inArray(users.role, ['admin', 'staff', 'ev_staff', 'ev_admin'])
         ))
         .orderBy(appointments.date, appointments.startTime);
 

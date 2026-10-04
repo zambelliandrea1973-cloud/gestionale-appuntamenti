@@ -8,6 +8,10 @@ import {
   hasDemoAppointmentResource,
   isDemoAppointment,
 } from '../server/services/demoAppointmentGuard';
+import {
+  collectLegacyDemoGoogleEvents,
+  isLegacyDemoGoogleEvent,
+} from '../server/services/legacyDemoGoogleCleanup';
 
 const TEST_USERS = [2_000_000_101, 2_000_000_102];
 
@@ -131,4 +135,71 @@ test('Google export guard detects demo clients and services', async () => {
   await db.update(services).set({ isDemo: false }).where(eq(services.id, demo.demoServices[0].id));
 
   assert.equal(await isDemoAppointment(demo.demoAppointment.id, userId), false);
+});
+
+test('legacy Google cleanup only recognizes signed demo events', () => {
+  const demo = {
+    summary: 'Paola Romano - Manicure',
+    description: 'Client: Paola Romano\nEmail: paola.romano@gmail.com\n\n#gestionale {"id":123}',
+    extendedProperties: { private: { source: 'gestionale', appointmentId: '123' } },
+  };
+  assert.equal(isLegacyDemoGoogleEvent(demo), true);
+  assert.equal(isLegacyDemoGoogleEvent({ ...demo, summary: 'Cliente Reale - Manicure' }), false);
+  assert.equal(isLegacyDemoGoogleEvent({ ...demo, description: '', extendedProperties: undefined }), false);
+});
+
+test('legacy Google preview is read-only and excludes imported and real events', async () => {
+  let listCalls = 0;
+  let mutationCalls = 0;
+  const signedDemo = (id: string, appointmentId: string, start: string) => ({
+    id,
+    summary: 'Paola Romano - Manicure',
+    description: `#gestionale {"id":${appointmentId}}`,
+    extendedProperties: { private: { source: 'gestionale', appointmentId } },
+    start: { dateTime: start },
+    end: { dateTime: start.replace('10:00', '10:30') },
+  });
+  const calendarApi = {
+    list: async ({ pageToken }: { pageToken?: string }) => {
+      listCalls++;
+      return pageToken
+        ? {
+            data: {
+              items: [
+                signedDemo('demo-match', '123', '2026-09-12T10:00:00+02:00'),
+                { ...signedDemo('unsigned', '124', '2026-09-13T10:00:00+02:00'), description: '', extendedProperties: undefined },
+              ],
+            },
+          }
+        : {
+            data: {
+              nextPageToken: 'next',
+              items: [
+                signedDemo('imported', '125', '2026-09-10T10:00:00+02:00'),
+                signedDemo('linked-real', '456', '2026-09-11T10:00:00+02:00'),
+              ],
+            },
+          };
+    },
+    insert: async () => { mutationCalls++; },
+    update: async () => { mutationCalls++; },
+    delete: async () => { mutationCalls++; },
+  };
+
+  const preview = await collectLegacyDemoGoogleEvents({
+    listEvents: params => calendarApi.list(params),
+    calendarId: 'primary',
+    importedGoogleEventIds: new Set(['imported']),
+    getAppointmentState: async appointmentId => appointmentId === 456 ? 'real' : 'demo',
+    now: new Date('2026-09-23T12:00:00Z'),
+  });
+
+  assert.equal(listCalls, 2);
+  assert.equal(mutationCalls, 0);
+  assert.equal(preview.count, 1);
+  assert.deepEqual(preview.events.map(event => event.eventId), ['demo-match']);
+  assert.deepEqual(preview.dateRange, {
+    from: '2026-09-12T10:00:00+02:00',
+    to: '2026-09-12T10:00:00+02:00',
+  });
 });

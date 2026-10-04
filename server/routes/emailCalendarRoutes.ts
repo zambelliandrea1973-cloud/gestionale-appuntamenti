@@ -4,21 +4,10 @@ import { isAuthenticated } from '../auth';
 import { db } from '../db';
 import { emailCalendarSettings } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
+import { getUserLanguage } from '../utils/userLanguage';
+import { buildDefaultEmailTemplate, buildDefaultEmailSubject } from '../utils/emailConfig';
 
 const router = Router();
-
-// Default email template
-const DEFAULT_EMAIL_TEMPLATE = `Dear {{nome}} {{cognome}},
-
-This is a reminder for your {{servizio}} appointment scheduled for {{data}} at {{ora}}.
-
-For any changes or cancellations, please contact us.
-
-Best regards,
-Professional Studio`;
-
-// Default email subject
-const DEFAULT_EMAIL_SUBJECT = "Appointment reminder for {{data}}";
 
 // Get email and calendar settings
 router.get('/', isAuthenticated, async (req, res) => {
@@ -30,13 +19,15 @@ router.get('/', isAuthenticated, async (req, res) => {
       where: eq(emailCalendarSettings.userId, userId),
     });
 
+    const lang = await getUserLanguage(userId);
+
     if (!settings) {
       settings = await db.insert(emailCalendarSettings).values({
         userId,
         emailEnabled: false,
-        emailTemplate: DEFAULT_EMAIL_TEMPLATE,
-        emailSubject: DEFAULT_EMAIL_SUBJECT,
-      }).returning().then(r => r[0]);
+        emailTemplate: buildDefaultEmailTemplate(lang),
+        emailSubject: buildDefaultEmailSubject(lang),
+      }).returning().then(rows => rows[0]);
     }
 
     const settingsToSend = {
@@ -98,15 +89,18 @@ router.post('/send-test-email', isAuthenticated, async (req, res) => {
       where: eq(emailCalendarSettings.userId, userId),
     });
 
+    const lang = await getUserLanguage(userId);
+
     if (!settings?.emailEnabled || !settings?.emailAddress || !settings?.emailPassword) {
       return res.status(400).json({ success: false, error: 'Missing email credentials' });
     }
     
     const { email } = req.body;
-    if (!email) return res.status(400).json({ success: false, error: 'Email missing' });
-    
-    let testSubject = settings.emailSubject || DEFAULT_EMAIL_SUBJECT;
-    let testMessage = settings.emailTemplate || DEFAULT_EMAIL_TEMPLATE;
+    if (!email) {
+      return res.status(400).json({ success: false, error: 'Email missing' });
+    }
+    let testSubject = settings.emailSubject || buildDefaultEmailSubject(lang);
+    let testMessage = settings.emailTemplate || buildDefaultEmailTemplate(lang);
     
     testSubject = testSubject.replace(/{{data}}/g, '15/05/2025');
     testMessage = testMessage

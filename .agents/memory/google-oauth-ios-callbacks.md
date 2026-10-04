@@ -5,6 +5,6 @@ description: Durable one-time authorization handoffs when the initiating app and
 
 Use a durable, short-lived, one-time server-side transaction for every Google authorization. Send only an opaque random state to Google, store only its digest, and atomically consume the transaction at callback.
 
-**Why:** An installed PWA and Safari may not share cookies. Session recovery based on browser detection is unreliable and cannot consume a self-contained state globally across server instances.
+**Why:** An installed PWA and Safari may not share cookies. Session recovery based on browser detection is unreliable and cannot consume a self-contained state globally across server instances. A successful Sliplane image deploy once omitted the OAuth table migration, which broke URL generation on Android and Apple alike; required OAuth storage must be verified during service startup.
 
-**How to apply:** Bind each transaction to its owner, purpose, redirect and opener origin; enforce expiry and atomic single use. Never log authorization codes, raw state, cookies, headers, or full callback URLs.
+**How to apply:** Bind each transaction to its owner, purpose, redirect and opener origin; enforce expiry and atomic single use. On Apple mobile, prefer a direct redirect over an asynchronously opened popup. Every start failure, popup closure and timeout must end the loading state with visible feedback. Never log authorization codes, raw state, cookies, headers, or full callback URLs.

@@ -43,7 +43,7 @@ router.get("/api/clients/next-code", async (req, res) => {
     const user = req.user as any;
 
     // Use the same tenant resolution as POST /api/clients
-    const tenantId = user.ownerId ?? user.tenantId ?? user.id;
+      const tenantId = user.ownerId ?? user.tenantId ?? user.id;
 
     try {
       const [userRow] = await db.select({ assignmentCode: users.assignmentCode })
@@ -57,9 +57,7 @@ router.get("/api/clients/next-code", async (req, res) => {
 
       const professionalCode = userRow.assignmentCode;
 
-      const existingClients = await db.select({ newUniqueCode: clients.newUniqueCode })
-        .from(clients)
-        .where(eq(clients.ownerId, tenantId));
+        const existingClients = await storage.getClients(ownerId);
 
       let maxSequence = 0;
       const pattern = new RegExp(`^${professionalCode}-(\\d+)$`);
@@ -179,7 +177,7 @@ router.get("/api/clients", async (req, res) => {
 router.post("/api/clients/check-duplicate", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
     const user = req.user as any;
-    const tenantId = user.ownerId ?? user.tenantId ?? user.id;
+      const tenantId = user.ownerId ?? user.tenantId ?? user.id;
     const { firstName, lastName, phone } = req.body;
     
     try {
@@ -275,14 +273,16 @@ router.post("/api/clients", async (req, res) => {
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       
       const { isDemo: _ignoreIsDemo, ...sanitizedBody } = req.body || {};
-      const clientData: any = {
-        userId: tenantId,  // ✅ Use tenantId instead of user.id for staff compatibility
-        ownerId: tenantId,
-        professionistCode: await getProfessionistCode(tenantId),
-        ...sanitizedBody,
-        // isDemo deliberately omitted: DB DEFAULT false handles it,
-        // and this avoids errors on DBs where is_demo column doesn't exist yet
-      };
+        const clientData = {
+          firstName: contact.firstName || '',
+          lastName: contact.lastName || '',
+          email: contact.email || '',
+          phone: contact.phone || '',
+          notes: contact.notes || 'Importato da file CSV',
+          userId: ownerId,
+          ownerId,
+          isDemo: false,
+        };
       
       const newClient = await storage.createClient(clientData);
       
@@ -319,32 +319,26 @@ router.post("/api/clients", async (req, res) => {
       if (finalClient && !finalClient.isDemo) {
         try {
           const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
-          await cleanupDemoDataIfNeeded(tenantId, 'clients');
+          await cleanupDemoDataIfNeeded(ownerId, 'clients');
         } catch (cleanupErr) {
-          console.error(`⚠️ [POST /api/clients] Error cleaning up demo:`, cleanupErr);
+          console.error('⚠️ [CSV IMPORT] Error cleaning up demo:', cleanupErr);
         }
       }
-      
-      // Funnel milestone — fire-and-forget, non-blocking
-      recordMilestone(tenantId, 'first_customer_created')
-        .then(isNew => { if (isNew) checkAndRecordProfessionalActivated(tenantId); })
-        .catch(() => {});
-      logger.debug(`✅ [POST /api/clients] Client created: ${finalClient.firstName} ${finalClient.lastName}`);
-      if (newUniqueCode) {
-        console.log(`   📋 New code: ${newUniqueCode} | Legacy code: ${legacyUniqueCode}`);
-      } else {
-        console.log(`   📋 Legacy code: ${legacyUniqueCode} (professional without assignmentCode)`);
-      }
-      
-      res.status(201).json(finalClient);
+
+      res.json({ 
+        success: true, 
+        imported, 
+        skipped,
+        message: `Imported ${imported} contacts` + (skipped > 0 ? `, ${skipped} already existing` : '')
+      });
     } catch (error: any) {
-      console.error(`❌ [POST /api/clients] General error:`, error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error('[CSV IMPORT] Error:', error);
+      res.status(500).json({ success: false, error: 'Error during import' });
     }
   });
 
-  // Admin-only endpoint: Retrieve metadata for professional owners (id, assignmentCode, username)
-router.get("/api/client-owners", async (req, res) => {
+  // Admin-only endpoint: Automatic client code migration (old → new format)
+router.post("/api/clients/migrate-codes", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
     const user = req.user as any;
     

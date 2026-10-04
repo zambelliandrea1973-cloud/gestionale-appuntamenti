@@ -47,6 +47,23 @@ Servono due variabili d'ambiente da creare su **Meta for Developers**:
 - Work independently and efficiently
 - Keep dev and production environments synchronized
 
+## ⚠️ REGOLA OBBLIGATORIA — Migrazioni DB (colonne nuove)
+
+Ogni volta che si aggiunge una colonna a `shared/schema.ts` (tabella `users`, `appointments`, ecc.), **nella stessa sessione e nello stesso push** va aggiunta la migrazione in `server/storage.ts` nella funzione `ensureSessionTable()`:
+
+```sql
+ALTER TABLE <tabella> ADD COLUMN IF NOT EXISTS <colonna> <tipo> DEFAULT <valore>;
+```
+
+**Perché:** Drizzle ORM genera SELECT espliciti per ogni colonna dello schema. Se la colonna esiste nello schema TypeScript ma non nel DB di Sliplane (produzione), ogni query sulla tabella fallisce silenziosamente → "Username o password invalid" per tutti gli utenti → app inaccessibile.
+
+**Checklist obbligatoria prima di ogni push:**
+- [ ] Nuova colonna in `schema.ts`? → aggiungi `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` in `ensureSessionTable()`
+- [ ] Nuovo file di route? → aggiungilo anche alle route in `server/index.ts`
+- [ ] Nuovo testo italiano nell'UI? → aggiungi la chiave in tutti i 9 file locale (`*.json`)
+
+---
+
 ## ⚠️ REGOLA OBBLIGATORIA — Internazionalizzazione (i18n)
 Qualunque testo in italiano aggiunto o modificato nell'interfaccia utente **DEVE** essere gestito tramite il sistema i18n (`t("chiave", "fallback")`).
 - Prima di aggiungere testo fisso in italiano, verificare se esiste già una chiave nei file locale (`client/src/locales/*.json`).

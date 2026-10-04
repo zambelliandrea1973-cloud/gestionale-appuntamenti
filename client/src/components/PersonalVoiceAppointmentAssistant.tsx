@@ -34,11 +34,6 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   const recognition = useRef<any>(null);
   const audio = useRef<HTMLAudioElement | null>(null);
   const audioUrl = useRef<string | null>(null);
-  const utterance = useRef<SpeechSynthesisUtterance | null>(null);
-  const speechSequence = useRef(0);
-  const openRef = useRef(false);
-  const listenRef = useRef<() => void>(() => {});
-  const pendingAutoListen = useRef(false);
   const generation = useRef(0);
   const inFlight = useRef(false);
   const submitRef = useRef<(text: string) => void>(() => {});
@@ -49,102 +44,48 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   const speechLocale = ({ it:'it-IT', en:'en-US', de:'de-DE', fr:'fr-FR', es:'es-ES', nl:'nl-NL', no:'nb-NO', ro:'ro-RO', ru:'ru-RU', hi:'hi-IN', ar:'ar-SA' } as Record<string,string>)[locale.split('-')[0]] || locale;
   const ready = personalAppointmentSchema.safeParse({ ...draft, location: draft.location || '', notes: draft.notes || '' });
   function stopAudio() {
-    speechSequence.current++;
-    if (utterance.current) {
-      utterance.current.onend = null;
-      utterance.current.onerror = null;
-      utterance.current = null;
-    }
     window.speechSynthesis?.cancel();
-    if (audio.current) {
-      audio.current.onended = null;
-      audio.current.onerror = null;
-    }
     audio.current?.pause();
     audio.current = null;
     if (audioUrl.current) URL.revokeObjectURL(audioUrl.current);
     audioUrl.current = null;
   }
-  function cancelRecognition() {
-    const engine = recognition.current;
-    recognition.current = null;
-    if (engine) {
-      engine.onstart = engine.onend = engine.onerror = engine.onresult = null;
-      try { engine.abort(); } catch { /* Already ended. */ }
-    }
-    setListening(false);
-  }
   function stop() {
     generation.current++;
-    pendingAutoListen.current = false;
-    cancelRecognition();
+    recognition.current?.abort();
+    recognition.current = null;
     stopAudio();
   }
-  useEffect(() => () => { openRef.current = false; stop(); }, []);
+  useEffect(() => () => stop(), []);
   useEffect(() => { chatEnd.current?.scrollIntoView({ block: 'nearest' }); }, [messages, processing]);
-  async function speak(text: string) {
+  async function say(text: string) {
+    setMessages(previous => [...previous, { role: 'assistant', content: text }]);
+    if (!conversation.current.isActive()) return;
     const token = generation.current;
-    stopAudio();
-    const sequence = speechSequence.current;
-    const isCurrent = () => openRef.current && token === generation.current && sequence === speechSequence.current;
-    let completed = false;
-    let fallbackStarted = false;
-    const complete = () => {
-      if (completed || !isCurrent()) return;
-      completed = true;
-      stopAudio();
-      if (inFlight.current) pendingAutoListen.current = true;
-      else listenRef.current();
-    };
-    const deviceSpeech = () => {
-      if (!isCurrent() || fallbackStarted) return;
-      fallbackStarted = true;
-      if ('speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
-        const message = new SpeechSynthesisUtterance(text);
-        utterance.current = message;
-        message.lang = speechLocale;
-        message.onend = complete;
-        message.onerror = () => {
-          if (isCurrent()) setError(t('personalAppointments.speechError', 'Risposta vocale non disponibile. Puoi continuare nella chat.'));
-        };
-        window.speechSynthesis.speak(message);
-      } else complete();
-    };
-    // As in Work mode, opening the assistant must not consume a trial conversation.
-    if (!conversation.current.isActive()) { deviceSpeech(); return; }
     try {
+      stopAudio();
       const response = await apiRequest('POST', '/api/ai-appointment-assistant/speech', {
         text, language: speechLocale, conversationId: conversation.current.getId(),
       });
       const blob = await response.blob();
-      if (!isCurrent()) return;
+      if (token !== generation.current) return;
       audioUrl.current = URL.createObjectURL(blob);
       const player = new Audio(audioUrl.current);
       audio.current = player;
-      player.onended = complete;
-      player.onerror = () => {
-        if (!isCurrent()) return;
-        player.onended = player.onerror = null;
-        player.pause();
-        deviceSpeech();
-      };
       await player.play();
     } catch (failure) {
-      if (!isCurrent()) return;
+      if (token !== generation.current) return;
       const key = aiTrialMessageKey(failure);
       if (key) { setTrialBlocked(true); setError(t(key)); }
-      else {
-        if (audio.current) {
-          audio.current.onended = audio.current.onerror = null;
-          audio.current.pause();
-        }
-        deviceSpeech();
-      }
+      else if ('speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = speechLocale;
+        utterance.onerror = () => {
+          if (token === generation.current) setError(t('personalAppointments.speechError', 'Risposta vocale non disponibile. Puoi continuare nella chat.'));
+        };
+        window.speechSynthesis.speak(utterance);
+      } else setError(t('personalAppointments.speechError', 'Risposta vocale non disponibile. Puoi continuare nella chat.'));
     }
-  }
-  async function say(text: string) {
-    setMessages(previous => [...previous, { role: 'assistant', content: text }]);
-    await speak(text);
   }
   const save = useMutation({
     mutationFn: async (value: PersonalAppointmentInput) => {
@@ -155,15 +96,13 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       await queryClient.invalidateQueries({ queryKey: PERSONAL_APPOINTMENTS_QUERY });
       notifyPersonalAppointmentSaved(saved.date, true);
       navigate('/calendar');
-      openRef.current = false;
       setOpen(false); stop();
     },
     onError: () => setError(t('personalAppointments.saveError', 'Non riesco a salvare l’impegno. Riprova: i campi sono stati conservati.')),
   });
   async function submit(text: string) {
     if (!open || !text.trim() || blocked || inFlight.current || save.isPending) return;
-    pendingAutoListen.current = false;
-    cancelRecognition();
+    recognition.current?.abort();
     stopAudio();
     inFlight.current = true;
     const token = generation.current;
@@ -206,67 +145,35 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       if (key) { setError(t(key)); setTrialBlocked(true); }
       else setError(t('personalAppointments.aiError', 'Non riesco a interpretare la richiesta. Riprova oppure usa il modulo manuale.'));
     } finally {
-      if (token === generation.current) {
-        setProcessing(false); inFlight.current = false;
-        if (pendingAutoListen.current) {
-          pendingAutoListen.current = false;
-          listenRef.current();
-        }
-      }
+      if (token === generation.current) { setProcessing(false); inFlight.current = false; }
     }
   }
   submitRef.current = text => { void submit(text); };
   function listen() {
-    if (!openRef.current || blocked || inFlight.current || save.isPending) return;
+    if (blocked || processing || save.isPending) return;
     const Recognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!Recognition) return setError(t('personalAppointments.micUnsupported', 'Questo browser non supporta la dettatura. Puoi scrivere la richiesta.'));
-    if (recognition.current) {
-      pendingAutoListen.current = false;
-      try { recognition.current.stop(); } catch { cancelRecognition(); }
-      return;
-    }
-    pendingAutoListen.current = false;
-    setError('');
+    if (listening) { recognition.current?.stop(); return; }
     stopAudio();
     const engine = new Recognition();
     const token = generation.current;
     recognition.current = engine;
-    let delivered = false;
-    const isCurrent = () => openRef.current && token === generation.current && recognition.current === engine;
     engine.lang = speechLocale; engine.continuous = false; engine.interimResults = false;
-    engine.onstart = () => { if (isCurrent()) setListening(true); };
-    engine.onend = () => {
-      if (!isCurrent()) return;
-      recognition.current = null;
-      setListening(false);
-    };
+    engine.onstart = () => setListening(true);
+    engine.onend = () => setListening(false);
     engine.onerror = (event: any) => {
-      if (!isCurrent()) return;
-      recognition.current = null;
+      if (token !== generation.current) return;
       setListening(false);
       if (event.error !== 'aborted') setError(t('personalAppointments.micError', 'Non riesco ad accedere al microfono. Controlla i permessi o scrivi la richiesta.'));
     };
     engine.onresult = (event: any) => {
-      if (!isCurrent() || delivered) return;
-      const result = event.results[event.resultIndex || 0];
-      if (!result || result.isFinal === false) return;
-      const text = result[0]?.transcript?.trim();
-      if (!text) return;
-      delivered = true;
-      cancelRecognition();
-      submitRef.current(text);
+      if (token === generation.current) submitRef.current(event.results[0][0].transcript);
     };
-    try { engine.start(); } catch {
-      if (!isCurrent()) return;
-      cancelRecognition();
-      setError(t('personalAppointments.micError', 'Non riesco ad accedere al microfono. Controlla i permessi o scrivi la richiesta.'));
-    }
+    try { engine.start(); } catch { setListening(false); setError(t('personalAppointments.micError', 'Non riesco ad accedere al microfono. Controlla i permessi o scrivi la richiesta.')); }
   }
-  listenRef.current = listen;
   function changeOpen(value: boolean) {
     if (save.isPending) return;
     stop(); conversation.current.reset(); inFlight.current = false;
-    openRef.current = value;
     setOpen(value); setListening(false); setProcessing(false); setConversationActive(false); setTrialBlocked(false); setError('');
     if (value) {
       const greetingName = getAssistantGreetingName(professionalEmail);
@@ -276,7 +183,6 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       setDraft({});
       setInput('');
       setMessages([{ role: 'assistant', content: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}` }]);
-      void speak(`${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`);
     }
   }
   return <>

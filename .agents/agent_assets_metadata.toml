@@ -6,39 +6,74 @@ id = "UTE9VJctG1xBpAKxfRXmK"
 uri = "file://copyright-archive/app-cliente-copyright-20260401.tar.gz"
 type = "unspecified"
 title = "Archivio Copyright App Cliente - 01/04/2026"
+logical_id = "7e1fa55b-ef5e-4d52-939c-07753b6d3604"
 
 [[outputs]]
 id = "VR7wZ-GuPphWIq4uuJ2Mv"
 uri = "file://copyright-archive/gestionale-appuntamenti-completo-20260401.tar.gz"
 type = "unspecified"
 title = "Archivio Completo Gestionale Appuntamenti - 01/04/2026"
+logical_id = "d1bed536-fec1-436c-b1dd-69646501d391"
 
 [[outputs]]
 id = "1fWQg6kIi5IyYI6AMxwuT"
 uri = "file://copyright-archive/gestionale-appuntamenti-script-completo-20260402.tar.gz"
 type = "unspecified"
 title = "Script Completo Gestionale Appuntamenti - 02/04/2026 (564 file)"
+logical_id = "ff03f784-3412-4612-b555-eec1eb73c65a"
 
 [[outputs]]
 id = "8RGm4r_QZjcyp1qKMnfNJ"
 uri = "file://gestionale-appuntamenti-sliplane.tar.gz"
 type = "unspecified"
 title = "Gestionale Appuntamenti - Solo codice sorgente pulito"
+logical_id = "f845030c-782e-436b-8b8a-684ce2d4479b"
 
 [[outputs]]
 id = "ROFvtrPKpk-9ob_fdX0rQ"
 uri = "file://gestionale-appuntamenti-sliplane.zip"
 type = "unspecified"
 title = "Gestionale Appuntamenti - Codice sorgente pulito (ZIP)"
+logical_id = "73735df4-fb50-482c-80f8-fc0b6fcbc592"
 
 [[outputs]]
 id = "P95mpBq-YkVkz75ANVtU9"
 uri = "file://programma-aggiornato.zip"
 type = "unspecified"
 title = "Programma aggiornato - Solo sorgenti"
+logical_id = "c4a4af02-2ea0-4a60-8962-d0d4c82adb80"
 
 [[outputs]]
 id = "z-BhfOn5DGyHcjmDm80dk"
 uri = "file://gestionale-appuntamenti-source.zip"
 type = "unspecified"
 title = "Gestionale Appuntamenti - Codice Sorgente (ZIP)"
+logical_id = "8218da5a-5f28-4dfa-9a28-24648e5a0271"
+
+[[outputs]]
+id = "AiKyxM8cnNK3Op3LwxP3z"
+uri = "file://previews/anteprima-voci-assistente.html"
+type = "html"
+title = "APRI QUI — Ascolta le voci italiane"
+description = "Premi questa scheda per aprire la pagina, poi usa il pulsante Ascolta accanto a ogni voce."
+logical_id = "4de90671-5b4d-492b-ba1a-c7c159ca5b1b"
+content_hash = "sha256:c25e9ee70fd38b0a96f79d931b04de6851292db5d8ee9a420823f45e342e116b"
+size = 5882
+mtime_ms = 1788859765979
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:d6546abb-db52-44bc-b646-7127baec287e/4de90671-5b4d-492b-ba1a-c7c159ca5b1b/7c8947da-478a-4e4f-a0b5-cc897994e2dd"
+storage_version_token = "1788860250229735"
+content_type = "text/html"
+
+[[outputs]]
+id = "XoTEqClmvv0jR2oU8Ilji"
+uri = "file://previews/email-offerta-recupero.html"
+type = "html"
+title = "Anteprima email offerta 50%"
+description = "Anteprima della mail inviata agli utenti senza abbonamento attivo. Il nome, la data di scadenza e il link saranno personalizzati al momento dell’invio."
+logical_id = "1386b596-deb2-4f87-b588-1149aa4a9be1"
+content_hash = "sha256:3eba425e314098c42909fe58a6ad97eca8b2a54bb07d728ab297542e376baf46"
+size = 1765
+mtime_ms = 1790171386114
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:d6546abb-db52-44bc-b646-7127baec287e/1386b596-deb2-4f87-b588-1149aa4a9be1/adbdc7f3-0927-4b35-a45d-2500813fdf32"
+storage_version_token = "1790171483082402"
+content_type = "text/html"

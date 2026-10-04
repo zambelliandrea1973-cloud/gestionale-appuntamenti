@@ -714,7 +714,7 @@ router.delete("/api/appointments/:id", async (req, res) => {
     }
   });
 
-  // ==================== BOOKING REQUESTS API ====================
+  // --- BOOKING REQUESTS API ---
   // API for booking requests from clients
 
   // POST /api/booking-requests - Client creates booking request (auto-calculates slot)

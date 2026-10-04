@@ -2,16 +2,26 @@ import { Router } from 'express';
 import type {} from 'passport';
 import { and, eq } from 'drizzle-orm';
 import { db } from '../db';
-import { personalAppointments } from '../../shared/schema';
+import { licenses, personalAppointments } from '../../shared/schema';
 import { personalAppointmentSchema } from '../../shared/personalAppointments';
 import { requireAuth } from '../middleware/authMiddleware';
 
 const router = Router();
-router.use('/api/personal-appointments', requireAuth, (req, res, next) => {
+const professionalAccount = async (req: any, res: any, next: any) => {
   const user = req.user as any;
-  if (!['admin', 'staff'].includes(user.type)) return res.status(403).json({ message: 'Professional account required' });
-  next();
-});
+  try {
+    // Legacy licensed owners can serialize as customer/user. A patient without
+    // their own workspace license must never gain access through this exception.
+    const professional = ['admin', 'staff'].includes(user.type) ||
+      (user.role === 'user' && (await db.select({ id: licenses.id }).from(licenses)
+        .where(eq(licenses.userId, Number(user.id))).limit(1)).length > 0);
+    if (!professional) return res.status(403).json({ message: 'Professional account required' });
+    next();
+  } catch {
+    res.status(503).json({ message: 'Unable to verify professional account' });
+  }
+};
+router.use('/api/personal-appointments', requireAuth, professionalAccount);
 const owner = (req: any) => Number(req.user.id);
 const validId = (value: string) => /^\d+$/.test(value) && Number.isSafeInteger(Number(value)) && Number(value) > 0;
 const serialize = (record: any) => ({ ...record, startTime: record.startTime.slice(0, 5), endTime: record.endTime.slice(0, 5) });
@@ -81,6 +91,6 @@ router.delete('/api/appointments/:id', (req, res, next) => {
   if (!req.isAuthenticated()) return res.status(401).json({ message: 'Not authenticated' });
   const id = -Number(req.params.id);
   if (!Number.isSafeInteger(id)) return res.status(400).json({ message: 'Invalid appointment ID' });
-  return remove(req, res, id);
+  return professionalAccount(req, res, () => remove(req, res, id));
 });
 export default router;

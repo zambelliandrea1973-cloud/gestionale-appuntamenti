@@ -5,6 +5,8 @@ import { requireAuth } from '../middleware/authMiddleware';
 import nodemailer from 'nodemailer';
 import path from 'path';
 import fs from 'fs';
+import { getUserLanguage } from '../utils/userLanguage';
+import { buildDefaultEmailTemplate, buildDefaultEmailSubject } from '../utils/emailConfig';
 
 const router = Router();
 
@@ -12,17 +14,11 @@ const router = Router();
 router.get('/api/email-calendar-settings', requireAuth, async (req, res) => {
     try {
       const user = req.user!;
-      logger.debug(`📧 [GET EMAIL SETTINGS] Request for user ${user.id}`);
-      
-      const defaultTemplate = `Dear {{nome}} {{cognome}},
 
-This is a reminder for your {{servizio}} appointment scheduled for {{data}} at {{ora}}.
+      const lang = await getUserLanguage(user.id);
+      const defaultTemplate = buildDefaultEmailTemplate(lang);
 
-For any changes or cancellations, please contact us.
-
-Best regards,
-Professional Studio`;
-
+      const defaultSubject = buildDefaultEmailSubject(lang);
       const settings = await storage.getUserSettings(user.id);
       
       const response = {
@@ -30,7 +26,7 @@ Professional Studio`;
         emailAddress: settings?.smtpEmail || '',
         emailPassword: settings?.smtpPasswordEncrypted ? '••••••••••' : '',
         emailTemplate: settings?.emailTemplate || defaultTemplate,
-        emailSubject: settings?.emailSubject || "Appointment reminder for {{data}}",
+        emailSubject: settings?.emailSubject || defaultSubject,
         hasPasswordSaved: !!settings?.smtpPasswordEncrypted,
         smtpServer: settings?.smtpServer || 'smtp.gmail.com',
         smtpPort: settings?.smtpPort || 587,
@@ -53,6 +49,8 @@ Professional Studio`;
 router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
     try {
       const user = req.user!;
+
+      const lang = await getUserLanguage(user.id);
       const { emailEnabled, emailAddress, emailPassword, emailTemplate, emailSubject, calendarEnabled, calendarId, smtpServer, smtpPort } = req.body;
       
       logger.debug(`📧 [POST EMAIL SETTINGS] Updating for user ${user.id}`, {
@@ -80,7 +78,7 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
       
       // 🚀 AUTO-DETECTION SMTP: If emailAddress is provided BUT smtpServer/smtpPort are NOT provided
       if (emailAddress && !smtpServer && !smtpPort) {
-        const detected = detectEmailProvider(emailAddress);
+      const detected = emailConfig?.emailAddress ? detectEmailProvider(emailConfig.emailAddress) : null;
         if (detected) {
           updateData.smtpServer = detected.smtp_server;
           updateData.smtpPort = detected.smtp_port;
@@ -92,7 +90,7 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
           }
         } else {
           // Fallback generico: smtp.domain:587
-          const domain = emailAddress.split('@')[1];
+      const domain = emailConfig?.emailAddress ? emailConfig.emailAddress.split('@')[1] : '';
           updateData.smtpServer = `smtp.${domain}`;
           updateData.smtpPort = 587;
           logger.debug(`⚠️ [AUTO-DETECTION] Unknown provider, using generic fallback: smtp.${domain}:587`);
@@ -131,7 +129,9 @@ router.get('/api/email-calendar-settings/show-password', requireAuth, async (req
 
 router.post('/api/test-system-email', requireAuth, async (req, res) => {
     try {
-      const user = req.user as any;
+      const user = req.user!;
+
+      const lang = await getUserLanguage(user.id);
       if (user.type !== 'admin') {
         return res.status(403).json({ success: false, error: 'Admin access only' });
       }
@@ -169,6 +169,8 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
     try {
       const { email } = req.body;
       const user = req.user!;
+
+      const lang = await getUserLanguage(user.id);
       
       logger.debug(`📧 [TEST EMAIL] Request for user ${user.id} → ${email}`);
       
@@ -227,6 +229,8 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
       
       const { detectEmailProvider } = await import('../utils/emailProviderDetection');
       const user = req.user!;
+
+      const lang = await getUserLanguage(user.id);
       const { getEmailConfig } = await import('../utils/emailConfig');
       const emailConfig = await getEmailConfig(user.id);
       

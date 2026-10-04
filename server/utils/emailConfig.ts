@@ -3,6 +3,8 @@ import { db } from '../db';
 import { userSettings } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { decryptPassword } from './encryption';
+import { getReminderEmailStrings, SupportedLang } from './emailTranslations';
+import { getUserLanguage } from './userLanguage';
 
 export interface EmailConfig {
   emailEnabled: boolean;
@@ -19,8 +21,20 @@ export interface EmailConfig {
   };
 }
 
-const DEFAULT_TEMPLATE = "Dear {{nome}} {{cognome}},\n\nThis is a reminder for your {{servizio}} appointment scheduled for {{data}} at {{ora}}.\n\nFor any changes or cancellations, please contact us.\n\nBest regards,\nProfessional Studio";
-const DEFAULT_SUBJECT = "Appointment reminder for {{data}}";
+// Builds the default reminder email template in the given language
+export function buildDefaultEmailTemplate(lang: SupportedLang = 'it'): string {
+  const s = getReminderEmailStrings(lang);
+  return `${s.greeting} {{nome}} {{cognome}},\n\n${s.bodyIntro} ${s.forService} {{servizio}} ${s.onDate} {{data}} ${s.atTime} {{ora}}.\n\n${s.closing}\n\nCordiali saluti,\nStudio Professionale`;
+}
+
+export function buildDefaultEmailSubject(lang: SupportedLang = 'it'): string {
+  const s = getReminderEmailStrings(lang);
+  return `${s.subject} {{data}}`;
+}
+
+// Legacy English defaults (used only as fallback when no userId is available)
+const DEFAULT_TEMPLATE = buildDefaultEmailTemplate('it');
+const DEFAULT_SUBJECT = buildDefaultEmailSubject('it');
 
 export async function getEmailConfig(userId: number): Promise<EmailConfig | null> {
   try {
