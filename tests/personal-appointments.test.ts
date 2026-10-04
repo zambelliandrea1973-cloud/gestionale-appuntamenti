@@ -20,7 +20,7 @@ test('personal assistant opens with the work greeting followed by Dimmi pure', (
   const openGreeting = new Function(
     'professionalEmail', 't', 'getAssistantGreetingName', 'setDraft', 'setInput', 'setMessages',
     'generation', 'offlineGreeting', 'speakOfflineAssistantGreeting', 'speechLocale', 'openRef', 'listenRef',
-    'getCachedAssistantGreeting', 'greetingCacheKey',
+    'getCachedAssistantGreeting', 'greetingCacheKey', 'beginLive',
     source.slice(start, end),
   );
   const locale = JSON.parse(readFileSync('client/src/locales/it.json', 'utf8'));
@@ -36,7 +36,7 @@ test('personal assistant opens with the work greeting followed by Dimmi pure', (
     let listeningStarts = 0;
     openGreeting(email, t, getAssistantGreetingName, () => {}, () => {}, (value: unknown) => { messages = value; },
       { current: 1 }, { current: null }, (options: any) => { options.onComplete(); return { cancel() {} }; },
-      'it-IT', { current: true }, { current: () => { listeningStarts++; } }, () => undefined, 'test-greeting');
+      'it-IT', { current: true }, { current: () => { listeningStarts++; } }, () => undefined, 'test-greeting', () => { listeningStarts++; });
     assert.deepEqual(messages, [{ role: 'assistant', content: expected }]);
     assert.equal(listeningStarts, 1);
   }
@@ -48,7 +48,8 @@ function voiceHarness(activeConversation = true, paidGreeting = false) {
   const source = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
   const ast = ts.createSourceFile('assistant.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
   const declarations: string[] = [];
-  const names = new Set(['clearSpeechTimers', 'stopAudio', 'cancelRecognition', 'stop', 'speak', 'listen']);
+  // Regression coverage for the preserved legacy implementation, not Live latency.
+  const names = new Set(['clearSpeechTimers', 'stopAudio', 'cancelRecognition', 'stop', 'legacySpeak', 'legacyListen']);
   const visit = (node: ts.Node) => {
     if (ts.isFunctionDeclaration(node) && node.name && names.has(node.name.text)) declarations.push(node.getText(ast));
     ts.forEachChild(node, visit);
@@ -98,6 +99,7 @@ function voiceHarness(activeConversation = true, paidGreeting = false) {
     speechRequest: { current: null }, speechTimers: { current: [] }, recognitionTimer: { current: null },
     audio: { current: null }, audioUrl: { current: null }, utterance: { current: null },
     offlineGreeting: { current: null },
+    liveSession: { current: null }, liveFields: { current: null },
     recognition: { current: null }, inFlight: { current: false }, pendingAutoListen: { current: false },
     listenRef: { current: () => {} }, submitRef: { current: (text: string) => submitted.push(text) },
     conversation: { current: { isActive: () => activeConversation, getId: () => activeConversation ? 'test-conversation' : null } },
@@ -119,7 +121,7 @@ function voiceHarness(activeConversation = true, paidGreeting = false) {
       return { blob: async () => new Blob(['audio']) };
     },
   };
-  const code = ts.transpileModule(declarations.join('\n'), {
+  const code = ts.transpileModule(declarations.join('\n').replaceAll('legacySpeak', 'speak').replaceAll('legacyListen', 'listen'), {
     compilerOptions: { target: ts.ScriptTarget.ES2022 },
   }).outputText;
   const api = new Function('env', `const {${Object.keys(env).join(',')}} = env;\n${code}\nreturn {listen,speak,stop};`)(env);

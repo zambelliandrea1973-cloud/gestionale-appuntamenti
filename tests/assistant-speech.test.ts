@@ -114,9 +114,10 @@ test('Gemini speech respects cancellation and limits upstream waiting', () => {
 
 function createSpeechHarness(fetchResponse: () => Promise<Response>, rejectPlayback = false, activeConversation = true) {
   const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
-  const start = source.indexOf('  const speak =');
+  // Historical buffered/device code is retained for recovery, not used by Live.
+  const start = source.indexOf('  const legacySpeak =');
   const end = source.indexOf('  const addAssistantMessage =', start);
-  const compiled = ts.transpileModule(source.slice(start, end), {
+  const compiled = ts.transpileModule(source.slice(start, end).replace('const legacySpeak =', 'const speak ='), {
     compilerOptions: { target: ts.ScriptTarget.ES2022 }
   }).outputText;
   const utterances: any[] = [];

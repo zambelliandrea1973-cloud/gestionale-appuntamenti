@@ -9,8 +9,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { AITrialNotice } from '@/components/AITrialNotice';
 import AppointmentModeSwitch from './AppointmentModeSwitch';
 import { apiRequest, queryClient } from '@/lib/queryClient';
+import { ApiRequestError } from '@/lib/apiError';
 import { createAssistantTrialConversation } from '@/lib/assistantTrialConversation';
 import { createAssistantRecognition } from '@/lib/assistantRecognition';
+import { startLiveAppointmentSession, type LiveAppointmentSession } from '@/lib/liveAppointmentSession';
+import type { LiveInterpretation } from '../../../shared/liveAppointmentProtocol';
 import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
 import { detectAssistantConfirmation, getAssistantGreetingName } from '@/lib/appointmentAssistant';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess, type AITrialAccess } from '@/hooks/use-ai-trial-access';
@@ -46,7 +49,9 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   const pendingAutoListen = useRef(false);
   const generation = useRef(0);
   const inFlight = useRef(false);
-  const submitRef = useRef<(text: string) => void>(() => {});
+  const submitRef = useRef<(text: string) => Promise<void>>(async () => {});
+  const liveSession = useRef<LiveAppointmentSession | null>(null);
+  const liveFields = useRef<LiveInterpretation | null>(null);
   const chatEnd = useRef<HTMLDivElement>(null);
   const blocked = trialBlocked || Boolean(trial.data && !trial.data.unlimited &&
     (!trial.data.eligible || (trial.data.appointments.remaining === 0 && !conversationActive)));
@@ -54,23 +59,6 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   const speechLocale = ({ it:'it-IT', en:'en-US', de:'de-DE', fr:'fr-FR', es:'es-ES', nl:'nl-NL', no:'nb-NO', ro:'ro-RO', ru:'ru-RU', hi:'hi-IN', ar:'ar-SA' } as Record<string,string>)[locale.split('-')[0]] || locale;
   const greetingName = getAssistantGreetingName(professionalEmail);
   const greetingText = `${greetingName ? t('voiceAppointmentAssistant.greeting', { name: greetingName }) : t('voiceAppointmentAssistant.greetingFallback')}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`;
-  const greetingCacheKey = JSON.stringify([professionalEmail || '', speechLocale, greetingText]);
-  useEffect(() => {
-    // Load voices before opening; prepare paid AI audio only if local voice is absent.
-    if (window.speechSynthesis?.getVoices().some(voice =>
-      voice.localService && voice.lang.split('-')[0] === speechLocale.split('-')[0])) return;
-    void prepareAssistantGreeting(greetingCacheKey, async () => {
-      const access = await queryClient.fetchQuery<AITrialAccess>({ queryKey: AI_TRIAL_ACCESS_KEY });
-      if (!access.unlimited) return null;
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 15000);
-      try {
-        return await (await apiRequest('POST', '/api/ai-appointment-assistant/speech', {
-          text: greetingText, language: speechLocale, conversationId: null,
-        }, { signal: controller.signal })).blob();
-      } finally { window.clearTimeout(timeout); }
-    });
-  }, [greetingCacheKey]);
   const ready = personalAppointmentSchema.safeParse({ ...completePersonalAppointmentDraft(draft), location: draft.location || '', notes: draft.notes || '' });
   function clearSpeechTimers() {
     speechTimers.current.forEach(timer => window.clearTimeout(timer));
@@ -87,8 +75,8 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       utterance.current.onend = null;
       utterance.current.onerror = null;
       utterance.current = null;
+      window.speechSynthesis?.cancel();
     }
-    window.speechSynthesis?.cancel();
     if (audio.current) {
       audio.current.onended = null;
       audio.current.onerror = null;
@@ -102,9 +90,12 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     const engine = recognition.current;
     recognition.current = null;
     engine?.cancel();
-    setListening(false);
+    if (!liveSession.current?.ready()) setListening(false);
   }
   function stop() {
+    liveSession.current?.close();
+    liveSession.current = null;
+    liveFields.current = null;
     generation.current++;
     pendingAutoListen.current = false;
     cancelRecognition();
@@ -113,6 +104,9 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   useEffect(() => () => { openRef.current = false; stop(); }, []);
   useEffect(() => { chatEnd.current?.scrollIntoView({ block: 'nearest' }); }, [messages, processing]);
   async function speak(text: string) {
+    liveSession.current?.respond(text);
+  }
+  async function legacySpeak(text: string) {
     const token = generation.current;
     stopAudio();
     const sequence = speechSequence.current;
@@ -242,6 +236,11 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   });
   async function submit(text: string) {
     if (!open || !text.trim() || blocked || inFlight.current || save.isPending) return;
+    if (liveSession.current?.ready() && !liveFields.current) {
+      liveSession.current.sendText(text);
+      setInput('');
+      return;
+    }
     pendingAutoListen.current = false;
     cancelRecognition();
     stopAudio();
@@ -254,10 +253,14 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       if (token !== generation.current) return;
       setConversationActive(true);
       void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
-      const response = await apiRequest('POST', '/api/ai-appointment-assistant/interpret', {
-        appointmentKind: 'personal', conversationId: conversation.current.getId(), message: text.trim(), draft, language: locale,
-      });
-      const result = await response.json();
+      let result: any = liveFields.current;
+      liveFields.current = null;
+      if (!result) {
+        const response = await apiRequest('POST', '/api/ai-appointment-assistant/interpret', {
+          appointmentKind: 'personal', conversationId: conversation.current.getId(), message: text.trim(), draft, language: locale,
+        });
+        result = await response.json();
+      }
       if (token !== generation.current) return;
       const next: Draft = { ...draft };
       for (const key of ['title','date','startTime','endTime','location','notes','durationMinutes'] as const) {
@@ -270,7 +273,8 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       // Never trust an AI-produced "yes" to authorize a database write.
       if (valid.success && ready.success && detectAssistantConfirmation(text, locale) === 'yes' &&
         Object.keys(ready.data).every(key => ready.data[key as keyof PersonalAppointmentInput] === valid.data[key as keyof PersonalAppointmentInput])) {
-        save.mutate(valid.data);
+        try { await save.mutateAsync(valid.data); }
+        catch { await say(t('personalAppointments.saveError', 'Non riesco a salvare l’impegno. Riprova: i campi sono stati conservati.')); }
         return;
       }
       if (detectAssistantConfirmation(text, locale) === 'no') await say(t('personalAppointments.askChange', 'Dimmi cosa vuoi cambiare nella bozza.'));
@@ -294,8 +298,12 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       }
     }
   }
-  submitRef.current = text => { void submit(text); };
+  submitRef.current = submit;
   function listen() {
+    if (liveSession.current?.ready()) { liveSession.current.setMuted(listening); return; }
+    beginLive();
+  }
+  function legacyListen() {
     if (!openRef.current || blocked || inFlight.current || save.isPending) return;
     const Recognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!Recognition) return setError(t('personalAppointments.micUnsupported', 'Questo browser non supporta la dettatura. Puoi scrivere la richiesta.'));
@@ -326,6 +334,37 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     recognition.current = session.active() ? session : null;
   }
   listenRef.current = listen;
+  function beginLive() {
+    if (!openRef.current || blocked) return;
+    liveSession.current?.close();
+    const token = generation.current;
+    liveSession.current = startLiveAppointmentSession({
+      mode: 'personal', language: speechLocale, greeting: greetingText, conversationId: conversation.current.getId(),
+      onListening: value => { if (token === generation.current) setListening(value); },
+      onTranscript: text => { if (token === generation.current) setInput(text); },
+      onActive: id => {
+        if (token !== generation.current) return;
+        if (conversation.current.getId() !== id) conversation.current.reset();
+        void conversation.current.ensure(async () => ({ conversationId: id })).then(() => {
+          if (token === generation.current) setConversationActive(true);
+        }).catch(() => {});
+        void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
+      },
+      onTurn: async (text, fields) => {
+        if (token !== generation.current) return;
+        liveFields.current = fields;
+        try { await submitRef.current(text); } finally { liveFields.current = null; }
+      },
+      onError: code => {
+        if (token !== generation.current) return;
+        liveSession.current = null;
+        setListening(false);
+        const key = aiTrialMessageKey(new ApiRequestError(code, 503, code));
+        if (key) { setTrialBlocked(true); setError(t(key)); }
+        else setError(t(code === 'LIVE_NOT_CONFIGURED' ? 'personalAppointments.liveNotConfigured' : 'personalAppointments.liveUnavailable'));
+      },
+    });
+  }
   function changeOpen(value: boolean) {
     if (save.isPending) return;
     stop(); conversation.current.reset(); inFlight.current = false;
@@ -339,15 +378,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       setDraft({});
       setInput('');
       setMessages([{ role: 'assistant', content: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}` }]);
-      const token = generation.current;
-      offlineGreeting.current = speakOfflineAssistantGreeting({
-        text: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`,
-        language: speechLocale,
-        audioBlob: getCachedAssistantGreeting(greetingCacheKey),
-        onComplete: () => {
-          if (openRef.current && token === generation.current) listenRef.current();
-        },
-      });
+      beginLive();
     }
   }
   return <>

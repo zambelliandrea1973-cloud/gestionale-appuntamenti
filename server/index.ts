@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import { registerRoutes } from "./routes";
+import { registerAssistantLive } from "./services/assistantLiveService";
 import { setupVite, serveStatic, log } from "./vite";
 import initialSetupService from "./services/initialSetupService";
 import { storage, ensureSessionTable } from "./storage";
@@ -77,6 +78,7 @@ app.use((req, res, next) => {
   scalabilityMonitorService.startMonitoring(120);
   
   const server = await registerRoutes(app);
+  registerAssistantLive(app, server);
 
   // GLOBAL ERROR HANDLER - Captures ALL errors and logs details
   app.use((err: any, req: Request, res: Response, _next: NextFunction) => {

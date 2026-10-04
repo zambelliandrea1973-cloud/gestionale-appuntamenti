@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import AppointmentModeSwitch from './AppointmentModeSwitch';
 import PersonalVoiceAppointmentAssistant from './PersonalVoiceAppointmentAssistant';
 import { createAssistantRecognition } from '@/lib/assistantRecognition';
+import { startLiveAppointmentSession, type LiveAppointmentSession } from '@/lib/liveAppointmentSession';
+import type { LiveInterpretation } from '../../../shared/liveAppointmentProtocol';
 import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -211,6 +213,9 @@ function ProfessionalVoiceAppointmentAssistant({
   const recognitionRef = useRef<any>(null);
   const submitMessageRef = useRef<(text: string) => Promise<void>>(async () => {});
   const pendingTranscriptRef = useRef<string | null>(null);
+  const liveSessionRef = useRef<LiveAppointmentSession | null>(null);
+  const liveFieldsRef = useRef<LiveInterpretation | null>(null);
+  const liveCatalogResolveRef = useRef<(() => void) | null>(null);
   const offlineGreetingRef = useRef<{ cancel: () => void } | null>(null);
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
   const speechAudioUrlRef = useRef<string | null>(null);
@@ -243,7 +248,7 @@ function ProfessionalVoiceAppointmentAssistant({
     speechSequenceRef.current += 1;
     speechRequestRef.current?.abort();
     speechRequestRef.current = null;
-    window.speechSynthesis?.cancel();
+    if (speechUtteranceRef.current) window.speechSynthesis?.cancel();
     speechUtteranceRef.current = null;
     if (speechAudioRef.current) {
       speechAudioRef.current.onended = null;
@@ -261,22 +266,6 @@ function ProfessionalVoiceAppointmentAssistant({
 
   const greetingName = getAssistantGreetingName(professionalEmail);
   const greetingText = `${greetingName ? t('voiceAppointmentAssistant.greeting', { name: greetingName }) : t('voiceAppointmentAssistant.greetingFallback')}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`;
-  const greetingCacheKey = JSON.stringify([professionalEmail || '', speechLocale, greetingText]);
-  useEffect(() => {
-    if (window.speechSynthesis?.getVoices().some(voice =>
-      voice.localService && voice.lang.split('-')[0] === speechLocale.split('-')[0])) return;
-    void prepareAssistantGreeting(greetingCacheKey, async () => {
-      const access = await queryClient.fetchQuery<AITrialAccess>({ queryKey: AI_TRIAL_ACCESS_KEY });
-      if (!access.unlimited) return null;
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 15000);
-      try {
-        return await (await apiRequest('POST', '/api/ai-appointment-assistant/speech', {
-          text: greetingText, language: speechLocale, conversationId: null,
-        }, { signal: controller.signal })).blob();
-      } finally { window.clearTimeout(timeout); }
-    });
-  }, [greetingCacheKey]);
 
   const handleTrialFailure = (error: unknown): string | null => {
     const key = aiTrialMessageKey(error);
@@ -295,6 +284,10 @@ function ProfessionalVoiceAppointmentAssistant({
   };
 
   const speak = async (text: string, onComplete?: () => void) => {
+    liveSessionRef.current?.respond(text);
+    onComplete?.();
+  };
+  const legacySpeak = async (text: string, onComplete?: () => void) => {
     stopSpeech();
     const sequence = speechSequenceRef.current;
     const controller = new AbortController();
@@ -568,15 +561,6 @@ function ProfessionalVoiceAppointmentAssistant({
       ? t('voiceAppointmentAssistant.greeting', { name: greetingName })
       : t('voiceAppointmentAssistant.greetingFallback');
     setMessages([{ role: 'assistant', content: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}` }]);
-    const generation = dialogGenerationRef.current;
-    offlineGreetingRef.current = speakOfflineAssistantGreeting({
-      text: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`,
-      language: speechLocale,
-      audioBlob: getCachedAssistantGreeting(greetingCacheKey),
-      onComplete: () => {
-        if (generation === dialogGenerationRef.current) startListeningRef.current();
-      },
-    });
   }, [open, messages.length, professionalEmail, speechLocale, t]);
 
   useEffect(() => {
@@ -596,6 +580,7 @@ function ProfessionalVoiceAppointmentAssistant({
 
   useEffect(() => {
     return () => {
+      liveSessionRef.current?.close();
       recognitionRef.current?.stop?.();
       stopSpeech();
     };
@@ -916,6 +901,8 @@ function ProfessionalVoiceAppointmentAssistant({
       };
 
       resetConversation();
+      liveSessionRef.current?.close();
+      liveSessionRef.current = null;
       setOpen(false);
       if (window.location.pathname === '/calendar') {
         window.dispatchEvent(new CustomEvent(VOICE_APPOINTMENT_DRAFT_EVENT, { detail: formDraft }));
@@ -935,6 +922,11 @@ function ProfessionalVoiceAppointmentAssistant({
     const userMessage = (rawMessage ?? input).trim();
     if (!userMessage || isProcessing || isSaving ||
         isAIBlocked || aiBlockedRef.current || turnInFlightRef.current) return;
+    if (liveSessionRef.current?.ready() && !liveFieldsRef.current) {
+      liveSessionRef.current.sendText(userMessage);
+      setInput('');
+      return;
+    }
     recognitionRef.current?.cancel?.();
     setIsListening(false);
     if (isCatalogLoading) {
@@ -1046,6 +1038,9 @@ function ProfessionalVoiceAppointmentAssistant({
           serviceName: detectedConfirmation === 'unknown' ? userMessage : null,
           confirmation: detectedConfirmation
         };
+      } else if (liveFieldsRef.current) {
+        interpretation = { ...liveFieldsRef.current, confirmation: detectedConfirmation };
+        liveFieldsRef.current = null;
       } else if (pendingQuestion && detectedConfirmation !== 'unknown') {
         interpretation = { confirmation: detectedConfirmation };
       } else if (isExpectedServiceName) {
@@ -1276,7 +1271,9 @@ function ProfessionalVoiceAppointmentAssistant({
       }
 
       if (pendingQuestion === 'confirm_appointment') {
-        if (confirmation === 'yes') {
+        const correctedDraft = ['clientName', 'date', 'startTime', 'serviceName', 'durationMinutes', 'servicePrice', 'notes']
+          .some(key => nextDraft[key as keyof AssistantDraft] !== draft[key as keyof AssistantDraft]);
+        if (confirmation === 'yes' && !correctedDraft) {
           setDraft(nextDraft);
           await openManualAppointmentForm(nextDraft);
           return;
@@ -1314,10 +1311,18 @@ function ProfessionalVoiceAppointmentAssistant({
     if (isCatalogLoading || !pendingTranscriptRef.current) return;
     const transcript = pendingTranscriptRef.current;
     pendingTranscriptRef.current = null;
-    void submitMessageRef.current(transcript);
+    void submitMessageRef.current(transcript).finally(() => {
+      liveFieldsRef.current = null;
+      liveCatalogResolveRef.current?.();
+      liveCatalogResolveRef.current = null;
+    });
   }, [open, isCatalogLoading]);
 
   const startListening = () => {
+    if (liveSessionRef.current?.ready()) { liveSessionRef.current.setMuted(false); return; }
+    beginLive();
+  };
+  const legacyStartListening = () => {
     if (isAIBlocked || aiBlockedRef.current || pendingTranscriptRef.current) return;
 
     const SpeechRecognition =
@@ -1361,6 +1366,7 @@ function ProfessionalVoiceAppointmentAssistant({
   startListeningRef.current = startListening;
 
   const stopListening = () => {
+    liveSessionRef.current?.setMuted(true);
     recognitionRef.current?.finish?.();
     setIsListening(false);
   };
@@ -1459,6 +1465,11 @@ function ProfessionalVoiceAppointmentAssistant({
   };
 
   const resetConversation = () => {
+    liveSessionRef.current?.close();
+    liveSessionRef.current = null;
+    liveCatalogResolveRef.current?.();
+    liveCatalogResolveRef.current = null;
+    liveFieldsRef.current = null;
     pendingTranscriptRef.current = null;
     dialogGenerationRef.current++;
     turnInFlightRef.current = false;
@@ -1478,14 +1489,55 @@ function ProfessionalVoiceAppointmentAssistant({
     setConflictResourceOptions([]);
     setInput('');
     setIsListening(false);
+    if (open) beginLive();
+  };
+
+  const beginLive = () => {
+    liveSessionRef.current?.close();
+    const generation = dialogGenerationRef.current;
+    liveSessionRef.current = startLiveAppointmentSession({
+      mode: 'work', language: speechLocale, greeting: greetingText, conversationId: trialConversationRef.current.getId(),
+      onListening: value => { if (generation === dialogGenerationRef.current) setIsListening(value); },
+      onTranscript: text => { if (generation === dialogGenerationRef.current) setInput(text); },
+      onActive: id => {
+        if (generation !== dialogGenerationRef.current) return;
+        if (trialConversationRef.current.getId() !== id) trialConversationRef.current.reset();
+        void trialConversationRef.current.ensure(async () => ({ conversationId: id })).then(() => {
+          if (generation === dialogGenerationRef.current) setConversationActive(true);
+        }).catch(() => {});
+        void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
+      },
+      onTurn: async (text, fields) => {
+        if (generation !== dialogGenerationRef.current) return;
+        liveFieldsRef.current = fields;
+        await submitMessageRef.current(text);
+        if (pendingTranscriptRef.current) await new Promise<void>(resolve => { liveCatalogResolveRef.current = resolve; });
+        liveFieldsRef.current = null;
+      },
+      onError: code => {
+        if (generation !== dialogGenerationRef.current) return;
+        liveSessionRef.current = null;
+        liveCatalogResolveRef.current?.();
+        liveCatalogResolveRef.current = null;
+        const key = handleTrialFailure(new ApiRequestError(code, 503, code));
+        setMessages(previous => [...previous, { role: 'assistant', content: key ? t(key) :
+          t(code === 'LIVE_NOT_CONFIGURED' ? 'personalAppointments.liveNotConfigured' : 'personalAppointments.liveUnavailable') }]);
+      },
+    });
   };
 
   const handleOpenChange = (nextOpen: boolean) => {
     setOpen(nextOpen);
     if (nextOpen) {
       setDialogPosition({ x: 0, y: 0 });
+      beginLive();
     }
     if (!nextOpen) {
+      liveSessionRef.current?.close();
+      liveSessionRef.current = null;
+      liveCatalogResolveRef.current?.();
+      liveCatalogResolveRef.current = null;
+      liveFieldsRef.current = null;
       dialogGenerationRef.current++;
       turnInFlightRef.current = false;
       setIsProcessing(false);
@@ -1513,7 +1565,7 @@ function ProfessionalVoiceAppointmentAssistant({
         </span></div>
         <Button
           type="button"
-          onClick={() => setOpen(true)}
+          onClick={() => handleOpenChange(true)}
           className="appointment-action-control appointment-action-pulse-ai h-12 w-12 shrink-0 rounded-full bg-violet-600 p-0 text-white shadow-[0_0_0_6px_rgba(124,58,237,0.11),0_13px_25px_rgba(84,58,145,0.28)] transition-all hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-[0_0_0_7px_rgba(124,58,237,0.15),0_17px_30px_rgba(84,58,145,0.30)] focus-visible:ring-4 focus-visible:ring-violet-300"
           aria-label={t('voiceAppointmentAssistant.openAriaLabel')}
           title={t('voiceAppointmentAssistant.openTitle')}

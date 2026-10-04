@@ -11,6 +11,8 @@ import './personal-appointments.test';
 import './appointment-mode-persistence.test';
 import './assistant-recognition.test';
 import './offline-assistant-greeting.test';
+import './live-appointment-session.test';
+import './live-appointment-server.test';
 
 test('the restored appointment assistant has no unresolved runtime names', () => {
   const root = process.cwd();
@@ -38,10 +40,10 @@ test('trial quotas reserve a conversation before interpretation and expose trans
   assert.match(notice, /t\('aiTrial\.subscribe'\)/);
 });
 
-test('both assistant modes collect the complete utterance before submitting it', () => {
+test('both active voice entry points use Live audio and preserve authoritative transcript confirmation', () => {
   const source = readFileSync('client/src/components/VoiceAppointmentAssistant.tsx', 'utf8');
   const recognition = source.slice(source.indexOf('  const startListening ='), source.indexOf('  const stopListening ='));
-  assert.match(recognition, /createAssistantRecognition/);
+  assert.match(recognition, /liveSessionRef\.current/);
   assert.match(recognition, /onTranscript: setInput/);
   assert.match(recognition, /void submitMessageRef\.current\(transcript\)/);
   assert.doesNotMatch(recognition, /event\.results.*\[0\]/);
@@ -49,6 +51,12 @@ test('both assistant modes collect the complete utterance before submitting it',
   assert.match(personal, /createAssistantRecognition/);
   assert.match(personal, /onComplete: text/);
   assert.match(personal, /submitRef\.current\(text\)/);
+  for (const component of [source, personal]) {
+    assert.match(component, /startLiveAppointmentSession/);
+    assert.match(component, /liveFields/);
+    assert.match(component, /detectAssistantConfirmation/);
+    assert.match(component, /conversationId: id/);
+  }
   const submit = source.slice(source.indexOf('  const submitMessage ='), source.indexOf('  const startListening ='));
   assert.doesNotMatch(submit, /cancelListening|recognition\.abort/);
 });
