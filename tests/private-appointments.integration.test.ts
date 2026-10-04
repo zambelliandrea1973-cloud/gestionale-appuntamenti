@@ -8,6 +8,8 @@ import collaboratorRouter from '../server/routes/collaboratorRoutes';
 import { ensurePrivateAppointmentTables, getPrivateCalendarIds } from '../server/services/privateAppointmentAccess';
 import { encryptPrivateToken } from '../server/services/privateAppointmentGoogle';
 import { google } from 'googleapis';
+import legacyPersonalRouter from '../server/routes/personalAppointmentRoutes';
+import { syncPrivateGoogle } from '../server/services/privateAppointmentGoogle';
 
 test('private API isolates identities, studios and sessions; CRUD/outbox/conflicts remain local', async () => {
   await ensurePrivateAppointmentTables();
@@ -23,6 +25,7 @@ test('private API isolates identities, studios and sessions; CRUD/outbox/conflic
     next();
   });
   app.use(router);
+  app.use(legacyPersonalRouter);
   app.use(collaboratorRouter);
   const server = app.listen(0, '127.0.0.1');
   await new Promise<void>(resolve => server.once('listening', resolve));
@@ -37,6 +40,16 @@ test('private API isolates identities, studios and sessions; CRUD/outbox/conflic
   const data = { title: 'Private integration fixture', startDate: '2098-10-05', endDate: '2098-10-05', startTime: '11:30', endTime: '12:00' };
   let profileId: number | undefined;
   try {
+    for (const account of [studio, otherStudio]) {
+      for (const method of ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']) {
+        const closed = await api('/api/personal-appointments/1', method, method === 'GET' ? undefined : data,
+          undefined, { 'X-Test-Studio': String(account) });
+        assert.equal(closed.status, 410, 'shared login cannot retrieve or alter the sealed legacy archive');
+        assert.equal(closed.data.title, undefined);
+      }
+      assert.equal((await api('/api/personal-appointments', 'GET', undefined, undefined,
+        { 'X-Test-Studio': String(account) })).status, 410, 'shared feed is sealed too');
+    }
     assert.equal((await api('/profiles', 'GET', undefined, undefined, { 'X-Test-Anonymous': 'true' })).status, 401);
     const profiles = await api('/profiles');
     assert.equal(profiles.status, 200);
@@ -94,13 +107,23 @@ test('private API isolates identities, studios and sessions; CRUD/outbox/conflic
     const originalCalendar = google.calendar;
     const providerEvents = new Map<string, any>();
     let deletes = 0;
+    let offline = false, lostAck = false, failSecond = false, attempts = 0;
     (google as any).calendar = () => ({
       calendarList: { list: async () => ({ data: { items: [{ id: reserved, summary: 'Fixture', accessRole: 'owner' }] } }) },
       acl: { list: async () => ({ data: { items: [{ role: 'owner' }] } }) },
       events: {
-        insert: async ({ requestBody }: any) => { assert.ok(requestBody.id); providerEvents.set(requestBody.id, requestBody); return { data: requestBody }; },
+        insert: async ({ requestBody }: any) => {
+          if (offline || (failSecond && ++attempts === 2)) throw new Error('Injected provider failure');
+          assert.ok(requestBody.id); providerEvents.set(requestBody.id, requestBody);
+          if (lostAck) { lostAck = false; throw new Error('Injected lost acknowledgment'); }
+          return { data: requestBody };
+        },
         update: async ({ eventId, requestBody }: any) => { providerEvents.set(eventId, requestBody); return { data: { ...requestBody, id: eventId } }; },
-        delete: async ({ eventId }: any) => { deletes++; providerEvents.delete(eventId); return { data: {} }; },
+        delete: async ({ eventId }: any) => {
+          if (offline) throw new Error('Injected provider failure');
+          if (!providerEvents.has(eventId)) throw Object.assign(new Error('Not found'), { code: 404 });
+          deletes++; providerEvents.delete(eventId); return { data: {} };
+        },
         list: async () => ({ data: { items: [] } }),
       },
     });
@@ -123,6 +146,35 @@ test('private API isolates identities, studios and sessions; CRUD/outbox/conflic
       assert.equal(googleDelete.status, 200);
       assert.ok(deletes > 0);
       assert.equal(providerEvents.has(savedId), false, 'delete removes private Google copy');
+      const profile = (await db.execute(sql`SELECT * FROM private_appointment_profiles WHERE id=${profileId}`))[0] as any;
+      offline = true;
+      const first = await api('/events', 'POST', { ...data, title: 'Partial first', startDate: '2099-02-01', endDate: '2099-02-01' }, token);
+      const second = await api('/events', 'POST', { ...data, title: 'Partial second', startDate: '2099-02-02', endDate: '2099-02-02' }, token);
+      assert.equal(first.status, 201); assert.equal(second.status, 201);
+      offline = false; failSecond = true; attempts = 0;
+      await assert.rejects(syncPrivateGoogle(profile), /Injected provider failure/);
+      const partial = await db.execute(sql`SELECT google_event_id,sync_pending FROM private_appointments
+        WHERE id IN (${first.data.id},${second.data.id})`);
+      assert.equal(partial.filter(row => row.google_event_id && !row.sync_pending).length, 1,
+        'later remote failure cannot roll back an earlier export acknowledgment');
+      failSecond = false;
+      await syncPrivateGoogle(profile);
+      lostAck = true;
+      const uncertain = await api('/events', 'POST', { ...data, title: 'Lost ACK', startDate: '2099-03-01', endDate: '2099-03-01' }, token);
+      assert.equal(uncertain.status, 201); assert.equal(uncertain.data.syncPending, true);
+      const uncertainCopy = [...providerEvents.entries()].find(([, value]) => value.summary === 'Lost ACK')![0];
+      offline = true;
+      assert.equal((await api(`/events/${uncertain.data.id}`, 'DELETE', undefined, token)).status, 200);
+      const tombstone = await db.execute(sql`SELECT deleted,google_event_id,google_calendar_id,data
+        FROM private_appointments WHERE id=${uncertain.data.id}`);
+      assert.equal(tombstone.length, 1); assert.equal(tombstone[0].deleted, true);
+      assert.equal(tombstone[0].google_event_id, null); assert.equal(tombstone[0].google_calendar_id, reserved);
+      assert.deepEqual(tombstone[0].data, {}, 'erase deleted content while retaining reconciliation metadata');
+      assert.ok(providerEvents.has(uncertainCopy), 'provider failure leaves deletion retryable');
+      offline = false;
+      await syncPrivateGoogle(profile);
+      assert.equal(providerEvents.has(uncertainCopy), false, 'delete deterministic ID even without an acknowledged copy');
+      assert.equal((await db.execute(sql`SELECT id FROM private_appointments WHERE id=${uncertain.data.id}`)).length, 0);
       await api('/google', 'DELETE', undefined, token);
       assert.equal((await getPrivateCalendarIds()).has(reserved), true, 'disconnect preserves private calendar reservation');
     } finally {

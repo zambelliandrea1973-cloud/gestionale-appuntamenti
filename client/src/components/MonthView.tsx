@@ -13,9 +13,9 @@ import { useGoogleAccountColors } from "@/hooks/use-google-account-colors";
 import AppointmentForm from "./AppointmentForm";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { FloatingActionButton } from "./FloatingActionButton";
-import { usePersonalCalendarAppointments } from "@/hooks/use-personal-appointments";
 import { getISOWeek } from "date-fns";
 import MobileMonthGrid from "./MobileMonthGrid";
+import { usePrivateAppointments } from "@/components/private-appointments/PrivateAppointmentsProvider";
 
 interface MonthViewProps {
   selectedDate: Date;
@@ -331,6 +331,7 @@ export default function MonthView({
   const [newApptDay, setNewApptDay] = useState<Date | null>(null);
   const [moreDay, setMoreDay] = useState<Date | null>(null);
   const formOpenedAtRef = useRef(0);
+  const privateAppointments = usePrivateAppointments();
 
   useEffect(() => { setViewDate(selectedDate); }, [selectedDate]);
 
@@ -342,10 +343,9 @@ export default function MonthView({
   const startDate = fmt(firstDay);
   const endDate = fmt(lastDay);
 
-  const { data: workAppointments = [], isLoading, refetch } = useQuery<any>({
+  const { data: appointments = [], isLoading, refetch } = useQuery<any>({
     queryKey: [`/api/appointments/range/${startDate}/${endDate}`],
   });
-  const { appointments } = usePersonalCalendarAppointments(workAppointments, startDate, endDate);
 
   useEffect(() => { refetch(); }, [viewDate, refetch]);
 
@@ -542,9 +542,14 @@ export default function MonthView({
           getEventColor={getEventColor}
           onDateSelect={onDateSelect}
           onNewAppointment={() => {
+            if (privateAppointments.mode === 'free') {
+              privateAppointments.openCreate('manual');
+              return;
+            }
             setNewApptDay(selectedDate);
             formOpenedAtRef.current = Date.now();
           }}
+          showNewAppointmentAction={false}
         />
       </div>
       <div className="hidden sm:flex bg-white rounded-lg shadow-md overflow-hidden mb-6 flex-col">

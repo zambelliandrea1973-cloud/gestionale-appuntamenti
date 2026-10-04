@@ -181,10 +181,11 @@ router.put(`${base}/events/:id`, asyncRoute(async (req, res) => {
 router.delete(`${base}/events/:id`, asyncRoute(async (req, res) => {
   const profile = await getPrivateProfile(req);
   const eventId = id(req.params.id);
-  const rows = await db.execute(sql`UPDATE private_appointments SET deleted=true,sync_pending=true,updated_at=now()
+  const rows = await db.execute(sql`UPDATE private_appointments SET deleted=true,data='{}'::jsonb,sync_pending=true,updated_at=now()
     WHERE id=${eventId} AND profile_id=${profile.id} AND deleted=false RETURNING google_event_id`);
   if (!rows.length) throw new PrivateError(404, 'Impegno non trovato.');
-  if (!rows[0].google_event_id) await db.execute(sql`DELETE FROM private_appointments WHERE id=${eventId} AND profile_id=${profile.id} AND deleted=true`);
+  // Keep the tombstone even without an acknowledged provider ID: an insert
+  // may have succeeded remotely before its acknowledgment/database commit.
   res.json({ deleted: true, sync: await trySync(profile) });
 }));
 router.get(`${base}/google/calendars`, asyncRoute(async (req, res) => {

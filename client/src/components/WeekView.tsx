@@ -19,7 +19,6 @@ import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { FloatingActionButton } from "./FloatingActionButton";
-import { usePersonalCalendarAppointments } from "@/hooks/use-personal-appointments";
 import { addDays, getISOWeek } from "date-fns";
 
 interface WeekViewProps {
@@ -77,10 +76,9 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   const endDate = `${weekEnd.getFullYear()}-${String(weekEnd.getMonth() + 1).padStart(2, '0')}-${String(weekEnd.getDate()).padStart(2, '0')}`;
   
   // Fetch appointments for the selected week
-  const { data: workAppointments = [], isLoading, refetch } = useQuery<any>({
+  const { data: appointments = [], isLoading, refetch } = useQuery<any>({
     queryKey: [`/api/appointments/range/${startDate}/${endDate}`],
   });
-  const { appointments } = usePersonalCalendarAppointments(workAppointments, startDate, endDate);
   
   // Refresh data when date changes
   useEffect(() => {

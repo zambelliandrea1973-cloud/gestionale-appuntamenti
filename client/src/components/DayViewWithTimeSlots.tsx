@@ -13,6 +13,7 @@ import AppointmentModal from "./AppointmentModal";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { AppointmentWithDetails, Service, Client } from "../types/api";
 import { formatDateForApi, formatTime, calculateEndTime, addMinutes } from "@/lib/utils/date";
+import { usePrivateAppointments } from "@/components/private-appointments/PrivateAppointmentsProvider";
 
 interface DayViewWithTimeSlotsProps {
   selectedDate: Date;
@@ -43,6 +44,7 @@ export default function DayViewWithTimeSlots({
   onAppointmentDeleted
 }: DayViewWithTimeSlotsProps) {
   const { t } = useTranslation();
+  const privateAppointments = usePrivateAppointments();
   const { toast } = useToast();
   const { getImportedColors } = useGoogleAccountColors();
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
@@ -376,13 +378,11 @@ export default function DayViewWithTimeSlots({
     }
   };
 
-  // Expanded cards use a high stacking level. Close the detail before any
-  // create/edit dialog opens, rather than raising it above portal-based menus.
   useEffect(() => {
-    if (isAppointmentModalOpen || showDeleteConfirm) setExpandedAppointment(null);
-  }, [isAppointmentModalOpen, showDeleteConfirm]);
+    if (isAppointmentModalOpen || showDeleteConfirm || privateAppointments.dialog) setExpandedAppointment(null);
+  }, [isAppointmentModalOpen, showDeleteConfirm, privateAppointments.dialog]);
 
-  // A completed tap opens the form with this slot's time; scrolling does not.
+  // A completed tap opens the selected mode with this slot's date/time.
   // Il click sintetico dopo uno scorrimento non deve essere scambiato per un tocco.
   const handleSlotClick = (slotTime: string) => {
     if (touchMovedRef.current) {
@@ -393,6 +393,18 @@ export default function DayViewWithTimeSlots({
     setSelectedTime(slotTime);
     setSelectedSlotTime(slotTime);
     lastSlotTapRef.current = null;
+    if (privateAppointments.mode === 'free') {
+      const start = new Date(selectedDate);
+      const [hours, minutes] = slotTime.split(':').map(Number);
+      start.setHours(hours, minutes, 0, 0);
+      const end = new Date(start.getTime() + 30 * 60_000);
+      const endTime = `${String(end.getHours()).padStart(2, '0')}:${String(end.getMinutes()).padStart(2, '0')}`;
+      privateAppointments.openCreate('manual', {
+        startDate: formatDateForApi(start), endDate: formatDateForApi(end),
+        startTime: slotTime, endTime,
+      });
+      return;
+    }
     setSelectedAppointmentId(null);
     setIsAppointmentModalOpen(true);
   };
@@ -642,7 +654,11 @@ export default function DayViewWithTimeSlots({
         })()}
 
         <FloatingActionButton
-          onClick={() => { lastSlotTapRef.current = null; setIsAppointmentModalOpen(true); setSelectedAppointmentId(null); }}
+          onClick={() => {
+            lastSlotTapRef.current = null;
+            if (privateAppointments.mode === 'free') privateAppointments.openCreate('manual');
+            else { setIsAppointmentModalOpen(true); setSelectedAppointmentId(null); }
+          }}
           text={t('calendar.selectNewAppointment', 'Nuovo appuntamento')}
           storageKey="fab-appointment-position"
         />

@@ -5,9 +5,6 @@ import { Bot, CalendarPlus, GripHorizontal, Loader2, Mic, MicOff, Send, Sparkles
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import AppointmentModeSwitch from './AppointmentModeSwitch';
-import PersonalVoiceAppointmentAssistant from './PersonalVoiceAppointmentAssistant';
-import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { ApiRequestError } from '@/lib/apiError';
@@ -174,8 +171,7 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
 }
 
 export default function VoiceAppointmentAssistant(props: VoiceAppointmentAssistantProps) {
-  const [mode] = useAppointmentMode();
-  return mode === 'personal' ? <PersonalVoiceAppointmentAssistant /> : <ProfessionalVoiceAppointmentAssistant {...props} />;
+  return <ProfessionalVoiceAppointmentAssistant {...props} />;
 }
 
 function ProfessionalVoiceAppointmentAssistant({
@@ -1481,7 +1477,6 @@ function ProfessionalVoiceAppointmentAssistant({
         >
           <Mic className="h-6 w-6" />
         </Button>
-        <AppointmentModeSwitch />
       </div>
 
       <Dialog open={open} onOpenChange={handleOpenChange}>

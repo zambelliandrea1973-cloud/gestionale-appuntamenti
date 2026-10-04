@@ -108,3 +108,14 @@ test('account-scoped creation mode survives private locking without retaining ac
   assert.match(cleanup, /setAccess\(null\)/);
   assert.doesNotMatch(cleanup, /setMode|persistPrivateAppointmentMode/, 'locking discards access, not chosen mode');
 });
+
+test('actual calendar and native forms have only the profile-protected private entry path', () => {
+  for (const file of ['VoiceAppointmentAssistant', 'AppointmentForm', 'WeekView', 'MonthView']) {
+    const source = readFileSync(`client/src/components/${file}.tsx`, 'utf8');
+    assert.doesNotMatch(source, /AppointmentModeSwitch|PersonalVoiceAppointmentAssistant|PersonalAppointmentForm|usePersonalCalendarAppointments/);
+  }
+  const layout = readFileSync('client/src/components/Layout.tsx', 'utf8');
+  assert.match(layout, /<PrivateAppointmentsProvider[\s\S]*<PrivateModeClickBridge/);
+  assert.match(layout, /target\.closest\('\[data-testid="button-open-voice-appointment-assistant"\]'\)/);
+  assert.match(layout, /privateAppointments\.openCreate\('voice'\)/);
+});

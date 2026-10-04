@@ -108,7 +108,7 @@ export async function reservePrivateCalendar(profile: PrivateProfile, calendarId
     if (reservation[0]?.profile_id !== profile.id) throw new PrivateError(409, 'Calendario già assegnato a un’altra area personale.');
     const existing = await tx.execute(sql`SELECT google_calendar_id FROM private_appointment_profiles WHERE id=${profile.id} FOR UPDATE`);
     if (existing[0]?.google_calendar_id && existing[0].google_calendar_id !== calendarId) {
-      const copies = await tx.execute(sql`SELECT id FROM private_appointments WHERE profile_id=${profile.id} AND google_event_id IS NOT NULL LIMIT 1`);
+      const copies = await tx.execute(sql`SELECT id FROM private_appointments WHERE profile_id=${profile.id} AND (google_event_id IS NOT NULL OR sync_pending=true) LIMIT 1`);
       if (copies.length) throw new PrivateError(409, 'Ci sono copie nel calendario precedente. Mantieni quel calendario per evitare copie non aggiornate.');
     }
     await tx.execute(sql`UPDATE private_appointment_profiles SET google_calendar_id=${calendarId} WHERE id=${profile.id} AND user_id=${profile.user_id}`);
@@ -168,18 +168,23 @@ export async function syncPrivateGoogle(profile: PrivateProfile) {
   if (!profile.google_token || !profile.google_calendar_id) return { connected: false, pending: 0 };
   const calendar = await privateGoogleClient(profile);
   const zone = await privateTimezone(profile);
-  return db.transaction(async tx => {
-    await tx.execute(sql`SELECT pg_advisory_xact_lock(705192, ${profile.id}::integer)`);
-    const rows = await tx.execute(sql`SELECT * FROM private_appointments WHERE profile_id=${profile.id} AND sync_pending=true ORDER BY id FOR UPDATE`);
-    for (const row of rows as any[]) {
+  const pending = await db.execute(sql`SELECT id FROM private_appointments WHERE profile_id=${profile.id} AND sync_pending=true ORDER BY id`);
+  for (const candidate of pending as any[]) {
+    // Persist the destination before any remote write, including a lost ACK.
+    await db.execute(sql`UPDATE private_appointments SET google_calendar_id=${profile.google_calendar_id}
+      WHERE id=${candidate.id} AND profile_id=${profile.id} AND google_calendar_id IS NULL`);
+    await db.transaction(async tx => {
+      await tx.execute(sql`SELECT pg_advisory_xact_lock(705192, ${profile.id}::integer)`);
+      const rows = await tx.execute(sql`SELECT * FROM private_appointments WHERE id=${candidate.id}
+        AND profile_id=${profile.id} AND sync_pending=true FOR UPDATE`);
+      if (!rows.length) return;
+      const row = rows[0] as any;
       const calendarId = row.google_calendar_id || profile.google_calendar_id!;
       // Google supports a deterministic base32hex event id. Never insert twice after a crash.
       const eventId = row.google_event_id || `private${privateHash(`${profile.user_id}:${profile.id}:${row.id}`).slice(0, 48)}`;
       if (row.deleted) {
-        if (row.google_event_id) {
-          try { await calendar.events.delete({ calendarId, eventId }); }
-          catch (error: any) { if (![404, 410].includes(error.code || error.response?.status)) throw error; }
-        }
+        try { await calendar.events.delete({ calendarId, eventId }); }
+        catch (error: any) { if (![404, 410].includes(error.code || error.response?.status)) throw error; }
         await tx.execute(sql`DELETE FROM private_appointments WHERE id=${row.id} AND profile_id=${profile.id}`);
       } else {
         const body = privateGoogleBody(row.data as PrivateEvent, zone);
@@ -199,7 +204,7 @@ export async function syncPrivateGoogle(profile: PrivateProfile) {
         await tx.execute(sql`UPDATE private_appointments SET google_event_id=${eventId},google_calendar_id=${calendarId},
           sync_pending=false WHERE id=${row.id} AND profile_id=${profile.id}`);
       }
-    }
-    return { connected: true, pending: 0 };
-  });
+    });
+  }
+  return { connected: true, pending: 0 };
 }

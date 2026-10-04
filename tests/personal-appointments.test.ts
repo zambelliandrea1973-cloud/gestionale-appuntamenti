@@ -44,11 +44,12 @@ test('calendar personal IDs cannot collide with positive work appointment IDs', 
   assert.equal(result.service.color, PERSONAL_APPOINTMENT_COLOR);
   assert.notEqual(PERSONAL_APPOINTMENT_BACKGROUND, '#f1f5f9');
 });
-test('personal persistence routes scope reads, updates and deletes to the signed-in owner', () => {
+test('legacy personal archive is sealed for shared logins and is not deleted', () => {
   const source = readFileSync('server/routes/personalAppointmentRoutes.ts', 'utf8');
-  assert.equal((source.match(/eq\(personalAppointments\.userId, owner\(req\)\)/g) || []).length, 4);
-  assert.match(source, /userId: owner\(req\)/);
   assert.match(source, /requireAuth/);
+  assert.match(source, /router\.use\('\/api\/personal-appointments'/);
+  assert.match(source, /status\(410\)/);
+  assert.doesNotMatch(source, /db\.|\.select\(|\.insert\(|\.update\(|\.delete\(/);
   assert.doesNotMatch(source, /googleapis|googleCalendar|sendMail|sendEmail|createClient|createService/);
 });
 test('one completed day-slot tap opens the form after pre-filling the time', () => {
