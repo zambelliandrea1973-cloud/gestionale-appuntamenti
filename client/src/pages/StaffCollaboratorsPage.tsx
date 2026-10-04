@@ -13,6 +13,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Users, UserPlus, Edit, Trash2, Phone, Mail, Award, Lock } from "lucide-react";
 import { useCapabilities } from "@/hooks/use-capabilities";
 import { UpgradePrompt } from "@/components/UpgradePrompt";
+import { spaceApi } from "@/components/personal-space/api";
+import { PERSONAL_SPACE_PROFILES_KEY } from "@/components/personal-space/PersonalSpaceProvider";
 
 interface Collaborator {
   id: number;
@@ -33,6 +35,10 @@ export default function StaffCollaboratorsPage() {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingCollaborator, setEditingCollaborator] = useState<Collaborator | null>(null);
   const [deletingCollaborator, setDeletingCollaborator] = useState<Collaborator | null>(null);
+  const [teamPasswordDialog, setTeamPasswordDialog] = useState(false);
+  const [teamPassword, setTeamPassword] = useState('');
+  const [pendingCreate, setPendingCreate] = useState<any>(null);
+  const [teamPasswordError, setTeamPasswordError] = useState('');
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -58,16 +64,25 @@ export default function StaffCollaboratorsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error('Create collaborator failed');
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw Object.assign(new Error(body.message || 'Create collaborator failed'), { code: body.code });
+      }
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/collaborators'] });
+      queryClient.invalidateQueries({ queryKey: PERSONAL_SPACE_PROFILES_KEY });
       toast({ title: t('staffCollaborators.toast.created') });
       resetForm();
       setShowAddDialog(false);
     },
-    onError: () => {
+    onError: (error: any, variables: any) => {
+      if (error?.code === 'PERSONAL_PASSWORD_REQUIRED') {
+        setPendingCreate(variables);
+        setTeamPasswordDialog(true);
+        return;
+      }
       toast({ title: errorTitle, description: t('staffCollaborators.errors.create'), variant: "destructive" });
     }
   });
@@ -407,6 +422,34 @@ export default function StaffCollaboratorsPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <Dialog open={teamPasswordDialog} onOpenChange={setTeamPasswordDialog}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Proteggi lo spazio personale prima di aggiungere un collega</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground">La password protegge i tuoi impegni privati. Il collega vedrà solo le fasce occupate.</p>
+          <form className="space-y-3" onSubmit={async event => {
+            event.preventDefault();
+            setTeamPasswordError('');
+            try {
+              const profiles = await spaceApi.profiles();
+              if (profiles.multi) {
+                await spaceApi.enroll({ identityId: 0, name: 'Titolare', password: teamPassword });
+              } else {
+                await spaceApi.prepareTeam(teamPassword);
+              }
+              setTeamPasswordDialog(false);
+              setTeamPassword('');
+              if (pendingCreate) createMutation.mutate(pendingCreate);
+              setPendingCreate(null);
+            } catch {
+              setTeamPasswordError('Non è stato possibile configurare la password. Riprova.');
+            }
+          }}>
+            <label className="block text-sm font-medium">Nuova password personale<Input type="password" autoComplete="new-password" minLength={10} required value={teamPassword} onChange={event => setTeamPassword(event.target.value)} /></label>
+            {teamPasswordError && <p role="alert" className="text-sm text-destructive">{teamPasswordError}</p>}
+            <div className="flex justify-end gap-2"><Button type="button" variant="outline" onClick={() => { setTeamPasswordDialog(false); setTeamPassword(''); }}>Annulla</Button><Button type="submit" disabled={teamPassword.length < 10}>Proteggi e continua</Button></div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

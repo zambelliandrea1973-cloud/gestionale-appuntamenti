@@ -152,6 +152,17 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
     ) : null;
   };
 
+  if ((appointment as any).isPersonalBusy) {
+    const startTime = appointment.startTime ? formatTime(new Date(`2000-01-01T${appointment.startTime}`)) : '';
+    const endTime = appointment.endTime ? formatTime(new Date(`2000-01-01T${appointment.endTime}`)) : '';
+    return (
+      <div className={`${compact ? 'p-2' : 'p-3'} rounded-md border-l-4 border-slate-500 bg-slate-100 text-slate-700`} aria-label="Occupato">
+        <div className="font-semibold">Occupato</div>
+        <div className="text-sm">{startTime}{endTime ? ` – ${endTime}` : ''}</div>
+      </div>
+    );
+  }
+
   // Versione compatta per i mini-slot da 15 minuti
   if (compact) {
     // Formatta gli orari di inizio e fine

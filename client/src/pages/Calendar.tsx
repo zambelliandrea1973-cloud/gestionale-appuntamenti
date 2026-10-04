@@ -48,6 +48,19 @@ export default function Calendar() {
   const [isAutoSyncing, setIsAutoSyncing] = useState(false);
   const [googleEnabled, setGoogleEnabled] = useState(false);
   const [googleNeedsReauth, setGoogleNeedsReauth] = useState(false);
+  useEffect(() => {
+    const status = new URLSearchParams(window.location.search).get('personalGoogle');
+    if (!status) return;
+    toast({
+      title: status === 'connected' ? 'Google Calendar personale collegato' :
+        status === 'cancelled' ? 'Collegamento Google annullato' : 'Collegamento Google non riuscito',
+      description: status === 'connected' ? 'Il calendario personale è pronto per la sincronizzazione.' : undefined,
+      variant: status === 'error' ? 'destructive' : 'default',
+    });
+    const url = new URL(window.location.href);
+    url.searchParams.delete('personalGoogle');
+    window.history.replaceState({}, '', url);
+  }, [toast]);
   const [googleNotConnected, setGoogleNotConnected] = useState(false);
   const [googleStatusChecked, setGoogleStatusChecked] = useState(false);
 

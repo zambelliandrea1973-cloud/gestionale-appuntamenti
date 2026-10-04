@@ -30,6 +30,7 @@ import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
 import VoiceAppointmentAssistant from "./VoiceAppointmentAssistant";
 import DemoDataWatermark from "./DemoDataWatermark";
+import { PersonalSpaceProvider } from "@/components/personal-space/PersonalSpaceProvider";
 
 function UserIcon({ className, userId }: { className?: string; userId?: number }) {
   const [imgError, setImgError] = useState(false);
@@ -87,6 +88,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
+    <PersonalSpaceProvider key={userWithLicense?.id ?? 'account-loading'} accountKey={userWithLicense?.id}>
     <div className="flex flex-col min-h-screen">
       <DemoDataWatermark
         enabled={showDemoDataWatermark}
@@ -588,5 +590,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
         />
       )}
     </div>
+    </PersonalSpaceProvider>
   );
 }

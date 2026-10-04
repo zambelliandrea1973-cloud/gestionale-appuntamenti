@@ -412,6 +412,7 @@ export default function DayViewWithTimeSlots({
 
   // Apre il modal per modificare un appuntamento esistente
   const editAppointment = (appointment: AppointmentWithDetails) => {
+    if ((appointment as any).isPersonalBusy) return;
     setSelectedAppointmentId(appointment.id);
     setIsAppointmentModalOpen(true);
   };
@@ -419,6 +420,7 @@ export default function DayViewWithTimeSlots({
   // Elimina un appuntamento
   // Richiedi conferma per eliminare un appuntamento
   const confirmDeleteAppointment = (id: number) => {
+    if (appointments.some((item: any) => item.id === id && item.isPersonalBusy)) return;
     setAppointmentToDelete(id);
     setShowDeleteConfirm(true);
     // Su mobile, chiudiamo l'appuntamento espanso
@@ -796,6 +798,7 @@ export default function DayViewWithTimeSlots({
                 <div className={`font-semibold text-xs sm:text-sm text-gray-800 flex items-center ${isExpanded ? 'flex-wrap break-words' : 'truncate'}`}>
                   {/* Per eventi importati da Google Calendar, mostra il titolo originale invece del nome cliente generico */}
                   {(() => {
+                    if ((appointment as any).isPersonalBusy) return 'Occupato';
                     // Se è un evento Google con titolo originale salvato, usa quello
                     if ((appointment as any).googleEventTitle) {
                       return (appointment as any).googleEventTitle;
@@ -806,7 +809,7 @@ export default function DayViewWithTimeSlots({
                       return notesMatch ? notesMatch[1].trim() : `${appointment.client.firstName} ${appointment.client.lastName}`;
                     }
                     // Altrimenti mostra nome cliente normale
-                    return `${appointment.client?.firstName} ${appointment.client?.lastName}`;
+                    return `${appointment.client?.firstName || ''} ${appointment.client?.lastName || ''}`;
                   })()}
                   {/* Aggiunge un indicatore di tocco quando l'appuntamento è espanso su mobile */}
                   {isExpanded && isMobile && (
@@ -819,12 +822,12 @@ export default function DayViewWithTimeSlots({
                 <div className={`flex ${isExpanded ? 'flex-col gap-2 sm:flex-row sm:items-end' : 'flex-col sm:flex-row'} justify-between items-start`}>
                   <div className="min-w-0 max-w-full text-[10px] sm:text-xs font-medium flex flex-col [overflow-wrap:anywhere]" style={{ color: importedColors ? '#475569' : (appointment.service?.color || '#4299e1') }}>
                     <span>{appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}</span>
-                    {!appointment.importedFromGoogle && !appointment.client?.firstName?.startsWith("📅") && appointment.service?.name && (
+                    {!(appointment as any).isPersonalBusy && !appointment.importedFromGoogle && !appointment.client?.firstName?.startsWith("📅") && appointment.service?.name && (
                       <span className={`text-gray-600 ${isExpanded ? '' : 'truncate'}`}>{appointment.service.name}</span>
                     )}
                     
                     {/* Informazioni professionista e stanza */}
-                    <div className="flex flex-col gap-0.5 mt-1">
+                    {!(appointment as any).isPersonalBusy && <div className="flex flex-col gap-0.5 mt-1">
                       {appointment.staff && (
                         <span className="text-[9px] sm:text-xs text-blue-600 font-medium">
                           👨‍⚕️ {appointment.staff.firstName} {appointment.staff.lastName}
@@ -835,17 +838,17 @@ export default function DayViewWithTimeSlots({
                           🏠 {appointment.room.name}
                         </span>
                       )}
-                    </div>
+                    </div>}
                     
                     {/* Mostra le note solo quando l'appuntamento è espanso */}
-                    {isExpanded && appointment.notes && (
+                    {isExpanded && !(appointment as any).isPersonalBusy && appointment.notes && (
                       <span className="text-gray-500 text-[9px] sm:text-xs mt-1 block max-w-full whitespace-pre-wrap">
                         {appointment.notes}
                       </span>
                     )}
                   </div>
                   
-                  {isExpanded && (
+                  {isExpanded && !(appointment as any).isPersonalBusy && (
                   <div className={`grid grid-cols-2 gap-2 w-full min-w-0 ${isMobile ? 'mt-1' : 'sm:flex sm:w-auto sm:shrink-0 sm:gap-1'}`}>
                     <Button 
                       variant={isMobile ? "outline" : "ghost"} 

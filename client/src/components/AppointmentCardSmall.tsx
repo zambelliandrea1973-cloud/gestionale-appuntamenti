@@ -182,7 +182,10 @@ export default function AppointmentCardSmall({
         onClick={handleCardClick}
       >
         <div className="font-medium truncate text-xs p-1">
-          {view === "week" ? (
+          {(appointment as any).isPersonalBusy ? <>
+            <div className="truncate font-semibold leading-tight">{appointment.startTime?.substring(0, 5)} · Occupato</div>
+            <div className="text-xs opacity-60 truncate leading-tight">{appointment.endTime?.substring(0, 5)}</div>
+          </> : view === "week" ? (
             <>
               <div className="truncate font-semibold leading-tight">{appointment.startTime?.substring(0, 5)} · {appointment.client?.firstName} {appointment.client?.lastName}</div>
               <div className="text-xs opacity-60 truncate leading-tight">{appointment.service?.name}</div>
@@ -223,7 +226,7 @@ export default function AppointmentCardSmall({
             </button>
           </div>
 
-          <div className="space-y-1.5 text-sm">
+          {(appointment as any).isPersonalBusy ? <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">Impegno personale di un professionista. I dettagli restano privati.</p> : <div className="space-y-1.5 text-sm">
             <div className="flex items-center gap-2">
               <Clock className="h-3.5 w-3.5 text-gray-400 shrink-0" />
               <span className="font-medium">
@@ -257,9 +260,9 @@ export default function AppointmentCardSmall({
             {appointment.notes && (
               <div className="text-xs text-gray-500 mt-1 pt-1 border-t truncate">{appointment.notes}</div>
             )}
-          </div>
+          </div>}
 
-          <div className="flex gap-2 mt-3 pt-2 border-t">
+          {!(appointment as any).isPersonalBusy && <div className="flex gap-2 mt-3 pt-2 border-t">
             <Button
               size="sm" variant="outline"
               className="flex-1 h-7 text-xs"
@@ -274,7 +277,7 @@ export default function AppointmentCardSmall({
             >
               <Trash2 className="h-3 w-3" />
             </Button>
-          </div>
+          </div>}
         </div>
       )}
 

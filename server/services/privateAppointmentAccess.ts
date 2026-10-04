@@ -30,6 +30,7 @@ export async function ensurePrivateAppointmentTables() {
     created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(user_id,identity_id)
   )`);
   await db.execute(sql`ALTER TABLE private_appointment_profiles ALTER COLUMN password_hash DROP NOT NULL`);
+  await db.execute(sql`ALTER TABLE private_appointment_profiles ADD COLUMN IF NOT EXISTS google_link_disabled boolean NOT NULL DEFAULT false`);
   await db.execute(sql`CREATE TABLE IF NOT EXISTS private_appointment_access (
     token_hash varchar(64) PRIMARY KEY, profile_id integer NOT NULL REFERENCES private_appointment_profiles(id) ON DELETE CASCADE,
     user_id integer NOT NULL, session_hash varchar(64) NOT NULL,
@@ -55,6 +56,7 @@ export async function ensurePrivateAppointmentTables() {
 export type PrivateProfile = {
   id: number; user_id: number; identity_id: number; name: string; password_hash: string | null;
   google_token: string | null; google_email: string | null; google_calendar_id: string | null;
+  google_link_disabled?: boolean;
 };
 export function privateUser(req: Request) {
   if (!req.isAuthenticated?.()) throw new PrivateError(401, 'Accedi al gestionale.');
@@ -71,26 +73,26 @@ export async function privateIdentities(userId: number) {
   if (!people.length) {
     await db.execute(sql`INSERT INTO private_appointment_profiles(user_id,identity_id,name)
       SELECT ${userId},0,'Personale'
-      WHERE NOT EXISTS (SELECT 1 FROM private_appointment_profiles WHERE user_id=${userId})
       ON CONFLICT (user_id,identity_id) DO NOTHING`);
   }
-  const profiles = await db.execute(sql`SELECT id,name,identity_id AS "identityId" FROM private_appointment_profiles WHERE user_id=${userId} ORDER BY id`);
+  const profiles = await db.execute(sql`SELECT id,name,identity_id AS "identityId", (password_hash IS NOT NULL) AS "passwordConfigured" FROM private_appointment_profiles WHERE user_id=${userId} ORDER BY id`);
   const identities = [
     { identityId: 0, name: 'Titolare' },
     ...people.map((p: any) => ({ identityId: p.id, name: `${p.first_name || ''} ${p.last_name || ''}`.trim() })),
   ].map(identity => ({
     ...identity, configured: profiles.some((p: any) => p.identityId === identity.identityId),
     profileId: (profiles.find((p: any) => p.identityId === identity.identityId) as any)?.id,
+    passwordConfigured: (profiles.find((p: any) => p.identityId === identity.identityId) as any)?.passwordConfigured || false,
   }));
   // A listed collaborator is additional to the studio owner. Never expose a solo
   // owner's existing private area just because only one colleague has been added.
-  const multi = people.length > 0 || profiles.length > 1;
-  return { multi, identities, profiles, singleProfileId: !multi && profiles.length === 1 ? (profiles[0] as any).id : undefined };
+  const multi = people.length > 0;
+  return { multi, identities, profiles, singleProfileId: !multi ? (profiles.find((p: any) => p.identityId === 0) as any)?.id : undefined };
 }
 export async function privatePasswordRequiredBeforeTeam(userId: number) {
   await privateIdentities(userId);
   const unprotected = await db.execute(sql`SELECT id FROM private_appointment_profiles
-    WHERE user_id=${userId} AND password_hash IS NULL LIMIT 1`);
+    WHERE user_id=${userId} AND identity_id=0 AND password_hash IS NULL LIMIT 1`);
   return unprotected.length > 0;
 }
 export async function createPrivateAccess(req: Request, profile: PrivateProfile) {
@@ -109,7 +111,14 @@ export async function getPrivateProfile(req: Request): Promise<PrivateProfile> {
       JOIN private_appointment_access a ON a.profile_id=p.id
       WHERE p.user_id=${userId} AND a.user_id=${userId} AND a.token_hash=${privateHash(token)}
       AND a.session_hash=${privateHash(req.sessionID)} AND a.expires_at > now()`);
-    if (rows.length) return rows[0] as unknown as PrivateProfile;
+    if (rows.length) {
+      const profile = rows[0] as unknown as PrivateProfile;
+      if (profile.identity_id !== 0) {
+        const people = await db.execute(sql`SELECT id FROM staff WHERE user_id=${userId} AND id=${profile.identity_id}`);
+        if (!people.length) throw new PrivateError(403, 'Professionista non più presente nello studio.');
+      }
+      return profile;
+    }
     throw new PrivateError(403, 'Sblocca nuovamente l’area personale.');
   }
   const { singleProfileId } = await privateIdentities(userId);

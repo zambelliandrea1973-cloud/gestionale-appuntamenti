@@ -35,7 +35,7 @@ export function completePersonalAppointmentDraft(
     endTime: `${Math.floor(end / 60).toString().padStart(2, '0')}:${(end % 60).toString().padStart(2, '0')}`,
   };
 }
-export type PersonalAppointmentRecord = PersonalAppointmentInput & { id: number; userId: number };
+export type PersonalAppointmentRecord = PersonalAppointmentInput & { id: number; userId: number; profileId?: number | null; staffId?: number | null; isPersonalBusy?: boolean };
 export function isPersonalAppointment(value: any): boolean {
   return value?.isPersonalAppointment === true;
 }
@@ -47,7 +47,7 @@ export function personalAppointmentForCalendar(record: PersonalAppointmentRecord
   return {
     ...record, id: -record.id, personalAppointmentId: record.id,
     isPersonalAppointment: true, importedFromGoogle: false, status: 'scheduled',
-    clientId: null, serviceId: null, staffId: null, roomId: null,
+    clientId: null, serviceId: null, staffId: record.staffId || null, roomId: null,
     client: { firstName: record.title, lastName: '' },
     service: { name: record.location || '', color: PERSONAL_APPOINTMENT_COLOR, price: 0, duration: eh * 60 + em - sh * 60 - sm },
     reminderType: null, reminderSent: false, reminderConfirmed: false,
@@ -67,4 +67,11 @@ CREATE TABLE IF NOT EXISTS personal_appointments (
   CONSTRAINT personal_appointments_time_order CHECK (end_time > start_time)
 );
 CREATE INDEX IF NOT EXISTS personal_appointments_user_date_idx ON personal_appointments(user_id, date);
+ALTER TABLE personal_appointments ADD COLUMN IF NOT EXISTS profile_id integer;
+CREATE TABLE IF NOT EXISTS personal_google_outbox (
+  appointment_id integer PRIMARY KEY, profile_id integer NOT NULL,
+  event_data jsonb, google_calendar_id text, google_event_id text,
+  sync_pending boolean NOT NULL DEFAULT true, deleted boolean NOT NULL DEFAULT false
+);
+CREATE INDEX IF NOT EXISTS personal_google_outbox_profile_idx ON personal_google_outbox(profile_id);
 `;

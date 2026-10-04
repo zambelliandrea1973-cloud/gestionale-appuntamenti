@@ -1,5 +1,6 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 import { ApiRequestError } from "./apiError";
+import { expireSpaceAccess, getSpaceToken } from "@/components/personal-space/api";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -68,6 +69,11 @@ export async function apiRequest(
   try {
     // Usa l'helper condiviso per headers consistenti
     const headers = buildDeviceHeaders({ withBetaAdminToken: options?.withBetaAdminToken });
+    const privateCalendarDelete = method.toUpperCase() === 'DELETE' && /^\/api\/appointments\/-\d+$/.test(url);
+    if (privateCalendarDelete) {
+      const token = getSpaceToken();
+      if (token) headers["X-Private-Access"] = token;
+    }
     
     // Aggiungi Content-Type SOLO per dati JSON (NON per FormData!)
     // FormData richiede che il browser gestisca automaticamente multipart/form-data
@@ -96,7 +102,7 @@ export async function apiRequest(
       
       // Ignora silenziosamente gli errori 404 per i token di attivazione clienti inesistenti
       const isClientTokenError = url.includes('/activation-token') && res.status === 404;
-      if (!isClientTokenError) {
+      if (!isClientTokenError && !privateCalendarDelete) {
         console.error(`API error (${res.status}):`, errorText);
       }
       
@@ -114,7 +120,9 @@ export async function apiRequest(
       }
 
       // Se la sessione è scaduta (401), reindirizza al login con messaggio chiaro
-      if (res.status === 401 && !url.includes('/login') && !url.includes('/api/user')) {
+      if (privateCalendarDelete && (res.status === 401 || res.status === 403)) {
+        expireSpaceAccess();
+      } else if (res.status === 401 && !url.includes('/login') && !url.includes('/api/user')) {
         console.warn('Sessione scaduta (401) — redirect al login');
         // Svuota la cache React Query per forzare un nuovo fetch dopo il login
         queryClient.clear();
@@ -130,7 +138,9 @@ export async function apiRequest(
     // Cloniamo la risposta prima di restituirla per evitare problemi di "already consumed body"
     return res.clone();
   } catch (error) {
-    console.error(`Eccezione durante la richiesta a ${url}:`, error);
+    if (!(method.toUpperCase() === 'DELETE' && /^\/api\/appointments\/-\d+$/.test(url))) {
+      console.error(`Eccezione durante la richiesta a ${url}:`, error);
+    }
     throw error;
   }
 }

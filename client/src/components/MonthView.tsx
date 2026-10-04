@@ -144,12 +144,12 @@ function EventChip({
           calcPos();
           setOpen((p) => !p);
         }}
-        title={`${apt.startTime?.substring(0, 5)} · ${apt.client?.firstName ?? ""} ${apt.client?.lastName ?? ""}`}
+        title={apt.isPersonalBusy ? `${apt.startTime?.substring(0, 5)} · Occupato` : `${apt.startTime?.substring(0, 5)} · ${apt.client?.firstName ?? ""} ${apt.client?.lastName ?? ""}`}
       >
         <span className="font-semibold">{apt.startTime?.substring(0, 5)}</span>
         {" "}
         <span className="font-medium">
-          {isGoogle
+          {apt.isPersonalBusy ? 'Occupato' : isGoogle
             ? (apt.notes?.substring(0, 20) ?? apt.service?.name ?? "Google")
             : `${apt.client?.firstName ?? ""} ${(apt.client?.lastName ?? "").charAt(0)}.`}
         </span>
@@ -183,11 +183,11 @@ function EventChip({
             <div className="flex items-center gap-2">
               <Clock className="h-3.5 w-3.5 text-gray-400 shrink-0" />
               <span className="font-medium">
-                {apt.startTime?.substring(0, 5)}{endTime ? ` – ${endTime}` : ""}
+                {apt.startTime?.substring(0, 5)}{apt.isPersonalBusy && apt.endTime ? ` – ${apt.endTime.substring(0, 5)}` : endTime ? ` – ${endTime}` : ""}
                 {apt.service?.duration ? ` (${apt.service.duration} min)` : ""}
               </span>
             </div>
-            {!isGoogle && (
+            {apt.isPersonalBusy ? <span className="font-semibold">Occupato</span> : !isGoogle && (
               <div className="flex items-center gap-2">
                 <User className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                 <span className="font-semibold truncate">
@@ -195,33 +195,33 @@ function EventChip({
                 </span>
               </div>
             )}
-            {apt.service && !isGoogle && (
+            {apt.service && !isGoogle && !apt.isPersonalBusy && (
               <div className="flex items-center gap-2">
                 <Briefcase className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                 <span className="truncate">{apt.service.name}</span>
               </div>
             )}
-            {apt.staff && (
+            {apt.staff && !apt.isPersonalBusy && (
               <div className="flex items-center gap-2">
                 <Users className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                 <span className="truncate">{apt.staff.firstName} {apt.staff.lastName}</span>
               </div>
             )}
-            {apt.room && (
+            {apt.room && !apt.isPersonalBusy && (
               <div className="flex items-center gap-2">
                 <DoorOpen className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                 <span className="truncate">{apt.room.name}</span>
               </div>
             )}
-            {apt.notes && !isGoogle && (
+            {apt.notes && !isGoogle && !apt.isPersonalBusy && (
               <div className="text-xs text-gray-500 mt-1 pt-1 border-t truncate">{apt.notes}</div>
             )}
-            {isGoogle && apt.notes && (
+            {isGoogle && !apt.isPersonalBusy && apt.notes && (
               <div className="text-xs text-gray-600 mt-1 pt-1 border-t line-clamp-2">{apt.notes}</div>
             )}
           </div>
 
-          {!confirmDelete ? (
+          {apt.isPersonalBusy ? <p className="mt-3 border-t pt-2 text-xs text-slate-500">Impegno privato; i dettagli non sono condivisi.</p> : !confirmDelete ? (
             <div className="flex gap-2 mt-3 pt-2 border-t">
               {!isGoogle && (
                 <Button

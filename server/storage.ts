@@ -55,6 +55,8 @@ import session from "express-session";
 import createMemoryStore from "memorystore";
 import pg from "pg";
 import { aiTrialSchemaSql } from "./services/aiTrialMigration";
+import { assertWorkOutsidePersonal } from './services/personalAppointmentConflicts';
+import { PrivateError } from './services/privateAppointmentAccess';
 import { db } from "./db";
 import { eq, desc, and, gte, lte, like, or, sql, ne, asc, inArray, not } from 'drizzle-orm';
 import { inventoryJsonStorage } from "./inventory-json-storage.js";
@@ -132,6 +134,10 @@ export async function ensureSessionTable(): Promise<void> {
       await pool.query(aiTrialSchemaSql);
       const { personalAppointmentsSchemaSql } = await import('../shared/personalAppointments');
       await pool.query(personalAppointmentsSchemaSql);
+      const { ensurePrivateAppointmentTables } = await import('./services/privateAppointmentAccess');
+      await ensurePrivateAppointmentTables();
+      const { archiveTransferSchemaSql } = await import('../shared/privateAppointmentTransfer');
+      await pool.query(archiveTransferSchemaSql);
       await pool.end();
       console.log('✅ Table user_sessions verified/created successfully');
       return;
@@ -1686,9 +1692,14 @@ export class DatabaseStorage implements IStorage {
 
   async createAppointment(appointment: InsertAppointment): Promise<Appointment> {
     try {
-      const [newAppointment] = await db.insert(appointments).values(appointment).returning();
-      return newAppointment;
+      return await db.transaction(async tx => {
+        await tx.execute(sql`SELECT pg_advisory_xact_lock(705196,${appointment.userId}::integer)`);
+        await assertWorkOutsidePersonal(appointment.userId, appointment, tx);
+        const [created] = await tx.insert(appointments).values(appointment).returning();
+        return created;
+      });
     } catch (error) {
+      if (error instanceof PrivateError) throw error;
       console.error("Error creating appointment:", error);
       
       // Fallback to JSON storage
@@ -1722,13 +1733,16 @@ export class DatabaseStorage implements IStorage {
 
   async updateAppointment(id: number, appointment: Partial<InsertAppointment>): Promise<Appointment | undefined> {
     try {
-      const [updatedAppointment] = await db
-        .update(appointments)
-        .set(appointment)
-        .where(eq(appointments.id, id))
-        .returning();
-      return updatedAppointment;
+      return await db.transaction(async tx => {
+        const [existing] = await tx.select().from(appointments).where(eq(appointments.id, id));
+        if (!existing) return undefined;
+        await tx.execute(sql`SELECT pg_advisory_xact_lock(705196,${existing.userId}::integer)`);
+        await assertWorkOutsidePersonal(existing.userId, { ...existing, ...appointment }, tx);
+        const [updated] = await tx.update(appointments).set(appointment).where(eq(appointments.id, id)).returning();
+        return updated;
+      });
     } catch (error) {
+      if (error instanceof PrivateError) throw error;
       console.error("Error updating appointment:", error);
       
       // Fallback to JSON storage

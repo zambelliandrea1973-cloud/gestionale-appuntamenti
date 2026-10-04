@@ -290,8 +290,11 @@ test('calendar personal IDs cannot collide with positive work appointment IDs', 
 });
 test('personal persistence routes scope reads, updates and deletes to the signed-in owner', () => {
   const source = readFileSync('server/routes/personalAppointmentRoutes.ts', 'utf8');
-  assert.equal((source.match(/eq\(personalAppointments\.userId, owner\(req\)\)/g) || []).length, 4);
-  assert.match(source, /userId: owner\(req\)/);
+  assert.match(source, /eq\(personalAppointments\.userId, p\.user_id\)/);
+  assert.match(source, /p\.identity_id === 0/);
+  assert.match(source, /eq\(personalAppointments\.profileId, p\.id\)/);
+  assert.equal((source.match(/scope\(profile\)/g) || []).length, 4);
+  assert.match(source, /userId: profile\.user_id, profileId: profile\.id/);
   assert.match(source, /requireAuth/);
   assert.doesNotMatch(source, /googleapis|googleCalendar|sendMail|sendEmail|createClient|createService/);
 });

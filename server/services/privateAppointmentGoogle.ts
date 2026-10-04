@@ -24,7 +24,7 @@ export async function privateGoogleClient(profile: PrivateProfile) {
   auth.on('tokens', tokens => {
     const merged = { ...auth.credentials, ...tokens };
     void db.execute(sql`UPDATE private_appointment_profiles SET google_token=${encryptPrivateToken(merged)}
-      WHERE id=${profile.id} AND user_id=${profile.user_id}`).catch(() => {});
+      WHERE id=${profile.id} AND user_id=${profile.user_id} AND google_token=${profile.google_token}`).catch(() => {});
   });
   return google.calendar({ version: 'v3', auth });
 }
@@ -50,7 +50,7 @@ export async function completePrivateGoogleOAuth(req: Request, res: Response) {
   if (!transaction) return res.status(400).send('Autorizzazione scaduta o già utilizzata.');
   const returnUrl = new URL('/calendar', transaction.redirect_uri);
   if (req.query.error || typeof req.query.code !== 'string') {
-    returnUrl.searchParams.set('privateGoogle', 'cancelled');
+    returnUrl.searchParams.set('personalGoogle', 'cancelled');
     return res.redirect(returnUrl.href);
   }
   try {
@@ -67,11 +67,11 @@ export async function completePrivateGoogleOAuth(req: Request, res: Response) {
       }
       if (!info.data.email) throw new Error('Missing Google identity');
       await tx.execute(sql`UPDATE private_appointment_profiles SET google_token=${encryptPrivateToken(tokens)},
-        google_email=${info.data.email || null} WHERE id=${transaction.profile_id}`);
+        google_email=${info.data.email || null}, google_link_disabled=false WHERE id=${transaction.profile_id}`);
     });
-    returnUrl.searchParams.set('privateGoogle', 'connected');
+    returnUrl.searchParams.set('personalGoogle', 'connected');
   } catch {
-    returnUrl.searchParams.set('privateGoogle', 'error');
+    returnUrl.searchParams.set('personalGoogle', 'error');
   }
   return res.redirect(returnUrl.href);
 }
@@ -110,6 +110,8 @@ export async function reservePrivateCalendar(profile: PrivateProfile, calendarId
     if (existing[0]?.google_calendar_id && existing[0].google_calendar_id !== calendarId) {
       const copies = await tx.execute(sql`SELECT id FROM private_appointments WHERE profile_id=${profile.id} AND (google_event_id IS NOT NULL OR sync_pending=true) LIMIT 1`);
       if (copies.length) throw new PrivateError(409, 'Ci sono copie nel calendario precedente. Mantieni quel calendario per evitare copie non aggiornate.');
+      const personalCopies = await tx.execute(sql`SELECT appointment_id FROM personal_google_outbox WHERE profile_id=${profile.id} AND (google_event_id IS NOT NULL OR sync_pending=true) LIMIT 1`);
+      if (personalCopies.length) throw new PrivateError(409, 'Mantieni il calendario personale precedente: ci sono copie da aggiornare.');
     }
     await tx.execute(sql`UPDATE private_appointment_profiles SET google_calendar_id=${calendarId} WHERE id=${profile.id} AND user_id=${profile.user_id}`);
   });

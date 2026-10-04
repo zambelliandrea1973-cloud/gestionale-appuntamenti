@@ -1,15 +1,17 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Check, Loader2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { apiRequest } from '@/lib/queryClient';
 import { formatDateForApi } from '@/lib/utils/date';
 import { personalAppointmentSchema, type PersonalAppointmentInput } from '../../../shared/personalAppointments';
-import { PERSONAL_APPOINTMENTS_QUERY, notifyPersonalAppointmentSaved } from '@/hooks/use-personal-appointments';
+import { notifyPersonalAppointmentSaved, personalAppointmentsQueryKey } from '@/hooks/use-personal-appointments';
 import type { VoiceAppointmentFormDraft } from '@/lib/voiceAppointmentDraft';
+import { personalRequest } from '@/components/personal-space/api';
+import { usePersonalSpace } from '@/components/personal-space/PersonalSpaceProvider';
+import PersonalGoogleSettings from '@/components/personal-space/PersonalGoogleSettings';
 
 interface Props {
   appointmentId?: number; onClose: () => void; onAppointmentSaved?: () => void;
@@ -25,6 +27,10 @@ export default function PersonalAppointmentForm(props: Props) {
   const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const space = usePersonalSpace();
+  const profileId = space.access?.profile.id;
+  const previousProfile = useRef<number | undefined>(profileId);
+  const [googleSettingsOpen, setGoogleSettingsOpen] = useState(false);
   const id = props.appointmentId ? Math.abs(props.appointmentId) : null;
   const initialTime = props.initialValues?.startTime || props.defaultTime?.slice(0, 5) || '09:00';
   const [data, setData] = useState<PersonalAppointmentInput>(() => ({
@@ -36,23 +42,26 @@ export default function PersonalAppointmentForm(props: Props) {
   }));
   const [error, setError] = useState('');
   const record = useQuery<PersonalAppointmentInput>({
-    queryKey: [`/api/personal-appointments/${id}`], enabled: Boolean(id),
+    queryKey: [`/api/personal-appointments/${id}`, profileId], queryFn: () => personalRequest<PersonalAppointmentInput>(`/${id}`), enabled: Boolean(id) && space.unlocked,
   });
+  useEffect(() => {
+    if (previousProfile.current !== profileId && previousProfile.current !== undefined) props.onClose();
+    previousProfile.current = profileId;
+  }, [profileId]);
   useEffect(() => { if (record.data) setData(record.data); }, [record.data]);
   const save = useMutation({
     mutationFn: async (value: PersonalAppointmentInput) => {
-      const response = await apiRequest(id ? 'PUT' : 'POST', id ? `/api/personal-appointments/${id}` : '/api/personal-appointments', value);
-      return response.json();
+      return personalRequest<any>(id ? `/${id}` : '', { method: id ? 'PUT' : 'POST', body: JSON.stringify(value) });
     },
     onSuccess: async (saved) => {
-      await queryClient.invalidateQueries({ queryKey: PERSONAL_APPOINTMENTS_QUERY });
-      if (id) await queryClient.invalidateQueries({ queryKey: [`/api/personal-appointments/${id}`] });
+      await queryClient.invalidateQueries({ queryKey: personalAppointmentsQueryKey(profileId) });
+      if (id) await queryClient.invalidateQueries({ queryKey: [`/api/personal-appointments/${id}`, profileId] });
       notifyPersonalAppointmentSaved(saved.date);
       props.onAppointmentSaved?.();
       props.onClose();
       toast({ title: t('personalAppointments.saved', 'Impegno personale salvato') });
     },
-    onError: () => setError(t('personalAppointments.saveError', 'Non riesco a salvare l’impegno. Riprova: i campi sono stati conservati.')),
+    onError: (failure: Error) => setError(failure.message || t('personalAppointments.saveError', 'Non riesco a salvare l’impegno. Riprova: i campi sono stati conservati.')),
   });
   const change = (field: keyof PersonalAppointmentInput, value: string) => setData(previous => ({ ...previous, [field]: value }));
   const submit = (event: FormEvent) => {
@@ -62,10 +71,14 @@ export default function PersonalAppointmentForm(props: Props) {
     setError('');
     save.mutate(parsed.data);
   };
+  if (!space.unlocked) return <section role="dialog" aria-modal="true" aria-labelledby="personal-form-title" className="w-[calc(100vw-16px)] sm:w-[520px] rounded-xl bg-[#fbfaf6] p-6 text-slate-800">
+    <h2 id="personal-form-title" className="text-lg font-semibold">Spazio personale bloccato</h2><p className="mt-2 text-sm text-slate-600">Sblocca il tuo profilo per visualizzare o modificare gli impegni.</p>
+    <div className="mt-5 flex justify-end gap-2"><Button variant="outline" onClick={props.onClose}>{t('common.cancel')}</Button><Button onClick={space.requestAccess}>Sblocca spazio</Button></div>
+  </section>;
   return <section role="dialog" aria-modal="true" aria-labelledby="personal-form-title" className="w-[calc(100vw-16px)] sm:w-[520px] max-h-[90dvh] overflow-y-auto rounded-xl bg-white text-gray-800" onKeyDown={event => {
     if (event.key === 'Escape' && !save.isPending) props.onClose();
     if (event.key === 'Tab') {
-      const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), textarea:not([disabled])'));
+      const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled])'));
       const first = controls[0], last = controls[controls.length - 1];
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
@@ -75,9 +88,11 @@ export default function PersonalAppointmentForm(props: Props) {
       <div><p className="text-[10px] font-bold tracking-wider text-primary">{t('personalAppointments.calendar', 'IL TUO CALENDARIO')}</p>
         <h2 id="personal-form-title" className="mt-1 text-xl font-bold">{id ? t('personalAppointments.edit', 'Modifica impegno personale') : t('personalAppointments.new', 'Nuovo impegno personale')}</h2>
         <p className="mt-1 text-xs text-gray-500">{t('personalAppointments.description', 'Un promemoria, una commissione o un momento per te.')}</p>
-      </div><Button type="button" variant="ghost" size="icon" disabled={save.isPending} aria-label={t('common.close')} onClick={props.onClose}><X className="h-4 w-4" /></Button>
+      </div><div className="flex items-center gap-1">{space.profiles?.multi && <Button type="button" variant="ghost" size="sm" onClick={async () => { await space.lock(); props.onClose(); window.setTimeout(() => window.dispatchEvent(new Event('personal-space-request')), 50); }}>Cambia profilo</Button>}<Button type="button" variant="ghost" size="sm" disabled={save.isPending} onClick={async () => { await space.lock(); props.onClose(); }}>Blocca</Button><Button type="button" variant="ghost" size="icon" disabled={save.isPending} aria-label={t('common.close')} onClick={props.onClose}><X className="h-4 w-4" /></Button></div>
     </header>
     {id && record.isLoading ? <p className="p-6">{t('common.loading')}</p> : <form onSubmit={submit} className="space-y-4 p-5">
+      <div className="flex justify-end"><Button type="button" variant="outline" size="sm" onClick={() => setGoogleSettingsOpen(value => !value)}>Google Calendar personale</Button></div>
+      {googleSettingsOpen && <PersonalGoogleSettings />}
       {record.isError && <p role="alert" className="text-sm text-red-700">{t('personalAppointments.loadError', 'Non riesco a caricare l’impegno. Chiudi e riprova.')}</p>}
       <label className="block text-xs font-semibold">{t('personalAppointments.title', 'Titolo')}<Input autoFocus required maxLength={200} value={data.title} onChange={event => change('title', event.target.value)} placeholder={t('personalAppointments.titlePlaceholder', 'Es. Ritiro pacco, visita…')} className="mt-1" /></label>
       <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-2">
@@ -90,6 +105,6 @@ export default function PersonalAppointmentForm(props: Props) {
       <p className="flex items-center gap-2 rounded-md bg-gray-100 p-3 text-xs"><Check className="h-4 w-4 shrink-0" />{t('personalAppointments.noLinks', 'Nessun cliente o servizio collegato.')}</p>
       {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
       <footer className="flex justify-end gap-2"><Button type="button" variant="outline" disabled={save.isPending} onClick={props.onClose}>{t('common.cancel')}</Button><Button type="submit" disabled={save.isPending || (Boolean(id) && !record.data)}>{save.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}{t('common.save')}</Button></footer>
-    </form>}
+     </form>}
   </section>;
 }

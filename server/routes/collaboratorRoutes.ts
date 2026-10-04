@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { storage } from '../storage';
+import { privatePasswordRequiredBeforeTeam } from '../services/privateAppointmentAccess';
 
 const router = Router();
 
@@ -25,6 +26,10 @@ router.post("/api/collaborators", async (req, res) => {
       ...req.body,
       userId: user.id
     };
+    if (await privatePasswordRequiredBeforeTeam(user.id)) {
+      return res.status(409).json({ code: 'PERSONAL_PASSWORD_REQUIRED',
+        message: 'Prima di aggiungere un altro professionista, proteggi il tuo spazio personale con una password.' });
+    }
 
     const newCollaborator = await storage.createStaff(collaboratorData);
     console.log(`✅ Collaborator created: ${newCollaborator.firstName} ${newCollaborator.lastName} for user ${user.id}`);

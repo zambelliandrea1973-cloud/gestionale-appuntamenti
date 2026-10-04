@@ -42,6 +42,7 @@ import serviceRoutes from './routes/serviceRoutes';
 import consentRoutes from './routes/consentRoutes';
 import appointmentRoutes from './routes/appointmentRoutes';
 import personalAppointmentRoutes from './routes/personalAppointmentRoutes';
+import { startPersonalGoogleRetry } from './services/personalAppointmentGoogle';
 import archivedPrivateAppointmentRoutes from './routes/privateAppointmentRoutes';
 import clientRoutes from './routes/clientRoutes';
 import settingsRoutes from './routes/settingsRoutes';
@@ -259,6 +260,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use(serviceRoutes);
   app.use(consentRoutes);
   app.use(personalAppointmentRoutes);
+  startPersonalGoogleRetry();
   app.use(archivedPrivateAppointmentRoutes);
   app.use(appointmentRoutes);
   app.use(clientRoutes);

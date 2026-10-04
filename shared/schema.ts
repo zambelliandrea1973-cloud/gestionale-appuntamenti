@@ -161,6 +161,7 @@ export const insertAppointmentSchema = createInsertSchema(appointments).omit({
 export const personalAppointments = pgTable("personal_appointments", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  profileId: integer("profile_id"),
   title: text("title").notNull(),
   date: text("date").notNull(),
   startTime: time("start_time").notNull(),

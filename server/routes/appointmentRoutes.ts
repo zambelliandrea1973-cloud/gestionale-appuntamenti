@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { logger } from '../utils/logger';
+import { assertWorkOutsidePersonal } from '../services/personalAppointmentConflicts';
+import { PrivateError } from '../services/privateAppointmentAccess';
 import { Router } from 'express';
 import { recordMilestone, checkAndRecordProfessionalActivated } from '../utils/funnelMilestones';
 
@@ -228,6 +230,8 @@ router.post("/api/appointments", async (req, res) => {
       let createdServiceId: number | null = null;
       
       const newAppointment = await db.transaction(async (tx) => {
+        await tx.execute(sql`SELECT pg_advisory_xact_lock(705196,${user.id}::integer)`);
+        await assertWorkOutsidePersonal(user.id, appointmentData, tx);
         if (!appointmentData.serviceId && req.body.newService) {
           const requestedService = req.body.newService;
           const serviceName = typeof requestedService.name === 'string'
@@ -450,6 +454,7 @@ router.post("/api/appointments", async (req, res) => {
         .catch(() => {});
       res.status(201).json(newAppointment);
     } catch (error: any) {
+      if (error instanceof PrivateError) return res.status(error.status).json({ message: error.message, code: error.code });
       if (error?.message?.startsWith('CONFLICT:')) {
         console.warn(`⚠️ [/api/appointments] Time conflict: ${error.message}`);
         return res.status(409).json({ message: error.message.replace('CONFLICT: ', '') });
@@ -519,6 +524,8 @@ router.put("/api/appointments/:id", async (req, res) => {
         reminderType: req.body.reminderType || "whatsapp,email",
         status: req.body.status || "scheduled"
       };
+      const existing = await storage.getAppointment(appointmentId);
+      if (!existing || existing.userId !== user.id) return res.status(404).json({ message: 'Appointment not found' });
       
       const updatedAppointment = await storage.updateAppointment(appointmentId, appointmentData);
       
@@ -604,6 +611,7 @@ router.put("/api/appointments/:id", async (req, res) => {
       
       res.status(200).json(updatedAppointment);
     } catch (error) {
+      if (error instanceof PrivateError) return res.status(error.status).json({ message: error.message, code: error.code });
       console.error(`❌ [/api/appointments/:id] Error updating appointment:`, error);
       res.status(500).json({ message: "Internal server error" });
     }
@@ -1009,7 +1017,13 @@ router.put("/api/booking-requests/:id/confirm", async (req, res) => {
       const calculatedEndTime = `${String(endDate.getHours()).padStart(2, '0')}:${String(endDate.getMinutes()).padStart(2, '0')}:00`;
       
       // TRANSACTION: Create appointment and update booking request atomically
-      const newAppointment = await db.insert(appointments).values({
+      const newAppointment = await db.transaction(async tx => {
+        await tx.execute(sql`SELECT pg_advisory_xact_lock(705196,${requestData.userId}::integer)`);
+        await assertWorkOutsidePersonal(requestData.userId, {
+          staffId: finalStaffId, date: requestData.requestedDate,
+          startTime: requestData.selectedSlot.start, endTime: calculatedEndTime,
+        }, tx);
+        const created = await tx.insert(appointments).values({
         userId: requestData.userId,
         clientId: requestData.clientId,
         serviceId: requestData.serviceId,
@@ -1021,16 +1035,18 @@ router.put("/api/booking-requests/:id/confirm", async (req, res) => {
         notes: requestData.clientNotes || "",
         status: "scheduled",
         reminderType: "whatsapp,email"
-      }).returning();
+        }).returning();
       
       // Mark booking request as confirmed
-      await db.update(bookingRequests)
+        await tx.update(bookingRequests)
         .set({
           status: "admin_confirmed",
-          appointmentId: newAppointment[0].id,
+          appointmentId: created[0].id,
           statusUpdatedAt: new Date()
         })
-        .where(eq(bookingRequests.id, requestId));
+          .where(eq(bookingRequests.id, requestId));
+        return created;
+      });
       
       console.log(`✅ [BOOKING REQUEST] Booking request ${requestId} confirmed, appointment ${newAppointment[0].id} created`);
 
@@ -1061,6 +1077,7 @@ router.put("/api/booking-requests/:id/confirm", async (req, res) => {
       
       res.status(200).json({ appointment: newAppointment[0], request: requestData });
     } catch (error) {
+      if (error instanceof PrivateError) return res.status(error.status).json({ message: error.message, code: error.code });
       console.error(`❌ [BOOKING REQUEST] Error confirming booking request:`, error);
       res.status(500).json({ error: "Internal server error" });
     }

@@ -18,13 +18,19 @@ import type { LiveInterpretation } from '../../../shared/liveAppointmentProtocol
 import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
 import { detectAssistantConfirmation, formatAssistantDate, getAssistantGreetingName } from '@/lib/appointmentAssistant';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess, type AITrialAccess } from '@/hooks/use-ai-trial-access';
-import { PERSONAL_APPOINTMENTS_QUERY, notifyPersonalAppointmentSaved } from '@/hooks/use-personal-appointments';
+import { notifyPersonalAppointmentSaved } from '@/hooks/use-personal-appointments';
 import { completePersonalAppointmentDraft, personalAppointmentSchema, type PersonalAppointmentInput } from '../../../shared/personalAppointments';
+import { personalRequest } from '@/components/personal-space/api';
+import { usePersonalSpace } from '@/components/personal-space/PersonalSpaceProvider';
+import { personalAppointmentsQueryKey } from '@/hooks/use-personal-appointments';
 
 type Draft = Partial<PersonalAppointmentInput> & { durationMinutes?: number };
 type Message = { role: 'assistant' | 'user'; content: string };
 export default function PersonalVoiceAppointmentAssistant({ professionalEmail }: { professionalEmail?: string }) {
   const { t, i18n } = useTranslation();
+  const space = usePersonalSpace();
+  const profileId = space.access?.profile.id;
+  const previousProfile = useRef<number | undefined>(profileId);
   const [, navigate] = useLocation();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<Draft>({});
@@ -104,6 +110,16 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     stopAudio();
   }
   useEffect(() => () => { openRef.current = false; stop(); }, []);
+  useEffect(() => {
+    if (previousProfile.current !== profileId && previousProfile.current !== undefined) {
+      openRef.current = false;
+      stop();
+      setOpen(false);
+      setMessages([]);
+      setDraft({});
+    }
+    previousProfile.current = profileId;
+  }, [profileId]);
   useEffect(() => { chatEnd.current?.scrollIntoView({ block: 'nearest' }); }, [messages, processing]);
   async function speak(text: string) {
     liveSession.current?.respond(text);
@@ -224,11 +240,10 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   }
   const save = useMutation({
     mutationFn: async (value: PersonalAppointmentInput) => {
-      const response = await apiRequest('POST', '/api/personal-appointments', value);
-      return response.json();
+      return personalRequest<any>('', { method: 'POST', body: JSON.stringify(value) });
     },
     onSuccess: async saved => {
-      await queryClient.invalidateQueries({ queryKey: PERSONAL_APPOINTMENTS_QUERY });
+      await queryClient.invalidateQueries({ queryKey: personalAppointmentsQueryKey(profileId) });
       notifyPersonalAppointmentSaved(saved.date, true);
       navigate('/calendar');
       openRef.current = false;
@@ -369,6 +384,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   }
   function changeOpen(value: boolean) {
     if (save.isPending) return;
+    if (value && !space.unlocked) { space.requestAccess(); return; }
     stop(); conversation.current.reset(); inFlight.current = false;
     openRef.current = value;
     setOpen(value); setListening(false); setProcessing(false); setConversationActive(false); setTrialBlocked(false); setError('');
@@ -386,7 +402,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   return <>
     <div className="appointment-action-shell fixed bottom-5 right-2 sm:right-5 z-40 flex items-center gap-2" data-voice-appointment-trigger>
       <div className="hidden sm:contents"><span className="appointment-action-label whitespace-nowrap rounded-xl border border-violet-200 bg-violet-50 px-3 text-xs font-extrabold text-violet-800">{t('navigation.aiAssistant')}</span></div>
-      <Button aria-label={t('voiceAppointmentAssistant.openAriaLabel')} onClick={() => changeOpen(true)} className="appointment-action-control appointment-action-pulse-ai h-12 w-12 rounded-full bg-violet-600 p-0 text-white"><Mic className="h-6 w-6" /></Button>
+       <Button aria-label={t('voiceAppointmentAssistant.openAriaLabel')} onClick={() => changeOpen(true)} className="appointment-action-control appointment-action-pulse-ai h-12 w-12 rounded-full bg-violet-600 p-0 text-white"><Mic className="h-6 w-6" /></Button>
       <AppointmentModeSwitch />
     </div>
     <Dialog open={open} onOpenChange={changeOpen}><DialogContent className="w-[calc(100vw-1.5rem)] max-w-lg max-h-[88vh] overflow-y-auto p-0 gap-0" overlayClassName="bg-black/15">

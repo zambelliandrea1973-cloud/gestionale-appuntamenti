@@ -33,6 +33,7 @@ import PosSettingsPanel from '@/components/pos/PosSettingsPanel';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
 import SetupServiceBanner from '@/components/SetupServiceBanner';
+import PersonalGoogleSettings from '@/components/personal-space/PersonalGoogleSettings';
 
 const VALID_TABS = ['app', 'contacts', 'staff', 'integrations', 'pos', 'appearance', 'security', 'subscription', 'admin'] as const;
 
@@ -452,6 +453,7 @@ export default function Settings() {
 
                 
                 <EmailSettings />
+                <PersonalGoogleSettings />
               </div>
             </CardContent>
           </Card>

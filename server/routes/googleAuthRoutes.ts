@@ -7,6 +7,7 @@ import { users, clients, googleAccounts, appointments, googleCalendarEvents } fr
 import { eq, and, inArray, sql } from 'drizzle-orm';
 import { storage } from '../storage';
 import { EncryptionService } from '../services/encryption';
+import { completePrivateGoogleOAuth } from '../services/privateAppointmentGoogle';
 import { z } from 'zod';
 import { generateClientCode } from '../utils/clientCodeGenerator';
 import { syncBidirectional, extractGoogleEmail } from '../services/googleCalendarSync';
@@ -69,7 +70,7 @@ function normalizeConfiguredOrigin(value: string | undefined): string | null {
   }
 }
 
-function getRedirectUri(): string {
+export function getRedirectUri(): string {
   // PRIORITY 1: If we are on Sliplane (production domain)
   const productionOrigin = normalizeConfiguredOrigin(process.env.PRODUCTION_DOMAIN);
   if (productionOrigin) {
@@ -291,6 +292,9 @@ router.get('/start', async (req, res) => {
 
 // Callback that receives the authorization code
 router.get('/callback', async (req, res) => {
+  if (typeof req.query.state === 'string' && req.query.state.startsWith('private-')) {
+    return completePrivateGoogleOAuth(req, res);
+  }
   const { code, state } = req.query;
   if (typeof state !== 'string') {
     return res.status(400).send('Invalid Google authorization response.');
