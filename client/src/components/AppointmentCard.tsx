@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useGoogleAccountColors } from "@/hooks/use-google-account-colors";
 import { formatTime } from "@/lib/utils/date";
 import { Pencil, Trash2, Star, Info, Phone, ChevronDown, ChevronUp, Plus, Mail, MessageCircle, CheckCircle2 } from "lucide-react";
 import { AppointmentWithDetails } from "../../../shared/schema";
@@ -31,6 +32,7 @@ interface AppointmentCardProps {
 export default function AppointmentCard({ appointment, onUpdate, compact = false }: AppointmentCardProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
+  const { getImportedColors } = useGoogleAccountColors();
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   
@@ -66,8 +68,12 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
     deleteMutation.mutate();
   };
   
+  // Eventi importati da Google → scheda grigia con banda colorata a sinistra (colore = account di provenienza)
+  const importedColors = getImportedColors(appointment);
+
   // Get color based on service color or apply defaults
   const getBorderColor = () => {
+    if (importedColors) return importedColors.band;
     if (appointment.service?.color) {
       return appointment.service?.color;
     }
@@ -75,6 +81,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
   };
   
   const getBackgroundColor = () => {
+    if (importedColors) return importedColors.bg;
     if (appointment.service?.color) {
       if (appointment.service?.color.startsWith('#')) {
         return `${appointment.service?.color}20`;

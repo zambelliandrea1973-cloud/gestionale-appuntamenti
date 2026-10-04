@@ -381,6 +381,9 @@ export async function searchOnlineInfo(query: string): Promise<string> {
 }
 
 export interface AppointmentAssistantDraft {
+  title?: string | null;
+  location?: string | null;
+  endTime?: string | null;
   clientName?: string | null;
   date?: string | null;
   startTime?: string | null;
@@ -411,7 +414,8 @@ function getTodayInRome(): string {
 export async function interpretAppointmentRequest(
   userMessage: string,
   currentDraft: AppointmentAssistantDraft = {},
-  language = 'it'
+  language = 'it',
+  mode: 'work' | 'personal' = 'work'
 ): Promise<AppointmentAssistantInterpretation> {
   if (!process.env.GEMINI_APPOINTMENTS_API_KEY) {
     throw new Error('Appointment AI service is not configured: GEMINI_APPOINTMENTS_API_KEY is required');
@@ -426,7 +430,18 @@ export async function interpretAppointmentRequest(
       }
     });
 
-    const prompt = `Sei il modulo di comprensione di un assistente vocale per appuntamenti.
+    const prompt = mode === 'personal' ? `Sei un estrattore di impegni personali liberi, non di appuntamenti commerciali.
+Oggi in Italia è ${getTodayInRome()}. Lingua dell'utente: ${JSON.stringify(language)}.
+Unisci il messaggio alla bozza, conservando i dati salvo correzzioni esplicite.
+NON cercare, creare o chiedere clienti, servizi, prezzi, stanze o collaboratori.
+Estrai titolo libero, data (anche relativa), ora di inizio, ora di fine o durata,
+luogo e note facoltativi. Una visita medica, commissione o incontro è un titolo,
+non un nome cliente. Non inventare date, titoli o orari mancanti.
+Restituisci SOLO JSON: {"title":string|null,"date":"YYYY-MM-DD"|null,
+"startTime":"HH:mm"|null,"endTime":"HH:mm"|null,"durationMinutes":number|null,
+"location":string|null,"notes":string|null,"confirmation":"yes"|"no"|"unknown"}.
+Bozza: ${JSON.stringify(currentDraft)}
+Messaggio: ${JSON.stringify(userMessage)}` : `Sei il modulo di comprensione di un assistente vocale per appuntamenti.
 La data di oggi in Italia è ${getTodayInRome()}.
 La lingua preferita del professionista è "${language}". Comprendi la richiesta in questa lingua, incluse date relative, orari e conferme.
 
@@ -473,6 +488,11 @@ Se il professionista comunica informazioni ulteriori da salvare nell'appuntament
     const duration = Number(parsed.durationMinutes);
     const servicePrice = Number(parsed.servicePrice);
     return {
+      ...(mode === 'personal' ? {
+        title: typeof parsed.title === 'string' ? parsed.title.trim().slice(0, 200) : null,
+        location: typeof parsed.location === 'string' ? parsed.location.trim().slice(0, 500) : null,
+        endTime: typeof parsed.endTime === 'string' && /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(parsed.endTime) ? parsed.endTime : null,
+      } : {}),
       clientName: typeof parsed.clientName === 'string' ? parsed.clientName.trim() : null,
       date: typeof parsed.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.date) ? parsed.date : null,
       startTime: typeof parsed.startTime === 'string' && /^\d{2}:\d{2}$/.test(parsed.startTime) ? parsed.startTime : null,

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { isPersonalAppointment, PERSONAL_APPOINTMENT_BACKGROUND, PERSONAL_APPOINTMENT_COLOR } from '../../../shared/personalAppointments';
 
 export interface SecondaryGoogleAccount {
   id: number;
@@ -82,6 +83,12 @@ export function useGoogleAccountColors(services: any[] = []) {
   const getImportedColors = (
     apt: any
   ): { band: string; bg: string; bgSolid: string; isServiceMatch?: boolean } | null => {
+    if (isPersonalAppointment(apt)) return {
+      band: PERSONAL_APPOINTMENT_COLOR,
+      bg: PERSONAL_APPOINTMENT_BACKGROUND,
+      bgSolid: PERSONAL_APPOINTMENT_BACKGROUND,
+      isServiceMatch: false,
+    };
     if (!isImported(apt)) return null;
 
     // Step A: match servizio

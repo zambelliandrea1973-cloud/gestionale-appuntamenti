@@ -157,6 +157,19 @@ export const insertAppointmentSchema = createInsertSchema(appointments).omit({
   createdAt: true,
 });
 
+// Personal entries are independent of clients/services and their automation.
+export const personalAppointments = pgTable("personal_appointments", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  date: text("date").notNull(),
+  startTime: time("start_time").notNull(),
+  endTime: time("end_time").notNull(),
+  location: text("location").notNull().default(""),
+  notes: text("notes").notNull().default(""),
+  createdAt: timestamp("created_at").defaultNow(),
+}, table => ({ userDateIdx: index("personal_appointments_user_date_idx").on(table.userId, table.date) }));
+
 // Booking Requests table schema - Per richieste appuntamento da parte dei clienti via PWA
 export const bookingRequests = pgTable("booking_requests", {
   id: serial("id").primaryKey(),

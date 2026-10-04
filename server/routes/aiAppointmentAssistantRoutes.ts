@@ -32,7 +32,7 @@ router.post('/api/ai-appointment-assistant/interpret', requireAuth, async (req, 
     await authorizeAppointmentAI(
       Number((req.user as { id: number }).id), req.body?.conversationId, 'interpretation'
     );
-    const interpretation = await interpretAppointmentRequest(message, draft, language);
+    const interpretation = await interpretAppointmentRequest(message, draft, language, req.body?.appointmentKind === 'personal' ? 'personal' : 'work');
     res.json(interpretation);
   } catch (error) {
     if (sendAITrialError(error, res)) return;

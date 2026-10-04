@@ -7,6 +7,8 @@ import ts from 'typescript';
 import './assistant-speech.test';
 import './assistant-trial-conversation.test';
 import './ai-trial-policy.test';
+import './personal-appointments.test';
+import './appointment-mode-persistence.test';
 
 test('the restored appointment assistant has no unresolved runtime names', () => {
   const root = process.cwd();

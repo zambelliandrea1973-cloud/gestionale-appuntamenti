@@ -16,9 +16,9 @@ import { getISOWeek } from "date-fns";
 import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
 import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
+import { usePersonalCalendarAppointments, PERSONAL_APPOINTMENT_SAVED_EVENT, PERSONAL_APPOINTMENT_DATE_KEY } from "@/hooks/use-personal-appointments";
 import AppointmentModal from "@/components/AppointmentModal";
 import { SyncGoogleButton } from "@/components/SyncGoogleButton";
-import PrivateAgenda from "@/components/private-appointments/PrivateAgenda";
 import {
   VOICE_APPOINTMENT_DRAFT_EVENT,
   VOICE_APPOINTMENT_DRAFT_STORAGE_KEY,
@@ -54,6 +54,21 @@ export default function Calendar() {
   useEffect(() => {
     currentViewRef.current = view;
   }, [view]);
+
+  useEffect(() => {
+    const selectPersonalDate = (detail: { date: string; showDay?: boolean }) => {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(detail?.date || '')) return;
+      const [year, month, day] = detail.date.split('-').map(Number);
+      setSelectedDate(new Date(year, month - 1, day));
+      if (detail.showDay) setView('day');
+      sessionStorage.removeItem(PERSONAL_APPOINTMENT_DATE_KEY);
+    };
+    const handler = (event: Event) => selectPersonalDate((event as CustomEvent).detail);
+    window.addEventListener(PERSONAL_APPOINTMENT_SAVED_EVENT, handler);
+    const stored = sessionStorage.getItem(PERSONAL_APPOINTMENT_DATE_KEY);
+    if (stored) { try { selectPersonalDate(JSON.parse(stored)); } catch { sessionStorage.removeItem(PERSONAL_APPOINTMENT_DATE_KEY); } }
+    return () => window.removeEventListener(PERSONAL_APPOINTMENT_SAVED_EVENT, handler);
+  }, []);
 
   useEffect(() => {
     const openVoiceDraft = (draft: VoiceAppointmentFormDraft) => {
@@ -258,12 +273,14 @@ export default function Calendar() {
   }, []);
 
   // ── Queries ────────────────────────────────────────────────────────────────
-  const { data: allAppointments = [], refetch: refetchAppointments } = useQuery<any>({ queryKey: ['/api/appointments'] });
-  const { data: dayAppointments = [], isLoading: isLoadingAppointments, refetch: refetchDayAppointments } = useQuery<any>({
+  const { data: workAppointments = [], refetch: refetchAppointments } = useQuery<any>({ queryKey: ['/api/appointments'] });
+  const { data: workDayAppointments = [], isLoading: isLoadingAppointments, refetch: refetchDayAppointments } = useQuery<any>({
     queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`],
     enabled: view === "day",
     refetchOnWindowFocus: true, refetchOnMount: true, staleTime: 0,
   });
+  const { appointments: allAppointments, error: personalLoadError } = usePersonalCalendarAppointments(workAppointments);
+  const { appointments: dayAppointments } = usePersonalCalendarAppointments(workDayAppointments, formatDateForApi(selectedDate));
   const { data: services = [], isLoading: isLoadingServices } = useQuery<any>({ queryKey: ['/api/services'] });
   const { data: collaborators = [] } = useQuery<any[]>({ queryKey: ['/api/collaborators'] });
   const { data: treatmentRooms = [] } = useQuery<any[]>({ queryKey: ['/api/treatment-rooms'] });
@@ -343,7 +360,11 @@ export default function Calendar() {
 
   return (
     <div className={view === "month" ? "space-y-0 sm:space-y-6" : "space-y-6"}>
-      <PrivateAgenda selectedDate={selectedDate} view={view} searchQuery={searchQuery} />
+      {personalLoadError && <Alert variant="destructive"><AlertDescription>{t('personalAppointments.loadError', 'Non riesco a caricare gli impegni personali. Riprova.')}</AlertDescription></Alert>}
+      <div className="mb-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-gray-500" aria-label={t('personalAppointments.legend', 'Legenda degli impegni')}>
+        <span className="inline-flex items-center gap-1.5"><i className="h-2.5 w-3 rounded-sm bg-[#cbd1d5] border-l-[3px] border-[#64717a]" />{t('personalAppointments.personalEvents', 'Impegni personali')}</span>
+        <span className="inline-flex items-center gap-1.5"><i className="h-2.5 w-3 rounded-sm bg-[#f1f5f9] border-l-[3px] border-blue-500" />{t('personalAppointments.googleEvents', 'Importati da Google')}</span>
+      </div>
       {(googleNeedsReauth || googleNotConnected) && (
         <Alert
           variant="destructive"

@@ -5,6 +5,9 @@ import { Bot, CalendarPlus, GripHorizontal, Loader2, Mic, MicOff, Send, Sparkles
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import AppointmentModeSwitch from './AppointmentModeSwitch';
+import PersonalVoiceAppointmentAssistant from './PersonalVoiceAppointmentAssistant';
+import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { ApiRequestError } from '@/lib/apiError';
@@ -170,7 +173,12 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
   return merged;
 }
 
-export default function VoiceAppointmentAssistant({
+export default function VoiceAppointmentAssistant(props: VoiceAppointmentAssistantProps) {
+  const [mode] = useAppointmentMode();
+  return mode === 'personal' ? <PersonalVoiceAppointmentAssistant /> : <ProfessionalVoiceAppointmentAssistant {...props} />;
+}
+
+function ProfessionalVoiceAppointmentAssistant({
   professionalEmail
 }: VoiceAppointmentAssistantProps) {
   const { t, i18n } = useTranslation();
@@ -1454,15 +1462,15 @@ export default function VoiceAppointmentAssistant({
   return (
     <>
       <div
-        className="appointment-action-shell fixed bottom-5 right-5 z-40 flex items-center gap-2.5"
+        className="appointment-action-shell fixed bottom-5 right-2 sm:right-5 z-40 flex items-center gap-2"
         data-voice-appointment-trigger
       >
-        <span
+        <div className="hidden sm:contents"><span
           className="appointment-action-label relative hidden whitespace-nowrap rounded-xl border border-violet-200 bg-violet-50 px-3.5 py-2 text-xs font-extrabold text-violet-800 shadow-[0_8px_18px_rgba(84,58,145,0.12)] after:absolute after:right-[-5px] after:top-1/2 after:h-2.5 after:w-2.5 after:-translate-y-1/2 after:rotate-45 after:border-r after:border-t after:border-violet-200 after:bg-violet-50 sm:inline-flex"
           aria-hidden="true"
         >
           {t('navigation.aiAssistant')}
-        </span>
+        </span></div>
         <Button
           type="button"
           onClick={() => setOpen(true)}
@@ -1473,6 +1481,7 @@ export default function VoiceAppointmentAssistant({
         >
           <Mic className="h-6 w-6" />
         </Button>
+        <AppointmentModeSwitch />
       </div>
 
       <Dialog open={open} onOpenChange={handleOpenChange}>

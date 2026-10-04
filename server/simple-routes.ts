@@ -1,6 +1,5 @@
 // @ts-nocheck
 import type { Express } from "express";
-import privateAppointmentRoutes from './routes/privateAppointmentRoutes';
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import path from "path";
@@ -42,6 +41,7 @@ import subscriptionPlanRoutes from './routes/subscriptionPlanRoutes';
 import serviceRoutes from './routes/serviceRoutes';
 import consentRoutes from './routes/consentRoutes';
 import appointmentRoutes from './routes/appointmentRoutes';
+import personalAppointmentRoutes from './routes/personalAppointmentRoutes';
 import clientRoutes from './routes/clientRoutes';
 import settingsRoutes from './routes/settingsRoutes';
 import staffCommissionRoutes from './routes/staffCommissionRoutes';
@@ -252,12 +252,12 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use(checkTrialExpired);
   
   app.use(collaboratorRoutes);
-  app.use(privateAppointmentRoutes);
   app.use(treatmentRoomRoutes);
   app.use(clientNoteRoutes);
   app.use(subscriptionPlanRoutes);
   app.use(serviceRoutes);
   app.use(consentRoutes);
+  app.use(personalAppointmentRoutes);
   app.use(appointmentRoutes);
   app.use(clientRoutes);
   app.use(settingsRoutes);

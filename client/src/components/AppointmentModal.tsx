@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AppointmentForm from "./AppointmentForm";
 import SaveDirectButton from "./SaveDirectButton";
+import { useAppointmentMode } from "@/hooks/use-appointment-mode";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { AppointmentWithDetails } from "@/types/api";
@@ -32,6 +33,10 @@ export default function AppointmentModal({
   initialValues
 }: AppointmentModalProps) {
   const { toast } = useToast();
+  const [mode] = useAppointmentMode();
+  const personalForm = (appointmentId != null && appointmentId < 0) ||
+    initialValues?.appointmentKind === 'personal' ||
+    (!appointmentId && !initialValues && mode === 'personal');
   const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const [calculatedEndTime, setCalculatedEndTime] = useState<string | null>(null);
@@ -104,10 +109,10 @@ export default function AppointmentModal({
       }
     };
 
-    if (isOpen) {
+    if (isOpen && !personalForm) {
       fetchServices();
     }
-  }, [isOpen]);
+  }, [isOpen, personalForm]);
   
   // Funzione per gestire il salvataggio diretto
   const handleSaveSuccess = () => {
@@ -152,7 +157,7 @@ export default function AppointmentModal({
         />
         
         {/* Aggiungiamo il pulsante di salvataggio diretto */}
-        <SaveDirectButton onSaveSuccess={handleSaveSuccess} />
+        {!personalForm && <SaveDirectButton onSaveSuccess={handleSaveSuccess} />}
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { FloatingActionButton } from "./FloatingActionButton";
+import { usePersonalCalendarAppointments } from "@/hooks/use-personal-appointments";
 import { addDays, getISOWeek } from "date-fns";
 
 interface WeekViewProps {
@@ -76,9 +77,10 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   const endDate = `${weekEnd.getFullYear()}-${String(weekEnd.getMonth() + 1).padStart(2, '0')}-${String(weekEnd.getDate()).padStart(2, '0')}`;
   
   // Fetch appointments for the selected week
-  const { data: appointments = [], isLoading, refetch } = useQuery<any>({
+  const { data: workAppointments = [], isLoading, refetch } = useQuery<any>({
     queryKey: [`/api/appointments/range/${startDate}/${endDate}`],
   });
+  const { appointments } = usePersonalCalendarAppointments(workAppointments, startDate, endDate);
   
   // Refresh data when date changes
   useEffect(() => {
@@ -89,6 +91,13 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   useEffect(() => {
     setViewDate(selectedDate);
   }, [selectedDate]);
+
+  // Blocca lo scroll del body quando un modal è aperto
+  useEffect(() => {
+    const isOpen = isAppointmentFormOpen || !!editingAppointmentId;
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isAppointmentFormOpen, editingAppointmentId]);
   
   // Funzioni per navigare tra le settimane
   const handlePreviousWeek = () => {

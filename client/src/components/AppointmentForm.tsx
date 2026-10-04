@@ -1,5 +1,7 @@
 import { useLocation } from "wouter";
 import { useForm, useWatch } from "react-hook-form";
+import PersonalAppointmentForm from "./PersonalAppointmentForm";
+import { useAppointmentMode } from "@/hooks/use-appointment-mode";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -111,7 +113,18 @@ function formatDateForApi(date: Date | string): string {
   return format(date, 'yyyy-MM-dd');
 }
 
-export default function AppointmentForm({
+export default function AppointmentForm(props: AppointmentFormProps) {
+  const [mode] = useAppointmentMode();
+  // Freeze the form type on opening. Changing creation mode must never convert
+  // an existing personal record into a work appointment (or vice versa).
+  const [personal] = useState(() => props.appointmentId
+    ? props.appointmentId < 0
+    : props.initialValues?.appointmentKind === 'personal' ||
+      (!props.initialValues && !props.clientId && mode === 'personal'));
+  return personal ? <PersonalAppointmentForm {...props} /> : <ProfessionalAppointmentForm {...props} />;
+}
+
+function ProfessionalAppointmentForm({
   appointmentId,
   onClose,
   onAppointmentSaved,

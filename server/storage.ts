@@ -133,6 +133,8 @@ export async function ensureSessionTable(): Promise<void> {
       await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_used_at timestamp;`);
       await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS licenses_recovery_offer_token_hash_idx ON licenses (recovery_offer_token_hash) WHERE recovery_offer_token_hash IS NOT NULL;`);
       await pool.query(aiTrialSchemaSql);
+      const { personalAppointmentsSchemaSql } = await import('../shared/personalAppointments');
+      await pool.query(personalAppointmentsSchemaSql);
       await pool.end();
       console.log('✅ Table user_sessions verified/created successfully');
       return;
