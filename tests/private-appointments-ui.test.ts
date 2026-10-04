@@ -44,3 +44,33 @@ test('mobile month has one manual action and both paths respect free mode', () =
   assert.ok(position.x >= 8 && position.x + width + margin <= sliderLeft);
   assert.equal(position.y, micTop, 'manual action fits alongside both fixed mobile controls');
 });
+
+test('one completed day-slot tap opens the selected mode with its date/time, never a scroll', () => {
+  const day = readFileSync('client/src/components/DayViewWithTimeSlots.tsx', 'utf8');
+  const start = day.indexOf('  const handleSlotClick =');
+  const end = day.indexOf('  const handleModalClose =', start);
+  assert.ok(start >= 0 && end > start);
+  const handler = ts.transpileModule(day.slice(start, end), { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
+  for (const mode of ['work', 'free']) {
+    const moved = { current: true }, previous = { current: null };
+    const times: string[] = [], dialogs: unknown[] = [];
+    const open = new Function('touchMovedRef', 'lastSlotTapRef', 'setSelectedTime', 'setSelectedSlotTime',
+      'privateAppointments', 'selectedDate', 'formatDateForApi', 'setSelectedAppointmentId', 'setIsAppointmentModalOpen',
+      `${handler}; return handleSlotClick;`)(
+      moved, previous, (time: string) => times.push(time), () => {},
+      { mode, openCreate: (kind: string, defaults: any) => dialogs.push({ kind, defaults }) },
+      new Date(2030, 8, 13, 12),
+      (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+      () => {}, (isOpen: boolean) => dialogs.push({ work: isOpen }),
+    );
+    open('17:45');
+    assert.deepEqual(dialogs, [], 'synthetic scroll click cannot create');
+    open('17:45');
+    assert.equal(dialogs.length, 1, 'first actual completed tap opens, without a second tap');
+    assert.deepEqual(times, ['17:45']);
+    if (mode === 'free') assert.deepEqual(dialogs[0], {
+      kind: 'manual', defaults: { startDate: '2030-09-13', endDate: '2030-09-13', startTime: '17:45', endTime: '18:15' },
+    });
+    else assert.deepEqual(dialogs[0], { work: true });
+  }
+});

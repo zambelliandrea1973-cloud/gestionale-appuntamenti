@@ -344,8 +344,8 @@ export default function DayViewWithTimeSlots({
     },
     onSuccess: (id) => {
       toast({
-        title: t("appointment.deletedSuccess"),
-        description: t("appointment.deletedSuccessDescription"),
+        title: t("appointment.deleted"),
+        description: t("appointment.deletedDesc"),
       });
       onAppointmentDeleted(id);
     },
@@ -378,7 +378,11 @@ export default function DayViewWithTimeSlots({
     }
   };
 
-  // Un tocco sceglie l'ora; solo un secondo tocco rapido sulla stessa fascia apre il modulo.
+  useEffect(() => {
+    if (isAppointmentModalOpen || showDeleteConfirm || privateAppointments.dialog) setExpandedAppointment(null);
+  }, [isAppointmentModalOpen, showDeleteConfirm, privateAppointments.dialog]);
+
+  // A completed tap opens the selected mode with this slot's date/time.
   // Il click sintetico dopo uno scorrimento non deve essere scambiato per un tocco.
   const handleSlotClick = (slotTime: string) => {
     if (touchMovedRef.current) {
@@ -386,13 +390,9 @@ export default function DayViewWithTimeSlots({
       lastSlotTapRef.current = null;
       return;
     }
-    const now = Date.now();
-    const secondTap = lastSlotTapRef.current?.time === slotTime &&
-      now - lastSlotTapRef.current.at < 450;
     setSelectedTime(slotTime);
     setSelectedSlotTime(slotTime);
-    lastSlotTapRef.current = secondTap ? null : { time: slotTime, at: now };
-    if (!secondTap) return;
+    lastSlotTapRef.current = null;
     if (privateAppointments.mode === 'free') {
       const start = new Date(selectedDate);
       const [hours, minutes] = slotTime.split(':').map(Number);

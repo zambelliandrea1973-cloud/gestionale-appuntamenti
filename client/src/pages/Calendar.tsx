@@ -441,7 +441,7 @@ export default function Calendar() {
         {/* Riga 1: data + ricerca */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
           <div className="flex items-center space-x-2">
-            <h2 className="text-2xl font-bold text-primary min-w-[200px]">
+            <h2 className="text-lg sm:text-2xl font-bold text-primary min-w-0">
               {view === "month"
                 ? formatMonthYear(selectedDate, i18n.language)
                 : view === "week"

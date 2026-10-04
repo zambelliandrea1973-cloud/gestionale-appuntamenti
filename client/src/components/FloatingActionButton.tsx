@@ -127,16 +127,21 @@ export function FloatingActionButton({
       );
     };
 
-    if (!obstacles.some(rect=>overlapsObstacle(viewportPosition,rect))) return viewportPosition;
-
     // Prefer the same bottom row, to the left of BOTH the slider and voice action.
     // Only move above/below if that complete row cannot fit the viewport.
     const leftmost = Math.min(...obstacles.map(obstacle => obstacle.left));
     const voice = obstacles[0];
+    const manualButton = containerRef.current?.querySelector('button')?.getBoundingClientRect();
+    const microphone = document.querySelector<HTMLElement>(VOICE_TRIGGER_SELECTOR)?.querySelector('button')?.getBoundingClientRect();
+    const inlineTop = Number.parseFloat(containerRef.current?.style.top || String(y));
+    const centerOffset = manualButton ? manualButton.top + manualButton.height / 2 - inlineTop : baseHeight / 2;
+    const targetCenter = microphone ? microphone.top + microphone.height / 2 : voice.top + voice.height / 2;
     const rowPosition = clampToViewport(
       leftmost - FLOATING_ACTION_GAP - baseWidth * currentScale,
-      voice.top + (voice.height - baseHeight * currentScale) / 2,
+      targetCenter - centerOffset,
     );
+    if (window.innerWidth < 640 && !hasDragged.current && !obstacles.some(obstacle=>overlapsObstacle(rowPosition,obstacle))) return rowPosition;
+    if (!obstacles.some(rect=>overlapsObstacle(viewportPosition,rect))) return viewportPosition;
     const alternatives=[rowPosition,...obstacles.flatMap(obstacle=>[
       clampToViewport(obstacle.left-FLOATING_ACTION_GAP-baseWidth*currentScale,obstacle.top),
       clampToViewport(viewportPosition.x,obstacle.top-FLOATING_ACTION_GAP-baseHeight*currentScale),
