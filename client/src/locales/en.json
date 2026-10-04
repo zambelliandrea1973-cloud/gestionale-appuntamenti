@@ -6602,7 +6602,7 @@
     "legend": "Appointment legend",
     "personalEvents": "Personal appointments",
     "googleEvents": "Imported from Google",
-    "voiceGreeting": "Tell me what personal appointment you want to remember and when.",
+    "voiceGreeting": "Go ahead.",
     "voicePlaceholder": "E.g. Dentist tomorrow at 3 pm for an hour",
     "request": "Personal appointment request",
     "askTitle": "What would you like to call this appointment?",

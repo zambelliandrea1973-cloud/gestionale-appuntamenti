@@ -30,7 +30,6 @@ import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
 import VoiceAppointmentAssistant from "./VoiceAppointmentAssistant";
 import DemoDataWatermark from "./DemoDataWatermark";
-import { PrivateAppointmentsProvider, usePrivateAppointments } from "@/components/private-appointments/PrivateAppointmentsProvider";
 
 function UserIcon({ className, userId }: { className?: string; userId?: number }) {
   const [imgError, setImgError] = useState(false);
@@ -47,24 +46,6 @@ function UserIcon({ className, userId }: { className?: string; userId?: number }
       onError={() => setImgError(true)}
     />
   );
-}
-
-function PrivateModeClickBridge({ children, showToggle }: { children: ReactNode; showToggle: boolean }) {
-  const privateAppointments = usePrivateAppointments();
-  return <div onClickCapture={event => {
-    const target = event.target as HTMLElement;
-    if (showToggle && privateAppointments.mode === 'free' && target.closest('[data-testid="button-open-voice-appointment-assistant"]')) {
-      event.preventDefault();
-      event.stopPropagation();
-      privateAppointments.openCreate('voice');
-    }
-  }}>{children}{showToggle&&<div data-private-mode-toggle className="fixed bottom-5 right-[4.75rem] z-40 inline-flex h-10 items-center gap-1 rounded-full border border-[#dfe4dc] bg-[#fffefa] px-1.5 shadow-[0_7px_20px_rgba(49,65,52,.14)] sm:right-[11.5rem]" aria-label="Modalità inserimento privato">
-    <span className={`px-1 text-[10px] font-semibold ${privateAppointments.mode==='work'?'text-[#536157]':'text-[#8a938b]'}`}>Lavoro</span>
-    <button type="button" role="switch" aria-checked={privateAppointments.mode==='free'} aria-label="Modalità privata libera" onClick={()=>privateAppointments.setMode(privateAppointments.mode==='free'?'work':'free')} className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${privateAppointments.mode==='free'?'bg-[#607449]':'bg-[#a5aca0]'}`}>
-      <span className={`absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform ${privateAppointments.mode==='free'?'translate-x-4':'translate-x-0'}`}/>
-    </button>
-    <span className={`px-1 text-[10px] font-semibold ${privateAppointments.mode==='free'?'text-[#526742]':'text-[#8a938b]'}`}>Libero</span>
-  </div>}</div>;
 }
 
 interface LayoutProps {
@@ -106,8 +87,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <PrivateAppointmentsProvider key={String(userWithLicense?.id ?? 'loading')} accountKey={userWithLicense?.id}>
-      <PrivateModeClickBridge showToggle={location==='/calendar'}>
     <div className="flex flex-col min-h-screen">
       <DemoDataWatermark
         enabled={showDemoDataWatermark}
@@ -609,7 +588,5 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
         />
       )}
     </div>
-      </PrivateModeClickBridge>
-    </PrivateAppointmentsProvider>
   );
 }

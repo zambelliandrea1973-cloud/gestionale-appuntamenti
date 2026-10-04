@@ -10,14 +10,14 @@ import { AITrialNotice } from '@/components/AITrialNotice';
 import AppointmentModeSwitch from './AppointmentModeSwitch';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { createAssistantTrialConversation } from '@/lib/assistantTrialConversation';
-import { addMinutesToTime, detectAssistantConfirmation } from '@/lib/appointmentAssistant';
+import { addMinutesToTime, detectAssistantConfirmation, getAssistantGreetingName } from '@/lib/appointmentAssistant';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess } from '@/hooks/use-ai-trial-access';
 import { PERSONAL_APPOINTMENTS_QUERY, notifyPersonalAppointmentSaved } from '@/hooks/use-personal-appointments';
 import { personalAppointmentSchema, type PersonalAppointmentInput } from '../../../shared/personalAppointments';
 
 type Draft = Partial<PersonalAppointmentInput> & { durationMinutes?: number };
 type Message = { role: 'assistant' | 'user'; content: string };
-export default function PersonalVoiceAppointmentAssistant() {
+export default function PersonalVoiceAppointmentAssistant({ professionalEmail }: { professionalEmail?: string }) {
   const { t, i18n } = useTranslation();
   const [, navigate] = useLocation();
   const [open, setOpen] = useState(false);
@@ -34,6 +34,11 @@ export default function PersonalVoiceAppointmentAssistant() {
   const recognition = useRef<any>(null);
   const audio = useRef<HTMLAudioElement | null>(null);
   const audioUrl = useRef<string | null>(null);
+  const utterance = useRef<SpeechSynthesisUtterance | null>(null);
+  const speechSequence = useRef(0);
+  const openRef = useRef(false);
+  const listenRef = useRef<() => void>(() => {});
+  const pendingAutoListen = useRef(false);
   const generation = useRef(0);
   const inFlight = useRef(false);
   const submitRef = useRef<(text: string) => void>(() => {});
@@ -44,48 +49,102 @@ export default function PersonalVoiceAppointmentAssistant() {
   const speechLocale = ({ it:'it-IT', en:'en-US', de:'de-DE', fr:'fr-FR', es:'es-ES', nl:'nl-NL', no:'nb-NO', ro:'ro-RO', ru:'ru-RU', hi:'hi-IN', ar:'ar-SA' } as Record<string,string>)[locale.split('-')[0]] || locale;
   const ready = personalAppointmentSchema.safeParse({ ...draft, location: draft.location || '', notes: draft.notes || '' });
   function stopAudio() {
+    speechSequence.current++;
+    if (utterance.current) {
+      utterance.current.onend = null;
+      utterance.current.onerror = null;
+      utterance.current = null;
+    }
     window.speechSynthesis?.cancel();
+    if (audio.current) {
+      audio.current.onended = null;
+      audio.current.onerror = null;
+    }
     audio.current?.pause();
     audio.current = null;
     if (audioUrl.current) URL.revokeObjectURL(audioUrl.current);
     audioUrl.current = null;
   }
+  function cancelRecognition() {
+    const engine = recognition.current;
+    recognition.current = null;
+    if (engine) {
+      engine.onstart = engine.onend = engine.onerror = engine.onresult = null;
+      try { engine.abort(); } catch { /* Already ended. */ }
+    }
+    setListening(false);
+  }
   function stop() {
     generation.current++;
-    recognition.current?.abort();
-    recognition.current = null;
+    pendingAutoListen.current = false;
+    cancelRecognition();
     stopAudio();
   }
-  useEffect(() => () => stop(), []);
+  useEffect(() => () => { openRef.current = false; stop(); }, []);
   useEffect(() => { chatEnd.current?.scrollIntoView({ block: 'nearest' }); }, [messages, processing]);
-  async function say(text: string) {
-    setMessages(previous => [...previous, { role: 'assistant', content: text }]);
-    if (!conversation.current.isActive()) return;
+  async function speak(text: string) {
     const token = generation.current;
-    try {
+    stopAudio();
+    const sequence = speechSequence.current;
+    const isCurrent = () => openRef.current && token === generation.current && sequence === speechSequence.current;
+    let completed = false;
+    let fallbackStarted = false;
+    const complete = () => {
+      if (completed || !isCurrent()) return;
+      completed = true;
       stopAudio();
+      if (inFlight.current) pendingAutoListen.current = true;
+      else listenRef.current();
+    };
+    const deviceSpeech = () => {
+      if (!isCurrent() || fallbackStarted) return;
+      fallbackStarted = true;
+      if ('speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
+        const message = new SpeechSynthesisUtterance(text);
+        utterance.current = message;
+        message.lang = speechLocale;
+        message.onend = complete;
+        message.onerror = () => {
+          if (isCurrent()) setError(t('personalAppointments.speechError', 'Risposta vocale non disponibile. Puoi continuare nella chat.'));
+        };
+        window.speechSynthesis.speak(message);
+      } else complete();
+    };
+    // As in Work mode, opening the assistant must not consume a trial conversation.
+    if (!conversation.current.isActive()) { deviceSpeech(); return; }
+    try {
       const response = await apiRequest('POST', '/api/ai-appointment-assistant/speech', {
         text, language: speechLocale, conversationId: conversation.current.getId(),
       });
       const blob = await response.blob();
-      if (token !== generation.current) return;
+      if (!isCurrent()) return;
       audioUrl.current = URL.createObjectURL(blob);
       const player = new Audio(audioUrl.current);
       audio.current = player;
+      player.onended = complete;
+      player.onerror = () => {
+        if (!isCurrent()) return;
+        player.onended = player.onerror = null;
+        player.pause();
+        deviceSpeech();
+      };
       await player.play();
     } catch (failure) {
-      if (token !== generation.current) return;
+      if (!isCurrent()) return;
       const key = aiTrialMessageKey(failure);
       if (key) { setTrialBlocked(true); setError(t(key)); }
-      else if ('speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = speechLocale;
-        utterance.onerror = () => {
-          if (token === generation.current) setError(t('personalAppointments.speechError', 'Risposta vocale non disponibile. Puoi continuare nella chat.'));
-        };
-        window.speechSynthesis.speak(utterance);
-      } else setError(t('personalAppointments.speechError', 'Risposta vocale non disponibile. Puoi continuare nella chat.'));
+      else {
+        if (audio.current) {
+          audio.current.onended = audio.current.onerror = null;
+          audio.current.pause();
+        }
+        deviceSpeech();
+      }
     }
+  }
+  async function say(text: string) {
+    setMessages(previous => [...previous, { role: 'assistant', content: text }]);
+    await speak(text);
   }
   const save = useMutation({
     mutationFn: async (value: PersonalAppointmentInput) => {
@@ -96,13 +155,15 @@ export default function PersonalVoiceAppointmentAssistant() {
       await queryClient.invalidateQueries({ queryKey: PERSONAL_APPOINTMENTS_QUERY });
       notifyPersonalAppointmentSaved(saved.date, true);
       navigate('/calendar');
+      openRef.current = false;
       setOpen(false); stop();
     },
     onError: () => setError(t('personalAppointments.saveError', 'Non riesco a salvare l’impegno. Riprova: i campi sono stati conservati.')),
   });
   async function submit(text: string) {
     if (!open || !text.trim() || blocked || inFlight.current || save.isPending) return;
-    recognition.current?.abort();
+    pendingAutoListen.current = false;
+    cancelRecognition();
     stopAudio();
     inFlight.current = true;
     const token = generation.current;
@@ -145,37 +206,78 @@ export default function PersonalVoiceAppointmentAssistant() {
       if (key) { setError(t(key)); setTrialBlocked(true); }
       else setError(t('personalAppointments.aiError', 'Non riesco a interpretare la richiesta. Riprova oppure usa il modulo manuale.'));
     } finally {
-      if (token === generation.current) { setProcessing(false); inFlight.current = false; }
+      if (token === generation.current) {
+        setProcessing(false); inFlight.current = false;
+        if (pendingAutoListen.current) {
+          pendingAutoListen.current = false;
+          listenRef.current();
+        }
+      }
     }
   }
   submitRef.current = text => { void submit(text); };
   function listen() {
-    if (blocked || processing || save.isPending) return;
+    if (!openRef.current || blocked || inFlight.current || save.isPending) return;
     const Recognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!Recognition) return setError(t('personalAppointments.micUnsupported', 'Questo browser non supporta la dettatura. Puoi scrivere la richiesta.'));
-    if (listening) { recognition.current?.stop(); return; }
+    if (recognition.current) {
+      pendingAutoListen.current = false;
+      try { recognition.current.stop(); } catch { cancelRecognition(); }
+      return;
+    }
+    pendingAutoListen.current = false;
+    setError('');
     stopAudio();
     const engine = new Recognition();
     const token = generation.current;
     recognition.current = engine;
+    let delivered = false;
+    const isCurrent = () => openRef.current && token === generation.current && recognition.current === engine;
     engine.lang = speechLocale; engine.continuous = false; engine.interimResults = false;
-    engine.onstart = () => setListening(true);
-    engine.onend = () => setListening(false);
+    engine.onstart = () => { if (isCurrent()) setListening(true); };
+    engine.onend = () => {
+      if (!isCurrent()) return;
+      recognition.current = null;
+      setListening(false);
+    };
     engine.onerror = (event: any) => {
-      if (token !== generation.current) return;
+      if (!isCurrent()) return;
+      recognition.current = null;
       setListening(false);
       if (event.error !== 'aborted') setError(t('personalAppointments.micError', 'Non riesco ad accedere al microfono. Controlla i permessi o scrivi la richiesta.'));
     };
     engine.onresult = (event: any) => {
-      if (token === generation.current) submitRef.current(event.results[0][0].transcript);
+      if (!isCurrent() || delivered) return;
+      const result = event.results[event.resultIndex || 0];
+      if (!result || result.isFinal === false) return;
+      const text = result[0]?.transcript?.trim();
+      if (!text) return;
+      delivered = true;
+      cancelRecognition();
+      submitRef.current(text);
     };
-    try { engine.start(); } catch { setListening(false); setError(t('personalAppointments.micError', 'Non riesco ad accedere al microfono. Controlla i permessi o scrivi la richiesta.')); }
+    try { engine.start(); } catch {
+      if (!isCurrent()) return;
+      cancelRecognition();
+      setError(t('personalAppointments.micError', 'Non riesco ad accedere al microfono. Controlla i permessi o scrivi la richiesta.'));
+    }
   }
+  listenRef.current = listen;
   function changeOpen(value: boolean) {
     if (save.isPending) return;
     stop(); conversation.current.reset(); inFlight.current = false;
+    openRef.current = value;
     setOpen(value); setListening(false); setProcessing(false); setConversationActive(false); setTrialBlocked(false); setError('');
-    if (value) { setDraft({}); setInput(''); setMessages([{ role:'assistant', content:t('personalAppointments.voiceGreeting', 'Raccontami quale impegno personale vuoi ricordare e quando.') }]); }
+    if (value) {
+      const greetingName = getAssistantGreetingName(professionalEmail);
+      const greeting = greetingName
+        ? t('voiceAppointmentAssistant.greeting', { name: greetingName })
+        : t('voiceAppointmentAssistant.greetingFallback');
+      setDraft({});
+      setInput('');
+      setMessages([{ role: 'assistant', content: `${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}` }]);
+      void speak(`${greeting}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`);
+    }
   }
   return <>
     <div className="appointment-action-shell fixed bottom-5 right-2 sm:right-5 z-40 flex items-center gap-2" data-voice-appointment-trigger>
