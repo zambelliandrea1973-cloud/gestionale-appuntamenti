@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsx server/index.ts",
-    "build": "tsx --test tests/assistant-component.test.ts && vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build": "DATABASE_URL=postgresql://mock:mock@127.0.0.1:9/mock tsx --test tests/assistant-component.test.ts && vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "test:google-oauth-ios": "tsx --test tests/google-oauth-ios-callback.test.ts",
+    "test:private-transfer": "tsx --test tests/private-appointment-transfer.security.test.ts tests/private-appointment-transfer.integration.test.ts tests/private-appointments.integration.test.ts",
     "test:oauth": "tsx --test tests/google-oauth-ios-callback.test.ts tests/oauth-transaction-state.test.ts tests/oauth-transaction.integration.test.ts",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",
