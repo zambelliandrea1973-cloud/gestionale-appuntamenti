@@ -40,6 +40,12 @@ export default function StaffCollaboratorsPage() {
   const [teamPassword, setTeamPassword] = useState('');
   const [pendingCreate, setPendingCreate] = useState<any>(null);
   const [teamPasswordError, setTeamPasswordError] = useState('');
+  const [linkPersonalGoogle, setLinkPersonalGoogle] = useState(false);
+  const connectPersonalGoogle = useMutation({
+    mutationFn: spaceApi.connect,
+    onSuccess: ({ url }) => { window.location.assign(url); },
+    onError: () => toast({ title: 'Collegamento Google non riuscito', description: 'Il collaboratore e la password sono salvati. Puoi riprovare da Google personale nel suo calendario.', variant: 'destructive' }),
+  });
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -71,12 +77,19 @@ export default function StaffCollaboratorsPage() {
       }
       return response.json();
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/collaborators'] });
-      queryClient.invalidateQueries({ queryKey: PERSONAL_SPACE_PROFILES_KEY });
+    onSuccess: async (created: Collaborator) => {
+      const wantsGoogle = linkPersonalGoogle && created.isActive !== false;
+      await queryClient.invalidateQueries({ queryKey: ['/api/collaborators'] });
+      await queryClient.invalidateQueries({ queryKey: PERSONAL_SPACE_PROFILES_KEY });
       toast({ title: t('staffCollaborators.toast.created') });
       resetForm();
       setShowAddDialog(false);
+      if (wantsGoogle) personalSpace.requestAccess(created.id, {
+        force: true,
+        forGoogle: true,
+        identityName: `${created.firstName} ${created.lastName}`.trim(),
+        onComplete: () => connectPersonalGoogle.mutate(),
+      });
     },
     onError: (error: any, variables: any) => {
       if (error?.code === 'PERSONAL_PASSWORD_REQUIRED') {
@@ -101,6 +114,7 @@ export default function StaffCollaboratorsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/collaborators'] });
       toast({ title: t('staffCollaborators.toast.updated') });
+      queryClient.invalidateQueries({ queryKey: PERSONAL_SPACE_PROFILES_KEY });
       resetForm();
       setEditingCollaborator(null);
     },
@@ -120,6 +134,7 @@ export default function StaffCollaboratorsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/collaborators'] });
       toast({ title: t('staffCollaborators.toast.deleted') });
+      queryClient.invalidateQueries({ queryKey: PERSONAL_SPACE_PROFILES_KEY });
       setDeletingCollaborator(null);
     },
     onError: () => {
@@ -128,6 +143,7 @@ export default function StaffCollaboratorsPage() {
   });
 
   const resetForm = () => {
+    setLinkPersonalGoogle(false);
     setFormData({
       firstName: "",
       lastName: "",
@@ -276,7 +292,7 @@ export default function StaffCollaboratorsPage() {
                       {passwordProtected
                         ? 'Password già configurata. Non è visibile e non può essere sovrascritta da qui.'
                         : identity?.configured === false || identity?.passwordConfigured === false
-                          ? 'Facoltativo: configura una password per questo profilo.'
+                          ? 'La password serve per usare il calendario personale, con o senza Google.'
                           : personalSpace.isLoading
                             ? 'Verifica del profilo…'
                             : 'Profilo personale non ancora disponibile.'}
@@ -417,6 +433,11 @@ export default function StaffCollaboratorsPage() {
               />
               <Label htmlFor="isActive">{t('staffCollaborators.activeCheckbox')}</Label>
             </div>
+
+            {!editingCollaborator && formData.isActive && <label className="flex items-start gap-2 text-sm">
+              <input type="checkbox" checked={linkPersonalGoogle} onChange={event => setLinkPersonalGoogle(event.target.checked)} className="mt-1" />
+              Collegare ora il Google Calendar personale del collaboratore
+            </label>}
 
             <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={() => {

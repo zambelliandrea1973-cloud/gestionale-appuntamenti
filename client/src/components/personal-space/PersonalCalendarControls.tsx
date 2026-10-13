@@ -52,8 +52,8 @@ export default function PersonalCalendarControls() {
         <p className="truncate text-sm font-semibold text-[#35443b]">
           {personal && space.unlocked ? (multi ? `Personale · ${space.access?.profile.name || 'Profilo sbloccato'}` : 'Personale') : personal ? (multi ? 'Personale · protetto' : 'Personale') : 'Condiviso'}
         </p>
-        {multi && <p className="text-xs text-[#718071]">
-          {personal && space.unlocked ? 'I dettagli sono visibili solo in questa modalità.' : personal && !multi ? 'Calendario personale in caricamento.' : 'Il calendario di lavoro resta condiviso; i privati appaiono come “Occupato”.'}
+        {multi && personal && space.unlocked && <p className="text-xs text-[#718071]">
+          I dettagli sono visibili solo in questa modalità.
         </p>}
       </div>
     </div>

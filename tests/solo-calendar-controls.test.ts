@@ -32,6 +32,8 @@ test('solo private view retains Google settings without shared-calendar or passw
   assert.match(tree, /Google personale/);
   assert.doesNotMatch(tree, /Condiviso|Occupato|Accedi|protetto/);
 });
-test('team calendar retains the shared-calendar explanation', () => {
-  assert.match(JSON.stringify(render(true, 'work')), /Occupato/);
+test('team calendar retains the selector without the permanent sharing explanation', () => {
+  const tree = JSON.stringify(render(true, 'work'));
+  assert.match(tree, /Condiviso/);
+  assert.doesNotMatch(tree, /Il calendario di lavoro resta condiviso|Occupato/);
 });

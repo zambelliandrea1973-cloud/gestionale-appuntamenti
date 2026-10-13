@@ -34,10 +34,11 @@ router.post('/profiles', limited, personalRoute(async (req, res) => {
     password: z.string().min(10).max(128) }).strict().parse(req.body);
   const choices = await privateIdentities(userId);
   if (!choices.multi) throw new PrivateError(409, 'Usi il gestionale da solo: non è necessaria una password personale.');
-  if (!choices.identities.some(p => p.identityId === body.identityId)) throw new PrivateError(404, 'Professionista non trovato.');
+  const identity = choices.identities.find(p => p.identityId === body.identityId);
+  if (!identity) throw new PrivateError(404, 'Professionista non trovato.');
   const hash = await hashPrivatePassword(body.password);
   const rows = await db.execute(sql`INSERT INTO private_appointment_profiles(user_id,identity_id,name,password_hash)
-    VALUES (${userId},${body.identityId},${body.name},${hash})
+    VALUES (${userId},${body.identityId},${identity.name},${hash})
     ON CONFLICT (user_id,identity_id) DO UPDATE SET password_hash=EXCLUDED.password_hash
     WHERE private_appointment_profiles.password_hash IS NULL RETURNING *`);
   if (!rows.length) throw new PrivateError(409, 'Profilo già protetto: usa la password esistente.');

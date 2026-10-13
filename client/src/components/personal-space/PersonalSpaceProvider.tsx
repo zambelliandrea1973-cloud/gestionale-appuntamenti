@@ -7,7 +7,7 @@ import { spaceApi, setSpaceExpiredHandler, setSpaceToken, getSpaceToken, type Sp
 
 export const PERSONAL_SPACE_PROFILES_KEY = ['/api/personal-appointments/space/profiles'] as const;
 const ACCESS_KEY = ['/api/personal-appointments/space/access'] as const;
-type AccessOptions = { force?: boolean; configureOnly?: boolean; identityName?: string; onCancel?: () => void; onComplete?: () => void };
+type AccessOptions = { force?: boolean; configureOnly?: boolean; identityName?: string; forGoogle?: boolean; onCancel?: () => void; onComplete?: () => void };
 type SpaceContextValue = { profiles?: SpaceProfiles; access?: SpaceAccess; isLoading: boolean; unlocked: boolean; requestAccess: (identityId?: number, options?: AccessOptions) => void; lock: () => Promise<void>; refresh: () => void };
 const PersonalSpaceContext = createContext<SpaceContextValue | null>(null);
 export const usePersonalSpace = () => {
@@ -31,6 +31,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
   const requestInProgress = useRef(false);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [forGoogle, setForGoogle] = useState(false);
   const profilesQuery = useQuery({ queryKey: [...PERSONAL_SPACE_PROFILES_KEY, accountKey], queryFn: spaceApi.profiles, retry: 1, staleTime: 30_000, refetchInterval: 30_000 });
   const accessQuery = useQuery({ queryKey: [...ACCESS_KEY, accountKey, profileId], queryFn: spaceApi.access, enabled: tokenReady, retry: false, refetchInterval: 30_000 });
   const multi = profilesQuery.data?.multi === true;
@@ -78,14 +79,15 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
       setPrompt(false);
       setPassword('');
       requestInProgress.current = false;
-      if (!tokenReady) {
+      if (!tokenReady || getSpaceToken() || profileId !== profilesQuery.data.singleProfileId) {
         // Solo owner has automatic access; the endpoint may issue access without password.
+        purge();
         setProfileId(profilesQuery.data.singleProfileId);
         setSpaceToken(null);
         setTokenReady(true);
       }
     }
-  }, [profilesQuery.data, tokenReady]);
+  }, [profilesQuery.data, tokenReady, profileId, purge]);
   useEffect(() => {
     const handle = () => { void lock(); };
     window.addEventListener('personal-space-profile-change', handle);
@@ -95,7 +97,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
     if (prompt || requestInProgress.current) return;
     requestInProgress.current = true;
     let profiles = profilesQuery.data;
-    if (!profiles) {
+    if (!profiles || (targetIdentityId != null && !profiles.identities.some(row => row.identityId === targetIdentityId))) {
       try { profiles = (await profilesQuery.refetch()).data; } catch { profiles = undefined; }
     }
     // Solo access is automatic: never expose profile/password recognition UI there.
@@ -108,6 +110,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
         !options.force && targetIdentityId == null) { requestInProgress.current = false; return; }
     if (unlocked || options.force) await lock();
     setConfigureOnly(options.configureOnly === true);
+    setForGoogle(options.forGoogle === true);
     setCancelAction(() => options.onCancel || null);
     setCompleteAction(() => options.onComplete || null);
     setError('');
@@ -165,10 +168,10 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
     {children}
     {prompt && multi && <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/45 p-4" role="presentation">
       <section role="dialog" aria-modal="true" aria-labelledby="personal-space-title" className="w-full max-w-md rounded-2xl border border-slate-200 bg-[#fbfaf6] p-6 shadow-2xl">
-        <div className="mb-4 flex items-start gap-3"><span className="rounded-xl bg-teal-100 p-2 text-teal-800"><LockKeyhole className="h-5 w-5" /></span><div><h2 id="personal-space-title" className="text-lg font-semibold text-slate-900">{configureOnly ? 'Configura lo spazio personale' : 'Spazio personale'}</h2><p className="text-sm text-slate-600">{configureOnly ? `Crea una password facoltativa per ${profileName || 'questo collaboratore'}. Non verrà mostrata né modificata in seguito.` : 'I tuoi impegni restano privati; ai colleghi compare solo “Occupato”.'}</p></div></div>
+        <div className="mb-4 flex items-start gap-3"><span className="rounded-xl bg-teal-100 p-2 text-teal-800"><LockKeyhole className="h-5 w-5" /></span><div><h2 id="personal-space-title" className="text-lg font-semibold text-slate-900">{configureOnly ? 'Configura lo spazio personale' : 'Spazio personale'}</h2><p className="text-sm text-slate-600">{forGoogle ? 'Per collegare il tuo account Google al calendario privato, crea o usa la password del tuo spazio personale. È la stessa password che userai anche senza Google.' : configureOnly ? `Crea la password personale di ${profileName || 'questo collaboratore'}. Servirà per aprire il suo calendario privato, anche senza Google.` : 'Seleziona il tuo nome registrato nella struttura e usa la tua password personale, anche se non colleghi Google Calendar.'}</p></div></div>
         <form className="space-y-3" onSubmit={submitAccess}>
           <label className="block text-sm font-medium">Profilo
-            <select disabled={configureOnly} className="mt-1 h-10 w-full rounded-md border border-slate-300 bg-white px-3 disabled:opacity-70" value={identityId != null ? `identity:${identityId}` : profileId ?? ''} onChange={event => {
+            <select disabled={configureOnly || forGoogle} className="mt-1 h-10 w-full rounded-md border border-slate-300 bg-white px-3 disabled:opacity-70" value={identityId != null ? `identity:${identityId}` : profileId ?? ''} onChange={event => {
               const value = event.target.value;
               if (value.startsWith('identity:')) { const next = Number(value.slice(9)); setIdentityId(next); setProfileId(profilesQuery.data?.identities.find(row => row.identityId === next)?.profileId); setProfileName(profilesQuery.data?.identities.find(row => row.identityId === next)?.name || ''); }
               else { setIdentityId(undefined); setProfileId(Number(value)); }
@@ -177,13 +180,13 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
               {profilesQuery.data?.profiles.filter(profile => {
                 const identity = profilesQuery.data?.identities.find(row => row.identityId === profile.identityId);
                 return !(identity && (identity.passwordConfigured === false || identity.configured === false));
-              }).map(profile => <option key={profile.id} value={profile.id}>{profile.name}</option>)}
+              }).map(profile => <option key={profile.id} value={profile.id}>{profilesQuery.data?.identities.find(row => row.identityId === profile.identityId)?.name || profile.name}</option>)}
               {profilesQuery.data?.identities.filter(identity => !identity.configured || identity.passwordConfigured === false).map(identity => <option key={`identity-${identity.identityId}`} value={`identity:${identity.identityId}`}>{identity.name} · configura accesso</option>)}
               {identityId != null && !profilesQuery.data?.identities.some(row => row.identityId === identityId) && <option value={`identity:${identityId}`}>{profileName || 'Collaboratore'} · configura accesso</option>}
             </select>
           </label>
           {profilesQuery.isError && <div className="rounded-lg bg-rose-50 p-3 text-sm text-rose-800"><p>Impossibile caricare i profili.</p><Button type="button" variant="outline" size="sm" className="mt-2" onClick={() => void profilesQuery.refetch()}>Riprova</Button></div>}
-          {identityId != null && !configureOnly && <label className="block text-sm font-medium">Nome profilo<Input value={profileName} onChange={event => setProfileName(event.target.value)} placeholder={profilesQuery.data?.identities.find(row => row.identityId === identityId)?.name || 'Nome profilo'} /></label>}
+          {identityId != null && !configureOnly && <p className="text-sm">Nome nella struttura: <strong>{profilesQuery.data?.identities.find(row => row.identityId === identityId)?.name || profileName}</strong></p>}
           <label className="block text-sm font-medium">{identityId != null ? 'Crea password personale (almeno 10 caratteri)' : 'Password personale'}<Input autoFocus required minLength={identityId != null ? 10 : undefined} type="password" autoComplete={identityId != null ? 'new-password' : 'current-password'} value={password} onChange={event => setPassword(event.target.value)} /></label>
           {error && <p role="alert" className="text-sm text-rose-700">{error}</p>}
           <div className="flex justify-end gap-2 pt-2"><Button type="button" variant="outline" onClick={() => { requestInProgress.current = false; setPrompt(false); setPassword(''); cancelAction?.(); setCancelAction(null); setCompleteAction(null); }}>Annulla</Button><Button type="submit" disabled={busy || (identityId == null && !profileId) || !password}>{busy ? 'Verifica…' : configureOnly ? 'Imposta password' : identityId != null ? 'Configura e apri' : 'Apri spazio'}</Button></div>

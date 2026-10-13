@@ -1,3 +1,4 @@
+import './private-profile-identity.test';
 import './solo-calendar-controls.test';
 import './production-static-memory.test';
 import assert from 'node:assert/strict';
