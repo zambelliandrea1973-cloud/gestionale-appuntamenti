@@ -532,7 +532,7 @@ export default function MonthView({
 
   return (
     <>
-      <div className="sm:hidden">
+      <div className="sm:hidden mobile-month-page-clearance">
         <MobileMonthGrid
           weeks={calendar}
           month={viewDate}

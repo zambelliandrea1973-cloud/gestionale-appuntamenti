@@ -34,7 +34,8 @@ export default function MobileMonthGrid({
     const measure = () => {
       if (rootRef.current) {
         const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
-        setAvailableHeight(Math.max(280, viewportHeight - rootRef.current.getBoundingClientRect().top - 8));
+        const rootDocumentTop = rootRef.current.getBoundingClientRect().top + window.scrollY;
+        setAvailableHeight(Math.max(280, viewportHeight - rootDocumentTop - 8));
       }
     };
     measure();
