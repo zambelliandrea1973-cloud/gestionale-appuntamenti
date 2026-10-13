@@ -75,19 +75,36 @@ jobs:
 
       - name: Trigger Sliplane deploy
         id: deploy
+        env:
+          HOOK_OVERRIDE: ${{ github.event.inputs.sliplane_hook_url }}
+          HOOK_SECRET: ${{ secrets.SLIPLANE_DEPLOY_HOOK_URL }}
         run: |
-          HOOK="${{ github.event.inputs.sliplane_hook_url }}"
+          HOOK="$HOOK_OVERRIDE"
           if [ -z "$HOOK" ]; then
-            HOOK="${{ secrets.SLIPLANE_DEPLOY_HOOK_URL }}"
+            HOOK="$HOOK_SECRET"
           fi
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X POST "$HOOK")
+          if [ -z "$HOOK" ]; then
+            echo "Missing Sliplane deploy hook."
+            exit 1
+          fi
+          RESPONSE=$(mktemp)
+          HTTP_STATUS=$(curl --silent --show-error --connect-timeout 10 --max-time 60 \
+            -o "$RESPONSE" -w "%{http_code}" --request GET "$HOOK")
           echo "status=$HTTP_STATUS" >> "$GITHUB_OUTPUT"
           if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
             echo "Deploy hook returned HTTP $HTTP_STATUS — treating as failure."
             exit 1
           fi
+          if grep -qiE '<!doctype html|<html' "$RESPONSE"; then
+            rm -f "$RESPONSE"
+            echo "Deploy hook returned an HTML page, not a deployment acknowledgement. Check the complete Sliplane deploy-hook URL."
+            exit 1
+          fi
+          rm -f "$RESPONSE"
           echo "Deploy hook accepted (HTTP $HTTP_STATUS)."
+
+      - name: Verify published calendar version
+        run: python3 scripts/verify-calendar-deployment.py --timeout 600
 
       - name: Mark deployment as success
         continue-on-error: true
