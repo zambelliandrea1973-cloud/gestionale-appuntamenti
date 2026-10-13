@@ -116,3 +116,16 @@ test('mobile-only clearance sits outside the grid and its scroll can reach the p
   assert.match(css, /\.mobile-month-clip\s*\{[^}]*overscroll-behavior:\s*auto/);
   assert.match(css, /touch-action:\s*pan-x pan-y/);
 });
+
+test('both appointment assistants keep the calendar interactive without outside-tap dismissal', () => {
+  for (const file of [
+    'client/src/components/VoiceAppointmentAssistant.tsx',
+    'client/src/components/PersonalVoiceAppointmentAssistant.tsx',
+  ]) {
+    const assistant = readFileSync(file, 'utf8');
+    assert.match(assistant, /<Dialog modal=\{false\}/);
+    assert.match(assistant, /overlayClassName="bg-black\/15 !pointer-events-none"/);
+  }
+  const dialog = readFileSync('client/src/components/ui/dialog.tsx', 'utf8');
+  assert.match(dialog, /onInteractOutside=\{\(e\) => e\.preventDefault\(\)\}/);
+});

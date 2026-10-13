@@ -6649,5 +6649,32 @@
     "openTitle": "Asistente de voz para citas",
     "stopListening": "Detener escucha",
     "startListening": "Iniciar escucha"
+  },
+  "existingAppointmentOperations": {
+    "appointment": "Cita",
+    "askDestination": "He encontrado {{appointment}}. ¿A qué nueva fecha u hora quieres moverla?",
+    "invalidDestination": "La nueva fecha u hora no es válida. Indica una fecha real y una hora de fin posterior al inicio, en el mismo día.",
+    "askDelete": "¿Quieres eliminar {{appointment}}? No eliminaré nada sin tu confirmación.",
+    "askMove": "¿Quieres mover {{appointment}} al {{date}}, {{start}}–{{end}}? ¿Lo confirmas?",
+    "selectionMismatch": "La cita recibida no coincide con tu selección. Inténtalo de nuevo.",
+    "recordChanged": "La cita ha cambiado mientras tanto. Comprueba los datos actualizados.",
+    "deleted": "Cita eliminada.",
+    "moved": "Cita movida.",
+    "unlockProfile": "Desbloquea tu perfil antes de gestionar las citas.",
+    "cancelled": "Operación cancelada. No se ha modificado ninguna cita.",
+    "selectFirst": "Primero selecciona la cita correcta en la lista. Todavía no he modificado nada.",
+    "notFound": "No he encontrado citas que coincidan. Indícame el título o nombre exacto y, si es necesario, la fecha de la cita existente.",
+    "multipleFound": "He encontrado {{count}} citas. Selecciona la correcta en la lista o indica su número.",
+    "failed": "La operación ha fallado. No se ha confirmado ningún éxito: comprueba la cita e inténtalo de nuevo.",
+    "deleteLabel": "Eliminar cita existente",
+    "moveLabel": "Mover cita existente",
+    "deleteTitle": "Eliminar una cita",
+    "moveTitle": "Mover una cita",
+    "searching": "Buscando la cita correspondiente…",
+    "selectAppointment": "Selecciona la cita correcta:",
+    "enterDestination": "Indica la nueva fecha u hora en el chat.",
+    "confirmDelete": "Confirmar eliminación",
+    "confirmMove": "Confirmar cambio",
+    "cancelOperation": "Cancelar operación"
   }
 }

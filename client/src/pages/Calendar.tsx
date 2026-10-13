@@ -25,6 +25,7 @@ import {
   VOICE_APPOINTMENT_DRAFT_STORAGE_KEY,
   type VoiceAppointmentFormDraft,
 } from "@/lib/voiceAppointmentDraft";
+import { CALENDAR_RELEASE } from "../../../shared/calendarRelease";
 
 const STORAGE_KEY_MODE = 'calendar-mode-v1';
 
@@ -379,6 +380,7 @@ export default function Calendar() {
       <div className="mb-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-gray-500" aria-label={t('personalAppointments.legend', 'Legenda degli impegni')}>
         <span className="inline-flex items-center gap-1.5"><i className="h-2.5 w-3 rounded-sm bg-[#cbd1d5] border-l-[3px] border-[#64717a]" />{t('personalAppointments.personalEvents', 'Impegni personali')}</span>
         <span className="inline-flex items-center gap-1.5"><i className="h-2.5 w-3 rounded-sm bg-[#f1f5f9] border-l-[3px] border-blue-500" />{t('personalAppointments.googleEvents', 'Importati da Google')}</span>
+        <span className="ml-auto font-mono text-[11px] font-semibold tracking-wide text-slate-600" aria-label={`Calendar release ${CALENDAR_RELEASE}`}>{CALENDAR_RELEASE}</span>
       </div>
       {(googleNeedsReauth || googleNotConnected) && (
         <Alert

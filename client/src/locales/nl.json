@@ -6649,5 +6649,32 @@
     "openTitle": "Spraakassistent voor afspraken",
     "stopListening": "Luisteren stoppen",
     "startListening": "Luisteren starten"
+  },
+  "existingAppointmentOperations": {
+    "appointment": "Afspraak",
+    "askDestination": "Ik heb {{appointment}} gevonden. Naar welke nieuwe datum of tijd wil je deze verplaatsen?",
+    "invalidDestination": "De nieuwe datum of tijd is ongeldig. Geef een bestaande datum en een eindtijd na de begintijd op dezelfde dag op.",
+    "askDelete": "Wil je {{appointment}} verwijderen? Ik verwijder niets zonder jouw bevestiging.",
+    "askMove": "Wil je {{appointment}} verplaatsen naar {{date}}, {{start}}–{{end}}? Bevestig je dit?",
+    "selectionMismatch": "De ontvangen afspraak komt niet overeen met je selectie. Probeer het opnieuw.",
+    "recordChanged": "De afspraak is ondertussen gewijzigd. Controleer de bijgewerkte gegevens.",
+    "deleted": "Afspraak verwijderd.",
+    "moved": "Afspraak verplaatst.",
+    "unlockProfile": "Ontgrendel je profiel voordat je afspraken beheert.",
+    "cancelled": "Handeling geannuleerd. Er zijn geen afspraken gewijzigd.",
+    "selectFirst": "Selecteer eerst de juiste afspraak in de lijst. Ik heb nog niets gewijzigd.",
+    "notFound": "Ik heb geen overeenkomende afspraken gevonden. Geef de exacte titel of naam en, indien nodig, de datum van de bestaande afspraak.",
+    "multipleFound": "Ik heb {{count}} afspraken gevonden. Selecteer de juiste in de lijst of geef het nummer aan.",
+    "failed": "De handeling is mislukt. Er is geen succes bevestigd: controleer de afspraak en probeer het opnieuw.",
+    "deleteLabel": "Bestaande afspraak verwijderen",
+    "moveLabel": "Bestaande afspraak verplaatsen",
+    "deleteTitle": "Een afspraak verwijderen",
+    "moveTitle": "Een afspraak verplaatsen",
+    "searching": "De overeenkomende afspraak wordt gezocht…",
+    "selectAppointment": "Selecteer de juiste afspraak:",
+    "enterDestination": "Geef de nieuwe datum of tijd aan in de chat.",
+    "confirmDelete": "Verwijderen bevestigen",
+    "confirmMove": "Verplaatsen bevestigen",
+    "cancelOperation": "Handeling annuleren"
   }
 }

@@ -1635,12 +1635,12 @@ function ProfessionalVoiceAppointmentAssistant({
         <AppointmentModeSwitch />
       </div>
 
-      <Dialog open={open} onOpenChange={handleOpenChange}>
+      <Dialog modal={false} open={open} onOpenChange={handleOpenChange}>
         <DialogContent
           className={`flex max-h-[88vh] w-[calc(100vw-1.5rem)] flex-col gap-0 overflow-hidden p-0 transition-[max-width] ${
             servicePickerOpen ? 'max-w-3xl' : 'max-w-lg'
           }`}
-          overlayClassName="bg-black/15"
+          overlayClassName="bg-black/15 !pointer-events-none"
           style={{
             marginLeft: `${dialogPosition.x}px`,
             marginTop: `${dialogPosition.y}px`
@@ -1656,7 +1656,7 @@ function ProfessionalVoiceAppointmentAssistant({
             <DialogTitle className="flex items-center gap-2 text-white">
               <Sparkles className="h-5 w-5" />
               {existing.state
-                ? existing.state.action === 'delete' ? 'Elimina appuntamento' : 'Sposta appuntamento'
+                ? t(existing.state.action === 'delete' ? 'existingAppointmentOperations.deleteTitle' : 'existingAppointmentOperations.moveTitle')
                 : t('voiceAppointmentAssistant.title')}
               <GripHorizontal className="ml-auto h-4 w-4 opacity-75" aria-hidden="true" />
             </DialogTitle>

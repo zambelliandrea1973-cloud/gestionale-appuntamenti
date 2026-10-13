@@ -438,8 +438,8 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
        <Button aria-label={t('voiceAppointmentAssistant.openAriaLabel')} onClick={() => changeOpen(true)} className="appointment-action-control appointment-action-pulse-ai h-12 w-12 rounded-full bg-violet-600 p-0 text-white"><Mic className="h-6 w-6" /></Button>
       <AppointmentModeSwitch />
     </div>
-    <Dialog open={open} onOpenChange={changeOpen}><DialogContent className="w-[calc(100vw-1.5rem)] max-w-lg max-h-[88vh] overflow-y-auto p-0 gap-0" overlayClassName="bg-black/15">
-       <DialogHeader className="border-b bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 text-white"><DialogTitle className="flex items-center gap-2 text-white"><Sparkles className="h-5 w-5" />{existing.state ? (existing.state.action === 'delete' ? 'Elimina appuntamento' : 'Sposta appuntamento') : t('personalAppointments.new')}</DialogTitle></DialogHeader>
+    <Dialog modal={false} open={open} onOpenChange={changeOpen}><DialogContent className="w-[calc(100vw-1.5rem)] max-w-lg max-h-[88vh] overflow-y-auto p-0 gap-0" overlayClassName="bg-black/15 !pointer-events-none">
+       <DialogHeader className="border-b bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 text-white"><DialogTitle className="flex items-center gap-2 text-white"><Sparkles className="h-5 w-5" />{existing.state ? t(existing.state.action === 'delete' ? 'existingAppointmentOperations.deleteTitle' : 'existingAppointmentOperations.moveTitle') : t('personalAppointments.new')}</DialogTitle></DialogHeader>
       <div className="px-4 pt-3"><AITrialNotice feature="appointments" activeConversation={conversationActive} blocked={trialBlocked} /></div>
       <div className="space-y-3 px-4 py-4 max-h-[45vh] overflow-y-auto">
         {messages.map((message, index) => <p key={index} className={`rounded-xl p-3 text-sm ${message.role === 'user' ? 'ml-8 bg-violet-100' : 'mr-8 border bg-gray-50'}`}>{message.content}</p>)}

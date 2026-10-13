@@ -8,6 +8,7 @@ import { storage, ensureSessionTable } from "./storage";
 import path from "path";
 import { scalabilityMonitorService } from "./services/scalabilityMonitorService";
 import { ensureOAuthTransactionsTable } from "./services/oauthTransactionService";
+import { CALENDAR_RELEASE } from "../shared/calendarRelease";
 
 // Prevents the process from terminating when Replit sends SIGHUP for container management
 process.on('SIGHUP', () => {
@@ -28,6 +29,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const app = express();
+app.get('/api/calendar-release', (_req, res) => {
+  res.set('Cache-Control', 'no-store').json({ release: CALENDAR_RELEASE });
+});
 
 // Configure Express to trust the proxy (Replit) - required for correct HTTPS
 app.set('trust proxy', 1);

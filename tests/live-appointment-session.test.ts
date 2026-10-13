@@ -96,6 +96,55 @@ test('Personal explicit approval keeps the actual submit callback pending until 
   assert.deepEqual(errors, []);
 });
 
+test('actual personal submit treats the screenshot cancellation as lookup even with AI create fields', async () => {
+  const { createAppointmentOperations } = await import('../client/src/lib/appointmentOperations');
+  const source = readFileSync('client/src/components/PersonalVoiceAppointmentAssistant.tsx', 'utf8');
+  const ast = ts.createSourceFile('personal.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  let handler = '';
+  const visit = (node: ts.Node) => {
+    if (ts.isFunctionDeclaration(node) && node.name?.text === 'submit') handler = node.getText(ast);
+    ts.forEachChild(node, visit);
+  };
+  visit(ast);
+  const record = { id: 71, title: 'Oculista', date: '2026-10-18', startTime: '15:00', endTime: '16:00' };
+  const replies: string[] = [], writes: string[] = [];
+  let state: any, creates = 0;
+  const operations = createAppointmentOperations({
+    scope: () => 'personal:3', enabled: () => true, language: () => 'it',
+    load: async () => [record], read: async () => record,
+    write: async action => { writes.push(action); },
+    state: next => { state = next; }, say: async message => { replies.push(message); },
+    changed: async () => {},
+  });
+  const fields = { current: { action: 'create', title: 'Oculista', date: '2026-10-18', startTime: null } as any };
+  const env = {
+    open: true, blocked: false, inFlight: { current: false }, profileId: 3, profileIdRef: { current: 3 },
+    existing: { busy: false, state: null, handle: operations.handle },
+    liveSession: { current: { ready: () => true } }, liveFields: fields,
+    pendingAutoListen: { current: false }, cancelRecognition() {}, stopAudio() {},
+    generation: { current: 1 }, setInput() {}, setError() {}, setProcessing() {}, setMessages() {}, setDraft() {},
+    conversation: { current: { ensure: async () => null } }, setConversationActive() {},
+    queryClient: { invalidateQueries() {} }, AI_TRIAL_ACCESS_KEY: ['synthetic'],
+    draft: {}, ready: { success: false }, locale: 'it',
+    completePersonalAppointmentDraft, personalAppointmentSchema, detectAssistantConfirmation,
+    say: async (text: string) => { replies.push(text); }, t: (key: string) => key,
+    aiTrialMessageKey: () => null, setTrialBlocked() {}, listenRef: { current() {} },
+    save: { isPending: false, mutateAsync: async () => { creates++; } },
+  };
+  const code = ts.transpileModule(handler, { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
+  const submit = new Function('env', `const {${Object.keys(env).join(',')}}=env; ${code}; return submit;`)(env);
+  await submit("Cancellami l'appuntamento dell'oculista del 18.");
+  assert.equal(state.selected.id, 71);
+  assert.equal(state.phase, 'confirm');
+  assert.equal(creates, 0);
+  assert.deepEqual(writes, []);
+  assert.doesNotMatch(replies.join(' '), /askTime|deve iniziare|creare/);
+  fields.current = {};
+  await submit('sì, confermo');
+  assert.deepEqual(writes, ['delete']);
+  assert.equal(creates, 0);
+});
+
 test('real-time transport greets before capturing, returns tools on the same connection and stops all resources on close', async t => {
   const sockets: any[] = [], sources: any[] = [], errors: string[] = [], turns: any[] = [];
   let stopped = 0, listening = false, micNode: any;

@@ -6649,5 +6649,32 @@
     "openTitle": "Asistent vocal pentru programări",
     "stopListening": "Oprește ascultarea",
     "startListening": "Pornește ascultarea"
+  },
+  "existingAppointmentOperations": {
+    "appointment": "Programare",
+    "askDestination": "Am găsit {{appointment}}. La ce dată sau oră nouă dorești să o muți?",
+    "invalidDestination": "Noua dată sau oră nu este validă. Indică o dată reală și o oră de sfârșit după ora de început, în aceeași zi.",
+    "askDelete": "Dorești să ștergi {{appointment}}? Nu voi șterge nimic fără confirmarea ta.",
+    "askMove": "Dorești să muți {{appointment}} la {{date}}, {{start}}–{{end}}? Confirmi?",
+    "selectionMismatch": "Programarea primită nu corespunde selecției tale. Încearcă din nou.",
+    "recordChanged": "Programarea s-a schimbat între timp. Verifică datele actualizate.",
+    "deleted": "Programare ștearsă.",
+    "moved": "Programare mutată.",
+    "unlockProfile": "Deblochează-ți profilul înainte de a gestiona programările.",
+    "cancelled": "Operațiune anulată. Nicio programare nu a fost modificată.",
+    "selectFirst": "Selectează mai întâi programarea corectă din listă. Nu am modificat încă nimic.",
+    "notFound": "Nu am găsit programări corespunzătoare. Indică titlul sau numele exact și, dacă este necesar, data programării existente.",
+    "multipleFound": "Am găsit {{count}} programări. Selectează-o pe cea corectă din listă sau indică numărul ei.",
+    "failed": "Operațiunea a eșuat. Nu a fost confirmată reușita: verifică programarea și încearcă din nou.",
+    "deleteLabel": "Șterge programarea existentă",
+    "moveLabel": "Mută programarea existentă",
+    "deleteTitle": "Șterge o programare",
+    "moveTitle": "Mută o programare",
+    "searching": "Caut programarea corespunzătoare…",
+    "selectAppointment": "Selectează programarea corectă:",
+    "enterDestination": "Indică noua dată sau oră în chat.",
+    "confirmDelete": "Confirmă ștergerea",
+    "confirmMove": "Confirmă mutarea",
+    "cancelOperation": "Anulează operațiunea"
   }
 }

@@ -9,9 +9,11 @@ import "./lib/i18n";
 // Disabilita popup DevTools/runtime-error-modal
 (window as any).__REPLIT_DISABLE_RUNTIME_ERROR_MODAL = true;
 
-// CRITICAL: Force service worker update and cache purge on every page load
+import { CALENDAR_RELEASE } from '../../shared/calendarRelease';
+
+// Refresh obsolete frontend caches once per calendar release, never account data.
 // Version 11 - Fix session mixing and stale data on mobile
-const SW_VERSION = 'v12-onboarding-fix';
+const SW_VERSION = `calendar-${CALENDAR_RELEASE}`;
 const LAST_SW_VERSION_KEY = 'last-sw-version';
 
 async function forceServiceWorkerRefresh() {

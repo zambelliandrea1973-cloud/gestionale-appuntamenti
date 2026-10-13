@@ -1,5 +1,6 @@
 import { detectAssistantConfirmation } from './appointmentAssistant';
 import { personalAppointmentSchema } from '../../../shared/personalAppointments';
+import { appointmentOperationText } from './appointmentOperationMessages';
 
 export type AppointmentAction = 'delete' | 'move';
 export type OperationFields = {
@@ -30,8 +31,9 @@ export function detectAppointmentAction(text: string, fields?: OperationFields):
   return fields?.action === 'delete' || fields?.action === 'move' ? fields.action : undefined;
 }
 const stopWords = new Set(('ciao mi me tu puoi potresti per favore vorrei voglio devo quello quella questo questa il lo la i gli le un una uno di del della dell dei delle da dal dalla al alla alle con che e ed gia stato stata fatto fatta appuntamento appuntamenti impegno evento personale esistente esistenti quando oggi domani dopodomani lunedi martedi mercoledi giovedi venerdi sabato domenica alle ore ora grazie the a an my please appointment appointments event for of on at to from tomorrow today can you could would like it is has been because hello quello dei nuovo nuova elimina eliminare elimini cancellare cancella cancelli rimuovi rimuovere disdici disdire sposta spostare sposti posticipa anticipa rimanda riprogramma delete remove cancel move reschedule spostato cancellato stato non').split(' '));
-export function appointmentLabel(record: ExistingAppointment) {
-  return record.title || [record.client?.firstName, record.client?.lastName, record.service?.name].filter(Boolean).join(' · ') || 'Appuntamento';
+export function appointmentLabel(record: ExistingAppointment, fallback = 'Appuntamento') {
+  // Keep the internal fallback stable for matching, snapshots and mutation payloads.
+  return record.title || [record.client?.firstName, record.client?.lastName, record.service?.name].filter(Boolean).join(' · ') || fallback;
 }
 export function matchExistingAppointments(records: ExistingAppointment[], text: string, fields: OperationFields, action: AppointmentAction) {
   const words = normalize(fields.searchTitle || text).split(' ').filter(word => word.length > 1 && !stopWords.has(word) && !/^\d+$/.test(word) && (!!fields.searchTitle || !detectAppointmentAction(word)));
@@ -68,18 +70,20 @@ type Dependencies = {
   changed: (record: ExistingAppointment, date: string) => Promise<void>;
 };
 export function createAppointmentOperations(deps: Dependencies) {
+  const t = (key: Parameters<typeof appointmentOperationText>[1], values?: Record<string, string | number>) =>
+    appointmentOperationText(deps.language(), key, values);
   let current: OperationState | null = null;
   let epoch = 0;
   let busy = false;
   const publish = (value: OperationState | null) => { current = value; deps.state(value); };
   const valid = (scope: string, version: number) => deps.enabled() && deps.scope() === scope && epoch === version;
   const reset = () => { epoch++; publish(null); };
-  const describe = (record: ExistingAppointment) => `${appointmentLabel(record)} · ${record.date.slice(0, 10)} · ${record.startTime.slice(0, 5)}–${record.endTime.slice(0, 5)}`;
+  const describe = (record: ExistingAppointment) => `${appointmentLabel(record, t('appointment'))} · ${record.date.slice(0, 10)} · ${record.startTime.slice(0, 5)}–${record.endTime.slice(0, 5)}`;
   async function preview() {
     if (!current?.selected) return;
     if (current.action === 'move' && !current.changes.date && !current.changes.startTime && !current.changes.endTime && !current.changes.durationMinutes) {
       publish({ ...current, phase: 'details' });
-      await deps.say(`Ho trovato ${describe(current.selected)}. A quale nuova data o ora vuoi spostarlo?`);
+      await deps.say(t('askDestination', { appointment: describe(current.selected) }));
       return;
     }
     let destination: ReturnType<typeof movedAppointment> | undefined;
@@ -87,14 +91,14 @@ export function createAppointmentOperations(deps: Dependencies) {
       try { destination = movedAppointment(current.selected, current.changes); }
       catch {
         publish({ ...current, phase: 'details' });
-        await deps.say('La nuova data o l’orario non sono validi. Indica una data reale e un orario di fine successivo all’inizio, nello stesso giorno.');
+        await deps.say(t('invalidDestination'));
         return;
       }
     }
     publish({ ...current, phase: 'confirm' });
     await deps.say(current.action === 'delete'
-      ? `Vuoi eliminare ${describe(current.selected)}? Non eliminerò nulla senza la tua conferma.`
-      : `Vuoi spostare ${describe(current.selected)} al ${destination!.date}, ${destination!.startTime}–${destination!.endTime}? Confermi?`);
+      ? t('askDelete', { appointment: describe(current.selected) })
+      : t('askMove', { appointment: describe(current.selected), date: destination!.date, start: destination!.startTime, end: destination!.endTime }));
   }
   async function choose(id: number) {
     if (!current || !deps.enabled() || current.scope !== deps.scope()) return;
@@ -110,12 +114,12 @@ export function createAppointmentOperations(deps: Dependencies) {
     const scope = pending.scope, version = epoch;
     try {
       const fetched = await deps.read(pending.selected!.id);
-      if (fetched.id !== pending.selected!.id) throw new Error('L’appuntamento ricevuto non corrisponde alla selezione. Riprova.');
+      if (fetched.id !== pending.selected!.id) throw new Error(t('selectionMismatch'));
       const latest = { ...pending.selected!, ...fetched, client: fetched.client || pending.selected!.client, service: fetched.service || pending.selected!.service };
       if (!valid(scope, version)) return;
       if (appointmentSnapshot(latest) !== appointmentSnapshot(pending.selected!)) {
         publish({ ...pending, selected: latest, candidates: [latest] });
-        await deps.say('L’appuntamento è cambiato nel frattempo. Controlla i dati aggiornati.');
+        await deps.say(t('recordChanged'));
         await preview();
         return;
       }
@@ -125,7 +129,7 @@ export function createAppointmentOperations(deps: Dependencies) {
       publish(null);
       await deps.changed(latest, destination?.date || latest.date);
       if (!valid(scope, version)) return;
-      await deps.say(pending.action === 'delete' ? 'Appuntamento eliminato.' : 'Appuntamento spostato.');
+      await deps.say(t(pending.action === 'delete' ? 'deleted' : 'moved'));
     } finally { busy = false; }
   }
   async function handle(text: string, fields: OperationFields = {}) {
@@ -133,7 +137,7 @@ export function createAppointmentOperations(deps: Dependencies) {
     if (current && (current.scope !== deps.scope() || !deps.enabled())) reset();
     const action = detectAppointmentAction(text, fields);
     if (!current && !action) return false;
-    if (!deps.enabled()) throw new Error('Sblocca il tuo profilo prima di gestire gli appuntamenti.');
+    if (!deps.enabled()) throw new Error(t('unlockProfile'));
     if (current && fields.action === 'create' && /\b(?:nuovo|nuova|crea\w*|aggiung\w*|prenot\w*|fiss\w*|segn\w*|create|book|new)\b/i.test(text)) {
       reset();
       return false;
@@ -146,7 +150,7 @@ export function createAppointmentOperations(deps: Dependencies) {
       !matchExistingAppointments([current.selected], text, fields, action || current.action).length);
     if (current && ((detectAssistantConfirmation(text, deps.language()) === 'no' && !updatedDestination && !updatedTarget) ||
       /^(?:annulla(?: l.operazione)?|lascia perdere|cancel)$/i.test(text.trim()))) {
-      reset(); await deps.say('Operazione annullata. Nessun appuntamento modificato.'); return true;
+      reset(); await deps.say(t('cancelled')); return true;
     }
     if (current && !updatedTarget && (!action || action === current.action)) {
       if (!current.selected) {
@@ -155,7 +159,7 @@ export function createAppointmentOperations(deps: Dependencies) {
         const index = number ? Number(number[1]) - 1 : ordinal ? ['primo', 'secondo', 'terzo'].findIndex(word => word.slice(0, -1) === ordinal[1].slice(0, -1)) : -1;
         if (index >= 0 && current.candidates[index]) { await choose(current.candidates[index].id); return true; }
         if (detectAssistantConfirmation(text, deps.language()) === 'yes') {
-          await deps.say('Prima seleziona l’appuntamento corretto nell’elenco. Non ho ancora modificato nulla.');
+          await deps.say(t('selectFirst'));
           return true;
         }
       } else {
@@ -181,9 +185,9 @@ export function createAppointmentOperations(deps: Dependencies) {
     if (!valid(scope, version)) return true;
     const candidates = matchExistingAppointments(candidateIds ? records.filter(record => candidateIds.has(record.id)) : records, text, fields, nextAction);
     publish({ action: nextAction, candidates, changes, phase: 'choose', scope });
-    if (!candidates.length) await deps.say('Non ho trovato appuntamenti corrispondenti. Indicami il titolo o il nome esatto e, se necessario, la data dell’appuntamento esistente.');
+    if (!candidates.length) await deps.say(t('notFound'));
     else if (candidates.length === 1) await choose(candidates[0].id);
-    else await deps.say(`Ho trovato ${candidates.length} appuntamenti. Seleziona quello corretto nell’elenco oppure indicane il numero.`);
+    else await deps.say(t('multipleFound', { count: candidates.length }));
     return true;
   }
   return { handle, choose, confirm, reset };

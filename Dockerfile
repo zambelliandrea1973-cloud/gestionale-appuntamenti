@@ -24,7 +24,9 @@ COPY . .
 RUN npx vite build
 
 # Copy built files to location expected by server/vite.ts
-RUN cp -r dist/public server/public
+RUN mkdir -p server/public \
+    && cp -a dist/public/. server/public/ \
+    && cmp dist/public/index.html server/public/index.html
 
 # Expose port 5000
 EXPOSE 5000
