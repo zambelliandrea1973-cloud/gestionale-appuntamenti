@@ -1,3 +1,4 @@
+import './production-static-memory.test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
