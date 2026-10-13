@@ -141,3 +141,22 @@ test('language switches use the current assistant language without changing inte
   assert.equal(appointmentSnapshot(untitled), snapshot);
   assert.equal(f.writes.length, 0);
 });
+
+test('both parent dialog headings use localized delete/move titles, including outside Italian', () => {
+  for (const name of ['VoiceAppointmentAssistant', 'PersonalVoiceAppointmentAssistant']) {
+    const source = readFileSync(`client/src/components/${name}.tsx`, 'utf8');
+    // Evaluate the actual heading expression without mounting authenticated parents or making requests.
+    const expression = source.match(/<DialogTitle\b[^>]*>[\s\S]*?\{(existing\.state[\s\S]*?)\}[\s\S]*?<\/DialogTitle>/)?.[1];
+    assert.ok(expression, `${name}: existing-operation heading expression`);
+    assert.doesNotMatch(expression, /Elimina appuntamento|Sposta appuntamento/);
+    const heading = new Function('existing', 't', `return (${expression});`);
+    for (const language of ['it', 'en', 'fr']) {
+      for (const action of ['delete', 'move']) {
+        const title = heading({ state: { action } }, i18n.getFixedT(language));
+        assert.equal(title, message(language, action === 'delete' ? 'deleteTitle' : 'moveTitle'), `${name}/${language}/${action}`);
+      }
+      const inactiveKey = name === 'VoiceAppointmentAssistant' ? 'voiceAppointmentAssistant.title' : 'personalAppointments.new';
+      assert.equal(heading({ state: null }, i18n.getFixedT(language)), i18n.getFixedT(language)(inactiveKey));
+    }
+  }
+});
