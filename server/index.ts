@@ -29,6 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const app = express();
+console.info(`[STARTUP] Calendar release ${CALENDAR_RELEASE}`);
 app.get('/api/calendar-release', (_req, res) => {
   res.set('Cache-Control', 'no-store').json({ release: CALENDAR_RELEASE });
 });

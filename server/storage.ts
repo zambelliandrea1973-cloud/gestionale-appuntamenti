@@ -64,20 +64,36 @@ import { inventoryJsonStorage } from "./inventory-json-storage.js";
 // Global flag to check if PostgreSQL is available
 let isDatabaseAvailable = true;
 
+// Log only a driver code: pg errors can carry a Client with connection details.
+function databaseFailureCode(error: unknown): string {
+  const code = (error as { code?: unknown } | null)?.code;
+  return typeof code === 'string' && /^[A-Z0-9_]{2,40}$/.test(code) ? code : 'UNKNOWN';
+}
+
+function watchDatabasePool(pool: pg.Pool, label: string): void {
+  // pg removes the failed idle client; without a listener EventEmitter kills Node.
+  pool.on('error', (error) => {
+    console.error(`[DB] ${label}: idle connection closed (${databaseFailureCode(error)}).`);
+  });
+}
+
 // Check database connection at startup
 async function checkDatabaseAvailability(): Promise<boolean> {
+  let pool: pg.Pool | undefined;
   try {
     // Raw SQL — non usa Drizzle per evitare fallimenti su colonne mancanti
-    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, connectionTimeoutMillis: 5000 });
+    pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, connectionTimeoutMillis: 5000 });
+    watchDatabasePool(pool, 'availability check');
     await pool.query('SELECT 1');
-    await pool.end();
     isDatabaseAvailable = true;
     console.log('✅ PostgreSQL database is available');
     return true;
   } catch (error) {
     isDatabaseAvailable = false;
-    console.log('⚠️ PostgreSQL not available - using JSON storage only (no connection delays)');
+    console.error(`[DB] Initial connection check failed (${databaseFailureCode(error)}); production startup still requires PostgreSQL.`);
     return false;
+  } finally {
+    await pool?.end().catch(() => {});
   }
 }
 
@@ -90,9 +106,13 @@ export async function ensureSessionTable(): Promise<void> {
   if (!process.env.DATABASE_URL) return;
   const MAX_RETRIES = 5;
   let lastError: unknown;
+  let stage = 'session schema';
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    let pool: pg.Pool | undefined;
     try {
-      const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, connectionTimeoutMillis: 10000 });
+      stage = 'session schema';
+      pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, connectionTimeoutMillis: 10000 });
+      watchDatabasePool(pool, `startup attempt ${attempt}`);
       await pool.query(`
         CREATE TABLE IF NOT EXISTS "user_sessions" (
           "sid" varchar NOT NULL COLLATE "default",
@@ -114,6 +134,7 @@ export async function ensureSessionTable(): Promise<void> {
         CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "user_sessions" ("expire");
       `);
       // Colonne aggiunte in sessioni successive — safe con IF NOT EXISTS
+      stage = 'user and license schema';
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_disabled_by_user boolean DEFAULT false;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_needs_reauth boolean DEFAULT false;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_email text;`);
@@ -131,28 +152,34 @@ export async function ensureSessionTable(): Promise<void> {
       await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_clicked_at timestamp;`);
       await pool.query(`ALTER TABLE licenses ADD COLUMN IF NOT EXISTS recovery_offer_used_at timestamp;`);
       await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS licenses_recovery_offer_token_hash_idx ON licenses (recovery_offer_token_hash) WHERE recovery_offer_token_hash IS NOT NULL;`);
+      stage = 'AI trial schema';
       await pool.query(aiTrialSchemaSql);
+      stage = 'personal appointment schema';
       const { personalAppointmentsSchemaSql } = await import('../shared/personalAppointments');
       await pool.query(personalAppointmentsSchemaSql);
+      stage = 'private access schema';
       const { ensurePrivateAppointmentTables } = await import('./services/privateAppointmentAccess');
       await ensurePrivateAppointmentTables();
+      stage = 'private transfer schema';
       const { archiveTransferSchemaSql } = await import('../shared/privateAppointmentTransfer');
       await pool.query(archiveTransferSchemaSql);
-      await pool.end();
-      console.log('✅ Table user_sessions verified/created successfully');
+      console.log('✅ PostgreSQL startup schemas verified successfully');
       return;
     } catch (error) {
       lastError = error;
-      console.error(`⚠️ Error creating user_sessions table (attempt ${attempt}/${MAX_RETRIES}):`, error);
-      if (attempt < MAX_RETRIES) {
-        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
-        console.log(`⏳ Retrying user_sessions creation in ${delay}ms...`);
-        await new Promise(r => setTimeout(r, delay));
-      }
+      console.error(`[DB] Startup attempt ${attempt}/${MAX_RETRIES} failed at ${stage} (${databaseFailureCode(error)}).`);
+    } finally {
+      // Release failed attempts BEFORE waiting or opening another pool.
+      await pool?.end().catch(() => {});
+    }
+    if (attempt < MAX_RETRIES) {
+      const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
+      console.log(`⏳ Retrying PostgreSQL startup in ${delay}ms...`);
+      await new Promise(r => setTimeout(r, delay));
     }
   }
-  const msg = `❌ FATAL: Could not create user_sessions table after ${MAX_RETRIES} attempts. Login will not work.`;
-  console.error(msg, lastError);
+  const msg = `❌ FATAL: PostgreSQL startup failed after ${MAX_RETRIES} attempts at ${stage} (${databaseFailureCode(lastError)}). Login will not work.`;
+  console.error(msg);
   if (process.env.NODE_ENV === 'production') {
     throw new Error(msg);
   }
@@ -485,6 +512,7 @@ export class DatabaseStorage implements IStorage {
       console.log('🗄️ Using PostgreSQL for sessions (persistent sessions across deploys)');
       const PgStore = connectPg(session);
       const pgPool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
+      watchDatabasePool(pgPool, 'persistent sessions');
       this.sessionStore = new PgStore({
         pool: pgPool,
         tableName: 'user_sessions',
