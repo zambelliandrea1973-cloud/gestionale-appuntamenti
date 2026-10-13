@@ -16,6 +16,7 @@ import './live-appointment-session.test';
 import './live-appointment-server.test';
 import './appointment-operations.test';
 import './calendar-installed-release.test';
+import './startup-dependencies.test';
 import './mobile-month-scroll.test';
 
 test('Italian confirmation dates include weekday, unpadded day, full month and year without mutating ISO dates', () => {
