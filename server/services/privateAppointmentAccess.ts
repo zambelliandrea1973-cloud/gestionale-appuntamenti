@@ -68,7 +68,7 @@ export function privateUser(req: Request) {
   return Number(user.id);
 }
 export async function privateIdentities(userId: number) {
-  const people = await db.execute(sql`SELECT id, first_name, last_name FROM staff WHERE user_id=${userId} ORDER BY id`);
+  const people = await db.execute(sql`SELECT id, first_name, last_name FROM staff WHERE user_id=${userId} AND is_active=true ORDER BY id`);
   // No enrollment or extra password while the studio has a sole operator.
   if (!people.length) {
     await db.execute(sql`INSERT INTO private_appointment_profiles(user_id,identity_id,name)
@@ -114,7 +114,7 @@ export async function getPrivateProfile(req: Request): Promise<PrivateProfile> {
     if (rows.length) {
       const profile = rows[0] as unknown as PrivateProfile;
       if (profile.identity_id !== 0) {
-        const people = await db.execute(sql`SELECT id FROM staff WHERE user_id=${userId} AND id=${profile.identity_id}`);
+        const people = await db.execute(sql`SELECT id FROM staff WHERE user_id=${userId} AND id=${profile.identity_id} AND is_active=true`);
         if (!people.length) throw new PrivateError(403, 'Professionista non più presente nello studio.');
       }
       return profile;

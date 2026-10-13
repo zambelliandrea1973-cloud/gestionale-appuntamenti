@@ -75,6 +75,9 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
   }, [purge]);
   useEffect(() => {
     if (profilesQuery.data && !profilesQuery.data.multi) {
+      setPrompt(false);
+      setPassword('');
+      requestInProgress.current = false;
       if (!tokenReady) {
         // Solo owner has automatic access; the endpoint may issue access without password.
         setProfileId(profilesQuery.data.singleProfileId);
@@ -160,7 +163,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
   const value = useMemo(() => ({ profiles: profilesQuery.data, access: unlocked ? accessQuery.data : undefined, isLoading: profilesQuery.isLoading || accessQuery.isLoading, unlocked, requestAccess, lock, refresh }), [profilesQuery.data, profilesQuery.isLoading, accessQuery.data, accessQuery.isLoading, unlocked, requestAccess, lock, refresh]);
   return <PersonalSpaceContext.Provider value={value}>
     {children}
-    {prompt && <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/45 p-4" role="presentation">
+    {prompt && multi && <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/45 p-4" role="presentation">
       <section role="dialog" aria-modal="true" aria-labelledby="personal-space-title" className="w-full max-w-md rounded-2xl border border-slate-200 bg-[#fbfaf6] p-6 shadow-2xl">
         <div className="mb-4 flex items-start gap-3"><span className="rounded-xl bg-teal-100 p-2 text-teal-800"><LockKeyhole className="h-5 w-5" /></span><div><h2 id="personal-space-title" className="text-lg font-semibold text-slate-900">{configureOnly ? 'Configura lo spazio personale' : 'Spazio personale'}</h2><p className="text-sm text-slate-600">{configureOnly ? `Crea una password facoltativa per ${profileName || 'questo collaboratore'}. Non verrà mostrata né modificata in seguito.` : 'I tuoi impegni restano privati; ai colleghi compare solo “Occupato”.'}</p></div></div>
         <form className="space-y-3" onSubmit={submitAccess}>

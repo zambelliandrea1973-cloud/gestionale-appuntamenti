@@ -39,6 +39,9 @@ export default function PersonalCalendarControls() {
     });
   };
 
+  // Solo operators already have the work/personal switch beside the calendar actions.
+  if (!multi && !personal) return null;
+
   return <section aria-label="Selettore calendario" className="rounded-xl border border-[#dce3d8] bg-[#f6f8f3] p-3 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
     <div className="flex min-w-0 items-center gap-3">
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#e3ebe2] text-[#526c59]">
@@ -49,15 +52,15 @@ export default function PersonalCalendarControls() {
         <p className="truncate text-sm font-semibold text-[#35443b]">
           {personal && space.unlocked ? (multi ? `Personale · ${space.access?.profile.name || 'Profilo sbloccato'}` : 'Personale') : personal ? (multi ? 'Personale · protetto' : 'Personale') : 'Condiviso'}
         </p>
-        <p className="text-xs text-[#718071]">
+        {multi && <p className="text-xs text-[#718071]">
           {personal && space.unlocked ? 'I dettagli sono visibili solo in questa modalità.' : personal && !multi ? 'Calendario personale in caricamento.' : 'Il calendario di lavoro resta condiviso; i privati appaiono come “Occupato”.'}
-        </p>
+        </p>}
       </div>
     </div>
     <div className="mt-3 flex flex-wrap items-center gap-2 sm:mt-0 sm:justify-end">
       <div className="inline-flex rounded-lg border border-[#d7dfd4] bg-white p-1" aria-label="Modalità calendario">
         <Button type="button" size="sm" variant={!personal ? 'default' : 'ghost'} className="h-8" aria-pressed={!personal} onClick={showWork}>
-          <Users className="mr-1.5 h-3.5 w-3.5" />Condiviso
+          <Users className="mr-1.5 h-3.5 w-3.5" />{multi ? 'Condiviso' : 'Lavoro'}
         </Button>
         <Button type="button" size="sm" variant={personal ? 'default' : 'ghost'} className="h-8" aria-pressed={personal} onClick={showPersonal}>
           <CalendarDays className="mr-1.5 h-3.5 w-3.5" />Personale

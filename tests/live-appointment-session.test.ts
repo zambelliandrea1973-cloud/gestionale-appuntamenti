@@ -184,8 +184,10 @@ test('real-time transport greets before capturing, returns tools on the same con
   set('window', { AudioContext: Context, location: { href: 'http://localhost/calendar' }, navigator: {}, matchMedia: () => ({ matches: false }) });
   set('document', { hidden: false, referrer: '', addEventListener() {}, removeEventListener() {} });
   const track = { enabled: true, stop() { stopped++; }, addEventListener() {} };
+  let microphoneGate = Promise.resolve();
   set('navigator', { userAgent: 'unit-test', mediaDevices: { getUserMedia: async () => {
     microphoneRequests++;
+    await microphoneGate;
     return { getTracks: () => [track], getAudioTracks: () => [track] };
   } } });
   set('WebSocket', Socket);
@@ -220,7 +222,11 @@ test('real-time transport greets before capturing, returns tools on the same con
   assert.equal(track.enabled, false, 'No local microphone audio during the greeting');
   assert.equal(socket.sent.filter((message: any) => message.type === 'audio').length, 0, 'No capture of the opening greeting');
   socket.emit({ type: 'audio', data: btoa('\0\0\0\0') });
+  socket.emit({ type: 'audio', data: btoa('\0\0\0\0') });
+  assert.equal(sources.length, 0, 'Greeting waits for every frame before playback');
   socket.emit({ type: 'turnComplete' });
+  assert.equal(sources.length, 1, 'All greeting frames play as one uninterrupted buffer');
+  assert.equal(sources[0].buffer.duration, 4 / 24000);
   assert.equal(listening, false);
   sources[0].onended();
   assert.equal(listening, true);
@@ -261,12 +267,17 @@ test('real-time transport greets before capturing, returns tools on the same con
     await new Promise<void>(resolve => { releaseTicket = resolve; });
     return Response.json({ ticket: 'cached-unit-capability', path: '/api/ai-appointment-assistant/live' });
   };
+  let releaseMicrophone!: () => void;
+  microphoneGate = new Promise<void>(resolve => { releaseMicrophone = resolve; });
   const cachedSession = startLiveAppointmentSession({
     ...cachedOptions, onListening: value => { listening = value; },
     onTranscript() {}, onActive() {}, onError: code => errors.push(code), onTurn: async () => {},
   });
   t.after(() => cachedSession.close());
   await Promise.resolve(); await Promise.resolve();
+  assert.equal(sources.length, 2, 'Never play the cached greeting while mobile microphone activation is pending');
+  releaseMicrophone();
+  for (let i = 0; i < 20 && sources.length < 3; i++) await new Promise(resolve => setTimeout(resolve, 5));
   assert.equal(sources.length, 3, 'Cached PCM was scheduled before HTTP settled');
   assert.equal(sockets.length, 1, 'No second socket until ticket arrives');
   assert.equal(ticketBody.skipGreeting, true);

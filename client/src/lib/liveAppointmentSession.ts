@@ -112,9 +112,8 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     stream?.getAudioTracks().forEach(track => { track.enabled = !muted; });
     listening();
   };
-  const play = (data: string) => {
+  const playSamples = (samples: Float32Array) => {
     if (closed || !context) return;
-    const samples = decodeLivePCM(data);
     const buffer = context.createBuffer(1, samples.length, 24000);
     buffer.copyToChannel(samples, 0);
     const source = context.createBufferSource();
@@ -131,6 +130,15 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     source.start(nextAudioTime);
     nextAudioTime += buffer.duration;
   };
+  const play = (data: string) => playSamples(decodeLivePCM(data));
+  const playGreeting = (frames: string[]) => {
+    if (!frames.length) return;
+    const chunks = frames.map(decodeLivePCM);
+    const samples = new Float32Array(chunks.reduce((size, chunk) => size + chunk.length, 0));
+    let offset = 0;
+    for (const chunk of chunks) { samples.set(chunk, offset); offset += chunk.length; }
+    playSamples(samples);
+  };
   const receive = async (event: MessageEvent) => {
     if (closed) return;
     try {
@@ -146,16 +154,25 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
       if (message.type === 'audio') {
         if (firstGreeting) {
           greetingSize += message.data.length;
-          if (greetingSize <= 1024 * 1024) greetingFrames.push(message.data);
-          else greetingFrames.length = 0;
+          if (greetingSize > 1024 * 1024) throw new Error('Greeting too large');
+          greetingFrames.push(message.data);
+          turnFinished = false;
+          return;
         }
         turnFinished = false; play(message.data);
       }
       if (message.type === 'turnComplete') {
-        if (firstGreeting) { storeLiveGreeting(options, greetingFrames); firstGreeting = false; }
+        if (firstGreeting) {
+          playGreeting(greetingFrames);
+          storeLiveGreeting(options, greetingFrames);
+          firstGreeting = false;
+        }
         turnFinished = true; allowMicAfterAudio();
       }
-      if (message.type === 'interrupted') { stopPlayers(); turnFinished = false; }
+      if (message.type === 'interrupted') {
+        stopPlayers(); turnFinished = false;
+        if (firstGreeting) { greetingFrames.length = 0; greetingSize = 0; }
+      }
       if (message.type === 'cancelTurn') callId = null;
       if (message.type === 'transcript') options.onTranscript(message.text);
       if (message.type === 'turn') {
@@ -205,13 +222,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
       const Context = window.AudioContext || (window as any).webkitAudioContext;
       if (!Context || !navigator.mediaDevices?.getUserMedia) { fail('LIVE_MIC_UNAVAILABLE'); return; }
       try { context = new Context({ sampleRate: 24000 }); } catch { context = new Context(); }
-      const resumed = context!.resume().then(() => {
-        if (preparedGreeting && !closed) {
-          for (const data of preparedGreeting) play(data);
-          turnFinished = true;
-        }
-        return null;
-      }, error => error);
+      const resumed = context!.resume().then(() => null, error => error);
       const mic = navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }, video: false,
       });
@@ -256,6 +267,12 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
       fallback.onaudioprocess = event => handleSamples(event.inputBuffer.getChannelData(0));
       processor = fallback;
       microphone.connect(processor); processor.connect(silentGain); silentGain.connect(context!.destination);
+      // Opening the microphone can reconfigure mobile audio output. Never play
+      // the greeting before the input graph is ready, or its middle can be lost.
+      if (preparedGreeting && !closed) {
+        playGreeting(preparedGreeting);
+        turnFinished = true;
+      }
       listening();
       if (context!.audioWorklet && typeof AudioWorkletNode !== 'undefined') {
         let expired = false;

@@ -32,7 +32,10 @@ const execution = async (statement: any) => {
     const expected = privateHash('a'.repeat(64));
     return validToken && params.includes(expected) && params.includes(privateHash('session-fixture')) ? [staffProfile] : [];
   }
-  if (sql.includes('SELECT id, first_name')) return people;
+  if (sql.includes('SELECT id, first_name')) {
+    assert.match(sql, /is_active=true/, 'Private access must count only the same active collaborators as the staff page');
+    return people.filter(person => person.is_active !== false);
+  }
   if (sql.includes('INSERT INTO private_appointment_profiles')) return [];
   if (sql.includes('AS "identityId"')) return profiles.map(p => ({
     id: p.id, name: p.name, identityId: p.identity_id, passwordConfigured: !!p.password_hash,
@@ -79,7 +82,7 @@ test.after(() => {
 });
 
 test('solo access ignores obsolete profiles and requires no second password', async () => {
-  people = []; profiles = [owner, staffProfile];
+  people = [{ id: 9, first_name: 'Archived', is_active: false }]; profiles = [owner, staffProfile];
   const identities = await privateIdentities(42);
   assert.equal(identities.multi, false);
   assert.equal(identities.singleProfileId, owner.id);
