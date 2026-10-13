@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { personalRequest } from '@/components/personal-space/api';
 import { createAppointmentOperations, type OperationState } from '@/lib/appointmentOperations';
+import { appointmentOperationText } from '@/lib/appointmentOperationMessages';
 
 type Options = {
   kind: 'personal' | 'work'; profileId?: number; enabled: boolean; language: string;
@@ -53,7 +54,7 @@ export function useExistingAppointmentAssistant(options: Options) {
     try { return await callback(); }
     catch (error: any) {
       if (mounted.current && latest.current.enabled) await latest.current.onMessage(
-        error?.message || 'Operazione non riuscita. Nessun successo è stato confermato: controlla l’appuntamento e riprova.');
+        error?.message || appointmentOperationText(latest.current.language, 'failed'));
       return true;
     } finally { if (mounted.current) setBusy(false); }
   };
@@ -63,6 +64,6 @@ export function useExistingAppointmentAssistant(options: Options) {
     choose: (id: number) => run(() => engine.current!.choose(id)),
     confirm: () => run(() => engine.current!.confirm()),
     reset: () => engine.current!.reset(),
-    cancel: () => { engine.current!.reset(); void latest.current.onMessage('Operazione annullata. Nessun appuntamento modificato.'); },
+    cancel: () => { engine.current!.reset(); void latest.current.onMessage(appointmentOperationText(latest.current.language, 'cancelled')); },
   };
 }

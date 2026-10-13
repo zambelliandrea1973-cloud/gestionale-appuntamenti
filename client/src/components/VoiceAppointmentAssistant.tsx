@@ -1656,7 +1656,7 @@ function ProfessionalVoiceAppointmentAssistant({
             <DialogTitle className="flex items-center gap-2 text-white">
               <Sparkles className="h-5 w-5" />
               {existing.state
-                ? existing.state.action === 'delete' ? 'Elimina appuntamento' : 'Sposta appuntamento'
+                ? t(existing.state.action === 'delete' ? 'existingAppointmentOperations.deleteTitle' : 'existingAppointmentOperations.moveTitle')
                 : t('voiceAppointmentAssistant.title')}
               <GripHorizontal className="ml-auto h-4 w-4 opacity-75" aria-hidden="true" />
             </DialogTitle>
