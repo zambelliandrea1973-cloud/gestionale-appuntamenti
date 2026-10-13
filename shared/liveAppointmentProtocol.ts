@@ -5,6 +5,10 @@ export const LIVE_SESSION_MS = 10 * 60_000;
 export const LIVE_SOCKET_PATH = '/api/ai-appointment-assistant/live';
 
 export const liveInterpretationSchema = z.object({
+  action: z.enum(['create', 'delete', 'move']).nullable().optional(),
+  searchTitle: z.string().max(200).nullable().optional(),
+  originalDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
+  originalStartTime: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/).nullable().optional(),
   title: z.string().max(200).nullable().optional(),
   clientName: z.string().max(200).nullable().optional(),
   serviceName: z.string().max(200).nullable().optional(),
@@ -45,6 +49,11 @@ export function liveAppointmentSetup(mode: 'work' | 'personal', language: string
     type: 'STRING', nullable: true,
     description: 'Titolo breve ricavato dall’attività o dal motivo già detto: appuntamento per il dentista → Dentista; andare al cinema → Cinema; ritirare un pacco → Ritiro pacco. Non serve che l’utente detti un titolo formale. Ometti solo se il motivo manca davvero.',
   };
+  properties.action = { type: 'STRING', nullable: true, enum: ['create', 'delete', 'move'],
+    description: 'Operazione richiesta: create nuovo appuntamento, delete eliminazione/disdetta esistente, move spostamento/riprogrammazione esistente. Non trattare elimina/sposta come creazione.' };
+  properties.searchTitle = { type: 'STRING', nullable: true, description: 'Solo nome/titolo/cliente dell’appuntamento da cercare, senza verbi né nuova data. Esempio: mi elimini quello del dentista → Dentista.' };
+  properties.originalDate = { type: 'STRING', nullable: true, description: 'Data dell’appuntamento ESISTENTE da identificare, solo se espressamente indicata. Non confonderla con la nuova data dello spostamento.' };
+  properties.originalStartTime = { type: 'STRING', nullable: true, description: 'Ora ORIGINALE da cercare, solo se indicata. startTime invece è la nuova ora per move.' };
   const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
   return {
     setup: {
@@ -63,6 +72,8 @@ export function liveAppointmentSetup(mode: 'work' | 'personal', language: string
       systemInstruction: { parts: [{ text: `Sei l'assistente vocale del gestionale. Parla in ${language}, con voce femminile naturale, risposte brevi e senza preamboli. Oggi a Roma è ${today}.
 Modalità: ${mode === 'personal' ? 'impegni personali liberi' : 'appuntamenti di lavoro'}.
 Per OGNI richiesta dell'utente, anche una correzione o un sì/no, chiama prima appointment_turn. Estrai SOLO i campi realmente comunicati o corretti nel turno, senza inventare dati e senza copiare campi non modificati. Risolvi date relative e orari. Non prendere decisioni di salvataggio.
+Riconosci anche eliminazione/disdetta e spostamento di appuntamenti esistenti: action=delete o move, searchTitle=nome/titolo/cliente da cercare. Non chiedere quando CREARE un evento se l'utente vuole eliminarlo. Per move, originalDate/originalStartTime identificano il vecchio appuntamento; date/startTime/endTime/durationMinutes sono SOLO la destinazione nuova. Se mancano, lascia null: il gestionale cercherà l'esistente e chiederà quale spostare e dove. Non inventare identificativi né scegliere al posto dell'utente. Il gestionale mostra candidati e richiede conferma prima di eliminare o spostare.
+Interpreta l'intenzione anche attraverso sinonimi e parafrasi: "fissa/prenota/segna/metti in agenda" → create; "annulla/disdici/non ci vado più/non serve più/è saltato" → delete; "rimanda/posticipa/anticipa/mettilo un altro giorno/facciamolo più tardi" → move. Se il soggetto o la nuova data/ora sono ambigui, non indovinare: ometti i campi incerti per consentire al gestionale di chiedere chiarimenti.
 Il gestionale ti restituirà il messaggio e i controlli da seguire: pronuncialo fedelmente e attendi l'utente. Se il gestionale segnala errore, comunicalo senza fingere che l'azione sia riuscita.
 Non creare direttamente clienti, servizi o appuntamenti. Non dichiarare mai un salvataggio senza risposta del gestionale.
 ${mode === 'personal' ? 'Per gli impegni personali, ricava SEMPRE title dal motivo o dall’attività menzionata: «Ho bisogno di fare un appuntamento per il dentista per il 22 alle ore 12» → title="Dentista", data del prossimo 22, startTime="12:00". Questo non è inventare: è riassumere il motivo espresso. Non mettere Dentista in serviceName e non chiedere come chiamare l’impegno se il motivo è già noto. Non chiedere clienti, trattamenti, prezzi o durata obbligatoria: giorno e ora iniziale bastano; il gestionale usa 15 minuti se la durata non è indicata.' : 'Nomi clienti, servizi, durate, disponibilità e conferme vengono verificati dal gestionale.'}

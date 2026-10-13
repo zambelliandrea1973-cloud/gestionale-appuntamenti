@@ -18,7 +18,10 @@ import { apiRequest, queryClient } from '@/lib/queryClient';
 import { ApiRequestError } from '@/lib/apiError';
 import { AITrialNotice } from '@/components/AITrialNotice';
 import { AI_TRIAL_ACCESS_KEY, aiTrialMessageKey, useAITrialAccess, type AITrialAccess } from '@/hooks/use-ai-trial-access';
+import { useExistingAppointmentAssistant } from '@/hooks/use-existing-appointment-assistant';
+import ExistingAppointmentOperationCard from './ExistingAppointmentOperationCard';
 import { createAssistantTrialConversation } from '@/lib/assistantTrialConversation';
+import { appointmentLabel, detectAppointmentAction } from '@/lib/appointmentOperations';
 import {
   addMinutesToTime,
   detectAssistantConfirmation,
@@ -556,6 +559,13 @@ function ProfessionalVoiceAppointmentAssistant({
       options.autoListen === false ? undefined : () => startListeningRef.current()
     );
   };
+  const [appointmentMode] = useAppointmentMode();
+  const existing = useExistingAppointmentAssistant({
+    kind: 'work',
+    enabled: open && appointmentMode === 'work',
+    language: i18n.resolvedLanguage || i18n.language,
+    onMessage: async message => { addAssistantMessage(message); },
+  });
 
   useEffect(() => {
     if (!open || messages.length > 0) return;
@@ -914,7 +924,7 @@ function ProfessionalVoiceAppointmentAssistant({
 
   const submitMessage = async (rawMessage?: string) => {
     const userMessage = (rawMessage ?? input).trim();
-    if (!userMessage || isProcessing || isSaving ||
+    if (!userMessage || isProcessing || isSaving || existing.busy ||
         isAIBlocked || aiBlockedRef.current || turnInFlightRef.current) return;
     if (liveSessionRef.current?.ready() && !liveFieldsRef.current) {
       liveSessionRef.current.sendText(userMessage);
@@ -931,6 +941,7 @@ function ProfessionalVoiceAppointmentAssistant({
 
     turnInFlightRef.current = true;
     const generation = dialogGenerationRef.current;
+    const sourceActorId = queryClient.getQueryData<any>(['/api/user-with-license'])?.id;
     setInput('');
     setMessages(previous => [...previous, { role: 'user', content: userMessage }]);
     setIsProcessing(true);
@@ -940,9 +951,46 @@ function ProfessionalVoiceAppointmentAssistant({
         const response = await apiRequest('POST', '/api/ai-appointment-assistant/conversation', {});
         return response.json();
       });
-      if (generation !== dialogGenerationRef.current) return;
+      if (generation !== dialogGenerationRef.current ||
+          sourceActorId !== queryClient.getQueryData<any>(['/api/user-with-license'])?.id) return;
       setConversationActive(true);
       void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
+      if (detectAppointmentAction(userMessage, liveFieldsRef.current) || existing.state) {
+        let operationFields = liveFieldsRef.current;
+        liveFieldsRef.current = null;
+        if (!operationFields) {
+          const response = await apiRequest('POST', '/api/ai-appointment-assistant/interpret', {
+            appointmentKind: 'work',
+            conversationId: trialConversationRef.current.getId(),
+            message: userMessage,
+            draft: existing.state ? {
+              action: existing.state.action,
+              operationPhase: existing.state.phase,
+              candidates: existing.state.candidates.slice(0, 12).map(record => ({
+                title: appointmentLabel(record), date: record.date.slice(0, 10), startTime: record.startTime.slice(0, 5),
+              })),
+              searchTitle: existing.state.selected
+                ? appointmentLabel(existing.state.selected)
+                : existing.state.candidates.length === 1 ? appointmentLabel(existing.state.candidates[0]) : undefined,
+              originalDate: existing.state.selected?.date.slice(0, 10),
+              originalStartTime: existing.state.selected?.startTime.slice(0, 5),
+            } : {},
+            language: i18n.resolvedLanguage || i18n.language
+          });
+          operationFields = await response.json() as LiveInterpretation;
+        }
+        if (generation !== dialogGenerationRef.current ||
+            sourceActorId !== queryClient.getQueryData<any>(['/api/user-with-license'])?.id) return;
+        if (await existing.handle(userMessage, operationFields)) {
+          setDraft({});
+          setPendingQuestion(null);
+          setServicePickerOpen(false);
+          setServicePickerOptions([]);
+          setConflictResourceOptions([]);
+          return;
+        }
+        liveFieldsRef.current = operationFields;
+      }
       const detectedConfirmation = detectAssistantConfirmation(
         userMessage,
         i18n.resolvedLanguage || i18n.language
@@ -954,6 +1002,7 @@ function ProfessionalVoiceAppointmentAssistant({
         draft.startTime
       );
       let interpretation: Interpretation;
+      let usedHttpInterpretation = false;
 
       if (pendingQuestion === 'confirm_conflict') {
         const normalizedAnswer = normalizeAssistantName(userMessage);
@@ -1043,7 +1092,9 @@ function ProfessionalVoiceAppointmentAssistant({
           confirmation: detectedConfirmation
         };
       } else {
+        usedHttpInterpretation = true;
         const response = await apiRequest('POST', '/api/ai-appointment-assistant/interpret', {
+          appointmentKind: 'work',
           conversationId: trialConversationRef.current.getId(),
           message: userMessage,
           draft: {
@@ -1059,7 +1110,19 @@ function ProfessionalVoiceAppointmentAssistant({
         });
         interpretation = await response.json() as Interpretation;
       }
-      if (generation !== dialogGenerationRef.current) return;
+      if (generation !== dialogGenerationRef.current ||
+          sourceActorId !== queryClient.getQueryData<any>(['/api/user-with-license'])?.id) return;
+      if (usedHttpInterpretation) {
+        const operationHandled = await existing.handle(userMessage, interpretation);
+        if (operationHandled) {
+          setDraft({});
+          setPendingQuestion(null);
+          setServicePickerOpen(false);
+          setServicePickerOptions([]);
+          setConflictResourceOptions([]);
+          return;
+        }
+      }
       const confirmation = detectedConfirmation === 'unknown'
         ? interpretation.confirmation
         : detectedConfirmation;
@@ -1459,6 +1522,7 @@ function ProfessionalVoiceAppointmentAssistant({
   };
 
   const resetConversation = () => {
+    existing.reset();
     liveSessionRef.current?.close();
     liveSessionRef.current = null;
     liveCatalogResolveRef.current?.();
@@ -1527,6 +1591,7 @@ function ProfessionalVoiceAppointmentAssistant({
       beginLive();
     }
     if (!nextOpen) {
+      existing.reset();
       liveSessionRef.current?.close();
       liveSessionRef.current = null;
       liveCatalogResolveRef.current?.();
@@ -1590,7 +1655,9 @@ function ProfessionalVoiceAppointmentAssistant({
           >
             <DialogTitle className="flex items-center gap-2 text-white">
               <Sparkles className="h-5 w-5" />
-              {t('voiceAppointmentAssistant.title')}
+              {existing.state
+                ? existing.state.action === 'delete' ? 'Elimina appuntamento' : 'Sposta appuntamento'
+                : t('voiceAppointmentAssistant.title')}
               <GripHorizontal className="ml-auto h-4 w-4 opacity-75" aria-hidden="true" />
             </DialogTitle>
           </DialogHeader>
@@ -1631,12 +1698,14 @@ function ProfessionalVoiceAppointmentAssistant({
                   )}
                 </div>
               ))}
-              {(isProcessing || isSaving || isCatalogLoading) && (
+              {(isProcessing || isSaving || isCatalogLoading || existing.busy) && (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   {isCatalogLoading
                     ? t('voiceAppointmentAssistant.loading')
-                    : isSaving
+                      : existing.busy
+                        ? 'Gestisco l’appuntamento…'
+                        : isSaving
                       ? t('voiceAppointmentAssistant.saving')
                       : t('voiceAppointmentAssistant.processing')}
                 </div>
@@ -1645,7 +1714,9 @@ function ProfessionalVoiceAppointmentAssistant({
             </div>
           </ScrollArea>
 
-          {pendingQuestion === 'confirm_conflict' && conflictResourceOptions.length > 0 && (
+          <ExistingAppointmentOperationCard assistant={existing} language={speechLocale} disabled={isProcessing} />
+
+          {!existing.state && pendingQuestion === 'confirm_conflict' && conflictResourceOptions.length > 0 && (
             <div className="border-t bg-violet-50/70 px-4 py-3">
               <div className="flex flex-wrap gap-2">
                 {conflictResourceOptions.map(resource => (
@@ -1664,7 +1735,7 @@ function ProfessionalVoiceAppointmentAssistant({
             </div>
           )}
 
-          {servicePickerOpen && (
+          {!existing.state && servicePickerOpen && (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/45 p-4 sm:inset-auto sm:bottom-3 sm:right-3 sm:top-[4.5rem] sm:w-64 sm:items-stretch sm:bg-transparent sm:p-0">
               <div
                 role="dialog"
@@ -1733,7 +1804,7 @@ function ProfessionalVoiceAppointmentAssistant({
                 variant="ghost"
                 size="sm"
                 onClick={resetConversation}
-                disabled={isProcessing || isSaving || isCatalogLoading}
+                disabled={isProcessing || isSaving || isCatalogLoading || existing.busy}
                 className="h-7 gap-1 px-2 text-xs"
               >
                 <X className="h-3 w-3" />
@@ -1741,12 +1812,12 @@ function ProfessionalVoiceAppointmentAssistant({
               </Button>
             </div>
 
-            {pendingQuestion === 'confirm_appointment' && (
+            {!existing.state && pendingQuestion === 'confirm_appointment' && (
               <Button
                 type="button"
                 className="mb-2 w-full gap-2 bg-emerald-600 hover:bg-emerald-700"
                 onClick={() => openManualAppointmentForm(draft)}
-                disabled={isProcessing || isSaving || isCatalogLoading}
+                disabled={isProcessing || isSaving || isCatalogLoading || existing.busy}
                 data-testid="button-confirm-ai-appointment"
               >
                 <CalendarPlus className="h-4 w-4" />
@@ -1760,7 +1831,7 @@ function ProfessionalVoiceAppointmentAssistant({
                 variant={isListening ? 'default' : 'outline'}
                 size="icon"
                 onClick={isListening ? stopListening : startListening}
-                disabled={isProcessing || isSaving || isCatalogLoading || isAIBlocked}
+                disabled={isProcessing || isSaving || isCatalogLoading || isAIBlocked || existing.busy}
                 className={isListening
                   ? 'bg-emerald-600 text-white shadow-[0_0_0_4px_rgba(16,185,129,0.2)] hover:bg-emerald-700'
                   : undefined}
@@ -1780,14 +1851,14 @@ function ProfessionalVoiceAppointmentAssistant({
                 placeholder={isListening
                   ? t('voiceAppointmentAssistant.listeningPlaceholder')
                   : t('voiceAppointmentAssistant.inputPlaceholder')}
-                disabled={isProcessing || isSaving || isAIBlocked}
+                disabled={isProcessing || isSaving || isAIBlocked || existing.busy}
                 data-testid="input-voice-appointment-message"
               />
               <Button
                 type="button"
                 size="icon"
                 onClick={() => void submitMessage()}
-                disabled={!input.trim() || isProcessing || isSaving || isCatalogLoading || isAIBlocked}
+                disabled={!input.trim() || isProcessing || isSaving || isCatalogLoading || isAIBlocked || existing.busy}
                 aria-label="Invia messaggio"
               >
                 <Send className="h-4 w-4" />

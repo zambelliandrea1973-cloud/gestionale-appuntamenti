@@ -23,6 +23,9 @@ import { completePersonalAppointmentDraft, personalAppointmentSchema, type Perso
 import { personalRequest } from '@/components/personal-space/api';
 import { usePersonalSpace } from '@/components/personal-space/PersonalSpaceProvider';
 import { personalAppointmentsQueryKey } from '@/hooks/use-personal-appointments';
+import { useExistingAppointmentAssistant } from '@/hooks/use-existing-appointment-assistant';
+import ExistingAppointmentOperationCard from './ExistingAppointmentOperationCard';
+import { appointmentLabel } from '@/lib/appointmentOperations';
 
 type Draft = Partial<PersonalAppointmentInput> & { durationMinutes?: number };
 type Message = { role: 'assistant' | 'user'; content: string };
@@ -30,6 +33,8 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   const { t, i18n } = useTranslation();
   const space = usePersonalSpace();
   const profileId = space.access?.profile.id;
+  const profileIdRef = useRef<number | undefined>(profileId);
+  profileIdRef.current = profileId;
   const previousProfile = useRef<number | undefined>(profileId);
   const [, navigate] = useLocation();
   const [open, setOpen] = useState(false);
@@ -238,6 +243,13 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     setMessages(previous => [...previous, { role: 'assistant', content: text }]);
     await speak(text);
   }
+  const existing = useExistingAppointmentAssistant({
+    kind: 'personal',
+    profileId,
+    enabled: open && space.unlocked,
+    language: locale,
+    onMessage: say,
+  });
   const save = useMutation({
     mutationFn: async (value: PersonalAppointmentInput) => {
       return personalRequest<any>('', { method: 'POST', body: JSON.stringify(value) });
@@ -252,7 +264,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     onError: () => setError(t('personalAppointments.saveError', 'Non riesco a salvare l’impegno. Riprova: i campi sono stati conservati.')),
   });
   async function submit(text: string) {
-    if (!open || !text.trim() || blocked || inFlight.current || save.isPending) return;
+    if (!open || !text.trim() || blocked || existing.busy || inFlight.current || save.isPending) return;
     if (liveSession.current?.ready() && !liveFields.current) {
       liveSession.current.sendText(text);
       setInput('');
@@ -263,20 +275,40 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     stopAudio();
     inFlight.current = true;
     const token = generation.current;
+    const profileAtSubmit = profileId;
     setInput(''); setError(''); setProcessing(true);
     setMessages(previous => [...previous, { role: 'user', content: text.trim() }]);
     try {
       await conversation.current.ensure(async () => (await apiRequest('POST', '/api/ai-appointment-assistant/conversation', {})).json());
-      if (token !== generation.current) return;
+      if (token !== generation.current || profileAtSubmit !== profileIdRef.current) return;
       setConversationActive(true);
       void queryClient.invalidateQueries({ queryKey: AI_TRIAL_ACCESS_KEY });
       let result: any = liveFields.current;
       liveFields.current = null;
       if (!result) {
         const response = await apiRequest('POST', '/api/ai-appointment-assistant/interpret', {
-          appointmentKind: 'personal', conversationId: conversation.current.getId(), message: text.trim(), draft, language: locale,
+          appointmentKind: 'personal', conversationId: conversation.current.getId(), message: text.trim(),
+          draft: existing.state ? {
+            action: existing.state.action,
+            operationPhase: existing.state.phase,
+            candidates: existing.state.candidates.slice(0, 12).map(record => ({
+              title: appointmentLabel(record), date: record.date.slice(0, 10), startTime: record.startTime.slice(0, 5),
+            })),
+            searchTitle: existing.state.selected
+              ? appointmentLabel(existing.state.selected)
+              : existing.state.candidates.length === 1 ? appointmentLabel(existing.state.candidates[0]) : undefined,
+            originalDate: existing.state.selected?.date.slice(0, 10),
+            originalStartTime: existing.state.selected?.startTime.slice(0, 5),
+          } : draft,
+          language: locale,
         });
         result = await response.json();
+      }
+      if (token !== generation.current || profileAtSubmit !== profileIdRef.current) return;
+      const handled = await existing.handle(text.trim(), result);
+      if (handled) {
+        setDraft({});
+        return;
       }
       if (token !== generation.current) return;
       const next: Draft = { ...draft };
@@ -386,6 +418,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     if (save.isPending) return;
     if (value && !space.unlocked) { space.requestAccess(); return; }
     stop(); conversation.current.reset(); inFlight.current = false;
+    existing.reset();
     openRef.current = value;
     setOpen(value); setListening(false); setProcessing(false); setConversationActive(false); setTrialBlocked(false); setError('');
     if (value) {
@@ -406,24 +439,25 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       <AppointmentModeSwitch />
     </div>
     <Dialog open={open} onOpenChange={changeOpen}><DialogContent className="w-[calc(100vw-1.5rem)] max-w-lg max-h-[88vh] overflow-y-auto p-0 gap-0" overlayClassName="bg-black/15">
-      <DialogHeader className="border-b bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 text-white"><DialogTitle className="flex items-center gap-2 text-white"><Sparkles className="h-5 w-5" />{t('personalAppointments.new')}</DialogTitle></DialogHeader>
+       <DialogHeader className="border-b bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-4 text-white"><DialogTitle className="flex items-center gap-2 text-white"><Sparkles className="h-5 w-5" />{existing.state ? (existing.state.action === 'delete' ? 'Elimina appuntamento' : 'Sposta appuntamento') : t('personalAppointments.new')}</DialogTitle></DialogHeader>
       <div className="px-4 pt-3"><AITrialNotice feature="appointments" activeConversation={conversationActive} blocked={trialBlocked} /></div>
       <div className="space-y-3 px-4 py-4 max-h-[45vh] overflow-y-auto">
         {messages.map((message, index) => <p key={index} className={`rounded-xl p-3 text-sm ${message.role === 'user' ? 'ml-8 bg-violet-100' : 'mr-8 border bg-gray-50'}`}>{message.content}</p>)}
-        {processing && <Loader2 aria-label={t('common.loading')} className="h-5 w-5 animate-spin text-violet-600" />}
+         {(processing || existing.busy) && <Loader2 aria-label={t('common.loading')} className="h-5 w-5 animate-spin text-violet-600" />}
         <div ref={chatEnd} />
       </div>
-      {ready.success && <div className="mx-4 mb-3 rounded-xl border p-3 text-sm bg-white">
+      <ExistingAppointmentOperationCard assistant={existing} language={locale} disabled={processing} />
+      {!existing.state && ready.success && <div className="mx-4 mb-3 rounded-xl border p-3 text-sm bg-white">
         <h3 className="font-bold">{ready.data.title}</h3><p className="mt-1">{formatAssistantDate(ready.data.date, locale)} · {ready.data.startTime}–{ready.data.endTime}</p>
         {ready.data.location && <p>{ready.data.location}</p>}{ready.data.notes && <p>{ready.data.notes}</p>}
-        <Button disabled={processing || save.isPending} onClick={() => save.mutate(ready.data)} className="mt-3 bg-violet-600 text-white"><Check className="h-4 w-4 mr-2" />{t('personalAppointments.confirm', 'Conferma impegno')}</Button>
+        <Button disabled={processing || existing.busy || save.isPending} onClick={() => save.mutate(ready.data)} className="mt-3 bg-violet-600 text-white"><Check className="h-4 w-4 mr-2" />{t('personalAppointments.confirm', 'Conferma impegno')}</Button>
       </div>}
       {error && <p role="alert" className="mx-4 mb-3 text-sm text-red-700">{error}</p>}
       <div className="flex gap-2 border-t p-4">
-        <Button aria-label={listening ? t('personalAppointments.stopMic', 'Ferma microfono') : t('personalAppointments.startMic', 'Detta un impegno')} aria-pressed={listening} className={listening ? 'border-emerald-500 bg-emerald-100 text-emerald-800' : undefined} disabled={blocked || processing || save.isPending} onClick={() => { setError(''); listen(); }} variant="outline">{listening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}</Button>
+        <Button aria-label={listening ? t('personalAppointments.stopMic', 'Ferma microfono') : t('personalAppointments.startMic', 'Detta un impegno')} aria-pressed={listening} className={listening ? 'border-emerald-500 bg-emerald-100 text-emerald-800' : undefined} disabled={blocked || processing || existing.busy || save.isPending} onClick={() => { setError(''); listen(); }} variant="outline">{listening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}</Button>
         <form className="flex flex-1 min-w-0 gap-2" onSubmit={event => { event.preventDefault(); void submit(input); }}>
-          <Input aria-label={t('personalAppointments.request', 'Richiesta per l’impegno personale')} value={input} onChange={event => setInput(event.target.value)} disabled={blocked || save.isPending} placeholder={t('personalAppointments.voicePlaceholder', 'Es. Dentista domani alle 15 per un’ora')} />
-          <Button type="submit" aria-label={t('personalAppointments.send', 'Invia richiesta')} disabled={blocked || processing || save.isPending || !input.trim()} className="bg-violet-600 text-white"><Send className="h-4 w-4" /></Button>
+          <Input aria-label={t('personalAppointments.request', 'Richiesta per l’impegno personale')} value={input} onChange={event => setInput(event.target.value)} disabled={blocked || existing.busy || save.isPending} placeholder={t('personalAppointments.voicePlaceholder', 'Es. Dentista domani alle 15 per un’ora')} />
+          <Button type="submit" aria-label={t('personalAppointments.send', 'Invia richiesta')} disabled={blocked || processing || existing.busy || save.isPending || !input.trim()} className="bg-violet-600 text-white"><Send className="h-4 w-4" /></Button>
         </form>
       </div>
     </DialogContent></Dialog>

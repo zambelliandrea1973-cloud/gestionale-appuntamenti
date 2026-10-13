@@ -66,6 +66,8 @@ test('Personal explicit approval keeps the actual submit callback pending until 
   const errors: string[] = [];
   const env = {
     open: true, blocked: false, inFlight: { current: false },
+    profileId: 3, profileIdRef: { current: 3 },
+    existing: { busy: false, state: null, handle: async () => false },
     liveSession: { current: { ready: () => true } }, liveFields: { current: {} },
     pendingAutoListen: { current: false }, cancelRecognition() {}, stopAudio() {},
     generation: { current: 1 }, setInput() {}, setError(text: string) { if (text) errors.push(text); },

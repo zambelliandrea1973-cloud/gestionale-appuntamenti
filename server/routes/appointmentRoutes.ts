@@ -485,7 +485,7 @@ router.get("/api/appointments/:id", async (req, res) => {
       // 🔄 USE POSTGRESQL: Retrieve appointment from the shared database
       const appointment = await storage.getAppointment(appointmentId);
       
-      if (!appointment) {
+      if (!appointment || appointment.userId !== user.id) {
         console.log(`❌ [GET] Appointment ${appointmentId} not found`);
         return res.status(404).json({ message: "Appointment not found" });
       }
@@ -521,7 +521,7 @@ router.put("/api/appointments/:id", async (req, res) => {
         startTime: req.body.startTime,
         endTime: req.body.endTime,
         notes: req.body.notes || "",
-        reminderType: req.body.reminderType || "whatsapp,email",
+        reminderType: req.body.reminderType === undefined ? "whatsapp,email" : req.body.reminderType,
         status: req.body.status || "scheduled"
       };
       const existing = await storage.getAppointment(appointmentId);

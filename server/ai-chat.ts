@@ -354,6 +354,10 @@ export async function searchOnlineInfo(query: string): Promise<string> {
 }
 
 export interface AppointmentAssistantDraft {
+  action?: 'create' | 'delete' | 'move' | null;
+  searchTitle?: string | null;
+  originalDate?: string | null;
+  originalStartTime?: string | null;
   title?: string | null;
   location?: string | null;
   endTime?: string | null;
@@ -411,6 +415,7 @@ Estrai titolo libero, data (anche relativa), ora di inizio, ora di fine o durata
 luogo e note facoltativi. Una visita medica, commissione o incontro è un titolo,
 non un nome cliente. Non inventare date, titoli o orari mancanti.
 Restituisci SOLO JSON: {"title":string|null,"date":"YYYY-MM-DD"|null,
+ "action":"create"|"delete"|"move","searchTitle":string|null,"originalDate":"YYYY-MM-DD"|null,"originalStartTime":"HH:mm"|null,
 "startTime":"HH:mm"|null,"endTime":"HH:mm"|null,"durationMinutes":number|null,
 "location":string|null,"notes":string|null,"confirmation":"yes"|"no"|"unknown"}.
 Bozza: ${JSON.stringify(currentDraft)}
@@ -450,7 +455,13 @@ Vale no se esprime un rifiuto o una richiesta di cambiare scelta (per esempio "n
 Usa unknown solo quando non è possibile capire l'intenzione.
 Se il professionista comunica informazioni ulteriori da salvare nell'appuntamento, inseriscile in notes.`;
 
-    const result = await model.generateContent(prompt);
+    const operationInstructions = `
+Riconosci PRIMA l'INTENZIONE semantica, non soltanto parole chiave: action=create per fissare/prenotare/aggiungere/segnare/mettere in agenda un nuovo appuntamento; delete per eliminare/cancellare/disdire/annullare/rimuovere un ESISTENTE, anche "non ci vado più", "non serve più", "è saltato"; move per spostare/riprogrammare/rimandare/posticipare/anticipare/cambiare giorno o ora, anche "mettilo un altro giorno", "facciamolo più tardi". Comprendi sinonimi, parafrasi e concetti equivalenti nella lingua dell'utente. Aggiungi action, searchTitle, originalDate, originalStartTime al JSON anche in modalità lavoro.
+Se non è chiaro quale appuntamento o quale destinazione l'utente intende, lascia null i campi incerti: il gestionale chiederà chiarimenti, senza indovinare soggetti/date/orari.
+Se operationPhase=choose, il gestionale sta chiedendo QUALE appuntamento fra candidates: le date/ore della risposta identificano l'ESISTENTE (originalDate/originalStartTime), non la nuova destinazione, salvo richiesta esplicita di cambiarla. Se operationPhase=details, chiede la NUOVA destinazione. Usa il contesto, senza inventare identificativi.
+Per delete/move, searchTitle contiene solo titolo o nome cliente dell'appuntamento da cercare (es. "Mi elimini quello del dentista" → action=delete, searchTitle="Dentista"), senza la nuova data. Non inventare ID né conferme, non interpretare l'eliminazione come creazione.
+Per move, date/startTime/endTime/durationMinutes sono SOLO la NUOVA destinazione, originalDate/originalStartTime l'eventuale VECCHIA data/ora esplicitamente indicate. Se mancano dati lasciali null; non copiare la bozza di creazione. Per delete, eventuali date/orari si riferiscono all'esistente. Comprendi anche le risposte successive alla scelta/nuova destinazione.`;
+    const result = await model.generateContent(prompt + operationInstructions);
     const text = result.response.text() || '';
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
@@ -461,6 +472,10 @@ Se il professionista comunica informazioni ulteriori da salvare nell'appuntament
     const duration = Number(parsed.durationMinutes);
     const servicePrice = Number(parsed.servicePrice);
     return {
+      action: ['create', 'delete', 'move'].includes(parsed.action) ? parsed.action : 'create',
+      searchTitle: typeof parsed.searchTitle === 'string' ? parsed.searchTitle.trim().slice(0, 200) : null,
+      originalDate: typeof parsed.originalDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.originalDate) ? parsed.originalDate : null,
+      originalStartTime: typeof parsed.originalStartTime === 'string' && /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(parsed.originalStartTime) ? parsed.originalStartTime : null,
       ...(mode === 'personal' ? {
         title: typeof parsed.title === 'string' ? parsed.title.trim().slice(0, 200) : null,
         location: typeof parsed.location === 'string' ? parsed.location.trim().slice(0, 500) : null,
