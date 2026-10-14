@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import ts from 'typescript';
 import { completePersonalAppointmentDraft, personalAppointmentSchema } from '../shared/personalAppointments';
 import { detectAssistantConfirmation } from '../client/src/lib/appointmentAssistant';
-import { encodeLivePCM, decodeLivePCM, startLiveAppointmentSession } from '../client/src/lib/liveAppointmentSession';
+import { encodeLivePCM, decodeLivePCM, normalizeLiveSpeech, startLiveAppointmentSession } from '../client/src/lib/liveAppointmentSession';
 import { getPreparedLiveGreeting, prepareLiveGreeting, storeLiveGreeting } from '../client/src/lib/liveAppointmentGreeting';
 import { liveAppointmentSetup, liveInterpretationSchema, recoverPersonalTitle } from '../shared/liveAppointmentProtocol';
 
@@ -47,6 +47,17 @@ test('PCM captures normalize sample rate and decode 24kHz provider frames withou
   assert.ok(output[1] > 0.99);
   assert.equal(output[2], 0);
   assert.throws(() => decodeLivePCM(btoa('x')));
+});
+
+test('whole-turn speech normalization boosts quiet speech and bounds loud peaks without touching silence', () => {
+  const quiet = new Float32Array([0.01, -0.01, 0.005, -0.005]);
+  const normalized = normalizeLiveSpeech(quiet);
+  assert.ok(normalized[0] > 0.1);
+  assert.equal(normalized[0], -normalized[1]);
+  assert.ok(normalized.every(value => Math.abs(value) <= 0.220001));
+  assert.ok(normalizeLiveSpeech(new Float32Array([1, -1])).every(value => Math.abs(value) <= 0.220001));
+  assert.deepEqual(normalizeLiveSpeech(new Float32Array(10)), new Float32Array(10));
+  assert.equal(quiet[0], Math.fround(0.01), 'Cached original samples are not mutated');
 });
 
 test('Personal explicit approval keeps the actual submit callback pending until the save finishes', async () => {
@@ -245,7 +256,7 @@ test('real-time transport greets before capturing, returns tools on the same con
   assert.equal(sources.length, 0, 'Greeting waits for every frame before playback');
   socket.emit({ type: 'turnComplete' });
   assert.equal(sources.length, 1, 'All greeting frames play as one uninterrupted buffer');
-  assert.equal(sources[0].buffer.duration, 4 / 24000);
+  assert.equal(sources[0].buffer.duration, (7200 + 4) / 24000);
   assert.equal(listening, false);
   const greetingProcessor = micNode;
   resolveWorklet();
@@ -271,6 +282,18 @@ test('real-time transport greets before capturing, returns tools on the same con
   assert.equal(socket.sent.length, count);
   session.setMuted(false);
   socket.emit({ type: 'audio', data: btoa('\0\0') });
+  assert.equal(listening, false, 'Reply audio closes the microphone gate again');
+  const sentBeforeReplyCapture = socket.sent.filter((message: any) => message.type === 'audio').length;
+  capture();
+  assert.equal(socket.sent.filter((message: any) => message.type === 'audio').length, sentBeforeReplyCapture,
+    'Assistant playback cannot feed its own voice back as a new interruption');
+  socket.emit({ type: 'audio', data: btoa('\0\0') });
+  assert.equal(sources.length, 1, 'The complete reply is buffered, not played as disjoint network chunks');
+  socket.emit({ type: 'turnComplete' });
+  assert.equal(sources.length, 2);
+  assert.equal(sources[1].buffer.duration, (7200 + 2) / 24000);
+  socket.emit({ type: 'interrupted' });
+  assert.equal(typeof sources[1].onended, 'function', 'A delayed provider interruption does not clip the buffered reply');
   const lateEnd = sources[1].onended;
   socket.emit({ type: 'turn', id: 'confirmed', text: 'sì', interpretation: {} });
   await Promise.resolve();

@@ -48,12 +48,24 @@ export function decodeLivePCM(data: string) {
   return samples;
 }
 
+/** Normalize a complete spoken turn, not individual chunks (which causes pumping). */
+export function normalizeLiveSpeech(samples: Float32Array) {
+  let peak = 0, energy = 0;
+  for (const sample of samples) { peak = Math.max(peak, Math.abs(sample)); energy += sample * sample; }
+  if (!samples.length || peak < 0.0001) return samples;
+  const rms = Math.sqrt(energy / samples.length);
+  const gain = Math.min(16, 0.12 / rms, 0.22 / peak);
+  return Float32Array.from(samples, sample => sample * gain);
+}
+
 /** Browser-standard microphone + PCM playback. Never uses SpeechRecognition/speechSynthesis. */
 export function startLiveAppointmentSession(options: Options): LiveAppointmentSession {
   let closed = false, connected = false, muted = false, micAllowed = false;
   let voiceActivated = false, turnFinished = false;
   const preparedGreeting = getPreparedLiveGreeting(options);
   const greetingFrames: string[] = [];
+  const responseFrames: string[] = [];
+  let responseSize = 0;
   let greetingSize = 0;
   let firstGreeting = !preparedGreeting;
   const pendingAudio: string[] = [];
@@ -81,6 +93,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     return true;
   };
   const stopPlayers = () => {
+    responseFrames.length = 0; responseSize = 0;
     audioEpoch++;
     for (const player of Array.from(players)) { player.onended = null; try { player.stop(); } catch { /* Already ended. */ } }
     players.clear();
@@ -117,8 +130,11 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
   };
   const playSamples = (samples: Float32Array) => {
     if (closed || !context) return;
-    const buffer = context.createBuffer(1, samples.length, 24000);
-    buffer.copyToChannel(samples, 0);
+    // Let the mobile output route wake up before the first spoken sample.
+    const padding = 7200;
+    const buffer = context.createBuffer(1, samples.length + padding, 24000);
+    buffer.copyToChannel(normalizeLiveSpeech(samples), 0, padding);
+    if (context.state !== 'running') void context.resume().catch(() => fail('LIVE_AUDIO_UNAVAILABLE'));
     const source = context.createBufferSource();
     source.buffer = buffer;
     source.connect(playbackGain!);
@@ -133,7 +149,6 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     source.start(nextAudioTime);
     nextAudioTime += buffer.duration;
   };
-  const play = (data: string) => playSamples(decodeLivePCM(data));
   const playGreeting = (frames: string[]) => {
     if (!frames.length) return;
     const chunks = frames.map(decodeLivePCM);
@@ -155,6 +170,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
       }
       if (message.type === 'active') options.onActive(message.conversationId);
       if (message.type === 'audio') {
+        micAllowed = false; listening();
         if (firstGreeting) {
           greetingSize += message.data.length;
           if (greetingSize > 1024 * 1024) throw new Error('Greeting too large');
@@ -162,17 +178,26 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
           turnFinished = false;
           return;
         }
-        turnFinished = false; play(message.data);
+        turnFinished = false;
+        responseSize += message.data.length;
+        if (responseSize > 12 * 1024 * 1024) throw new Error('Speech too large');
+        responseFrames.push(message.data);
       }
       if (message.type === 'turnComplete') {
         if (firstGreeting) {
           playGreeting(greetingFrames);
           storeLiveGreeting(options, greetingFrames);
           firstGreeting = false;
+        } else {
+          playGreeting(responseFrames);
+          responseFrames.length = 0; responseSize = 0;
         }
         turnFinished = true; allowMicAfterAudio();
       }
       if (message.type === 'interrupted') {
+        // An already-buffered reply is complete. A late provider interruption
+        // cannot clip it; explicit user text already stops playback in sendText.
+        if (players.size && !micAllowed) return;
         stopPlayers(); turnFinished = false;
         if (firstGreeting) { greetingFrames.length = 0; greetingSize = 0; }
       }
@@ -197,12 +222,14 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     ready: () => connected && !closed,
     active: () => !closed,
     respond: text => {
+      micAllowed = false; turnFinished = false; listening();
       if (callId) { send({ type: 'reply', id: callId, text }); callId = null; }
       else send({ type: 'say', text });
     },
     sendText: text => {
       if (!connected || closed || !text.trim()) return;
       stopPlayers();
+      micAllowed = false; turnFinished = false; listening();
       voiceActivated = true;
       send({ type: 'text', text: text.trim() });
     },
