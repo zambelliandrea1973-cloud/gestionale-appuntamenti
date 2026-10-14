@@ -25,7 +25,9 @@ export async function preparePersonalGoogle(profile: PrivateProfile, _multi: boo
       !profile.google_link_disabled && !profile.google_email) {
     const owner = await db.execute(sql`SELECT google_auth_token,google_calendar_email FROM users
       WHERE id=${profile.user_id} AND google_calendar_enabled=true AND google_needs_reauth=false`);
-    if (owner[0]?.google_auth_token && owner[0]?.google_calendar_email) {
+    // Older valid connections may not have cached the Google email.
+    // Authentication depends on the credential, not this optional display field.
+    if (owner[0]?.google_auth_token) {
       // The existing credential is already encrypted. Never expose it to the client.
       const rows = await db.execute(sql`UPDATE private_appointment_profiles
         SET google_token=${owner[0].google_auth_token}, google_email=${owner[0].google_calendar_email}

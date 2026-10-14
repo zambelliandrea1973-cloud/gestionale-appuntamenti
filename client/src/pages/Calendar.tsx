@@ -20,6 +20,8 @@ import { usePersonalCalendarAppointments, PERSONAL_APPOINTMENT_SAVED_EVENT, PERS
 import AppointmentModal from "@/components/AppointmentModal";
 import { SyncGoogleButton } from "@/components/SyncGoogleButton";
 import PersonalCalendarControls from "@/components/personal-space/PersonalCalendarControls";
+import { useGoogleAccountColors, GOOGLE_IMPORTED_BG_SOLID } from "@/hooks/use-google-account-colors";
+import { PERSONAL_APPOINTMENT_BACKGROUND, PERSONAL_APPOINTMENT_COLOR } from "../../../shared/personalAppointments";
 import {
   VOICE_APPOINTMENT_DRAFT_EVENT,
   VOICE_APPOINTMENT_DRAFT_STORAGE_KEY,
@@ -33,6 +35,11 @@ const STAFF_PALETTE = ['#4a7c59','#3b82f6','#ef4444','#f59e0b','#10b981','#8b5cf
 const getStaffColor = (id: number) => STAFF_PALETTE[Math.abs(id) % STAFF_PALETTE.length];
 
 export default function Calendar() {
+  const { accounts: googleAccounts, colorForSourceEmail } = useGoogleAccountColors();
+  const googleLegendColors = [...new Set([
+    colorForSourceEmail(),
+    ...(googleAccounts?.secondary || []).filter(account => account.enabled).map(account => account.color),
+  ])];
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -378,8 +385,8 @@ export default function Calendar() {
       {personalLoadError && <Alert variant="destructive"><AlertDescription>{t('personalAppointments.loadError', 'Non riesco a caricare gli impegni personali. Riprova.')}</AlertDescription></Alert>}
       <PersonalCalendarControls />
       <div className="mb-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-gray-500" aria-label={t('personalAppointments.legend', 'Legenda degli impegni')}>
-        <span className="inline-flex items-center gap-1.5"><i className="h-2.5 w-3 rounded-sm bg-[#cbd1d5] border-l-[3px] border-[#64717a]" />{t('personalAppointments.personalEvents', 'Impegni personali')}</span>
-        <span className="inline-flex items-center gap-1.5"><i className="h-2.5 w-3 rounded-sm bg-[#f1f5f9] border-l-[3px] border-blue-500" />{t('personalAppointments.googleEvents', 'Importati da Google')}</span>
+        <span className="inline-flex items-center gap-1.5"><i className="h-2.5 w-3 rounded-sm border-l-[3px]" style={{ backgroundColor: PERSONAL_APPOINTMENT_BACKGROUND, borderColor: PERSONAL_APPOINTMENT_COLOR }} />{t('personalAppointments.personalEvents', 'Impegni personali')}</span>
+        <span className="inline-flex items-center gap-1.5">{googleLegendColors.map(color => <i key={color} className="h-2.5 w-3 rounded-sm border-l-[3px]" style={{ backgroundColor: GOOGLE_IMPORTED_BG_SOLID, borderColor: color }} />)}{t('personalAppointments.googleEvents', 'Importati da Google')}</span>
         <span className="ml-auto font-mono text-[11px] font-semibold tracking-wide text-slate-600" aria-label={`Calendar release ${CALENDAR_RELEASE}`}>{CALENDAR_RELEASE}</span>
       </div>
       {(googleNeedsReauth || googleNotConnected) && (

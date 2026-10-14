@@ -80,6 +80,31 @@ test.after(() => {
   (db as any).execute = originalExecute; (db as any).transaction = originalTransaction;
   (google as any).calendar = originalCalendar; (EncryptionService as any).decryptToken = originalDecrypt;
 });
+test('owner inherits a valid main credential even without a cached Google email', async () => {
+  const profile = { ...owner, google_token: null, google_email: null };
+  let inherited = false;
+  (db as any).execute = async (statement: any) => {
+    const { sql, params } = dialect.sqlToQuery(statement);
+    if (sql.includes('FROM users')) {
+      assert.match(sql, /google_calendar_enabled=true AND google_needs_reauth=false/);
+      return [{ google_auth_token: 'encrypted-fixture', google_calendar_email: null }];
+    }
+    assert.match(sql, /google_link_disabled=false AND google_email IS NULL/);
+    assert.ok(params.includes('encrypted-fixture'));
+    inherited = true;
+    return [{ ...profile, google_token: 'encrypted-fixture' }];
+  };
+  try {
+    const result = await preparePersonalGoogle(profile, false);
+    assert.equal(inherited, true);
+    assert.equal(result.google_token, 'encrypted-fixture');
+    inherited = false;
+    await preparePersonalGoogle({ ...profile, google_link_disabled: true }, false);
+    assert.equal(inherited, false, 'Explicit disconnection must remain respected');
+  } finally {
+    (db as any).execute = execution;
+  }
+});
 
 test('solo access ignores obsolete profiles and requires no second password', async () => {
   people = [{ id: 9, first_name: 'Archived', is_active: false }]; profiles = [owner, staffProfile];
