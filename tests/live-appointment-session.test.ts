@@ -170,13 +170,18 @@ test('real-time transport greets before capturing, returns tools on the same con
     async resume() {}
     async close() {}
     createGain() { return { gain: { value: 0 }, connect() {}, disconnect() {} }; }
+    createDynamicsCompressor() {
+      return { threshold: { value: 0 }, knee: { value: 0 }, ratio: { value: 0 }, attack: { value: 0 }, release: { value: 0 }, connect() {}, disconnect() {} };
+    }
     createMediaStreamSource() { return { connect() {}, disconnect() {} }; }
     createScriptProcessor() { micNode = { onaudioprocess: null, connect() {}, disconnect() {} }; return micNode; }
     // Some browser engines never settle this promise: opening must still work.
     audioWorklet = { addModule: () => loadWorklet() };
     createBuffer(_channels: number, length: number, rate: number) { return { duration: length / rate, copyToChannel() {} }; }
     createBufferSource() {
-      const source = { buffer: null, onended: null as any, connect() {}, disconnect() {}, start() {}, stop() {} };
+      const source = { buffer: null, onended: null as any, connect(node: any) {
+        assert.equal(node.gain.value, 4, 'Speech uses boosted output, not the silent microphone node');
+      }, disconnect() {}, start() {}, stop() {} };
       sources.push(source); return source;
     }
   }

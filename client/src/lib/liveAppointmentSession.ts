@@ -65,6 +65,8 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
   let processor: ScriptProcessorNode | AudioWorkletNode | null = null;
   let microphone: MediaStreamAudioSourceNode | null = null;
   let silentGain: GainNode | null = null;
+  let playbackGain: GainNode | null = null;
+  let playbackLimiter: DynamicsCompressorNode | null = null;
   let nextAudioTime = 0, audioEpoch = 0;
   let loudFrames = 0;
   const preRoll: string[] = [];
@@ -99,6 +101,8 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     }
     microphone?.disconnect();
     silentGain?.disconnect();
+    playbackGain?.disconnect();
+    playbackLimiter?.disconnect();
     stream?.getTracks().forEach(track => track.stop());
     if (socket) { socket.onmessage = socket.onclose = socket.onerror = socket.onopen = null; socket.close(); }
     if (context) void context.close().catch(() => {});
@@ -117,7 +121,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     buffer.copyToChannel(samples, 0);
     const source = context.createBufferSource();
     source.buffer = buffer;
-    source.connect(context.destination);
+    source.connect(playbackGain!);
     nextAudioTime = Math.max(nextAudioTime, context.currentTime + 0.015);
     const epoch = audioEpoch;
     players.add(source);
@@ -224,6 +228,18 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
       // the input encoder resamples to 16kHz; forcing the output device to 24kHz
       // can reconfigure Android's audio route when microphone capture starts.
       try { context = new Context({ latencyHint: 'interactive' }); } catch { context = new Context(); }
+      // Boost only the assistant output (+12dB), never the captured microphone.
+      // A shared compressor controls peaks without changing gains between PCM chunks.
+      playbackGain = context.createGain();
+      playbackGain.gain.value = 4;
+      playbackLimiter = context.createDynamicsCompressor();
+      playbackLimiter.threshold.value = -6;
+      playbackLimiter.knee.value = 0;
+      playbackLimiter.ratio.value = 20;
+      playbackLimiter.attack.value = 0.003;
+      playbackLimiter.release.value = 0.15;
+      playbackGain.connect(playbackLimiter);
+      playbackLimiter.connect(context.destination);
       const resumed = context!.resume().then(() => null, error => error);
       // Choose ONE input graph before playback. Never hot-swap processors while
       // the greeting is playing. A broken worklet must not stall opening.
