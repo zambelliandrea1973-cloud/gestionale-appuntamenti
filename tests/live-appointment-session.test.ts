@@ -247,9 +247,10 @@ test('real-time transport greets before capturing, returns tools on the same con
   const socket = sockets[0];
   socket.emit({ type: 'ready' });
   const samples = new Float32Array(4096).fill(0.3);
-  const capture = () => micNode.onaudioprocess({ inputBuffer: { getChannelData: () => samples } });
+  const capture = () => micNode?.onaudioprocess({ inputBuffer: { getChannelData: () => samples } });
   capture();
-  assert.equal(track.enabled, true, 'Input device stays stable; samples are discarded by the software gate');
+  assert.equal(microphoneRequests, 0, 'The hardware microphone must not open before the greeting finishes');
+  assert.equal(micNode, undefined);
   assert.equal(socket.sent.filter((message: any) => message.type === 'audio').length, 0, 'No capture of the opening greeting');
   socket.emit({ type: 'audio', data: btoa('\0\0\0\0') });
   socket.emit({ type: 'audio', data: btoa('\0\0\0\0') });
@@ -259,6 +260,7 @@ test('real-time transport greets before capturing, returns tools on the same con
   assert.equal(sources[0].buffer.duration, (7200 + 4) / 24000);
   assert.equal(listening, false);
   const greetingProcessor = micNode;
+  await new Promise(resolve => setTimeout(resolve, 520));
   resolveWorklet();
   await Promise.resolve(); await Promise.resolve();
   assert.equal(workletCount, 0, 'Late worklet loading cannot replace the graph during greeting playback');
@@ -266,6 +268,8 @@ test('real-time transport greets before capturing, returns tools on the same con
   capture();
   assert.equal(socket.sent.filter((message: any) => message.type === 'audio').length, 0, 'Live input remains gated throughout playback');
   sources[0].onended();
+  for (let i = 0; i < 20 && !micNode; i++) await new Promise(resolve => setTimeout(resolve, 5));
+  assert.equal(microphoneRequests, 1, 'Capture starts only after the complete greeting ends');
   assert.equal(listening, true);
   assert.equal(track.enabled, true);
   capture(); capture();
@@ -324,15 +328,18 @@ test('real-time transport greets before capturing, returns tools on the same con
     onTranscript() {}, onActive() {}, onError: code => errors.push(code), onTurn: async () => {},
   });
   t.after(() => cachedSession.close());
-  await Promise.resolve(); await Promise.resolve();
-  assert.equal(sources.length, 2, 'Never play the cached greeting while mobile microphone activation is pending');
-  releaseMicrophone();
   for (let i = 0; i < 20 && sources.length < 3; i++) await new Promise(resolve => setTimeout(resolve, 5));
   assert.equal(sources.length, 3, 'Cached PCM was scheduled before HTTP settled');
-  assert.equal(workletCount, 1, 'Ready worklet is connected before cached playback starts');
+  assert.equal(microphoneRequests, 1, 'Cached greeting does not trigger capture or a mobile route switch');
+  assert.equal(workletCount, 0, 'No capture graph during cached greeting playback');
   assert.equal(sockets.length, 1, 'No second socket until ticket arrives');
   assert.equal(ticketBody.skipGreeting, true);
   sources[2].onended();
+  await Promise.resolve(); await Promise.resolve();
+  assert.equal(listening, false, 'Do not claim to listen while microphone permission is pending');
+  releaseMicrophone();
+  for (let i = 0; i < 20 && !listening; i++) await new Promise(resolve => setTimeout(resolve, 5));
+  assert.equal(workletCount, 1);
   assert.equal(listening, true, 'Capture can buffer safely while connecting');
   assert.equal(track.enabled, true);
   capture(); capture();
@@ -362,4 +369,12 @@ test('real-time transport greets before capturing, returns tools on the same con
   assert.equal(microphoneRequests, capturesBefore);
   assert.equal(sources.length, playbacksBefore);
   assert.deepEqual(errors, []);
+
+  const capturesAtClose = microphoneRequests;
+  const closingSession = startLiveAppointmentSession({
+    ...cachedOptions, onListening() {}, onTranscript() {}, onActive() {}, onError() {}, onTurn: async () => {},
+  });
+  closingSession.close();
+  await Promise.resolve(); await Promise.resolve();
+  assert.equal(microphoneRequests, capturesAtClose, 'Closing during the greeting never opens the microphone later');
 });
