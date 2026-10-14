@@ -15,7 +15,7 @@ export default function AppointmentModeSwitch() {
   }, [personal, space.profiles?.multi, space.unlocked, space.requestAccess, setMode]);
   const changeMode = () => {
     if (personal) {
-      void space.lock();
+      if (space.profiles?.multi) void space.lock();
       setMode('work');
       return;
     }

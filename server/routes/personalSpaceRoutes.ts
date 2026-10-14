@@ -5,7 +5,7 @@ import { sql } from 'drizzle-orm';
 import { db } from '../db';
 import {
   PrivateError, privateUser, privateIdentities, getPrivateProfile, createPrivateAccess,
-  hashPrivatePassword, verifyPrivatePassword, privateHash, type PrivateProfile,
+  hashPrivatePassword, verifyPrivatePassword, privateHash, renewPrivateAccess, type PrivateProfile,
 } from '../services/privateAppointmentAccess';
 import { getRedirectUri } from './googleAuthRoutes';
 import { startPrivateGoogleOAuth, privateGoogleClient, ownedPrivateCalendars, reservePrivateCalendar } from '../services/privateAppointmentGoogle';
@@ -74,6 +74,13 @@ router.post('/lock', personalRoute(async (req, res) => {
   if (token) await db.execute(sql`DELETE FROM private_appointment_access
     WHERE token_hash=${privateHash(token)} AND user_id=${userId} AND session_hash=${privateHash(req.sessionID)}`);
   res.json({ locked: true });
+}));
+router.post('/activity', personalRoute(async (req, res) => {
+  const { profileId } = z.object({ profileId: z.number().int().positive() }).strict().parse(req.body);
+  const profile = await getPrivateProfile(req);
+  if (profile.id !== profileId) throw new PrivateError(403, 'Profilo personale non corrispondente.');
+  if (!(await privateIdentities(profile.user_id)).multi) { res.json({ renewed: false }); return; }
+  res.json(await renewPrivateAccess(req, profileId));
 }));
 router.get('/access', personalRoute(async (req, res) => {
   let profile = await getPrivateProfile(req);

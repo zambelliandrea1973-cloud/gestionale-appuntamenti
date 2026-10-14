@@ -183,7 +183,7 @@ export default function AppointmentCardSmall({
       >
         <div className="font-medium truncate text-xs p-1">
           {(appointment as any).isPersonalBusy ? <>
-            <div className="truncate font-semibold leading-tight">{appointment.startTime?.substring(0, 5)} · Occupato</div>
+            <div className="truncate font-semibold leading-tight">{appointment.startTime?.substring(0, 5)} · Occupato · {(appointment as any).staffName || 'Titolare'}</div>
             <div className="text-xs opacity-60 truncate leading-tight">{appointment.endTime?.substring(0, 5)}</div>
           </> : view === "week" ? (
             <>
@@ -226,7 +226,7 @@ export default function AppointmentCardSmall({
             </button>
           </div>
 
-          {(appointment as any).isPersonalBusy ? <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">Impegno personale di un professionista. I dettagli restano privati.</p> : <div className="space-y-1.5 text-sm">
+          {(appointment as any).isPersonalBusy ? <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">Occupato · {(appointment as any).staffName || 'Titolare'}. I dettagli restano privati.</p> : <div className="space-y-1.5 text-sm">
             <div className="flex items-center gap-2">
               <Clock className="h-3.5 w-3.5 text-gray-400 shrink-0" />
               <span className="font-medium">

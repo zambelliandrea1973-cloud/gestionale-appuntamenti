@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { useForm, useWatch } from "react-hook-form";
 import PersonalAppointmentForm from "./PersonalAppointmentForm";
 import { useAppointmentMode } from "@/hooks/use-appointment-mode";
+import { personalBusyConflictsWithStaff, publicPersonalBusyRecord } from "../../../shared/personalAppointments";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -688,13 +689,21 @@ function ProfessionalAppointmentForm({
     try {
       // Recupera tutti gli appuntamenti della stessa data
       const dateStr = formatDateForApi(appointmentData.date);
-      const response = await fetch(`/api/appointments/date/${dateStr}`);
+      const [response, busyResponse] = await Promise.all([
+        fetch(`/api/appointments/date/${dateStr}`, { credentials: 'include' }),
+        fetch(`/api/personal-appointments/busy?start=${dateStr}&end=${dateStr}`, { credentials: 'include' }),
+      ]);
       if (!response.ok) {
         console.error("Failed to load appointments for conflict check");
         return { staffConflicts: [], roomConflicts: [] };
       }
       
-      const dayAppointments = await response.json();
+      if (!busyResponse.ok) throw new Error('Private availability unavailable');
+      const dayAppointments = [
+        ...await response.json(),
+        ...(await busyResponse.json()).filter((row: any) => row.date === dateStr)
+          .map((row: any) => ({ ...publicPersonalBusyRecord(row), id: -row.id })),
+      ];
       
       // Calcola orario fine del nuovo appuntamento
       const selectedService = services.find((s: any) => s.id === appointmentData.serviceId);
@@ -727,11 +736,13 @@ function ProfessionalAppointmentForm({
         
         if (hasOverlap) {
           // Conflitto professionista
-          if (appointmentData.staffId && apt.staffId && appointmentData.staffId === apt.staffId) {
+          if (apt.isPersonalBusy
+            ? personalBusyConflictsWithStaff(appointmentData.staffId, apt.staffId)
+            : appointmentData.staffId && apt.staffId && appointmentData.staffId === apt.staffId) {
             const staff = collaborators.find((c: any) => c.id === apt.staffId);
             staffConflicts.push({
               appointment: apt,
-              staffName: staff ? `${staff.firstName} ${staff.lastName}` : t('appointmentForm.fields.staff'),
+              staffName: apt.isPersonalBusy ? apt.staffName : staff ? `${staff.firstName} ${staff.lastName}` : t('appointmentForm.fields.staff'),
               time: `${(apt.startTime ?? "").substring(0, 5)} - ${(apt.endTime ?? "").substring(0, 5)}`
             });
           }

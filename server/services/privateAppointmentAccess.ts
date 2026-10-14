@@ -99,8 +99,18 @@ export async function createPrivateAccess(req: Request, profile: PrivateProfile)
   const token = randomBytes(32).toString('hex');
   await db.execute(sql`DELETE FROM private_appointment_access WHERE expires_at < now()`);
   await db.execute(sql`INSERT INTO private_appointment_access(token_hash,profile_id,user_id,session_hash,expires_at)
-    VALUES (${privateHash(token)},${profile.id},${profile.user_id},${privateHash(req.sessionID)},now()+interval '30 minutes')`);
+    VALUES (${privateHash(token)},${profile.id},${profile.user_id},${privateHash(req.sessionID)},now()+interval '5 minutes')`);
   return token;
+}
+/** Only the explicit activity endpoint calls this; reads and sync never renew. */
+export async function renewPrivateAccess(req: Request, profileId: number) {
+  const userId = privateUser(req), token = req.get('X-Private-Access');
+  if (!token || !/^[a-f0-9]{64}$/.test(token)) throw new PrivateError(403, 'Area personale bloccata.');
+  const rows = await db.execute(sql`UPDATE private_appointment_access SET expires_at=now()+interval '5 minutes'
+    WHERE token_hash=${privateHash(token)} AND user_id=${userId} AND session_hash=${privateHash(req.sessionID)}
+    AND profile_id=${profileId} AND expires_at>now() RETURNING expires_at AS "expiresAt"`);
+  if (!rows.length) throw new PrivateError(403, 'Sblocca nuovamente l’area personale.');
+  return { renewed: true, expiresAt: (rows[0] as any).expiresAt };
 }
 export async function getPrivateProfile(req: Request): Promise<PrivateProfile> {
   const userId = privateUser(req);

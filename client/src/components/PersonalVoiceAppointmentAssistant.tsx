@@ -26,10 +26,11 @@ import { personalAppointmentsQueryKey } from '@/hooks/use-personal-appointments'
 import { useExistingAppointmentAssistant } from '@/hooks/use-existing-appointment-assistant';
 import ExistingAppointmentOperationCard from './ExistingAppointmentOperationCard';
 import { appointmentLabel } from '@/lib/appointmentOperations';
+import type { PersonalAssistantHandoff } from '@/lib/appointmentCalendarScope';
 
 type Draft = Partial<PersonalAppointmentInput> & { durationMinutes?: number };
 type Message = { role: 'assistant' | 'user'; content: string };
-export default function PersonalVoiceAppointmentAssistant({ professionalEmail }: { professionalEmail?: string }) {
+export default function PersonalVoiceAppointmentAssistant({ professionalEmail, initialRequest, onHandoffFinished }: { professionalEmail?: string; initialRequest?: PersonalAssistantHandoff; onHandoffFinished?: () => void }) {
   const { t, i18n } = useTranslation();
   const space = usePersonalSpace();
   const profileId = space.access?.profile.id;
@@ -73,6 +74,19 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   const greetingText = `${greetingName ? t('voiceAppointmentAssistant.greeting', { name: greetingName }) : t('voiceAppointmentAssistant.greetingFallback')}. ${t('personalAppointments.voiceGreeting', 'Dimmi pure.')}`;
   useEffect(() => { prepareLiveGreeting({ mode: 'personal', language: speechLocale, greeting: greetingText }); }, [speechLocale, greetingText]);
   const ready = personalAppointmentSchema.safeParse({ ...completePersonalAppointmentDraft(draft), location: draft.location || '', notes: draft.notes || '' });
+  const consumedHandoff = useRef<PersonalAssistantHandoff | undefined>();
+  useEffect(() => {
+    if (!initialRequest || consumedHandoff.current === initialRequest || !space.unlocked || profileId == null) return;
+    consumedHandoff.current = initialRequest;
+    // Seed only personal fields, without reinterpreting against an old work
+    // draft, authorizing a write, or automatically opening a microphone.
+    openRef.current = true;
+    setOpen(true);
+    setDraft({ ...initialRequest.fields, durationMinutes: initialRequest.fields.durationMinutes ?? undefined });
+    // The submit flow owns the one follow-up question after interpreting this
+    // request. Emitting a seed question here would duplicate that response.
+    setMessages([{ role: 'user', content: initialRequest.request }]);
+  }, [initialRequest, space.unlocked, profileId]);
   function clearSpeechTimers() {
     speechTimers.current.forEach(timer => window.clearTimeout(timer));
     speechTimers.current = [];
@@ -252,6 +266,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
   });
   const save = useMutation({
     mutationFn: async (value: PersonalAppointmentInput) => {
+      if (!space.unlocked || profileId == null || profileId !== profileIdRef.current) throw new Error('Accesso allo spazio modificato');
       return personalRequest<any>('', { method: 'POST', body: JSON.stringify(value) });
     },
     onSuccess: async saved => {
@@ -260,11 +275,12 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       navigate('/calendar');
       openRef.current = false;
       setOpen(false); stop();
+      if (initialRequest) onHandoffFinished?.();
     },
     onError: () => setError(t('personalAppointments.saveError', 'Non riesco a salvare l’impegno. Riprova: i campi sono stati conservati.')),
   });
-  async function submit(text: string) {
-    if (!open || !text.trim() || blocked || existing.busy || inFlight.current || save.isPending) return;
+  async function submit(text: string, initialHandoff = false) {
+    if (profileId == null || profileId !== profileIdRef.current || !open || !text.trim() || blocked || existing.busy || inFlight.current || save.isPending) return;
     if (liveSession.current?.ready() && !liveFields.current) {
       liveSession.current.sendText(text);
       setInput('');
@@ -277,7 +293,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     const token = generation.current;
     const profileAtSubmit = profileId;
     setInput(''); setError(''); setProcessing(true);
-    setMessages(previous => [...previous, { role: 'user', content: text.trim() }]);
+    if (!initialHandoff) setMessages(previous => [...previous, { role: 'user', content: text.trim() }]);
     try {
       await conversation.current.ensure(async () => (await apiRequest('POST', '/api/ai-appointment-assistant/conversation', {})).json());
       if (token !== generation.current || profileAtSubmit !== profileIdRef.current) return;
@@ -320,7 +336,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       const valid = personalAppointmentSchema.safeParse({ ...completePersonalAppointmentDraft(next), location: next.location || '', notes: next.notes || '' });
       // A confirmation with a correction must show the changed draft first.
       // Never trust an AI-produced "yes" to authorize a database write.
-      if (valid.success && ready.success && detectAssistantConfirmation(text, locale) === 'yes' &&
+      if (!initialHandoff && valid.success && ready.success && detectAssistantConfirmation(text, locale) === 'yes' &&
         Object.keys(ready.data).every(key => ready.data[key as keyof PersonalAppointmentInput] === valid.data[key as keyof PersonalAppointmentInput])) {
         try { await save.mutateAsync(valid.data); }
         catch { await say(t('personalAppointments.saveError', 'Non riesco a salvare l’impegno. Riprova: i campi sono stati conservati.')); }
@@ -348,6 +364,16 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     }
   }
   submitRef.current = submit;
+  const interpretedHandoff = useRef<PersonalAssistantHandoff | undefined>();
+  useEffect(() => {
+    if (!open || !initialRequest || consumedHandoff.current !== initialRequest ||
+        interpretedHandoff.current === initialRequest || !space.unlocked || profileId == null) return;
+    interpretedHandoff.current = initialRequest;
+    // Re-run the original utterance in the personal flow (including move/delete),
+    // with only the seeded personal context. This is never a save confirmation.
+    // No Live session or microphone is started by this effect.
+    void submit(initialRequest.request, true);
+  }, [open, initialRequest, space.unlocked, profileId]);
   function listen() {
     if (liveSession.current?.active()) { liveSession.current.setMuted(listening); return; }
     beginLive();
@@ -421,6 +447,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
     existing.reset();
     openRef.current = value;
     setOpen(value); setListening(false); setProcessing(false); setConversationActive(false); setTrialBlocked(false); setError('');
+    if (!value && initialRequest) onHandoffFinished?.();
     if (value) {
       const greetingName = getAssistantGreetingName(professionalEmail);
       const greeting = greetingName
@@ -450,7 +477,7 @@ export default function PersonalVoiceAppointmentAssistant({ professionalEmail }:
       {!existing.state && ready.success && <div className="mx-4 mb-3 rounded-xl border p-3 text-sm bg-white">
         <h3 className="font-bold">{ready.data.title}</h3><p className="mt-1">{formatAssistantDate(ready.data.date, locale)} · {ready.data.startTime}–{ready.data.endTime}</p>
         {ready.data.location && <p>{ready.data.location}</p>}{ready.data.notes && <p>{ready.data.notes}</p>}
-        <Button disabled={processing || existing.busy || save.isPending} onClick={() => save.mutate(ready.data)} className="mt-3 bg-violet-600 text-white"><Check className="h-4 w-4 mr-2" />{t('personalAppointments.confirm', 'Conferma impegno')}</Button>
+        <Button disabled={!space.unlocked || processing || existing.busy || save.isPending} onClick={() => save.mutate(ready.data)} className="mt-3 bg-violet-600 text-white"><Check className="h-4 w-4 mr-2" />{t('personalAppointments.confirm', 'Conferma impegno')}</Button>
       </div>}
       {error && <p role="alert" className="mx-4 mb-3 text-sm text-red-700">{error}</p>}
       <div className="flex gap-2 border-t p-4">

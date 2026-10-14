@@ -1,5 +1,18 @@
 {
   "personalAppointments": {
+    "idleWarning": "Je persoonlijke ruimte wordt over één minuut vergrendeld wegens inactiviteit. Opgeslagen afspraken blijven bewaard.",
+    "idleLock": "Nu vergrendelen",
+    "idleContinue": "Persoonlijk doorgaan",
+    "handoffOperator": "Van welke medewerker is deze afspraak?",
+    "handoffChooseOperator": "Kies de medewerker",
+    "handoffTitle": "Persoonlijke afspraak?",
+    "handoffUncertain": "Wil je dit verzoek in je persoonlijke agenda voortzetten? Zonder bevestiging wordt niets opgeslagen.",
+    "handoffDescription": "Dit lijkt een persoonlijke afspraak. Ga verder in je eigen ruimte: geen klant, dienst of prijs nodig.",
+    "handoffDestination": "Persoonlijke bestemming: {{name}}",
+    "handoffContinue": "Persoonlijk doorgaan",
+    "handoffUnlock": "Mijn persoonlijke ruimte openen",
+    "handoffWork": "Zakelijk doorgaan",
+    "handoffPrompt": "Gebruik de knop om persoonlijk door te gaan, of annuleer. Er is geen afspraak opgeslagen.",
     "liveNotConfigured": "Gemini Live is niet ingesteld op deze server. De aparte Gemini-sleutel is nodig.",
     "liveUnavailable": "Het spraakgesprek is onderbroken. Controleer Gemini, microfoon en verbinding en start opnieuw. Je kunt verder typen.",
     "mode": "Modus",

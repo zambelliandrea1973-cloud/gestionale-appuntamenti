@@ -1,5 +1,18 @@
 {
   "personalAppointments": {
+    "idleWarning": "Spațiul personal se va bloca într-un minut din cauza inactivității. Programările salvate rămân păstrate.",
+    "idleLock": "Blochează acum",
+    "idleContinue": "Continuă în personal",
+    "handoffOperator": "Cărui profesionist îi aparține acest angajament?",
+    "handoffChooseOperator": "Alege profesionistul",
+    "handoffTitle": "Angajament personal?",
+    "handoffUncertain": "Vrei să continui această cerere în calendarul personal? Nimic nu va fi salvat fără confirmare.",
+    "handoffDescription": "Această cerere pare personală. Continuă în spațiul tău: nu sunt necesare client, serviciu sau preț.",
+    "handoffDestination": "Destinație personală: {{name}}",
+    "handoffContinue": "Continuă în personal",
+    "handoffUnlock": "Deschide spațiul meu personal",
+    "handoffWork": "Continuă în lucru",
+    "handoffPrompt": "Folosește butonul pentru a continua în personal sau anulează. Nu a fost salvată nicio programare.",
     "liveNotConfigured": "Gemini Live nu este configurat pe acest server. Este necesară cheia Gemini dedicată.",
     "liveUnavailable": "Conversația vocală s-a întrerupt. Verifică Gemini, microfonul și conexiunea, apoi repornește. Poți continua în scris.",
     "mode": "Mod",

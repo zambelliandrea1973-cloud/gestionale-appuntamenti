@@ -4,6 +4,7 @@ import { personalRequest } from '@/components/personal-space/api';
 import { usePersonalSpace } from '@/components/personal-space/PersonalSpaceProvider';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { personalAppointmentForCalendar, type PersonalAppointmentRecord } from '../../../shared/personalAppointments';
+import { showPersonalCalendarDetails } from '../../../shared/personalSpaceIdle';
 
 // Keep the personal feed in the appointment query subtree: existing calendar
 // delete/refresh actions then invalidate it as well, without changing work URLs.
@@ -19,7 +20,7 @@ export function notifyPersonalAppointmentSaved(date: string, showDay = false) {
 export function usePersonalCalendarAppointments(workAppointments: any[], startDate?: string, endDate = startDate) {
   const space = usePersonalSpace();
   const [mode] = useAppointmentMode();
-  const showPersonalDetails = mode === 'personal' && space.unlocked;
+  const showPersonalDetails = showPersonalCalendarDetails(mode, space.unlocked, space.profiles?.multi);
   const profileId = space.access?.profile.id;
   const own = useQuery<PersonalAppointmentRecord[]>({
     queryKey: personalAppointmentsQueryKey(profileId),

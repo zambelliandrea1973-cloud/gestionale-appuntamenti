@@ -6,6 +6,7 @@ import { Loader2, ChevronDown, ChevronRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import AppointmentCard from "./AppointmentCard";
+import { usePersonalCalendarAppointments } from "@/hooks/use-personal-appointments";
 import AppointmentModal from "./AppointmentModal";
 import { useTranslation } from "react-i18next";
 
@@ -58,9 +59,10 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
   const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
   
   // Fetch appointments for the selected date
-  const { data: appointments = [], isLoading, refetch } = useQuery<Appointment[]>({
+  const { data: workAppointments = [], isLoading, refetch } = useQuery<Appointment[]>({
     queryKey: [`/api/appointments/date/${formattedDate}`],
   });
+  const { appointments } = usePersonalCalendarAppointments(workAppointments, formattedDate);
   
   // Refresh data when date changes
   useEffect(() => {

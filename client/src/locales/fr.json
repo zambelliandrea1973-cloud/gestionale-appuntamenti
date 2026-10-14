@@ -1,5 +1,18 @@
 {
   "personalAppointments": {
+    "idleWarning": "Ton espace personnel sera verrouillé dans une minute pour inactivité. Les rendez-vous enregistrés restent conservés.",
+    "idleLock": "Verrouiller maintenant",
+    "idleContinue": "Continuer en personnel",
+    "handoffOperator": "À quel professionnel appartient cet engagement ?",
+    "handoffChooseOperator": "Choisir le professionnel",
+    "handoffTitle": "Engagement personnel ?",
+    "handoffUncertain": "Souhaites-tu poursuivre cette demande dans ton calendrier personnel ? Rien ne sera enregistré sans confirmation.",
+    "handoffDescription": "Cette demande semble personnelle. Poursuis dans ton espace : aucun client, service ou prix n’est nécessaire.",
+    "handoffDestination": "Destination personnelle : {{name}}",
+    "handoffContinue": "Continuer en personnel",
+    "handoffUnlock": "Ouvrir mon espace personnel",
+    "handoffWork": "Continuer en professionnel",
+    "handoffPrompt": "Utilise le bouton pour continuer en personnel, ou annule. Aucun rendez-vous n’a été enregistré.",
     "liveNotConfigured": "Gemini Live n’est pas configuré sur ce serveur. La clé Gemini dédiée est nécessaire.",
     "liveUnavailable": "La conversation vocale a été interrompue. Vérifie Gemini, le micro et la connexion, puis relance-la. Tu peux continuer par écrit.",
     "mode": "Type de saisie",

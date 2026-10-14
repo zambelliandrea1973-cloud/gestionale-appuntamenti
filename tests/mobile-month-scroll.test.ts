@@ -5,7 +5,7 @@ import ts from 'typescript';
 import { getISOWeek } from 'date-fns';
 
 // Run the actual component with synthetic DOM/touches, without sign-in or HTTP.
-function mountGrid() {
+function mountGrid(appointments: any[] = []) {
   const effects: Array<() => void> = [];
   const heights: number[] = [];
   const listeners = new Map<string, (event: any) => void>();
@@ -58,7 +58,7 @@ function mountGrid() {
   );
   const tree = exports.default({
     weeks: [[new Date(2026, 9, 31)]], month: new Date(2026, 9, 1), isLoading: false,
-    getAppointments: () => [], getColors: () => null, getEventColor: () => '#000000',
+    getAppointments: () => appointments, getColors: () => null, getEventColor: () => '#000000',
     onDateSelect: (date: Date) => selected.push(date), onNewAppointment() {},
   });
   effects.forEach(callback => callback());
@@ -79,6 +79,16 @@ test('scrolling the page does not inflate the fixed month-grid height on viewpor
   fixture.browser.scrollY = 240;
   fixture.resizes.get('resize')!();
   assert.equal(fixture.heights.at(-1), 592);
+});
+test('mobile private busy cells label the assigned operator without exposing private content', () => {
+  const fixture = mountGrid([
+    { id: -1, isPersonalBusy: true, staffName: 'Operator Ada', startTime: '09:00', title: 'SECRET', notes: 'SECRET', client: { firstName: 'SECRET' } },
+    { id: -2, isPersonalBusy: true, staffName: 'Operator Bruno', startTime: '11:00', title: 'SECRET' },
+  ]);
+  const view = JSON.stringify(fixture.day);
+  assert.match(view, /Occupato · Operator Ada/);
+  assert.match(view, /Occupato · Operator Bruno/);
+  assert.doesNotMatch(view, /SECRET/);
 });
 
 test('single-finger movement stays native while two-finger grid zoom remains active', () => {

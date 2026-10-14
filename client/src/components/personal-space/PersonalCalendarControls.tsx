@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CalendarDays, Check, LockKeyhole, ShieldCheck, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
@@ -11,11 +11,14 @@ export default function PersonalCalendarControls() {
   const [googleOpen, setGoogleOpen] = useState(false);
   const personal = mode === 'personal';
   const multi = space.profiles?.multi === true;
+  const previousPersonal = useRef(personal);
 
   useEffect(() => {
+    const returnedToWork = previousPersonal.current && !personal;
+    previousPersonal.current = personal;
     if (personal && multi && !space.unlocked) {
       space.requestAccess(undefined, { onCancel: () => setMode('work') });
-    } else if (!personal && multi && space.unlocked) {
+    } else if (returnedToWork && multi && space.unlocked) {
       void space.lock();
     }
   }, [personal, multi, space.unlocked, space.requestAccess, space.lock]);
@@ -27,7 +30,7 @@ export default function PersonalCalendarControls() {
     }
   };
   const showWork = () => {
-    if (personal) void space.lock();
+    if (personal && multi) void space.lock();
     setMode('work');
     setGoogleOpen(false);
   };
@@ -39,8 +42,12 @@ export default function PersonalCalendarControls() {
     });
   };
 
-  // Solo operators already have the work/personal switch beside the calendar actions.
-  if (!multi && !personal) return null;
+  // Solo creation mode never filters the combined calendar. Keep Google
+  // reachable as a separate small control, without a shared/personal panel.
+  if (!multi) return space.unlocked ? <div className="flex flex-wrap justify-end gap-2">
+    <Button type="button" size="sm" variant="outline" onClick={() => setGoogleOpen(value => !value)} aria-expanded={googleOpen}>Google personale</Button>
+    {googleOpen && <div className="w-full"><PersonalGoogleSettings /></div>}
+  </div> : null;
 
   return <section aria-label="Selettore calendario" className="rounded-xl border border-[#dce3d8] bg-[#f6f8f3] p-3 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
     <div className="flex min-w-0 items-center gap-3">
@@ -71,6 +78,9 @@ export default function PersonalCalendarControls() {
       </Button>}
       {personal && space.unlocked && multi && <Button type="button" size="sm" variant="outline" onClick={changeProfile}>
         Cambia profilo
+      </Button>}
+      {personal && space.unlocked && multi && <Button type="button" size="sm" variant="outline" onClick={() => { void space.lock(); setMode('work'); }}>
+        <LockKeyhole className="mr-1.5 h-3.5 w-3.5" />Blocca
       </Button>}
       {personal && space.unlocked && <Button type="button" size="sm" variant="outline" onClick={() => setGoogleOpen(value => !value)} aria-expanded={googleOpen}>
         {googleOpen ? 'Nascondi Google' : 'Google personale'}

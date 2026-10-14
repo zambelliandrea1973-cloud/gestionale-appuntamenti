@@ -1,3 +1,4 @@
+import '../client/src/lib/appointmentCalendarScope.test';
 import './private-profile-identity.test';
 import './solo-calendar-controls.test';
 import './production-static-memory.test';

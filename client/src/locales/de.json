@@ -1,5 +1,18 @@
 {
   "personalAppointments": {
+    "idleWarning": "Dein privater Bereich wird wegen Inaktivität in einer Minute gesperrt. Gespeicherte Termine bleiben erhalten.",
+    "idleLock": "Jetzt sperren",
+    "idleContinue": "Privat fortsetzen",
+    "handoffOperator": "Zu welcher Fachkraft gehört dieser Termin?",
+    "handoffChooseOperator": "Fachkraft auswählen",
+    "handoffTitle": "Privater Termin?",
+    "handoffUncertain": "Möchtest du diese Anfrage in deinem privaten Kalender fortsetzen? Ohne Bestätigung wird nichts gespeichert.",
+    "handoffDescription": "Das scheint ein privater Termin zu sein. In deinem Bereich sind weder Kunde noch Leistung oder Preis erforderlich.",
+    "handoffDestination": "Privates Ziel: {{name}}",
+    "handoffContinue": "Privat fortsetzen",
+    "handoffUnlock": "Meinen privaten Bereich öffnen",
+    "handoffWork": "Beruflich fortsetzen",
+    "handoffPrompt": "Mit der Schaltfläche kannst du privat fortsetzen oder abbrechen. Es wurde kein Termin gespeichert.",
     "liveNotConfigured": "Gemini Live ist auf diesem Server nicht eingerichtet. Der separate Gemini-Schlüssel wird benötigt.",
     "liveUnavailable": "Die Sprachunterhaltung wurde unterbrochen. Prüfe Gemini, Mikrofon und Verbindung und starte sie erneut. Du kannst weiterschreiben.",
     "mode": "Modus",

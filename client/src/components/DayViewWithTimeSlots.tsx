@@ -798,7 +798,7 @@ export default function DayViewWithTimeSlots({
                 <div className={`font-semibold text-xs sm:text-sm text-gray-800 flex items-center ${isExpanded ? 'flex-wrap break-words' : 'truncate'}`}>
                   {/* Per eventi importati da Google Calendar, mostra il titolo originale invece del nome cliente generico */}
                   {(() => {
-                    if ((appointment as any).isPersonalBusy) return 'Occupato';
+                    if ((appointment as any).isPersonalBusy) return `Occupato · ${(appointment as any).staffName || 'Titolare'}`;
                     // Se è un evento Google con titolo originale salvato, usa quello
                     if ((appointment as any).googleEventTitle) {
                       return (appointment as any).googleEventTitle;

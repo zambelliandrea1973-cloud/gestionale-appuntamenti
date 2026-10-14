@@ -1,5 +1,18 @@
 {
   "personalAppointments": {
+    "idleWarning": "Your personal space will lock in one minute due to inactivity. Saved appointments will remain safe.",
+    "idleLock": "Lock now",
+    "idleContinue": "Continue in personal",
+    "handoffOperator": "Which operator does this commitment belong to?",
+    "handoffChooseOperator": "Choose the operator",
+    "handoffTitle": "Personal commitment?",
+    "handoffUncertain": "Would you like to continue this request in your personal calendar? Nothing will be saved without confirmation.",
+    "handoffDescription": "This looks like a personal commitment. Continue in your own space: no client, service or price is needed.",
+    "handoffDestination": "Personal destination: {{name}}",
+    "handoffContinue": "Continue in personal",
+    "handoffUnlock": "Open my personal space",
+    "handoffWork": "Continue in work",
+    "handoffPrompt": "Use the button to continue in personal, or cancel. No appointment has been saved.",
     "liveNotConfigured": "Gemini Live is not configured on this server. The dedicated Gemini key is required.",
     "liveUnavailable": "The voice conversation stopped. Check Gemini, microphone and connection, then restart it. You can continue typing.",
     "mode": "Mode",

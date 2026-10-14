@@ -4,7 +4,10 @@ export const LIVE_APPOINTMENT_MODEL = 'gemini-3.8-live';
 export const LIVE_SESSION_MS = 10 * 60_000;
 export const LIVE_SOCKET_PATH = '/api/ai-appointment-assistant/live';
 
+export const calendarScopeInstruction = `Classifica semanticamente OGNI richiesta con calendarScope: work per prenotazioni professionali di clienti/pazienti o servizi dello studio; personal per memo, note, promemoria e commissioni personali anche se chiamati "appuntamento"; uncertain quando la destinazione non è chiara. "Crea un appuntamento per domani per andare in banca" è personal, title="Andare in banca", date=domani, senza cliente, servizio o prezzo. "Prenota un trattamento per la cliente Anna" è work. Un nome, banca o dentista da solo non prova che sia privato: un cliente o un servizio professionale esplicito non può diventare personal. In caso di segnali contrastanti usa uncertain. Non scegliere un profilo privato, non autorizzare accessi o salvataggi. Ricava title dal motivo espresso anche in modalità work quando calendarScope è personal o uncertain.`;
+
 export const liveInterpretationSchema = z.object({
+  calendarScope: z.enum(['work', 'personal', 'uncertain']).nullable().optional(),
   action: z.enum(['create', 'delete', 'move']).nullable().optional(),
   searchTitle: z.string().max(200).nullable().optional(),
   originalDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
@@ -45,9 +48,13 @@ export function liveAppointmentSetup(mode: 'work' | 'personal', language: string
       ? { type: 'NUMBER', nullable: true }
       : { type: 'STRING', nullable: true };
   }
-  if (mode === 'personal') properties.title = {
+  properties.title = {
     type: 'STRING', nullable: true,
-    description: 'Titolo breve ricavato dall’attività o dal motivo già detto: appuntamento per il dentista → Dentista; andare al cinema → Cinema; ritirare un pacco → Ritiro pacco. Non serve che l’utente detti un titolo formale. Ometti solo se il motivo manca davvero.',
+    description: 'In modalità personal, oppure in modalità work se calendarScope è personal o uncertain: titolo breve ricavato dall’attività o dal motivo già detto. Appuntamento per il dentista → Dentista; andare in banca → Andare in banca; andare al cinema → Cinema; ritirare un pacco → Ritiro pacco. Non serve un titolo formale. Ometti solo se il motivo manca davvero. Non trasformare un servizio professionale in un impegno privato.',
+  };
+  properties.calendarScope = {
+    type: 'STRING', nullable: true, enum: ['work', 'personal', 'uncertain'],
+    description: calendarScopeInstruction,
   };
   properties.action = { type: 'STRING', nullable: true, enum: ['create', 'delete', 'move'],
     description: 'Operazione richiesta: create nuovo appuntamento, delete eliminazione/disdetta esistente, move spostamento/riprogrammazione esistente. Non trattare elimina/sposta come creazione.' };
@@ -71,6 +78,7 @@ export function liveAppointmentSetup(mode: 'work' | 'personal', language: string
       },
       systemInstruction: { parts: [{ text: `Sei l'assistente vocale del gestionale. Parla in ${language}, con voce femminile naturale, risposte brevi e senza preamboli. Oggi a Roma è ${today}.
 Modalità: ${mode === 'personal' ? 'impegni personali liberi' : 'appuntamenti di lavoro'}.
+${calendarScopeInstruction}
 Per OGNI richiesta dell'utente, anche una correzione o un sì/no, chiama prima appointment_turn. Estrai SOLO i campi realmente comunicati o corretti nel turno, senza inventare dati e senza copiare campi non modificati. Risolvi date relative e orari. Non prendere decisioni di salvataggio.
 Riconosci anche eliminazione/disdetta e spostamento di appuntamenti esistenti: action=delete o move, searchTitle=nome/titolo/cliente da cercare. Non chiedere quando CREARE un evento se l'utente vuole eliminarlo. Per move, originalDate/originalStartTime identificano il vecchio appuntamento; date/startTime/endTime/durationMinutes sono SOLO la destinazione nuova. Se mancano, lascia null: il gestionale cercherà l'esistente e chiederà quale spostare e dove. Non inventare identificativi né scegliere al posto dell'utente. Il gestionale mostra candidati e richiede conferma prima di eliminare o spostare.
 Interpreta l'intenzione anche attraverso sinonimi e parafrasi: "fissa/prenota/segna/metti in agenda" → create; "annulla/disdici/non ci vado più/non serve più/è saltato" → delete; "rimanda/posticipa/anticipa/mettilo un altro giorno/facciamolo più tardi" → move. Se il soggetto o la nuova data/ora sono ambigui, non indovinare: ometti i campi incerti per consentire al gestionale di chiedere chiarimenti.

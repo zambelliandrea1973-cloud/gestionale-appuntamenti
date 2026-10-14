@@ -3,17 +3,17 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
 
-function render(multi: boolean, mode: string) {
+function render(multi: boolean, mode: string, previous?: { current: boolean }, onLock?: () => void) {
   const jsx = (type: any, props: any) => ({ type, props });
   const deps: Record<string, any> = {
     'react/jsx-runtime': { jsx, jsxs: jsx },
-    react: { useEffect() {}, useState: () => [false, () => {}] },
+    react: { useEffect(fn: () => void) { if (previous) fn(); }, useRef: (value: boolean) => previous || { current: value }, useState: () => [false, () => {}] },
     'lucide-react': {},
     '@/components/ui/button': { Button: 'button' },
     '@/hooks/use-appointment-mode': { useAppointmentMode: () => [mode, () => {}] },
     './PersonalSpaceProvider': { usePersonalSpace: () => ({
       profiles: { multi }, unlocked: true, access: { profile: { name: 'Test' } },
-      requestAccess() {}, lock() {},
+      requestAccess() {}, lock() { onLock?.(); },
     }) },
     './PersonalGoogleSettings': { default: 'google-settings' },
   };
@@ -25,7 +25,9 @@ function render(multi: boolean, mode: string) {
   return exports.default();
 }
 test('solo work calendar has no shared-calendar explanation or duplicate selector', () => {
-  assert.equal(render(false, 'work'), null);
+  const tree = JSON.stringify(render(false, 'work'));
+  assert.match(tree, /Google personale/);
+  assert.doesNotMatch(tree, /Selettore calendario|Modalità calendario|Condiviso|Occupato|Accedi|protetto/);
 });
 test('solo private view retains Google settings without shared-calendar or password copy', () => {
   const tree = JSON.stringify(render(false, 'personal'));
@@ -36,4 +38,15 @@ test('team calendar retains the selector without the permanent sharing explanati
   const tree = JSON.stringify(render(true, 'work'));
   assert.match(tree, /Condiviso/);
   assert.doesNotMatch(tree, /Il calendario di lavoro resta condiviso|Occupato/);
+});
+test('work handoff unlock is retained, but returning from personal to work locks access', () => {
+  const previous = { current: false };
+  let locks = 0;
+  const lock = () => { locks++; };
+  render(true, 'work', previous, lock);
+  render(true, 'work', previous, lock);
+  assert.equal(locks, 0, 'Password success inside Work must not revoke the handoff token');
+  render(true, 'personal', previous, lock);
+  render(true, 'work', previous, lock);
+  assert.equal(locks, 1);
 });

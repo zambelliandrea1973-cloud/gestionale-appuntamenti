@@ -1,5 +1,18 @@
 {
   "personalAppointments": {
+    "idleWarning": "Tra un minuto lo spazio personale si bloccherà per inattività. Gli impegni salvati restano conservati.",
+    "idleLock": "Blocca ora",
+    "idleContinue": "Continua nel personale",
+    "handoffOperator": "A quale professionista appartiene questo impegno?",
+    "handoffChooseOperator": "Scegli il professionista",
+    "handoffTitle": "Impegno personale?",
+    "handoffUncertain": "Vuoi continuare questa richiesta nel tuo calendario personale? Non verrà salvata senza conferma.",
+    "handoffDescription": "Questa richiesta sembra un impegno personale. Continua nel tuo spazio: non servono cliente, servizio o prezzo.",
+    "handoffDestination": "Destinazione personale: {{name}}",
+    "handoffContinue": "Continua nel personale",
+    "handoffUnlock": "Apri il mio spazio personale",
+    "handoffWork": "Continua nel lavoro",
+    "handoffPrompt": "Puoi continuare nel personale con il pulsante, oppure annullare. Nessun appuntamento è stato salvato.",
     "liveNotConfigured": "Gemini Live non è configurato su questo server. È necessaria la chiave Gemini dedicata.",
     "liveUnavailable": "La conversazione vocale si è interrotta. Verifica Gemini, microfono e connessione, poi riattivala. Puoi continuare scrivendo.",
     "mode": "Modalità",

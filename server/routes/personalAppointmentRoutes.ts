@@ -3,7 +3,7 @@ import type {} from 'passport';
 import { and, eq, isNull, or, sql } from 'drizzle-orm';
 import { db } from '../db';
 import { licenses, personalAppointments } from '../../shared/schema';
-import { personalAppointmentSchema } from '../../shared/personalAppointments';
+import { personalAppointmentSchema, publicPersonalBusyRecord } from '../../shared/personalAppointments';
 import { requireAuth } from '../middleware/authMiddleware';
 import { getPrivateProfile, PrivateError, type PrivateProfile } from '../services/privateAppointmentAccess';
 import { queuePersonalGoogle, tryPersonalGoogleSync } from '../services/personalAppointmentGoogle';
@@ -37,16 +37,20 @@ const scope = (p: PrivateProfile) => and(eq(personalAppointments.userId, p.user_
 const validId = (value: string) => /^\d+$/.test(value) && Number.isSafeInteger(Number(value)) && Number(value) > 0;
 const serialize = (record: any, profile: PrivateProfile) => ({
   ...record, startTime: record.startTime.slice(0, 5), endTime: record.endTime.slice(0, 5),
-  staffId: profile.identity_id || null,
+  staffId: profile.identity_id,
 });
 router.get('/api/personal-appointments/busy', personalRoute(async (req, res) => {
   // No private password is needed to block availability, but no private details
   // or Google identities are included in this shared feed.
   const rows = await db.execute(sql`SELECT p.id,p.date,to_char(p.start_time,'HH24:MI') AS "startTime",
-    to_char(p.end_time,'HH24:MI') AS "endTime",NULLIF(COALESCE(pr.identity_id,0),0) AS "staffId"
+    to_char(p.end_time,'HH24:MI') AS "endTime",COALESCE(pr.identity_id,0) AS "staffId",
+    CASE WHEN COALESCE(pr.identity_id,0)=0 THEN 'Titolare'
+      ELSE COALESCE(NULLIF(trim(concat_ws(' ',s.first_name,s.last_name)),''),'Professionista') END AS "staffName"
     FROM personal_appointments p LEFT JOIN private_appointment_profiles pr
-    ON pr.id=p.profile_id AND pr.user_id=p.user_id WHERE p.user_id=${Number((req.user as any).id)}`);
-  res.json(rows.map(row => ({ ...row, title: 'Occupato', location: '', notes: '', isPersonalBusy: true })));
+    ON pr.id=p.profile_id AND pr.user_id=p.user_id
+    LEFT JOIN staff s ON s.id=pr.identity_id AND s.user_id=p.user_id
+    WHERE p.user_id=${Number((req.user as any).id)}`);
+  res.json(rows.map(row => publicPersonalBusyRecord(row as any)));
 }));
 router.get('/api/personal-appointments', personalRoute(async (req, res) => {
   const profile = await getPrivateProfile(req);

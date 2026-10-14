@@ -144,12 +144,12 @@ function EventChip({
           calcPos();
           setOpen((p) => !p);
         }}
-        title={apt.isPersonalBusy ? `${apt.startTime?.substring(0, 5)} · Occupato` : `${apt.startTime?.substring(0, 5)} · ${apt.client?.firstName ?? ""} ${apt.client?.lastName ?? ""}`}
+        title={apt.isPersonalBusy ? `${apt.startTime?.substring(0, 5)} · Occupato · ${apt.staffName || 'Titolare'}` : `${apt.startTime?.substring(0, 5)} · ${apt.client?.firstName ?? ""} ${apt.client?.lastName ?? ""}`}
       >
         <span className="font-semibold">{apt.startTime?.substring(0, 5)}</span>
         {" "}
         <span className="font-medium">
-          {apt.isPersonalBusy ? 'Occupato' : isGoogle
+          {apt.isPersonalBusy ? `Occupato · ${apt.staffName || 'Titolare'}` : isGoogle
             ? (apt.notes?.substring(0, 20) ?? apt.service?.name ?? "Google")
             : `${apt.client?.firstName ?? ""} ${(apt.client?.lastName ?? "").charAt(0)}.`}
         </span>
@@ -187,7 +187,7 @@ function EventChip({
                 {apt.service?.duration ? ` (${apt.service.duration} min)` : ""}
               </span>
             </div>
-            {apt.isPersonalBusy ? <span className="font-semibold">Occupato</span> : !isGoogle && (
+            {apt.isPersonalBusy ? <span className="font-semibold">Occupato · {apt.staffName || 'Titolare'}</span> : !isGoogle && (
               <div className="flex items-center gap-2">
                 <User className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                 <span className="font-semibold truncate">
@@ -342,7 +342,7 @@ export default function MonthView({
   const startDate = fmt(firstDay);
   const endDate = fmt(lastDay);
 
-  const { data: workAppointments = [], isLoading, refetch } = useQuery<any>({
+  const { data: workAppointments = [], error: workLoadError, isLoading, refetch } = useQuery<any>({
     queryKey: [`/api/appointments/range/${startDate}/${endDate}`],
   });
   const { appointments } = usePersonalCalendarAppointments(workAppointments, startDate, endDate);
@@ -384,6 +384,15 @@ export default function MonthView({
   };
 
   const handleRefresh = () => { refetch(); if (onRefresh) onRefresh(); };
+
+  // The month range has its own request: a successful parent query cannot
+  // establish that this month's appointments loaded successfully.
+  if (workLoadError) {
+    return <div role="alert" className="border border-red-300 bg-red-50 p-4 text-red-900">
+      <p>{t('calendar.archiveUnavailable', 'Calendario non disponibile: non è possibile verificare gli appuntamenti. Riprova tra poco.')}</p>
+      <button type="button" className="mt-2 underline" onClick={() => void refetch()}>{t('common.retry', 'Riprova')}</button>
+    </div>;
+  }
 
   const weekdays = [
     t("calendar.weekDays.mon", "Lun"),

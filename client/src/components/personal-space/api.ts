@@ -33,6 +33,7 @@ export const spaceApi = {
   enroll: (data: { identityId: number; name: string; password: string }) => spaceRequest<{ profile: SpaceProfile; token: string }>('/profiles', { method: 'POST', body: JSON.stringify(data) }, false),
   unlock: (data: { profileId: number; password: string }) => spaceRequest<{ profile: SpaceProfile; token: string }>('/unlock', { method: 'POST', body: JSON.stringify(data) }, false),
   lock: () => spaceRequest('/lock', { method: 'POST' }),
+  activity: (profileId: number) => spaceRequest<{ renewed: boolean; expiresAt?: string }>('/activity', { method: 'POST', body: JSON.stringify({ profileId }) }),
   prepareTeam: (password: string) => spaceRequest('/prepare-team', { method: 'POST', body: JSON.stringify({ password }) }, false),
   connect: () => spaceRequest<{ url: string }>('/google/connect', { method: 'POST' }),
   calendars: () => spaceRequest<Array<{ id: string; summary: string }>>('/google/calendars'),

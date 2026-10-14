@@ -3,11 +3,14 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { LockKeyhole, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useAppointmentMode } from '@/hooks/use-appointment-mode';
+import { useTranslation } from 'react-i18next';
+import { createPersonalSpaceIdle } from '../../../../shared/personalSpaceIdle';
 import { spaceApi, setSpaceExpiredHandler, setSpaceToken, getSpaceToken, type SpaceAccess, type SpaceProfiles } from './api';
 
 export const PERSONAL_SPACE_PROFILES_KEY = ['/api/personal-appointments/space/profiles'] as const;
 const ACCESS_KEY = ['/api/personal-appointments/space/access'] as const;
-type AccessOptions = { force?: boolean; configureOnly?: boolean; identityName?: string; forGoogle?: boolean; onCancel?: () => void; onComplete?: () => void };
+type AccessOptions = { force?: boolean; fixedIdentity?: boolean; configureOnly?: boolean; identityName?: string; forGoogle?: boolean; onCancel?: () => void; onComplete?: () => void };
 type SpaceContextValue = { profiles?: SpaceProfiles; access?: SpaceAccess; isLoading: boolean; unlocked: boolean; requestAccess: (identityId?: number, options?: AccessOptions) => void; lock: () => Promise<void>; refresh: () => void };
 const PersonalSpaceContext = createContext<SpaceContextValue | null>(null);
 export const usePersonalSpace = () => {
@@ -18,7 +21,15 @@ export const usePersonalSpace = () => {
 
 export function PersonalSpaceProvider({ children, accountKey }: { children: ReactNode; accountKey?: number | string }) {
   const client = useQueryClient();
+  const { t } = useTranslation();
+  const [, setMode] = useAppointmentMode();
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
   const mounted = useRef(false);
+  const previousAccount = useRef(accountKey);
+  const accountRef = useRef(accountKey);
+  accountRef.current = accountKey;
+  const idleRef = useRef<ReturnType<typeof createPersonalSpaceIdle> | null>(null);
   const [tokenReady, setTokenReady] = useState(false);
   const [prompt, setPrompt] = useState(false);
   const [profileId, setProfileId] = useState<number | undefined>();
@@ -32,10 +43,13 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [forGoogle, setForGoogle] = useState(false);
+  const [fixedIdentity, setFixedIdentity] = useState(false);
+  const [idleWarning, setIdleWarning] = useState(false);
   const profilesQuery = useQuery({ queryKey: [...PERSONAL_SPACE_PROFILES_KEY, accountKey], queryFn: spaceApi.profiles, retry: 1, staleTime: 30_000, refetchInterval: 30_000 });
   const accessQuery = useQuery({ queryKey: [...ACCESS_KEY, accountKey, profileId], queryFn: spaceApi.access, enabled: tokenReady, retry: false, refetchInterval: 30_000 });
   const multi = profilesQuery.data?.multi === true;
-  const unlocked = !!profilesQuery.data && !!accessQuery.data?.profile && tokenReady && (!multi || !!getSpaceToken());
+  const unlocked = !!profilesQuery.data && !!accessQuery.data?.profile && tokenReady &&
+    (multi ? !!getSpaceToken() : accessQuery.data.profile.id === profilesQuery.data.singleProfileId);
 
   const purge = useCallback(() => {
     client.removeQueries({ predicate: query =>
@@ -46,13 +60,18 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
     client.removeQueries({ queryKey: ACCESS_KEY });
   }, [client]);
   useEffect(() => {
-    if (!mounted.current) {
+    if (!mounted.current || previousAccount.current !== accountKey) {
       mounted.current = true;
+      previousAccount.current = accountKey;
       setSpaceToken(null);
       setTokenReady(false);
+      setProfileId(undefined);
+      setPrompt(false);
+      setIdleWarning(false);
       purge();
+      client.removeQueries({ queryKey: ['/api/personal-appointments/busy'] });
     }
-  }, [purge]);
+  }, [purge, accountKey]);
   const lock = useCallback(async () => {
     const pending = tokenReady ? spaceApi.lock() : Promise.resolve();
     setSpaceToken(null); setTokenReady(false); setProfileId(undefined); purge();
@@ -63,15 +82,55 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
   }, [multi, tokenReady, lock]);
   useEffect(() => {
     if (!multi || !tokenReady || !getSpaceToken()) return;
-    const timer = window.setTimeout(() => void lock(), 30 * 60_000);
-    return () => window.clearTimeout(timer);
-  }, [multi, tokenReady, profileId, lock]);
+    const token = getSpaceToken();
+    let disposed = false;
+    const idle = createPersonalSpaceIdle({
+      now: () => Date.now(),
+      warning: setIdleWarning,
+      expire: () => {
+        // Switch FIRST: locked personal mode must not reopen the password form.
+        setModeRef.current('work');
+        setPrompt(false);
+        void lock();
+      },
+      renew: () => {
+        if (profileId == null || disposed || getSpaceToken() !== token) return;
+        void spaceApi.activity(profileId).catch(() => {
+          if (!disposed && getSpaceToken() === token) {
+            setModeRef.current('work');
+            setPrompt(false);
+            void lock();
+          }
+        });
+      },
+    });
+    idleRef.current = idle;
+    const activity = (event: Event) => { if (event.isTrusted && document.visibilityState !== 'hidden') idle.activity(); };
+    const check = () => { idle.check(); };
+    // Polling only CHECKS time; it never renews or records activity.
+    const timer = window.setInterval(check, 1000);
+    for (const event of ['pointerdown', 'keydown', 'touchstart']) window.addEventListener(event, activity, { capture: true, passive: true });
+    document.addEventListener('visibilitychange', check);
+    window.addEventListener('pageshow', check);
+    return () => {
+      disposed = true;
+      window.clearInterval(timer);
+      for (const event of ['pointerdown', 'keydown', 'touchstart']) window.removeEventListener(event, activity, true);
+      document.removeEventListener('visibilitychange', check);
+      window.removeEventListener('pageshow', check);
+      if (idleRef.current === idle) idleRef.current = null;
+      setIdleWarning(false);
+    };
+  }, [multi, tokenReady, profileId, accountKey, lock]);
   useEffect(() => () => {
     setSpaceToken(null);
     purge();
   }, [purge]);
   useEffect(() => {
-    setSpaceExpiredHandler(() => { setTokenReady(false); setProfileId(undefined); purge(); });
+    setSpaceExpiredHandler(() => {
+      setModeRef.current('work'); setPrompt(false); setIdleWarning(false);
+      setTokenReady(false); setProfileId(undefined); purge();
+    });
     return () => setSpaceExpiredHandler(null);
   }, [purge]);
   useEffect(() => {
@@ -111,6 +170,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
     if (unlocked || options.force) await lock();
     setConfigureOnly(options.configureOnly === true);
     setForGoogle(options.forGoogle === true);
+    setFixedIdentity(options.fixedIdentity === true);
     setCancelAction(() => options.onCancel || null);
     setCompleteAction(() => options.onComplete || null);
     setError('');
@@ -136,6 +196,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
   const refresh = useCallback(() => { void profilesQuery.refetch(); void accessQuery.refetch(); }, [profilesQuery.refetch, accessQuery.refetch]);
   async function submitAccess(event: FormEvent) {
     event.preventDefault(); setBusy(true); setError('');
+    const accountAtSubmit = accountKey;
     try {
       const selected = profilesQuery.data?.profiles.find(profile => profile.id === profileId);
       const enrollIdentity = profilesQuery.data?.identities.find(identity => identity.identityId === identityId);
@@ -144,6 +205,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
         ? await spaceApi.enroll({ identityId, name: profileName.trim() || enrollIdentity?.name || 'Profilo personale', password })
         : selected ? await spaceApi.unlock({ profileId: selected.id, password }) : null;
       if (!result) throw new Error('Seleziona il tuo profilo.');
+      if (accountAtSubmit !== accountRef.current) return;
       if (configureOnly) {
         setSpaceToken(result.token);
         try { await spaceApi.lock(); } catch { /* enrollment succeeded; local access is still discarded */ }
@@ -166,12 +228,19 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
   const value = useMemo(() => ({ profiles: profilesQuery.data, access: unlocked ? accessQuery.data : undefined, isLoading: profilesQuery.isLoading || accessQuery.isLoading, unlocked, requestAccess, lock, refresh }), [profilesQuery.data, profilesQuery.isLoading, accessQuery.data, accessQuery.isLoading, unlocked, requestAccess, lock, refresh]);
   return <PersonalSpaceContext.Provider value={value}>
     {children}
+    {multi && unlocked && idleWarning && <section role="alert" className="fixed bottom-24 left-4 right-4 z-[125] mx-auto max-w-md rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950 shadow-lg">
+      <p>{t('personalAppointments.idleWarning', 'Tra un minuto lo spazio personale si bloccherà per inattività. Gli impegni salvati restano conservati.')}</p>
+      <div className="mt-3 flex justify-end gap-2">
+        <Button type="button" variant="outline" onClick={() => { setModeRef.current('work'); void lock(); }}>{t('personalAppointments.idleLock', 'Blocca ora')}</Button>
+        <Button type="button" onClick={() => idleRef.current?.activity(true)}>{t('personalAppointments.idleContinue', 'Continua nel personale')}</Button>
+      </div>
+    </section>}
     {prompt && multi && <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/45 p-4" role="presentation">
       <section role="dialog" aria-modal="true" aria-labelledby="personal-space-title" className="w-full max-w-md rounded-2xl border border-slate-200 bg-[#fbfaf6] p-6 shadow-2xl">
         <div className="mb-4 flex items-start gap-3"><span className="rounded-xl bg-teal-100 p-2 text-teal-800"><LockKeyhole className="h-5 w-5" /></span><div><h2 id="personal-space-title" className="text-lg font-semibold text-slate-900">{configureOnly ? 'Configura lo spazio personale' : 'Spazio personale'}</h2><p className="text-sm text-slate-600">{forGoogle ? 'Per collegare il tuo account Google al calendario privato, crea o usa la password del tuo spazio personale. È la stessa password che userai anche senza Google.' : configureOnly ? `Crea la password personale di ${profileName || 'questo collaboratore'}. Servirà per aprire il suo calendario privato, anche senza Google.` : 'Seleziona il tuo nome registrato nella struttura e usa la tua password personale, anche se non colleghi Google Calendar.'}</p></div></div>
         <form className="space-y-3" onSubmit={submitAccess}>
           <label className="block text-sm font-medium">Profilo
-            <select disabled={configureOnly || forGoogle} className="mt-1 h-10 w-full rounded-md border border-slate-300 bg-white px-3 disabled:opacity-70" value={identityId != null ? `identity:${identityId}` : profileId ?? ''} onChange={event => {
+            <select disabled={configureOnly || forGoogle || fixedIdentity} className="mt-1 h-10 w-full rounded-md border border-slate-300 bg-white px-3 disabled:opacity-70" value={identityId != null ? `identity:${identityId}` : profileId ?? ''} onChange={event => {
               const value = event.target.value;
               if (value.startsWith('identity:')) { const next = Number(value.slice(9)); setIdentityId(next); setProfileId(profilesQuery.data?.identities.find(row => row.identityId === next)?.profileId); setProfileName(profilesQuery.data?.identities.find(row => row.identityId === next)?.name || ''); }
               else { setIdentityId(undefined); setProfileId(Number(value)); }

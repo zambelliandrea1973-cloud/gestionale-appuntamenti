@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
 import { personalAppointmentForCalendar } from '../shared/personalAppointments';
+import { createPersonalSpaceIdle, showPersonalCalendarDetails } from '../shared/personalSpaceIdle';
 
 // Exercise the calendar feed with cached private data, without authentication,
 // database connections, or provider requests.
-function render(mode: 'work' | 'personal', unlocked: boolean, date?: string) {
+function render(mode: 'work' | 'personal', unlocked: boolean, date?: string, multi = true) {
   const queries: any[] = [];
   const privateRecord = {
     id: 71, userId: 42, profileId: 3, title: 'Sensitive personal title',
@@ -24,10 +25,11 @@ function render(mode: 'work' | 'personal', unlocked: boolean, date?: string) {
     } },
     '@/components/personal-space/api': { personalRequest: () => { throw new Error('No HTTP allowed'); } },
     '@/components/personal-space/PersonalSpaceProvider': {
-      usePersonalSpace: () => ({ unlocked, access: { profile: { id: 3 } } }),
+      usePersonalSpace: () => ({ unlocked, profiles: { multi }, access: { profile: { id: 3 } } }),
     },
     '@/hooks/use-appointment-mode': { useAppointmentMode: () => [mode] },
     '../../../shared/personalAppointments': { personalAppointmentForCalendar },
+    '../../../shared/personalSpaceIdle': { showPersonalCalendarDetails },
   };
   const code = ts.transpileModule(readFileSync('client/src/hooks/use-personal-appointments.ts', 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
@@ -47,6 +49,15 @@ test('shared mode never exposes cached private titles, even with a previously un
   assert.ok(result.appointments.includes(result.work), 'shared work stays readable');
   assert.equal(result.appointments.filter((a: any) => a.isPersonalBusy).length, 2);
   assert.doesNotMatch(JSON.stringify(result.appointments), /Sensitive/);
+});
+test('solo owner always sees combined work and own details regardless of creation mode', () => {
+  for (const mode of ['work', 'personal'] as const) {
+    const result = render(mode, true, '2026-10-19', false);
+    assert.equal(result.queries[0].enabled, true);
+    assert.ok(result.appointments.includes(result.work));
+    assert.match(JSON.stringify(result.appointments), /Sensitive personal title/);
+    assert.equal(result.appointments.filter((appointment: any) => appointment.personalAppointmentId === 71).length, 1);
+  }
 });
 
 test('locked personal mode also masks pre-existing cached details', () => {
@@ -95,6 +106,9 @@ function pendingAccessProvider({ multi = true, ready = true } = {}) {
     'lucide-react': { LockKeyhole: () => null, ShieldCheck: () => null },
     '@/components/ui/button': { Button: () => null },
     '@/components/ui/input': { Input: () => null },
+    '@/hooks/use-appointment-mode': { useAppointmentMode: () => ['personal', () => {}] },
+    'react-i18next': { useTranslation: () => ({ t: (_key: string, fallback: string) => fallback }) },
+    '../../../../shared/personalSpaceIdle': { createPersonalSpaceIdle },
     './api': {
       getSpaceToken: () => token, setSpaceToken: (value: string | null) => { token = value; },
       setSpaceExpiredHandler: () => {}, spaceApi: { lock: async () => ({ locked: true }) },

@@ -1,5 +1,18 @@
 {
   "personalAppointments": {
+    "idleWarning": "Ditt personlige område låses om ett minutt på grunn av inaktivitet. Lagrede avtaler beholdes.",
+    "idleLock": "Lås nå",
+    "idleContinue": "Fortsett personlig",
+    "handoffOperator": "Hvilken medarbeider tilhører denne avtalen?",
+    "handoffChooseOperator": "Velg medarbeider",
+    "handoffTitle": "Personlig avtale?",
+    "handoffUncertain": "Vil du fortsette denne forespørselen i din personlige kalender? Ingenting lagres uten bekreftelse.",
+    "handoffDescription": "Dette ser ut som en personlig avtale. Fortsett i ditt eget område: kunde, tjeneste og pris er ikke nødvendig.",
+    "handoffDestination": "Personlig destinasjon: {{name}}",
+    "handoffContinue": "Fortsett personlig",
+    "handoffUnlock": "Åpne mitt personlige område",
+    "handoffWork": "Fortsett i arbeid",
+    "handoffPrompt": "Bruk knappen for å fortsette personlig, eller avbryt. Ingen avtale er lagret.",
     "liveNotConfigured": "Gemini Live er ikke konfigurert på denne serveren. Den dedikerte Gemini-nøkkelen kreves.",
     "liveUnavailable": "Talesamtalen ble avbrutt. Sjekk Gemini, mikrofonen og tilkoblingen, og start på nytt. Du kan fortsette å skrive.",
     "mode": "Modus",

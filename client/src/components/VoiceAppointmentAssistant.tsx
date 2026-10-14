@@ -7,12 +7,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import AppointmentModeSwitch from './AppointmentModeSwitch';
 import PersonalVoiceAppointmentAssistant from './PersonalVoiceAppointmentAssistant';
+import { usePersonalSpace } from './personal-space/PersonalSpaceProvider';
+import { canContinuePersonalHandoff, classifyCalendarScope, personalHandoff, type PersonalAssistantHandoff, type ScopedInterpretation } from '@/lib/appointmentCalendarScope';
+import { personalBusyConflictsWithStaff, publicPersonalBusyRecord } from '../../../shared/personalAppointments';
 import { createAssistantRecognition } from '@/lib/assistantRecognition';
 import { startLiveAppointmentSession, type LiveAppointmentSession } from '@/lib/liveAppointmentSession';
 import { prepareLiveGreeting } from '@/lib/liveAppointmentGreeting';
 import type { LiveInterpretation } from '../../../shared/liveAppointmentProtocol';
 import { getCachedAssistantGreeting, prepareAssistantGreeting, speakOfflineAssistantGreeting } from '@/lib/offlineAssistantGreeting';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
+import { useAuth } from '@/hooks/use-auth';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { ApiRequestError } from '@/lib/apiError';
@@ -69,6 +73,8 @@ interface ConflictResourceOption {
 }
 
 interface Interpretation {
+  calendarScope?: 'work' | 'personal' | 'uncertain' | null;
+  title?: string | null;
   clientName?: string | null;
   date?: string | null;
   startTime?: string | null;
@@ -86,6 +92,8 @@ interface ConversationMessage {
 
 interface VoiceAppointmentAssistantProps {
   professionalEmail?: string;
+  onPersonalRequest?: (request: PersonalAssistantHandoff, uncertain: boolean) => void;
+  initialWorkRequest?: string;
 }
 
 const assistantSpeechLocales: Record<string, string> = {
@@ -184,11 +192,84 @@ function mergeInterpretation(draft: AssistantDraft, interpretation: Interpretati
 
 export default function VoiceAppointmentAssistant(props: VoiceAppointmentAssistantProps) {
   const [mode] = useAppointmentMode();
-  return mode === 'personal' ? <PersonalVoiceAppointmentAssistant professionalEmail={props.professionalEmail} /> : <ProfessionalVoiceAppointmentAssistant {...props} />;
+  const { t } = useTranslation();
+  const { user } = useAuth();
+  const space = usePersonalSpace();
+  const [initialWorkRequest, setInitialWorkRequest] = useState('');
+  const [handoff, setHandoff] = useState<{ request: PersonalAssistantHandoff; uncertain: boolean; identityId?: number; authorized: boolean; profileId?: number; active: boolean } | null>(null);
+  const accessGeneration = useRef(0);
+  const [waitingAccess, setWaitingAccess] = useState(false);
+  const [unlockPending, setUnlockPending] = useState(false);
+  const cancel = () => {
+    accessGeneration.current++;
+    setWaitingAccess(false); setUnlockPending(false); setHandoff(null);
+    if (handoff?.authorized && space.profiles?.multi) void space.lock();
+  };
+  useEffect(() => {
+    if (waitingAccess && space.unlocked && space.access?.profile.id != null) {
+      setWaitingAccess(false);
+      setHandoff(previous => previous && (!space.profiles?.multi || previous.identityId === space.access?.profile.identityId)
+        ? { ...previous, profileId: space.access?.profile.id, authorized: true } : null);
+    }
+    if (handoff?.profileId != null && (!space.unlocked || handoff.profileId !== space.access?.profile.id)) cancel();
+  }, [space.unlocked, space.access?.profile.id, handoff?.profileId, waitingAccess]);
+  useEffect(() => { cancel(); setInitialWorkRequest(''); }, [mode, user?.id]);
+  const ready = Boolean(handoff?.authorized) && canContinuePersonalHandoff(space.unlocked, space.access?.profile.id, handoff?.profileId, {
+    multi: space.profiles?.multi === true, selectedIdentityId: handoff?.identityId,
+    unlockedIdentityId: space.access?.profile.identityId, passwordAuthorized: handoff?.authorized === true,
+  });
+  return <>
+    {mode === 'personal' || handoff?.active
+      ? <PersonalVoiceAppointmentAssistant professionalEmail={props.professionalEmail} initialRequest={handoff?.active ? handoff.request : undefined} onHandoffFinished={cancel} />
+      : <ProfessionalVoiceAppointmentAssistant {...props} initialWorkRequest={initialWorkRequest} onPersonalRequest={(request, uncertain) => {
+        setInitialWorkRequest('');
+        setHandoff({ request, uncertain, authorized: !space.profiles?.multi,
+          profileId: !space.profiles?.multi && space.unlocked ? space.access?.profile.id : undefined, active: false });
+      }} />}
+    <Dialog modal={false} open={Boolean(handoff && !handoff.active)} onOpenChange={value => { if (!value && !unlockPending) cancel(); }}>
+      <DialogContent className="max-w-lg" onInteractOutside={event => { if (unlockPending) event.preventDefault(); }}>
+        <DialogHeader><DialogTitle>{t('personalAppointments.handoffTitle', 'Impegno personale?')}</DialogTitle></DialogHeader>
+        <p className="text-sm">{t(handoff?.uncertain ? 'personalAppointments.handoffUncertain' : 'personalAppointments.handoffDescription',
+          handoff?.uncertain ? 'Vuoi continuare questa richiesta nel tuo calendario personale? Non verrà salvata senza conferma.' : 'Questa richiesta sembra un impegno personale. Continua nel tuo spazio: non servono cliente, servizio o prezzo.')}</p>
+        <p className="rounded-lg border p-3 text-sm">{handoff?.request.request}</p>
+        {space.profiles?.multi && <label className="space-y-1 text-sm font-medium">
+          <span>{t('personalAppointments.handoffOperator', 'A quale professionista appartiene questo impegno?')}</span>
+          <select className="h-10 w-full rounded-md border bg-background px-3" value={handoff?.identityId ?? ''} disabled={unlockPending || waitingAccess || handoff?.active}
+            onChange={event => {
+              accessGeneration.current++;
+              setWaitingAccess(false);
+              setHandoff(previous => previous ? { ...previous, identityId: event.target.value === '' ? undefined : Number(event.target.value), profileId: undefined, authorized: false } : null);
+            }}>
+            <option value="">{t('personalAppointments.handoffChooseOperator', 'Scegli il professionista')}</option>
+            {space.profiles.identities.map(identity => <option key={identity.identityId} value={identity.identityId}>{identity.name}</option>)}
+          </select>
+        </label>}
+        {ready && <p className="text-sm">{t('personalAppointments.handoffDestination', 'Destinazione personale: {{name}}', { name: space.access?.profile.name })}</p>}
+        <div className="flex flex-wrap justify-end gap-2">
+          <Button variant="outline" onClick={cancel}>{t('common.cancel', 'Annulla')}</Button>
+          {handoff?.uncertain && <Button variant="outline" onClick={() => {
+            setInitialWorkRequest(handoff.request.request); cancel();
+          }}>{t('personalAppointments.handoffWork', 'Continua nel lavoro')}</Button>}
+          <Button disabled={unlockPending || waitingAccess || space.isLoading || Boolean(space.profiles?.multi && handoff?.identityId == null)} onClick={() => {
+            if (ready) { setHandoff(previous => previous ? { ...previous, active: true } : null); return; }
+            const token = ++accessGeneration.current;
+            setWaitingAccess(!space.profiles?.multi);
+            setUnlockPending(space.profiles?.multi === true);
+            space.requestAccess(space.profiles?.multi ? handoff?.identityId : undefined, {
+              force: space.profiles?.multi === true,
+              fixedIdentity: space.profiles?.multi === true,
+              onCancel: () => { if (token === accessGeneration.current) cancel(); },
+              onComplete: () => { if (token === accessGeneration.current) { setUnlockPending(false); setWaitingAccess(true); } },
+            });
+          }}>{ready ? t('personalAppointments.handoffContinue', 'Continua nel personale') : t('personalAppointments.handoffUnlock', 'Apri il mio spazio personale')}</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  </>;
 }
 
 function ProfessionalVoiceAppointmentAssistant({
-  professionalEmail
+  professionalEmail, onPersonalRequest, initialWorkRequest
 }: VoiceAppointmentAssistantProps) {
   const { t, i18n } = useTranslation();
   const speechLocale = getAssistantSpeechLocale(i18n.resolvedLanguage || i18n.language);
@@ -206,6 +287,13 @@ function ProfessionalVoiceAppointmentAssistant({
       (trialAccess.appointments.remaining === 0 && !conversationActive)));
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [input, setInput] = useState('');
+  const confirmedWorkRequest = useRef('');
+  useEffect(() => {
+    if (!initialWorkRequest) return;
+    confirmedWorkRequest.current = initialWorkRequest;
+    setInput(initialWorkRequest);
+    setOpen(true);
+  }, [initialWorkRequest]);
   const [draft, setDraft] = useState<AssistantDraft>({});
   const [pendingQuestion, setPendingQuestion] = useState<PendingQuestion>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -711,21 +799,23 @@ function ProfessionalVoiceAppointmentAssistant({
     const conflictSignature = getConflictSignature(nextDraft);
     if (nextDraft.conflictApprovedSignature !== conflictSignature) {
       try {
-        const [appointmentsResponse, collaboratorsResponse, roomsResponse] = await Promise.all([
+        const [appointmentsResponse, collaboratorsResponse, roomsResponse, busyResponse] = await Promise.all([
           fetch(`/api/appointments/date/${nextDraft.date}`, { credentials: 'include' }),
           fetch('/api/collaborators', { credentials: 'include' }),
-          fetch('/api/treatment-rooms', { credentials: 'include' })
+          fetch('/api/treatment-rooms', { credentials: 'include' }),
+          fetch(`/api/personal-appointments/busy?start=${nextDraft.date}&end=${nextDraft.date}`, { credentials: 'include' }),
         ]);
-        if (!appointmentsResponse.ok || !collaboratorsResponse.ok || !roomsResponse.ok) {
+        if (!appointmentsResponse.ok || !collaboratorsResponse.ok || !roomsResponse.ok || !busyResponse.ok) {
           throw new Error('Availability check failed');
         }
-        const [dayAppointments, collaborators, rooms] = await Promise.all([
+        const [dayAppointments, collaborators, rooms, personalBusy] = await Promise.all([
           appointmentsResponse.json() as Promise<Array<{
             startTime?: string | null;
             endTime?: string | null;
             status?: string | null;
             staffId?: number | null;
             roomId?: number | null;
+            isPersonalBusy?: boolean;
           }>>,
           collaboratorsResponse.json() as Promise<Array<{
             id: number;
@@ -737,15 +827,18 @@ function ProfessionalVoiceAppointmentAssistant({
             id: number;
             name?: string | null;
             isActive?: boolean | null;
-          }>>
+          }>>,
+          busyResponse.json() as Promise<Array<{ id: number; date: string; startTime: string; endTime: string; staffId?: number | null; staffName?: string }>>,
         ]);
-        if (!Array.isArray(dayAppointments) || !Array.isArray(collaborators) || !Array.isArray(rooms)) {
+        if (!Array.isArray(dayAppointments) || !Array.isArray(collaborators) || !Array.isArray(rooms) || !Array.isArray(personalBusy)) {
           throw new Error('Availability check returned an invalid response');
         }
+        dayAppointments.push(...personalBusy.filter(row => row.date === nextDraft.date)
+          .map(row => publicPersonalBusyRecord(row)));
         const [startHours, startMinutes] = nextDraft.startTime.split(':').map(Number);
         const requestedStart = startHours * 60 + startMinutes;
         const requestedEnd = requestedStart + nextDraft.durationMinutes;
-        const overlappingAppointments = dayAppointments.filter(appointment => {
+        const allOverlappingAppointments = dayAppointments.filter(appointment => {
           if (appointment.status === 'cancelled') return false;
           const [appointmentStartHours, appointmentStartMinutes] =
             (appointment.startTime || '').split(':').map(Number);
@@ -758,9 +851,11 @@ function ProfessionalVoiceAppointmentAssistant({
             requestedStart < appointmentEnd &&
             requestedEnd > appointmentStart;
         });
+        const overlappingAppointments = allOverlappingAppointments.filter(appointment =>
+          !appointment.isPersonalBusy || personalBusyConflictsWithStaff(nextDraft.staffId, appointment.staffId));
         if (overlappingAppointments.length > 0) {
           const occupiedStaffIds = new Set(
-            overlappingAppointments.map(appointment => appointment.staffId).filter(Boolean)
+            allOverlappingAppointments.map(appointment => appointment.staffId).filter(id => id != null)
           );
           const occupiedRoomIds = new Set(
             overlappingAppointments.map(appointment => appointment.roomId).filter(Boolean)
@@ -933,6 +1028,7 @@ function ProfessionalVoiceAppointmentAssistant({
     }
     recognitionRef.current?.cancel?.();
     setIsListening(false);
+    if (routePersonalRequest(userMessage, liveFieldsRef.current || undefined)) return;
     if (isCatalogLoading) {
       pendingTranscriptRef.current = userMessage;
       setInput(userMessage);
@@ -981,6 +1077,7 @@ function ProfessionalVoiceAppointmentAssistant({
         }
         if (generation !== dialogGenerationRef.current ||
             sourceActorId !== queryClient.getQueryData<any>(['/api/user-with-license'])?.id) return;
+        if (routePersonalRequest(userMessage, operationFields || undefined)) return;
         if (await existing.handle(userMessage, operationFields)) {
           setDraft({});
           setPendingQuestion(null);
@@ -1112,6 +1209,7 @@ function ProfessionalVoiceAppointmentAssistant({
       }
       if (generation !== dialogGenerationRef.current ||
           sourceActorId !== queryClient.getQueryData<any>(['/api/user-with-license'])?.id) return;
+      if (routePersonalRequest(userMessage, interpretation)) return;
       if (usedHttpInterpretation) {
         const operationHandled = await existing.handle(userMessage, interpretation);
         if (operationHandled) {
@@ -1591,6 +1689,7 @@ function ProfessionalVoiceAppointmentAssistant({
       beginLive();
     }
     if (!nextOpen) {
+      confirmedWorkRequest.current = '';
       existing.reset();
       liveSessionRef.current?.close();
       liveSessionRef.current = null;
@@ -1608,6 +1707,22 @@ function ProfessionalVoiceAppointmentAssistant({
       stopSpeech();
       setIsListening(false);
     }
+  };
+
+  const routePersonalRequest = (text: string, fields?: ScopedInterpretation) => {
+    if (!onPersonalRequest) return false;
+    if (confirmedWorkRequest.current === text) return false;
+    const scope = classifyCalendarScope(text, fields, Boolean(draft.clientName || pendingQuestion || existing.state));
+    if (scope === 'work') return false;
+    // Settle the pending Live tool before closing the old socket. No new Live
+    // session is started here: continuation requires the wrapper's button.
+    liveSessionRef.current?.respond(t('personalAppointments.handoffPrompt', 'Puoi continuare nel personale con il pulsante, oppure annullare. Nessun appuntamento è stato salvato.'));
+    const request = personalHandoff(text, fields);
+    handleOpenChange(false);
+    setDraft({});
+    setPendingQuestion(null);
+    onPersonalRequest(request, scope === 'uncertain');
+    return true;
   };
 
   return (

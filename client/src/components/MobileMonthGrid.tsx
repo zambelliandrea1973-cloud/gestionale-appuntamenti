@@ -155,7 +155,7 @@ export default function MobileMonthGrid({
                     const imported = getColors(apt);
                     const color = imported ? imported.band : getEventColor(apt);
                     const google = apt.importedFromGoogle || apt.isImported || apt.client?.firstName?.startsWith("📅");
-                    const label = google
+                    const label = apt.isPersonalBusy ? `Occupato · ${apt.staffName || apt.staff?.firstName || 'Titolare'}` : google
                       ? (apt.googleEventTitle ?? apt.notes ?? apt.service?.name ?? "Google")
                       : `${apt.client?.firstName ?? ""} ${(apt.client?.lastName ?? "").charAt(0)}.`;
                     return <span
@@ -167,7 +167,7 @@ export default function MobileMonthGrid({
                         borderLeft: imported && !imported.isServiceMatch ? `3px solid ${color}` : undefined,
                       }}
                       title={`${apt.startTime?.substring(0, 5) ?? ""} ${label}`}
-                    >{label}</span>;
+                    >{apt.isPersonalBusy ? <><span className="block">Occupato</span><span className="block truncate">{apt.staffName || apt.staff?.firstName || 'Titolare'}</span></> : label}</span>;
                   })}
                   {appointments.length > 3 && <span className="mobile-month-more">+{appointments.length - 3} {t("calendar.moreEvents", "altri")}</span>}
                 </button>

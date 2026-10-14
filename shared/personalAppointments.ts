@@ -35,19 +35,33 @@ export function completePersonalAppointmentDraft(
     endTime: `${Math.floor(end / 60).toString().padStart(2, '0')}:${(end % 60).toString().padStart(2, '0')}`,
   };
 }
-export type PersonalAppointmentRecord = PersonalAppointmentInput & { id: number; userId: number; profileId?: number | null; staffId?: number | null; isPersonalBusy?: boolean };
+export type PersonalAppointmentRecord = PersonalAppointmentInput & { id: number; userId: number; profileId?: number | null; staffId?: number | null; staffName?: string; isPersonalBusy?: boolean };
+/** Public availability is an explicit allowlist, never a spread of private data. */
+export function publicPersonalBusyRecord(record: { id: number; date: string; startTime: string; endTime: string; staffId?: number | null; staffName?: string }) {
+  return {
+    id: record.id, date: record.date, startTime: record.startTime, endTime: record.endTime,
+    staffId: record.staffId ?? 0, staffName: record.staffName?.trim() || (record.staffId ? 'Professionista' : 'Titolare'),
+    userId: 0, title: 'Occupato', location: '', notes: '', isPersonalBusy: true,
+  };
+}
+/** Zero/null work assignment represents the owner, not all staff. */
+export function personalBusyConflictsWithStaff(staffId: number | null | undefined, busyStaffId: number | null | undefined) {
+  return (staffId ?? 0) === (busyStaffId ?? 0);
+}
 export function isPersonalAppointment(value: any): boolean {
   return value?.isPersonalAppointment === true;
 }
 // Negative calendar IDs distinguish independent personal records from work IDs.
 // Presentation-only labels do not create client/service records or relationships.
 export function personalAppointmentForCalendar(record: PersonalAppointmentRecord) {
+  if (record.isPersonalBusy) record = publicPersonalBusyRecord(record);
   const [sh, sm] = record.startTime.split(':').map(Number);
   const [eh, em] = record.endTime.split(':').map(Number);
   return {
     ...record, id: -record.id, personalAppointmentId: record.id,
     isPersonalAppointment: true, importedFromGoogle: false, status: 'scheduled',
-    clientId: null, serviceId: null, staffId: record.staffId || null, roomId: null,
+    clientId: null, serviceId: null, staffId: record.staffId ?? null, roomId: null,
+    ...(record.staffName ? { staff: { id: record.staffId ?? 0, firstName: record.staffName, lastName: '' } } : {}),
     client: { firstName: record.title, lastName: '' },
     service: { name: record.location || '', color: PERSONAL_APPOINTMENT_COLOR, price: 0, duration: eh * 60 + em - sh * 60 - sm },
     reminderType: null, reminderSent: false, reminderConfirmed: false,
