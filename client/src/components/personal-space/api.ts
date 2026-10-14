@@ -28,7 +28,7 @@ export async function spaceRequest<T>(path: string, init: RequestInit = {}, prot
 }
 
 export const spaceApi = {
-  recoveryStatus: () => spaceRequest<{ email: string | null }>('/recovery'),
+  recoveryStatus: () => spaceRequest<{ email: string | null; suggestedEmail?: string | null }>('/recovery'),
   recoveryEmail: (email: string) => spaceRequest('/recovery/email', { method: 'POST', body: JSON.stringify({ email }) }),
   recoveryVerify: (code: string) => spaceRequest('/recovery/verify', { method: 'POST', body: JSON.stringify({ code }) }),
   recoveryRequest: (profileId: number, email: string) => spaceRequest<{ message: string }>('/recovery/request', { method: 'POST', body: JSON.stringify({ profileId, email }) }, false),

@@ -3,11 +3,12 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
 
-function render(multi: boolean, mode: string, previous?: { current: boolean }, onLock?: () => void, connection: Record<string, unknown> = {}) {
+function render(multi: boolean, mode: string, previous?: { current: boolean }, onLock?: () => void, connection: Record<string, unknown> = {}, settingsOpen = false) {
+  let stateIndex = 0;
   const jsx = (type: any, props: any) => ({ type, props });
   const deps: Record<string, any> = {
     'react/jsx-runtime': { jsx, jsxs: jsx },
-    react: { useEffect(fn: () => void) { if (previous) fn(); }, useRef: (value: boolean) => previous || { current: value }, useState: () => [false, () => {}] },
+    react: { useEffect(fn: () => void) { if (previous) fn(); }, useRef: (value: boolean) => previous || { current: value }, useState: () => [stateIndex++ === 1 ? settingsOpen : false, () => {}] },
     'lucide-react': {},
     '@/components/ui/button': { Button: 'button' },
     '@/hooks/use-appointment-mode': { useAppointmentMode: () => [mode, () => {}] },
@@ -55,7 +56,7 @@ test('Google shortcut disappears only for a configured, healthy connection', () 
   for (const multi of [false, true]) {
     const connected = { connected: true, calendarId: 'private-calendar' };
     const view = (connection: Record<string, unknown>) =>
-      JSON.stringify(render(multi, 'personal', undefined, undefined, connection));
+      JSON.stringify(render(multi, 'personal', undefined, undefined, connection, true));
     assert.doesNotMatch(view({ google: connected, sync: { pending: 0 } }), /Google personale/);
     assert.match(view({ google: connected, sync: { pending: true } }), /Google personale/);
     assert.match(view({ google: connected, sync: { pending: 2 } }), /Google personale/);
@@ -63,4 +64,14 @@ test('Google shortcut disappears only for a configured, healthy connection', () 
     assert.match(view({ google: { connected: false }, sync: { pending: 0 } }), /Google personale/);
     assert.match(view({ google: { connected: true }, sync: { pending: 0 } }), /Google personale/);
   }
+});
+test('unlocked team controls keep settings collapsed with profile and lock available', () => {
+  const closed = JSON.stringify(render(true, 'personal'));
+  assert.match(closed, /Test/);
+  assert.match(closed, /Blocca/);
+  assert.match(closed, /Impostazioni/);
+  assert.doesNotMatch(closed, /recovery-settings|Cambia profilo|Occupato|Google personale/);
+  const opened = JSON.stringify(render(true, 'personal', undefined, undefined, {}, true));
+  assert.match(opened, /recovery-settings/);
+  assert.match(opened, /Cambia profilo/);
 });

@@ -25,7 +25,10 @@ export function PersonalRecoverySettings() {
   useEffect(() => {
     mounted.current = true;
     spaceApi.recoveryStatus().then(result => {
-      if (mounted.current) setVerified(result.email);
+      if (mounted.current) {
+        setVerified(result.email);
+        setEmail(result.email || result.suggestedEmail || '');
+      }
     }).catch(() => { if (mounted.current) setError('Impossibile leggere lo stato del recupero. Riapri lo spazio per riprovare.'); });
     return () => { mounted.current = false; };
   }, []);
@@ -49,7 +52,7 @@ export function PersonalRecoverySettings() {
     <Button type="button" variant="outline" size="sm" onClick={() => setOpen(!open)} aria-expanded={open}>
       {verified ? 'Email di recupero verificata' : 'Configura recupero password'}
     </Button>
-    {!verified && <p className="mt-2 text-xs text-slate-600">Verifica la tua email personale ora: servirà per recuperare l’accesso senza perdere gli impegni.</p>}
+    {open && !verified && <p className="mt-2 text-xs text-slate-600">Usa l’email della tua scheda, se personale, e confermala con un codice per recuperare l’accesso.</p>}
     {open && <form className="mt-3 space-y-3" onSubmit={event => { event.preventDefault(); void run(sent ? 'verify' : 'send'); }}>
       {verified && <p>Email attuale: {verified}</p>}
       <p className="text-xs text-slate-600">Usa una casella accessibile solo a te, non quella condivisa dello studio. {verified ? 'La precedente resta valida finché non verifichi quella nuova.' : ''}</p>

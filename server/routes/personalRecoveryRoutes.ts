@@ -3,6 +3,8 @@ import rateLimit from 'express-rate-limit';
 import { z } from 'zod';
 import { getPrivateProfile, privateIdentities, privateUser, PrivateError } from '../services/privateAppointmentAccess';
 import { recoveryService } from '../services/personalPasswordRecovery';
+import { db } from '../db';
+import { sql } from 'drizzle-orm';
 
 const router = Router();
 const service = recoveryService();
@@ -20,7 +22,15 @@ const wrap = (fn: any) => async (req: any, res: any) => {
 };
 router.get('/', wrap(async (req: any, res: any) => {
   const profile = await getPrivateProfile(req);
-  res.json(await service.status(profile.user_id, profile.id));
+  const status = await service.status(profile.user_id, profile.id);
+  // Suggest only the matching active collaborator's address, while unlocked.
+  // It is not a recovery destination until the individual verifies it.
+  const people = profile.identity_id > 0
+    ? await db.execute(sql`SELECT email FROM staff WHERE id=${profile.identity_id}
+        AND user_id=${profile.user_id} AND is_active=true`)
+    : [];
+  const suggested = emailSchema.safeParse(people[0]?.email);
+  res.json({ ...status, suggestedEmail: suggested.success ? suggested.data : null });
 }));
 router.post('/email', limit, wrap(async (req: any, res: any) => {
   const body = z.object({ email: emailSchema }).strict().parse(req.body);
