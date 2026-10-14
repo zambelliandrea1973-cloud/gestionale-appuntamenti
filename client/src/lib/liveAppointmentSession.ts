@@ -109,7 +109,6 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
   const allowMicAfterAudio = () => {
     if (closed || !turnFinished || players.size) return;
     micAllowed = true;
-    stream?.getAudioTracks().forEach(track => { track.enabled = !muted; });
     listening();
   };
   const playSamples = (samples: Float32Array) => {
@@ -205,7 +204,7 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     },
     setMuted: value => {
       muted = value;
-      stream?.getAudioTracks().forEach(track => { track.enabled = micAllowed && !muted && !closed; });
+      stream?.getAudioTracks().forEach(track => { track.enabled = !muted && !closed; });
       if (value) {
         preRoll.length = 0; loudFrames = 0;
         if (!connected) { pendingAudio.length = 0; pendingAudioSize = 0; voiceActivated = false; }
@@ -221,8 +220,22 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
     try {
       const Context = window.AudioContext || (window as any).webkitAudioContext;
       if (!Context || !navigator.mediaDevices?.getUserMedia) { fail('LIVE_MIC_UNAVAILABLE'); return; }
-      try { context = new Context({ sampleRate: 24000 }); } catch { context = new Context(); }
+      // Use the device's native rate. Provider buffers still declare 24kHz and
+      // the input encoder resamples to 16kHz; forcing the output device to 24kHz
+      // can reconfigure Android's audio route when microphone capture starts.
+      try { context = new Context({ latencyHint: 'interactive' }); } catch { context = new Context(); }
       const resumed = context!.resume().then(() => null, error => error);
+      // Choose ONE input graph before playback. Never hot-swap processors while
+      // the greeting is playing. A broken worklet must not stall opening.
+      const workletReady = new Promise<boolean>(resolve => {
+        if (!context!.audioWorklet || typeof AudioWorkletNode === 'undefined') { resolve(false); return; }
+        const deadline = setTimeout(() => resolve(false), 500);
+        try {
+          void context!.audioWorklet.addModule('/assistant-pcm-worklet.js').then(() => {
+            clearTimeout(deadline); resolve(true);
+          }, () => { clearTimeout(deadline); resolve(false); });
+        } catch { clearTimeout(deadline); resolve(false); }
+      });
       const mic = navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }, video: false,
       });
@@ -232,9 +245,10 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
       }, { signal: abort.signal }).then(value => ({ value }), error => ({ error }));
       stream = await mic;
       if (closed) { stream.getTracks().forEach(track => track.stop()); return; }
-      // Permission is requested in the click for mobile compatibility, but the
-      // microphone track supplies silence until the initial greeting finishes.
-      stream.getAudioTracks().forEach(track => { track.enabled = micAllowed && !muted; });
+      // Keep the input device active to avoid changing mobile audio routing
+      // between speaking/listening. handleSamples discards ALL captured input
+      // until greeting playback ends; only an explicit mute disables the track.
+      stream.getAudioTracks().forEach(track => { track.enabled = !muted; });
       if (await resumed) { fail('LIVE_AUDIO_UNAVAILABLE'); return; }
       if (context!.state !== 'running') { fail('LIVE_AUDIO_UNAVAILABLE'); return; }
       microphone = context!.createMediaStreamSource(stream);
@@ -261,11 +275,20 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
           preRoll.length = 0;
         } else sendAudio(encoded);
       };
-      // Start the standard graph immediately. addModule can stall on WebViews
-      // and headless/audio-disabled browsers; it must NEVER block the socket/greeting.
-      const fallback = context!.createScriptProcessor(2048, 1, 1);
-      fallback.onaudioprocess = event => handleSamples(event.inputBuffer.getChannelData(0));
-      processor = fallback;
+      const canUseWorklet = await workletReady;
+      if (closed) return;
+      if (canUseWorklet) {
+        try {
+          const worklet = new AudioWorkletNode(context!, 'appointment-pcm');
+          worklet.port.onmessage = event => handleSamples(event.data);
+          processor = worklet;
+        } catch { /* Fall back before playback, never halfway through a sentence. */ }
+      }
+      if (!processor) {
+        const fallback = context!.createScriptProcessor(2048, 1, 1);
+        fallback.onaudioprocess = event => handleSamples(event.inputBuffer.getChannelData(0));
+        processor = fallback;
+      }
       microphone.connect(processor); processor.connect(silentGain); silentGain.connect(context!.destination);
       // Opening the microphone can reconfigure mobile audio output. Never play
       // the greeting before the input graph is ready, or its middle can be lost.
@@ -274,22 +297,6 @@ export function startLiveAppointmentSession(options: Options): LiveAppointmentSe
         turnFinished = true;
       }
       listening();
-      if (context!.audioWorklet && typeof AudioWorkletNode !== 'undefined') {
-        let expired = false;
-        const workletDeadline = setTimeout(() => { expired = true; }, 1500);
-        void context!.audioWorklet.addModule('/assistant-pcm-worklet.js').then(() => {
-          clearTimeout(workletDeadline);
-          if (closed || expired) return;
-          const worklet = new AudioWorkletNode(context!, 'appointment-pcm');
-          worklet.port.onmessage = event => handleSamples(event.data);
-          microphone!.disconnect(fallback);
-          fallback.onaudioprocess = null;
-          fallback.disconnect();
-          processor = worklet;
-          microphone!.connect(worklet);
-          worklet.connect(silentGain!);
-        }).catch(() => { clearTimeout(workletDeadline); /* Keep the working standard graph. */ });
-      }
       stream.getAudioTracks().forEach(track => track.addEventListener('ended', () => fail('LIVE_MIC_DENIED'), { once: true }));
       const settled = await response;
       if ('error' in settled) throw settled.error;

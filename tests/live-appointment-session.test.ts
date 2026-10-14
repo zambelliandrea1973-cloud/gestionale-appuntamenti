@@ -149,6 +149,9 @@ test('real-time transport greets before capturing, returns tools on the same con
   const sockets: any[] = [], sources: any[] = [], errors: string[] = [], turns: any[] = [];
   let stopped = 0, listening = false, micNode: any;
   let microphoneRequests = 0;
+  let workletCount = 0, resolveWorklet!: () => void;
+  let loadWorklet = () => new Promise<void>(resolve => { resolveWorklet = resolve; });
+  const contextOptions: any[] = [];
   let finishSave!: () => void;
   const pendingSave = new Promise<void>(resolve => { finishSave = resolve; });
   class Socket {
@@ -162,6 +165,7 @@ test('real-time transport greets before capturing, returns tools on the same con
     emit(value: object) { this.onmessage?.({ data: JSON.stringify(value) }); }
   }
   class Context {
+    constructor(options: any) { contextOptions.push(options); }
     sampleRate = 48000; currentTime = 0; state = 'running'; destination = {};
     async resume() {}
     async close() {}
@@ -169,7 +173,7 @@ test('real-time transport greets before capturing, returns tools on the same con
     createMediaStreamSource() { return { connect() {}, disconnect() {} }; }
     createScriptProcessor() { micNode = { onaudioprocess: null, connect() {}, disconnect() {} }; return micNode; }
     // Some browser engines never settle this promise: opening must still work.
-    audioWorklet = { addModule: () => new Promise<void>(() => {}) };
+    audioWorklet = { addModule: () => loadWorklet() };
     createBuffer(_channels: number, length: number, rate: number) { return { duration: length / rate, copyToChannel() {} }; }
     createBufferSource() {
       const source = { buffer: null, onended: null as any, connect() {}, disconnect() {}, start() {}, stop() {} };
@@ -191,7 +195,15 @@ test('real-time transport greets before capturing, returns tools on the same con
     return { getTracks: () => [track], getAudioTracks: () => [track] };
   } } });
   set('WebSocket', Socket);
-  set('AudioWorkletNode', class {});
+  set('AudioWorkletNode', class {
+    port = { onmessage: null as any, close() {} };
+    constructor() {
+      workletCount++;
+      micNode = { onaudioprocess: (event: any) => this.port.onmessage?.({ data: event.inputBuffer.getChannelData(0) }) };
+    }
+    connect() {}
+    disconnect() {}
+  });
   let fetchResponse = async (_url: any, _init: any): Promise<Response> => Response.json({ ticket: 'unit-capability', path: '/api/ai-appointment-assistant/live' });
   t.mock.method(globalThis, 'fetch', (url, init) => fetchResponse(url, init));
   t.after(() => {
@@ -212,14 +224,16 @@ test('real-time transport greets before capturing, returns tools on the same con
     },
   });
   t.after(() => session.close());
-  for (let i = 0; i < 15 && !sockets.length; i++) await new Promise(resolve => setTimeout(resolve, 5));
+  for (let i = 0; i < 150 && !sockets.length; i++) await new Promise(resolve => setTimeout(resolve, 5));
   assert.equal(sockets.length, 1);
+  assert.deepEqual(contextOptions[0], { latencyHint: 'interactive' }, 'Do not force mobile audio hardware to 24kHz');
+  assert.equal(workletCount, 0, 'A stalled worklet uses the bounded startup fallback');
   const socket = sockets[0];
   socket.emit({ type: 'ready' });
   const samples = new Float32Array(4096).fill(0.3);
   const capture = () => micNode.onaudioprocess({ inputBuffer: { getChannelData: () => samples } });
   capture();
-  assert.equal(track.enabled, false, 'No local microphone audio during the greeting');
+  assert.equal(track.enabled, true, 'Input device stays stable; samples are discarded by the software gate');
   assert.equal(socket.sent.filter((message: any) => message.type === 'audio').length, 0, 'No capture of the opening greeting');
   socket.emit({ type: 'audio', data: btoa('\0\0\0\0') });
   socket.emit({ type: 'audio', data: btoa('\0\0\0\0') });
@@ -228,6 +242,13 @@ test('real-time transport greets before capturing, returns tools on the same con
   assert.equal(sources.length, 1, 'All greeting frames play as one uninterrupted buffer');
   assert.equal(sources[0].buffer.duration, 4 / 24000);
   assert.equal(listening, false);
+  const greetingProcessor = micNode;
+  resolveWorklet();
+  await Promise.resolve(); await Promise.resolve();
+  assert.equal(workletCount, 0, 'Late worklet loading cannot replace the graph during greeting playback');
+  assert.equal(micNode, greetingProcessor);
+  capture();
+  assert.equal(socket.sent.filter((message: any) => message.type === 'audio').length, 0, 'Live input remains gated throughout playback');
   sources[0].onended();
   assert.equal(listening, true);
   assert.equal(track.enabled, true);
@@ -261,6 +282,7 @@ test('real-time transport greets before capturing, returns tools on the same con
   // actual user words are retained until the live connection is ready.
   const cachedOptions = { mode: 'personal' as const, language: 'it-IT', greeting: 'Ciao prova cache. Dimmi pure.' };
   storeLiveGreeting(cachedOptions, [btoa('\0\0\0\0')]);
+  loadWorklet = () => Promise.resolve();
   let releaseTicket!: () => void, ticketBody: any;
   fetchResponse = async (_url, init) => {
     ticketBody = JSON.parse(init!.body as string);
@@ -279,6 +301,7 @@ test('real-time transport greets before capturing, returns tools on the same con
   releaseMicrophone();
   for (let i = 0; i < 20 && sources.length < 3; i++) await new Promise(resolve => setTimeout(resolve, 5));
   assert.equal(sources.length, 3, 'Cached PCM was scheduled before HTTP settled');
+  assert.equal(workletCount, 1, 'Ready worklet is connected before cached playback starts');
   assert.equal(sockets.length, 1, 'No second socket until ticket arrives');
   assert.equal(ticketBody.skipGreeting, true);
   sources[2].onended();
