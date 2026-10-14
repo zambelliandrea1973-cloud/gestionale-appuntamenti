@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { LockKeyhole, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { useTranslation } from 'react-i18next';
 import { createPersonalSpaceIdle } from '../../../../shared/personalSpaceIdle';
@@ -256,7 +257,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
           </label>
           {profilesQuery.isError && <div className="rounded-lg bg-rose-50 p-3 text-sm text-rose-800"><p>Impossibile caricare i profili.</p><Button type="button" variant="outline" size="sm" className="mt-2" onClick={() => void profilesQuery.refetch()}>Riprova</Button></div>}
           {identityId != null && !configureOnly && <p className="text-sm">Nome nella struttura: <strong>{profilesQuery.data?.identities.find(row => row.identityId === identityId)?.name || profileName}</strong></p>}
-          <label className="block text-sm font-medium">{identityId != null ? 'Crea password personale (almeno 10 caratteri)' : 'Password personale'}<Input autoFocus required minLength={identityId != null ? 10 : undefined} type="password" autoComplete={identityId != null ? 'new-password' : 'current-password'} value={password} onChange={event => setPassword(event.target.value)} /></label>
+          <label className="block text-sm font-medium">{identityId != null ? 'Crea password personale (almeno 4 caratteri)' : 'Password personale'}<PasswordInput key={`${identityId}:${profileId}:${prompt}`} autoFocus required minLength={identityId != null ? 4 : undefined} autoComplete={identityId != null ? 'new-password' : 'current-password'} value={password} onChange={event => setPassword(event.target.value)} /></label>
           {error && <p role="alert" className="text-sm text-rose-700">{error}</p>}
           <div className="flex justify-end gap-2 pt-2"><Button type="button" variant="outline" onClick={() => { requestInProgress.current = false; setPrompt(false); setPassword(''); cancelAction?.(); setCancelAction(null); setCompleteAction(null); }}>Annulla</Button><Button type="submit" disabled={busy || (identityId == null && !profileId) || !password}>{busy ? 'Verifica…' : configureOnly ? 'Imposta password' : identityId != null ? 'Configura e apri' : 'Apri spazio'}</Button></div>
         </form>

@@ -5,6 +5,7 @@ import { queryClient } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -505,9 +506,9 @@ export default function StaffCollaboratorsPage() {
               setTeamPasswordError('Non è stato possibile configurare la password. Riprova.');
             }
           }}>
-            <label className="block text-sm font-medium">Nuova password personale<Input type="password" autoComplete="new-password" minLength={10} required value={teamPassword} onChange={event => setTeamPassword(event.target.value)} /></label>
+            <label className="block text-sm font-medium">Nuova password personale (almeno 4 caratteri)<PasswordInput key={String(teamPasswordDialog)} autoComplete="new-password" minLength={4} required value={teamPassword} onChange={event => setTeamPassword(event.target.value)} /></label>
             {teamPasswordError && <p role="alert" className="text-sm text-destructive">{teamPasswordError}</p>}
-            <div className="flex justify-end gap-2"><Button type="button" variant="outline" onClick={() => { setTeamPasswordDialog(false); setTeamPassword(''); }}>Annulla</Button><Button type="submit" disabled={teamPassword.length < 10}>Proteggi e continua</Button></div>
+            <div className="flex justify-end gap-2"><Button type="button" variant="outline" onClick={() => { setTeamPasswordDialog(false); setTeamPassword(''); }}>Annulla</Button><Button type="submit" disabled={teamPassword.length < 4}>Proteggi e continua</Button></div>
           </form>
         </DialogContent>
       </Dialog>

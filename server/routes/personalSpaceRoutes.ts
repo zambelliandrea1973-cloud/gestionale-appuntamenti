@@ -31,7 +31,7 @@ router.get('/profiles', personalRoute(async (req, res) => {
 router.post('/profiles', limited, personalRoute(async (req, res) => {
   const userId = privateUser(req);
   const body = z.object({ identityId: z.number().int().nonnegative(), name: z.string().trim().min(1).max(100),
-    password: z.string().min(10).max(128) }).strict().parse(req.body);
+    password: z.string().min(4, 'La password deve contenere almeno 4 caratteri.').max(128) }).strict().parse(req.body);
   const choices = await privateIdentities(userId);
   if (!choices.multi) throw new PrivateError(409, 'Usi il gestionale da solo: non è necessaria una password personale.');
   const identity = choices.identities.find(p => p.identityId === body.identityId);
@@ -49,7 +49,7 @@ router.post('/prepare-team', limited, personalRoute(async (req, res) => {
   const userId = privateUser(req);
   const choices = await privateIdentities(userId);
   if (choices.multi || !choices.singleProfileId) throw new PrivateError(409, 'Usa lo sblocco personale del tuo profilo.');
-  const body = z.object({ password: z.string().min(10).max(128) }).strict().parse(req.body);
+  const body = z.object({ password: z.string().min(4, 'La password deve contenere almeno 4 caratteri.').max(128) }).strict().parse(req.body);
   const hash = await hashPrivatePassword(body.password);
   const rows = await db.execute(sql`UPDATE private_appointment_profiles SET password_hash=${hash}
     WHERE id=${choices.singleProfileId} AND user_id=${userId} AND password_hash IS NULL RETURNING *`);
