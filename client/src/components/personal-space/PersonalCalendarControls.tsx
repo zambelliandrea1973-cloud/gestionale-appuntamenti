@@ -12,6 +12,13 @@ export default function PersonalCalendarControls() {
   const personal = mode === 'personal';
   const multi = space.profiles?.multi === true;
   const previousPersonal = useRef(personal);
+  const googleHealthy = !!space.access?.google?.connected &&
+    !!space.access.google.calendarId && !!space.access.sync && !space.access.sync.pending;
+  const showGoogle = space.unlocked && !googleHealthy;
+
+  useEffect(() => {
+    if (googleHealthy || !space.unlocked) setGoogleOpen(false);
+  }, [googleHealthy, space.unlocked, space.access?.profile.id]);
 
   useEffect(() => {
     const returnedToWork = previousPersonal.current && !personal;
@@ -44,7 +51,7 @@ export default function PersonalCalendarControls() {
 
   // Solo creation mode never filters the combined calendar. Keep Google
   // reachable as a separate small control, without a shared/personal panel.
-  if (!multi) return space.unlocked ? <div className="flex flex-wrap justify-end gap-2">
+  if (!multi) return showGoogle ? <div className="flex flex-wrap justify-end gap-2">
     <Button type="button" size="sm" variant="outline" onClick={() => setGoogleOpen(value => !value)} aria-expanded={googleOpen}>Google personale</Button>
     {googleOpen && <div className="w-full"><PersonalGoogleSettings /></div>}
   </div> : null;
@@ -82,11 +89,11 @@ export default function PersonalCalendarControls() {
       {personal && space.unlocked && multi && <Button type="button" size="sm" variant="outline" onClick={() => { void space.lock(); setMode('work'); }}>
         <LockKeyhole className="mr-1.5 h-3.5 w-3.5" />Blocca
       </Button>}
-      {personal && space.unlocked && <Button type="button" size="sm" variant="outline" onClick={() => setGoogleOpen(value => !value)} aria-expanded={googleOpen}>
+      {personal && showGoogle && <Button type="button" size="sm" variant="outline" onClick={() => setGoogleOpen(value => !value)} aria-expanded={googleOpen}>
         {googleOpen ? 'Nascondi Google' : 'Google personale'}
       </Button>}
     </div>
-    {personal && space.unlocked && googleOpen && <div className="mt-3 w-full border-t border-[#dce3d8] pt-3 sm:col-span-2 sm:basis-full">
+    {personal && showGoogle && googleOpen && <div className="mt-3 w-full border-t border-[#dce3d8] pt-3 sm:col-span-2 sm:basis-full">
       <PersonalGoogleSettings />
     </div>}
     {personal && space.unlocked && multi && <p className="mt-2 flex items-center gap-1.5 text-[11px] text-[#61736a] sm:basis-full">

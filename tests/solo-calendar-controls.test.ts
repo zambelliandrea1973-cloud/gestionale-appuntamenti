@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
 
-function render(multi: boolean, mode: string, previous?: { current: boolean }, onLock?: () => void) {
+function render(multi: boolean, mode: string, previous?: { current: boolean }, onLock?: () => void, connection: Record<string, unknown> = {}) {
   const jsx = (type: any, props: any) => ({ type, props });
   const deps: Record<string, any> = {
     'react/jsx-runtime': { jsx, jsxs: jsx },
@@ -12,7 +12,7 @@ function render(multi: boolean, mode: string, previous?: { current: boolean }, o
     '@/components/ui/button': { Button: 'button' },
     '@/hooks/use-appointment-mode': { useAppointmentMode: () => [mode, () => {}] },
     './PersonalSpaceProvider': { usePersonalSpace: () => ({
-      profiles: { multi }, unlocked: true, access: { profile: { name: 'Test' } },
+      profiles: { multi }, unlocked: true, access: { profile: { name: 'Test' }, ...connection },
       requestAccess() {}, lock() { onLock?.(); },
     }) },
     './PersonalGoogleSettings': { default: 'google-settings' },
@@ -49,4 +49,17 @@ test('work handoff unlock is retained, but returning from personal to work locks
   render(true, 'personal', previous, lock);
   render(true, 'work', previous, lock);
   assert.equal(locks, 1);
+});
+test('Google shortcut disappears only for a configured, healthy connection', () => {
+  for (const multi of [false, true]) {
+    const connected = { connected: true, calendarId: 'private-calendar' };
+    const view = (connection: Record<string, unknown>) =>
+      JSON.stringify(render(multi, 'personal', undefined, undefined, connection));
+    assert.doesNotMatch(view({ google: connected, sync: { pending: 0 } }), /Google personale/);
+    assert.match(view({ google: connected, sync: { pending: true } }), /Google personale/);
+    assert.match(view({ google: connected, sync: { pending: 2 } }), /Google personale/);
+    assert.match(view({ google: connected }), /Google personale/);
+    assert.match(view({ google: { connected: false }, sync: { pending: 0 } }), /Google personale/);
+    assert.match(view({ google: { connected: true }, sync: { pending: 0 } }), /Google personale/);
+  }
 });
