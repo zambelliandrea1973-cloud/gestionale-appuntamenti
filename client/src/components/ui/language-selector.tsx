@@ -20,7 +20,7 @@ const LANGUAGES = [
   { code: 'hi', flag: '🇮🇳' },
 ];
 
-export function LanguageSelector() {
+export function LanguageSelector({ contentClassName }: { contentClassName?: string } = {}) {
   const { t, i18n } = useTranslation();
 
   const handleLanguageChange = (value: string) => {
@@ -45,7 +45,7 @@ export function LanguageSelector() {
             <span className="text-sm font-medium">{t(`language.${currentCode}`)}</span>
           </div>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className={contentClassName}>
           {LANGUAGES.map(({ code, flag }) => (
             <SelectItem key={code} value={code}>
               <span className="flex items-center gap-2">

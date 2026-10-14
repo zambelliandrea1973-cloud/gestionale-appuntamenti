@@ -1,4 +1,5 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -86,6 +87,23 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    const desktop = window.matchMedia('(min-width: 768px)');
+    const closeOnDesktop = () => { if (desktop.matches) setIsMobileMenuOpen(false); };
+    desktop.addEventListener('change', closeOnDesktop);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      desktop.removeEventListener('change', closeOnDesktop);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <PersonalSpaceProvider key={userWithLicense?.id ?? 'account-loading'} accountKey={userWithLicense?.id}>
@@ -469,6 +487,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               onClick={() => setIsMobileMenuOpen(true)}
               className="p-2 rounded-lg border border-white/25 hover:bg-white/10 flex-shrink-0"
               aria-label="Apri menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               <Menu className="h-5 w-5" />
             </button>
@@ -477,14 +497,15 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       </header>
 
       {/* ── MOBILE DRAWER ── */}
+      {createPortal(<>
       {/* Backdrop */}
       <div
-        className={`md:hidden fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`md:hidden fixed inset-0 bg-black/50 z-[10000] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={closeMobileMenu}
         aria-hidden="true"
       />
       {/* Pannello laterale */}
-      <div className={`md:hidden fixed top-0 left-0 h-full w-72 bg-primary text-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div id="mobile-navigation" aria-hidden={!isMobileMenuOpen} className={`md:hidden fixed top-0 left-0 h-[100dvh] w-72 max-w-[90vw] bg-primary text-white z-[10001] flex flex-col shadow-2xl transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-x-0 visible' : '-translate-x-full invisible'}`}>
         {/* Intestazione drawer */}
         <div className="flex items-center gap-3 px-4 py-4 border-b border-white/20 flex-shrink-0">
           <UserIcon className="h-11 w-11 flex-shrink-0 rounded-xl overflow-hidden" userId={userWithLicense?.id} />
@@ -525,7 +546,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
         </div>
 
         {/* Voci di navigazione */}
-        <nav className="flex-1 overflow-y-auto py-2">
+        <nav className="flex-1 min-h-0 overflow-y-auto overscroll-contain py-2">
           {/* Voce helper */}
           {(() => {
             const NavItem = ({ href, icon: Icon, label, iconClass = "", badge = false }: { href: string; icon: any; label: string; iconClass?: string; badge?: boolean }) => (
@@ -562,11 +583,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
         </nav>
 
         {/* Footer drawer: lingua + logout */}
-        <div className="flex items-center gap-2 px-4 py-3 border-t border-white/20 flex-shrink-0">
-          <div className="flex-1"><LanguageSelector /></div>
+        <div className="flex items-center gap-2 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-white/20 flex-shrink-0">
+          <div className="flex-1"><LanguageSelector contentClassName="z-[10002]" /></div>
           <LogoutButton variant="secondary" className="text-sm h-9 px-3 border border-white/25 rounded-md" iconPosition="right" />
         </div>
       </div>
+      </>, document.body)}
 
       {/* Contenuto principale */}
       <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 py-6">
