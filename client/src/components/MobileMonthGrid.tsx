@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getISOWeek } from "date-fns";
-import { Maximize2, Plus } from "lucide-react";
+import { Maximize2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import "./MobileMonthGrid.css";
 
@@ -12,14 +12,13 @@ interface MobileMonthGridProps {
   getColors: (appointment: any) => { band: string; bgSolid: string; isServiceMatch: boolean } | null;
   getEventColor: (appointment: any) => string;
   onDateSelect: (date: Date) => void;
-  onNewAppointment: () => void;
 }
 
 const dateKey = (day: Date) =>
   `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
 
 export default function MobileMonthGrid({
-  weeks, month, isLoading, getAppointments, getColors, getEventColor, onDateSelect, onNewAppointment,
+  weeks, month, isLoading, getAppointments, getColors, getEventColor, onDateSelect,
 }: MobileMonthGridProps) {
   const { t, i18n } = useTranslation();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -179,9 +178,6 @@ export default function MobileMonthGrid({
       {zoom > 1.02 && <button type="button" className="mobile-month-reset" onClick={resetZoom}>
         <Maximize2 size={13} /> {t("calendar.mobileResetZoom", "Mese intero")}
       </button>}
-      <button type="button" className="mobile-month-add" aria-label={t("calendar.selectNewAppointment", "Nuovo appuntamento")} onClick={onNewAppointment}>
-        <Plus size={25} />
-      </button>
     </div>
   );
 }

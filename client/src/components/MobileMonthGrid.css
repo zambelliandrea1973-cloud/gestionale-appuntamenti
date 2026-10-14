@@ -66,9 +66,4 @@
     border: 1px solid #d9dfca; border-radius: 20px; background: #fff;
     box-shadow: 0 2px 9px #0002; color: #4f5d20; font-size: 12px;
   }
-  .mobile-month-add {
-    position: absolute; bottom: 13px; right: 13px; display: grid; place-items: center;
-    width: 52px; height: 52px; border: 0; border-radius: 18px;
-    background: #586323; color: white; box-shadow: 0 5px 15px #343b2650;
-  }
 }

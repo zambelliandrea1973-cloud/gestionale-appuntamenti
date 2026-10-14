@@ -550,10 +550,6 @@ export default function MonthView({
           getColors={getImportedColors}
           getEventColor={getEventColor}
           onDateSelect={onDateSelect}
-          onNewAppointment={() => {
-            setNewApptDay(selectedDate);
-            formOpenedAtRef.current = Date.now();
-          }}
         />
       </div>
       <div className="hidden sm:flex bg-white rounded-lg shadow-md overflow-hidden mb-6 flex-col">

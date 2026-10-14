@@ -59,7 +59,7 @@ function mountGrid(appointments: any[] = []) {
   const tree = exports.default({
     weeks: [[new Date(2026, 9, 31)]], month: new Date(2026, 9, 1), isLoading: false,
     getAppointments: () => appointments, getColors: () => null, getEventColor: () => '#000000',
-    onDateSelect: (date: Date) => selected.push(date), onNewAppointment() {},
+    onDateSelect: (date: Date) => selected.push(date),
   });
   effects.forEach(callback => callback());
   const findDay = (node: any): any => {
@@ -125,6 +125,11 @@ test('mobile-only clearance sits outside the grid and its scroll can reach the p
   assert.match(month, /className="sm:hidden mobile-month-page-clearance"/);
   assert.match(css, /\.mobile-month-clip\s*\{[^}]*overscroll-behavior:\s*auto/);
   assert.match(css, /touch-action:\s*pan-x pan-y/);
+});
+
+test('monthly grid has no duplicate floating creation button', () => {
+  const source = readFileSync('client/src/components/MobileMonthGrid.tsx', 'utf8');
+  assert.doesNotMatch(source, /mobile-month-add|onNewAppointment|<Plus/);
 });
 
 test('both appointment assistants keep the calendar interactive without outside-tap dismissal', () => {
