@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { usePersonalSpace } from './PersonalSpaceProvider';
 import PersonalGoogleSettings from './PersonalGoogleSettings';
+import { PersonalRecoverySettings } from './PersonalRecovery';
 
 export default function PersonalCalendarControls() {
   const [mode, setMode] = useAppointmentMode();
@@ -96,6 +97,7 @@ export default function PersonalCalendarControls() {
     {personal && showGoogle && googleOpen && <div className="mt-3 w-full border-t border-[#dce3d8] pt-3 sm:col-span-2 sm:basis-full">
       <PersonalGoogleSettings />
     </div>}
+    {personal && space.unlocked && multi && <PersonalRecoverySettings key={space.access?.profile.id} />}
     {personal && space.unlocked && multi && <p className="mt-2 flex items-center gap-1.5 text-[11px] text-[#61736a] sm:basis-full">
       <Check className="h-3.5 w-3.5" />{multi ? `Spazio di ${space.access?.profile.name || 'profilo personale'} sbloccato` : 'Spazio personale disponibile'}
       <span className="ml-1 inline-flex items-center gap-1"><ShieldCheck className="h-3.5 w-3.5" />Ai colleghi compare solo “Occupato”.</span>

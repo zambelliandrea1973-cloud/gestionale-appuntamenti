@@ -3,6 +3,7 @@ import { promisify } from 'node:util';
 import { sql } from 'drizzle-orm';
 import { db } from '../db';
 import type { Request } from 'express';
+import { personalRecoverySchemaSql } from '../../shared/personalRecovery';
 
 const scrypt = promisify(scryptCallback);
 export const privateHash = (value: string) => createHash('sha256').update(value).digest('hex');
@@ -52,6 +53,7 @@ export async function ensurePrivateAppointmentTables() {
   await db.execute(sql`CREATE TABLE IF NOT EXISTS private_google_calendars (
     calendar_id text PRIMARY KEY, profile_id integer NOT NULL REFERENCES private_appointment_profiles(id) ON DELETE CASCADE
   )`);
+  await db.execute(sql.raw(personalRecoverySchemaSql));
 }
 export type PrivateProfile = {
   id: number; user_id: number; identity_id: number; name: string; password_hash: string | null;

@@ -16,6 +16,7 @@ function render(multi: boolean, mode: string, previous?: { current: boolean }, o
       requestAccess() {}, lock() { onLock?.(); },
     }) },
     './PersonalGoogleSettings': { default: 'google-settings' },
+    './PersonalRecovery': { PersonalRecoverySettings: 'recovery-settings' },
   };
   const code = ts.transpileModule(readFileSync('client/src/components/personal-space/PersonalCalendarControls.tsx', 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },

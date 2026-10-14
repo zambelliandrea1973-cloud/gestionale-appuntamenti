@@ -10,6 +10,7 @@ import {
 import { getRedirectUri } from './googleAuthRoutes';
 import { startPrivateGoogleOAuth, privateGoogleClient, ownedPrivateCalendars, reservePrivateCalendar } from '../services/privateAppointmentGoogle';
 import { preparePersonalGoogle, tryPersonalGoogleSync } from '../services/personalAppointmentGoogle';
+import personalRecoveryRoutes from './personalRecoveryRoutes';
 
 export const personalRoute = (fn: (req: Request, res: Response) => Promise<unknown>) =>
   async (req: Request, res: Response) => {
@@ -22,6 +23,7 @@ export const personalRoute = (fn: (req: Request, res: Response) => Promise<unkno
     }
   };
 const router = Router();
+router.use('/recovery', personalRecoveryRoutes);
 const limited = rateLimit({ windowMs: 15 * 60_000, limit: 12, keyGenerator: req => String((req.user as any)?.id),
   message: { message: 'Troppi tentativi. Riprova tra 15 minuti.' } });
 const safe = (p: PrivateProfile) => ({ id: p.id, name: p.name, identityId: p.identity_id });

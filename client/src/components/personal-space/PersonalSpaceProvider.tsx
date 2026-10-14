@@ -4,6 +4,7 @@ import { LockKeyhole, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
+import { PersonalPasswordRecovery } from './PersonalRecovery';
 import { useAppointmentMode } from '@/hooks/use-appointment-mode';
 import { useTranslation } from 'react-i18next';
 import { createPersonalSpaceIdle } from '../../../../shared/personalSpaceIdle';
@@ -237,7 +238,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
       </div>
     </section>}
     {prompt && multi && <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/45 p-4" role="presentation">
-      <section role="dialog" aria-modal="true" aria-labelledby="personal-space-title" className="w-full max-w-md rounded-2xl border border-slate-200 bg-[#fbfaf6] p-6 shadow-2xl">
+      <section role="dialog" aria-modal="true" aria-labelledby="personal-space-title" className="max-h-[90dvh] overflow-y-auto w-full max-w-md rounded-2xl border border-slate-200 bg-[#fbfaf6] p-6 shadow-2xl">
         <div className="mb-4 flex items-start gap-3"><span className="rounded-xl bg-teal-100 p-2 text-teal-800"><LockKeyhole className="h-5 w-5" /></span><div><h2 id="personal-space-title" className="text-lg font-semibold text-slate-900">{configureOnly ? 'Configura lo spazio personale' : 'Spazio personale'}</h2><p className="text-sm text-slate-600">{forGoogle ? 'Per collegare il tuo account Google al calendario privato, crea o usa la password del tuo spazio personale. È la stessa password che userai anche senza Google.' : configureOnly ? `Crea la password personale di ${profileName || 'questo collaboratore'}. Servirà per aprire il suo calendario privato, anche senza Google.` : 'Seleziona il tuo nome registrato nella struttura e usa la tua password personale, anche se non colleghi Google Calendar.'}</p></div></div>
         <form className="space-y-3" onSubmit={submitAccess}>
           <label className="block text-sm font-medium">Profilo
@@ -261,6 +262,7 @@ export function PersonalSpaceProvider({ children, accountKey }: { children: Reac
           {error && <p role="alert" className="text-sm text-rose-700">{error}</p>}
           <div className="flex justify-end gap-2 pt-2"><Button type="button" variant="outline" onClick={() => { requestInProgress.current = false; setPrompt(false); setPassword(''); cancelAction?.(); setCancelAction(null); setCompleteAction(null); }}>Annulla</Button><Button type="submit" disabled={busy || (identityId == null && !profileId) || !password}>{busy ? 'Verifica…' : configureOnly ? 'Imposta password' : identityId != null ? 'Configura e apri' : 'Apri spazio'}</Button></div>
         </form>
+        {identityId == null && !!profileId && !configureOnly && <PersonalPasswordRecovery key={profileId} profileId={profileId} onDone={() => { setPassword(''); setError(''); setProfileId(undefined); }} />}
         <p className="mt-4 flex items-center gap-2 border-t pt-3 text-xs text-slate-500"><ShieldCheck className="h-4 w-4 shrink-0" />L’accesso scade quando blocchi lo spazio o cambi profilo.</p>
       </section>
     </div>}
