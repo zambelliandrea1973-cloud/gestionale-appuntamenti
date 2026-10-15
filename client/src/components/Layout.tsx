@@ -55,8 +55,19 @@ interface LayoutProps {
   hideHeader?: boolean;
 }
 
+function WebsiteFooter() {
+  return <footer className="w-full py-4 text-center text-sm">
+    <a href="https://gestionale-appuntamenti.zambelli-andrea-1973.chatgpt.site"
+      target="_blank" rel="noopener noreferrer"
+      className="text-primary underline underline-offset-4 hover:opacity-80">
+      Sito ufficiale di Gestionale Appuntamenti
+    </a>
+  </footer>;
+}
+
 export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const [location] = useLocation();
+  const isCalendarPage = location.split('?')[0] === '/calendar';
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
   const { t } = useTranslation();
   const { licenseInfo, appTitle, hasProAccess, hasBusinessAccess } = useLicense();
@@ -594,18 +605,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 py-6">
         <div className="bg-background text-foreground min-h-full">
           {children}
+          {isCalendarPage && <div className="pb-[calc(6rem+env(safe-area-inset-bottom))]">
+            <WebsiteFooter />
+          </div>}
         </div>
       </main>
-      <footer className="w-full py-4 text-center text-sm">
-        <a
-          href="https://gestionale-appuntamenti.zambelli-andrea-1973.chatgpt.site"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary underline underline-offset-4 hover:opacity-80"
-        >
-          Sito ufficiale di Gestionale Appuntamenti
-        </a>
-      </footer>
+      {!isCalendarPage && <WebsiteFooter />}
       {showVoiceAppointmentAssistant && (
         <VoiceAppointmentAssistant
           professionalEmail={(userWithLicense as any)?.email || userWithLicense?.username}
