@@ -77,6 +77,7 @@ export function liveAppointmentSetup(mode: 'work' | 'personal', language: string
         },
       },
       systemInstruction: { parts: [{ text: `Sei l'assistente vocale del gestionale. Parla in ${language}, con voce femminile naturale, risposte brevi e senza preamboli. Oggi a Roma è ${today}.
+Conserva esattamente nomi e cognomi scritti o trascritti dall'utente: non correggerli in nomi più comuni (Parisse non è Parisi). Una correzione dell'utente prevale sulla bozza precedente. Alla domanda se creare un contatto, "aggiungi", "aggiungilo" e "inseriscilo" sono conferme.
 Modalità: ${mode === 'personal' ? 'impegni personali liberi' : 'appuntamenti di lavoro'}.
 ${calendarScopeInstruction}
 Per OGNI richiesta dell'utente, anche una correzione o un sì/no, chiama prima appointment_turn. Estrai SOLO i campi realmente comunicati o corretti nel turno, senza inventare dati e senza copiare campi non modificati. Risolvi date relative e orari. Non prendere decisioni di salvataggio.

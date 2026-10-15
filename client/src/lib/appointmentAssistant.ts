@@ -68,8 +68,8 @@ export function detectAssistantConfirmation(
   const baseLanguage = (language || 'it').split('-')[0].toLowerCase();
   const patternsByLanguage: Record<string, { yes: string[]; no: string[] }> = {
     it: {
-      yes: ['si', 'certo', 'va bene', 'crea', 'crealo', 'procedi', 'fallo', 'facciamolo', 'confermo'],
-      no: ['no', 'non creare', 'non crearlo', 'non farlo', 'annulla', 'un altro', 'un altra', 'cambia']
+      yes: ['si', 'certo', 'va bene', 'crea', 'crealo', 'aggiungi', 'aggiungilo', 'aggiungila', 'inserisci', 'inseriscilo', 'procedi', 'fallo', 'facciamolo', 'confermo'],
+      no: ['no', 'non aggiungere', 'non aggiungerlo', 'non aggiungerla', 'non inserire', 'non inserirlo', 'non creare', 'non crearlo', 'non farlo', 'annulla', 'un altro', 'un altra', 'cambia']
     },
     en: {
       yes: ['yes', 'sure', 'okay', 'ok', 'create', 'create it', 'go ahead', 'do it', 'confirm'],

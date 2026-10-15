@@ -954,6 +954,10 @@ function ProfessionalVoiceAppointmentAssistant({
         });
         const createdClient = await response.json();
         clientId = createdClient.id;
+        if (clientId) {
+          readyDraft = { ...readyDraft, clientId, createClientApproved: false };
+          setDraft(readyDraft);
+        }
       }
       if (!clientId) {
         throw new Error(t('voiceAppointmentAssistant.unauthorizedClient'));
@@ -976,6 +980,10 @@ function ProfessionalVoiceAppointmentAssistant({
         });
         const createdService = await response.json();
         serviceId = createdService.id;
+        if (serviceId) {
+          readyDraft = { ...readyDraft, serviceId, createServiceApproved: false };
+          setDraft(readyDraft);
+        }
       }
       if (!serviceId) {
         throw new Error(t('voiceAppointmentAssistant.unauthorizedService'));
@@ -1178,6 +1186,16 @@ function ProfessionalVoiceAppointmentAssistant({
           serviceName: detectedConfirmation === 'unknown' ? userMessage : null,
           confirmation: detectedConfirmation
         };
+      } else if (pendingQuestion && detectedConfirmation !== 'unknown') {
+        // Consent answers do not re-interpret names or other established draft fields.
+        interpretation = { confirmation: detectedConfirmation };
+        liveFieldsRef.current = null;
+      } else if (!draft.clientName && detectedConfirmation === 'unknown' &&
+          /^[\p{L}][\p{L}'’.-]*(?:\s+[\p{L}][\p{L}'’.-]*){1,4}[.!]?$/u.test(userMessage) &&
+          !/\b(appuntamento|domani|oggi|prenota|fissa|aggiungi|cliente|vorrei|voglio|alle|ore|per|con)\b/i.test(userMessage)) {
+        // A direct answer to the name question is authoritative, not a fuzzy AI guess.
+        interpretation = { clientName: userMessage.replace(/[.!]$/, ''), confirmation: 'unknown' };
+        liveFieldsRef.current = null;
       } else if (liveFieldsRef.current) {
         interpretation = { ...liveFieldsRef.current, confirmation: detectedConfirmation };
         liveFieldsRef.current = null;

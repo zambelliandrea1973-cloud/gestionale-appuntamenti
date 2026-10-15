@@ -272,15 +272,15 @@ router.post("/api/clients", async (req, res) => {
       // 🔒 MULTI-TENANT SECURITY: use the same tenant resolution logic as GET
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       
-      const { isDemo: _ignoreIsDemo, ...sanitizedBody } = req.body || {};
+      const { id: _id, createdAt: _createdAt, uniqueCode: _uniqueCode,
+        newUniqueCode: _newUniqueCode, isDemo: _ignoreIsDemo, ...sanitizedBody } = req.body || {};
         const clientData = {
-          firstName: contact.firstName || '',
-          lastName: contact.lastName || '',
-          email: contact.email || '',
-          phone: contact.phone || '',
-          notes: contact.notes || 'Importato da file CSV',
-          userId: ownerId,
-          ownerId,
+          ...sanitizedBody,
+          firstName: sanitizedBody.firstName || '',
+          lastName: sanitizedBody.lastName || '',
+          phone: sanitizedBody.phone || '',
+          userId: tenantId,
+          ownerId: tenantId,
           isDemo: false,
         };
       
@@ -319,21 +319,16 @@ router.post("/api/clients", async (req, res) => {
       if (finalClient && !finalClient.isDemo) {
         try {
           const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
-          await cleanupDemoDataIfNeeded(ownerId, 'clients');
+          await cleanupDemoDataIfNeeded(tenantId, 'clients');
         } catch (cleanupErr) {
           console.error('⚠️ [CSV IMPORT] Error cleaning up demo:', cleanupErr);
         }
       }
 
-      res.json({ 
-        success: true, 
-        imported, 
-        skipped,
-        message: `Imported ${imported} contacts` + (skipped > 0 ? `, ${skipped} already existing` : '')
-      });
+      res.status(201).json(finalClient || newClient);
     } catch (error: any) {
-      console.error('[CSV IMPORT] Error:', error);
-      res.status(500).json({ success: false, error: 'Error during import' });
+      console.error('[CREATE CLIENT] Error:', error);
+      res.status(500).json({ message: 'Impossibile creare il cliente. Riprova.' });
     }
   });
 
