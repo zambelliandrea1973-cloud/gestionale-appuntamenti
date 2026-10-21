@@ -73,6 +73,7 @@ interface License {
     expiresAt: string | null;
     activatedAt: string;
     userId: number;
+    recoveryOfferSentAt?: string | null;
   };
   username: string;
   userType: string;
@@ -505,6 +506,15 @@ export default function AdminLicenseManagementPage() {
                         <TableCell>
                           <div className="font-medium">{license.username}</div>
                           <div className="text-xs text-muted-foreground">{license.userType}</div>
+                          {licenses.some((entry: License) =>
+                            entry.license.userId === license.license.userId &&
+                            Boolean(entry.license.recoveryOfferSentAt)
+                          ) && (
+                            <Badge variant="outline" className="mt-1 text-xs text-emerald-700 border-emerald-300"
+                              title="Email con offerta del 50% accettata dal servizio di invio; non è una conferma di lettura.">
+                              Offerta 50% inviata
+                            </Badge>
+                          )}
                         </TableCell>
                         <TableCell>
                           <Badge variant="outline" className="capitalize">
