@@ -9,7 +9,8 @@ import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
-import { User, ClientAccount, users, userLogins } from "../shared/schema";
+import { User, ClientAccount, users } from "../shared/schema";
+import { recordUserAccess } from "./services/userAccessTracking";
 import { db } from "./db";
 import rateLimit from "express-rate-limit";
 import { parseSerializedPassportId } from './services/passportIdentity';
@@ -334,11 +335,8 @@ export function setupAuth(app: Express) {
           logger.debug(`🔐 [LOGIN] Session saved: ${req.session ? 'yes' : 'no'}`);
           
           // Register access in login tracking
-          db.insert(userLogins).values({
-            userId: user.id,
-            ipAddress: ip?.toString(),
-            userAgent: userAgent?.toString()
-          }).catch(err => console.error('Error registering login:', err));
+          recordUserAccess(user.id, ip?.toString(), userAgent?.toString())
+            .catch(err => console.error('Error registering login:', err));
           
           // Force session save
           req.session.save((saveErr) => {
@@ -379,11 +377,8 @@ export function setupAuth(app: Express) {
           
           // Register access in login tracking
           const ip = req.ip || req.connection.remoteAddress;
-          db.insert(userLogins).values({
-            userId: user.id,
-            ipAddress: ip?.toString(),
-            userAgent: userAgent?.toString()
-          }).catch(err => console.error('Error registering customer login:', err));
+          recordUserAccess(user.id, ip?.toString(), userAgent?.toString())
+            .catch(err => console.error('Error registering customer login:', err));
           
           req.login(user, (err) => {
             if (err) {

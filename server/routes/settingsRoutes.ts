@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { logger } from '../utils/logger';
+import { recordUserAccess } from '../services/userAccessTracking';
 import { Router } from 'express';
 import { db } from '../db';
 import { storage } from '../storage';
@@ -15,7 +16,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const userAccessLocks = new Map<number, number>();
 
 let defaultIconBase64 = '';
 try {
@@ -354,19 +354,9 @@ router.get("/api/user-with-license", async (req, res) => {
     
     // 📊 SESSION TRACKING: Register access every 30 minutes for staff/admin users
     try {
-      const now = Date.now();
-      const lastAccess = userAccessLocks.get(user.id) || 0;
-      const thirtyMinutesInMs = 30 * 60 * 1000;
-      
-      if (now - lastAccess > thirtyMinutesInMs) {
-        userAccessLocks.set(user.id, now);
         const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
         const ua = req.headers['user-agent'] || 'unknown';
-        await db.insert(userLogins).values({
-          userId: user.id,
-          ipAddress: ip.substring(0, 45),
-          userAgent: ua.substring(0, 500)
-        });
+      if (await recordUserAccess(user.id, ip, ua)) {
         logger.debug(`📊 [SESSION-TRACKING] Access registered for user ${user.id} (${user.username}) - pause >30min`);
       }
     } catch (trackErr) {
