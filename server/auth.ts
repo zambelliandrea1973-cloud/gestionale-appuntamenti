@@ -187,7 +187,7 @@ export function setupAuth(app: Express) {
   }));
 
   // Serialize the user with a format that allows us to recognize if it is staff or client
-  passport.serializeUser((user: any, done) => {
+  passport.serializeUser((req: any, user: any, done: any) => {
     let userType = user.type;
     const userId = user.id;
 
@@ -211,7 +211,9 @@ export function setupAuth(app: Express) {
     }
 
     // Format: "type:id" for correct deserialization
-    done(null, `${userType}:${userId}`);
+    recordUserAccess(userId, req.ip || '', req.headers['user-agent'] || '')
+      .catch(err => console.error('Error registering login:', err))
+      .finally(() => done(null, `${userType}:${userId}`));
   });
 
   // Deserialize the user based on type
@@ -335,8 +337,6 @@ export function setupAuth(app: Express) {
           logger.debug(`🔐 [LOGIN] Session saved: ${req.session ? 'yes' : 'no'}`);
           
           // Register access in login tracking
-          recordUserAccess(user.id, ip?.toString(), userAgent?.toString())
-            .catch(err => console.error('Error registering login:', err));
           
           // Force session save
           req.session.save((saveErr) => {
@@ -377,8 +377,6 @@ export function setupAuth(app: Express) {
           
           // Register access in login tracking
           const ip = req.ip || req.connection.remoteAddress;
-          recordUserAccess(user.id, ip?.toString(), userAgent?.toString())
-            .catch(err => console.error('Error registering customer login:', err));
           
           req.login(user, (err) => {
             if (err) {

@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { logger } from '../utils/logger';
-import { recordUserAccess } from '../services/userAccessTracking';
 import { Router } from 'express';
 import { db } from '../db';
 import { storage } from '../storage';
@@ -352,16 +351,7 @@ router.get("/api/user-with-license", async (req, res) => {
     
     logger.debug(`🔐 [${deviceType}] /api/user-with-license for user ${user.id} (${user.username})`);
     
-    // 📊 SESSION TRACKING: Register access every 30 minutes for staff/admin users
-    try {
-        const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
-        const ua = req.headers['user-agent'] || 'unknown';
-      if (await recordUserAccess(user.id, ip, ua)) {
-        logger.debug(`📊 [SESSION-TRACKING] Access registered for user ${user.id} (${user.username}) - pause >30min`);
-      }
-    } catch (trackErr) {
-      console.error(`⚠️ [SESSION-TRACKING] Error (non-blocking):`, trackErr);
-    }
+    // Session reads do not count as new logins.
     
     // Load complete data from storage for updated name/surname
     const storageData = loadStorageData();
