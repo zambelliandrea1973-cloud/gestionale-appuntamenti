@@ -2,6 +2,7 @@ import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { openOpenAiMeasurementSettings } from '@/lib/openaiMeasurement';
 
 type Block =
   | { type: 'p'; text: string }
@@ -72,6 +73,15 @@ export default function PrivacyPolicy() {
           <p className="text-sm text-muted-foreground">
             {t('legal.lastUpdated')}: {t('legal.privacy.lastUpdatedDate')}
           </p>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={openOpenAiMeasurementSettings}
+          >
+            {t('openaiMeasurementConsent.manage')}
+          </Button>
 
           <hr />
 

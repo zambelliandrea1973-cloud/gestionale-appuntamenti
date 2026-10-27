@@ -2762,7 +2762,7 @@
           "blocks": [
             {
               "type": "p",
-              "text": "We gebruiken sessie-cookies om u te identificeren en uw voorkeuren te onthouden. We gebruiken geen advertentie-trackingcookies. De Service is volledig vrij van advertenties. U kunt cookies uitschakelen via de instellingen van uw browser."
+              "text": "We gebruiken sessie-cookies om u te identificeren en uw voorkeuren te onthouden. Alleen op openbare pagina’s en na uw uitdrukkelijke toestemming gebruiken we de OpenAI Ads Measurement Pixel om voltooide registraties te meten. OpenAI kan technische informatie en de verwijzende URL ontvangen; we sturen geen e-mail-, agenda-, klant- of afspraakgegevens. U kunt toestemming weigeren of intrekken via Cookievoorkeuren. De Service is volledig vrij van advertenties."
             }
           ]
         },
@@ -6689,5 +6689,15 @@
     "confirmDelete": "Verwijderen bevestigen",
     "confirmMove": "Verplaatsen bevestigen",
     "cancelOperation": "Handeling annuleren"
+  },
+  "openaiMeasurementConsent": {
+    "title": "Registraties meten",
+    "description": "Sta de meetpixel van OpenAI toe om voltooide registraties te tellen. Deze wordt alleen na toestemming geactiveerd; e-mail-, afspraak- en klantgegevens worden niet verstuurd.",
+    "privacyLink": "Privacybeleid",
+    "accept": "Accepteren",
+    "reject": "Weigeren",
+    "manage": "Cookievoorkeuren beheren",
+    "accepted": "Optionele meting geaccepteerd.",
+    "rejected": "Optionele meting geweigerd."
   }
 }

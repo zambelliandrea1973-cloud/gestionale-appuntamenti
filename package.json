@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsx server/index.ts",
-    "build": "DATABASE_URL=postgresql://mock:mock@127.0.0.1:9/mock tsx --test tests/assistant-component.test.ts && vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build": "DATABASE_URL=postgresql://mock:mock@127.0.0.1:9/mock tsx --test tests/assistant-component.test.ts tests/openai-measurement.test.ts && vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "test:google-oauth-ios": "tsx --test tests/google-oauth-ios-callback.test.ts",
     "test:private-transfer": "tsx --test tests/private-appointment-transfer.security.test.ts tests/private-appointment-transfer.integration.test.ts tests/private-appointments.integration.test.ts",
     "test:oauth": "tsx --test tests/google-oauth-ios-callback.test.ts tests/oauth-transaction-state.test.ts tests/oauth-transaction.integration.test.ts",
@@ -15,7 +15,8 @@
     "i18n:audit": "tsx scripts/i18n-audit.ts",
     "i18n:sync": "tsx scripts/i18n-sync.ts",
     "i18n:check": "tsx scripts/i18n-sync.ts",
-    "i18n:add-lang": "tsx scripts/i18n-add-lang.ts"
+    "i18n:add-lang": "tsx scripts/i18n-add-lang.ts",
+    "test:openai-measurement": "tsx --test tests/openai-measurement.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1024.0",

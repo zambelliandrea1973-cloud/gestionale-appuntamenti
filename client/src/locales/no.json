@@ -2762,7 +2762,7 @@
           "blocks": [
             {
               "type": "p",
-              "text": "Vi bruker øktinformasjonskapsler for å identifisere deg og huske dine preferanser. Vi bruker ikke informasjonskapsler for reklame-sporing. Tjenesten er helt reklamefri. Du kan deaktivere informasjonskapsler via nettleserinnstillingene dine."
+              "text": "Vi bruker øktinformasjonskapsler for å identifisere deg og huske dine preferanser. Bare på offentlige sider og etter ditt uttrykkelige samtykke bruker vi OpenAI Ads Measurement Pixel for å måle fullførte registreringer. OpenAI kan motta teknisk informasjon og henvisnings-URL-en; vi sender ikke e-post-, kalender-, kunde- eller avtaledata. Du kan avslå eller trekke tilbake samtykket under informasjonskapselinnstillinger. Tjenesten er helt reklamefri."
             }
           ]
         },
@@ -6689,5 +6689,15 @@
     "confirmDelete": "Bekreft sletting",
     "confirmMove": "Bekreft flytting",
     "cancelOperation": "Avbryt handling"
+  },
+  "openaiMeasurementConsent": {
+    "title": "Måling av registreringer",
+    "description": "Tillat OpenAIs målepiksel å telle fullførte registreringer. Den aktiveres bare etter samtykke; e-post-, avtale- eller kundedata sendes ikke.",
+    "privacyLink": "Personvernerklæring",
+    "accept": "Godta",
+    "reject": "Avslå",
+    "manage": "Administrer informasjonskapsler",
+    "accepted": "Valgfri måling godtatt.",
+    "rejected": "Valgfri måling avslått."
   }
 }

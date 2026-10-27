@@ -2762,7 +2762,7 @@
           "blocks": [
             {
               "type": "p",
-              "text": "Folosim cookie-uri de sesiune pentru a vă identifica și a vă reține preferințele. Nu folosim cookie-uri de urmărire publicitară. Serviciul este complet lipsit de publicitate. Puteți dezactiva cookie-urile prin setările browserului dvs."
+              "text": "Folosim cookie-uri de sesiune pentru a vă identifica și a vă reține preferințele. Numai pe paginile publice și după consimțământul dvs. explicit folosim Pixelul de măsurare publicitară OpenAI pentru a măsura înregistrările finalizate. OpenAI poate primi informații tehnice și URL-ul de proveniență; nu trimitem date de e-mail, calendar, clienți sau programări. Puteți refuza sau retrage consimțământul din Preferințe cookie. Serviciul este complet lipsit de publicitate."
             }
           ]
         },
@@ -6689,5 +6689,15 @@
     "confirmDelete": "Confirmă ștergerea",
     "confirmMove": "Confirmă mutarea",
     "cancelOperation": "Anulează operațiunea"
+  },
+  "openaiMeasurementConsent": {
+    "title": "Măsurarea înregistrărilor",
+    "description": "Permiteți pixelului de măsurare OpenAI să numere înregistrările finalizate. Se activează numai după consimțământ; nu trimitem date de e-mail, programări sau clienți.",
+    "privacyLink": "Politica de confidențialitate",
+    "accept": "Acceptă",
+    "reject": "Refuză",
+    "manage": "Gestionează preferințele cookie",
+    "accepted": "Măsurarea opțională a fost acceptată.",
+    "rejected": "Măsurarea opțională a fost refuzată."
   }
 }

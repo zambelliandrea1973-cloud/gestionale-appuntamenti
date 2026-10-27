@@ -2762,7 +2762,7 @@
           "blocks": [
             {
               "type": "p",
-              "text": "Utilizamos cookies de sesión para identificarte y recordar tus preferencias. No utilizamos cookies de seguimiento publicitario. El Servicio está completamente libre de publicidad. Puedes desactivar las cookies a través de la configuración de tu navegador."
+              "text": "Utilizamos cookies de sesión para identificarte y recordar tus preferencias. Solo en páginas públicas y tras tu consentimiento explícito usamos el píxel de medición publicitaria de OpenAI para medir los registros completados. OpenAI puede recibir información técnica y la URL de procedencia; no enviamos datos de correo electrónico, calendario, clientes ni citas. Puedes rechazar o retirar el consentimiento desde Preferencias de cookies. El Servicio está completamente libre de publicidad."
             }
           ]
         },
@@ -6689,5 +6689,15 @@
     "confirmDelete": "Confirmar eliminación",
     "confirmMove": "Confirmar cambio",
     "cancelOperation": "Cancelar operación"
+  },
+  "openaiMeasurementConsent": {
+    "title": "Medición de registros",
+    "description": "Permite que el píxel de medición de OpenAI cuente los registros completados. Solo se activa tras tu consentimiento; no enviamos datos de correo, citas ni clientes.",
+    "privacyLink": "Política de privacidad",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "manage": "Gestionar preferencias de cookies",
+    "accepted": "Medición opcional aceptada.",
+    "rejected": "Medición opcional rechazada."
   }
 }

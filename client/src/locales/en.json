@@ -2801,7 +2801,7 @@
           "blocks": [
             {
               "type": "p",
-              "text": "We use session cookies to identify you and remember your preferences. We do not use advertising tracking cookies. The Service is completely ad-free. You can disable cookies through your browser settings."
+              "text": "We use session cookies to identify you and remember your preferences. Only on public pages and after your explicit consent, we use the OpenAI Ads Measurement Pixel to measure completed registrations. OpenAI may receive technical information and the referring URL; we do not send email, calendar, client, or appointment data. You can reject or withdraw consent through Cookie preferences. The Service is completely ad-free."
             }
           ]
         },
@@ -6689,5 +6689,15 @@
     "confirmDelete": "Confirm deletion",
     "confirmMove": "Confirm move",
     "cancelOperation": "Cancel operation"
+  },
+  "openaiMeasurementConsent": {
+    "title": "Registration measurement",
+    "description": "Allow OpenAI’s measurement pixel to count completed registrations. It runs only after consent; we do not send email, appointment, or client data.",
+    "privacyLink": "Privacy policy",
+    "accept": "Accept",
+    "reject": "Reject",
+    "manage": "Manage cookie preferences",
+    "accepted": "Optional measurement accepted.",
+    "rejected": "Optional measurement rejected."
   }
 }

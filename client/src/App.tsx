@@ -81,6 +81,7 @@ import { TimezoneDetector } from "./components/TimezoneDetector";
 import { DemoExitPopup } from "./components/DemoExitPopup";
 import { FunnelTracker } from "./components/FunnelTracker";
 import FunnelReportPage from "./pages/FunnelReportPage";
+import OpenAiMeasurementConsent from "./components/OpenAiMeasurementConsent";
 
 /**
  * Wrapper per le pagine client (con layout cliente)
@@ -698,6 +699,7 @@ function App() {
           {/* BetaStatusChecker verifica se l'utente è un beta tester - DEVE essere dentro UserLicenseProvider */}
           <BetaStatusChecker />
           <WouterRouter>
+            <OpenAiMeasurementConsent />
             {/* Route pubbliche SEPARATE - nessun controllo autenticazione */}
             <Switch>
               <Route path="/partnership/bicom">

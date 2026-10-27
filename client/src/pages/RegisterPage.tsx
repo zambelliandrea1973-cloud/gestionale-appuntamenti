@@ -10,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { sendOpenAiRegistrationConversion } from "@/lib/openaiMeasurement";
 
 const COMMON_DOMAINS = [
   "gmail.com", "hotmail.com", "hotmail.it", "outlook.com", "outlook.it",
@@ -94,6 +95,7 @@ export default function RegisterPage() {
       }
 
       const data = await response.json();
+      const loginIdentifier = data.username || email;
       // Tracciamento conversione Google Ads — registrazione completata
       try {
         if (typeof window.gtag === 'function') {
@@ -105,12 +107,27 @@ export default function RegisterPage() {
           window.gtag('event', 'sign_up', { method: 'email' });
         }
       } catch (_) {}
+      // The OpenAI pixel is loaded only after successful registration and
+      // explicit measurement consent. Clear credential fields before the SDK
+      // can inspect the public registration page; no user object is sent.
+      try {
+        setEmail("");
+        setPassword("");
+        document
+          .querySelectorAll<HTMLInputElement>('input[type="email"], input[type="password"]')
+          .forEach((input) => {
+            input.value = "";
+          });
+        await sendOpenAiRegistrationConversion();
+      } catch {
+        // Measurement failure must never undo or block a completed signup.
+      }
       // Auto-login lato server, invalida cache utente e vai alla dashboard
       await queryClient.invalidateQueries();
       if (data.autoLogin) {
         navigate("/dashboard");
       } else {
-        navigate(`/login?username=${encodeURIComponent(data.username || email)}`);
+        navigate(`/login?username=${encodeURIComponent(loginIdentifier)}`);
       }
     } catch (err: any) {
       setError(err.message || t('registerPage.genericRegistrationError'));
