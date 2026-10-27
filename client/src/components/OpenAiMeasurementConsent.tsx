@@ -41,10 +41,6 @@ export default function OpenAiMeasurementConsent() {
     saveOpenAiMeasurementConsent(accepted);
     setChoice(accepted);
     setOpen(false);
-    if (!accepted) {
-      const queue = (window as Window & { oaiq?: (...args: unknown[]) => void }).oaiq;
-      queue?.("consent", false);
-    }
   };
 
   if (!PUBLIC_PATHS.has(location.split("?")[0]) || !open) return null;

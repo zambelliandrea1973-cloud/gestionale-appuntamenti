@@ -93,6 +93,28 @@ test("OpenAI measurement does not load from non-registration routes", async () =
   }
 });
 
+test("revoking consent stops later registration events and updates the SDK", async () => {
+  const browser = installBrowser("/register", "accepted");
+  try {
+    await sendOpenAiRegistrationConversion();
+    const queue = browser.window.oaiq as Queue;
+    assert.equal(queue.q?.filter((args) => args[0] === "measure").length, 1);
+
+    saveOpenAiMeasurementConsent(false);
+    await sendOpenAiRegistrationConversion();
+
+    assert.equal(
+      browser.window.localStorage.getItem(OPENAI_MEASUREMENT_CONSENT_KEY),
+      "rejected",
+    );
+    assert.deepEqual(queue.q?.at(-1), ["consent", false]);
+    assert.equal(queue.q?.filter((args) => args[0] === "measure").length, 1);
+    assert.equal(browser.scripts.length, 1);
+  } finally {
+    browser.restore();
+  }
+});
+
 test("accepted registration sends only the standard registration event", async () => {
   const browser = installBrowser("/register", "accepted");
   try {

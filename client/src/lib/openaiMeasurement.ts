@@ -26,6 +26,13 @@ export function saveOpenAiMeasurementConsent(accepted: boolean): void {
   } catch {
     // Without durable consent, the measurement helper will not send events.
   }
+
+  if (!accepted && typeof window !== "undefined") {
+    const queue = (window as Window & {
+      oaiq?: (...args: unknown[]) => void;
+    }).oaiq;
+    queue?.("consent", false);
+  }
 }
 
 export function openOpenAiMeasurementSettings(): void {
