@@ -1,10 +1,27 @@
 export const OPENAI_MEASUREMENT_CONSENT_KEY = "openai-measurement-consent-v1";
 export const OPENAI_MEASUREMENT_SETTINGS_EVENT = "openai-measurement-settings";
 
+const PUBLIC_PATHS = new Set([
+  "/",
+  "/register",
+  "/login",
+  "/staff-login",
+  "/customer-login",
+  "/professionisti",
+  "/privacy",
+  "/terms",
+  "/subscribe",
+  "/partnership/bicom",
+]);
+
 const OPENAI_PIXEL_ID = "AHRRP75PfYtE762B5AjVHm";
 const OPENAI_PIXEL_SCRIPT_URL = "https://bzrcdn.openai.com/sdk/oaiq.min.js";
 
 type OpenAiQueue = ((...args: unknown[]) => void) & { q?: unknown[][] };
+
+export function isOpenAiMeasurementConsentPage(pathname: string): boolean {
+  return PUBLIC_PATHS.has(pathname.split("?")[0]);
+}
 
 export function readOpenAiMeasurementConsent(): boolean | null {
   try {
@@ -56,13 +73,14 @@ function getQueue(): OpenAiQueue {
 }
 
 /**
- * Fires only the registration conversion. No account, client, or appointment
- * fields are passed to OpenAI. Call only after the registration API succeeds.
+ * Initializes the Pixel only on public pages after explicit measurement
+ * consent. Loading it before registration lets it retain an ad-click reference;
+ * this does not send a page-view or conversion event.
  */
-export async function sendOpenAiRegistrationConversion(): Promise<void> {
+export async function initializeOpenAiMeasurement(): Promise<void> {
   if (
     typeof window === "undefined" ||
-    window.location.pathname !== "/register" ||
+    !isOpenAiMeasurementConsentPage(window.location.pathname) ||
     readOpenAiMeasurementConsent() !== true
   ) {
     return;
@@ -76,7 +94,6 @@ export async function sendOpenAiRegistrationConversion(): Promise<void> {
   const queue = getQueue();
 
   if (!target.__openAiMeasurementInitialized) {
-    // Explicitly hold the SDK in denied mode until its init call is queued.
     queue("consent", false);
     queue("init", { pixelId: OPENAI_PIXEL_ID });
     queue("consent", true);
@@ -84,10 +101,6 @@ export async function sendOpenAiRegistrationConversion(): Promise<void> {
   } else {
     queue("consent", true);
   }
-
-  queue("measure", "registration_completed", {
-    type: "customer_action",
-  });
 
   if (!target.__openAiMeasurementLoadPromise) {
     target.__openAiMeasurementLoadPromise = new Promise<void>((resolve) => {
@@ -115,10 +128,39 @@ export async function sendOpenAiRegistrationConversion(): Promise<void> {
       script.onerror = () => resolve();
       document.head.appendChild(script);
 
-      // Never delay a successful registration indefinitely for ad measurement.
+      // Never block the public flow indefinitely on third-party measurement.
       window.setTimeout(resolve, 900);
     });
   }
 
   await target.__openAiMeasurementLoadPromise;
+}
+
+/**
+ * Fires only the registration conversion. No account, client, or appointment
+ * fields are passed to OpenAI. Call only after the registration API succeeds.
+ */
+export async function sendOpenAiRegistrationConversion(): Promise<void> {
+  if (
+    typeof window === "undefined" ||
+    window.location.pathname !== "/register" ||
+    readOpenAiMeasurementConsent() !== true
+  ) {
+    return;
+  }
+
+  const target = window as Window & {
+    oaiq?: OpenAiQueue;
+    __openAiRegistrationConversionSent?: boolean;
+  };
+  if (target.__openAiRegistrationConversionSent) return;
+  target.__openAiRegistrationConversionSent = true;
+
+  const initialization = initializeOpenAiMeasurement();
+  const queue = getQueue();
+  queue("measure", "registration_completed", {
+    type: "customer_action",
+  });
+
+  await initialization;
 }

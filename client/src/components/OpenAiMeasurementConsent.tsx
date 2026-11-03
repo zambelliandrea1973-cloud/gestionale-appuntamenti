@@ -3,22 +3,11 @@ import { Link, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
 import {
   OPENAI_MEASUREMENT_SETTINGS_EVENT,
+  initializeOpenAiMeasurement,
+  isOpenAiMeasurementConsentPage,
   readOpenAiMeasurementConsent,
   saveOpenAiMeasurementConsent,
 } from "@/lib/openaiMeasurement";
-
-const PUBLIC_PATHS = new Set([
-  "/",
-  "/register",
-  "/login",
-  "/staff-login",
-  "/customer-login",
-  "/professionisti",
-  "/privacy",
-  "/terms",
-  "/subscribe",
-  "/partnership/bicom",
-]);
 
 export default function OpenAiMeasurementConsent() {
   const { t } = useTranslation();
@@ -37,13 +26,19 @@ export default function OpenAiMeasurementConsent() {
       window.removeEventListener(OPENAI_MEASUREMENT_SETTINGS_EVENT, openSettings);
   }, []);
 
+  useEffect(() => {
+    if (choice === true) {
+      void initializeOpenAiMeasurement();
+    }
+  }, [choice, location]);
+
   const choose = (accepted: boolean) => {
     saveOpenAiMeasurementConsent(accepted);
     setChoice(accepted);
     setOpen(false);
   };
 
-  if (!PUBLIC_PATHS.has(location.split("?")[0]) || !open) return null;
+  if (!isOpenAiMeasurementConsentPage(location) || !open) return null;
 
   return (
     <aside
