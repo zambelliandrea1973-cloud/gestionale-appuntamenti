@@ -11,6 +11,8 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { sendOpenAiRegistrationConversion } from "@/lib/openaiMeasurement";
+import { RegistrationWelcomeOffer } from "@/components/registration/RegistrationWelcomeOffer";
+import { buildRegistrationOfferWhatsAppUrl, isItalianRegistrationOfferLocale, REGISTRATION_OFFER_COPY } from "@/lib/registrationOffer";
 
 const COMMON_DOMAINS = [
   "gmail.com", "hotmail.com", "hotmail.it", "outlook.com", "outlook.it",
@@ -49,13 +51,14 @@ function suggestEmailFix(email: string): string | null {
 }
 
 export default function RegisterPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [referralCode, setReferralCode] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [registrationSuccessPath, setRegistrationSuccessPath] = useState<string | null>(null);
   const [, navigate] = useLocation();
 
   const emailSuggestion = useMemo(() => suggestEmailFix(email), [email]);
@@ -124,10 +127,13 @@ export default function RegisterPage() {
       }
       // Auto-login lato server, invalida cache utente e vai alla dashboard
       await queryClient.invalidateQueries();
-      if (data.autoLogin) {
-        navigate("/dashboard");
+      const nextPath = data.autoLogin
+        ? "/dashboard"
+        : `/login?username=${encodeURIComponent(loginIdentifier)}`;
+      if (isItalianRegistrationOfferLocale(i18n.resolvedLanguage ?? i18n.language)) {
+        setRegistrationSuccessPath(nextPath);
       } else {
-        navigate(`/login?username=${encodeURIComponent(loginIdentifier)}`);
+        navigate(nextPath);
       }
     } catch (err: any) {
       setError(err.message || t('registerPage.genericRegistrationError'));
@@ -135,6 +141,16 @@ export default function RegisterPage() {
       setLoading(false);
     }
   };
+
+  if (registrationSuccessPath) {
+    return (
+      <RegistrationWelcomeOffer
+        {...REGISTRATION_OFFER_COPY}
+        whatsappHref={buildRegistrationOfferWhatsAppUrl()}
+        onContinue={() => navigate(registrationSuccessPath)}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-center p-4 md:p-8 bg-gradient-to-b from-primary/5 via-background to-background">
