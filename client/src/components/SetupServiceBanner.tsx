@@ -64,13 +64,13 @@ export default function SetupServiceBanner() {
             {t("setupServiceBanner.desc", "Lascia fare a noi! Configuriamo il tuo account, importiamo i tuoi contatti (fino a 100) e ti guidiamo nell'utilizzo del gestionale.")}
           </p>
           <p className="text-xs font-semibold text-primary mt-1">
-            {t("setupServiceBanner.price", "Servizio completo a soli €500")}
+            {t("setupServiceBanner.price", "Servizio completo a soli €197")}
           </p>
           <div className="flex flex-wrap items-center gap-2 mt-3">
             <Button
               size="sm"
               className="h-8 text-xs gap-1.5"
-              onClick={() => window.open("https://wa.me/393472550110?text=" + encodeURIComponent("Ciao, vorrei richiedere informazioni sul servizio di configurazione account a €500"), "_blank")}
+              onClick={() => window.open("https://wa.me/393472550110?text=" + encodeURIComponent("Ciao, vorrei richiedere informazioni sul servizio di configurazione account fino a 100 contatti a €197"), "_blank")}
             >
               <Phone className="h-3 w-3" />
               {t("setupServiceBanner.cta", "Richiedi informazioni")}
