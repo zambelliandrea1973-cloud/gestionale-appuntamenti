@@ -8,15 +8,22 @@ import {
   sessionUiPreferenceKey,
   setPersistentUiPreference
 } from "@/lib/persistentUiPreferences";
+import { isItalianRegistrationOfferLocale } from "@/lib/registrationOffer";
 
 const PREFERENCE = "setup-service-banner-dismissed";
 
 export default function SetupServiceBanner() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user, isLoading } = useUserWithLicense();
   const [hidden, setHidden] = useState(false);
 
-  if (isLoading || !user) return null;
+  if (
+    isLoading ||
+    !user ||
+    !isItalianRegistrationOfferLocale(i18n.resolvedLanguage ?? i18n.language)
+  ) {
+    return null;
+  }
 
   const sessionKey = sessionUiPreferenceKey(user.id, PREFERENCE);
   const dismissedForever = hasPersistentUiPreference(user.id, PREFERENCE);
