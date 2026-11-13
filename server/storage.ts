@@ -138,6 +138,12 @@ export async function ensureSessionTable(): Promise<void> {
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_disabled_by_user boolean DEFAULT false;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_needs_reauth boolean DEFAULT false;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_email text;`);
+      // Italian onboarding call reminder: only newly eligible signups are considered.
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS last_program_activity_at timestamp;`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS help_call_reminder_eligible_at timestamp;`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS help_call_reminder_claimed_at timestamp;`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS help_call_reminder_sent_at timestamp;`);
+      await pool.query(`CREATE INDEX IF NOT EXISTS users_help_call_reminder_due_idx ON users (help_call_reminder_eligible_at) WHERE help_call_reminder_eligible_at IS NOT NULL AND help_call_reminder_sent_at IS NULL;`);
       // Funnel tracking milestones
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS milestone_first_service_at timestamp;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS milestone_first_client_at timestamp;`);

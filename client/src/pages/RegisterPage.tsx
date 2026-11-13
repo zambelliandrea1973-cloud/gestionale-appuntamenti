@@ -90,6 +90,7 @@ export default function RegisterPage() {
         email: email.trim().toLowerCase(),
         password,
         referralCode: referralCode.trim() || undefined,
+        language: i18n.resolvedLanguage ?? i18n.language,
       });
 
       if (!response.ok) {

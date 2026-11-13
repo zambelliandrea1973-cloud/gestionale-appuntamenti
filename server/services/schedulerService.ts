@@ -4,6 +4,7 @@ import { notificationService } from './notificationService';
 import { PayPalPayoutService } from './paypalPayoutService';
 import { trialNotificationService } from './trialNotificationService';
 import { trialRecoveryOfferService } from './trialRecoveryOfferService';
+import { italianHelpCallReminderService } from './italianHelpCallReminderService';
 import { importGoogleCalendarEvents, syncDeletedEvents } from './googleCalendarSync';
 import { db } from '../db';
 import { marketingCampaigns, users } from '../../shared/schema';
@@ -149,6 +150,29 @@ export const schedulerService = {
       }
     });
     if (isVerbose) console.log('🎁 Trial recovery offer scheduler started (daily at 09:15)');
+  },
+
+  startItalianHelpCallReminderScheduler(): void {
+    const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+    const run = async () => {
+      // Replit development and Sliplane share the database; only production
+      // may send customer-facing onboarding emails.
+      if (process.env.NODE_ENV !== 'production' || !process.env.PRODUCTION_DOMAIN) return;
+      try {
+        const result = await italianHelpCallReminderService.process();
+        if (isVerbose || result.sent > 0 || result.failed > 0) {
+          logger.debug(`📞 [HELP CALL REMINDER] ${result.sent} sent, ${result.failed} failed`);
+        }
+      } catch (error) {
+        console.error('❌ [HELP CALL REMINDER] Scheduler failed:', error);
+      }
+    };
+
+    cron.schedule('0 */15 * * * *', run);
+    if (process.env.NODE_ENV === 'production' && process.env.PRODUCTION_DOMAIN) {
+      setTimeout(() => void run(), 7000);
+    }
+    if (isVerbose) console.log('📞 Italian help-call reminder scheduler started (every 15 minutes)');
   },
   
   /**
@@ -300,6 +324,7 @@ export function initializeSchedulers(): void {
   schedulerService.startCampaignCleanupScheduler();
   schedulerService.startTrialNotificationScheduler();
   schedulerService.startTrialRecoveryOfferScheduler();
+  schedulerService.startItalianHelpCallReminderScheduler();
   schedulerService.startGoogleCalendarImportScheduler();
   schedulerService.startWatchRenewalScheduler();
   if (process.env.LOG_SCHEDULER !== 'false') console.log('All schedulers initialized');

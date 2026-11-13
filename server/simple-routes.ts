@@ -282,7 +282,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.post("/api/register", async (req, res) => {
     console.log('📝 [REGISTER] Registration request received:', req.body.email);
     try {
-      let { name, email, username, password, referralCode } = req.body;
+      let { name, email, username, password, referralCode, language } = req.body;
       
       // Minimum validation: only email and password are required
       if (!email || !password) {
@@ -327,6 +327,13 @@ export function registerSimpleRoutes(app: Express): Server {
       const { hashPassword } = await import('./auth');
       const { addDays } = await import('date-fns');
       const { licenseService } = await import('./services/licenseService');
+      const { parseLangFromHeader } = await import('./utils/userLanguage');
+      const { normalizeLang } = await import('./utils/emailTranslations');
+      const detectedLang = normalizeLang(
+        typeof language === 'string' && language.trim()
+          ? language
+          : parseLangFromHeader(req.headers['accept-language']),
+      );
       
       const [existingUserByEmail] = await db.select()
                                              .from(users)
@@ -345,7 +352,8 @@ export function registerSimpleRoutes(app: Express): Server {
         password: hashedPassword,
         role: 'user',
         type: 'customer',
-        referredBy: referrerStaff?.id || null
+        referredBy: referrerStaff?.id || null,
+        helpCallReminderEligibleAt: detectedLang === 'it' ? new Date() : null,
       });
       
       if (referrerStaff) {
@@ -373,8 +381,7 @@ export function registerSimpleRoutes(app: Express): Server {
       
       // Persist language preference to user settings before sending welcome email
       // so getUserLanguage() returns the correct value for all future emails
-      const { parseLangFromHeader, getUserLanguage } = await import('./utils/userLanguage');
-      const detectedLang = parseLangFromHeader(req.headers['accept-language']);
+      const { getUserLanguage } = await import('./utils/userLanguage');
       try {
         const currentSettings = await storage.getUserSettings(newUser.id);
         const currentPrefs = (currentSettings?.preferences as any) || {};

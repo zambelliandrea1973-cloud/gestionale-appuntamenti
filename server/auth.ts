@@ -11,6 +11,7 @@ import { promisify } from "util";
 import { storage } from "./storage";
 import { User, ClientAccount, users } from "../shared/schema";
 import { recordUserAccess } from "./services/userAccessTracking";
+import { recordProgramActivity } from "./services/programActivityTracking";
 import { db } from "./db";
 import rateLimit from "express-rate-limit";
 import { parseSerializedPassportId } from './services/passportIdentity';
@@ -98,6 +99,26 @@ export function setupAuth(app: Express) {
   app.use(session(sessionSettings));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use((req: any, res, next) => {
+    const user = req.user;
+    if (
+      !req.path.startsWith('/api/') ||
+      !user?.id ||
+      !user.helpCallReminderEligibleAt ||
+      user.helpCallReminderSentAt
+    ) {
+      return next();
+    }
+
+    res.once('finish', () => {
+      if (res.statusCode < 400) {
+        recordProgramActivity(user.id).catch(() => {
+          console.error('[PROGRAM ACTIVITY] Could not update activity timestamp');
+        });
+      }
+    });
+    next();
+  });
 
   // Authentication strategy for professional users (admin/staff/customer)
   passport.use("local-staff", new LocalStrategy(async (username, password, done) => {

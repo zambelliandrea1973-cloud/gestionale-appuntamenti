@@ -1,5 +1,10 @@
 import { sendSystemEmail } from './systemEmailService';
 import { normalizeLang, SupportedLang, getWelcomeStrings } from '../utils/emailTranslations';
+import {
+  buildItalianHelpCallOfferHtml,
+  buildItalianHelpCallOfferText,
+  escapeEmailHtml,
+} from './italianHelpCallOffer';
 
 export const welcomeEmailService = {
   async sendWelcomeEmail(
@@ -14,6 +19,8 @@ export const welcomeEmailService = {
       const t = getWelcomeStrings(lang);
       const displayName = name || username;
       const appUrl = process.env.PRODUCTION_DOMAIN || process.env.APP_BASE_URL || 'https://gestionale-appuntamenti.sliplane.app';
+      const helpOfferHtml = buildItalianHelpCallOfferHtml(lang);
+      const helpOfferText = buildItalianHelpCallOfferText(lang);
 
       const htmlContent = `
 <!DOCTYPE html>
@@ -39,25 +46,26 @@ export const welcomeEmailService = {
       <h1>${t.title}</h1>
     </div>
     <div class="content">
-      <p>${t.greeting} <strong>${displayName}</strong>,</p>
+      <p>${t.greeting} <strong>${escapeEmailHtml(displayName)}</strong>,</p>
       <p>${t.registrationSuccess}</p>
 
       <div class="credentials">
         <h3>${t.credentialsTitle}</h3>
         <div class="credential-item">
-          <span class="label">${t.usernameLabel}:</span> <span class="value">${username}</span>
+          <span class="label">${t.usernameLabel}:</span> <span class="value">${escapeEmailHtml(username)}</span>
         </div>
         <div class="credential-item">
-          <span class="label">${t.passwordLabel}:</span> <span class="value">${password}</span>
+          <span class="label">${t.passwordLabel}:</span> <span class="value">${escapeEmailHtml(password)}</span>
         </div>
       </div>
 
       <p><strong>${t.importantNote}</strong></p>
 
       <p>${t.trialNote}</p>
+      ${helpOfferHtml}
 
       <center>
-        <a href="${appUrl}" class="button">${t.accessButton}</a>
+        <a href="${escapeEmailHtml(appUrl)}" class="button">${t.accessButton}</a>
       </center>
 
       <div class="footer">
@@ -84,6 +92,8 @@ ${t.credentialsTitle}:
 ${t.importantNote}
 
 ${t.trialNote.replace(/<[^>]+>/g, '')}
+
+${helpOfferText}
 
 ${t.accessButton}: ${appUrl}
 

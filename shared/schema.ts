@@ -509,6 +509,10 @@ export const users = pgTable("users", {
   termsAcceptedAt: timestamp("terms_accepted_at"), // Data e ora accettazione Termini di Servizio
   hideWelcomeGuide: boolean("hide_welcome_guide").default(false),
   createdAt: timestamp("created_at").defaultNow(),
+  lastProgramActivityAt: timestamp("last_program_activity_at"),
+  helpCallReminderEligibleAt: timestamp("help_call_reminder_eligible_at"),
+  helpCallReminderClaimedAt: timestamp("help_call_reminder_claimed_at"),
+  helpCallReminderSentAt: timestamp("help_call_reminder_sent_at"),
   // Funnel tracking milestones — idempotent timestamps set once per account
   milestoneFirstServiceAt: timestamp("milestone_first_service_at"),
   milestoneFirstClientAt: timestamp("milestone_first_client_at"),
