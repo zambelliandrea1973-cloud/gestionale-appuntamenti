@@ -144,6 +144,10 @@ export async function ensureSessionTable(): Promise<void> {
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS help_call_reminder_claimed_at timestamp;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS help_call_reminder_sent_at timestamp;`);
       await pool.query(`CREATE INDEX IF NOT EXISTS users_help_call_reminder_due_idx ON users (help_call_reminder_eligible_at) WHERE help_call_reminder_eligible_at IS NOT NULL AND help_call_reminder_sent_at IS NULL;`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS welcome_email_status text NOT NULL DEFAULT 'not_attempted';`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS welcome_email_attempt_count integer NOT NULL DEFAULT 0;`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS welcome_email_attempted_at timestamp;`);
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS welcome_email_sent_at timestamp;`);
       // Funnel tracking milestones
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS milestone_first_service_at timestamp;`);
       await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS milestone_first_client_at timestamp;`);

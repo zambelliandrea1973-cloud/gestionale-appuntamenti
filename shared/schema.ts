@@ -513,6 +513,10 @@ export const users = pgTable("users", {
   helpCallReminderEligibleAt: timestamp("help_call_reminder_eligible_at"),
   helpCallReminderClaimedAt: timestamp("help_call_reminder_claimed_at"),
   helpCallReminderSentAt: timestamp("help_call_reminder_sent_at"),
+  welcomeEmailStatus: text("welcome_email_status").default("not_attempted").notNull(),
+  welcomeEmailAttemptCount: integer("welcome_email_attempt_count").default(0).notNull(),
+  welcomeEmailAttemptedAt: timestamp("welcome_email_attempted_at"),
+  welcomeEmailSentAt: timestamp("welcome_email_sent_at"),
   // Funnel tracking milestones — idempotent timestamps set once per account
   milestoneFirstServiceAt: timestamp("milestone_first_service_at"),
   milestoneFirstClientAt: timestamp("milestone_first_client_at"),

@@ -154,10 +154,14 @@ export const schedulerService = {
 
   startItalianHelpCallReminderScheduler(): void {
     const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+    if (process.env.NODE_ENV !== 'production') {
+      if (isVerbose) console.log('📞 Italian help-call reminder scheduler skipped outside production');
+      return;
+    }
+
     const run = async () => {
       // Replit development and Sliplane share the database; only production
       // may send customer-facing onboarding emails.
-      if (process.env.NODE_ENV !== 'production' || !process.env.PRODUCTION_DOMAIN) return;
       try {
         const result = await italianHelpCallReminderService.process();
         if (isVerbose || result.sent > 0 || result.failed > 0) {
@@ -169,9 +173,7 @@ export const schedulerService = {
     };
 
     cron.schedule('0 */15 * * * *', run);
-    if (process.env.NODE_ENV === 'production' && process.env.PRODUCTION_DOMAIN) {
-      setTimeout(() => void run(), 7000);
-    }
+    setTimeout(() => void run(), 7000);
     if (isVerbose) console.log('📞 Italian help-call reminder scheduler started (every 15 minutes)');
   },
   

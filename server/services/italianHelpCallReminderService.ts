@@ -6,6 +6,8 @@ import { sendSystemEmail } from './systemEmailService';
 import {
   buildItalianHelpCallOfferHtml,
   buildItalianHelpCallOfferText,
+  buildItalianSetupServiceOfferHtml,
+  buildItalianSetupServiceOfferText,
   getItalianHelpCallOffer,
 } from './italianHelpCallOffer';
 
@@ -32,7 +34,7 @@ export function isItalianHelpCallReminderDue(
     && !input.sentAt;
 }
 
-function buildReminderEmailHtml(): string {
+export function buildReminderEmailHtml(): string {
   const offer = getItalianHelpCallOffer('it')!;
   return `<!doctype html><html><body style="margin:0;background:#f5f7fb;font-family:Arial,sans-serif;color:#27272a">
     <div style="max-width:620px;margin:0 auto;padding:24px">
@@ -40,18 +42,21 @@ function buildReminderEmailHtml(): string {
         <h1 style="margin:0">Vuoi una mano a iniziare?</h1>
       </div>
       <div style="background:#fff;padding:28px;border-radius:0 0 12px 12px">
-        <p>Se non hai ancora completato la prima configurazione, possiamo aiutarti gratuitamente e rispondere alle tue domande.</p>
+        <p>Non hai ancora effettuato nuovi accessi da qualche giorno? Se vuoi, puoi scegliere l’aiuto più adatto a te.</p>
+        <h2 style="font-size:18px;color:#166534">Consulenza gratuita di 15 minuti</h2>
         ${buildItalianHelpCallOfferHtml('it')}
-        <p>Per concordare giorno e orario, scrivici su WhatsApp al ${offer.whatsappNumberLabel}.</p>
+        <p>Per concordare giorno e orario della videochiamata, scrivici su WhatsApp al ${offer.whatsappNumberLabel}.</p>
+        <h2 style="font-size:18px;color:#1d4ed8">Preferisci affidarmi tutta la configurazione?</h2>
+        ${buildItalianSetupServiceOfferHtml('it')}
         <p style="font-size:12px;color:#71717a">Questo è un unico promemoria di assistenza; non è necessario rispondere a questa email.</p>
       </div>
     </div>
   </body></html>`;
 }
 
-function buildReminderEmailText(): string {
+export function buildReminderEmailText(): string {
   const offer = getItalianHelpCallOffer('it')!;
-  return `Vuoi una mano a iniziare?\n\nSe non hai ancora completato la prima configurazione, possiamo aiutarti gratuitamente e rispondere alle tue domande.\n\n${buildItalianHelpCallOfferText('it')}\n\nPer concordare giorno e orario, scrivici su WhatsApp al ${offer.whatsappNumberLabel}.\n\nQuesto è un unico promemoria di assistenza.`;
+  return `Vuoi una mano a iniziare?\n\nNon hai ancora effettuato nuovi accessi da qualche giorno? Se vuoi, puoi scegliere l’aiuto più adatto a te.\n\nCONSULENZA GRATUITA DI 15 MINUTI\n${buildItalianHelpCallOfferText('it')}\n\nPer concordare giorno e orario della videochiamata, scrivici su WhatsApp al ${offer.whatsappNumberLabel}.\n\nCONFIGURAZIONE COMPLETA DEL GESTIONALE\n${buildItalianSetupServiceOfferText('it')}\n\nQuesto è un unico promemoria di assistenza.`;
 }
 
 export const italianHelpCallReminderService = {
@@ -122,11 +127,12 @@ export const italianHelpCallReminderService = {
       try {
         const result = await sendSystemEmail(
           candidate.email,
-          'Ti serve una mano con Appointment Manager?',
+          'Una mano per iniziare: consulenza gratuita o configurazione completa',
           buildReminderEmailHtml(),
           buildReminderEmailText(),
         );
         if (!result.success) {
+          console.error(`[HELP CALL REMINDER] Email delivery failed for user ${candidate.userId}; will retry on a later scheduler run: ${result.error || 'unknown email delivery error'}`);
           await db.update(users)
             .set({ helpCallReminderClaimedAt: null })
             .where(and(

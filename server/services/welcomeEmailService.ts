@@ -5,6 +5,13 @@ import {
   buildItalianHelpCallOfferText,
   escapeEmailHtml,
 } from './italianHelpCallOffer';
+import { sendEmailWithRetry } from './emailDeliveryRetry';
+
+export interface WelcomeEmailDeliveryResult {
+  sent: boolean;
+  attempts: number;
+  error?: string;
+}
 
 export const welcomeEmailService = {
   async sendWelcomeEmail(
@@ -12,8 +19,9 @@ export const welcomeEmailService = {
     username: string,
     password: string,
     name?: string,
-    language?: string
-  ): Promise<boolean> {
+    language?: string,
+    beforeAttempt?: (attempt: number) => Promise<void>,
+  ): Promise<WelcomeEmailDeliveryResult> {
     try {
       const lang: SupportedLang = normalizeLang(language);
       const t = getWelcomeStrings(lang);
@@ -52,8 +60,12 @@ export const welcomeEmailService = {
       <div class="credentials">
         <h3>${t.credentialsTitle}</h3>
         <div class="credential-item">
-          <span class="label">${t.usernameLabel}:</span> <span class="value">${escapeEmailHtml(username)}</span>
+          <span class="label">${t.emailLabel}:</span> <span class="value">${escapeEmailHtml(recipientEmail)}</span>
         </div>
+        ${username.toLowerCase() !== recipientEmail.toLowerCase() ? `
+        <div class="credential-item">
+          <span class="label">${t.usernameLabel}:</span> <span class="value">${escapeEmailHtml(username)}</span>
+        </div>` : ''}
         <div class="credential-item">
           <span class="label">${t.passwordLabel}:</span> <span class="value">${escapeEmailHtml(password)}</span>
         </div>
@@ -86,8 +98,8 @@ ${t.greeting} ${displayName},
 ${t.registrationSuccess}
 
 ${t.credentialsTitle}:
-- ${t.usernameLabel}: ${username}
-- ${t.passwordLabel}: ${password}
+- ${t.emailLabel}: ${recipientEmail}
+${username.toLowerCase() !== recipientEmail.toLowerCase() ? `- ${t.usernameLabel}: ${username}\n` : ''}- ${t.passwordLabel}: ${password}
 
 ${t.importantNote}
 
@@ -100,22 +112,35 @@ ${t.accessButton}: ${appUrl}
 ${t.thankYou}
       `;
 
-      const result = await sendSystemEmail(
-        recipientEmail,
-        t.subject,
-        htmlContent,
-        textContent
+      const delivery = await sendEmailWithRetry(
+        () => sendSystemEmail(recipientEmail, t.subject, htmlContent, textContent),
+        {
+          maxAttempts: 3,
+          retryDelayMs: [1000, 3000],
+          beforeAttempt,
+          onRetry: (attempt, error) => {
+            console.warn(`[WELCOME EMAIL] Temporary delivery failure; retrying attempt ${attempt + 1}/3: ${error}`);
+          },
+        },
       );
 
-      if (result.success) {
-        console.log(`📧 [WELCOME EMAIL] Welcome email sent to ${recipientEmail} (lang: ${lang})`);
+      if (delivery.result.success) {
+        console.log(`📧 [WELCOME EMAIL] Welcome email sent to ${recipientEmail} (lang: ${lang}, attempts: ${delivery.attempts})`);
       } else {
-        console.log(`📧 [WELCOME EMAIL] Welcome email NOT sent to ${recipientEmail}: ${result.error}`);
+        console.error(`📧 [WELCOME EMAIL] Welcome email not sent to ${recipientEmail} after ${delivery.attempts} attempt(s): ${delivery.result.error || 'unknown email delivery error'}`);
       }
-      return result.success;
+      return {
+        sent: delivery.result.success,
+        attempts: delivery.attempts,
+        ...(delivery.result.error ? { error: delivery.result.error } : {}),
+      };
     } catch (error: any) {
       console.error('📧 [WELCOME EMAIL] Error sending welcome email:', error.message);
-      return false;
+      return {
+        sent: false,
+        attempts: 0,
+        error: error?.message || 'Unknown welcome email error',
+      };
     }
   }
 };

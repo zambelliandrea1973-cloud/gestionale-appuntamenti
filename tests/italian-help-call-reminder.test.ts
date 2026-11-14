@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   HELP_CALL_REMINDER_DELAY_MS,
+  buildReminderEmailHtml,
+  buildReminderEmailText,
   isItalianHelpCallReminderDue,
 } from '../server/services/italianHelpCallReminderService';
 
@@ -45,4 +47,16 @@ test('recent activity, prior delivery, disabled email, and non-Italian language 
     ...base,
     language: 'en',
   }, now), false);
+});
+
+test('the inactive-account email offers both free consultation and paid setup', () => {
+  const html = buildReminderEmailHtml();
+  const text = buildReminderEmailText();
+
+  assert.match(html, /videochiamata gratuita di 15 minuti/);
+  assert.match(html, /fino a 100/);
+  assert.match(html, /€197/);
+  assert.match(text, /CONSULENZA GRATUITA DI 15 MINUTI/);
+  assert.match(text, /€197/);
+  assert.match(text, /https:\/\/wa\.me\/393472550110/);
 });

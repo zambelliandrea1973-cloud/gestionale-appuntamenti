@@ -392,21 +392,55 @@ export function registerSimpleRoutes(app: Express): Server {
         console.error(`⚠️ [WELCOME] Could not persist language preference for user ${newUser.id}:`, langErr);
       }
 
-      // Send welcome email with credentials (asynchronous, does not block the response)
-      console.log(`📧 [WELCOME] Starting welcome email send to ${email}...`);
-      const { welcomeEmailService } = await import('./services/welcomeEmailService');
-      const welcomeLang = await getUserLanguage(newUser.id);
-      welcomeEmailService.sendWelcomeEmail(email, username, password, name, welcomeLang)
-        .then(sent => {
-          if (sent) {
-            console.log(`📧 [WELCOME] Welcome email SENT to ${email}`);
-          } else {
-            console.log(`📧 [WELCOME] Welcome email NOT sent to ${email} (configuration missing or disabled)`);
-          }
-        })
-        .catch(err => {
-          console.error(`📧 [WELCOME] ERROR sending welcome email to ${email}:`, err);
-        });
+      // The welcome email belongs to this registration. Wait for its bounded
+      // delivery attempts and persist the outcome, but never undo a created account.
+      console.log(`📧 [WELCOME] Sending registration email for new user ${newUser.id}...`);
+      let delivery = {
+        sent: false,
+        attempts: 0,
+        error: 'Welcome email flow did not complete',
+      };
+      try {
+        const { welcomeEmailService } = await import('./services/welcomeEmailService');
+        const welcomeLang = await getUserLanguage(newUser.id);
+        delivery = await welcomeEmailService.sendWelcomeEmail(
+          email,
+          username,
+          password,
+          name,
+          welcomeLang,
+          async (attempt) => {
+            await db.update(users)
+              .set({
+                welcomeEmailStatus: 'sending',
+                welcomeEmailAttemptCount: attempt,
+                welcomeEmailAttemptedAt: new Date(),
+              })
+              .where(eq(users.id, newUser.id));
+          },
+        );
+      } catch (emailErr) {
+        console.error(`📧 [WELCOME] Could not complete registration email flow for user ${newUser.id}:`, emailErr);
+        delivery.error = emailErr instanceof Error ? emailErr.message : String(emailErr);
+      }
+
+      try {
+        await db.update(users)
+          .set({
+            welcomeEmailStatus: delivery.sent ? 'sent' : 'failed',
+            welcomeEmailAttemptCount: delivery.attempts,
+            welcomeEmailAttemptedAt: new Date(),
+            welcomeEmailSentAt: delivery.sent ? new Date() : null,
+          })
+          .where(eq(users.id, newUser.id));
+      } catch (statusErr) {
+        console.error(`[WELCOME] Could not save registration email status for user ${newUser.id}:`, statusErr);
+      }
+      if (delivery.sent) {
+        console.log(`📧 [WELCOME] Registration email sent for user ${newUser.id} after ${delivery.attempts} attempt(s)`);
+      } else {
+        console.error(`📧 [WELCOME] Registration email failed for user ${newUser.id} after ${delivery.attempts} attempt(s): ${delivery.error || 'unknown error'}`);
+      }
       
       // Auto-login: the user is immediately in without having to do manual login
       const { password: _, ...userWithoutPassword } = newUser;

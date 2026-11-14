@@ -4,8 +4,14 @@ import {
   discountedAnnualPrice,
   hashRecoveryOfferToken,
   recoveryEmailHtml,
+  RECOVERY_OFFER_DELAY_MS,
   RECOVERY_DISCOUNT_PERCENT,
 } from '../server/services/trialRecoveryOfferService';
+
+test('the 50 percent recovery offer starts three days after the 40-day trial expires', () => {
+  assert.equal(RECOVERY_OFFER_DELAY_MS, 3 * 24 * 60 * 60 * 1000);
+  assert.equal(40 * 24 * 60 * 60 * 1000 + RECOVERY_OFFER_DELAY_MS, 43 * 24 * 60 * 60 * 1000);
+});
 
 test('trial recovery discount is exactly 50 percent in integer cents', () => {
   assert.equal(RECOVERY_DISCOUNT_PERCENT, 50);

@@ -9,6 +9,7 @@ import {
   setPersistentUiPreference
 } from "@/lib/persistentUiPreferences";
 import { isItalianRegistrationOfferLocale } from "@/lib/registrationOffer";
+import { buildSupportWhatsAppUrl, ITALIAN_SETUP_SERVICE_OFFER } from "../../../shared/supportWhatsApp";
 
 const PREFERENCE = "setup-service-banner-dismissed";
 
@@ -68,19 +69,19 @@ export default function SetupServiceBanner() {
             {t("setupServiceBanner.title", "Servizio di configurazione professionale")}
           </p>
           <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-            {t("setupServiceBanner.desc", "Lascia fare a noi! Configuriamo il tuo account, importiamo i tuoi contatti (fino a 100) e ti guidiamo nell'utilizzo del gestionale.")}
+            {t("setupServiceBanner.desc", ITALIAN_SETUP_SERVICE_OFFER.description)}
           </p>
           <p className="text-xs font-semibold text-primary mt-1">
-            {t("setupServiceBanner.price", "Servizio completo a soli €197")}
+            {t("setupServiceBanner.price", ITALIAN_SETUP_SERVICE_OFFER.priceLabel)}
           </p>
           <div className="flex flex-wrap items-center gap-2 mt-3">
             <Button
               size="sm"
               className="h-8 text-xs gap-1.5"
-              onClick={() => window.open("https://wa.me/393472550110?text=" + encodeURIComponent("Ciao, vorrei richiedere informazioni sul servizio di configurazione account fino a 100 contatti a €197"), "_blank")}
+              onClick={() => window.open(buildSupportWhatsAppUrl(ITALIAN_SETUP_SERVICE_OFFER.whatsappMessage), "_blank")}
             >
               <Phone className="h-3 w-3" />
-              {t("setupServiceBanner.cta", "Richiedi informazioni")}
+              {t("setupServiceBanner.cta", ITALIAN_SETUP_SERVICE_OFFER.whatsappCta)}
             </Button>
             <button
               className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2"

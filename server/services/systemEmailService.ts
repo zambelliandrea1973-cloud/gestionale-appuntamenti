@@ -37,6 +37,9 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
             host: config.smtpServer || 'smtp.gmail.com',
             port: config.smtpPort || 587,
             secure: false,
+            connectionTimeout: 8000,
+            greetingTimeout: 8000,
+            socketTimeout: 10000,
             auth: {
               user: config.emailAddress,
               pass: config.emailPassword,
@@ -57,6 +60,9 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
         host: config.smtpServer || 'smtp.gmail.com',
         port: config.smtpPort || 587,
         secure: false,
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 10000,
         auth: {
           user: config.emailAddress,
           pass: config.emailPassword,
@@ -73,6 +79,9 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
         host: 'smtp.gmail.com',
         port: 587,
         secure: false,
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 10000,
         auth: {
           user: systemEmail,
           pass: systemPassword.replace(/\s/g, ''),

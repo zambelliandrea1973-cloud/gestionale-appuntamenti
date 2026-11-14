@@ -47,6 +47,7 @@ export interface WelcomeEmailStrings {
   greeting: string;
   registrationSuccess: string;
   credentialsTitle: string;
+  emailLabel: string;
   usernameLabel: string;
   passwordLabel: string;
   importantNote: string;
@@ -63,6 +64,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Ciao',
     registrationSuccess: 'La tua registrazione è avvenuta con successo! Puoi ora accedere alla piattaforma per gestire i tuoi appuntamenti in modo semplice e professionale.',
     credentialsTitle: 'Le tue credenziali di accesso',
+    emailLabel: 'Email / nome utente',
     usernameLabel: 'Username',
     passwordLabel: 'Password',
     importantNote: 'Importante: Ti consigliamo di conservare queste credenziali in un posto sicuro e di cambiare la password al primo accesso.',
@@ -77,6 +79,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Hello',
     registrationSuccess: 'Your registration has been completed successfully! You can now access the platform to manage your appointments easily and professionally.',
     credentialsTitle: 'Your login credentials',
+    emailLabel: 'Email / username',
     usernameLabel: 'Username',
     passwordLabel: 'Password',
     importantNote: 'Important: We recommend keeping these credentials in a safe place and changing your password on first login.',
@@ -91,6 +94,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Hallo',
     registrationSuccess: 'Ihre Registrierung war erfolgreich! Sie können nun auf die Plattform zugreifen, um Ihre Termine einfach und professionell zu verwalten.',
     credentialsTitle: 'Ihre Zugangsdaten',
+    emailLabel: 'E-Mail / Benutzername',
     usernameLabel: 'Benutzername',
     passwordLabel: 'Passwort',
     importantNote: 'Wichtig: Wir empfehlen, diese Zugangsdaten sicher aufzubewahren und das Passwort bei der ersten Anmeldung zu ändern.',
@@ -105,6 +109,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Bonjour',
     registrationSuccess: 'Votre inscription a été réalisée avec succès ! Vous pouvez désormais accéder à la plateforme pour gérer vos rendez-vous facilement et professionnellement.',
     credentialsTitle: 'Vos identifiants de connexion',
+    emailLabel: 'E-mail / nom d’utilisateur',
     usernameLabel: 'Nom d\'utilisateur',
     passwordLabel: 'Mot de passe',
     importantNote: 'Important : Nous vous recommandons de conserver ces identifiants en lieu sûr et de changer votre mot de passe lors de votre première connexion.',
@@ -119,6 +124,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Hola',
     registrationSuccess: '¡Tu registro se ha completado con éxito! Ahora puedes acceder a la plataforma para gestionar tus citas de forma fácil y profesional.',
     credentialsTitle: 'Tus credenciales de acceso',
+    emailLabel: 'Correo electrónico / usuario',
     usernameLabel: 'Usuario',
     passwordLabel: 'Contraseña',
     importantNote: 'Importante: Te recomendamos guardar estas credenciales en un lugar seguro y cambiar tu contraseña en el primer inicio de sesión.',
@@ -133,6 +139,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Здравствуйте',
     registrationSuccess: 'Ваша регистрация прошла успешно! Теперь вы можете войти на платформу и удобно управлять своими записями.',
     credentialsTitle: 'Ваши данные для входа',
+    emailLabel: 'Электронная почта / имя пользователя',
     usernameLabel: 'Имя пользователя',
     passwordLabel: 'Пароль',
     importantNote: 'Важно: рекомендуем сохранить эти данные в надёжном месте и сменить пароль при первом входе.',
@@ -147,6 +154,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Hallo',
     registrationSuccess: 'Uw registratie is succesvol voltooid! U kunt nu inloggen op het platform om uw afspraken eenvoudig en professioneel te beheren.',
     credentialsTitle: 'Uw inloggegevens',
+    emailLabel: 'E-mail / gebruikersnaam',
     usernameLabel: 'Gebruikersnaam',
     passwordLabel: 'Wachtwoord',
     importantNote: 'Belangrijk: Wij raden u aan deze gegevens op een veilige plaats te bewaren en uw wachtwoord bij de eerste inlog te wijzigen.',
@@ -161,6 +169,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Hei',
     registrationSuccess: 'Registreringen din er fullført! Du kan nå logge inn på plattformen for å administrere avtalene dine enkelt og profesjonelt.',
     credentialsTitle: 'Dine påloggingsdetaljer',
+    emailLabel: 'E-post / brukernavn',
     usernameLabel: 'Brukernavn',
     passwordLabel: 'Passord',
     importantNote: 'Viktig: Vi anbefaler å oppbevare disse opplysningene på et sikkert sted og endre passordet ved første innlogging.',
@@ -175,6 +184,7 @@ const welcomeTranslations: Record<SupportedLang, WelcomeEmailStrings> = {
     greeting: 'Bună ziua',
     registrationSuccess: 'Înregistrarea ta a fost finalizată cu succes! Acum poți accesa platforma pentru a-ți gestiona programările ușor și profesional.',
     credentialsTitle: 'Datele tale de acces',
+    emailLabel: 'E-mail / nume de utilizator',
     usernameLabel: 'Utilizator',
     passwordLabel: 'Parolă',
     importantNote: 'Important: Îți recomandăm să păstrezi aceste date într-un loc sigur și să îți schimbi parola la prima autentificare.',

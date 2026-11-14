@@ -6,9 +6,9 @@ import { sendSystemEmail } from './systemEmailService';
 import { getPublicBaseUrl } from '../utils/publicBaseUrl';
 
 export const RECOVERY_DISCOUNT_PERCENT = 50;
-const OFFER_DELAY_MS = 3 * 24 * 60 * 60 * 1000;
 const OFFER_VALIDITY_MS = 7 * 24 * 60 * 60 * 1000;
 const EXCLUDED_ACCOUNT_ROLES = ['admin', 'ev_admin', 'ev_staff'];
+export const RECOVERY_OFFER_DELAY_MS = 3 * 24 * 60 * 60 * 1000;
 
 export function hashRecoveryOfferToken(token: string): string {
   return crypto.createHash('sha256').update(token).digest('hex');
@@ -88,7 +88,7 @@ export function recoveryEmailHtml(username: string, token: string, expiresAt: Da
 export const trialRecoveryOfferService = {
   async process(): Promise<{ sent: number; failed: number }> {
     const now = new Date();
-    const latestExpiry = new Date(now.getTime() - OFFER_DELAY_MS);
+    const latestExpiry = new Date(now.getTime() - RECOVERY_OFFER_DELAY_MS);
     const candidates = await db.selectDistinctOn([users.id], {
       licenseId: licenses.id,
       userId: licenses.userId,
