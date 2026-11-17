@@ -299,7 +299,7 @@ export default function EmailSettings() {
         }
       } else {
         const error = await response.json();
-        throw new Error(error.message || t('emailSettings.toast.saveError'));
+        throw new Error(error.error || error.message || t('emailSettings.toast.saveError'));
       }
     } catch (error) {
       console.error('Error saving settings:', error);

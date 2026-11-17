@@ -78,7 +78,7 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
       
       // 🚀 AUTO-DETECTION SMTP: If emailAddress is provided BUT smtpServer/smtpPort are NOT provided
       if (emailAddress && !smtpServer && !smtpPort) {
-      const detected = emailConfig?.emailAddress ? detectEmailProvider(emailConfig.emailAddress) : null;
+        const detected = detectEmailProvider(emailAddress);
         if (detected) {
           updateData.smtpServer = detected.smtp_server;
           updateData.smtpPort = detected.smtp_port;
@@ -90,7 +90,7 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
           }
         } else {
           // Fallback generico: smtp.domain:587
-      const domain = emailConfig?.emailAddress ? emailConfig.emailAddress.split('@')[1] : '';
+          const domain = emailAddress.split('@')[1] || '';
           updateData.smtpServer = `smtp.${domain}`;
           updateData.smtpPort = 587;
           logger.debug(`⚠️ [AUTO-DETECTION] Unknown provider, using generic fallback: smtp.${domain}:587`);
